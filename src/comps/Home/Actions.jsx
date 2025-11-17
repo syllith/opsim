@@ -1,10 +1,10 @@
-// ActionsPanel.jsx
+// Actions.jsx
 // Fixed panel anchored bottom-right to show context-specific action components
 import React from 'react';
 import { Paper, Box, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function ActionsPanel({ title = 'Actions', onClose, children, width = 420, height, maxHeight = 'calc(100vh - 32px)' }) {
+export default function Actions({ title = 'Actions', onClose, children, width = 420, height, maxHeight = 'calc(100vh - 32px)' }) {
   return (
     <Box
       sx={{

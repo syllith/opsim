@@ -3,15 +3,18 @@
 // Main landing page for One Piece TCG Sim. Handles login, registration, and displays user info.
 import React, { useState, useContext, useEffect, useMemo, useCallback, useRef } from 'react';
 import { AuthContext } from '../../AuthContext';
-import { Box, Container, Typography, Paper, Button, Stack, Alert, Divider, CircularProgress, Chip } from '@mui/material';
+import { Box, Container, Typography, Paper, Button, Stack, Chip, Divider } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 // Auth form now extracted to its own component
 import LoginRegister from '../LoginRegister/LoginRegister';
-import ActionsPanel from './ActionsPanel';
+import Actions from './Actions';
 import OP01004Action from '../Cards/OP01/OP01-004';
 import DeckBuilder from '../DeckBuilder/DeckBuilder';
 import { loadAllCards as loadCardJson } from '../../data/cards/loader';
 import OpeningHand from './OpeningHand';
+import Board from './Board';
+import CardViewer from './CardViewer';
+import Activity from './Activity';
 
 
 export default function Home() {
@@ -75,105 +78,24 @@ export default function Home() {
     }, [allCards]);
 
     // --- Board / Play Area Logic ---
-    // Sizing constants (match Fyne layout intent)
-    const CARD_W = 120;
-    const CARD_H = 167;
-    const OVERLAP_OFFSET = 22;
-    const COST_W = 650; // width of cost area fan
-    const SINGLE_W = CARD_W; // deck, trash, don, leader, stage
-    const LIFE_W = CARD_W; // life column width
-    const CHAR_W = COST_W + SINGLE_W; // character area spans cost + trash widths
-    const LIFE_MAX_VISIBLE = 5; // overlapped vertical stack height control
-
-    // Base board dimensions used for scaling calculations (unscaled layout)
-    const BASE_BOARD_WIDTH = CHAR_W + LIFE_W + 32; // includes inter-column gap
-    // Ref to the inner unscaled content so we can measure actual intrinsic size
-    const contentRef = useRef(null);
-
-    // Scale-to-fit state and measurement refs
-    const boardOuterRef = useRef(null);
-    const [boardScale, setBoardScale] = useState(1);
-    const compact = boardScale < 0.9;
-
-    // Recompute scale on resize and when layout mounts
-    useEffect(() => {
-        if (!isLoggedIn) return; // only when board is visible
-        let raf = 0;
-        const measure = () => {
-            const el = boardOuterRef.current;
-            const content = contentRef.current;
-            if (!el || !content) return;
-            const availableWidth = el.clientWidth || BASE_BOARD_WIDTH;
-            const rect = el.getBoundingClientRect();
-            const availableHeight = Math.max(200, window.innerHeight - rect.top - 12); // keep a small bottom margin
-            const baseW = content.scrollWidth || BASE_BOARD_WIDTH;
-            const baseH = content.scrollHeight || (CARD_H * 4 + 200);
-            const sW = availableWidth / baseW;
-            const sH = availableHeight / baseH;
-            const next = Math.max(0.2, Math.min(1.4, Math.min(sW, sH)));
-            setBoardScale(next);
-        };
-        const onResize = () => {
-            if (raf) cancelAnimationFrame(raf);
-            raf = requestAnimationFrame(measure);
-        };
-        onResize();
-        window.addEventListener('resize', onResize);
-        return () => {
-            if (raf) cancelAnimationFrame(raf);
-            window.removeEventListener('resize', onResize);
-        };
-    }, [isLoggedIn, BASE_BOARD_WIDTH]);
-
-    // Each area keeps an array of cards; config carries layout + fixed pixel width/height
-    const areaConfigs = useMemo(() => ({
-        opponent: {
-            top: {
-                hand: { label: 'Opp Hand', mode: 'overlap-right', max: 999, width: COST_W, height: CARD_H + 40 },
-                trash: { label: 'Trash', mode: 'stacked', max: 999, width: SINGLE_W, height: CARD_H + 40 },
-                cost: { label: 'Opp Cost Area', mode: 'overlap-right', max: 10, width: COST_W, height: CARD_H + 40 },
-                don: { label: 'Don', mode: 'stacked', max: 10, width: SINGLE_W, height: CARD_H + 40 }
-            },
-            middle: {
-                deck: { label: 'Deck', mode: 'stacked', max: 999, width: SINGLE_W, height: CARD_H + 40 },
-                stage: { label: 'Stage', mode: 'single', max: 1, width: SINGLE_W, height: CARD_H + 40 },
-                leader: { label: 'Leader', mode: 'single', max: 1, width: SINGLE_W, height: CARD_H + 40 }
-            },
-            char: { label: 'Opp Character Area (5 cards)', mode: 'side-by-side', max: 5, width: CHAR_W, height: CARD_H + 40 },
-            life: { label: 'Life', mode: 'overlap-vertical', max: 5, width: LIFE_W, height: CARD_H + 40 + (LIFE_MAX_VISIBLE - 1) * OVERLAP_OFFSET }
-        },
-        player: {
-            life: { label: 'Life', mode: 'overlap-vertical', max: 5, width: LIFE_W, height: CARD_H + 40 + (LIFE_MAX_VISIBLE - 1) * OVERLAP_OFFSET },
-            char: { label: 'Character Area (5 cards)', mode: 'side-by-side', max: 5, width: CHAR_W, height: CARD_H + 40 },
-            middle: {
-                leader: { label: 'Leader', mode: 'single', max: 1, width: SINGLE_W, height: CARD_H + 40 },
-                stage: { label: 'Stage', mode: 'single', max: 1, width: SINGLE_W, height: CARD_H + 40 },
-                deck: { label: 'Deck', mode: 'stacked', max: 999, width: SINGLE_W, height: CARD_H + 40 }
-            },
-            bottom: {
-                hand: { label: 'Hand', mode: 'overlap-right', max: 999, width: COST_W, height: CARD_H + 40 },
-                don: { label: 'Don', mode: 'stacked', max: 10, width: SINGLE_W, height: CARD_H + 40 },
-                cost: { label: 'Cost Area', mode: 'overlap-right', max: 10, width: COST_W, height: CARD_H + 40 },
-                trash: { label: 'Trash', mode: 'stacked', max: 999, width: SINGLE_W, height: CARD_H + 40 }
-            }
-        }
-    }), []);
+    const [compact, setCompact] = useState(false);
 
     // State storage for each area
     const [areas, setAreas] = useState(() => {
-        const init = {};
-        Object.entries(areaConfigs).forEach(([side, cfg]) => {
-            init[side] = {};
-            Object.entries(cfg).forEach(([section, sectionCfg]) => {
-                if (typeof sectionCfg.mode === 'string') {
-                    init[side][section] = [];
-                } else {
-                    // nested sections
-                    init[side][section] = {};
-                    Object.keys(sectionCfg).forEach(k => { init[side][section][k] = []; });
-                }
-            });
-        });
+        const init = {
+            opponent: {
+                top: { hand: [], trash: [], cost: [], don: [] },
+                middle: { deck: [], stage: [], leader: [] },
+                char: [],
+                life: []
+            },
+            player: {
+                life: [],
+                char: [],
+                middle: { leader: [], stage: [], deck: [] },
+                bottom: { hand: [], don: [], cost: [], trash: [] }
+            }
+        };
         return init;
     });
 
@@ -195,10 +117,8 @@ export default function Home() {
     const [turnNumber, setTurnNumber] = useState(1);
     const [phase, setPhase] = useState('Draw'); // Draw | Don | Main (Refresh auto)
     const [log, setLog] = useState([]);
-    const logRef = useRef(null);
     const appendLog = useCallback((msg) => {
         setLog((prev) => [...prev.slice(-199), `[T${turnNumber} ${turnSide} ${phase}] ${msg}`]);
-        setTimeout(() => { if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight; }, 0);
     }, [turnNumber, turnSide, phase]);
 
     // Hardcoded self-play deck
@@ -381,7 +301,6 @@ export default function Home() {
 
     const addCardToArea = useCallback((side, section, key) => {
         if (gameStarted) return; // disable manual adding in game mode
-        const config = typeof areaConfigs[side][section].mode === 'string' ? areaConfigs[side][section] : areaConfigs[side][section][key];
         const card = getRandomCard();
         if (!card) {
             console.warn('[addCardToArea] No cards available. allCards length:', allCards.length, 'side:', side, 'section:', section, 'key:', key);
@@ -392,7 +311,6 @@ export default function Home() {
             // Non-nested section (array directly)
             if (Array.isArray(prev[side][section])) {
                 const target = prev[side][section];
-                if (target.length >= config.max) return prev;
                 return {
                     ...prev,
                     [side]: {
@@ -403,7 +321,6 @@ export default function Home() {
             }
             // Nested (object of arrays)
             const target = prev[side][section][key];
-            if (target.length >= config.max) return prev;
             return {
                 ...prev,
                 [side]: {
@@ -415,7 +332,7 @@ export default function Home() {
                 }
             };
         });
-    }, [getRandomCard, areaConfigs]);
+    }, [getRandomCard, gameStarted]);
 
     const removeCardFromArea = useCallback((side, section, key) => {
         if (gameStarted) return; // disable manual removal in game mode
@@ -445,113 +362,6 @@ export default function Home() {
             };
         });
     }, []);
-
-    // Render cards based on mode
-    const renderCards = (cardsArr, mode, config) => {
-        if (!cardsArr.length) return null;
-        switch (mode) {
-            case 'single': {
-                const c = cardsArr[cardsArr.length - 1];
-                return (
-                    <img
-                        key={c.id}
-                        src={c.thumb}
-                        alt={c.id}
-                        style={{ width: CARD_W, height: 'auto' }}
-                        onMouseEnter={() => setHovered(c)}
-                        onMouseLeave={() => setHovered(null)}
-                    />
-                );
-            }
-            case 'stacked': {
-                // Special handling: for Deck, render a visible stack using back image if provided
-                const isDeck = /deck/i.test(config.label || '');
-                if (isDeck) {
-                    // Visual cap: render roughly half the stack, up to 30
-                    const visualHalf = Math.ceil(cardsArr.length * 0.5);
-                    const toShow = Math.max(1, Math.min(visualHalf, 30));
-                    const offset = 0.8; // tighter offset to avoid tall stacks
-                    return (
-                        <Box position="relative" width={CARD_W} height={CARD_H} sx={{ pointerEvents: 'none' }}>
-                            {Array.from({ length: toShow }, (_, i) => i).map((i) => {
-                                const idx = cardsArr.length - 1 - i;
-                                const c = cardsArr[idx];
-                                return (
-                                    <img
-                                        key={idx}
-                                        src={c?.thumb || CARD_BACK_URL}
-                                        alt={c?.id || 'BACK'}
-                                        style={{ position: 'absolute', top: i * -offset, left: i * -offset, width: CARD_W, height: 'auto', borderRadius: 4, boxShadow: '0 1px 2px rgba(0,0,0,0.35)' }}
-                                    />
-                                );
-                            })}
-                        </Box>
-                    );
-                }
-                const c = cardsArr[cardsArr.length - 1];
-                return (
-                    <img
-                        key={c.id}
-                        src={c.thumb}
-                        alt={c.id}
-                        style={{ width: CARD_W, height: 'auto' }}
-                        onMouseEnter={() => setHovered(c)}
-                        onMouseLeave={() => setHovered(null)}
-                    />
-                );
-            }
-            case 'side-by-side': {
-                return (
-                    <Box display="flex" gap={1}>
-                        {cardsArr.map(c => (
-                            <img
-                                key={c.id + Math.random()}
-                                src={c.thumb}
-                                alt={c.id}
-                                style={{ width: CARD_W, height: 'auto' }}
-                                onMouseEnter={() => setHovered(c)}
-                                onMouseLeave={() => setHovered(null)}
-                            />
-                        ))}
-                    </Box>
-                );
-            }
-            case 'overlap-right': {
-                return (
-                    <Box position="relative" width={CARD_W + (cardsArr.length - 1) * OVERLAP_OFFSET} height={CARD_H}>
-                        {cardsArr.map((c, i) => (
-                            <img
-                                key={c.id + i}
-                                src={c.thumb}
-                                alt={c.id}
-                                style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W }}
-                                onMouseEnter={() => setHovered(c)}
-                                onMouseLeave={() => setHovered(null)}
-                            />
-                        ))}
-                    </Box>
-                );
-            }
-            case 'overlap-vertical': {
-                return (
-                    <Box position="relative" width={CARD_W} height={CARD_H + (cardsArr.length - 1) * OVERLAP_OFFSET}>
-                        {cardsArr.map((c, i) => (
-                            <img
-                                key={c.id + i}
-                                src={/life/i.test(config.label || '') ? CARD_BACK_URL : c.thumb}
-                                alt={c.id}
-                                style={{ position: 'absolute', top: i * OVERLAP_OFFSET, left: 0, width: CARD_W }}
-                                onMouseEnter={() => setHovered(c)}
-                                onMouseLeave={() => setHovered(null)}
-                            />
-                        ))}
-                    </Box>
-                );
-            }
-            default:
-                return null;
-        }
-    };
 
     const [actionOpen, setActionOpen] = useState(false);
     const [actionCard, setActionCard] = useState(null);
@@ -616,19 +426,19 @@ export default function Home() {
         try {
             if (multi) {
                 arr = (selected || []).map(({ side: s, section: sec, keyName: kn, index }) => {
-                    const isNested = typeof areaConfigs[s][sec].mode !== 'string';
+                    const isNested = !Array.isArray(areas[s]?.[sec]);
                     const cardsArr = isNested ? areas[s][sec][kn] : areas[s][sec];
                     return { side: s, section: sec, keyName: kn, index, card: cardsArr[index] };
                 }).filter((x) => x.card);
             } else {
-                const isNested = typeof areaConfigs[side][section].mode !== 'string';
+                const isNested = !Array.isArray(areas[side]?.[section]);
                 const cardsArr = isNested ? areas[side][section][keyName] : areas[side][section];
                 arr = selectedIdx.map((i) => ({ index: i, card: cardsArr[i] })).filter((x) => x.card);
             }
         } catch { }
         cancelTargeting();
         if (typeof onComplete === 'function') onComplete(arr);
-    }, [targeting, areas, areaConfigs, cancelTargeting]);
+    }, [targeting, areas, cancelTargeting]);
 
     const getCardMeta = useCallback((id) => metaById.get(id) || null, [metaById]);
 
@@ -972,301 +782,6 @@ export default function Home() {
         setBattleArrow({ fromKey, toKey, label });
     }, [battle, getDefenderPower, getAttackerPower]);
 
-    const AreaBox = ({ side, section, keyName, config }) => {
-        const isNested = typeof areaConfigs[side][section].mode !== 'string';
-        const cardsArr = isNested ? areas[side][section][keyName] : areas[side][section];
-        const mode = config.mode;
-        const isPlayerHand = side === 'player' && section === 'bottom' && keyName === 'hand';
-        const isOppHand = side === 'opponent' && section === 'top' && keyName === 'hand';
-        const isActiveLeader = side === turnSide && section === 'middle' && keyName === 'leader';
-        return (
-            <Paper
-                variant="outlined"
-                onClick={!gameStarted ? () => addCardToArea(side, section, keyName) : undefined}
-                onContextMenu={(e) => { if (gameStarted) { e.preventDefault(); return; } e.preventDefault(); removeCardFromArea(side, section, keyName); }}
-                sx={{ p: 0, bgcolor: '#3c3c3c', color: 'white', width: config.width, height: config.height, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', cursor: gameStarted ? 'default' : 'pointer', userSelect: 'none', borderWidth: isActiveLeader ? 2 : 1, borderColor: isActiveLeader ? '#ffc107' : 'divider' }}
-            >
-                <Box flexGrow={1} display="flex" alignItems={mode === 'side-by-side' ? 'center' : 'flex-start'} justifyContent="flex-start" position="relative">
-                    {/* Overlay label on top of cards */}
-                    <Box sx={{ position: 'absolute', top: 4, left: 6, right: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 2, pointerEvents: 'none' }}>
-                        <Typography variant="caption" fontWeight={700} sx={{ fontSize: compact ? 13 : 15, lineHeight: 1.1, textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>{config.label}</Typography>
-                        <Typography variant="caption" sx={{ opacity: 0.9, fontSize: compact ? 13 : 15, lineHeight: 1.1, textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>({cardsArr.length})</Typography>
-                    </Box>
-                    {(isPlayerHand || isOppHand) && mode === 'overlap-right' ? (
-                        <Box position="relative" width={CARD_W + (cardsArr.length - 1) * OVERLAP_OFFSET} height={CARD_H}>
-                            {cardsArr.map((c, i) => (
-                                <img
-                                    key={c.id + i}
-                                    src={c.thumb}
-                                    alt={c.id}
-                                    data-cardkey={modKey(side, section, keyName, i)}
-                                    style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W, cursor: 'pointer', outline: actionOpen && actionCardIndex === i ? '3px solid #90caf9' : 'none', borderRadius: 4 }}
-                                    onClick={(e) => { e.stopPropagation(); openCardAction(c, i, { side, section, keyName, index: i }); }}
-                                    onMouseEnter={() => setHovered(c)}
-                                    onMouseLeave={() => setHovered(null)}
-                                />
-                            ))}
-                        </Box>
-                    ) : (
-                        ((side === 'player' && section === 'bottom' && keyName === 'cost') || (side === 'opponent' && section === 'top' && keyName === 'cost')) ? (
-                            <Box position="relative" width={CARD_W + (cardsArr.length - 1) * OVERLAP_OFFSET} height={CARD_H}>
-                                {cardsArr.map((c, i) => (
-                                    <img
-                                        key={(c.id || 'card') + '-' + i}
-                                        src={c.thumb}
-                                        alt={c.id}
-                                        style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W, borderRadius: 4, transform: c.id === 'DON' && c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center' }}
-                                        onMouseEnter={() => setHovered(c)}
-                                        onMouseLeave={() => setHovered(null)}
-                                    />
-                                ))}
-                            </Box>
-                        ) : (side === 'player' && section === 'char') ? (
-                            <Box display="flex" gap={1}>
-                                {cardsArr.map((c, i) => (
-                                    <Box key={c.id + '-' + i} sx={{ position: 'relative' }}>
-                                        <img
-                                            src={c.thumb}
-                                            alt={c.id}
-                                            data-cardkey={modKey('player', 'char', 'char', i)}
-                                            style={{
-                                                width: CARD_W, height: 'auto', cursor: (targeting.active && targeting.side === 'player' && ((targeting.section === 'char' && targeting.keyName === 'char') || targeting.multi)) ? 'crosshair' : 'pointer', borderRadius: 4, transform: c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: (() => {
-                                                    const selected = targeting.multi ? targeting.selected.some(s => s.side === 'player' && s.section === 'char' && s.keyName === 'char' && s.index === i) : (targeting.active && targeting.side === 'player' && targeting.section === 'char' && targeting.keyName === 'char' && targeting.selectedIdx.includes(i));
-                                                    return selected ? '3px solid #ff9800' : 'none';
-                                                })()
-                                            }}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                if (targeting.active && targeting.side === 'player' && ((targeting.section === 'char' && targeting.keyName === 'char') || targeting.multi)) {
-                                                    const ctx = { side: 'player', section: 'char', keyName: 'char', index: i };
-                                                    const valid = typeof targeting.validator === 'function' ? targeting.validator(c, ctx) : true;
-                                                    if (!valid) return;
-                                                    setTargeting((prev) => {
-                                                        if (prev.multi) {
-                                                            const has = prev.selected.some(s => s.side === 'player' && s.section === 'char' && s.keyName === 'char' && s.index === i);
-                                                            let selected = has ? prev.selected.filter((s) => !(s.side === 'player' && s.section === 'char' && s.keyName === 'char' && s.index === i)) : [...prev.selected, ctx];
-                                                            if (selected.length > prev.max) selected = selected.slice(-prev.max);
-                                                            // Update arrow preview (from attacker to chosen target)
-                                                            if (selected.length && currentAttack) {
-                                                                setBattleArrow({ fromKey: currentAttack.key, toKey: modKey('player', 'char', 'char', selected[selected.length - 1].index).replace('player', 'opponent'), label: `${currentAttack.power || ''}` });
-                                                            }
-                                                            return { ...prev, selected };
-                                                        } else {
-                                                            const has = prev.selectedIdx.includes(i);
-                                                            let selectedIdx = has ? prev.selectedIdx.filter((x) => x !== i) : [...prev.selectedIdx, i];
-                                                            if (selectedIdx.length > prev.max) selectedIdx = selectedIdx.slice(-prev.max);
-                                                            return { ...prev, selectedIdx };
-                                                        }
-                                                    });
-                                                    return;
-                                                }
-                                                openCardAction(c, i, { side: 'player', section: 'char', keyName: 'char', index: i });
-                                            }}
-                                            onMouseEnter={() => setHovered(c)}
-                                            onMouseLeave={() => setHovered(null)}
-                                        />
-                                        {(() => {
-                                            const delta = getPowerMod('player', 'char', 'char', i);
-                                            if (!delta) return null;
-                                            return (
-                                                <Box sx={{ position: 'absolute', top: 4, left: 4, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.5)' }}>
-                                                    <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
-                                                </Box>
-                                            );
-                                        })()}
-                                    </Box>
-                                ))}
-                            </Box>
-                        ) : (side === 'opponent' && section === 'char') ? (
-                            <Box display="flex" gap={1}>
-                                {cardsArr.map((c, i) => {
-                                    const isTargetingHere = targeting.active && targeting.side === 'opponent' && (((targeting.section === 'char' && targeting.keyName === 'char')) || targeting.multi);
-                                    const ctx = { side: 'opponent', section: 'char', keyName: 'char', index: i };
-                                    const valid = isTargetingHere ? (typeof targeting.validator === 'function' ? targeting.validator(c, ctx) : true) : false;
-                                    const selected = targeting.multi ? targeting.selected.some(s => s.side === 'opponent' && s.section === 'char' && s.keyName === 'char' && s.index === i) : (isTargetingHere && targeting.selectedIdx.includes(i));
-                                    return (
-                                        <Box key={c.id + '-' + i} sx={{ position: 'relative' }}>
-                                            <img
-                                                src={c.thumb}
-                                                alt={c.id}
-                                                style={{
-                                                    width: CARD_W, height: 'auto', cursor: isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : 'pointer', borderRadius: 4, filter: isTargetingHere && !valid ? 'grayscale(0.9) brightness(0.6)' : 'none', transform: c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: (() => {
-                                                        // Highlight eligible blockers during Block Step
-                                                        if (battle && battle.step === 'block' && battle.target && battle.target.section !== 'char') {
-                                                            const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
-                                                            const active = !c.rested;
-                                                            if (hasBlocker && active) return '3px solid #66bb6a';
-                                                        }
-                                                        return selected ? '3px solid #ff9800' : 'none';
-                                                    })()
-                                                }}
-                                                data-cardkey={modKey('opponent', 'char', 'char', i)}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    if (isTargetingHere) {
-                                                        if (!valid) return;
-                                                        setTargeting((prev) => {
-                                                            if (prev.multi) {
-                                                                const has = prev.selected.some(s => s.side === 'opponent' && s.section === 'char' && s.keyName === 'char' && s.index === i);
-                                                                let selected = has ? prev.selected.filter((s) => !(s.side === 'opponent' && s.section === 'char' && s.keyName === 'char' && s.index === i)) : [...prev.selected, ctx];
-                                                                if (selected.length > prev.max) selected = selected.slice(-prev.max);
-                                                                // Update arrow preview with live power snapshot
-                                                                if (selected.length && currentAttack) {
-                                                                    const si = selected[selected.length - 1].index;
-                                                                    const defP = getTotalPower('opponent', 'char', 'char', si, (areas?.opponent?.char || [])[si]?.id);
-                                                                    setBattleArrow({ fromKey: currentAttack.key, toKey: modKey('opponent', 'char', 'char', si), label: `${currentAttack.power} ▶ ${defP}` });
-                                                                }
-                                                                return { ...prev, selected };
-                                                            } else {
-                                                                const has = prev.selectedIdx.includes(i);
-                                                                let selectedIdx = has ? prev.selectedIdx.filter((x) => x !== i) : [...prev.selectedIdx, i];
-                                                                if (selectedIdx.length > prev.max) selectedIdx = selectedIdx.slice(-prev.max);
-                                                                return { ...prev, selectedIdx };
-                                                            }
-                                                        });
-                                                        return;
-                                                    }
-                                                    openCardAction(c, i, { side: 'opponent', section: 'char', keyName: 'char', index: i });
-                                                }}
-                                                onMouseEnter={() => setHovered(c)}
-                                                onMouseLeave={() => setHovered(null)}
-                                            />
-                                            {selected && (
-                                                <Box sx={{ position: 'absolute', top: 6, right: 6, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(255,152,0,0.9)' }}>
-                                                    <Typography variant="caption" sx={{ color: '#000', fontWeight: 700 }}>Target</Typography>
-                                                </Box>
-                                            )}
-                                            {battle && battle.step === 'block' && battle.target && battle.target.section !== 'char' && (() => {
-                                                const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
-                                                const active = !c.rested;
-                                                if (!hasBlocker || !active) return null;
-                                                return (
-                                                    <Box sx={{ position: 'absolute', bottom: 4, left: 4, right: 4 }}>
-                                                        <Button size="small" fullWidth variant="contained" color="error" onClick={(e) => { e.stopPropagation(); applyBlocker(i); }}>
-                                                            Use Blocker
-                                                        </Button>
-                                                    </Box>
-                                                );
-                                            })()}
-                                            {battle && battle.target && battle.target.section === 'char' && battle.target.index === i && (
-                                                <Box sx={{ position: 'absolute', top: 6, left: 6, display: 'flex', gap: 0.5, alignItems: 'center' }}>
-                                                    {(() => {
-                                                        const s = getBattleStatus();
-                                                        if (!s) return null;
-                                                        return (
-                                                            <>
-                                                                <Chip size="small" label={`DEF ${s.def}`} color={s.safe ? 'success' : 'default'} variant={s.safe ? 'filled' : 'outlined'} />
-                                                                {s.safe ? (
-                                                                    <Chip size="small" label="Safe" color="success" />
-                                                                ) : (
-                                                                    <Chip size="small" label={`Need +${s.needed}`} color="warning" />
-                                                                )}
-                                                            </>
-                                                        );
-                                                    })()}
-                                                </Box>
-                                            )}
-                                            {(() => {
-                                                const delta = getPowerMod('opponent', 'char', 'char', i);
-                                                if (!delta) return null;
-                                                return (
-                                                    <Box sx={{ position: 'absolute', top: 4, left: 4, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.5)' }}>
-                                                        <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
-                                                    </Box>
-                                                );
-                                            })()}
-                                        </Box>
-                                    );
-                                })}
-                            </Box>
-                        ) : (section === 'middle' && keyName === 'leader') ? (
-                            <Box position="relative" sx={{ width: CARD_W }}>
-                                {(() => {
-                                    const c = cardsArr[cardsArr.length - 1];
-                                    const idx = 0;
-                                    const isTargetingHere = targeting.active && targeting.side === side && (((targeting.section === 'middle' && targeting.keyName === 'leader')) || targeting.multi);
-                                    const selected = targeting.multi ? targeting.selected.some(s => s.side === side && s.section === 'middle' && s.keyName === 'leader' && s.index === idx) : (isTargetingHere && targeting.selectedIdx.includes(idx));
-                                    const onClick = (e) => {
-                                        e.stopPropagation();
-                                        if (isTargetingHere) {
-                                            const ctx = { side, section: 'middle', keyName: 'leader', index: idx };
-                                            setTargeting((prev) => {
-                                                if (prev.multi) {
-                                                    const has = prev.selected.some(s => s.side === side && s.section === 'middle' && s.keyName === 'leader' && s.index === idx);
-                                                    let selected = has ? prev.selected.filter((s) => !(s.side === side && s.section === 'middle' && s.keyName === 'leader' && s.index === idx)) : [...prev.selected, ctx];
-                                                    if (selected.length > prev.max) selected = selected.slice(-prev.max);
-                                                    if (selected.length && currentAttack) {
-                                                        const defP = getTotalPower(side, 'middle', 'leader', idx, c?.id);
-                                                        setBattleArrow({ fromKey: currentAttack.key, toKey: modKey(side, 'middle', 'leader', idx), label: `${currentAttack.power} ▶ ${defP}` });
-                                                    }
-                                                    return { ...prev, selected };
-                                                } else {
-                                                    const has = prev.selectedIdx.includes(idx);
-                                                    let selectedIdx = has ? prev.selectedIdx.filter((x) => x !== idx) : [...prev.selectedIdx, idx];
-                                                    if (selectedIdx.length > prev.max) selectedIdx = selectedIdx.slice(-prev.max);
-                                                    return { ...prev, selectedIdx };
-                                                }
-                                            });
-                                            return;
-                                        }
-                                        openCardAction(c, idx, { side, section: 'middle', keyName: 'leader', index: idx });
-                                    };
-                                    return (
-                                        <>
-                                            <img
-                                                src={c?.thumb}
-                                                alt={c?.id}
-                                                data-cardkey={modKey(side, 'middle', 'leader', idx)}
-                                                style={{ width: CARD_W, height: 'auto', borderRadius: 4, transform: c?.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: selected ? '3px solid #ff9800' : 'none', cursor: isTargetingHere ? 'crosshair' : 'pointer' }}
-                                                onClick={onClick}
-                                                onMouseEnter={() => c && setHovered(c)}
-                                                onMouseLeave={() => setHovered(null)}
-                                            />
-                                            {selected && (
-                                                <Box sx={{ position: 'absolute', top: 6, right: 6, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(255,152,0,0.9)' }}>
-                                                    <Typography variant="caption" sx={{ color: '#000', fontWeight: 700 }}>Target</Typography>
-                                                </Box>
-                                            )}
-                                            {battle && battle.target && battle.target.section === 'middle' && side === battle.target.side && keyName === 'leader' && (
-                                                <Box sx={{ position: 'absolute', top: 6, left: 6, display: 'flex', gap: 0.5, alignItems: 'center' }}>
-                                                    {(() => {
-                                                        const s = getBattleStatus();
-                                                        if (!s) return null;
-                                                        return (
-                                                            <>
-                                                                <Chip size="small" label={`DEF ${s.def}`} color={s.safe ? 'success' : 'default'} variant={s.safe ? 'filled' : 'outlined'} />
-                                                                {s.safe ? (
-                                                                    <Chip size="small" label="Safe" color="success" />
-                                                                ) : (
-                                                                    <Chip size="small" label={`Need +${s.needed}`} color="warning" />
-                                                                )}
-                                                            </>
-                                                        );
-                                                    })()}
-                                                </Box>
-                                            )}
-                                            {(() => {
-                                                const delta = getPowerMod(side, 'middle', 'leader', idx);
-                                                if (!delta) return null;
-                                                return (
-                                                    <Box sx={{ position: 'absolute', top: 4, left: 4, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.5)' }}>
-                                                        <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
-                                                    </Box>
-                                                );
-                                            })()}
-                                        </>
-                                    );
-                                })()}
-                            </Box>
-                        ) : (
-                            renderCards(cardsArr, mode, config)
-                        )
-                    )}
-                </Box>
-            </Paper>
-        );
-    };
-
     // --- Opening Hand Modal ---
     const finalizeKeep = () => {
         // Move openingHand to player's hand area; set Life (5) for both players; shrink deck stacks accordingly
@@ -1451,121 +966,51 @@ export default function Home() {
                         <Divider sx={{ mt: -0.5, mb: 0 }} />
                         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={compact ? 2 : 3} sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
                             {/* Play Area Board */}
-                            <Box ref={boardOuterRef} sx={{ width: '100%', maxWidth: '100%', height: '100%', overflow: 'hidden', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-                                {/* Scaled Playmat Content */}
-                                <Box
-                                    ref={contentRef}
-                                    sx={{
-                                        width: 'fit-content',
-                                        transform: `scale(${boardScale})`,
-                                        transformOrigin: 'top center',
-                                        transition: 'transform 80ms linear',
-                                    }}
-                                >
-                                    {/* Opponent Side */}
-                                    <Box>
-                                        <Stack direction="row" spacing={compact ? 0.5 : 1} sx={{ mb: compact ? 0.5 : 1 }}>
-                                            <AreaBox side="opponent" section="top" keyName="hand" config={areaConfigs.opponent.top.hand} />
-                                            <AreaBox side="opponent" section="top" keyName="trash" config={areaConfigs.opponent.top.trash} />
-                                            <AreaBox side="opponent" section="top" keyName="cost" config={areaConfigs.opponent.top.cost} />
-                                            <AreaBox side="opponent" section="top" keyName="don" config={areaConfigs.opponent.top.don} />
-                                        </Stack>
-                                        <Stack direction="row" spacing={compact ? 0.5 : 1} sx={{ mb: compact ? 0.5 : 1 }}>
-                                            <Box sx={{ width: COST_W }} />
-                                            <AreaBox side="opponent" section="middle" keyName="deck" config={areaConfigs.opponent.middle.deck} />
-                                            <AreaBox side="opponent" section="middle" keyName="stage" config={areaConfigs.opponent.middle.stage} />
-                                            <AreaBox side="opponent" section="middle" keyName="leader" config={areaConfigs.opponent.middle.leader} />
-                                        </Stack>
-                                        <Stack direction="row" spacing={compact ? 0.5 : 1} sx={{ mb: compact ? 0.5 : 1 }}>
-                                            <Box sx={{ width: COST_W }} />
-                                            <AreaBox side="opponent" section="char" keyName="char" config={areaConfigs.opponent.char} />
-                                            <AreaBox side="opponent" section="life" keyName="life" config={areaConfigs.opponent.life} />
-                                        </Stack>
-                                    </Box>
-                                    {/* Player Side */}
-                                    <Box>
-                                        {/* Player top row: constrain row height to character area while letting life overflow without shifting horizontally */}
-                                        <Box sx={{ display: 'flex', position: 'relative', height: areaConfigs.player.char.height, mb: compact ? 0.5 : 1 }}>
-                                            <Box sx={{ width: COST_W, flexShrink: 0 }} />
-                                            <Box sx={{ width: LIFE_W, flexShrink: 0, overflow: 'visible', ml: compact ? 0.5 : 1 }}>
-                                                <AreaBox side="player" section="life" keyName="life" config={areaConfigs.player.life} />
-                                            </Box>
-                                            <Box sx={{ ml: compact ? 0.5 : 1 }}>
-                                                <AreaBox side="player" section="char" keyName="char" config={areaConfigs.player.char} />
-                                            </Box>
-                                        </Box>
-                                        {/* Player middle row: add left spacer to shift leader/stage right; deck aligned above trash */}
-                                        <Stack direction="row" spacing={compact ? 0.5 : 1} sx={{ mb: compact ? 0.5 : 1 }}>
-                                            <Box sx={{ width: COST_W + SINGLE_W + (compact ? 4 : 8) }} />
-                                            <Box sx={{ width: COST_W }}>
-                                                <Stack direction="row" spacing={compact ? 0.5 : 1} justifyContent="flex-end">
-                                                    <AreaBox side="player" section="middle" keyName="leader" config={areaConfigs.player.middle.leader} />
-                                                    <AreaBox side="player" section="middle" keyName="stage" config={areaConfigs.player.middle.stage} />
-                                                </Stack>
-                                            </Box>
-                                            <Box sx={{ width: SINGLE_W }}>
-                                                <AreaBox side="player" section="middle" keyName="deck" config={areaConfigs.player.middle.deck} />
-                                            </Box>
-                                        </Stack>
-                                        <Stack direction="row" spacing={compact ? 0.5 : 1}>
-                                            <AreaBox side="player" section="bottom" keyName="hand" config={areaConfigs.player.bottom.hand} />
-                                            <AreaBox side="player" section="bottom" keyName="don" config={areaConfigs.player.bottom.don} />
-                                            <AreaBox side="player" section="bottom" keyName="cost" config={areaConfigs.player.bottom.cost} />
-                                            <AreaBox side="player" section="bottom" keyName="trash" config={areaConfigs.player.bottom.trash} />
-                                        </Stack>
-                                    </Box>
-                                </Box>
-                            </Box>
+                            <Board
+                                areas={areas}
+                                setAreas={setAreas}
+                                hovered={hovered}
+                                setHovered={setHovered}
+                                gameStarted={gameStarted}
+                                addCardToArea={addCardToArea}
+                                removeCardFromArea={removeCardFromArea}
+                                openCardAction={openCardAction}
+                                actionOpen={actionOpen}
+                                actionCardIndex={actionCardIndex}
+                                targeting={targeting}
+                                setTargeting={setTargeting}
+                                currentAttack={currentAttack}
+                                setBattleArrow={setBattleArrow}
+                                getTotalPower={getTotalPower}
+                                battle={battle}
+                                getBattleStatus={getBattleStatus}
+                                getKeywordsFor={getKeywordsFor}
+                                applyBlocker={applyBlocker}
+                                getPowerMod={getPowerMod}
+                                turnSide={turnSide}
+                                CARD_BACK_URL={CARD_BACK_URL}
+                                compact={compact}
+                            />
 
                             {/* Viewer Column */}
-                            <Box sx={{ width: { xs: '100%', md: compact ? 380 : 440 }, flexShrink: 0, display: 'flex', flexDirection: 'column', minHeight: 0, height: '100%' }}>
-                                <Typography variant={compact ? 'h6' : 'h5'} gutterBottom sx={{ mb: compact ? 1 : 2, flexShrink: 0 }}>Card Viewer</Typography>
-                                {cardError && <Alert severity="error" sx={{ mb: 2 }}>{cardError}</Alert>}
-                                {loadingCards ? (
-                                    <CircularProgress size={28} />
-                                ) : (
-                                    <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1, flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.paper', overflow: 'hidden' }}>
-                                        {(() => {
-                                            // Show hovered card if hovering, otherwise show selected card if one exists
-                                            const displayCard = hovered || selectedCard;
-                                            return displayCard ? (
-                                                <img src={displayCard.full} alt={displayCard.id} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-                                            ) : (
-                                                <Typography variant="body2" color="text.secondary" textAlign="center">Hover over a card to view its effects</Typography>
-                                            );
-                                        })()}
-                                    </Box>
-                                )}
-                                {(() => {
-                                    const displayCard = hovered || selectedCard;
-                                    return displayCard && (
-                                        <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 1 }}>
-                                            <Typography variant="caption" display="block">
-                                                {displayCard.id}
-                                            </Typography>
-                                            {selectedCard && !hovered && (
-                                                <Chip label="Selected" size="small" color="primary" variant="outlined" />
-                                            )}
-                                        </Stack>
-                                    );
-                                })()}
-                                <Divider sx={{ my: 1 }} />
-                                <Box ref={logRef} sx={{ border: '1px dashed', borderColor: 'divider', p: 1, borderRadius: 1, height: 120, overflow: 'auto', bgcolor: 'background.default' }}>
-                                    {log.map((l, i) => (
-                                        <Typography key={i} variant="caption" display="block">{l}</Typography>
-                                    ))}
-                                </Box>
-                            </Box>
+                            <CardViewer
+                                hovered={hovered}
+                                selectedCard={selectedCard}
+                                cardError={cardError}
+                                loadingCards={loadingCards}
+                                log={log}
+                                compact={compact}
+                            />
                         </Box>
                     </Box>
                 )}
             </Box>
             {isLoggedIn && <DeckBuilder open={deckOpen} onClose={() => setDeckOpen(false)} />}
-            {/* Disable test ActionsPanel in game mode */}
+            {/* Disable test Actions in game mode */}
             {isLoggedIn && !gameStarted && (
-                <ActionsPanel title="Actions">
+                <Actions title="Actions">
                     <OP01004Action />
-                </ActionsPanel>
+                </Actions>
             )}
 
             <OpeningHand open={openingShown} hand={openingHand} allowMulligan={allowMulligan} onMulligan={onMulligan} onKeep={onKeep} />
@@ -1579,7 +1024,7 @@ export default function Home() {
                             const meta = id ? metaById.get(id) : null;
                             const title = id ? `${id}${meta?.name ? ` — ${meta.name}` : ''}` : 'Actions';
                             return (
-                                <ActionsPanel title={title} onClose={() => { setActionOpen(false); setActionCardIndex(-1); setActionSource(null); setSelectedCard(null); }}>
+                                <Actions title={title} onClose={() => { setActionOpen(false); setActionCardIndex(-1); setActionSource(null); setSelectedCard(null); }}>
                                     <Box sx={{ width: '100%' }}>
                                         {ActionComp ? (
                                             <ActionComp
@@ -1702,82 +1147,20 @@ export default function Home() {
                                             );
                                         })()}
                                     </Box>
-                                </ActionsPanel>
+                                </Actions>
                             );
                         })()}
                     </div>
                 </ClickAwayListener>
             )}
-            {/* Battle Control Panel */}
-            {battle && (
-                <Box sx={{ position: 'fixed', top: 56, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 1550, pointerEvents: 'none' }}>
-                    <Paper elevation={3} sx={{ px: 1.5, py: 0.5, borderRadius: 6, bgcolor: 'rgba(30,30,30,0.9)', color: '#fff', display: 'flex', alignItems: 'center', gap: 1, pointerEvents: 'auto' }}>
-                        {battle.step === 'block' && (
-                            <>
-                                <Typography variant="caption">Opponent's Block Step: click a Blocker or choose no block.</Typography>
-                                <Divider orientation="vertical" flexItem sx={{ mx: 1, borderColor: 'rgba(255,255,255,0.2)' }} />
-                                <Button size="small" variant="outlined" color="warning" onClick={skipBlock}>No Block</Button>
-                            </>
-                        )}
-                        {battle.step === 'counter' && (
-                            <>
-                                {(() => {
-                                    const s = getBattleStatus();
-                                    return (
-                                        <Stack direction="row" spacing={1} alignItems="center">
-                                            <Chip size="small" label={`ATK ${s?.atk ?? 0}`} color="error" />
-                                            <Chip size="small" label={`DEF ${s?.def ?? 0}`} color={s?.safe ? 'success' : 'default'} variant={s?.safe ? 'filled' : 'outlined'} />
-                                            {s && (s.safe ? (
-                                                <Chip size="small" label="Safe" color="success" />
-                                            ) : (
-                                                <Chip size="small" label={`Need +${s.needed}`} color="warning" />
-                                            ))}
-                                        </Stack>
-                                    );
-                                })()}
-                                <Divider orientation="vertical" flexItem sx={{ mx: 1, borderColor: 'rgba(255,255,255,0.2)' }} />
-                                <Button size="small" variant="contained" color="primary" onClick={endCounterStep}>End Counter Step</Button>
-                            </>
-                        )}
-                    </Paper>
-                </Box>
-            )}
-            {/* Battle Arrow Overlay */}
-            {(() => {
-                if (!battleArrow || !battleArrow.fromKey || !battleArrow.toKey) return null;
-                const fromEl = typeof document !== 'undefined' ? document.querySelector(`[data-cardkey="${battleArrow.fromKey}"]`) : null;
-                const toEl = typeof document !== 'undefined' ? document.querySelector(`[data-cardkey="${battleArrow.toKey}"]`) : null;
-                if (!fromEl || !toEl) return null;
-                const fr = fromEl.getBoundingClientRect();
-                const tr = toEl.getBoundingClientRect();
-                const from = { x: fr.left + fr.width / 2, y: fr.top + fr.height / 2 };
-                const to = { x: tr.left + tr.width / 2, y: tr.top + tr.height / 2 };
-                const label = battleArrow.label || '';
-                const mid = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
-                const id = 'arrowHead';
-                // Color arrow by current safety: green safe, orange within 1000, red otherwise
-                let stroke = '#f44336';
-                const s = getBattleStatus();
-                if (s) {
-                    stroke = s.safe ? '#43a047' : (s.needed <= 1000 ? '#fb8c00' : '#f44336');
-                }
-                return (
-                    <svg style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 1600 }}>
-                        <defs>
-                            <marker id={id} markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
-                                <path d="M0,0 L0,6 L9,3 z" fill={stroke} />
-                            </marker>
-                        </defs>
-                        <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke={stroke} strokeWidth="4" markerEnd={`url(#${id})`} />
-                        {label ? (
-                            <g>
-                                <rect x={mid.x - 28} y={mid.y - 12} width="56" height="18" rx="4" ry="4" fill="rgba(0,0,0,0.6)" />
-                                <text x={mid.x} y={mid.y} fill="#fff" fontSize="12" textAnchor="middle" dominantBaseline="middle">{label}</text>
-                            </g>
-                        ) : null}
-                    </svg>
-                );
-            })()}
+            
+            <Activity
+                battle={battle}
+                battleArrow={battleArrow}
+                getBattleStatus={getBattleStatus}
+                skipBlock={skipBlock}
+                endCounterStep={endCounterStep}
+            />
         </Container>
     );
 }
