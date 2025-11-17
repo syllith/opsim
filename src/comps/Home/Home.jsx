@@ -23,7 +23,6 @@ export default function Home() {
 
 
     // --- Card Viewer State ---
-    const [cards, setCards] = useState([]); // all card assets across directories (from /api/cardsAll)
     const [hovered, setHovered] = useState(null); // currently hovered card object
     const [selectedCard, setSelectedCard] = useState(null); // currently selected card object (from actions)
     const [loadingCards, setLoadingCards] = useState(false);
@@ -56,12 +55,10 @@ export default function Home() {
                 const res = await fetch('/api/cardsAll');
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error || 'Failed to load cards');
-                setCards(data.cards || []);
                 setAllCards(data.cards || []);
                 setHovered(null);
             } catch (e) {
                 setCardError(e.message);
-                setCards([]);
                 setAllCards([]);
                 setHovered(null);
             } finally {
@@ -106,16 +103,23 @@ export default function Home() {
     const [openingHand, setOpeningHand] = useState([]); // asset objects for display
     const [library, setLibrary] = useState([]); // array of card IDs for player's deck order (top at end)
     const [leaderId, setLeaderId] = useState('');
-    const [oppLeaderId, setOppLeaderId] = useState('');
     const [oppLibrary, setOppLibrary] = useState([]);
-    const CARD_BACK_URL = '/api/cards/assets/Card%20Backs/CardBackRegular.png';
-    const DON_FRONT = { id: 'DON', full: '/api/cards/assets/Don/Don.png', thumb: '/api/cards/assets/Don/Don.png' };
-    const DON_BACK = { id: 'DON_BACK', full: '/api/cards/assets/Card%20Backs/CardBackDon.png', thumb: '/api/cards/assets/Card%20Backs/CardBackDon.png' };
+
+    // Memoize constant card objects to prevent recreation on every render
+    const CARD_BACK_URL = useMemo(() => '/api/cards/assets/Card%20Backs/CardBackRegular.png', []);
+    const DON_FRONT = useMemo(() => ({ id: 'DON', full: '/api/cards/assets/Don/Don.png', thumb: '/api/cards/assets/Don/Don.png' }), []);
+    const DON_BACK = useMemo(() => ({ id: 'DON_BACK', full: '/api/cards/assets/Card%20Backs/CardBackDon.png', thumb: '/api/cards/assets/Card%20Backs/CardBackDon.png' }), []);
+
+    // Helper to create array of card back objects
+    const createCardBacks = useCallback((count) => {
+        return Array.from({ length: count }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
+    }, [CARD_BACK_URL]);
 
     // Self-play loop
     const [turnSide, setTurnSide] = useState('player'); // 'player' | 'opponent'
     const [turnNumber, setTurnNumber] = useState(1);
     const [phase, setPhase] = useState('Draw'); // Draw | Don | Main (Refresh auto)
+    const phaseLower = useMemo(() => phase.toLowerCase(), [phase]);
     const [log, setLog] = useState([]);
     const appendLog = useCallback((msg) => {
         setLog((prev) => [...prev.slice(-199), `[T${turnNumber} ${turnSide} ${phase}] ${msg}`]);
@@ -172,13 +176,9 @@ export default function Home() {
     };
 
     // Build a full 50-card id list from stored deck data
-    const expandDeckItems = (items) => {
-        const out = [];
-        for (const it of items || []) {
-            for (let i = 0; i < (it.count || 0); i++) out.push(it.id);
-        }
-        return out;
-    };
+    const expandDeckItems = useCallback((items) => {
+        return (items || []).flatMap(it => Array(it.count || 0).fill(it.id));
+    }, []);
 
     // Load most recent saved deck and initialize game state
     useEffect(() => {
@@ -195,13 +195,13 @@ export default function Home() {
                     const leaderAsset = getAssetForId(DEMO_LEADER);
 
                     setAreas((prev) => {
-                        const next = JSON.parse(JSON.stringify(prev));
+                        const next = structuredClone(prev);
                         // Place leaders
                         next.player.middle.leader = [leaderAsset];
                         next.opponent.middle.leader = [leaderAsset];
                         // Deck stacks visuals
-                        next.player.middle.deck = Array.from({ length: libP.length }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
-                        next.opponent.middle.deck = Array.from({ length: libO.length }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
+                        next.player.middle.deck = createCardBacks(libP.length);
+                        next.opponent.middle.deck = createCardBacks(libO.length);
                         // DON!! decks (10 each)
                         next.player.bottom.don = Array.from({ length: 10 }, () => ({ ...DON_BACK }));
                         next.opponent.top.don = Array.from({ length: 10 }, () => ({ ...DON_BACK }));
@@ -212,12 +212,11 @@ export default function Home() {
                         const opp5 = libO.slice(-5).map((id) => getAssetForId(id)).filter(Boolean);
                         next.opponent.top.hand = opp5;
                         // Reduce opponent deck by 5 for opening
-                        next.opponent.middle.deck = Array.from({ length: Math.max(0, libO.length - 5) }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
+                        next.opponent.middle.deck = createCardBacks(Math.max(0, libO.length - 5));
                         return next;
                     });
 
                     setLeaderId(DEMO_LEADER);
-                    setOppLeaderId(DEMO_LEADER);
                     setLibrary(libP);
                     setOppLibrary(libO);
                     const p5 = libP.slice(-5);
@@ -234,9 +233,9 @@ export default function Home() {
                 if (!decks.length) {
                     // Fallback: show empty leaders if missing, still show facedown deck stack
                     setAreas((prev) => {
-                        const next = JSON.parse(JSON.stringify(prev));
-                        next.player.middle.deck = Array.from({ length: 50 }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
-                        next.opponent.middle.deck = Array.from({ length: 50 }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
+                        const next = structuredClone(prev);
+                        next.player.middle.deck = createCardBacks(50);
+                        next.opponent.middle.deck = createCardBacks(50);
                         return next;
                     });
                     return;
@@ -255,7 +254,7 @@ export default function Home() {
 
                 // Prepare visual areas: place leaders, deck stacks (back images)
                 setAreas((prev) => {
-                    const next = JSON.parse(JSON.stringify(prev));
+                    const next = structuredClone(prev);
                     let leaderAsset = allById.get(lead) || null;
                     if (!leaderAsset && typeof lead === 'string') {
                         const m = lead.match(/^([A-Za-z0-9]+)-/);
@@ -273,8 +272,8 @@ export default function Home() {
                         next.opponent.middle.leader = [leaderAsset];
                     }
                     // Set deck as N back cards for both sides (player uses actual count, opponent mirrors 50)
-                    next.player.middle.deck = Array.from({ length: lib.length }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
-                    next.opponent.middle.deck = Array.from({ length: 50 }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
+                    next.player.middle.deck = createCardBacks(lib.length);
+                    next.opponent.middle.deck = createCardBacks(50);
                     return next;
                 });
 
@@ -290,9 +289,9 @@ export default function Home() {
                 console.error('Init game failed:', e);
                 // Show fallback deck stacks even on error
                 setAreas((prev) => {
-                    const next = JSON.parse(JSON.stringify(prev));
-                    next.player.middle.deck = Array.from({ length: 50 }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
-                    next.opponent.middle.deck = Array.from({ length: 50 }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
+                    const next = structuredClone(prev);
+                    next.player.middle.deck = createCardBacks(50);
+                    next.opponent.middle.deck = createCardBacks(50);
                     return next;
                 });
             }
@@ -370,7 +369,7 @@ export default function Home() {
     const [ActionComp, setActionComp] = useState(null);
     const actionModules = useMemo(() => import.meta.glob('../Cards/**/[A-Z0-9-]*.jsx'), []);
 
-    const canPlayNow = useMemo(() => phase.toLowerCase() === 'main', [phase]);
+    const canPlayNow = useMemo(() => phaseLower === 'main', [phaseLower]);
 
     const hasEnoughDonFor = useCallback((side, cost) => {
         if (!cost || cost <= 0) return true;
@@ -444,8 +443,8 @@ export default function Home() {
 
     // --- Power Mod Overlays ---
     const [powerMods, setPowerMods] = useState({}); // key => number delta
-    const modKey = (side, section, keyName, index) => `${side}:${section}:${keyName}:${index}`;
-    const getPowerMod = useCallback((side, section, keyName, index) => powerMods[modKey(side, section, keyName, index)] || 0, [powerMods]);
+    const modKey = useCallback((side, section, keyName, index) => `${side}:${section}:${keyName}:${index}`, []);
+    const getPowerMod = useCallback((side, section, keyName, index) => powerMods[modKey(side, section, keyName, index)] || 0, [powerMods, modKey]);
     const applyPowerMod = useCallback((side, section, keyName, index, delta) => {
         setPowerMods((prev) => {
             const k = modKey(side, section, keyName, index);
@@ -453,7 +452,7 @@ export default function Home() {
             next[k] = (next[k] || 0) + delta;
             return next;
         });
-    }, []);
+    }, [modKey]);
 
     const openCardAction = useCallback(async (card, index, source = null) => {
         setActionCard(card);
@@ -483,7 +482,7 @@ export default function Home() {
         }
         let fieldIndex = -1;
         setAreas((prev) => {
-            const next = JSON.parse(JSON.stringify(prev));
+            const next = structuredClone(prev);
             const isPlayer = side === 'player';
             const hand = isPlayer ? (next.player.bottom.hand || []) : (next.opponent.top.hand || []);
             const idx = actionCardIndex >= 0 ? actionCardIndex : hand.findIndex((h) => h.id === actionCard.id);
@@ -517,34 +516,27 @@ export default function Home() {
 
     const dealOneDamageToLeader = useCallback((defender) => {
         setAreas((prev) => {
-            const next = JSON.parse(JSON.stringify(prev));
-            if (defender === 'player') {
-                const life = next.player.life || [];
-                if (!life.length) return next;
-                const card = life[life.length - 1];
-                next.player.life = life.slice(0, -1);
-                next.player.bottom.hand = [...(next.player.bottom.hand || []), card];
-            } else {
-                const life = next.opponent.life || [];
-                if (!life.length) return next;
-                const card = life[life.length - 1];
-                next.opponent.life = life.slice(0, -1);
-                next.opponent.top.hand = [...(next.opponent.top.hand || []), card];
-            }
+            const next = structuredClone(prev);
+            const side = defender === 'player' ? next.player : next.opponent;
+            const life = side.life || [];
+            if (!life.length) return next;
+            const card = life[life.length - 1];
+            side.life = life.slice(0, -1);
+            const handLoc = defender === 'player' ? next.player.bottom : next.opponent.top;
+            handLoc.hand = [...(handLoc.hand || []), card];
             return next;
         });
     }, []);
 
     const getKeywordsFor = useCallback((id) => {
-        const meta = metaById.get(id);
-        return Array.isArray(meta?.keywords) ? meta.keywords : [];
+        return metaById.get(id)?.keywords || [];
     }, [metaById]);
 
     const canCharacterAttack = useCallback((card, side, index) => {
         if (!card || !card.id) return false;
         if (turnSide !== 'player') return false; // only allow player attacks in this demo
         if (side !== 'player') return false;
-        if (phase.toLowerCase() !== 'main') return false;
+        if (phaseLower !== 'main') return false;
         // First turn of game: no battles
         if (turnNumber === 1 && turnSide === 'player') return false;
         // Must be active (not rested)
@@ -557,12 +549,10 @@ export default function Home() {
         const enteredTurnVal = fieldInst ? fieldInst.enteredTurn : card.enteredTurn;
         if (typeof enteredTurnVal === 'number' && enteredTurnVal === turnNumber && !rush) return false;
         return true;
-    }, [turnSide, phase, turnNumber, getKeywordsFor, areas]);
+    }, [turnSide, phaseLower, turnNumber, getKeywordsFor, areas]);
 
     const getBasePower = useCallback((id) => {
-        const meta = metaById.get(id);
-        const p = meta?.stats?.power;
-        return typeof p === 'number' ? p : 0;
+        return metaById.get(id)?.stats?.power || 0;
     }, [metaById]);
 
     const getTotalPower = useCallback((side, section, keyName, index, id) => {
@@ -595,7 +585,7 @@ export default function Home() {
             if (!t) { setCurrentAttack(null); return; }
             // Rest attacker immediately when attack declared (7-1-1-1)
             setAreas((prev) => {
-                const next = JSON.parse(JSON.stringify(prev));
+                const next = structuredClone(prev);
                 if (next.player?.char?.[attackerIndex]) next.player.char[attackerIndex].rested = true;
                 return next;
             });
@@ -625,16 +615,13 @@ export default function Home() {
 
     const getDefenderPower = useCallback((b) => {
         if (!b) return 0;
-        const { target } = b;
-        const base = getTotalPower(target.side, target.section, target.keyName, target.index, target.id);
-        return base + (b.counterPower || 0);
+        return getTotalPower(b.target.side, b.target.section, b.target.keyName, b.target.index, b.target.id) + (b.counterPower || 0);
     }, [getTotalPower]);
 
     // Use live attacker power at calculation time (accounts for buffs/debuffs applied after declaration)
     const getAttackerPower = useCallback((b) => {
         if (!b) return 0;
-        const { attacker } = b;
-        return getTotalPower(attacker.side, attacker.section, attacker.keyName, attacker.index, attacker.id);
+        return getTotalPower(b.attacker.side, b.attacker.section, b.attacker.keyName, b.attacker.index, b.attacker.id);
     }, [getTotalPower]);
 
     const getBattleStatus = useCallback(() => {
@@ -656,7 +643,7 @@ export default function Home() {
         if (card.rested) return; // must be active
         // Rest blocker and make it new target
         setAreas((prev) => {
-            const next = JSON.parse(JSON.stringify(prev));
+            const next = structuredClone(prev);
             if (next.opponent?.char?.[blockerIndex]) next.opponent.char[blockerIndex].rested = true;
             return next;
         });
@@ -674,7 +661,7 @@ export default function Home() {
         if (!battle || battle.step !== 'counter') return;
         // Defender is opponent in current demo (only player attacks)
         setAreas((prev) => {
-            const next = JSON.parse(JSON.stringify(prev));
+            const next = structuredClone(prev);
             const hand = next.opponent?.top?.hand || [];
             const card = hand[handIndex];
             if (!card) return prev;
@@ -697,7 +684,7 @@ export default function Home() {
     const playCounterEventFromHand = useCallback((handIndex) => {
         if (!battle || battle.step !== 'counter') return;
         setAreas((prev) => {
-            const next = JSON.parse(JSON.stringify(prev));
+            const next = structuredClone(prev);
             const hand = next.opponent?.top?.hand || [];
             const card = hand[handIndex];
             if (!card) return prev;
@@ -744,7 +731,7 @@ export default function Home() {
             } else {
                 // KO character
                 setAreas((prev) => {
-                    const next = JSON.parse(JSON.stringify(prev));
+                    const next = structuredClone(prev);
                     const charArr = next.opponent.char || [];
                     const removed = charArr.splice(battle.target.index, 1)[0];
                     next.opponent.char = charArr;
@@ -786,7 +773,7 @@ export default function Home() {
     const finalizeKeep = () => {
         // Move openingHand to player's hand area; set Life (5) for both players; shrink deck stacks accordingly
         setAreas((prev) => {
-            const next = JSON.parse(JSON.stringify(prev));
+            const next = structuredClone(prev);
             // Player hand gets opening 5
             next.player.bottom.hand = openingHand.slice(0, 5);
             // Compute top 5 (life) for each side from current libraries
@@ -799,9 +786,9 @@ export default function Home() {
             next.opponent.life = oLife;
             // Shrink deck visuals: player's deck -10 (5 hand, 5 life); opponent deck already -5 (hand), so -5 more (life)
             const pRemain = Math.max(0, (next.player.middle.deck || []).length - 10);
-            next.player.middle.deck = Array.from({ length: pRemain }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
+            next.player.middle.deck = createCardBacks(pRemain);
             const oRemain = Math.max(0, (next.opponent.middle.deck || []).length - 5);
-            next.opponent.middle.deck = Array.from({ length: oRemain }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
+            next.opponent.middle.deck = createCardBacks(oRemain);
             return next;
         });
         // Remove 10 from player's library (5 to hand, 5 to life), and 5 from opponent's (life)
@@ -813,10 +800,6 @@ export default function Home() {
         setTurnNumber(1);
         setPhase('Draw');
         appendLog('Start Turn. Refresh completed.');
-    };
-
-    const onKeep = () => {
-        finalizeKeep();
     };
 
     const onMulligan = () => {
@@ -836,75 +819,55 @@ export default function Home() {
 
     // --- Self-Play Engine Helpers ---
     const drawCard = useCallback((side) => {
+        const isPlayer = side === 'player';
+        const lib = isPlayer ? library : oppLibrary;
+        if (!lib.length) return;
+
         setAreas((prevAreas) => {
-            const next = JSON.parse(JSON.stringify(prevAreas));
-            const isPlayer = side === 'player';
-            const lib = isPlayer ? library : oppLibrary;
-            if (!lib.length) return next;
-            const topId = lib[lib.length - 1];
-            const asset = getAssetForId(topId);
-            if (isPlayer) {
-                next.player.bottom.hand = [...(next.player.bottom.hand || []), asset];
-                next.player.middle.deck = Array.from({ length: Math.max(0, (next.player.middle.deck || []).length - 1) }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
-            } else {
-                next.opponent.top.hand = [...(next.opponent.top.hand || []), asset];
-                next.opponent.middle.deck = Array.from({ length: Math.max(0, (next.opponent.middle.deck || []).length - 1) }, () => ({ id: 'BACK', thumb: CARD_BACK_URL, full: CARD_BACK_URL }));
-            }
+            const next = structuredClone(prevAreas);
+            const asset = getAssetForId(lib[lib.length - 1]);
+            const handLoc = isPlayer ? next.player.bottom : next.opponent.top;
+            const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
+            handLoc.hand = [...(handLoc.hand || []), asset];
+            deckLoc.deck = createCardBacks(Math.max(0, (deckLoc.deck || []).length - 1));
             return next;
         });
-        if (side === 'player') setLibrary((prev) => prev.slice(0, -1));
-        else setOppLibrary((prev) => prev.slice(0, -1));
-    }, [library, oppLibrary, getAssetForId]);
+        (isPlayer ? setLibrary : setOppLibrary)((prev) => prev.slice(0, -1));
+    }, [library, oppLibrary, getAssetForId, createCardBacks]);
 
     const donPhaseGain = useCallback((side, count) => {
         setAreas((prev) => {
-            const next = JSON.parse(JSON.stringify(prev));
-            if (side === 'player') {
-                const toMove = Math.min(count, (next.player.bottom.don || []).length);
-                const moved = Array.from({ length: toMove }, () => ({ ...DON_FRONT, rested: false }));
-                next.player.bottom.don = (next.player.bottom.don || []).slice(0, -toMove);
-                next.player.bottom.cost = [...(next.player.bottom.cost || []), ...moved];
-            } else {
-                const toMove = Math.min(count, (next.opponent.top.don || []).length);
-                const moved = Array.from({ length: toMove }, () => ({ ...DON_FRONT, rested: false }));
-                next.opponent.top.don = (next.opponent.top.don || []).slice(0, -toMove);
-                next.opponent.top.cost = [...(next.opponent.top.cost || []), ...moved];
-            }
+            const next = structuredClone(prev);
+            const loc = side === 'player' ? next.player.bottom : next.opponent.top;
+            const toMove = Math.min(count, (loc.don || []).length);
+            const moved = Array.from({ length: toMove }, () => ({ ...DON_FRONT, rested: false }));
+            loc.don = (loc.don || []).slice(0, -toMove);
+            loc.cost = [...(loc.cost || []), ...moved];
             return next;
         });
-    }, []);
-
-    
+    }, [DON_FRONT]);
 
     // Next Action button handler based on current phase
     const nextActionLabel = useMemo(() => {
-        if (phase.toLowerCase() === 'draw') return 'Draw Card';
-        if (phase.toLowerCase() === 'don') {
-            const isFirst = turnNumber === 1 && turnSide === 'player';
-            return `Gain ${isFirst ? 1 : 2} DON!!`;
-        }
+        if (phaseLower === 'draw') return 'Draw Card';
+        if (phaseLower === 'don') return `Gain ${turnNumber === 1 && turnSide === 'player' ? 1 : 2} DON!!`;
         return 'End Turn';
-    }, [phase, turnNumber, turnSide]);
+    }, [phaseLower, turnNumber, turnSide]);
 
     const onNextAction = useCallback(() => {
-        if (phase.toLowerCase() === 'draw') {
-            const isFirst = turnNumber === 1 && turnSide === 'player';
-            if (!isFirst) {
-                drawCard(turnSide);
-                appendLog('Draw 1.');
-            } else {
-                appendLog('First turn: skip draw.');
-            }
-            setPhase('Don');
-            return;
+        const isFirst = turnNumber === 1 && turnSide === 'player';
+
+        if (phaseLower === 'draw') {
+            if (!isFirst) drawCard(turnSide);
+            appendLog(isFirst ? 'First turn: skip draw.' : 'Draw 1.');
+            return setPhase('Don');
         }
-        if (phase.toLowerCase() === 'don') {
-            const isFirst = turnNumber === 1 && turnSide === 'player';
+
+        if (phaseLower === 'don') {
             const amt = isFirst ? 1 : 2;
             donPhaseGain(turnSide, amt);
             appendLog(`DON!! +${amt}.`);
-            setPhase('Main');
-            return;
+            return setPhase('Main');
         }
         // End Turn from Main
         appendLog('End Turn. Refresh next turn auto.');
@@ -915,7 +878,7 @@ export default function Home() {
         setPowerMods({});
         // Refresh: set all rested cards (DON, Leader, Characters) to active for the new turn player
         setAreas((prev) => {
-            const next = JSON.parse(JSON.stringify(prev));
+            const next = structuredClone(prev);
             const costLoc = nextSide === 'player' ? next.player.bottom : next.opponent.top;
             costLoc.cost = (costLoc.cost || []).map((c) => (c.id === 'DON' ? { ...c, rested: false } : c));
             const sideLoc = nextSide === 'player' ? next.player : next.opponent;
@@ -928,7 +891,7 @@ export default function Home() {
             return next;
         });
         setPhase('Draw'); // Auto-Refresh applied
-    }, [phase, turnNumber, turnSide, drawCard, appendLog, donPhaseGain]);
+    }, [phaseLower, turnNumber, turnSide, drawCard, appendLog, donPhaseGain]);
 
     // Render main UI: show loading, user info, or login/register form plus card viewer
     const [deckOpen, setDeckOpen] = useState(false);
@@ -1013,7 +976,7 @@ export default function Home() {
                 </Actions>
             )}
 
-            <OpeningHand open={openingShown} hand={openingHand} allowMulligan={allowMulligan} onMulligan={onMulligan} onKeep={onKeep} />
+            <OpeningHand open={openingShown} hand={openingHand} allowMulligan={allowMulligan} onMulligan={onMulligan} onKeep={finalizeKeep} />
 
             {/* Anchored Actions Panel (bottom-right) */}
             {actionOpen && (
@@ -1101,7 +1064,7 @@ export default function Home() {
                                             </>
                                         ) : (
                                             <Typography variant="caption" display="block" sx={{ mb: 1 }}>
-                                                {phase.toLowerCase() === 'main' ? 'Select an action for this card.' : 'Actions are limited outside the Main Phase.'}
+                                                {phaseLower === 'main' ? 'Select an action for this card.' : 'Actions are limited outside the Main Phase.'}
                                             </Typography>
                                         )}
                                         {(() => {
@@ -1153,7 +1116,7 @@ export default function Home() {
                     </div>
                 </ClickAwayListener>
             )}
-            
+
             <Activity
                 battle={battle}
                 battleArrow={battleArrow}

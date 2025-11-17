@@ -228,7 +228,7 @@ export default function Board({
         const isPlayerHand = side === 'player' && section === 'bottom' && keyName === 'hand';
         const isOppHand = side === 'opponent' && section === 'top' && keyName === 'hand';
         const isActiveLeader = side === turnSide && section === 'middle' && keyName === 'leader';
-        
+
         return (
             <Paper
                 variant="outlined"

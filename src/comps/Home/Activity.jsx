@@ -48,7 +48,7 @@ export default function Activity({
                     </Paper>
                 </Box>
             )}
-            
+
             {/* Battle Arrow Overlay */}
             {(() => {
                 if (!battleArrow || !battleArrow.fromKey || !battleArrow.toKey) return null;
