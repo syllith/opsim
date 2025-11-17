@@ -483,7 +483,7 @@ function CardEditorDialog({ open, card, onClose, onSave }) {
   );
 }
 
-export default function DeckBuilderModal({ open, onClose }) {
+export default function DeckBuilder({ open, onClose }) {
   const [all, setAll] = useState([]);
   const [byId, setById] = useState(new Map());
   const [bySet, setBySet] = useState({});
