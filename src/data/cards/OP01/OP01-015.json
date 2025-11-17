@@ -4,18 +4,29 @@
   "number": 15,
   "name": "Tony Tony.Chopper",
   "category": "Character",
-  "colors": ["Red"],
+  "colors": [
+    "Red"
+  ],
   "attribute": "Wisdom",
-  "types": ["Animal", "Straw Hat Crew"],
+  "types": [
+    "Animal",
+    "Straw Hat Crew"
+  ],
   "rarity": "UC",
   "art": "/cards/OP01/OP01-015.png",
   "stats": {
     "cost": 3,
     "power": 4000,
     "life": null,
-    "counter": { "present": true, "value": 1000 }
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
   },
-  "keywords": ["DON!! x1", "When Attacking"],
+  "keywords": [
+    "DON!! x1",
+    "When Attacking"
+  ],
   "trigger": null,
   "text": "[DON!! x1] [When Attacking] You may trash 1 card from your hand: Add up to 1 {Straw Hat Crew} type Character card other than [Tony Tony.Chopper] with a cost of 4 or less from your trash to your hand.",
   "abilities": [
@@ -23,15 +34,28 @@
       "timing": "When Attacking",
       "frequency": null,
       "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "You may trash 1 card from your hand: Add up to 1 {Straw Hat Crew} type Character card other than [Tony Tony.Chopper] with a cost of 4 or less from your trash to your hand.",
         "grants": [],
         "powerMod": null,
-        "targets": ["hand", "trash"],
-        "conditions": ["mayTrash1FromHand", "strawHatCrewType", "notTonyTonyChopper", "characterCost<=4"]
+        "targets": [
+          "hand",
+          "trash"
+        ],
+        "conditions": [
+          "mayTrash1FromHand",
+          "strawHatCrewType",
+          "notTonyTonyChopper",
+          "characterCost<=4"
+        ]
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }

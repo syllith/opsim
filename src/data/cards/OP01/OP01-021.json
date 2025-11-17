@@ -4,18 +4,27 @@
   "number": 21,
   "name": "Franky",
   "category": "Character",
-  "colors": ["Red"],
+  "colors": [
+    "Red"
+  ],
   "attribute": "Ranged",
-  "types": ["Straw Hat Crew"],
+  "types": [
+    "Straw Hat Crew"
+  ],
   "rarity": "UC",
   "art": "/cards/OP01/OP01-021.png",
   "stats": {
     "cost": 3,
     "power": 4000,
     "life": null,
-    "counter": { "present": false, "value": 0 }
+    "counter": {
+      "present": false,
+      "value": 0
+    }
   },
-  "keywords": ["DON!! x1"],
+  "keywords": [
+    "DON!! x1"
+  ],
   "trigger": null,
   "text": "[DON!! x1] This Character can also attack your opponent's active Characters.",
   "abilities": [
@@ -23,15 +32,24 @@
       "timing": "Static",
       "frequency": null,
       "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "This Character can also attack your opponent's active Characters.",
         "grants": [],
         "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["activeCharacters"]
+        "targets": [
+          "opponent:Character"
+        ],
+        "conditions": [
+          "activeCharacters"
+        ]
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }

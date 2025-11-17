@@ -4,18 +4,28 @@
   "number": 17,
   "name": "Nico Robin",
   "category": "Character",
-  "colors": ["Yellow"],
+  "colors": [
+    "Red"
+  ],
   "attribute": "Strike",
-  "types": ["Straw Hat Crew"],
+  "types": [
+    "Straw Hat Crew"
+  ],
   "rarity": "R",
   "art": "/cards/OP01/OP01-017.png",
   "stats": {
     "cost": 3,
     "power": 4000,
     "life": null,
-    "counter": { "present": true, "value": 1000 }
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
   },
-  "keywords": ["DON!! x1", "When Attacking"],
+  "keywords": [
+    "DON!! x1",
+    "When Attacking"
+  ],
   "trigger": null,
   "text": "[DON!! x1] [When Attacking] K.O. up to 1 of your opponent's Characters with 3000 power or less.",
   "abilities": [
@@ -23,15 +33,24 @@
       "timing": "When Attacking",
       "frequency": null,
       "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "K.O. up to 1 of your opponent's Characters with 3000 power or less.",
         "grants": [],
         "powerMod": null,
-        "targets": ["upTo1:opponent:Character"],
-        "conditions": ["opponentCharacterPower<=3000"]
+        "targets": [
+          "upTo1:opponent:Character"
+        ],
+        "conditions": [
+          "opponentCharacterPower<=3000"
+        ]
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }

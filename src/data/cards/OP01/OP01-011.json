@@ -4,18 +4,27 @@
   "number": 11,
   "name": "Gordon",
   "category": "Character",
-  "colors": ["Green"],
+  "colors": [
+    "Red"
+  ],
   "attribute": "Wisdom",
-  "types": ["FILM"],
+  "types": [
+    "FILM"
+  ],
   "rarity": "UC",
   "art": "/cards/OP01/OP01-011.png",
   "stats": {
     "cost": 2,
     "power": 3000,
     "life": null,
-    "counter": { "present": true, "value": 2000 }
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
   },
-  "keywords": ["On Play"],
+  "keywords": [
+    "On Play"
+  ],
   "trigger": null,
   "text": "[On Play] You may place 1 card from your hand at the bottom of your deck: Draw 1 card.",
   "abilities": [
@@ -23,15 +32,25 @@
       "timing": "On Play",
       "frequency": null,
       "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "You may place 1 card from your hand at the bottom of your deck: Draw 1 card.",
         "grants": [],
         "powerMod": null,
-        "targets": ["hand", "deck"],
-        "conditions": ["mayPlaceHandToBottomOfDeck"]
+        "targets": [
+          "hand",
+          "deck"
+        ],
+        "conditions": [
+          "mayPlaceHandToBottomOfDeck"
+        ]
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }

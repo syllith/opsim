@@ -4,18 +4,30 @@
   "number": 35,
   "name": "Okiku",
   "category": "Character",
-  "colors": ["Green"],
+  "colors": [
+    "Green"
+  ],
   "attribute": "Slash",
-  "types": ["Wano Country", "Nine Red Scabbards"],
+  "types": [
+    "Wano Country",
+    "Nine Red Scabbards"
+  ],
   "rarity": "R",
   "art": "/cards/OP01/OP01-035.png",
   "stats": {
     "cost": 3,
     "power": 5000,
     "life": null,
-    "counter": { "present": false, "value": 0 }
+    "counter": {
+      "present": false,
+      "value": 0
+    }
   },
-  "keywords": ["DON!! x1", "When Attacking", "Once Per Turn"],
+  "keywords": [
+    "DON!! x1",
+    "When Attacking",
+    "Once Per Turn"
+  ],
   "trigger": null,
   "text": "[DON!! x1] [When Attacking] [Once Per Turn] Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
   "abilities": [
@@ -23,15 +35,24 @@
       "timing": "When Attacking",
       "frequency": "Once Per Turn",
       "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
         "grants": [],
         "powerMod": null,
-        "targets": ["upTo1:opponent:Character"],
-        "conditions": ["opponentCharacterCost<=5"]
+        "targets": [
+          "upTo1:opponent:Character"
+        ],
+        "conditions": [
+          "opponentCharacterCost<=5"
+        ]
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }

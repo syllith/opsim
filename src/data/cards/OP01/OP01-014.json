@@ -4,18 +4,30 @@
   "number": 14,
   "name": "Jinbe",
   "category": "Character",
-  "colors": ["Yellow"],
+  "colors": [
+    "Red"
+  ],
   "attribute": "Strike",
-  "types": ["Fish-Man", "Straw Hat Crew"],
-  "rarity": "SR",
+  "types": [
+    "Fish-Man",
+    "Straw Hat Crew"
+  ],
+  "rarity": "UC",
   "art": "/cards/OP01/OP01-014.png",
   "stats": {
     "cost": 4,
     "power": 5000,
     "life": null,
-    "counter": { "present": false, "value": 0 }
+    "counter": {
+      "present": false,
+      "value": 0
+    }
   },
-  "keywords": ["Blocker", "DON!! x1", "On Block"],
+  "keywords": [
+    "Blocker",
+    "DON!! x1",
+    "On Block"
+  ],
   "trigger": null,
   "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[DON!! x1] [On Block] Play up to 1 red Character card with a cost of 2 or less from your hand.",
   "abilities": [
@@ -23,15 +35,27 @@
       "timing": "On Block",
       "frequency": null,
       "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "Play up to 1 red Character card with a cost of 2 or less from your hand.",
-        "grants": ["Blocker"],
+        "grants": [
+          "Blocker"
+        ],
         "powerMod": null,
-        "targets": ["hand"],
-        "conditions": ["redCharacter", "characterCost<=2"]
+        "targets": [
+          "hand"
+        ],
+        "conditions": [
+          "redCharacter",
+          "characterCost<=2"
+        ]
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }

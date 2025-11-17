@@ -82,14 +82,16 @@ export default function Home() {
         const init = {
             opponent: {
                 top: { hand: [], trash: [], cost: [], don: [] },
-                middle: { deck: [], stage: [], leader: [] },
+                middle: { deck: [], stage: [], leader: [], leaderDon: [] },
                 char: [],
+                charDon: [], // array of arrays: charDon[i] = DON!! cards under char[i]
                 life: []
             },
             player: {
                 life: [],
                 char: [],
-                middle: { leader: [], stage: [], deck: [] },
+                charDon: [], // array of arrays: charDon[i] = DON!! cards under char[i]
+                middle: { leader: [], leaderDon: [], stage: [], deck: [] },
                 bottom: { hand: [], don: [], cost: [], trash: [] }
             }
         };
@@ -118,12 +120,18 @@ export default function Home() {
     // Self-play loop
     const [turnSide, setTurnSide] = useState('player'); // 'player' | 'opponent'
     const [turnNumber, setTurnNumber] = useState(1);
-    const [phase, setPhase] = useState('Draw'); // Draw | Don | Main (Refresh auto)
+    const [phase, setPhase] = useState('Draw'); // Draw | Don | Main | End
     const phaseLower = useMemo(() => phase.toLowerCase(), [phase]);
     const [log, setLog] = useState([]);
     const appendLog = useCallback((msg) => {
         setLog((prev) => [...prev.slice(-199), `[T${turnNumber} ${turnSide} ${phase}] ${msg}`]);
     }, [turnNumber, turnSide, phase]);
+
+    // TODO: Implement DON!! giving mechanism (rule 6-5-5)
+    // Leaders and Characters should store givenDon array: [{ id: 'DON', ... }, ...]
+    // During Main Phase, player can move DON from cost area to under Leader/Character
+    // Given DON!! provides +1000 power per DON during your turn (6-5-5-2)
+    // Refresh Phase returns all given DON!! to cost area as rested (6-2-3)
 
     // Hardcoded self-play deck
     const HARDCODED = true;
@@ -268,8 +276,8 @@ export default function Home() {
                         }
                     }
                     if (leaderAsset) {
-                        next.player.middle.leader = [leaderAsset];
-                        next.opponent.middle.leader = [leaderAsset];
+                        next.player.middle.leader = [{ ...leaderAsset, rested: false }];
+                        next.opponent.middle.leader = [{ ...leaderAsset, rested: false }];
                     }
                     // Set deck as N back cards for both sides (player uses actual count, opponent mirrors 50)
                     next.player.middle.deck = createCardBacks(lib.length);
@@ -369,7 +377,10 @@ export default function Home() {
     const [ActionComp, setActionComp] = useState(null);
     const actionModules = useMemo(() => import.meta.glob('../Cards/**/[A-Z0-9-]*.jsx'), []);
 
-    const canPlayNow = useMemo(() => phaseLower === 'main', [phaseLower]);
+    // Check if a specific side can play cards now (must be Main Phase AND their turn)
+    const canPlayNow = useCallback((side) => {
+        return phaseLower === 'main' && side === turnSide;
+    }, [phaseLower, turnSide]);
 
     const hasEnoughDonFor = useCallback((side, cost) => {
         if (!cost || cost <= 0) return true;
@@ -377,6 +388,13 @@ export default function Home() {
         const active = arr.filter((c) => c.id === 'DON' && !c.rested).length;
         return active >= cost;
     }, [areas]);
+
+    // --- DON!! Giving Selection System ---
+    const [donGivingMode, setDonGivingMode] = useState({
+        active: false,
+        side: null, // which side's DON is being given
+        selectedDonIndex: null // index of selected DON in cost area
+    });
 
     // --- Targeting System for Board Selection ---
     const [targeting, setTargeting] = useState({
@@ -444,6 +462,9 @@ export default function Home() {
     // --- Power Mod Overlays ---
     const [powerMods, setPowerMods] = useState({}); // key => number delta
     const modKey = useCallback((side, section, keyName, index) => `${side}:${section}:${keyName}:${index}`, []);
+    
+    // Track continuous effects that last "until start of your next turn" (for Refresh Phase cleanup)
+    const [untilNextTurnEffects, setUntilNextTurnEffects] = useState({ player: [], opponent: [] });
     const getPowerMod = useCallback((side, section, keyName, index) => powerMods[modKey(side, section, keyName, index)] || 0, [powerMods, modKey]);
     const applyPowerMod = useCallback((side, section, keyName, index, delta) => {
         setPowerMods((prev) => {
@@ -453,6 +474,14 @@ export default function Home() {
             return next;
         });
     }, [modKey]);
+    
+    // Helper to register effects that last "until the start of your next turn" (rule 6-2-1)
+    const registerUntilNextTurnEffect = useCallback((side, effectDescription) => {
+        setUntilNextTurnEffects((prev) => ({
+            ...prev,
+            [side]: [...(prev[side] || []), { description: effectDescription, timestamp: Date.now() }]
+        }));
+    }, []);
 
     const openCardAction = useCallback(async (card, index, source = null) => {
         setActionCard(card);
@@ -475,6 +504,13 @@ export default function Home() {
     const playSelectedCard = useCallback(() => {
         if (!actionCard || !canPlayNow) return;
         const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
+        
+        // RULE ENFORCEMENT: Only the turn player can play cards (6-5-3)
+        if (side !== turnSide) {
+            appendLog(`Cannot play ${actionCard.id}: not ${side}'s turn.`);
+            return;
+        }
+        
         const cost = getCardCost(actionCard.id);
         if (!hasEnoughDonFor(side, cost)) {
             appendLog(`Cannot play ${actionCard.id}: need ${cost} DON (${side}).`);
@@ -514,6 +550,99 @@ export default function Home() {
         }, 0);
     }, [actionCard, canPlayNow, actionCardIndex, getCardCost, hasEnoughDonFor, appendLog, openCardAction, actionSource]);
 
+    // Start DON!! giving mode - select a DON!! card from cost area
+    const startDonGiving = useCallback((side, donIndex) => {
+        if (side !== turnSide) {
+            appendLog(`Cannot give DON: not ${side}'s turn.`);
+            return;
+        }
+        
+        if (phaseLower !== 'main') {
+            appendLog('Cannot give DON: must be Main Phase.');
+            return;
+        }
+        
+        if (battle) {
+            appendLog('Cannot give DON during battle.');
+            return;
+        }
+        
+        setDonGivingMode({
+            active: true,
+            side,
+            selectedDonIndex: donIndex
+        });
+        appendLog(`[DON Select] Click a Leader or Character to give DON!!.`);
+    }, [turnSide, phaseLower, battle, appendLog]);
+
+    // Cancel DON!! giving mode
+    const cancelDonGiving = useCallback(() => {
+        if (donGivingMode.active) {
+            appendLog('[DON Select] Cancelled.');
+        }
+        setDonGivingMode({ active: false, side: null, selectedDonIndex: null });
+    }, [donGivingMode.active, appendLog]);
+
+    // Rule 6-5-5: Give DON!! Cards - complete the giving action
+    const giveDonToCard = useCallback((side, targetSection, targetKeyName, targetIndex) => {
+        if (!donGivingMode.active || donGivingMode.side !== side) {
+            return false;
+        }
+        
+        let success = false;
+        setAreas((prev) => {
+            const next = structuredClone(prev);
+            const costLoc = side === 'player' ? next.player.bottom : next.opponent.top;
+            const costArr = costLoc.cost || [];
+            
+            // Get the selected DON card
+            if (donGivingMode.selectedDonIndex >= costArr.length) {
+                return prev;
+            }
+            
+            const donCard = costArr[donGivingMode.selectedDonIndex];
+            if (!donCard || donCard.id !== 'DON' || donCard.rested) {
+                return prev;
+            }
+            
+            // Remove DON from cost area and mark as rested
+            const [removedDon] = costArr.splice(donGivingMode.selectedDonIndex, 1);
+            const restedDon = { ...removedDon, rested: true };
+            
+            // Place DON underneath target card
+            const sideLoc = side === 'player' ? next.player : next.opponent;
+            if (targetSection === 'middle' && targetKeyName === 'leader') {
+                if (sideLoc.middle.leader[targetIndex]) {
+                    if (!sideLoc.middle.leaderDon) sideLoc.middle.leaderDon = [];
+                    sideLoc.middle.leaderDon.push(restedDon);
+                    success = true;
+                }
+            } else if (targetSection === 'char' && targetKeyName === 'char') {
+                if (sideLoc.char[targetIndex]) {
+                    // Ensure charDon array exists and has enough slots
+                    if (!sideLoc.charDon) sideLoc.charDon = [];
+                    while (sideLoc.charDon.length <= targetIndex) {
+                        sideLoc.charDon.push([]);
+                    }
+                    sideLoc.charDon[targetIndex].push(restedDon);
+                    success = true;
+                }
+            }
+            
+            return next;
+        });
+        
+        if (success) {
+            const targetName = targetSection === 'middle' ? 'Leader' : `Character #${targetIndex + 1}`;
+            appendLog(`[${side}] Gave 1 DON!! to ${targetName}.`);
+        }
+        
+        // Reset DON giving mode
+        setDonGivingMode({ active: false, side: null, selectedDonIndex: null });
+        
+        return success;
+    }, [donGivingMode, appendLog]);
+
     const dealOneDamageToLeader = useCallback((defender) => {
         setAreas((prev) => {
             const next = structuredClone(prev);
@@ -534,8 +663,8 @@ export default function Home() {
 
     const canCharacterAttack = useCallback((card, side, index) => {
         if (!card || !card.id) return false;
-        if (turnSide !== 'player') return false; // only allow player attacks in this demo
-        if (side !== 'player') return false;
+        // RULE ENFORCEMENT: Can only attack during your own turn (7-1)
+        if (side !== turnSide) return false;
         if (phaseLower !== 'main') return false;
         // First turn of game: no battles
         if (turnNumber === 1 && turnSide === 'player') return false;
@@ -558,12 +687,34 @@ export default function Home() {
     const getTotalPower = useCallback((side, section, keyName, index, id) => {
         const base = getBasePower(id);
         const mod = getPowerMod(side, section, keyName, index) || 0;
-        return base + mod;
-    }, [getBasePower, getPowerMod]);
+        
+        // Rule 6-5-5-2: Leaders and Characters gain +1000 power per given DON during your turn
+        let donBonus = 0;
+        if (side === turnSide) {
+            try {
+                const sideLoc = side === 'player' ? areas.player : areas.opponent;
+                if (section === 'middle' && keyName === 'leader') {
+                    const leaderDonArr = sideLoc?.middle?.leaderDon || [];
+                    donBonus = leaderDonArr.length * 1000;
+                } else if (section === 'char' && keyName === 'char') {
+                    const charDonArr = sideLoc?.charDon?.[index] || [];
+                    donBonus = charDonArr.length * 1000;
+                }
+            } catch (e) {
+                // Ignore errors during power calculation
+            }
+        }
+        
+        return base + mod + donBonus;
+    }, [getBasePower, getPowerMod, turnSide, areas]);
 
     const beginAttackForCard = useCallback((attackerCard, attackerIndex) => {
         if (battle) return; // Only one battle at a time
         if (!canCharacterAttack(attackerCard, 'player', attackerIndex)) return;
+        
+        // Cancel any active DON giving mode
+        cancelDonGiving();
+        
         const attackerKey = modKey('player', 'char', 'char', attackerIndex);
         const attackerPower = getTotalPower('player', 'char', 'char', attackerIndex, attackerCard.id);
         setCurrentAttack({ key: attackerKey, cardId: attackerCard.id, index: attackerIndex, power: attackerPower });
@@ -729,12 +880,26 @@ export default function Home() {
                 appendLog('[result] Leader takes 1 damage.');
                 dealOneDamageToLeader('opponent');
             } else {
-                // KO character
+                // KO character - Rule 6-5-5-4: Return given DON!! to cost area when card moves
                 setAreas((prev) => {
                     const next = structuredClone(prev);
                     const charArr = next.opponent.char || [];
+                    const charDonArr = next.opponent.charDon || [];
                     const removed = charArr.splice(battle.target.index, 1)[0];
+                    
+                    // Return given DON!! to cost area as rested (they're already rested)
+                    const donUnder = charDonArr[battle.target.index] || [];
+                    if (donUnder.length > 0) {
+                        const costLoc = next.opponent.top;
+                        costLoc.cost = [...(costLoc.cost || []), ...donUnder];
+                        appendLog(`[K.O.] Returned ${donUnder.length} DON!! to cost area.`);
+                    }
+                    
+                    // Remove character and its DON
+                    charDonArr.splice(battle.target.index, 1);
                     next.opponent.char = charArr;
+                    next.opponent.charDon = charDonArr;
+                    
                     const trashArr = next.opponent.top?.trash || [];
                     if (next.opponent.top) next.opponent.top.trash = [...trashArr, removed];
                     return next;
@@ -795,11 +960,14 @@ export default function Home() {
         setLibrary((prev) => prev.slice(0, -10));
         setOppLibrary((prev) => prev.slice(0, -5));
         setOpeningShown(false);
-        // Initialize turn state (auto-refresh -> start at Draw)
+        // Initialize turn state
         setTurnSide('player');
         setTurnNumber(1);
+        
+        // Execute Refresh Phase for first turn (rule 6-2)
+        executeRefreshPhase('player');
+        
         setPhase('Draw');
-        appendLog('Start Turn. Refresh completed.');
     };
 
     const onMulligan = () => {
@@ -847,6 +1015,71 @@ export default function Home() {
         });
     }, [DON_FRONT]);
 
+    // Execute Refresh Phase according to rule 6-2
+    const executeRefreshPhase = useCallback((side) => {
+        appendLog(`[Refresh Phase] Start ${side}'s turn.`);
+        
+        // 6-2-1: End effects that last "until the start of your next turn"
+        setUntilNextTurnEffects((prev) => {
+            const effects = prev[side] || [];
+            if (effects.length) {
+                appendLog(`[Refresh] ${effects.length} "until next turn" effect(s) expired.`);
+            }
+            return { ...prev, [side]: [] };
+        });
+        
+        // 6-2-2: Activate "at the start of your/opponent's turn" effects
+        // TODO: Implement auto effect activation system
+        
+        // 6-2-3: Return all DON!! cards given to Leaders/Characters to cost area and rest them
+        // 6-2-4: Set all rested cards to active
+        setAreas((prev) => {
+            const next = structuredClone(prev);
+            const sideLoc = side === 'player' ? next.player : next.opponent;
+            const costLoc = side === 'player' ? next.player.bottom : next.opponent.top;
+            
+            // 6-2-3: Return given DON!! from Leader
+            if (sideLoc?.middle?.leaderDon && sideLoc.middle.leaderDon.length > 0) {
+                const count = sideLoc.middle.leaderDon.length;
+                appendLog(`[Refresh] Return ${count} DON!! from Leader to cost area.`);
+                // Add rested DON!! back to cost area (they're already rested)
+                costLoc.cost = [...(costLoc.cost || []), ...sideLoc.middle.leaderDon];
+                sideLoc.middle.leaderDon = [];
+            }
+            
+            // 6-2-3: Return given DON!! from Characters
+            if (Array.isArray(sideLoc?.charDon)) {
+                let totalReturned = 0;
+                const allCharDon = [];
+                sideLoc.charDon.forEach((donArr) => {
+                    if (donArr && donArr.length > 0) {
+                        totalReturned += donArr.length;
+                        allCharDon.push(...donArr);
+                    }
+                });
+                if (totalReturned > 0) {
+                    appendLog(`[Refresh] Return ${totalReturned} DON!! from Characters to cost area.`);
+                    costLoc.cost = [...(costLoc.cost || []), ...allCharDon];
+                    // Clear all character DON arrays
+                    sideLoc.charDon = sideLoc.charDon.map(() => []);
+                }
+            }
+            
+            // 6-2-4: Set all cards to active
+            costLoc.cost = (costLoc.cost || []).map((c) => (c.id === 'DON' ? { ...c, rested: false } : c));
+            if (sideLoc?.middle?.leader?.[0]) {
+                sideLoc.middle.leader[0].rested = false;
+            }
+            if (Array.isArray(sideLoc?.char)) {
+                sideLoc.char = sideLoc.char.map((c) => ({ ...c, rested: false }));
+            }
+            
+            return next;
+        });
+        
+        appendLog('[Refresh Phase] Complete.');
+    }, [appendLog, DON_FRONT]);
+
     // Next Action button handler based on current phase
     const nextActionLabel = useMemo(() => {
         if (phaseLower === 'draw') return 'Draw Card';
@@ -870,28 +1103,24 @@ export default function Home() {
             return setPhase('Main');
         }
         // End Turn from Main
-        appendLog('End Turn. Refresh next turn auto.');
+        appendLog('[End Phase] End turn.');
         const nextSide = turnSide === 'player' ? 'opponent' : 'player';
+        
+        // Cancel any active DON giving mode
+        cancelDonGiving();
+        
+        // Invalidate power modifiers that lasted "during this turn" (rule 6-6-1-3)
+        setPowerMods({});
+        
+        // Advance to next turn
         setTurnNumber((n) => n + 1);
         setTurnSide(nextSide);
-        // Invalidate power modifiers that lasted "during this turn"
-        setPowerMods({});
-        // Refresh: set all rested cards (DON, Leader, Characters) to active for the new turn player
-        setAreas((prev) => {
-            const next = structuredClone(prev);
-            const costLoc = nextSide === 'player' ? next.player.bottom : next.opponent.top;
-            costLoc.cost = (costLoc.cost || []).map((c) => (c.id === 'DON' ? { ...c, rested: false } : c));
-            const sideLoc = nextSide === 'player' ? next.player : next.opponent;
-            if (sideLoc?.middle?.leader && sideLoc.middle.leader[0]) {
-                sideLoc.middle.leader[0].rested = false;
-            }
-            if (Array.isArray(sideLoc?.char)) {
-                sideLoc.char = sideLoc.char.map((c) => ({ ...c, rested: false }));
-            }
-            return next;
-        });
-        setPhase('Draw'); // Auto-Refresh applied
-    }, [phaseLower, turnNumber, turnSide, drawCard, appendLog, donPhaseGain]);
+        
+        // Execute Refresh Phase for the new turn player (rule 6-2)
+        executeRefreshPhase(nextSide);
+        
+        setPhase('Draw');
+    }, [phaseLower, turnNumber, turnSide, drawCard, appendLog, donPhaseGain, executeRefreshPhase]);
 
     // Render main UI: show loading, user info, or login/register form plus card viewer
     const [deckOpen, setDeckOpen] = useState(false);
@@ -907,6 +1136,14 @@ export default function Home() {
                             <Chip color="primary" label={`Turn ${turnNumber}`} />
                             <Chip color={turnSide === 'player' ? 'success' : 'warning'} label={`${turnSide === 'player' ? 'Your' : "Opponent's"} Turn`} />
                             <Chip variant="outlined" label={`Phase: ${phase}`} />
+                            {donGivingMode.active && (
+                                <Chip 
+                                    color="warning" 
+                                    label="Select Leader/Character" 
+                                    onDelete={cancelDonGiving}
+                                    sx={{ animation: 'pulse 1.5s ease-in-out infinite', '@keyframes pulse': { '0%, 100%': { opacity: 1 }, '50%': { opacity: 0.7 } } }}
+                                />
+                            )}
                             <Button size="small" variant="contained" onClick={onNextAction}>{nextActionLabel}</Button>
                         </Stack>
                     )}
@@ -953,6 +1190,11 @@ export default function Home() {
                                 turnSide={turnSide}
                                 CARD_BACK_URL={CARD_BACK_URL}
                                 compact={compact}
+                                giveDonToCard={giveDonToCard}
+                                startDonGiving={startDonGiving}
+                                cancelDonGiving={cancelDonGiving}
+                                donGivingMode={donGivingMode}
+                                phase={phase}
                             />
 
                             {/* Viewer Column */}
@@ -994,7 +1236,7 @@ export default function Home() {
                                                 phase={phase}
                                                 turnSide={turnSide}
                                                 isYourTurn={turnSide === 'player'}
-                                                canActivateMain={canPlayNow}
+                                                canActivateMain={canPlayNow(actionSource?.side || 'player')}
                                                 areas={areas}
                                                 startTargeting={startTargeting}
                                                 cancelTargeting={cancelTargeting}
@@ -1003,6 +1245,8 @@ export default function Home() {
                                                 getCardMeta={(id) => metaById.get(id) || null}
                                                 actionSource={actionSource}
                                                 applyPowerMod={applyPowerMod}
+                                                registerUntilNextTurnEffect={registerUntilNextTurnEffect}
+                                                giveDonToCard={giveDonToCard}
                                                 battle={battle}
                                                 battleApplyBlocker={applyBlocker}
                                                 battleSkipBlock={skipBlock}
@@ -1056,7 +1300,7 @@ export default function Home() {
                                                     }
                                                     const cost = actionCard ? getCardCost(actionCard.id) : 0;
                                                     const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
-                                                    const ok = canPlayNow && hasEnoughDonFor(side, cost);
+                                                    const ok = canPlayNow(side) && hasEnoughDonFor(side, cost);
                                                     return (
                                                         <Button variant="contained" disabled={!ok} onClick={playSelectedCard}>Play to Character Area</Button>
                                                     );
@@ -1064,7 +1308,7 @@ export default function Home() {
                                             </>
                                         ) : (
                                             <Typography variant="caption" display="block" sx={{ mb: 1 }}>
-                                                {phaseLower === 'main' ? 'Select an action for this card.' : 'Actions are limited outside the Main Phase.'}
+                                                {phaseLower === 'main' && actionSource?.side === turnSide ? 'Select an action for this card.' : 'Actions are limited outside the Main Phase or when it\'s not your turn.'}
                                             </Typography>
                                         )}
                                         {(() => {

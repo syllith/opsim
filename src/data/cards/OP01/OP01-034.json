@@ -4,18 +4,30 @@
   "number": 34,
   "name": "Dog Storm",
   "category": "Character",
-  "colors": ["Green"],
+  "colors": [
+    "Green"
+  ],
   "attribute": "Slash",
-  "types": ["Mink Tribe", "Wano Country", "Nine Red Scabbards"],
-  "rarity": "UC",
+  "types": [
+    "Mink Tribe",
+    "Wano Country",
+    "Nine Red Scabbards"
+  ],
+  "rarity": "C",
   "art": "/cards/OP01/OP01-034.png",
   "stats": {
     "cost": 3,
     "power": 4000,
     "life": null,
-    "counter": { "present": true, "value": 1000 }
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
   },
-  "keywords": ["DON!! x2", "When Attacking"],
+  "keywords": [
+    "DON!! x2",
+    "When Attacking"
+  ],
   "trigger": null,
   "text": "[DON!! x2] [When Attacking] Set up to 1 of your DON!! as active.",
   "abilities": [
@@ -23,15 +35,22 @@
       "timing": "When Attacking",
       "frequency": null,
       "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "Set up to 1 of your DON!! as active.",
         "grants": [],
         "powerMod": null,
-        "targets": ["don"],
+        "targets": [
+          "don"
+        ],
         "conditions": []
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }

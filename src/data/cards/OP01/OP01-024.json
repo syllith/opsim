@@ -4,53 +4,80 @@
   "number": 24,
   "name": "Monkey. D. Luffy",
   "category": "Character",
-  "colors": ["Yellow"],
+  "colors": [
+    "Red"
+  ],
   "attribute": "Strike",
-  "types": ["Supernovas", "Straw Hat Crew"],
+  "types": [
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
   "rarity": "SR",
   "art": "/cards/OP01/OP01-024.png",
   "stats": {
     "cost": 2,
     "power": 3000,
     "life": null,
-    "counter": { "present": true, "value": 1000 }
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
   },
-  "keywords": ["DON!! x2", "Activate Main", "Once Per Turn"],
+  "keywords": [
+    "DON!! x2",
+    "Activate: Main",
+    "Once Per Turn"
+  ],
   "trigger": null,
-  "text": "[DON!! x2] This Character cannot be K.O.'d when battling {Strike} Attribute Characters.\n[Activate: Main] [Once Per Turn] Give this Character up to 2 rested DON!! cards.",
+  "text": "[DON!! x2] This Character cannot be K.O.'d when battling (Strike) Attribute Characters.\n[Activate: Main] [Once Per Turn] Give this Character up to 2 rested DON!! cards.",
   "abilities": [
     {
       "timing": "Static",
       "frequency": null,
       "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "This Character cannot be K.O.'d when battling {Strike} Attribute Characters.",
         "grants": [],
         "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["battlingStrikeAttribute"]
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "battlingStrikeAttribute"
+        ]
       }
     },
     {
       "timing": "Activate Main",
       "frequency": "Once Per Turn",
       "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "Give this Character up to 2 rested DON!! cards.",
         "grants": [],
         "powerMod": null,
-        "targets": ["self"],
+        "targets": [
+          "self"
+        ],
         "conditions": [],
         "giveDon": {
           "quantity": 2,
           "state": "rested",
           "from": "costArea",
-          "to": ["self"]
+          "to": [
+            "self"
+          ]
         }
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }

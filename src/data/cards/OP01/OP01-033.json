@@ -4,18 +4,28 @@
   "number": 33,
   "name": "Izou",
   "category": "Character",
-  "colors": ["Green"],
+  "colors": [
+    "Green"
+  ],
   "attribute": "Ranged",
-  "types": ["Wano Country", "Former White Beard Pirates"],
+  "types": [
+    "Wano Country",
+    "Former White Beard Pirates"
+  ],
   "rarity": "UC",
   "art": "/cards/OP01/OP01-033.png",
   "stats": {
     "cost": 3,
     "power": 3000,
     "life": null,
-    "counter": { "present": true, "value": 2000 }
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
   },
-  "keywords": ["On Play"],
+  "keywords": [
+    "On Play"
+  ],
   "trigger": null,
   "text": "[On Play] Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
   "abilities": [
@@ -23,15 +33,24 @@
       "timing": "On Play",
       "frequency": null,
       "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
         "grants": [],
         "powerMod": null,
-        "targets": ["upTo1:opponent:Character"],
-        "conditions": ["opponentCharacterCost<=4"]
+        "targets": [
+          "upTo1:opponent:Character"
+        ],
+        "conditions": [
+          "opponentCharacterCost<=4"
+        ]
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }

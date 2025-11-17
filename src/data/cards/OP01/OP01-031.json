@@ -4,18 +4,29 @@
   "number": 31,
   "name": "Kozuki Oden",
   "category": "Leader",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["Wano Country", "Kozuki Family"],
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Wano Country",
+    "Kozuki Family"
+  ],
   "rarity": "L",
   "art": "/cards/OP01/OP01-031.png",
   "stats": {
     "cost": null,
     "power": 5000,
     "life": 5,
-    "counter": { "present": false, "value": 0 }
+    "counter": {
+      "present": false,
+      "value": 0
+    }
   },
-  "keywords": ["Activate Main", "Once Per Turn"],
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
   "trigger": null,
   "text": "[Activate: Main] [Once Per Turn] You may trash 1 {Wano Country} type card from your hand: Set up to 2 of your DON!! cards as active.",
   "abilities": [
@@ -23,15 +34,25 @@
       "timing": "Activate Main",
       "frequency": "Once Per Turn",
       "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "You may trash 1 {Wano Country} type card from your hand: Set up to 2 of your DON!! cards as active.",
         "grants": [],
         "powerMod": null,
-        "targets": ["hand", "don"],
-        "conditions": ["mayTrash1WanoCountryFromHand"]
+        "targets": [
+          "hand",
+          "don"
+        ],
+        "conditions": [
+          "mayTrash1WanoCountryFromHand"
+        ]
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }

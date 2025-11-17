@@ -27,7 +27,12 @@ export default function Board({
     getPowerMod,
     turnSide,
     CARD_BACK_URL,
-    compact = false
+    compact = false,
+    giveDonToCard,
+    startDonGiving,
+    cancelDonGiving,
+    donGivingMode,
+    phase
 }) {
     // Sizing constants (match Fyne layout intent)
     const CARD_W = 120;
@@ -244,49 +249,133 @@ export default function Board({
                     </Box>
                     {(isPlayerHand || isOppHand) && mode === 'overlap-right' ? (
                         <Box position="relative" width={CARD_W + (cardsArr.length - 1) * OVERLAP_OFFSET} height={CARD_H}>
-                            {cardsArr.map((c, i) => (
-                                <img
-                                    key={c.id + i}
-                                    src={c.thumb}
-                                    alt={c.id}
-                                    data-cardkey={modKey(side, section, keyName, i)}
-                                    style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W, cursor: 'pointer', outline: actionOpen && actionCardIndex === i ? '3px solid #90caf9' : 'none', borderRadius: 4 }}
-                                    onClick={(e) => { e.stopPropagation(); openCardAction(c, i, { side, section, keyName, index: i }); }}
-                                    onMouseEnter={() => setHovered(c)}
-                                    onMouseLeave={() => setHovered(null)}
-                                />
-                            ))}
+                            {cardsArr.map((c, i) => {
+                                // RULE ENFORCEMENT: Only allow interaction with cards when it's that side's turn
+                                const isThisSideTurn = side === turnSide;
+                                const cursor = isThisSideTurn ? 'pointer' : 'not-allowed';
+                                const opacity = isThisSideTurn ? 1 : 0.6;
+                                return (
+                                    <img
+                                        key={c.id + i}
+                                        src={c.thumb}
+                                        alt={c.id}
+                                        data-cardkey={modKey(side, section, keyName, i)}
+                                        style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W, cursor, opacity, outline: actionOpen && actionCardIndex === i ? '3px solid #90caf9' : 'none', borderRadius: 4 }}
+                                        onClick={(e) => { 
+                                            e.stopPropagation(); 
+                                            if (isThisSideTurn) {
+                                                openCardAction(c, i, { side, section, keyName, index: i }); 
+                                            }
+                                        }}
+                                        onMouseEnter={() => setHovered(c)}
+                                        onMouseLeave={() => setHovered(null)}
+                                    />
+                                );
+                            })}
                         </Box>
                     ) : (
                         ((side === 'player' && section === 'bottom' && keyName === 'cost') || (side === 'opponent' && section === 'top' && keyName === 'cost')) ? (
                             <Box position="relative" width={CARD_W + (cardsArr.length - 1) * OVERLAP_OFFSET} height={CARD_H}>
-                                {cardsArr.map((c, i) => (
-                                    <img
-                                        key={(c.id || 'card') + '-' + i}
-                                        src={c.thumb}
-                                        alt={c.id}
-                                        style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W, borderRadius: 4, transform: c.id === 'DON' && c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center' }}
-                                        onMouseEnter={() => setHovered(c)}
-                                        onMouseLeave={() => setHovered(null)}
-                                    />
-                                ))}
+                                {cardsArr.map((c, i) => {
+                                    const isDon = c.id === 'DON';
+                                    const isActive = isDon && !c.rested;
+                                    const isSelected = donGivingMode?.active && donGivingMode.selectedDonIndex === i && donGivingMode.side === side;
+                                    const canSelect = isDon && isActive && !donGivingMode?.active && phase?.toLowerCase() === 'main' && turnSide === side && !battle;
+                                    return (
+                                        <img
+                                            key={(c.id || 'card') + '-' + i}
+                                            src={c.thumb}
+                                            alt={c.id}
+                                            style={{ 
+                                                position: 'absolute', 
+                                                top: 0, 
+                                                left: i * OVERLAP_OFFSET, 
+                                                width: CARD_W, 
+                                                borderRadius: 4, 
+                                                transform: c.id === 'DON' && c.rested ? 'rotate(90deg)' : 'none', 
+                                                transformOrigin: 'center center',
+                                                cursor: canSelect ? 'pointer' : 'default',
+                                                outline: isSelected ? '3px solid #ffc107' : 'none',
+                                                boxShadow: canSelect ? '0 0 8px rgba(255,193,7,0.5)' : 'none'
+                                            }}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (canSelect && startDonGiving) {
+                                                    startDonGiving(side, i);
+                                                }
+                                            }}
+                                            onMouseEnter={() => setHovered(c)}
+                                            onMouseLeave={() => setHovered(null)}
+                                        />
+                                    );
+                                })}
                             </Box>
                         ) : (side === 'player' && section === 'char') ? (
                             <Box display="flex" gap={1}>
-                                {cardsArr.map((c, i) => (
+                                {cardsArr.map((c, i) => {
+                                    const isValidDonTarget = donGivingMode?.active && donGivingMode.side === 'player' && !battle;
+                                    return (
                                     <Box key={c.id + '-' + i} sx={{ position: 'relative' }}>
+                                        {/* Physical DON!! cards underneath - stacked upright below and left */}
+                                        {(() => {
+                                            const donArr = areas?.player?.charDon?.[i] || [];
+                                            if (donArr.length === 0) return null;
+                                            const offsetX = 8; // Horizontal offset (left)
+                                            const offsetY = 8; // Vertical offset (down)
+                                            const baseOffsetX = 15; // Base offset for first DON!!
+                                            const baseOffsetY = 15; // Base offset for first DON!!
+                                            // Reverse the array so first DON!! renders last (on top)
+                                            const reversedDonArr = [...donArr].reverse();
+                                            return (
+                                                <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
+                                                    {reversedDonArr.map((don, di) => {
+                                                        // Use original index for positioning
+                                                        const originalIndex = donArr.length - 1 - di;
+                                                        return (
+                                                            <img
+                                                                key={`don-${i}-${originalIndex}`}
+                                                                src={don.thumb}
+                                                                alt="DON"
+                                                                style={{ 
+                                                                    position: 'absolute',
+                                                                    top: baseOffsetY + (originalIndex * offsetY),
+                                                                    left: -(baseOffsetX + (originalIndex * offsetX)),
+                                                                    width: CARD_W, 
+                                                                    height: 'auto',
+                                                                    borderRadius: 4,
+                                                                    boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                                                                    border: '1px solid #ffc107',
+                                                                    zIndex: di
+                                                                }}
+                                                            />
+                                                        );
+                                                    })}
+                                                </Box>
+                                            );
+                                        })()}
                                         <img
                                             src={c.thumb}
                                             alt={c.id}
                                             data-cardkey={modKey('player', 'char', 'char', i)}
                                             style={{
-                                                width: CARD_W, height: 'auto', cursor: (targeting.active && targeting.side === 'player' && ((targeting.section === 'char' && targeting.keyName === 'char') || targeting.multi)) ? 'crosshair' : 'pointer', borderRadius: 4, transform: c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: (() => {
+                                                width: CARD_W, height: 'auto', cursor: (targeting.active && targeting.side === 'player' && ((targeting.section === 'char' && targeting.keyName === 'char') || targeting.multi)) ? 'crosshair' : (isValidDonTarget ? 'pointer' : 'pointer'), borderRadius: 4, transform: c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: (() => {
                                                     const selected = targeting.multi ? targeting.selected.some(s => s.side === 'player' && s.section === 'char' && s.keyName === 'char' && s.index === i) : (targeting.active && targeting.side === 'player' && targeting.section === 'char' && targeting.keyName === 'char' && targeting.selectedIdx.includes(i));
-                                                    return selected ? '3px solid #ff9800' : 'none';
-                                                })()
+                                                    if (selected) return '3px solid #ff9800';
+                                                    if (isValidDonTarget) return '3px solid #66bb6a';
+                                                    return 'none';
+                                                })(),
+                                                boxShadow: isValidDonTarget ? '0 0 12px rgba(102,187,106,0.6)' : 'none',
+                                                position: 'relative',
+                                                zIndex: 1
                                             }}
                                             onClick={(e) => {
                                                 e.stopPropagation();
+                                                // Handle DON!! giving
+                                                if (isValidDonTarget && giveDonToCard) {
+                                                    giveDonToCard('player', 'char', 'char', i);
+                                                    return;
+                                                }
+                                                // Handle targeting for other purposes
                                                 if (targeting.active && targeting.side === 'player' && ((targeting.section === 'char' && targeting.keyName === 'char') || targeting.multi)) {
                                                     const ctx = { side: 'player', section: 'char', keyName: 'char', index: i };
                                                     const valid = typeof targeting.validator === 'function' ? targeting.validator(c, ctx) : true;
@@ -315,17 +404,21 @@ export default function Board({
                                             onMouseEnter={() => setHovered(c)}
                                             onMouseLeave={() => setHovered(null)}
                                         />
+                                        {/* Power modifier badge */}
                                         {(() => {
                                             const delta = getPowerMod('player', 'char', 'char', i);
-                                            if (!delta) return null;
+                                            if (delta === 0) return null;
                                             return (
-                                                <Box sx={{ position: 'absolute', top: 4, left: 4, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.5)' }}>
-                                                    <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                <Box sx={{ position: 'absolute', top: 4, left: 4, zIndex: 2 }}>
+                                                    <Box sx={{ px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.7)' }}>
+                                                        <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                    </Box>
                                                 </Box>
                                             );
                                         })()}
                                     </Box>
-                                ))}
+                                    );
+                                })}
                             </Box>
                         ) : (side === 'opponent' && section === 'char') ? (
                             <Box display="flex" gap={1}>
@@ -336,6 +429,43 @@ export default function Board({
                                     const selected = targeting.multi ? targeting.selected.some(s => s.side === 'opponent' && s.section === 'char' && s.keyName === 'char' && s.index === i) : (isTargetingHere && targeting.selectedIdx.includes(i));
                                     return (
                                         <Box key={c.id + '-' + i} sx={{ position: 'relative' }}>
+                                            {/* Physical DON!! cards underneath - stacked upright below and left */}
+                                            {(() => {
+                                                const donArr = areas?.opponent?.charDon?.[i] || [];
+                                                if (donArr.length === 0) return null;
+                                                const offsetX = 8; // Horizontal offset (left)
+                                                const offsetY = 8; // Vertical offset (down)
+                                                const baseOffsetX = 15; // Base offset for first DON!!
+                                                const baseOffsetY = 15; // Base offset for first DON!!
+                                                // Reverse the array so first DON!! renders last (on top)
+                                                const reversedDonArr = [...donArr].reverse();
+                                                return (
+                                                    <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
+                                                        {reversedDonArr.map((don, di) => {
+                                                            // Use original index for positioning
+                                                            const originalIndex = donArr.length - 1 - di;
+                                                            return (
+                                                                <img
+                                                                    key={`don-${i}-${originalIndex}`}
+                                                                    src={don.thumb}
+                                                                    alt="DON"
+                                                                    style={{ 
+                                                                        position: 'absolute',
+                                                                        top: baseOffsetY + (originalIndex * offsetY),
+                                                                        left: -(baseOffsetX + (originalIndex * offsetX)),
+                                                                        width: CARD_W, 
+                                                                        height: 'auto',
+                                                                        borderRadius: 4,
+                                                                        boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                                                                        border: '1px solid #ffc107',
+                                                                        zIndex: di
+                                                                    }}
+                                                                />
+                                                            );
+                                                        })}
+                                                    </Box>
+                                                );
+                                            })()}
                                             <img
                                                 src={c.thumb}
                                                 alt={c.id}
@@ -348,7 +478,9 @@ export default function Board({
                                                             if (hasBlocker && active) return '3px solid #66bb6a';
                                                         }
                                                         return selected ? '3px solid #ff9800' : 'none';
-                                                    })()
+                                                    })(),
+                                                    position: 'relative',
+                                                    zIndex: 1
                                                 }}
                                                 data-cardkey={modKey('opponent', 'char', 'char', i)}
                                                 onClick={(e) => {
@@ -416,12 +548,15 @@ export default function Board({
                                                     })()}
                                                 </Box>
                                             )}
+                                            {/* Power modifier badge */}
                                             {(() => {
                                                 const delta = getPowerMod('opponent', 'char', 'char', i);
-                                                if (!delta) return null;
+                                                if (delta === 0) return null;
                                                 return (
-                                                    <Box sx={{ position: 'absolute', top: 4, left: 4, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.5)' }}>
-                                                        <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                    <Box sx={{ position: 'absolute', top: 4, left: 4, zIndex: 2 }}>
+                                                        <Box sx={{ px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.7)' }}>
+                                                            <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                        </Box>
                                                     </Box>
                                                 );
                                             })()}
@@ -436,8 +571,15 @@ export default function Board({
                                     const idx = 0;
                                     const isTargetingHere = targeting.active && targeting.side === side && (((targeting.section === 'middle' && targeting.keyName === 'leader')) || targeting.multi);
                                     const selected = targeting.multi ? targeting.selected.some(s => s.side === side && s.section === 'middle' && s.keyName === 'leader' && s.index === idx) : (isTargetingHere && targeting.selectedIdx.includes(idx));
+                                    const isValidDonTarget = donGivingMode?.active && donGivingMode.side === side && !battle;
                                     const onClick = (e) => {
                                         e.stopPropagation();
+                                        // Handle DON!! giving
+                                        if (isValidDonTarget && giveDonToCard) {
+                                            giveDonToCard(side, 'middle', 'leader', idx);
+                                            return;
+                                        }
+                                        // Handle targeting
                                         if (isTargetingHere) {
                                             const ctx = { side, section: 'middle', keyName: 'leader', index: idx };
                                             setTargeting((prev) => {
@@ -463,11 +605,64 @@ export default function Board({
                                     };
                                     return (
                                         <>
+                                            {/* Physical DON!! cards underneath - stacked upright below and left */}
+                                            {(() => {
+                                                const sideLoc = side === 'player' ? areas.player : areas.opponent;
+                                                const donArr = sideLoc?.middle?.leaderDon || [];
+                                                if (donArr.length === 0) return null;
+                                                const offsetX = 8; // Horizontal offset (left)
+                                                const offsetY = 8; // Vertical offset (down)
+                                                const baseOffsetX = 15; // Base offset for first DON!!
+                                                const baseOffsetY = 15; // Base offset for first DON!!
+                                                // Reverse the array so first DON!! renders last (on top)
+                                                const reversedDonArr = [...donArr].reverse();
+                                                return (
+                                                    <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
+                                                        {reversedDonArr.map((don, di) => {
+                                                            // Use original index for positioning
+                                                            const originalIndex = donArr.length - 1 - di;
+                                                            return (
+                                                                <img
+                                                                    key={`leader-don-${originalIndex}`}
+                                                                    src={don.thumb}
+                                                                    alt="DON"
+                                                                    style={{ 
+                                                                        position: 'absolute',
+                                                                        top: baseOffsetY + (originalIndex * offsetY),
+                                                                        left: -(baseOffsetX + (originalIndex * offsetX)),
+                                                                        width: CARD_W, 
+                                                                        height: 'auto',
+                                                                        borderRadius: 4,
+                                                                        boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                                                                        border: '1px solid #ffc107',
+                                                                        zIndex: di
+                                                                    }}
+                                                                />
+                                                            );
+                                                        })}
+                                                    </Box>
+                                                );
+                                            })()}
                                             <img
                                                 src={c?.thumb}
                                                 alt={c?.id}
                                                 data-cardkey={modKey(side, 'middle', 'leader', idx)}
-                                                style={{ width: CARD_W, height: 'auto', borderRadius: 4, transform: c?.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: selected ? '3px solid #ff9800' : 'none', cursor: isTargetingHere ? 'crosshair' : 'pointer' }}
+                                                style={{ 
+                                                    width: CARD_W, 
+                                                    height: 'auto', 
+                                                    borderRadius: 4, 
+                                                    transform: c?.rested ? 'rotate(90deg)' : 'none', 
+                                                    transformOrigin: 'center center', 
+                                                    outline: (() => {
+                                                        if (selected) return '3px solid #ff9800';
+                                                        if (isValidDonTarget) return '3px solid #66bb6a';
+                                                        return 'none';
+                                                    })(), 
+                                                    cursor: isTargetingHere || isValidDonTarget ? 'crosshair' : 'pointer',
+                                                    boxShadow: isValidDonTarget ? '0 0 12px rgba(102,187,106,0.6)' : 'none',
+                                                    position: 'relative',
+                                                    zIndex: 1
+                                                }}
                                                 onClick={onClick}
                                                 onMouseEnter={() => c && setHovered(c)}
                                                 onMouseLeave={() => setHovered(null)}
@@ -495,12 +690,15 @@ export default function Board({
                                                     })()}
                                                 </Box>
                                             )}
+                                            {/* Power modifier badge */}
                                             {(() => {
                                                 const delta = getPowerMod(side, 'middle', 'leader', idx);
-                                                if (!delta) return null;
+                                                if (delta === 0) return null;
                                                 return (
-                                                    <Box sx={{ position: 'absolute', top: 4, left: 4, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.5)' }}>
-                                                        <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                    <Box sx={{ position: 'absolute', top: 4, left: 4, zIndex: 2 }}>
+                                                        <Box sx={{ px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.7)' }}>
+                                                            <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                        </Box>
                                                     </Box>
                                                 );
                                             })()}

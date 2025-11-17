@@ -4,18 +4,30 @@
   "number": 19,
   "name": "Bartolomeo",
   "category": "Character",
-  "colors": ["Red"],
+  "colors": [
+    "Red"
+  ],
   "attribute": "Special",
-  "types": ["Supernovas", "Barto Club"],
+  "types": [
+    "Supernovas",
+    "Barto Club"
+  ],
   "rarity": "C",
   "art": "/cards/OP01/OP01-019.png",
   "stats": {
     "cost": 2,
     "power": 2000,
     "life": null,
-    "counter": { "present": true, "value": 1000 }
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
   },
-  "keywords": ["Blocker", "DON!! x2", "Opponent's Turn"],
+  "keywords": [
+    "Blocker",
+    "DON!! x2",
+    "Opponent's Turn"
+  ],
   "trigger": null,
   "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[DON!! x2] [Opponent's Turn] This Character gains +3000 Power.",
   "abilities": [
@@ -23,18 +35,27 @@
       "timing": "Opponent's Turn",
       "frequency": null,
       "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
+      "cost": {
+        "restDonFromCostArea": 0
+      },
       "effect": {
         "text": "This Character gains +3000 Power.",
-        "grants": ["Blocker"],
+        "grants": [
+          "Blocker"
+        ],
         "powerMod": {
           "amount": 3000,
           "duration": "duringOpponentsTurn"
         },
-        "targets": ["self"],
+        "targets": [
+          "self"
+        ],
         "conditions": []
       }
     }
   ],
-  "meta": { "notes": null }
+  "meta": {
+    "notes": null
+  },
+  "verified": true
 }
