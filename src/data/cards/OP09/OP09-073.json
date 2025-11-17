@@ -1,0 +1,46 @@
+{
+  "id": "OP09-073",
+  "set": "OP09",
+  "number": 73,
+  "name": "Brook",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-073.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking Return 1 or more don to your don deck: choose 2 of your opponent character, during this turn -2000 Power.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return 1 or more don to your don deck: choose 2 of your opponent character, during this turn -2000 Power.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

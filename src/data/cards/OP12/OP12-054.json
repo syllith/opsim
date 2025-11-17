@@ -1,0 +1,53 @@
+{
+  "id": "OP12-054",
+  "set": "OP12",
+  "number": 54,
+  "name": "Marshall.D.Teach",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Blackbeard Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP12/OP12-054.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the (The Seven Warlords of the Sea) type, you may return up to 1 Character with a cost of 1 or less other than this Character to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (The Seven Warlords of the Sea) type, you may return up to 1 Character with a cost of 1 or less other than this Character to the owner's hand.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType: (The Seven Warlords of the Sea)"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

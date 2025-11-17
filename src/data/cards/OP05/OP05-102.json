@@ -1,0 +1,55 @@
+{
+  "id": "OP05-102",
+  "set": "OP05",
+  "number": 102,
+  "name": "Gedatsu",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Sky Island",
+    "God's Priest"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-102.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: KO up to 1 of your opponent's characters with cost equal or less than their Life.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to 1 of your opponent's characters with cost equal or less than their Life.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "cost<=life"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

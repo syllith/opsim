@@ -1,0 +1,37 @@
+{
+  "id": "ST24-005",
+  "set": "ST24",
+  "number": 5,
+  "name": "X.Drake",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Supernovas", "Navy", "Drake Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST24/ST24-005.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] If your Leader has the {Supernovas} type, rest up to 1 of your opponent's Characters with a cost of 5 or less. Then, set up to 1 of your DON!! cards as active at the end of this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Supernovas} type, rest up to 1 of your opponent's Characters with a cost of 5 or less. Then, set up to 1 of your DON!! cards as active at the end of this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": ["leaderHasSupernovasType", "characterCost<=5"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

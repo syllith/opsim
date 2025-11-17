@@ -1,0 +1,49 @@
+{
+  "id": "OP09-003",
+  "set": "OP09",
+  "number": 3,
+  "name": "Shachi and Penguin",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Heart Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-003.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking: Give up to 1 of your opponent's characters Power -2000 for the turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's characters Power -2000 for the turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

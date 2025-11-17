@@ -1,0 +1,53 @@
+{
+  "id": "OP06-006",
+  "set": "OP06",
+  "number": 6,
+  "name": "Saga",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Film",
+    "Asuka Island"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-006.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking This character gains +1000 until the start of your next turn. Then, at the end of this turn, trash one of your (Film) type characters.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This character gains +1000 until the start of your next turn. Then, at the end of this turn, trash one of your (Film) type characters.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but rarity is UC as printed."
+  }
+}

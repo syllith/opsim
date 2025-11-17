@@ -1,0 +1,51 @@
+{
+  "id": "OP13-056",
+  "set": "OP13",
+  "number": 56,
+  "name": "LittleOars Jr.",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Giant",
+    "Whitebeard Pirates Allies"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-056.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking: If your Leader has a type including \"Whitebeard Pirates\", draw 1 card.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has a type including \"Whitebeard Pirates\", draw 1 card.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasTypeIncludingWhitebeardPirates"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

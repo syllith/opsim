@@ -1,0 +1,20 @@
+{
+  "id": "ST04-001",
+  "set": "ST04",
+  "number": 1,
+  "name": "Kaido",
+  "category": "Leader",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["The Four Emperors", "Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST04/ST04-001.png",
+  "stats": { "cost": null, "power": 5000, "life": 5, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Activate: Main", "Once Per Turn", "DON!! -7"],
+  "trigger": null,
+  "text": "Activate: Main — Once Per Turn DON!! -7: Trash 1 of your opponent's Life cards.",
+  "abilities": [
+    {"timing": "Activate: Main", "frequency": "Once Per Turn", "donReq": 7, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Trash 1 of opponent's Life cards.", "grants": [], "powerMod": null, "targets": ["opponentLife"], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

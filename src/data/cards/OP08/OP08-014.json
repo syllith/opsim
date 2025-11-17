@@ -1,0 +1,52 @@
+{
+  "id": "OP08-014",
+  "set": "OP08",
+  "number": 14,
+  "name": "Wapol",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Drum Kingdom"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-014.png",
+  "stats": {
+    "cost": 6,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking Give up to one of your opponents characters -2000 power for this turn, then give this character +2000 power until the end of your opponents next turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one of your opponents characters -2000 power for this turn, then give this character +2000 power until the end of your opponents next turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

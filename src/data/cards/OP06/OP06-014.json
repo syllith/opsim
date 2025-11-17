@@ -1,0 +1,49 @@
+{
+  "id": "OP06-014",
+  "set": "OP06",
+  "number": 14,
+  "name": "Ratchet",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "FILM",
+    "Mecha Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-014.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Opponent's Attack"
+  ],
+  "trigger": null,
+  "text": "On Opponent's Attack: You may discard any number of [FILM] type cards from your hand. For each card discarded this way, give 1 of your leader or characters +1000 Power for this battle.",
+  "abilities": [
+    {
+      "timing": "On Opponent's Attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard any number of [FILM] type cards from your hand. For each card discarded this way, give 1 of your leader or characters +1000 Power for this battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

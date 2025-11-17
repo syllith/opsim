@@ -1,0 +1,51 @@
+{
+  "id": "OP06-054",
+  "set": "OP06",
+  "number": 54,
+  "name": "Borsalino",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "UB",
+  "art": "/cards/OP06/OP06-054.png",
+  "stats": {
+    "cost": 2,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "If you have 5 or less cards in hand, this character gains Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 5 or less cards in hand, this character gains Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

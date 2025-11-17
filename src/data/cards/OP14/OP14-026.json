@@ -1,0 +1,50 @@
+{
+  "id": "OP14-026",
+  "set": "OP14",
+  "number": 26,
+  "name": "Kouzuki Oden",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Land of Wano",
+    "Kouzuki Clan"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-026.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Opponent's Turn: If this Character is rested, this Character gains +2000 power.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this Character is rested, this Character gains +2000 power.",
+        "powerMod": null,
+        "conditions": [
+          "this Character is rested"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

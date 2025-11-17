@@ -1,0 +1,52 @@
+{
+  "id": "OP01-074",
+  "set": "OP01",
+  "number": 74,
+  "name": "Bartholomew Kuma",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Strike",
+  "types": ["The Seven Warlords of the Sea", "Revolutionary Army"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-074.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On K.O."],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) | On K.O.: Play up to 1 [Pacifista] card with a cost of 4 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared", "restSelf"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play up to 1 [Pacifista] card with a cost of 4 or less from your hand.",
+        "grants": ["Play Pacifista"],
+        "powerMod": null,
+        "targets": ["onePacifistaFromHand<=4"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP06-080",
+  "set": "OP06",
+  "number": 80,
+  "name": "Gekko Moria",
+  "category": "Leader",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Seven Warlord of the sea",
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP06/OP06-080.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! X1 When Attacking (You may rest the specified number of DON!! cards in your Cost Area) Discard 1 card from your hand: put the top 2 cards of your deck into the trash and play 1 {Thriller Bark Pirates} characters with a cost of 4 or less from the trash.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Discard 1 card from your hand: put the top 2 cards of your deck into the trash and play 1 {Thriller Bark Pirates} characters with a cost of 4 or less from the trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

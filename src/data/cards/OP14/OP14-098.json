@@ -1,0 +1,73 @@
+{
+  "id": "OP14-098",
+  "set": "OP14",
+  "number": 98,
+  "name": "Crescent Cutlass",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Impel Down",
+    "Former Baroque Works"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP14/OP14-098.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main If there is a Character with a cost of 0 or a Character with a cost of 8 or more, all of your Characters with a type including \"Baroque Works\" gain +3 cost until the end of your opponent's next turn. \nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If there is a Character with a cost of 0 or a Character with a cost of 8 or more, all of your Characters with a type including \"Baroque Works\" gain +3 cost until the end of your opponent's next turn.",
+        "powerMod": null,
+        "conditions": [
+          "there is a Character with a cost of 0",
+          "there is a Character with a cost of 8 or more"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneOfYourLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

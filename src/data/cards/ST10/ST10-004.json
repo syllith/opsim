@@ -1,0 +1,37 @@
+{
+  "id": "ST10-004",
+  "set": "ST10",
+  "number": 4,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Straw Hat Crew"],
+  "rarity": null,
+  "art": "/cards/ST10/ST10-004.png",
+  "stats": {
+    "cost": 6,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "Rush"],
+  "trigger": null,
+  "text": "On Play: If your opponent has a Character with 5000 Power or more, this Character gains Rush during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your opponent has a Character with 5000 Power or more, this gains Rush during this turn.",
+        "grants": ["Rush"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentCharacterPower>=5000"]
+      }
+    }
+  ],
+  "meta": { "notes": "Rush reminder text present on card." }
+}

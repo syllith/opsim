@@ -1,0 +1,70 @@
+{
+  "id": "OP03-098",
+  "set": "OP03",
+  "number": 98,
+  "name": "Enies Lobby",
+  "category": "Stage",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "World Government"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-098.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "Activate: Main You may rest this Stage: If your Leader has (CP) in its types, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Stage: If your Leader has (CP) in its types, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "yourLeaderHasCPInTypes"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
+  }
+}

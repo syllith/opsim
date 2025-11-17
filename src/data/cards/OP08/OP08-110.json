@@ -1,0 +1,48 @@
+{
+  "id": "OP08-110",
+  "set": "OP08",
+  "number": 110,
+  "name": "Silvers Rayleigh",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Former Roger Pirates"
+  ],
+  "rarity": "SEC",
+  "art": "/cards/OP08/OP08-110.png",
+  "stats": {
+    "cost": 8,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Choose up to two of your opponents characters. Until the end of your opponents next turn, give one character -3000 power, and the other -2000 power. After this, KO up to one of your opponents characters with a power of 3000 or lower.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose up to two of your opponents characters. Until the end of your opponents next turn, give one character -3000 power, and the other -2000 power. After this, KO up to one of your opponents characters with a power of 3000 or lower.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

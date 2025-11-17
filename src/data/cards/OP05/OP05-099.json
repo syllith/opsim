@@ -1,0 +1,48 @@
+{
+  "id": "OP05-099",
+  "set": "OP05",
+  "number": 99,
+  "name": "Amazon",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Sky Island"
+  ],
+  "rarity": "UB",
+  "art": "/cards/OP05/OP05-099.png",
+  "stats": {
+    "cost": 3,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Opponent's Attack"
+  ],
+  "trigger": null,
+  "text": "On Opponent's Attack: You may rest this character: Your opponent may place 1 card from the top of their life in the trash. If they don't, up to 1 of your opponent's leaders or characters has -2000 Power this turn.",
+  "abilities": [
+    {
+      "timing": "On Opponent's Attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character: Your opponent may place 1 card from the top of their life in the trash. If they don't, up to 1 of your opponent's leaders or characters has -2000 Power this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

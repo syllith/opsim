@@ -1,0 +1,68 @@
+{
+  "id": "OP09-102",
+  "set": "OP09",
+  "number": 102,
+  "name": "Professor Clover",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Ohara"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-102.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger",
+    "Activate: Main"
+  ],
+  "trigger": {
+    "text": "Activate this card's On Play effect"
+  },
+  "text": "On Play: If your leader is [Nico Robin], look at the top 3 cards of your deck, reveal and add up to one card with Trigger to your hand and return the rest to the bottom of the deck in any order of your choosing.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is [Nico Robin], look at the top 3 cards of your deck, reveal and add up to one card with Trigger to your hand and return the rest to the bottom of the deck in any order of your choosing.",
+        "powerMod": null,
+        "conditions": [
+          "leader: [Nico Robin]"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's On Play effect",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "OP01-106",
+  "set": "OP01",
+  "number": 106,
+  "name": "Basil Hawkins",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Slash",
+  "types": ["Animal Kingdom Pirates", "Hawkins Pirates"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-106.png",
+  "stats": {
+    "cost": 4,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "On Play", "Trigger"],
+  "trigger": { "text": "Play this card." },
+  "text": "On Play Add 1 DON!! card from your DON!! deck and rest it. Trigger Play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Add 1 DON!! card from your DON!! deck and rest it.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["field"]
+        }
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play this card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

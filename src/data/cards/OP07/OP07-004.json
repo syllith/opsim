@@ -1,0 +1,48 @@
+{
+  "id": "OP07-004",
+  "set": "OP07",
+  "number": 4,
+  "name": "Curly Dadan",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Mountain bandits"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-004.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash one card from your hand: Look at the top 5 cards of your deck, reveal and add one card with power 2000 or less to your hand. Then, return the rest of the cards to the bottom of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash one card from your hand: Look at the top 5 cards of your deck, reveal and add one card with power 2000 or less to your hand. Then, return the rest of the cards to the bottom of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

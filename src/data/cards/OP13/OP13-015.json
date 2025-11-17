@@ -1,0 +1,48 @@
+{
+  "id": "OP13-015",
+  "set": "OP13",
+  "number": 15,
+  "name": "Makino",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Windmill Village"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP13/OP13-015.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate:Main You may rest this Character: Up to 1 of your [Monkey.D.Luffy] gains +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character: Up to 1 of your [Monkey.D.Luffy] gains +2000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

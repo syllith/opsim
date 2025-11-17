@@ -1,0 +1,37 @@
+{
+  "id": "ST13-007",
+  "set": "ST13",
+  "number": 7,
+  "name": "Sabo",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Goa Kingdom"],
+  "rarity": "C",
+  "art": "/cards/ST13/ST13-007.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "Activate: Main You may trash this character: Reveal the top card of your life, if the card is a 5 cost (Sabo) card, you may play it. If you play it, up to 1 of your leaders gets +2000 Power until the end of your opponent's turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash this character: Reveal the top card of your life, if the card is a 5 cost (Sabo) card, you may play it. If you play it, up to 1 of your leaders gets +2000 Power until the end of your opponent's turn.",
+        "powerMod": { "amount": 2000, "duration": "endOfOpponentsTurn" },
+        "targets": ["self:trash:optional", "self:lifeTop:reveal", "oneAllyCharacter=5:name=Sabo:play", "ally:Leader"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

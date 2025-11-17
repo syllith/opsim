@@ -1,0 +1,50 @@
+{
+  "id": "ST12-006",
+  "set": "ST12",
+  "number": 6,
+  "name": "Yosaku & Johnny",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["East Blue"],
+  "rarity": "C",
+  "art": "/cards/ST12/ST12-006.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking Choose up to 1 of the following effects: Rest up to 1 of your opponent's cost 2 or lower characters. KO up to 1 of your opponent's cost 2 or lower rested characters.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's cost 2 or lower characters.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=2"],
+        "conditions": ["donAttached", "optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "KO up to 1 of your opponent's cost 2 or lower rested characters.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=2:rested"],
+        "conditions": ["donAttached", "optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

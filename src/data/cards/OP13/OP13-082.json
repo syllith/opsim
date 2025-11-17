@@ -1,0 +1,49 @@
+{
+  "id": "OP13-082",
+  "set": "OP13",
+  "number": 82,
+  "name": "Five Elders",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Five Elders",
+    "Celestial Dragons"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP13/OP13-082.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate:Main If your Leader is [Imu], you may rest 1 of your DON!! cards and trash 1 card from your hand: Trash all of your Characters. Then, play up to 5 (Five Elders) type Characters with different card names and 5000 power from your trash.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If your Leader is [Imu], you may rest 1 of your DON!! cards and trash 1 card from your hand: Trash all of your Characters. Then, play up to 5 (Five Elders) type Characters with different card names and 5000 power from your trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

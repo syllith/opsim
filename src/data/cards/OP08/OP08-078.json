@@ -1,0 +1,59 @@
+{
+  "id": "OP08-078",
+  "set": "OP08",
+  "number": 78,
+  "name": "Ulti",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-078.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking: +1000 Counter. [On Play: Rest 1 DON!! from your cost area. Then, gain 1000 Counter.]",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "+1000 Counter.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Rest 1 DON!! from your cost area. Then, gain 1000 Counter.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

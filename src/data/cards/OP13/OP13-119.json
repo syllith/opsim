@@ -1,0 +1,52 @@
+{
+  "id": "OP13-119",
+  "set": "OP13",
+  "number": 119,
+  "name": "Portgas.D.Ace",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "SEC",
+  "art": "/cards/OP13/OP13-119.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "If you have 3 or less Life cards, this Character gains Rush. On Play: Give up to 1 rested DON!! card to your Leader. Then, return up to 1 of your opponent's Characters with a cost of 5 or less to the owner's hand. If you do, your opponent may play up to 1 Character card with a cost of 4 or less from their hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Give up to 1 rested DON!! card to your Leader. Then, return up to 1 of your opponent's Characters with a cost of 5 or less to the owner's hand. If you do, your opponent may play up to 1 Character card with a cost of 4 or less from their hand.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

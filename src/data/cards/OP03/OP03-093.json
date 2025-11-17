@@ -1,0 +1,54 @@
+{
+  "id": "OP03-093",
+  "set": "OP03",
+  "number": 93,
+  "name": "Wanze",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "CP7"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-093.png",
+  "stats": {
+    "cost": 2,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play You may discard 1 card from your hand: If your Leader has (CP) in its type, K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard 1 card from your hand: If your Leader has (CP) in its type, K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost1"
+        ],
+        "conditions": [
+          "leaderHasCP"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "ST08-014",
+  "set": "ST08",
+  "number": 14,
+  "name": "Gum-Gum Bell",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": null,
+  "art": "/cards/ST08/ST08-014.png",
+  "stats": { "cost": 2, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Main", "Trigger"],
+  "trigger": { "text": "Add up 1 black Character card with a cost of 2 or less from your trash to your hand." },
+  "text": "Main: You may add the top card of your life to your hand: Give up to 1 of your opponent's Characters -7 cost during this turn. Trigger: Add up 1 black Character card with a cost of 2 or less from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may add the top card of your life to your hand: Give up to 1 of your opponent's Characters -7 cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["topLifeCard", "oneOpponentCharacter"],
+        "conditions": ["reduceCost:-7", "duration:turn"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "Add up 1 black Character card with a cost of 2 or less from your trash to your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["trash"],
+        "conditions": ["blackCharacter", "cost<=2"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

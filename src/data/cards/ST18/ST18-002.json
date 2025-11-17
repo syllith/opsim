@@ -1,0 +1,50 @@
+{
+  "id": "ST18-002",
+  "set": "ST18",
+  "number": 2,
+  "name": "Onami",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST18/ST18-002.png",
+  "stats": {
+    "cost": 4,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play", "Counter +1000"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Play If you have 8 or more Don!! on your field, trash 1 card from your hand then draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 8 or more Don!! on your field, trash 1 card from your hand then draw 2 cards.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["donCount>=8"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

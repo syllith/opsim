@@ -1,0 +1,49 @@
+{
+  "id": "OP14-006",
+  "set": "OP14",
+  "number": 6,
+  "name": "Shachi & Penguin",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Heart Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP14/OP14-006.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking If this Character has 5000 power or more, give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this Character has 5000 power or more, give up to 1 of your opponent's Characters -2000 power during this turn.",
+        "powerMod": null,
+        "conditions": [
+          "this Character has 5000 power or more"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

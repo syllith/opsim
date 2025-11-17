@@ -1,0 +1,48 @@
+{
+  "id": "OP08-102",
+  "set": "OP08",
+  "number": 102,
+  "name": "Charlotte Opera",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP08/OP08-102.png",
+  "stats": {
+    "cost": 6,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash 1 card from your hand: K.O. up to 1 of your opponent's Characters with a cost equal to or less than the number of your Life cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: K.O. up to 1 of your opponent's Characters with a cost equal to or less than the number of your Life cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'SPECIAL' in the image, but these are not part of the card's official printed data. The rarity is 'US' as printed in the bottom right corner."
+  }
+}

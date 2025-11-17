@@ -1,0 +1,68 @@
+{
+  "id": "OP14-062",
+  "set": "OP14",
+  "number": 62,
+  "name": "Gladius",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP14/OP14-062.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O.",
+    "DON!!-1"
+  ],
+  "trigger": null,
+  "text": "On K.O. DON!!-1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): K.O. or rest up to 1 of your opponent's Characters with 6000 base power or less.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return the specified number of DON!! cards from your field to your DON!! deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. or rest up to 1 of your opponent's Characters with 6000 base power or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "basePower<=6000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "ST11-005",
+  "set": "ST11",
+  "number": 5,
+  "name": "I'm Invincible",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Song", "FILM"],
+  "rarity": "C",
+  "art": "/cards/ST11/ST11-005.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Give up to 1 of your leaders or characters power +1000 for this turn"
+  },
+  "text": "Main Set up to 1 of your Leader [Uta] Active. Trigger Give up to 1 of your leaders or characters power +1000 for this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Set up to 1 of your Leader [Uta] Active.",
+        "powerMod": null,
+        "targets": ["ally:Leader:Uta"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your leaders or characters power +1000 for this turn.",
+        "powerMod": { "amount": 1000, "duration": "this turn" },
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

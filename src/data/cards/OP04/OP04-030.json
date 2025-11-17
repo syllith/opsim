@@ -1,0 +1,71 @@
+{
+  "id": "OP04-030",
+  "set": "OP04",
+  "number": 30,
+  "name": "Trebol",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP04/OP04-030.png",
+  "stats": {
+    "cost": 6,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play",
+    "When Opponent Attacks"
+  ],
+  "trigger": null,
+  "text": "On Play: K.O. up to 1 of your opponent's rested Characters with a cost of 5 or less. When Opponent Attacks: (2) (You may rest the specified number of DON!! cards in your Cost Area) Set up to 1 of your opponent's Characters with a cost of 4 or less as rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 5 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter:rested<=cost5"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Opponent Attacks",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "Set up to 1 of your opponent's Characters with a cost of 4 or less as rested.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "conditions": [
+          "rested"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample image, so the art path is inferred. The 'SPECIAL' icon is present but not mapped to any field as it's not a standard rarity or ability."
+  }
+}

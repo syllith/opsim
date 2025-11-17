@@ -1,0 +1,68 @@
+{
+  "id": "OP06-072",
+  "set": "OP06",
+  "number": 72,
+  "name": "Cosette",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Germa Kingdom"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-072.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "If your leader has the [GERMA 66] type and your board has 2 or more DON!! less than your opponent, this character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the [GERMA 66] type and your board has 2 or more DON!! less than your opponent, this character gains Blocker.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "conditions": [
+          "your leader has the [GERMA 66] type",
+          "your board has 2 or more DON!! less than your opponent"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

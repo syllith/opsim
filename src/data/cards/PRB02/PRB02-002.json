@@ -1,0 +1,68 @@
+{
+  "id": "PRB02-002",
+  "set": "PRB02",
+  "number": 2,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Punk Hazard",
+    "The Seven Warlords of the Sea",
+    "Heart Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/PRB02/PRB02-002.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Once Per Turn",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "[Once Per Turn] If this Character would be removed from the field by your opponent's effect, you may give this Character -2000 power during this turn instead.\n[When Attacking] Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this Character would be removed from the field by your opponent's effect, you may give this Character -2000 power during this turn instead.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

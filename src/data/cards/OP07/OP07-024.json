@@ -1,0 +1,52 @@
+{
+  "id": "OP07-024",
+  "set": "OP07",
+  "number": 24,
+  "name": "Koala",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Foolshout Island"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-024.png",
+  "stats": {
+    "cost": 3,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "When opponent attack: You may rest this card; Give up to one of your characters with cost 5 or lower and the type (Fishman) for this turn.",
+  "abilities": [
+    {
+      "timing": "When Opponent Attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this card; Give up to one of your characters with cost 5 or lower and the type (Fishman) for this turn.",
+        "powerMod": null,
+        "conditions": [
+          "oneOpponentCharacter",
+          "self"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

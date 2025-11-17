@@ -1,0 +1,67 @@
+{
+  "id": "P-050",
+  "set": "P",
+  "number": 50,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-050.png",
+  "stats": {
+    "cost": 3,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nDON!!x1 Your Turn: If you have 3 or less cards in your hand, this character gains +4000 power.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "DON!!x1 Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 3 or less cards in your hand, this character gains +4000 power.",
+        "powerMod": {
+          "amount": 4000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "you have 3 or less cards in your hand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but rarity is R. Power is 2000, not 2000+4000 as written in text. Text says 'gains +4000 power' which is additive to base power."
+  }
+}

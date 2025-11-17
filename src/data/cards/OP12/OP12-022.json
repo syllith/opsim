@@ -1,0 +1,50 @@
+{
+  "id": "OP12-022",
+  "set": "OP12",
+  "number": 22,
+  "name": "Inuarashi",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Minks",
+    "Land of Wano",
+    "The Akazaya Nine"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-022.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Character: Up to 1 of your opponent's rested Characters with a cost of 5 or less will not become active in your opponent's next Refresh Phase.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character: Up to 1 of your opponent's rested Characters with a cost of 5 or less will not become active in your opponent's next Refresh Phase.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

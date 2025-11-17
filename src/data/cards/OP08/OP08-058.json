@@ -1,0 +1,48 @@
+{
+  "id": "OP08-058",
+  "set": "OP08",
+  "number": 58,
+  "name": "Charlotte Pudding",
+  "category": "Leader",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-058.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: You may turn the top 2 life cards of your life face up: Add up to one Don!! card from your Don!! deck as rested.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may turn the top 2 life cards of your life face up: Add up to one Don!! card from your Don!! deck as rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "ST06-014",
+  "set": "ST06",
+  "number": 14,
+  "name": "Shockwave",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST06/ST06-014.png",
+    "stats": { "cost": 2, "power": null, "life": null, "counter": null },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "K.O. up to 1 of your opponent's Characters with a cost of 4 or less." },
+  "text": "Counter: Up to 1 of your Leader or Character cards gains +4000 Power during this battle. Then, K.O. up to 1 of your opponent's active Characters with a cost of 3 or less. Trigger: K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "Up to 1 of your Leader or Character cards gains +4000 Power during this battle. Then, K.O. up to 1 of your opponent's active Characters with a cost of 3 or less.",
+        "grants": ["power+4000", "KO"],
+        "powerMod": 4000,
+        "targets": ["oneLeaderOrCharacter", "oneOpponentActiveCharacter"],
+        "conditions": ["applyToOne","opponentActiveCost<=3"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+        "grants": ["KO"],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["cost<=4"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

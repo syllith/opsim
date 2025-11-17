@@ -1,0 +1,38 @@
+{
+  "id": "OP01-104",
+  "set": "OP01",
+  "number": 104,
+  "name": "Speed",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Animal Kingdom Pirates", "Smile"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-104.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "Play this card." },
+  "text": "Trigger Play this card.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play this card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

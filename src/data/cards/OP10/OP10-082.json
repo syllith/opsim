@@ -1,0 +1,49 @@
+{
+  "id": "OP10-082",
+  "set": "OP10",
+  "number": 82,
+  "name": "Kuzan",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Former Navy",
+    "Blackbeard Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP10/OP10-082.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "This Character cannot be removed from the field by your opponent's effects.\nActivate: Main You may trash this Character: Draw 1 card. Then, play up to 1 {Blackbeard Pirates} type Character card with a cost of 5 or less other than [Kuzan] from your trash.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this Character: Draw 1 card. Then, play up to 1 {Blackbeard Pirates} type Character card with a cost of 5 or less other than [Kuzan] from your trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

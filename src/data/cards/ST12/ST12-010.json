@@ -1,0 +1,50 @@
+{
+  "id": "ST12-010",
+  "set": "ST12",
+  "number": 10,
+  "name": "Emporio Ivankov",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Impel Down", "Revolutionary Army"],
+  "rarity": "SR",
+  "art": "/cards/ST12/ST12-010.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "When Attacking"],
+  "trigger": null,
+  "text": "On Play Reveal the top card of your deck. Play up to 1 cost 2 Character Card, then, return the remaining card to the top or bottom of your deck. When Attacking Once Per Turn If your hand has 6 cards or less, draw a card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Reveal the top card of your deck. Play up to 1 cost 2 Character Card, then, return the remaining card to the top or bottom of your deck.",
+        "powerMod": null,
+        "targets": ["self:deckTop", "oneAllyCharacter=2:play", "self:deckTopOrBottom"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your hand has 6 cards or less, draw a card.",
+        "powerMod": null,
+        "targets": ["self:draw"],
+        "conditions": ["handSize<=6"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

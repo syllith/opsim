@@ -1,0 +1,53 @@
+{
+  "id": "OP12-062",
+  "set": "OP12",
+  "number": 62,
+  "name": "Vinsmoke Sora",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "The Vinsmoke Family",
+    "Kingdom of GERMA"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-062.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader is [Sanji] and the number of DON!! cards on your field is equal to or less than the number of DON!! cards on your opponent's field, add up to 1 DON!! card from your DON!! deck and rest it. Then, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Sanji] and the number of DON!! cards on your field is equal to or less than the number of DON!! cards on your opponent's field, add up to 1 DON!! card from your DON!! deck and rest it. Then, draw 1 card.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIs[Sanji]",
+          "donCardsOnYourField <= donCardsOnOpponentField"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

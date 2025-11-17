@@ -1,0 +1,37 @@
+{
+  "id": "OP01-042",
+  "set": "OP01",
+  "number": 42,
+  "name": "Komurasaki",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Wisdom",
+  "types": ["Wano Country", "Kozuki Family"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-042.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] ③ (You may rest the specified number of DON!! cards in your Cost Area): If your Leader is [Kouzuki Oden], set up to 1 of your {Wano Country} type Characters with a cost of 3 or less as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 3,
+      "cost": { "restDonFromCostArea": 3 },
+      "effect": {
+        "text": "If your Leader is [Kouzuki Oden], set up to 1 of your {Wano Country} type Characters with a cost of 3 or less as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:ally:Character"],
+        "conditions": ["leaderIsKouzukiOden", "wanoCountryType", "characterCost<=3"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

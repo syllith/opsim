@@ -1,0 +1,57 @@
+{
+  "id": "OP10-119",
+  "set": "OP10",
+  "number": 119,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa",
+    "Supernova",
+    "Heart Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-119.png",
+  "stats": {
+    "cost": 7,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 9000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Reveal a \"Supernovas\" type character card from your hand and add it to the top of your life face down. Then, if your leader has the \"Supernovas\" type, give up to 1 rested DON!! to your leader.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Reveal a \"Supernovas\" type character card from your hand and add it to the top of your life face down. Then, if your leader has the \"Supernovas\" type, give up to 1 rested DON!! to your leader.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "self"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

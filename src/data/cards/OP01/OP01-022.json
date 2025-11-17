@@ -1,0 +1,40 @@
+{
+  "id": "OP01-022",
+  "set": "OP01",
+  "number": 22,
+  "name": "Brook",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Straw Hat Crew"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-022.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x1", "When Attacking"],
+  "trigger": null,
+  "text": "[DON!! x1] [When Attacking] Give up to 2 of your opponent's Characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 2 of your opponent's Characters -2000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": -2000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["upTo2:opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

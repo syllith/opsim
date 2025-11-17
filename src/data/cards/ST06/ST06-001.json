@@ -1,0 +1,32 @@
+{
+  "id": "ST06-001",
+  "set": "ST06",
+  "number": 1,
+  "name": "Sakazuki",
+  "category": "Leader",
+  "colors": ["Black"],
+  "attribute": "Special",
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST06/ST06-001.png",
+  "stats": { "cost": null, "power": 5000, "life": 5, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "Activate: Main — Once Per Turn — 3 (You may rest the specified number of DON!! cards in your Cost Area): You may trash 1 card from your hand: K.O. up to 1 of your opponent's Characters with a cost of 0.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 3 },
+      "effect": {
+        "text": "You may trash 1 card from your hand: K.O. up to 1 of your opponent's Characters with a cost of 0.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["targetCost=0", "trashFromHand:1"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

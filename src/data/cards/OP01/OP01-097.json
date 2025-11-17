@@ -1,0 +1,38 @@
+{
+  "id": "OP01-097",
+  "set": "OP01",
+  "number": 97,
+  "name": "Queen",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": "SR",
+  "art": "/cards/OP01/OP01-097.png",
+  "stats": {
+    "cost": 6,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "Rush"],
+  "trigger": null,
+  "text": "On Play: DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): This Character gains Rush during this turn. Then, give up to 1 of your opponent's Characters -2000 power during this turn. (This card can attack on the turn in which it is played.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "This Character gains Rush during this turn. Then, give up to 1 of your opponent's Characters -2000 power during this turn.",
+        "grants": ["Rush"],
+        "powerMod": { "amount": -2000, "duration": "this turn" },
+        "targets": ["self", "oneOpponentCharacter"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

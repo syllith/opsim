@@ -1,0 +1,50 @@
+{
+  "id": "OP13-001",
+  "set": "OP13",
+  "number": 1,
+  "name": "Monkey.D.Luffy",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP13/OP13-001.png",
+  "stats": {
+    "cost": null,
+    "power": 4,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "On Your Opponent's Attack"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 On Your Opponent's Attack If you have 5 or less active DON!! cards on your field, you may rest any number of your active DON!! cards. Up to 1 of your Leader or {Straw Hat Crew} type Characters gain +2000 power for each DON!! that was rested by this effect.",
+  "abilities": [
+    {
+      "timing": "On Your Opponent's Attack",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 5 or less active DON!! cards on your field, you may rest any number of your active DON!! cards. Up to 1 of your Leader or {Straw Hat Crew} type Characters gain +2000 power for each DON!! that was rested by this effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

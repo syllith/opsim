@@ -1,0 +1,51 @@
+{
+  "id": "OP03-086",
+  "set": "OP03",
+  "number": 86,
+  "name": "Spandam",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "CP9"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-086.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] If your leader has [CP] in its types: Look at 3 cards from the top of your deck; reveal up to 1 [CP] type card other than [Spandam] and add it to your hand. Then trash the remaining cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has [CP] in its types: Look at 3 cards from the top of your deck; reveal up to 1 [CP] type card other than [Spandam] and add it to your hand. Then trash the remaining cards.",
+        "powerMod": null,
+        "conditions": [
+          "leader has [CP] in its types"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is C, confirmed by the 'C' in the bottom right corner of the card."
+  }
+}

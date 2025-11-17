@@ -1,0 +1,65 @@
+{
+  "id": "OP11-081",
+  "set": "OP11",
+  "number": 81,
+  "name": "Cognac: Mama-Mash",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Four Emperors",
+    "Big Mom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-081.png",
+  "stats": {
+    "cost": 6,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Add up to 1 DON!! card from your DON!! deck and set it as active."
+  },
+  "text": "Main: Declare a cost of your choice and reveal 1 card from the top of your opponent's deck. If the revealed card has the same cost as the declared cost, K.O. up to 1 of your opponent's Character with an original cost of 8 or less.\nTrigger: Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Declare a cost of your choice and reveal 1 card from the top of your opponent's deck. If the revealed card has the same cost as the declared cost, K.O. up to 1 of your opponent's Character with an original cost of 8 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

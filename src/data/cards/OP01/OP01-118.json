@@ -1,0 +1,57 @@
+{
+  "id": "OP01-118",
+  "set": "OP01",
+  "number": 118,
+  "name": "Ulti-Mortar",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-118.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "DON!!", "Trigger"],
+  "trigger": { "text": "Add 1 DON!! card from your DON!! deck and set it as active." },
+  "text": "Counter DON!! -2 Your Leader or up to 1 of your Characters gains +2000 Power during this battle. Then, draw 1 card. Trigger Add 1 DON!! card from your DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 2 },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +2000 Power during this battle. Then, draw 1 card.",
+        "grants": [],
+        "powerMod": { "amount": 2000, "duration": "this battle" },
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Add 1 DON!! card from your DON!! deck and set it as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "costArea",
+          "to": ["field"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

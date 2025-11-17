@@ -1,0 +1,58 @@
+{
+  "id": "OP07-018",
+  "set": "OP07",
+  "number": 18,
+  "name": "KEEP OUT",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Revolutionary Army",
+    "Impel Down"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-018.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Trigger",
+    "Activate: Main"
+  ],
+  "trigger": {
+    "text": "Activate this card's #Counter effect."
+  },
+  "text": "Give up to one <Revolutionary Army> character +2000 power until the end of YOUR turn.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one <Revolutionary Army> character +2000 power until the end of YOUR turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "isType:Revolutionary Army"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

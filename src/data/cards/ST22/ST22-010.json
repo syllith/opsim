@@ -1,0 +1,36 @@
+{
+  "id": "ST22-010",
+  "set": "ST22",
+  "number": 10,
+  "name": "Portgas.D.Ace",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST22/ST22-010.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Counter"],
+  "trigger": null,
+  "text": "Counter +2000",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Counter +2000",
+        "powerMod": { "amount": 2000, "duration": "this battle" },
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP05-041",
+  "set": "OP05",
+  "number": 41,
+  "name": "Sakazuki",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP05/OP05-041.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may discard one card: Draw one card. When Attacking Give up to one opponent character cost -1.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard one card: Draw one card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one opponent character cost -1.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

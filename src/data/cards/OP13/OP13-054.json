@@ -1,0 +1,55 @@
+{
+  "id": "OP13-054",
+  "set": "OP13",
+  "number": 54,
+  "name": "Yamato",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Land of Wano"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP13/OP13-054.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have 3 or less Life cards, draw 2 cards. Then, give up to 1 rested DON!! card to your Leader.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 3 or less Life cards, draw 2 cards. Then, give up to 1 rested DON!! card to your Leader.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "Leader"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "OP03-016",
+  "set": "OP03",
+  "number": 16,
+  "name": "Flame Emperor",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Whitebeard Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP03/OP03-016.png",
+  "stats": {
+    "cost": 7,
+    "power": null,
+    "life": null,
+    "counter": null
+  },
+  "keywords": ["Main"],
+  "trigger": "K.O. up to 1 of your opponent's Characters with 6000 Power or less.",
+  "text": "[Main] If your Leader is [Portgaz D. Ace], K.O. up to 1 of your opponent's Characters with 8000 Power or less, then your Leader gains [Double Attack] and +3000 Power during this turn. (This card deals 2 damage.)",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader is [Portgaz D. Ace], K.O. up to 1 of your opponent's Characters with 8000 Power or less, then your Leader gains [Double Attack] and +3000 Power during this turn. (This card deals 2 damage.)",
+        "powerMod": { "amount": 3000 },
+        "targets": ["yourLeader", "opponentCharacter"],
+        "conditions": ["leaderPortgasDaceOrAce", "powerLessOrEqual8000"],
+        "giveDon": { "doubleAttack": true }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

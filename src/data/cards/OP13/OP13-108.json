@@ -1,0 +1,68 @@
+{
+  "id": "OP13-108",
+  "set": "OP13",
+  "number": 108,
+  "name": "Jewelry Bonney",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Egghead",
+    "Bonney Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP13/OP13-108.png",
+  "stats": {
+    "cost": 9,
+    "power": 10000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 10000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If you have 1 or less Life cards, rest up to 1 of your opponent's Characters with a cost of 7 or less."
+  },
+  "text": "On Play: If your Leader has the (Egghead) type, this Character gains Rush. Then, your opponent adds the top card of their Life cards to their hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Egghead) type, this Character gains Rush. Then, your opponent adds the top card of their Life cards to their hand.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 1 or less Life cards, rest up to 1 of your opponent's Characters with a cost of 7 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

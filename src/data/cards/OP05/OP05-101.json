@@ -1,0 +1,49 @@
+{
+  "id": "OP05-101",
+  "set": "OP05",
+  "number": 101,
+  "name": "Ohm",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Sky Island",
+    "God's Priest"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-101.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "If you have 2 or less Life, this character gains +1000 Power.\nOn Play: Look at the top 5 cards of your deck; reveal up to 1 [Holy] card and add it to your hand. Then, place the rest on the bottom of your deck in any order. Then, play up to 1 [Holy] from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck; reveal up to 1 [Holy] card and add it to your hand. Then, place the rest on the bottom of your deck in any order. Then, play up to 1 [Holy] from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

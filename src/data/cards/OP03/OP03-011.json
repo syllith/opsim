@@ -1,0 +1,35 @@
+{
+  "id": "OP03-011",
+  "set": "OP03",
+  "number": 11,
+  "name": "Blamenco",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-011.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x1", "When Attacking"],
+  "trigger": null,
+  "text": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
+        "powerMod": { "amount": -2000 },
+        "targets": ["opponentCharacter"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

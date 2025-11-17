@@ -1,0 +1,55 @@
+{
+  "id": "OP06-083",
+  "set": "OP06",
+  "number": 83,
+  "name": "Oars",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Giant",
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-083.png",
+  "stats": {
+    "cost": 4,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "This character cannot attack.\nActivate: Main You may KO up to one of your (Thriller Bark Pirates) type characters: This character loses all abilities until end of turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may KO up to one of your (Thriller Bark Pirates) type characters: This character loses all abilities until end of turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "your (Thriller Bark Pirates) type characters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but this is not a game error; it's a sample card. Rarity is 'R' as printed."
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "OP06-068",
+  "set": "OP06",
+  "number": 68,
+  "name": "Vinsmoke Reiju",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family",
+    "Germa 66"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP06/OP06-068.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "DON!!-1"
+  ],
+  "trigger": null,
+  "text": "Activate: Main DON!!-1 (You may return the specified number of DON!! cards from your field to your DON!! deck), You may trash this character: if your leader has the <<GERMA 66>> Type, you may play up to 1 Cost 4 \"Vinsmoke Reiju\" from your hand or trash.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return the specified number of DON!! cards from your field to your DON!! deck",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this character: if your leader has the <<GERMA 66>> Type, you may play up to 1 Cost 4 \"Vinsmoke Reiju\" from your hand or trash.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has the <<GERMA 66>> Type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

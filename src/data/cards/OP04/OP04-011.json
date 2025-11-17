@@ -1,0 +1,59 @@
+{
+  "id": "OP04-011",
+  "set": "OP04",
+  "number": 11,
+  "name": "Nami",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Alabasta Kingdom",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-011.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking Reveal 1 card from the top of your deck. If that card was a Character card with 6000 power or more, this Character gains +3000 power during this turn. Then, put the revealed card at the bottom of the deck.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Reveal 1 card from the top of your deck. If that card was a Character card with 6000 power or more, this Character gains +3000 power during this turn. Then, put the revealed card at the bottom of the deck.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "revealedCard:Character",
+          "revealedCard:power>=6000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

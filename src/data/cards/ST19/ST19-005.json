@@ -1,0 +1,50 @@
+{
+  "id": "ST19-005",
+  "set": "ST19",
+  "number": 5,
+  "name": "Monkey .D. Garp",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Strike",
+  "types": ["Navy"],
+  "rarity": "C",
+  "art": "/cards/ST19/ST19-005.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "Activate: Main", "Once Per Turn", "Counter +1000"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) Activate: Main Once Per Turn Place one card from your trash at the bottom of your deck: Give up to one of your opponent's characters cost-1 for the turn.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Place one card from your trash at the bottom of your deck: Give up to one of your opponent's characters cost-1 for the turn.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["moveTrashCardToDeckBottom"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

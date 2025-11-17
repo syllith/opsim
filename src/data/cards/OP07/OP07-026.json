@@ -1,0 +1,49 @@
+{
+  "id": "OP07-026",
+  "set": "OP07",
+  "number": 26,
+  "name": "Jewelry Bonney",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Supernovas",
+    "Bonney Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP07/OP07-026.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Up to One of your opponents rested Characters or Don!! do not become active during their next refresh phase.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to One of your opponents rested Characters or Don!! do not become active during their next refresh phase.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

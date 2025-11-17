@@ -1,0 +1,49 @@
+{
+  "id": "OP06-004",
+  "set": "OP06",
+  "number": 4,
+  "name": "Baron Omatsuri",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "FILM",
+    "Omatsuri Island"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-004.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Play up to one \"Lily Carnation\" from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to one \"Lily Carnation\" from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but ID and stats are read from printed text."
+  }
+}

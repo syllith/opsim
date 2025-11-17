@@ -1,0 +1,35 @@
+{
+  "id": "OP03-020",
+  "set": "OP03",
+  "number": 20,
+  "name": "Striker",
+  "category": "Stage",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Whitebeard Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP03/OP03-020.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": null
+  },
+  "keywords": ["Activate Main"],
+  "trigger": null,
+  "text": "[Activate: Main] (2) (You may rest the specified number of DON!! cards in your Cost Area): You may rest this Stage: If your Leader is [Portgaz D. Ace], look at 5 cards from the top of your deck; reveal up to 1 Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 2, "restThisStage": true },
+      "effect": {
+        "text": "If your Leader is [Portgaz D. Ace], look at 5 cards from the top of your deck; reveal up to 1 Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "targets": ["deck"],
+        "conditions": ["leaderPortgasDaceOrAce", "categoryEvent"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

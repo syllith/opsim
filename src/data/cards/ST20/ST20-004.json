@@ -1,0 +1,50 @@
+{
+  "id": "ST20-004",
+  "set": "ST20",
+  "number": 4,
+  "name": "Charlotte Pudding",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Wisdom",
+  "types": ["Big Mom Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST20/ST20-004.png",
+  "stats": {
+    "cost": 3,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "Trigger", "Counter +1000"],
+  "trigger": { "text": "Rest up to one of your opponents cost 3 or lower characters." },
+  "text": "On Play You may add the top card of your life to your hand: Set up to one of your cost 3 or less (Big Mom Pirates) type characters as active. Trigger Rest up to one of your opponents cost 3 or lower characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may add the top card of your life to your hand: Set up to one of your cost 3 or less (Big Mom Pirates) type characters as active.",
+        "powerMod": null,
+        "targets": ["upToOneAllyCharacter:Big Mom Pirates:<=3"],
+        "conditions": ["optionalAddTopLifeCardToHand"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Rest up to one of your opponents cost 3 or lower characters.",
+        "powerMod": null,
+        "targets": ["upToOneOpponentCharacter:<=3"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

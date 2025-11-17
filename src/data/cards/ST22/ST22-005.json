@@ -1,0 +1,48 @@
+{
+  "id": "ST22-005",
+  "set": "ST22",
+  "number": 5,
+  "name": "Kouzuki Oden",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Land of Wano", "Whitebeard Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST22/ST22-005.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "If this Character would be removed from the field by your opponent's effects, you may instead trash 2 cards from your hand. Activate: Main Once Per Turn You may rest 3 of your DON!! cards and return 1 of your other Characters to your hand: Set this Character as active.",
+  "abilities": [
+    {
+      "timing": "Field Removal",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If this Character would be removed from the field by your opponent's effects, you may instead trash 2 cards from your hand.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentEffectRemoval", "trash2FromHandInstead"]
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 3 },
+      "effect": {
+        "text": "Return 1 of your other Characters to your hand: Set this Character as active.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacterOtherThanSelf"],
+        "conditions": ["optionalTarget"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

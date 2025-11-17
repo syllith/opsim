@@ -1,0 +1,55 @@
+{
+  "id": "OP03-077",
+  "set": "OP03",
+  "number": 77,
+  "name": "Charlotte Linlin",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Four Emperors",
+    "Big Mom Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP03/OP03-077.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x2 When Attacking (2) (You may rest the specified number of DON!! cards in your Cost Area), you may trash 1 card from your hand: If you have 1 or less cards in your Life Area, place up to 1 card from the top of your deck at top of your Life Area.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: If you have 1 or less cards in your Life Area, place up to 1 card from the top of your deck at top of your Life Area.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "lifeArea<=1"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample. The 'SAMPLE' watermark is not part of the card text. The '5000' is the power value. The '4 LIFE' is the life value. The 'SP' rarity is printed in the top right corner."
+  }
+}

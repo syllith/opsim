@@ -1,0 +1,48 @@
+{
+  "id": "OP07-118",
+  "set": "OP07",
+  "number": 118,
+  "name": "Sabo",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP07/OP07-118.png",
+  "stats": {
+    "cost": 8,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash 1 card from your hand: K.O. up to one of your opponent's cost 5 or less characters, and up to one of your opponent's cost 3 or less characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: K.O. up to one of your opponent's cost 5 or less characters, and up to one of your opponent's cost 3 or less characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

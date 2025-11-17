@@ -1,0 +1,49 @@
+{
+  "id": "OP06-044",
+  "set": "OP06",
+  "number": 44,
+  "name": "Gion",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-044.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Your Turn",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn Once Per Turn When your opponent activates an event, your opponent places one card from their hand at the bottom of their deck.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When your opponent activates an event, your opponent places one card from their hand at the bottom of their deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is marked as a sample. Counter value is 2000. Rarity is UC (U and C next to each other in the box)."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP13-042",
+  "set": "OP13",
+  "number": 42,
+  "name": "Edward.Newgate",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "The Four Emperors",
+    "Whitebeard Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP13/OP13-042.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 12000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Draw 2 cards and trash 1 card from your hand. Then, give your Leader and up to 1 of your Characters up to 2 rested DON!! cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards and trash 1 card from your hand. Then, give your Leader and up to 1 of your Characters up to 2 rested DON!! cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

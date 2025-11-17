@@ -1,0 +1,49 @@
+{
+  "id": "OP11-013",
+  "set": "OP11",
+  "number": 13,
+  "name": "Prince Grus",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy",
+    "SWORD"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-013.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: All of your opponents Characters with a power of 2000 or less cannot activate Blocker for the rest of the turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "All of your opponents Characters with a power of 2000 or less cannot activate Blocker for the rest of the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

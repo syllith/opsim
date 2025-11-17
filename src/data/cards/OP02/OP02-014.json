@@ -1,0 +1,38 @@
+{
+  "id": "OP02-014",
+  "set": "OP02",
+  "number": 14,
+  "name": "Whitey Bay",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["White Beard Pirates Subordinates"],
+  "rarity": "UC",
+  "art": "/cards/OP02/OP02-014.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "DON!!"],
+  "trigger": null,
+  "text": "DON!! x1 This Character can also attack your opponent's active Characters.",
+  "abilities": [
+    {
+      "timing": "Continuous",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This Character can also attack your opponent's active Characters.",
+        "grants": ["canAttackActiveCharacters"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

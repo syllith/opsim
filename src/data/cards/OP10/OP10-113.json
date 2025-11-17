@@ -1,0 +1,70 @@
+{
+  "id": "OP10-113",
+  "set": "OP10",
+  "number": 113,
+  "name": "Roronoa Zoro",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernova",
+    "Straw Hat Crew"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP10/OP10-113.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Rush"
+  ],
+  "trigger": {
+    "text": "You may trash 1 card from your hand: if your leader has the {Supernova} type, play this character."
+  },
+  "text": "If your life total is fewer than your opponent's, this character gains Rush. Trigger: You may trash 1 card from your hand: if your leader has the {Supernova} type, play this character.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your life total is fewer than your opponent's, this character gains Rush.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: if your leader has the {Supernova} type, play this character.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has the {Supernova} type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'US' rarity. 'US' is likely a misprint or placeholder for 'UC' (Ultra Common) or 'R' (Rare)."
+  }
+}

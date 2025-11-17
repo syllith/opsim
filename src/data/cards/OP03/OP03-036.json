@@ -1,0 +1,79 @@
+{
+  "id": "OP03-036",
+  "set": "OP03",
+  "number": 36,
+  "name": "Out-of-the-Bag",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "East Blue",
+    "Black Cat Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-036.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's rested characters with a cost of 3 or less."
+  },
+  "text": "Main You may rest 1 of your {East Blue} type Characters: Set up to 1 of your [Kuro] as active.\nTrigger K.O. up to 1 of your opponent's rested characters with a cost of 3 or less.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest 1 of your {East Blue} type Characters: Set up to 1 of your [Kuro] as active.",
+        "powerMod": null,
+        "targets": [
+          "oneAllyCharacter:EastBlue",
+          "oneOpponentCharacter:Kuro"
+        ],
+        "conditions": [
+          "rested"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested characters with a cost of 3 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter:rested<=cost3"
+        ],
+        "conditions": [
+          "rested",
+          "cost<=3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

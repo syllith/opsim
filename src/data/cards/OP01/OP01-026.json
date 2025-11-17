@@ -1,0 +1,42 @@
+{
+  "id": "OP01-026",
+  "set": "OP01",
+  "number": 26,
+  "name": "Gum Gum Red Hawk",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Supernovas", "Straw Hat Crew"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-026.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter"],
+  "trigger": {
+    "text": "Give up to 1 of your opponent's Leader or Characters -10000 power during this turn."
+  },
+  "text": "[Counter] Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, K.O. up to 1 of your opponent's Characters with 4000 power or less.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, K.O. up to 1 of your opponent's Characters with 4000 power or less.",
+        "grants": [],
+        "powerMod": {
+          "amount": 4000,
+          "duration": "duringThisBattle"
+        },
+        "targets": ["self:Leader", "upTo1:ally:Character", "upTo1:opponent:Character"],
+        "conditions": ["opponentCharacterPower<=4000"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

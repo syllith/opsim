@@ -1,0 +1,49 @@
+{
+  "id": "OP09-044",
+  "set": "OP09",
+  "number": 44,
+  "name": "Izou",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Wano Kingdom",
+    "Whitebeard Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP09/OP09-044.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: Look at the top 5 cards for <Wano Kingdom> or <Whitebeard Pirate>, add one to hand and the rest to bottom deck, then Discard 1 card.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards for <Wano Kingdom> or <Whitebeard Pirate>, add one to hand and the rest to bottom deck, then Discard 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

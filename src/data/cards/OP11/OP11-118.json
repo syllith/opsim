@@ -1,0 +1,49 @@
+{
+  "id": "OP11-118",
+  "set": "OP11",
+  "number": 118,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "SEC",
+  "art": "/cards/OP11/OP11-118.png",
+  "stats": {
+    "cost": 8,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Rush",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: You may trash 1 card from your hand. Return up to 1 Character with a cost of 4 or less to the owner's hand. Then, give up to 1 rested DON!! card to your Leader or Character.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand. Return up to 1 Character with a cost of 4 or less to the owner's hand. Then, give up to 1 rested DON!! card to your Leader or Character.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

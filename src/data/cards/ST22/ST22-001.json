@@ -1,0 +1,36 @@
+{
+  "id": "ST22-001",
+  "set": "ST22",
+  "number": 1,
+  "name": "Portgas.D.Ace & Edward.Newgate",
+  "category": "Leader",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Four Emperors", "Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST22/ST22-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may reveal 1 card with a type including 'Whitebeard Pirates' from your hand: Draw 1 card and add the revealed card to the top of your deck.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may reveal 1 card with a type including 'Whitebeard Pirates' from your hand: Draw 1 card and add the revealed card to the top of your deck.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["revealWhitebeardPiratesCardFromHand"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

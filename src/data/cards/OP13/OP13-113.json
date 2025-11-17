@@ -1,0 +1,52 @@
+{
+  "id": "OP13-113",
+  "set": "OP13",
+  "number": 113,
+  "name": "Lilith",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Scientist",
+    "Egghead"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-113.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's On Play effect."
+  },
+  "text": "On Play: Look at 4 cards from the top of your deck; reveal up to 1 card with a Trigger other than [Lilith] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 4 cards from the top of your deck; reveal up to 1 card with a Trigger other than [Lilith] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

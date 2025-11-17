@@ -1,0 +1,38 @@
+{
+  "id": "OP01-064",
+  "set": "OP01",
+  "number": 64,
+  "name": "Alvida",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Strike",
+  "types": ["Buggy Pirates"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-064.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["DON!! x1", "When Attacking"],
+  "trigger": null,
+  "text": "DON!! x1 | When Attacking: You may trash 1 card from your hand: Return up to 1 of your opponent's Characters with a cost of 3 or less to their hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Return up to 1 of your opponent's Characters with a cost of 3 or less to their hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=3"],
+        "conditions": ["trashHandCard"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

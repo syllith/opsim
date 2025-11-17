@@ -1,0 +1,52 @@
+{
+  "id": "P-008",
+  "set": "P",
+  "number": 8,
+  "name": "Yamato",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Wano Country"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-008.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Character. Rest up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character. Rest up to 1 of your opponent's Characters with a cost of 2 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "oneOpponentCharacter<=cost2"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

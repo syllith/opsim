@@ -1,0 +1,49 @@
+{
+  "id": "OP10-016",
+  "set": "OP10",
+  "number": 16,
+  "name": "Monet",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Punk Hazard",
+    "Donquixote Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP10/OP10-016.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Character; Give up to 2 rested DON!! cards to your Leader or 1 of your Characters. Then, give up to 1 of your opponent's characters -1000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character; Give up to 2 rested DON!! cards to your Leader or 1 of your Characters. Then, give up to 1 of your opponent's characters -1000 Power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample and has 'SAMPLE' text overlaid. Rarity is SR as printed. Power is 3000 as printed. Cost is 2 as printed. Counter is +1000 as printed."
+  }
+}

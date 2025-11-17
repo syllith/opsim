@@ -1,0 +1,64 @@
+{
+  "id": "OP05-115",
+  "set": "OP05",
+  "number": 115,
+  "name": "200,000,000 V Amaru",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-115.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may trash 2 cards from your hand: Add up to 1 card from the top of your deck to the top of your life."
+  },
+  "text": "Main: Up to 1 of your leaders or characters gains +3000 Power this turn. Then, if your life is 1 card or less, rest up to 1 of your opponent's characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your leaders or characters gains +3000 Power this turn. Then, if your life is 1 card or less, rest up to 1 of your opponent's characters with a cost of 4 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 2 cards from your hand: Add up to 1 card from the top of your deck to the top of your life.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

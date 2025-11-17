@@ -1,0 +1,53 @@
+{
+  "id": "OP09-078",
+  "set": "OP09",
+  "number": 78,
+  "name": "Gum Gum Giant",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Four Emperors",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-078.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Don!!",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Don!!-2: You may trash one card from your hand: If your leader has the {Straw Hat Crew} type, give up to one of your leader or characters +4000 power for this battle. Then, draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash one card from your hand: If your leader has the {Straw Hat Crew} type, give up to one of your leader or characters +4000 power for this battle. Then, draw 2 cards.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has the {Straw Hat Crew} type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has a 'SAMPLE' watermark, which is not part of the official card text. The Counter value is 2000, not 2 as might be misread from the icon."
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP04-063",
+  "set": "OP04",
+  "number": 63,
+  "name": "Franky",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Water 7",
+    "Franky Family"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-063.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Once Per Turn",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "When opponent attack [Once Per Turn] DON!! -1: If your Leader has the {Water 7} type, up to 1 of your Leader or Characters gains +1000 Power during this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If your Leader has the {Water 7} type, up to 1 of your Leader or Characters gains +1000 Power during this battle.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneLeaderOrCharacter"
+        ],
+        "conditions": [
+          "leaderHasType:Water 7"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, but all fields are based on the visible text and layout."
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ST18-004",
+  "set": "ST18",
+  "number": 4,
+  "name": "Zorojuro",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Slash",
+  "types": ["Straw Hat Crew"],
+  "rarity": "SR",
+  "art": "/cards/ST18/ST18-004.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play Look at the top 5 cards of your deck, reveal up to one purple (Straw Hat Crew) type card and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to one purple (Straw Hat Crew) type card and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": ["deckTop:5", "oneHandCard:Purple:Straw Hat Crew"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

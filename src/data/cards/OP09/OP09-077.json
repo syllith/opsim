@@ -1,0 +1,74 @@
+{
+  "id": "OP09-077",
+  "set": "OP09",
+  "number": 77,
+  "name": "Gum Gum Lightning",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Four Emperors",
+    "Straw Hat Crew"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-077.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Set up to one Don!! from your Don!! deck as active."
+  },
+  "text": "Main Don!!: KO up to one of your opponent's power 6000 or lower characters.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to one of your opponent's power 6000 or lower characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "power<=6000"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to one Don!! from your Don!! deck as active.",
+        "powerMod": null,
+        "targets": [
+          "oneDonFromDonDeck"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

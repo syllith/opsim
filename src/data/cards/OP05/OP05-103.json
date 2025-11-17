@@ -1,0 +1,51 @@
+{
+  "id": "OP05-103",
+  "set": "OP05",
+  "number": 103,
+  "name": "Kotori",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Sky Island"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP05/OP05-103.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have [Hotori], K.O. up to 1 of your opponent's characters with a cost equal to or less than the number of your opponent's life cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have [Hotori], K.O. up to 1 of your opponent's characters with a cost equal to or less than the number of your opponent's life cards.",
+        "powerMod": null,
+        "conditions": [
+          "have [Hotori]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP10-017",
+  "set": "OP10",
+  "number": 17,
+  "name": "Rock",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Punk Hazard"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-017.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play If you do not have a {Scotch}, you may play up to 1 {Scotch} from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you do not have a {Scotch}, you may play up to 1 {Scotch} from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP07-093",
+  "set": "OP07",
+  "number": 93,
+  "name": "Rob Lucci",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "CP0"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-093.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may return 3 cards from your trash to the bottom of your deck in any order. Your opponent discards 1 card from their hand. Then, your opponent places 1 card from their trash to the bottom of their deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return 3 cards from your trash to the bottom of your deck in any order. Your opponent discards 1 card from their hand. Then, your opponent places 1 card from their trash to the bottom of their deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

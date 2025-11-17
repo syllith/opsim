@@ -1,0 +1,49 @@
+{
+  "id": "P-060",
+  "set": "P",
+  "number": 60,
+  "name": "Tot Musica",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Song",
+    "FILM"
+  ],
+  "rarity": "P",
+  "art": "/cards/P/P-060.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main"
+  ],
+  "trigger": null,
+  "text": "Main You may rest 1 of your [Uta] ; rest up to 2 of your opponent's DON!!",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest 1 of your [Uta] ; rest up to 2 of your opponent's DON!!",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

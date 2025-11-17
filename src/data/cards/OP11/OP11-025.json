@@ -1,0 +1,54 @@
+{
+  "id": "OP11-025",
+  "set": "OP11",
+  "number": 25,
+  "name": "Ishilly",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Merfolk",
+    "Fish-Man Island"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-025.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Once Per Turn",
+    "On Opponent's Attack"
+  ],
+  "trigger": null,
+  "text": "Once Per Turn On Opponent's Attack: You may rest 1 DON!! card and this Character: Give up to 1 of your Leaders or Characters +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Give up to 1 of your Leaders or Characters +1000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourLeaders",
+          "oneOfYourCharacters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

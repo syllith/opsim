@@ -1,0 +1,49 @@
+{
+  "id": "OP13-115",
+  "set": "OP13",
+  "number": 115,
+  "name": "Paper Art Afterimage",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Egghead",
+    "CP0"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-115.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "Up to 1 of your Leader or Character cards gains +3000 power during this battle. Then, if your opponent has 2 or less Life cards, up to 1 of your Leader or Character cards gains +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader or Character cards gains +3000 power during this battle. Then, if your opponent has 2 or less Life cards, up to 1 of your Leader or Character cards gains +1000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

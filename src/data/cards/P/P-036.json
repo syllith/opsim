@@ -1,0 +1,52 @@
+{
+  "id": "P-036",
+  "set": "P",
+  "number": 36,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Land of Wano",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/P/P-036.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: You may add the top or bottom card of your Life area to your hand. This Character and up to 1 of your Leader gains +1000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may add the top or bottom card of your Life area to your hand. This Character and up to 1 of your Leader gains +1000 Power during this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, so no actual rarity or set number is confirmed. Using P-036 as ID based on visible text."
+  }
+}

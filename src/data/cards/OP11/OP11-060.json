@@ -1,0 +1,67 @@
+{
+  "id": "OP11-060",
+  "set": "OP11",
+  "number": 60,
+  "name": "Let's Crash This Wedding",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-060.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main If your Leader is multi-colored, look at the top 5 cards of your deck, reveal up to 1 (Strawhat Crew) type card other than [Let's Crash This Wedding] and put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is multi-colored, look at the top 5 cards of your deck, reveal up to 1 (Strawhat Crew) type card other than [Let's Crash This Wedding] and put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIsMultiColored"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "OP06-013",
+  "set": "OP06",
+  "number": 13,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-013.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger",
+    "Activate: Main"
+  ],
+  "trigger": {
+    "text": "Activate this character's On Play ability."
+  },
+  "text": "On Play: Look at 3 cards from the top of your deck; reveal up to 1 {FILM} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 3 cards from the top of your deck; reveal up to 1 {FILM} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this character's On Play ability.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'BANDAI MADE IN JAPAN' are watermarks and not part of the card's printed data."
+  }
+}

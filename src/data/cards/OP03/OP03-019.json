@@ -1,0 +1,35 @@
+{
+  "id": "OP03-019",
+  "set": "OP03",
+  "number": 19,
+  "name": "Fiery Doll",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-019.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": null
+  },
+  "keywords": ["Main"],
+  "trigger": "Give up to 1 of your opponent's Leader or Characters -10000 power during this turn.",
+  "text": "[Main] Your Leader gains +4000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your Leader gains +4000 power during this turn.",
+        "powerMod": { "amount": 4000 },
+        "targets": ["yourLeader"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

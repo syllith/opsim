@@ -1,0 +1,46 @@
+{
+  "id": "OP05-037",
+  "set": "OP05",
+  "number": 37,
+  "name": "Whoever wins this war becomes justice!!!",
+  "category": "Event",
+  "colors": [],
+  "attribute": null,
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-037.png",
+  "stats": {
+    "cost": 0,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Rest an opponent's character with a cost of 4 or less."
+  },
+  "text": "Whoever wins this war becomes justice!!!",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest an opponent's character with a cost of 4 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "OP05-066",
+  "set": "OP05",
+  "number": 66,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-066.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "Opponent's Turn"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOpponent's Turn: If your board has 10 DON!!, This character has power +1000.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": 10,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your board has 10 DON!!, This character has power +1000.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

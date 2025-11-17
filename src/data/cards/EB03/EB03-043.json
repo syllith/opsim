@@ -1,0 +1,37 @@
+{
+  "id": "EB03-043",
+  "set": "EB03",
+  "number": 43,
+  "name": "Stussy",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Special",
+  "types": ["CP0"],
+  "rarity": "SR",
+  "art": "/cards/EB03/EB03-043.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker]\n[On Play] You may place 2 cards with a type including \"CP\" from your trash at the bottom of your deck in any order: K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may place 2 cards with a type including \"CP\" from your trash at the bottom of your deck in any order: K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["trash:2cards:typeIncludesCP", "upTo1:opponent:Character:cost<=4"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

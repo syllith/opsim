@@ -1,0 +1,51 @@
+{
+  "id": "OP04-082",
+  "set": "OP04",
+  "number": 82,
+  "name": "Kyros",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-082.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "If this Character would be K.O.'ed, you may instead rest 1 of your Leaders or [Corrida Colosseum].",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Rebecca], K.O. up to 1 of your opponent's Characters with a cost of 1 or less. Then, trash 1 card from the top of your deck.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost1"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in a box in the bottom right. The card number is 'OP04-082'. The cost is '3' in the top left. The power is '5000' in the top right. The attribute is 'Slash' indicated by the icon in the top right. The character type is 'Dressrosa' printed below the name."
+  }
+}

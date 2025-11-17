@@ -1,0 +1,61 @@
+{
+  "id": "OP08-072",
+  "set": "OP08",
+  "number": 72,
+  "name": "Cracker Soldier",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-072.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "Per the rules, you may have any number of this card included in your deck.\nBlocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Per the rules, you may have any number of this card included in your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "OP04-056",
+  "set": "OP04",
+  "number": 56,
+  "name": "Gum-Gum Red Roc",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-056.png",
+  "stats": {
+    "cost": 6,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Place up to 1 Character with a cost of 4 or less at the bottom of its owner's deck."
+  },
+  "text": "Main Place up to 1 Character at the bottom of its owner's deck.\nTrigger Place up to 1 Character with a cost of 4 or less at the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to 1 Character at the bottom of its owner's deck.",
+        "powerMod": null,
+        "targets": [
+          "upTo1Character"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to 1 Character with a cost of 4 or less at the bottom of its owner's deck.",
+        "powerMod": null,
+        "targets": [
+          "upTo1Character<=cost4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is printed in the bottom right corner of the card."
+  }
+}

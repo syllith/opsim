@@ -1,0 +1,49 @@
+{
+  "id": "OP10-067",
+  "set": "OP10",
+  "number": 67,
+  "name": "Senor Pink",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP10/OP10-067.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "On Play DON!! -1: Add up to 1 purple Event card with a cost of 5 or less from your trash to your hand. Then, set up to 1 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 purple Event card with a cost of 5 or less from your trash to your hand. Then, set up to 1 of your DON!! cards as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has 'SPECIAL' rarity indicator, but rarity is confirmed as 'SP' from printed text. Power value is 6000, which is also shown in the counter box."
+  }
+}

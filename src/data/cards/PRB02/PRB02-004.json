@@ -1,0 +1,64 @@
+{
+  "id": "PRB02-004",
+  "set": "PRB02",
+  "number": 4,
+  "name": "Jewelry Bonney",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Supernovas",
+    "Bonney Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/PRB02/PRB02-004.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Your Opponent's Attack",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Your Opponent's Attack Once Per Turn Set up to 1 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Your Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to 1 of your DON!! cards as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

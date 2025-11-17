@@ -1,0 +1,64 @@
+{
+  "id": "OP06-056",
+  "set": "OP06",
+  "number": 56,
+  "name": "Ama no Murakumo",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-056.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main Return up to 1 of your opponent's Cost 2 or lower and up to 1 of your opponent's Cost 1 or lower characters to the bottom of its owner's deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 of your opponent's Cost 2 or lower and up to 1 of your opponent's Cost 1 or lower characters to the bottom of its owner's deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP05-081",
+  "set": "OP05",
+  "number": 81,
+  "name": "One-Legged Soldier",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-081.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may send this character to the trash: give up to one of your opponent's characters cost-3.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may send this character to the trash: give up to one of your opponent's characters cost-3.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

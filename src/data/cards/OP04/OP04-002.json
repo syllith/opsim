@@ -1,0 +1,57 @@
+{
+  "id": "OP04-002",
+  "set": "OP04",
+  "number": 2,
+  "name": "Igaram",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Alabasta Kingdom"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-002.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Main"
+  ],
+  "trigger": null,
+  "text": "Main You may rest this character and give your active leader -5000 Power for the turn: Look at the top 5 cards of your deck, reveal one (Alabasta Kingdom) type card and add it to your hand. Then, place the rest on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character and give your active leader -5000 Power for the turn: Look at the top 5 cards of your deck, reveal one (Alabasta Kingdom) type card and add it to your hand. Then, place the rest on the bottom of your deck in any order.",
+        "powerMod": {
+          "amount": -5000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "activeLeader"
+        ],
+        "conditions": [
+          "restThisCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is confirmed as 'C' from the bottom right corner of the card."
+  }
+}

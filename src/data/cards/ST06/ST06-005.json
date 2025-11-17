@@ -1,0 +1,37 @@
+{
+  "id": "ST06-005",
+  "set": "ST06",
+  "number": 5,
+  "name": "Sengoku",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Wisdom",
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST06/ST06-005.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "When Attacking: Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["reduceCost:-4","duration:turn"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

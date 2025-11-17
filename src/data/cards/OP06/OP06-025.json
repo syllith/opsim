@@ -1,0 +1,48 @@
+{
+  "id": "OP06-025",
+  "set": "OP06",
+  "number": 25,
+  "name": "Camie",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Merfolk"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-025.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 4 cards of your deck and reveal up to one (Fishman) or (Merfolk) type card other than [Camie] and reveal it, then put it in your hand. Then, put the rest on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 4 cards of your deck and reveal up to one (Fishman) or (Merfolk) type card other than [Camie] and reveal it, then put it in your hand. Then, put the rest on the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

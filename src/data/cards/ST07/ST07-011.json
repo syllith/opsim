@@ -1,0 +1,37 @@
+{
+  "id": "ST07-011",
+  "set": "ST07",
+  "number": 11,
+  "name": "Prometheus",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Big Mom Pirates", "Homies"],
+  "rarity": null,
+  "art": "/cards/ST07/ST07-011.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": { "text": "Play this card." },
+  "text": "Activate: Main: You may rest this card: Up to 1 of your [Charlotte Linlin] gains Double Attack during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this card: Up to 1 of your [Charlotte Linlin] gains Double Attack during this turn.",
+        "grants": ["doubleAttack"],
+        "powerMod": null,
+        "targets": ["oneCharlotteLinlin"],
+        "conditions": ["restSelf", "duration:turn"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

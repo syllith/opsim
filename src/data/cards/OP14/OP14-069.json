@@ -1,0 +1,50 @@
+{
+  "id": "OP14-069",
+  "set": "OP14",
+  "number": 69,
+  "name": "Donquixote Doflamingo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Donquixote Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP14/OP14-069.png",
+  "stats": {
+    "cost": 10,
+    "power": 10000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 10000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "On Play DON!!:3: Choose one:\n• If your Leader has the (Donquixote Pirates) type, K.O. up to 1 of your opponent's Characters with a cost of 8 or less.\n• Up to 3 of your opponent's Characters with a cost of 7 or less cannot be rested until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 3,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose one:\n• If your Leader has the (Donquixote Pirates) type, K.O. up to 1 of your opponent's Characters with a cost of 8 or less.\n• Up to 3 of your opponent's Characters with a cost of 7 or less cannot be rested until the end of your opponent's next turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "id": "OP03-047",
+  "set": "OP03",
+  "number": 47,
+  "name": "Zeff",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-047.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!!",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When this Character deals damage to your opponent's life, you may trash 7 cards from the top of your deck. On Play Return up to 1 Character with a cost of 3 or less to the owner's hand, then you may trash 2 cards from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "DON!!",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When this Character deals damage to your opponent's life, you may trash 7 cards from the top of your deck.",
+        "powerMod": null,
+        "targets": [
+          "opponent:Character"
+        ],
+        "conditions": [
+          "thisCharacter:dealsDamage"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 Character with a cost of 3 or less to the owner's hand, then you may trash 2 cards from the top of your deck.",
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=cost3",
+          "optionalTarget"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

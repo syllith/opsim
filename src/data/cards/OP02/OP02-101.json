@@ -1,0 +1,35 @@
+{
+  "id": "OP02-101",
+  "set": "OP02",
+  "number": 101,
+  "name": "Strawberry",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Navy"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-101.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "[When Attacking] If there is a Character with a cost of 0 in play, your opponent cannot activate a <Blocker> Character with a cost of 5 or less during this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If there is a Character with a cost of 0 in play, your opponent cannot activate a <Blocker> Character with a cost of 5 or less during this battle.",
+        "targets": ["opponent:Character<=5"],
+        "conditions": ["characterCost0InPlay", "hasBlocker"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

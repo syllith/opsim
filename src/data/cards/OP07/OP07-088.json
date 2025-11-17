@@ -1,0 +1,50 @@
+{
+  "id": "OP07-088",
+  "set": "OP07",
+  "number": 88,
+  "name": "Hattori",
+  "category": "Character",
+  "colors": [
+    "White"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal",
+    "CP0"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-088.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Your Turn"
+  ],
+  "trigger": null,
+  "text": "On Play | Your Turn: Give up to one of your {Rob Lucci}+2000 power for the turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one of your {Rob Lucci}+2000 power for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

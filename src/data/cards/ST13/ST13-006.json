@@ -1,0 +1,50 @@
+{
+  "id": "ST13-006",
+  "set": "ST13",
+  "number": 6,
+  "name": "Curly Dadan",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Slash",
+  "types": ["Bandit"],
+  "rarity": "C",
+  "art": "/cards/ST13/ST13-006.png",
+  "stats": {
+    "cost": 5,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Play Play up to 1 of each of a cost 2 [Sabo], [Portgas D. Ace], or [Monkey D. Luffy] from your hand.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play up to 1 of each of a cost 2 [Sabo], [Portgas D. Ace], or [Monkey D. Luffy] from your hand.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter=2:name=Sabo:play", "oneAllyCharacter=2:name=Portgas D. Ace:play", "oneAllyCharacter=2:name=Monkey D. Luffy:play"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

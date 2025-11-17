@@ -1,0 +1,48 @@
+{
+  "id": "P-074",
+  "set": "P",
+  "number": 74,
+  "name": "Portgas .D. Ace",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-074.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may return this character to its owner's hand. Look at the top 5 cards of your deck, then place them in any order on the top or bottom of your deck.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return this character to its owner's hand. Look at the top 5 cards of your deck, then place them in any order on the top or bottom of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

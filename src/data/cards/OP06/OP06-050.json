@@ -1,0 +1,48 @@
+{
+  "id": "OP06-050",
+  "set": "OP06",
+  "number": 50,
+  "name": "Tashigi",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-050.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 5 cards of your deck, reveal up to 1 {Navy} type card other than [Tashigi] and reveal it, then put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to 1 {Navy} type card other than [Tashigi] and reveal it, then put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

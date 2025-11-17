@@ -1,0 +1,49 @@
+{
+  "id": "OP13-074",
+  "set": "OP13",
+  "number": 74,
+  "name": "Hera",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Homies",
+    "Big Mom Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP13/OP13-074.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Play up to 1 {Homies} type Character card with 3000 power or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 {Homies} type Character card with 3000 power or less from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

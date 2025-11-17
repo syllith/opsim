@@ -1,0 +1,39 @@
+{
+  "id": "EB01-060",
+  "set": "EB01",
+  "number": 60,
+  "name": "I am GOD!!!",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Sky Island"],
+  "rarity": "UC",
+  "art": "/cards/EB01/EB01-060.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main", "Trigger"],
+  "trigger": {
+    "text": "Draw 2 cards then trash 1 card from your hand."
+  },
+  "text": "[Main] Put up to one cost 7 or less {Enel} from your hand or trash into play. Then trash the top of your life cards so your life total becomes 1.\n[Trigger] Draw 2 cards then trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Put up to one cost 7 or less {Enel} from your hand or trash into play. Then trash the top of your life cards so your life total becomes 1.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["hand", "trash"],
+        "conditions": ["characterNameEnel", "characterCost<=7"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "OP08-117",
+  "set": "OP08",
+  "number": 117,
+  "name": "Burn Blade",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island/Shandian Warrior"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-117.png",
+  "stats": {
+    "cost": 5,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may add 1 card from the top of your Life cards to your hand: Add up to 1 card from your hand to the top of your Life cards."
+  },
+  "text": "Main: You may trash 1 card from the top of your Life cards: K.O. up to 1 of your opponent's Characters with a cost of 7 or less. Trigger: You may add 1 card from the top of your Life cards to your hand: Add up to 1 card from your hand to the top of your Life cards.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from the top of your Life cards: K.O. up to 1 of your opponent's Characters with a cost of 7 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may add 1 card from the top of your Life cards to your hand: Add up to 1 card from your hand to the top of your Life cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but rarity and other details are legible."
+  }
+}

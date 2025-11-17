@@ -1,0 +1,62 @@
+{
+  "id": "OP11-065",
+  "set": "OP11",
+  "number": 65,
+  "name": "Charlotte Anana",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP11/OP11-065.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If you have a purple [Big Mom Pirates] type Character other than [Charlotte Anana], this Character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a purple [Big Mom Pirates] type Character other than [Charlotte Anana], this Character gains Blocker.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "After Attack Declared",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark. Rarity is UC (U and C next to each other in the rarity box)."
+  }
+}

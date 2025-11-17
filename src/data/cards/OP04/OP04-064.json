@@ -1,0 +1,64 @@
+{
+  "id": "OP04-064",
+  "set": "OP04",
+  "number": 64,
+  "name": "Miss All Sunday",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-064.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Don!!: -2: (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play this card."
+  },
+  "text": "[On Play] Add up to 1 rested Don!! to your cost area and if you have 6 or more Don!! Draw 1 card\n[Trigger] Don!!: -2: (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Add up to 1 rested Don!! to your cost area and if you have 6 or more Don!! Draw 1 card",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(You may return the specified number of DON!! cards from your field to your DON!! deck.): Play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
+  }
+}

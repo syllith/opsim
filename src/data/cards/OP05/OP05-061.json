@@ -1,0 +1,55 @@
+{
+  "id": "OP05-061",
+  "set": "OP05",
+  "number": 61,
+  "name": "Usohachi",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP05/OP05-061.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "On attack"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 On attack If you have 8 or more DON!! on your field, rest an opponent's character with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On attack",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 8 or more DON!! on your field, rest an opponent's character with a cost of 4 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "conditions": [
+          "haveDon>=8"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

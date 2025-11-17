@@ -1,0 +1,55 @@
+{
+  "id": "OP03-034",
+  "set": "OP03",
+  "number": 34,
+  "name": "Butchie",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "East Blue",
+    "Black Cat Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-034.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] K.O. up to 1 of your opponent's rested Characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 2 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost2"
+        ],
+        "conditions": [
+          "rested"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'UC' is confirmed from the 'UC' symbol in the bottom right corner of the card."
+  }
+}

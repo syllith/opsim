@@ -1,0 +1,71 @@
+{
+  "id": "OP04-060",
+  "set": "OP04",
+  "number": 60,
+  "name": "Crocodile",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Seven Warlords of the Sea / Baroque Works"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-060.png",
+  "stats": {
+    "cost": 8,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play",
+    "When opponent attack"
+  ],
+  "trigger": null,
+  "text": "On Play DON!! -2 If your Leader's type includes (Baroque Works), place up to 1 card from the top of your deck on top of your Life.\nWhen opponent attack Once Per Turn DON!! -1 Draw 1 Card and Trash 1 Card From Your Hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "If your Leader's type includes (Baroque Works), place up to 1 card from the top of your deck on top of your Life.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "leaderTypeIncludes:Baroque Works"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When opponent attack",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Draw 1 Card and Trash 1 Card From Your Hand.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a Character with Strike attribute and Purple color. The text is fully extracted from the card image."
+  }
+}

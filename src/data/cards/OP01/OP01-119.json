@@ -1,0 +1,62 @@
+{
+  "id": "OP01-119",
+  "set": "OP01",
+  "number": 119,
+  "name": "Thunder Bagua",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Four Emperors", "Animal Kingdom Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-119.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "Add 1 DON!! card from your DON!! deck and set it as active." },
+  "text": "Counter Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, if you have 2 or less Life cards, add 1 DON!! card from your DON!! deck and rest it. Trigger Add 1 DON!! card from your DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, if you have 2 or less Life cards, add 1 DON!! card from your DON!! deck and rest it.",
+        "grants": [],
+        "powerMod": { "amount": 4000, "duration": "this battle" },
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["optionalTarget", "lifeCards<=2"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["field"]
+        }
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Add 1 DON!! card from your DON!! deck and set it as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "costArea",
+          "to": ["field"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

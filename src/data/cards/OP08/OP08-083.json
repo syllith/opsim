@@ -1,0 +1,50 @@
+{
+  "id": "OP08-083",
+  "set": "OP08",
+  "number": 83,
+  "name": "Sheepshead",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Animal Kingdom Pirates",
+    "SMILE"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-083.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "Your Turn"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 Your Turn: Give all of your opponent's Characters -1 cost.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give all of your opponent's Characters -1 cost.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'Morehand' in the image, but these are not part of the card's official data. The card ID is OP08-083, which is clearly printed at the bottom right."
+  }
+}

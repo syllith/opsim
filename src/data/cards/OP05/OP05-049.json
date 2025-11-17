@@ -1,0 +1,50 @@
+{
+  "id": "OP05-049",
+  "set": "OP05",
+  "number": 49,
+  "name": "Hatcha",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Giants",
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP05/OP05-049.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking: Return up to one character with a cost of 3 or less to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to one character with a cost of 3 or less to the owner's hand.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

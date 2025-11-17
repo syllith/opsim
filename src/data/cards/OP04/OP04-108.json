@@ -1,0 +1,76 @@
+{
+  "id": "OP04-108",
+  "set": "OP04",
+  "number": 108,
+  "name": "Charlotte Moscato",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP04/OP04-108.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!!",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may trash one card from your hand: Play this card."
+  },
+  "text": "DON!! x1 This character gains Banish. (When a character deals damage, the target card is trashed without activating its Trigger.)",
+  "abilities": [
+    {
+      "timing": "DON!!",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This character gains Banish. (When a character deals damage, the target card is trashed without activating its Trigger.)",
+        "grants": [
+          "Banish"
+        ],
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash one card from your hand: Play this card.",
+        "powerMod": null,
+        "targets": [
+          "thisCard"
+        ],
+        "conditions": [
+          "hand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is UC as printed in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP09-025",
+  "set": "OP09",
+  "number": 25,
+  "name": "Crocodile",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "ODYSSEY",
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-025.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If your leader has the <<Odyssey>> type, this character cannot be KO'd in battle by leaders.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the <<Odyssey>> type, this character cannot be KO'd in battle by leaders.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "P-057",
+  "set": "P",
+  "number": 57,
+  "name": "Fleeting Lullaby",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Song/FILM"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-057.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main Effect."
+  },
+  "text": "Main: If your leader is Uta, choose up to 2 of your opponent's rested cost 4 or lower characters cannot be set as active during your opponent's next Refresh Phase.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is Uta, choose up to 2 of your opponent's rested cost 4 or lower characters cannot be set as active during your opponent's next Refresh Phase.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main Effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

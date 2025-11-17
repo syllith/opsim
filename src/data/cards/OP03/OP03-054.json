@@ -1,0 +1,71 @@
+{
+  "id": "OP03-054",
+  "set": "OP03",
+  "number": 54,
+  "name": "Usopp's Rubber Band of Doom!",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "East Blue",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-054.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card and trash the top card of your deck."
+  },
+  "text": "#Counter Up to 1 of your Leader or Characters gains +2000 Power during this battle. Then you may trash the top card of your deck.\n\nTrigger Draw 1 card and trash the top card of your deck.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader or Characters gains +2000 Power during this battle. Then you may trash the top card of your deck.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneAllyCharacter"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card and trash the top card of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "OP08-112",
+  "set": "OP08",
+  "number": 112,
+  "name": "S-Snake",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Egghead",
+    "Seraphim"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP08/OP08-112.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger",
+    "Activate: Main"
+  ],
+  "trigger": {
+    "text": "Activate this card's On Play effect."
+  },
+  "text": "On Play: Up to 1 of your opponent's Characters with a cost of 6 or less other than [Monkey.D.Luffy] cannot attack until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your opponent's Characters with a cost of 6 or less other than [Monkey.D.Luffy] cannot attack until the end of your opponent's next turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's On Play effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

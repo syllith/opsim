@@ -1,0 +1,50 @@
+{
+  "id": "ST26-001",
+  "set": "ST26",
+  "number": 1,
+  "name": "Soba Mask",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "SR",
+  "art": "/cards/ST26/ST26-001.png",
+  "stats": {
+    "cost": 7,
+    "power": 9000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "If you have a [San-Gorou] or [Sanji] Character with 7000 base power or more, give this card in your hand −5 cost.\n[On Play] Return all of your [San-Gorou] and [Sanji] Characters to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have a [San-Gorou] or [Sanji] Character with 7000 base power or more, give this card in your hand −5 cost.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["allyCharacterNameSanGorouOrSanji", "characterBasePower>=7000"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Return all of your [San-Gorou] and [Sanji] Characters to the owner's hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:Character"],
+        "conditions": ["characterNameSanGorouOrSanji"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

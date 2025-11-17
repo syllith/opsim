@@ -1,0 +1,46 @@
+{
+  "id": "OP07-075",
+  "set": "OP07",
+  "number": 75,
+  "name": "NoroNoro Beeeeeeam",
+  "category": "Event",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Foxy Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-075.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!!-1: Give up to one of your opponents leaders and characters -2000 power for the turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one of your opponents leaders and characters -2000 power for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

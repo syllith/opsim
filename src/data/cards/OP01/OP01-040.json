@@ -1,0 +1,50 @@
+{
+  "id": "OP01-040",
+  "set": "OP01",
+  "number": 40,
+  "name": "Kin'emon",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Wano Country", "Nine Red Scabbards"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-040.png",
+  "stats": {
+    "cost": 6,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "DON!! x1", "When Attacking", "Once Per Turn"],
+  "trigger": null,
+  "text": "[On Play] If your Leader is [Kozuki Oden], play up to 1 {Nine Red Scabbards} type Character card with a cost of 3 or less from your hand.\n[DON!! x1] [When Attacking] [Once Per Turn] Set up to 1 of your {Nine Red Scabbards} type Characters with a cost of 3 or less as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader is [Kozuki Oden], play up to 1 {Nine Red Scabbards} type Character card with a cost of 3 or less from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["hand"],
+        "conditions": ["leaderIsKozukiOden", "nineRedScabbardsType", "characterCost<=3"]
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Set up to 1 of your {Nine Red Scabbards} type Characters with a cost of 3 or less as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:ally:Character"],
+        "conditions": ["nineRedScabbardsType", "characterCost<=3"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "OP01-058",
+  "set": "OP01",
+  "number": 58,
+  "name": "Punk Gibson",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Supernovas", "Kid Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-058.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter"],
+  "trigger": {
+    "text": "Rest up to 1 of your opponent's Characters."
+  },
+  "text": "[Counter] Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+        "grants": [],
+        "powerMod": {
+          "amount": 4000,
+          "duration": "duringThisBattle"
+        },
+        "targets": ["self:Leader", "upTo1:ally:Character", "upTo1:opponent:Character"],
+        "conditions": ["opponentCharacterCost<=4"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

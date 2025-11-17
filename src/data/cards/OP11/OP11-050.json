@@ -1,0 +1,48 @@
+{
+  "id": "OP11-050",
+  "set": "OP11",
+  "number": 50,
+  "name": "Gotti",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Fire Tank Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-050.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: You may trash 1 {Fire Tank Pirates} type card from your hand: Return up to 1 Character with a cost of 1 or less to the bottom of the owner's deck or hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 {Fire Tank Pirates} type card from your hand: Return up to 1 Character with a cost of 1 or less to the bottom of the owner's deck or hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

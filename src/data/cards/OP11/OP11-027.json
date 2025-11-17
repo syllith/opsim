@@ -1,0 +1,49 @@
+{
+  "id": "OP11-027",
+  "set": "OP11",
+  "number": 27,
+  "name": "Gyoro-me",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Sea Kings"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-027.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If your Leader is [Shirahoshi], this Character can attack Characters the same turn it is played.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Shirahoshi], this Character can attack Characters the same turn it is played.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIs[Shirahoshi]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

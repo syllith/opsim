@@ -1,0 +1,48 @@
+{
+  "id": "OP05-054",
+  "set": "OP05",
+  "number": 54,
+  "name": "Monkey D. Garp",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP05/OP05-054.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Draw 2 cards, then return 2 cards from your hand to the bottom of your deck in your desired order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards, then return 2 cards from your hand to the bottom of your deck in your desired order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

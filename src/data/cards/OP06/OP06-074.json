@@ -1,0 +1,52 @@
+{
+  "id": "OP06-074",
+  "set": "OP06",
+  "number": 74,
+  "name": "Zephyr",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-074.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play DON!! -1 Nullify all abilities from up to one of your opponent's characters this turn. Then, if that character has 5000 power or less, KO it.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Nullify all abilities from up to one of your opponent's characters this turn. Then, if that character has 5000 power or less, KO it.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

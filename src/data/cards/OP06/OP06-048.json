@@ -1,0 +1,51 @@
+{
+  "id": "OP06-048",
+  "set": "OP06",
+  "number": 48,
+  "name": "Zeff",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-048.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "During Your Turn"
+  ],
+  "trigger": null,
+  "text": "During Your Turn: When your opponent activates a Blocker or event, if your leader has the (East Blue) type, you may put the top 4 cards of your deck into your trash.",
+  "abilities": [
+    {
+      "timing": "During Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When your opponent activates a Blocker or event, if your leader has the (East Blue) type, you may put the top 4 cards of your deck into your trash.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has the (East Blue) type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample image with 'SAMPLE' watermark. All values are read from the card as printed."
+  }
+}

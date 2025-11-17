@@ -1,0 +1,49 @@
+{
+  "id": "OP06-063",
+  "set": "OP06",
+  "number": 63,
+  "name": "Vinsmoke Sora",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Vinsmoke Family",
+    "Germa Kingdom"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-063.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may discard a card from your hand: if you have equal to or less DON!! on your field than your opponent, add to your hand up to 1 character card of 4000 Power or less that has the (Vinsmoke Family) type from the trash.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard a card from your hand: if you have equal to or less DON!! on your field than your opponent, add to your hand up to 1 character card of 4000 Power or less that has the (Vinsmoke Family) type from the trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is UC as printed. Power and life are 0 as printed."
+  }
+}

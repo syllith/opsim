@@ -1,0 +1,40 @@
+{
+  "id": "OP01-020",
+  "set": "OP01",
+  "number": 20,
+  "name": "Hyogoro",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Wano Country"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-020.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate Main"],
+  "trigger": null,
+  "text": "[Activate: Main] You may rest this Character: Your Leader or up to 1 of your Characters gains +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this Character: Your Leader or up to 1 of your Characters gains +2000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["self:Leader", "upTo1:ally:Character"],
+        "conditions": ["mayRestThisCharacter"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

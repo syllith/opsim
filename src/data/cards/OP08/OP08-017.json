@@ -1,0 +1,67 @@
+{
+  "id": "OP08-017",
+  "set": "OP08",
+  "number": 17,
+  "name": "I'd never shoot you!!!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Drum Kingdom"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP08/OP08-017.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Give up to 1 of your leaders or characters Power +1000 for the turn."
+  },
+  "text": "Give up to 1 of your leaders or characters Power +4000 for the battle. Then, give up to 1 of your opponent's characters power -1000 for the turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your leaders or characters Power +4000 for the battle. Then, give up to 1 of your opponent's characters power -1000 for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your leaders or characters Power +1000 for the turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

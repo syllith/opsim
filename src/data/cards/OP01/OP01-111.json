@@ -1,0 +1,52 @@
+{
+  "id": "OP01-111",
+  "set": "OP01",
+  "number": 111,
+  "name": "Black Maria",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-111.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "Blocker", "On Block", "DON!!"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Block DON!! -1 This Character gains +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "This Character gains +1000 power during this turn.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "this turn" },
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

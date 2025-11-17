@@ -1,0 +1,35 @@
+{
+  "id": "OP02-094",
+  "set": "OP02",
+  "number": 94,
+  "name": "Isuka",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Navy"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-094.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x1", "Once Per Turn"],
+  "trigger": null,
+  "text": "[DON!! x1] [Once Per Turn] When this Character battles and K.O.s 1 of your opponent's Characters, set this Character as active.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "When this Character battles and K.O.s 1 of your opponent's Characters, set this Character as active.",
+        "targets": ["self"],
+        "conditions": ["whenBattleKOs"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

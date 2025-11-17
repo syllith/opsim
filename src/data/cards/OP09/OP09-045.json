@@ -1,0 +1,46 @@
+{
+  "id": "OP09-045",
+  "set": "OP09",
+  "number": 45,
+  "name": "Cabaji",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Cross Guild"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-045.png",
+  "stats": {
+    "cost": 5,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If you have a character [Buggy] or [Mohji] in play this character can't be KO'd in battle.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a character [Buggy] or [Mohji] in play this character can't be KO'd in battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

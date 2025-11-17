@@ -1,0 +1,50 @@
+{
+  "id": "OP02-030",
+  "set": "OP02",
+  "number": 30,
+  "name": "Kozuki Oden",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Wano Country", "Kozuki Family"],
+  "rarity": "SR",
+  "art": "/cards/OP02/OP02-030.png",
+  "stats": {
+    "cost": 8,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Activate: Main", "Once Per Turn", "On K.O."],
+  "trigger": null,
+  "text": "Activate: Main | Once Per Turn | 3 (You may rest the specified number of DON!! cards in your Cost Area): Set this Character as active. On K.O.: Play up to 1 (Wano Country) type Character card with a cost of 3 from your deck. Then, shuffle your deck.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 3 },
+      "effect": {
+        "text": "Set this Character as active.",
+        "grants": ["active"],
+        "powerMod": null,
+        "targets": ["Character"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play up to 1 (Wano Country) type Character card with a cost of 3 from your deck. Then, shuffle your deck.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["Character"],
+        "conditions": ["Wano Country type", "cost 3"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

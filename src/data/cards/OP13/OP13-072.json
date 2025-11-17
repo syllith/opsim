@@ -1,0 +1,53 @@
+{
+  "id": "OP13-072",
+  "set": "OP13",
+  "number": 72,
+  "name": "Buggy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Roger Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-072.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has a type including \"Roger Pirates\" and you have any given DON!! cards, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has a type including \"Roger Pirates\" and you have any given DON!! cards, add up to 1 DON!! card from your DON!! deck and rest it.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Roger Pirates",
+          "youHaveGivenDON!!Cards"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

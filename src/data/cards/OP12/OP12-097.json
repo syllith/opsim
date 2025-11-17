@@ -1,0 +1,62 @@
+{
+  "id": "OP12-097",
+  "set": "OP12",
+  "number": 97,
+  "name": "Captains Assemble",
+  "category": "Event",
+  "colors": [],
+  "attribute": null,
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-097.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main Look at 3 cards from the top of your deck; reveal up to 1 {Revolutionary Army} type card other than [Captains Assemble] and add it to your hand. Then, trash the rest.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 3 cards from the top of your deck; reveal up to 1 {Revolutionary Army} type card other than [Captains Assemble] and add it to your hand. Then, trash the rest.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

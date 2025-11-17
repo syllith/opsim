@@ -1,0 +1,67 @@
+{
+  "id": "OP14-009",
+  "set": "OP14",
+  "number": 9,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "Heart Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP14/OP14-009.png",
+  "stats": {
+    "cost": 9,
+    "power": 10000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 10000
+    }
+  },
+  "keywords": [
+    "Rush",
+    "On Your Opponent's Attack",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Rush (This card can attack on the turn in which it is played.)\nOn Your Opponent's Attack Once Per Turn: You may trash 2 cards from your hand. Select 1 of your Characters. Swap the base power of the selected Character with the base power of your Leader during this battle.",
+  "abilities": [
+    {
+      "timing": "Rush",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This card can attack on the turn in which it is played.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Your Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 2 cards from your hand. Select 1 of your Characters. Swap the base power of the selected Character with the base power of your Leader during this battle.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

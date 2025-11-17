@@ -1,0 +1,53 @@
+{
+  "id": "ST28-005",
+  "set": "ST28",
+  "number": 5,
+  "name": "Yamato",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Land of Wano"],
+  "rarity": "SR",
+  "art": "/cards/ST28/ST28-005.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x2", "On Play"],
+  "trigger": null,
+  "text": "[DON!! x2] [Your Turn] This Character gains +3000 power.\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Land of Wano} type card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This Character gains +3000 power.",
+        "grants": [],
+        "powerMod": {
+          "amount": 3000,
+          "duration": "duringYourTurn"
+        },
+        "targets": ["self"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Land of Wano} type card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

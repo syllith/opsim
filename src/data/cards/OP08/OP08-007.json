@@ -1,0 +1,64 @@
+{
+  "id": "OP08-007",
+  "set": "OP08",
+  "number": 7,
+  "name": "Tony Tony .Chopper",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animals",
+    "Drum Kingdom",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-007.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "Your Turn / On Play // When Attacking: Look at the top 5 cards of your deck, and from among them play up to one (Animal) type character with a power of 4000 or less as rested. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, and from among them play up to one (Animal) type character with a power of 4000 or less as rested. Then, place the rest of the cards on the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, and from among them play up to one (Animal) type character with a power of 4000 or less as rested. Then, place the rest of the cards on the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

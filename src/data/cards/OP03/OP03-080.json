@@ -1,0 +1,52 @@
+{
+  "id": "OP03-080",
+  "set": "OP03",
+  "number": 80,
+  "name": "Kaku",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "CP9"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-080.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may return 2 cards with (CP) in its type from your trash to the bottom of your deck in any order. K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return 2 cards with (CP) in its type from your trash to the bottom of your deck in any order. K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+        "powerMod": null,
+        "targets": [
+          "upTo1OpponentCharacter<=cost3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card ID 'OP03-080' and number '80' confirmed from bottom right. Rarity 'C' confirmed from bottom right box. Counter value '1000' confirmed from left side. Attribute 'Slash' confirmed from icon. Color 'Red' confirmed from border. All text and stats are legible."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "ST03-014",
+  "set": "ST03",
+  "number": 14,
+  "name": "Marshall.D.Teach",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Blackbeard Pirates"],
+  "rarity": null,
+  "art": "/cards/ST03/ST03-014.png",
+  "stats": { "cost": 4, "power": 4000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Return up to 1 Character with a cost of 3 or less to the owner's hand.",
+  "abilities": [
+    {"timing": "On Play", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Return up to 1 target Character cost 3 or less to owner's hand.", "grants": [], "powerMod": null, "targets": ["oneCharacter"], "conditions": []}}
+  ],
+  "meta": {"notes": null}
+}

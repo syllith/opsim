@@ -1,0 +1,62 @@
+{
+  "id": "OP06-089",
+  "set": "OP06",
+  "number": 89,
+  "name": "Tararan",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP06/OP06-089.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On Play / On K.O. Trash the top 3 cards of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Trash the top 3 cards of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Trash the top 3 cards of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

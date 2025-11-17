@@ -1,0 +1,37 @@
+{
+  "id": "ST13-008",
+  "set": "ST13",
+  "number": 8,
+  "name": "Sabo",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Dressrosa", "Revolutionary Army"],
+  "rarity": "SR",
+  "art": "/cards/ST13/ST13-008.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play You may trash the top or bottom card of your life: K.O. up to one of your opponent's characters with a cost of 5 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash the top or bottom card of your life: K.O. up to one of your opponent's characters with a cost of 5 or less.",
+        "powerMod": null,
+        "targets": ["self:lifeTopOrBottom:trash:optional", "oneOpponentCharacter<=5:KO"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

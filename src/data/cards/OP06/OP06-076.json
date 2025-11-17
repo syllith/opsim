@@ -1,0 +1,51 @@
+{
+  "id": "OP06-076",
+  "set": "OP06",
+  "number": 76,
+  "name": "Hitokiri Kamazo",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "Kidd Pirates",
+    "SMILE"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-076.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Your Turn",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn Once Per Turn When you return DON!! on your field to your DON!! deck, K.O. up to 1 of your opponent's characters of cost 2 or less.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When you return DON!! on your field to your DON!! deck, K.O. up to 1 of your opponent's characters of cost 2 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is UC (Uncommon) as indicated by the 'U' and 'C' in the rarity box. Power is 5000 as printed. Counter is +2000."
+  }
+}

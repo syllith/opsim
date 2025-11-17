@@ -1,0 +1,56 @@
+{
+  "id": "OP07-106",
+  "set": "OP07",
+  "number": 106,
+  "name": "Fuza",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Animal",
+    "Sky Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-106.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!!x1 When Attacking: If you have 1 or less Life cards, K.O. up to 1 of your opponent's Cost 3 or less Characters.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 1 or less Life cards, K.O. up to 1 of your opponent's Cost 3 or less Characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost3"
+        ],
+        "conditions": [
+          "self",
+          "you have 1 or less Life cards"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

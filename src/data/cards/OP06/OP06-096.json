@@ -1,0 +1,49 @@
+{
+  "id": "OP06-096",
+  "set": "OP06",
+  "number": 96,
+  "name": "... Nothing!!! Happened......",
+  "category": "Event",
+  "colors": [],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-096.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Trigger",
+    "Activate: Main"
+  ],
+  "trigger": {
+    "text": "Activate this card's #Counter effect"
+  },
+  "text": "#Counter Add the top card of your life to your hand: all of your cost 7 or lower characters cannot be KO'd in battle this turn.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add the top card of your life to your hand: all of your cost 7 or lower characters cannot be KO'd in battle this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

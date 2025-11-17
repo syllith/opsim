@@ -1,0 +1,61 @@
+{
+  "id": "OP05-114",
+  "set": "OP05",
+  "number": 114,
+  "name": "El Thor",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island"
+  ],
+  "rarity": "UB",
+  "art": "/cards/OP05/OP05-114.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "KO up to 1 of your opponents characters with a cost equal or less to their life total."
+  },
+  "text": "Counter: Give up to 1 of your Leader or Characters +2000 for this battle. Then, if your opponent has 2 or less life, give that card an additional +2000 power.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your Leader or Characters +2000 for this battle. Then, if your opponent has 2 or less life, give that card an additional +2000 power.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to 1 of your opponents characters with a cost equal or less to their life total.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

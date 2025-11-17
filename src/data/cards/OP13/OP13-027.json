@@ -1,0 +1,68 @@
+{
+  "id": "OP13-027",
+  "set": "OP13",
+  "number": 27,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-027.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "On Play: Set up to 2 of your DON!! cards as active. \nEnd of Your Turn: If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 1 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to 2 of your DON!! cards as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 1 of your DON!! cards as active.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType: {FILM}",
+          "hasType: {Straw Hat Crew}"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

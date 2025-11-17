@@ -1,0 +1,75 @@
+{
+  "id": "OP04-035",
+  "set": "OP04",
+  "number": 35,
+  "name": "Spider's Web",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-035.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Up to 1 of your leaders gains +2000 Power for the turn."
+  },
+  "text": "Up to 1 of your leaders or characters gains +4000 Power for this battle. Then, set up to 1 of your characters as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your leaders or characters gains +4000 Power for this battle. Then, set up to 1 of your characters as active.",
+        "powerMod": null,
+        "targets": [
+          "upTo1LeaderOrCharacter",
+          "upTo1Character"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your leaders gains +2000 Power for the turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "upTo1Leader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the printed box in the bottom right corner."
+  }
+}

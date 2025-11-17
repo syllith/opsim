@@ -1,0 +1,71 @@
+{
+  "id": "OP13-057",
+  "set": "OP13",
+  "number": 57,
+  "name": "If I Give Into the \"Force\", There'll Be No Point To My Life",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-057.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main You may rest 1 of your DON!! cards: If you have 1 or less Life cards, when your Leaders attacks, your opponent cannot activate Blocker during this turn. \nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If you have 1 or less Life cards, when your Leaders attacks, your opponent cannot activate Blocker during this turn.",
+        "powerMod": null,
+        "conditions": [
+          "self:Life <= 1"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

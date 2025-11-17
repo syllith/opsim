@@ -1,0 +1,55 @@
+{
+  "id": "OP14-108",
+  "set": "OP14",
+  "number": 108,
+  "name": "Silvers Rayleigh",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Former Roger Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-108.png",
+  "stats": {
+    "cost": 6,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's On Play effect."
+  },
+  "text": "On Play: If your Leader is multicolored and your opponent has 3 or less Life cards, K.O. up to 1 of your opponent's Characters with 7000 base power or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is multicolored and your opponent has 3 or less Life cards, K.O. up to 1 of your opponent's Characters with 7000 base power or less.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIsMulticolored",
+          "opponentHas3OrLessLifeCards"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

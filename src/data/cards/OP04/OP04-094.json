@@ -1,0 +1,72 @@
+{
+  "id": "OP04-094",
+  "set": "OP04",
+  "number": 94,
+  "name": "Destructive Sword of Thunder",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-094.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may rest your leader: K.O. up to one of your opponent's cost 5 or lower characters."
+  },
+  "text": "Main Choose up to one of your opponent's cost 4 or lower characters and K.O. that character. If your trash has at least 15 cards, choose a 6 cost or lower character instead.\nTrigger You may rest your leader: K.O. up to one of your opponent's cost 5 or lower characters.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose up to one of your opponent's cost 4 or lower characters and K.O. that character. If your trash has at least 15 cards, choose a 6 cost or lower character instead.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4",
+          "oneOpponentCharacter<=cost6"
+        ],
+        "conditions": [
+          "trash>=15"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest your leader: K.O. up to one of your opponent's cost 5 or lower characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost5"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card name is 'Destructive Sword of Thunder' and the artist is Dressrosa. The rarity is C, visible in the bottom right corner. The cost is 4, visible in the top left corner. The attribute is Strike, visible in the top right corner. The card is an Event."
+  }
+}

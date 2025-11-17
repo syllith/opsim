@@ -1,0 +1,46 @@
+{
+  "id": "OP13-008",
+  "set": "OP13",
+  "number": 8,
+  "name": "Emporio.Ivankov",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-008.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If your (Revolutionary Army) type Characters would be K.O.'d by your opponent's effect, you may trash this Character instead.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your (Revolutionary Army) type Characters would be K.O.'d by your opponent's effect, you may trash this Character instead.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

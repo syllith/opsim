@@ -1,0 +1,56 @@
+{
+  "id": "OP04-040",
+  "set": "OP04",
+  "number": 40,
+  "name": "Queen",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-040.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "DON!!",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking: If your hand and life total is 4 or less, draw one card. If you have a cost 8 or higher character, you may place up to 1 card from the top of your deck on top of your Life instead of drawing 1 card.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If your hand and life total is 4 or less, draw one card. If you have a cost 8 or higher character, you may place up to 1 card from the top of your deck on top of your Life instead of drawing 1 card.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "handAndLifeTotal<=4",
+          "cost8OrHigherCharacterInHand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is confirmed as 'C' from the bottom right corner of the card."
+  }
+}

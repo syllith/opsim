@@ -1,0 +1,39 @@
+{
+  "id": "OP02-114",
+  "set": "OP02",
+  "number": 114,
+  "name": "Borsalino",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Navy"],
+  "rarity": "SR",
+  "art": "/cards/OP02/OP02-114.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Opponent's Turn", "Blocker"],
+  "trigger": null,
+  "text": "[Opponent's Turn] This Character gains +1000 Power and cannot be K.O'd by effects.\n[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This Character gains +1000 Power and cannot be K.O'd by effects.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "opponent's turn"
+        },
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

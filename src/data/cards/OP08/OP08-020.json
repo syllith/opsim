@@ -1,0 +1,49 @@
+{
+  "id": "OP08-020",
+  "set": "OP08",
+  "number": 20,
+  "name": "Drum Kingdom",
+  "category": "Stage",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Drum Kingdom"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-020.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Opponent's Turn: Your [Drum Kingdom] type characters have Power +1000.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your [Drum Kingdom] type characters have Power +1000.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

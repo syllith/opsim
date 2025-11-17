@@ -1,0 +1,44 @@
+{
+  "id": "ST10-006",
+  "set": "ST10",
+  "number": 6,
+  "name": "Monkey. D. Luffy",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Straw Hat Crew"],
+  "rarity": null,
+  "art": "/cards/ST10/ST10-006.png",
+  "stats": {
+    "cost": 10,
+    "power": 11000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Rush", "Once Per Turn"],
+  "trigger": null,
+  "text": "Rush. Once Per Turn — After your opponent activates Blocker: K.O. up to 1 of your opponent's Characters with 8000 Power or less.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": { "text": "This card has Rush.", "grants": ["Rush"], "powerMod": null, "targets": ["self"], "conditions": [] }
+    },
+    {
+      "timing": "After Opponent Activates Blocker",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with 8000 Power or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["opponentActivatedBlocker", "opponentCharacterPower<=8000"]
+      }
+    }
+  ],
+  "meta": { "notes": "Rush reminder text applies." }
+}

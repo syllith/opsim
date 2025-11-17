@@ -1,0 +1,48 @@
+{
+  "id": "OP09-101",
+  "set": "OP09",
+  "number": 101,
+  "name": "Kuzan",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-101.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may place one of your opponent's cost 3 or lower characters onto the top or bottom of their life face up: Your opponent trashes one card from their hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place one of your opponent's cost 3 or lower characters onto the top or bottom of their life face up: Your opponent trashes one card from their hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

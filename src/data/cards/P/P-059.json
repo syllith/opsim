@@ -1,0 +1,49 @@
+{
+  "id": "P-059",
+  "set": "P",
+  "number": 59,
+  "name": "The World's Continuation",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Song/FILM"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-059.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If your leader is [Uta], you may return any number of your characters from your board to your hand. For this battle, give up to 1 of your leader or characters +2000 power for each character returned this way.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is [Uta], you may return any number of your characters from your board to your hand. For this battle, give up to 1 of your leader or characters +2000 power for each character returned this way.",
+        "powerMod": null,
+        "conditions": [
+          "leader:Uta"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

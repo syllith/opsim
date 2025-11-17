@@ -1,0 +1,49 @@
+{
+  "id": "OP08-113",
+  "set": "OP08",
+  "number": 113,
+  "name": "S-Bear",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Egghead",
+    "Seraphim"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP08/OP08-113.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "You may trash 1 card from your hand: If you have 2 or less Life cards, play this card and K.O. up to 1 of your opponent's Characters with a cost of 3 or less."
+  },
+  "text": null,
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: If you have 2 or less Life cards, play this card and K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is marked as a 'SAMPLE' and has 'SPECIAL' rarity indicator, but the printed ID is OP08-113 and rarity is SP. The '4000' is power, not life. The trigger text is fully legible."
+  }
+}

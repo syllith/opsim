@@ -1,0 +1,69 @@
+{
+  "id": "OP13-044",
+  "set": "OP13",
+  "number": 44,
+  "name": "Curiel",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-044.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "When Attacking: Give up to 1 rested DON!! card to your Leader or 1 of your Characters with a type including \"Whitebeard Pirates\". On K.O.: Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 rested DON!! card to your Leader or 1 of your Characters with a type including \"Whitebeard Pirates\".",
+        "powerMod": null,
+        "targets": [
+          "self",
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "type:Whitebeard Pirates"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

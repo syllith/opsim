@@ -1,0 +1,63 @@
+{
+  "id": "OP14-054",
+  "set": "OP14",
+  "number": 54,
+  "name": "Fisher Tiger",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fish-Man",
+    "The Sun Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-054.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the (Fish-Man) type, draw 3 cards.\nEnd of Your Turn: Trash cards from your hand until you have 5 cards in your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Fish-Man) type, draw 3 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Trash cards from your hand until you have 5 cards in your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

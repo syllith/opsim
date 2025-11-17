@@ -1,0 +1,48 @@
+{
+  "id": "OP12-042",
+  "set": "OP12",
+  "number": 42,
+  "name": "Alvida",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Cross Guild"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-042.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "If you have 2 or more Characters with an original cost of 5 or more, this card gains +1 cost.\nOn Play: Place up to 1 opponent's Character with an original cost of 1 or less at the bottom of the owner's deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to 1 opponent's Character with an original cost of 1 or less at the bottom of the owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "id": "OP14-119",
+  "set": "OP14",
+  "number": 119,
+  "name": "Dracule Mihawk",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "The Seven Warlords of the Sea"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP14/OP14-119.png",
+  "stats": {
+    "cost": 9,
+    "power": 10000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 10000
+    }
+  },
+  "keywords": [
+    "Your Turn",
+    "On Your Opponent's Attack",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn: When this Character is rested, up to 1 of your opponent's Characters with a cost of 9 or less cannot be rested until the end of your opponent's next turn. \nOn Your Opponent's Attack (Once Per Turn): You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +2000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When this Character is rested, up to 1 of your opponent's Characters with a cost of 9 or less cannot be rested until the end of your opponent's next turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Your Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +2000 power during this battle.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneOfYourLeaderOrCharacter"
+        ],
+        "conditions": [
+          "trashOneCardFromYourHand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

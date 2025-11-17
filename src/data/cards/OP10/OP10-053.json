@@ -1,0 +1,50 @@
+{
+  "id": "OP10-053",
+  "set": "OP10",
+  "number": 53,
+  "name": "Bian",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Tontatta",
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-053.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If you have a character with the 'Tontatta Kingdom' type on your field other than 'Bian', this character gains Blocker.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a character with the 'Tontatta Kingdom' type on your field other than 'Bian', this character gains Blocker.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample image with 'SAMPLE' watermark. All fields are inferred from visible text and standard card layout."
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "OP14-037",
+  "set": "OP14",
+  "number": 37,
+  "name": "For Fun",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "East Blue",
+    "The Seven Warlords of the Sea"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-037.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main You may rest 3 of your cards: K.O. up to 1 of your opponent's rested Characters with 7000 base power or less. \nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest 3 of your cards: K.O. up to 1 of your opponent's rested Characters with 7000 base power or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "oneOpponentCharacter<=cost4"
+        ],
+        "conditions": [
+          "rested"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

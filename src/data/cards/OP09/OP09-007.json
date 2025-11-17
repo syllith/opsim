@@ -1,0 +1,62 @@
+{
+  "id": "OP09-007",
+  "set": "OP09",
+  "number": 7,
+  "name": "Heat",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Kid Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP09/OP09-007.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: Give up 1 of your Power 4000 or lower leaders +1000 power for the turn.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up 1 of your Power 4000 or lower leaders +1000 power for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

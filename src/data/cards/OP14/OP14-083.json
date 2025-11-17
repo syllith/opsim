@@ -1,0 +1,48 @@
+{
+  "id": "OP14-083",
+  "set": "OP14",
+  "number": 83,
+  "name": "Ms. Wednesday",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-083.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate:Main You may trash this Character: Give up to 1 of your opponent's Characters with a cost of 0 -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this Character: Give up to 1 of your opponent's Characters with a cost of 0 -2000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

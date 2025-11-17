@@ -1,0 +1,64 @@
+{
+  "id": "PRB02-017",
+  "set": "PRB02",
+  "number": 17,
+  "name": "Boa Hancock",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "FILM/Seven Warlords of the Sea/Kuja Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/PRB02/PRB02-017.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's Characters with a cost of 4 or less."
+  },
+  "text": "On Play: You may trash 1 card with a Trigger from your hand. Up to 1 of your opponent's rested Leader or Characters other than [Monkey.D.Luffy] cannot attack until the end of your opponent's next turn. Trigger: K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card with a Trigger from your hand. Up to 1 of your opponent's rested Leader or Characters other than [Monkey.D.Luffy] cannot attack until the end of your opponent's next turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

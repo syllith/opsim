@@ -1,0 +1,37 @@
+{
+  "id": "ST09-004",
+  "set": "ST09",
+  "number": 4,
+  "name": "Kaido",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Four Emperors", "Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST09/ST09-004.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 — While you have 2 cards or less in your life area, this Character can't be K.O.'d in battle.",
+  "abilities": [
+    {
+      "timing": "Continuous",
+      "frequency": null,
+      "donReq": 1,
+      "cost": null,
+      "effect": {
+        "text": "While you have 2 cards or less in your life area, this Character can't be K.O.'d in battle.",
+        "grants": ["cannotBeKOdInBattle"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["ifYourLifeArea<=2"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

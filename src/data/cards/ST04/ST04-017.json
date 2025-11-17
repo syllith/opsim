@@ -1,0 +1,20 @@
+{
+  "id": "ST04-017",
+  "set": "ST04",
+  "number": 17,
+  "name": "Onigashima Island",
+  "category": "Stage",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST04/ST04-017.png",
+  "stats": { "cost": 3, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "Activate: Main: You may rest this Stage: If your Leader has the Animal Kingdom Pirates type, add 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {"timing": "Activate: Main", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Rest this Stage: If Leader is Animal Kingdom Pirates, add 1 DON!! from DON deck and rest it.", "grants": [], "powerMod": null, "targets": ["donDeck"], "conditions": ["leaderType:Animal Kingdom Pirates"]}}
+  ],
+  "meta": {"notes": null}
+}

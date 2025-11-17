@@ -1,0 +1,68 @@
+{
+  "id": "OP14-061",
+  "set": "OP14",
+  "number": 61,
+  "name": "Vergo",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Punk Hazard",
+    "Navy",
+    "Donquixote Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-061.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "Once Per Turn",
+    "When Attacking",
+    "DON!!-1"
+  ],
+  "trigger": null,
+  "text": "Once Per Turn: If your (Donquixote Pirates) type Character would be removed from the field by your opponent's effect, you may return 1 DON!! card from your field to your DON!! deck instead. When Attacking DON!!-1: Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your (Donquixote Pirates) type Character would be removed from the field by your opponent's effect, you may return 1 DON!! card from your field to your DON!! deck instead.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

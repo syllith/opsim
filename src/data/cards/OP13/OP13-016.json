@@ -1,0 +1,55 @@
+{
+  "id": "OP13-016",
+  "set": "OP13",
+  "number": 16,
+  "name": "Monkey.D.Garp",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-016.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader is [Monkey.D.Luffy], [Sabo] or [Portgas.D.Ace], look at 4 cards from the top of your deck; reveal up to 1 card with a cost of 3 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Monkey.D.Luffy], [Sabo] or [Portgas.D.Ace], look at 4 cards from the top of your deck; reveal up to 1 card with a cost of 3 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIs",
+          "oneOf",
+          "Monkey.D.Luffy",
+          "Sabo",
+          "Portgas.D.Ace"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

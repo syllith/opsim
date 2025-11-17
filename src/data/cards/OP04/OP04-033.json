@@ -1,0 +1,61 @@
+{
+  "id": "OP04-033",
+  "set": "OP04",
+  "number": 33,
+  "name": "Machvise",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-033.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your leader is the (Donquixote Pirates) type, rest up to one of your opponent's 5 cost or lower characters. Then, at the end of the turn, set up to 1 of your DON!! as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is the (Donquixote Pirates) type, rest up to one of your opponent's 5 cost or lower characters. Then, at the end of the turn, set up to 1 of your DON!! as active.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "conditions": [
+          "yourLeader:DonquixotePirates"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "costArea",
+          "to": [
+            "yourDon"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in a box in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

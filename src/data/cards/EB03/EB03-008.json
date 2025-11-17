@@ -1,0 +1,66 @@
+{
+  "id": "EB03-008",
+  "set": "EB03",
+  "number": 8,
+  "name": "Hibari",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Ranged",
+  "types": ["Navy", "SWORD"],
+  "rarity": "UC",
+  "art": "/cards/EB03/EB03-008.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "When Attacking", "Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "[On Play] / [When Attacking] Up to 1 of your {SWORD} type Leader or Character can also attack active Characters during this turn.\n[Activate: Main] [Once Per Turn] Give up to 1 of your opponent's Characters -1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to 1 of your {SWORD} type Leader or Character can also attack active Characters during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:ally:LeaderOrCharacter:SWORD"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to 1 of your {SWORD} type Leader or Character can also attack active Characters during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:ally:LeaderOrCharacter:SWORD"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -1000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": -1000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["upTo1:opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

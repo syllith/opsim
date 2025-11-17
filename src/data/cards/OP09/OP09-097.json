@@ -1,0 +1,61 @@
+{
+  "id": "OP09-097",
+  "set": "OP09",
+  "number": 97,
+  "name": "Black Spiral",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Blackbeard Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-097.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Nullify the effects of up to 1 of your opponent's leader or character during this turn."
+  },
+  "text": "Nullify the effects of up to 1 of your opponent's leader or character and give them -4000 power during this turn. Trigger: Nullify the effects of up to 1 of your opponent's leader or character during this turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Nullify the effects of up to 1 of your opponent's leader or character and give them -4000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Nullify the effects of up to 1 of your opponent's leader or character during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "OP05-075",
+  "set": "OP05",
+  "number": 75,
+  "name": "Mr.1 (Daz Bones)",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-075.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Opponent's Attack",
+    "Once Per Turn",
+    "Don -1"
+  ],
+  "trigger": null,
+  "text": "On Opponent's Attack Once Per Turn Don -1: Play up to 1 Baroque Works type Character Card with a cost of 3 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Play up to 1 Baroque Works type Character Card with a cost of 3 or less from your hand.",
+        "powerMod": null,
+        "targets": [
+          "oneCharacter",
+          "from:hand"
+        ],
+        "conditions": [
+          "type:Baroque Works",
+          "cost<=3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP11-042",
+  "set": "OP11",
+  "number": 42,
+  "name": "Vito",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Fire Tank Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-042.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash 1 (Fire Tank Pirate) type card from your hand: This Character gains Rush during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 (Fire Tank Pirate) type card from your hand: This Character gains Rush during this turn.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

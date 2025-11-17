@@ -1,0 +1,38 @@
+{
+  "id": "OP01-093",
+  "set": "OP01",
+  "number": 93,
+  "name": "Ulti",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-093.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: (You may rest the specified number of DON!! cards in your Cost Area): Add 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "Add 1 DON!! card from your DON!! deck and rest it.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["player"],
+        "conditions": [],
+        "giveDon": { "quantity": 1, "state": "rested", "from": "costArea", "to": ["player"] }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

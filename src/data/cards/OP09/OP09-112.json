@@ -1,0 +1,64 @@
+{
+  "id": "OP09-112",
+  "set": "OP09",
+  "number": 112,
+  "name": "Belo Betty",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-112.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your Leader has the {{Revolutionary Army}} type and the total of your and your opponent's Life cards is 5 or less, play this card."
+  },
+  "text": "On Play: If you have 2 or less life, draw 1 card. Trigger: If your Leader has the {{Revolutionary Army}} type and the total of your and your opponent's Life cards is 5 or less, play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 2 or less life, draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {{Revolutionary Army}} type and the total of your and your opponent's Life cards is 5 or less, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but rarity and ID are read from printed text."
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "OP06-029",
+  "set": "OP06",
+  "number": 29,
+  "name": "Daruma",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Fishman",
+    "New Fishman Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-029.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "When Attacking",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking Once Per Turn: If your leader has the [New Fishman Pirates Type], set this character as active, and give it power +1000 for the turn. Then, add the top card of your life to your hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the [New Fishman Pirates Type], set this character as active, and give it power +1000 for the turn. Then, add the top card of your life to your hand.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "leader:hasType[New Fishman Pirates]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is marked as a sample. Rarity is UC as printed in the bottom right corner. Power is 4000 as printed. Life is not printed, so set to null."
+  }
+}

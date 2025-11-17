@@ -1,0 +1,52 @@
+{
+  "id": "OP01-086",
+  "set": "OP01",
+  "number": 86,
+  "name": "Overheat",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["The Seven Warlords of the Sea", "Donquixote Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-086.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "Return up to 1 Character with a cost of 4 or less to the owner's hand." },
+  "text": "Counter: Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, return up to 1 active Character with a cost of 3 or less to the owner's hand.\nTrigger: Return up to 1 Character with a cost of 4 or less to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, return up to 1 active Character with a cost of 3 or less to the owner's hand.",
+        "grants": [],
+        "powerMod": { "amount": 4000, "duration": "this battle" },
+        "targets": ["ally:Leader", "oneAllyCharacter", "oneActiveCharacter<=3"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Return up to 1 Character with a cost of 4 or less to the owner's hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneCharacter<=4"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

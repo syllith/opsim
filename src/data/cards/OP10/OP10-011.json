@@ -1,0 +1,66 @@
+{
+  "id": "OP10-011",
+  "set": "OP10",
+  "number": 11,
+  "name": "Tony Tony Chopper",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Punk Hazard",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-011.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "Opponent's Turn"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOpponent's Turn: This character has +2000 power.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This character has +2000 power.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

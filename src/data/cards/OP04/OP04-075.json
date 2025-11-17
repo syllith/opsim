@@ -1,0 +1,84 @@
+{
+  "id": "OP04-075",
+  "set": "OP04",
+  "number": 75,
+  "name": "Nose Fancy Cannon",
+  "category": "Event",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-075.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Add up to 1 DON!! from your DON!! deck set as active."
+  },
+  "text": "#Counter Give up to 1 of your leaders or characters +6000 Power for this battle. Then, if your life is 2 or less, add up to 1 DON!! from your DON!! deck set as rested.\n\nTrigger Add up to 1 DON!! from your DON!! deck set as active.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your leaders or characters +6000 Power for this battle. Then, if your life is 2 or less, add up to 1 DON!! from your DON!! deck set as rested.",
+        "powerMod": {
+          "amount": 6000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneAllyLeader",
+          "oneAllyCharacter"
+        ],
+        "conditions": [
+          "life<=2"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 DON!! from your DON!! deck set as active.",
+        "powerMod": null,
+        "targets": [
+          "active"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "donDeck",
+          "to": [
+            "active"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

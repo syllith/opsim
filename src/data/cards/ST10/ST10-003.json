@@ -1,0 +1,50 @@
+{
+  "id": "ST10-003",
+  "set": "ST10",
+  "number": 3,
+  "name": "Eustass Kidd",
+  "category": "Leader",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["Kid Pirates"],
+  "rarity": null,
+  "art": "/cards/ST10/ST10-003.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Your Turn", "When Attacking", "DON!! -1"],
+  "trigger": null,
+  "text": "Your Turn: If you have 4 or more Life, this Leader has Power -1000. When Attacking — DON!! -1: This Leader gains +2000 Power for this turn.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 4 or more Life, this Leader has Power -1000.",
+        "grants": [],
+        "powerMod": { "amount": -1000, "duration": "yourTurnWhileCondition" },
+        "targets": ["self:Leader"],
+        "conditions": ["life>=4"]
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This Leader gains +2000 Power for this turn.",
+        "grants": [],
+        "powerMod": { "amount": 2000, "duration": "thisTurn" },
+        "targets": ["self:Leader"],
+        "conditions": ["donAttached"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

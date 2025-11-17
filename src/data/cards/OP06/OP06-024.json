@@ -1,0 +1,49 @@
+{
+  "id": "OP06-024",
+  "set": "OP06",
+  "number": 24,
+  "name": "Ikaros Muuhi",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Fishman",
+    "New Fishman Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-024.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your leader's type is \"New Fishman Pirates\", play up to 1 4 cost or lower \"Fishman\" character card from your hand. Then, add the top card of your life to your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader's type is \"New Fishman Pirates\", play up to 1 4 cost or lower \"Fishman\" character card from your hand. Then, add the top card of your life to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

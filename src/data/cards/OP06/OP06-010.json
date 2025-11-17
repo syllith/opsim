@@ -1,0 +1,52 @@
+{
+  "id": "OP06-010",
+  "set": "OP06",
+  "number": 10,
+  "name": "Douglas Bullet",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "The Pirates Fest"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-010.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "If your leader has the type (FILM), this Character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the type (FILM), this Character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

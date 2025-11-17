@@ -1,0 +1,64 @@
+{
+  "id": "OP03-056",
+  "set": "OP03",
+  "number": 56,
+  "name": "Sanji's Pilaf",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-056.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main: Draw 2 cards.\nTrigger: Activate this card's Main effect.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "OP10-106",
+  "set": "OP10",
+  "number": 106,
+  "name": "Killer",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "Kid Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP10/OP10-106.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On K.O. If your Leader has the type 'Supernovas', look at 3 cards from the top of your deck, reveal up to 1 'Supernovas' or 'Kid Pirates' type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the type 'Supernovas', look at 3 cards from the top of your deck, reveal up to 1 'Supernovas' or 'Kid Pirates' type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Supernovas"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "ST14-007",
+  "set": "ST14",
+  "number": 7,
+  "name": "Nico Robin",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Strike",
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST14/ST14-007.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "When Attacking", "Counter"],
+  "trigger": null,
+  "text": "On Play / When Attacking: If you have an 8 cost or above character on field, Give one of your opponent Character -5 cost during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have an 8 cost or above character on field, Give one of your opponent Character -5 cost during this turn.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["hasAllyCharacter>=8"]
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have an 8 cost or above character on field, Give one of your opponent Character -5 cost during this turn.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["hasAllyCharacter>=8"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

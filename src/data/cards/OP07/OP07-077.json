@@ -1,0 +1,69 @@
+{
+  "id": "OP07-077",
+  "set": "OP07",
+  "number": 77,
+  "name": "We're going to claim the One Piece!!!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "The Four Emperors",
+    "Land of Wano"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-077.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main If your Leader has the (Animal Kingdom Pirates) or (Big Mom Pirates) type, look at 5 cards from the top of your deck; reveal up to 1 (Animal Kingdom Pirates) or (Big Mom Pirates) type card other and add it to your hand.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Animal Kingdom Pirates) or (Big Mom Pirates) type, look at 5 cards from the top of your deck; reveal up to 1 (Animal Kingdom Pirates) or (Big Mom Pirates) type card other and add it to your hand.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:(Animal Kingdom Pirates) or (Big Mom Pirates)"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

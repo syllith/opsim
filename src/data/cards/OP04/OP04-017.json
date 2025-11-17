@@ -1,0 +1,56 @@
+{
+  "id": "OP04-017",
+  "set": "OP04",
+  "number": 17,
+  "name": "Happiness Punch",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Alabasta Kingdom",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-017.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 10000
+    }
+  },
+  "keywords": [
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Give up to 1 of your opponent's leaders or characters -2000 Power for the turn. Then, if your leader is active, give up to 1 of your opponent's leaders or characters -1000 Power for the turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's leaders or characters -2000 Power for the turn. Then, if your leader is active, give up to 1 of your opponent's leaders or characters -1000 Power for the turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentLeader",
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "activeLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP05-027",
+  "set": "OP05",
+  "number": 27,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP05/OP05-027.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may trash this character: Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this character: Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

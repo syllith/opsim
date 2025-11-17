@@ -1,0 +1,70 @@
+{
+  "id": "OP13-021",
+  "set": "OP13",
+  "number": 21,
+  "name": "Gum-Gum Gatling Gun",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-021.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Give up to 1 of your opponent's Character cards -2000 power during this turn."
+  },
+  "text": "Main: Give up to 1 rested DON!! card to 1 of your [Monkey.D.Luffy]. Then, give up to 1 of your opponent's Character cards -2000 power during this turn. Trigger: Give up to 1 of your opponent's Character cards -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Give up to 1 rested DON!! card to 1 of your [Monkey.D.Luffy]. Then, give up to 1 of your opponent's Character cards -2000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Character cards -2000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

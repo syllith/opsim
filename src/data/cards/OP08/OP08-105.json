@@ -1,0 +1,66 @@
+{
+  "id": "OP08-105",
+  "set": "OP08",
+  "number": 105,
+  "name": "Jewelry Bonney",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Egghead",
+    "Bonney Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP08/OP08-105.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "Once Per Turn",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 2 cards and discard one card from your hand."
+  },
+  "text": "DON!! x1 Your Turn Once Per Turn When your opponent loses a life, draw two cards and discard one card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When your opponent loses a life, draw two cards and discard one card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards and discard one card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

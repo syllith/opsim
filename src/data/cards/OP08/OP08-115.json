@@ -1,0 +1,55 @@
+{
+  "id": "OP08-115",
+  "set": "OP08",
+  "number": 115,
+  "name": "The Earth Won't Lose!!",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island",
+    "Shandoran Warrior"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-115.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Trigger",
+    "Draw 2 cards then discard 1 card"
+  ],
+  "trigger": {
+    "text": "Draw 2 cards then discard 1 card."
+  },
+  "text": "#Counter If your leader has the {Shandoran Warriors} type, your leader or up to one of your characters +3000 power for this battle. Then, play up to one [Upper Yard] from your hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the {Shandoran Warriors} type, your leader or up to one of your characters +3000 power for this battle. Then, play up to one [Upper Yard] from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "leader:hasType{Shandoran Warriors}"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

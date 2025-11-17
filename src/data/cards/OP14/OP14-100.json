@@ -1,0 +1,64 @@
+{
+  "id": "OP14-100",
+  "set": "OP14",
+  "number": 100,
+  "name": "Absalom",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-100.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On K.O.",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your trash rested."
+  },
+  "text": "On K.O. Look at 3 cards from the top of your deck; reveal up to 1 {Thriller Bark Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 3 cards from the top of your deck; reveal up to 1 {Thriller Bark Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your trash rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

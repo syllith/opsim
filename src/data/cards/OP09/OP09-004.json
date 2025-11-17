@@ -1,0 +1,63 @@
+{
+  "id": "OP09-004",
+  "set": "OP09",
+  "number": 4,
+  "name": "Shanks",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "The Four Emperors",
+    "Red Hair Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP09/OP09-004.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "All of your opponents characters have -1000 power.\n[Rush] (This card can attack on the turn in which it is played)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "All of your opponents characters have -1000 power.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(This card can attack on the turn in which it is played)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

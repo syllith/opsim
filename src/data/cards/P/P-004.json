@@ -1,0 +1,63 @@
+{
+  "id": "P-004",
+  "set": "P",
+  "number": 4,
+  "name": "Crocodile",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-004.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!!×1 This Character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "DON!!",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This Character gains Blocker.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "This is a sample card with placeholder text. The actual card may have different text and rules."
+  }
+}

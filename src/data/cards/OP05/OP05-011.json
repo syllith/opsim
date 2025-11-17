@@ -1,0 +1,71 @@
+{
+  "id": "OP05-011",
+  "set": "OP05",
+  "number": 11,
+  "name": "Bartholomew Kuma",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Seven Warlords",
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-011.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your leader is mixed-colour, play this card."
+  },
+  "text": "On Play: KO up to 1 opponent's character with Power of 2000 or less. Trigger: If your leader is mixed-colour, play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to 1 opponent's character with Power of 2000 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is mixed-colour, play this card.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIsMixedColour"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

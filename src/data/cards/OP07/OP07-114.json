@@ -1,0 +1,65 @@
+{
+  "id": "OP07-114",
+  "set": "OP07",
+  "number": 114,
+  "name": "The man with the world's greatest brain",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Egghead",
+    "Scientist"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP07/OP07-114.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw one card."
+  },
+  "text": "Main: Look at the top 5 cards of your deck. Add one card with the type (Egghead) other than \"The man with the world's greatest brain\" to your hand. Then, place the rest on the bottom of the deck in any order you like.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck. Add one card with the type (Egghead) other than \"The man with the world's greatest brain\" to your hand. Then, place the rest on the bottom of the deck in any order you like.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw one card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

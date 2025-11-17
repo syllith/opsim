@@ -1,0 +1,46 @@
+{
+  "id": "OP06-002",
+  "set": "OP06",
+  "number": 2,
+  "name": "Inazuma",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-002.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When this Character has 7000 power or more, they gain Banish (When a character deals damage, the target card is trashed without activating its Trigger.)",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When this Character has 7000 power or more, they gain Banish (When a character deals damage, the target card is trashed without activating its Trigger.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample image with 'SAMPLE' watermark. Power value is 5000, not 7000 as stated in the trigger condition. The trigger text is printed as 'Banish (When a character deals damage, the target card is trashed without activating its Trigger.)' which is a standard Banish effect."
+  }
+}

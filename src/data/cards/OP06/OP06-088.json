@@ -1,0 +1,54 @@
+{
+  "id": "OP06-088",
+  "set": "OP06",
+  "number": 88,
+  "name": "Sai",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa",
+    "Happosui Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-088.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If your Leader has the {Dressrosa} type and your leader is active, this character gains +2000 power.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Dressrosa} type and your leader is active, this character gains +2000 power.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "your Leader has the {Dressrosa} type",
+          "your leader is active"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

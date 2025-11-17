@@ -1,0 +1,53 @@
+{
+  "id": "EB03-038",
+  "set": "EB03",
+  "number": 38,
+  "name": "Thanks for the Treat",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["The Vinsmoke Family", "GERMA 66"],
+  "rarity": "UC",
+  "art": "/cards/EB03/EB03-038.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main", "Counter"],
+  "trigger": null,
+  "text": "[Main] You may rest 1 of your DON!! cards: If the number of DON!! cards on your field is equal to or less than the number on your opponent's field and you only have Characters with a type including \"GERMA\", add up to 2 DON!! cards from your DON!! deck and rest them.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "If the number of DON!! cards on your field is equal to or less than the number on your opponent's field and you only have Characters with a type including \"GERMA\", add up to 2 DON!! cards from your DON!! deck and rest them.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["donDeck"],
+        "conditions": ["ownDonEqualOrLessThanOpponentDon", "onlyGERMACharacters"]
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
+        "grants": [],
+        "powerMod": {
+          "amount": 3000,
+          "duration": "duringThisBattle"
+        },
+        "targets": ["upTo1:self:Leader"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

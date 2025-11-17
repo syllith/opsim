@@ -1,0 +1,62 @@
+{
+  "id": "OP08-030",
+  "set": "OP08",
+  "number": 30,
+  "name": "Pedro",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Minks"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-030.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. Choose 1:\n• Rest up to one of your opponents Don!!\n• KO up to one of your opponents rested cost 6 or lower characters.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose 1:\n• Rest up to one of your opponents Don!!\n• KO up to one of your opponents rested cost 6 or lower characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample and has 'SAMPLE' watermark. Power and life are not printed on the card."
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ST06-012",
+  "set": "ST06",
+  "number": 12,
+  "name": "Monkey D. Garp",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST06/ST06-012.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "Activate: Main: You may Trash 1 card from your hand and rest this Character: K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may Trash 1 card from your hand and rest this Character: K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["trashFromHand:1","targetCost<=4","restSelf"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

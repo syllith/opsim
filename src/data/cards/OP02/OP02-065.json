@@ -1,0 +1,50 @@
+{
+  "id": "OP02-065",
+  "set": "OP02",
+  "number": 65,
+  "name": "Mr.3 (Galdino)",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Impel Down", "Former Baroque Works"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-065.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "End of Your Turn"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) End of Your Turn: You may trash 1 card from your hand: Set this card as active.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["Character"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Set this card as active.",
+        "grants": ["active", "trash"],
+        "powerMod": null,
+        "targets": ["Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

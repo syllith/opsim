@@ -1,0 +1,38 @@
+{
+  "id": "OP01-068",
+  "set": "OP01",
+  "number": 68,
+  "name": "Gecko Moria",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Thriller Bark Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-068.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Your Turn", "Double Attack"],
+  "trigger": null,
+  "text": "Your Turn: If you have 5 or more cards in your hand, this Character gains Double Attack (This card deals 2 damage.)",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 5 or more cards in your hand, this Character gains Double Attack (This card deals 2 damage.)",
+        "grants": ["Double Attack"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["handSize>=5"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

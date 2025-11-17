@@ -1,0 +1,66 @@
+{
+  "id": "OP03-096",
+  "set": "OP03",
+  "number": 96,
+  "name": "Tempest Kick Sky Slicer",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-096.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 2 cards."
+  },
+  "text": "[Main] K.O. up to 1 of your opponent's Characters with a cost of 0 or up to 1 of your opponent's Stages with a cost of 3 or less.\n[Trigger] Draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 0 or up to 1 of your opponent's Stages with a cost of 3 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost0",
+          "oneOpponentStage<=cost3"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

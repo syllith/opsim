@@ -1,0 +1,50 @@
+{
+  "id": "EB01-046",
+  "set": "EB01",
+  "number": 46,
+  "name": "Brook",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Slash",
+  "types": ["Straw Hat Crew"],
+  "rarity": "SR",
+  "art": "/cards/EB01/EB01-046.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "When Attacking"],
+  "trigger": null,
+  "text": "[On Play] / [When Attacking] Give up to one of your opponent's characters cost -1 for this turn. Then, KO up to 1 of your opponent's 0 cost characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to one of your opponent's characters cost -1 for this turn. Then, KO up to 1 of your opponent's 0 cost characters.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to one of your opponent's characters cost -1 for this turn. Then, KO up to 1 of your opponent's 0 cost characters.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

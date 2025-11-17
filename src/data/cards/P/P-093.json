@@ -1,0 +1,49 @@
+{
+  "id": "P-093",
+  "set": "P",
+  "number": 93,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Heart Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-093.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

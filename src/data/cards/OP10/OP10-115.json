@@ -1,0 +1,65 @@
+{
+  "id": "OP10-115",
+  "set": "OP10",
+  "number": 115,
+  "name": "Let's meet in the \"New World\"!",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Supernova",
+    "Kid Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-115.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "K.O up to 1 of your opponent's characters with a cost equal to or less than your opponent's Life cards"
+  },
+  "text": "Counter: Give up to one of your leaders or character +4000 power for this battle. Then, if you have 0 life cards, draw one card.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one of your leaders or character +4000 power for this battle. Then, if you have 0 life cards, draw one card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O up to 1 of your opponent's characters with a cost equal to or less than your opponent's Life cards",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

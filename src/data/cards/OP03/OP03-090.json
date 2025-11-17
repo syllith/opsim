@@ -1,0 +1,56 @@
+{
+  "id": "OP03-090",
+  "set": "OP03",
+  "number": 90,
+  "name": "Blueno",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "CP9"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-090.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O.",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 This Character gains Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. Play up to 1 Character card with a cost of 4 or less with (CP) in its type from your trash and rest it.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Play up to 1 Character card with a cost of 4 or less with (CP) in its type from your trash and rest it.",
+        "powerMod": null,
+        "targets": [
+          "oneCharacterCard<=cost4",
+          "from:trash"
+        ],
+        "conditions": [
+          "hasType:CP"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

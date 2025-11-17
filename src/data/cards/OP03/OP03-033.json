@@ -1,0 +1,52 @@
+{
+  "id": "OP03-033",
+  "set": "OP03",
+  "number": 33,
+  "name": "Hatchan",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Fish-Man",
+    "East Blue",
+    "Arlong Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-033.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your Leader has the (East Blue) type, play this card."
+  },
+  "text": "If your Leader has the (East Blue) type, play this card.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (East Blue) type, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the card's bottom right corner. The card is a sample, as indicated by the watermark."
+  }
+}

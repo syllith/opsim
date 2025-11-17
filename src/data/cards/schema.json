@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "One Piece TCG Card",
+  "type": "object",
+  "required": ["id", "set", "number", "name", "category", "colors", "types", "stats"],
+  "properties": {
+    "id": { "type": "string" },
+    "set": { "type": "string" },
+    "number": { "type": "integer" },
+    "name": { "type": "string" },
+    "verified": { "type": ["boolean", "null"] },
+    "category": { "enum": ["Leader", "Character", "Event", "Stage", "Don"] },
+    "colors": { "type": "array", "items": { "type": "string" } },
+    "attribute": { "type": ["string", "null"] },
+    "types": { "type": "array", "items": { "type": "string" } },
+    "rarity": { "type": ["string", "null"] },
+    "art": { "type": ["string", "null"] },
+    "stats": {
+      "type": "object",
+      "properties": {
+        "cost": { "type": ["integer", "null"] },
+        "power": { "type": ["integer", "null"] },
+        "life": { "type": ["integer", "null"] },
+        "counter": {
+          "type": "object",
+          "properties": {
+            "present": { "type": "boolean" },
+            "value": { "type": "integer" }
+          },
+          "required": ["present", "value"]
+        }
+      },
+      "required": ["cost", "power", "life", "counter"]
+    },
+    "keywords": { "type": "array", "items": { "type": "string" } },
+    "trigger": {
+      "type": ["object", "null"],
+      "properties": { "text": { "type": "string" } },
+      "required": ["text"]
+    },
+    "text": { "type": ["string", "null"] },
+    "abilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timing": { "type": "string" },
+          "frequency": { "type": ["string", "null"] },
+          "donReq": { "type": ["integer", "null"] },
+          "cost": {
+            "type": "object",
+            "properties": {
+              "restDonFromCostArea": { "type": "integer" }
+            },
+            "required": ["restDonFromCostArea"]
+          },
+          "effect": {
+            "type": "object",
+            "properties": {
+              "text": { "type": "string" },
+              "grants": { "type": "array", "items": { "type": "string" } },
+              "powerMod": {
+                "type": ["object", "null"],
+                "properties": {
+                  "amount": { "type": "integer" },
+                  "duration": { "type": "string" }
+                },
+                "required": ["amount", "duration"]
+              },
+              "targets": { "type": "array", "items": { "type": "string" } },
+              "conditions": { "type": "array", "items": { "type": "string" } },
+              "giveDon": {
+                "type": ["object", "null"],
+                "properties": {
+                  "quantity": { "type": "integer" },
+                  "state": { "enum": ["active", "rested"] },
+                  "from": { "enum": ["costArea"] },
+                  "to": { "type": "array", "items": { "type": "string" } }
+                },
+                "required": ["quantity", "state", "from", "to"]
+              }
+            },
+            "required": ["text"]
+          }
+        },
+        "required": ["timing", "cost", "effect"]
+      }
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "notes": { "type": ["string", "null"] }
+      },
+      "required": ["notes"]
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "EB02-011",
+  "set": "EB02",
+  "number": 11,
+  "name": "Arlong",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Fish-Man", "East Blue", "Arlong Pirates"],
+  "rarity": "UC",
+  "art": "/cards/EB02/EB02-011.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] If your Leader has the {Fish-Man} or {East Blue} type, give up to 1 rested DON!! to your Leader. Then, up to 1 of your opponent's Characters with a cost of 5 or less cannot be rested until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Fish-Man} or {East Blue} type, give up to 1 rested DON!! to your Leader. Then, up to 1 of your opponent's Characters with a cost of 5 or less cannot be rested until the end of your opponent's next turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Leader", "upTo1:opponent:Character:cost<=5"],
+        "conditions": ["leaderHasFishManOrEastBlue"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self:Leader"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP10-102",
+  "set": "OP10",
+  "number": 102,
+  "name": "Emporio Ivankov",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP10/OP10-102.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn Give up to 3 of your (Revolutionary army) type characters +1000 power until end of turn. Then, put the top card of your life into your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 3 of your (Revolutionary army) type characters +1000 power until end of turn. Then, put the top card of your life into your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'SPECIAL Q' in the image, but these are not part of the card's official printed data. The actual card ID is OP10-102, rarity is SP, and the counter value is 1000."
+  }
+}

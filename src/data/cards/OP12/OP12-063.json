@@ -1,0 +1,62 @@
+{
+  "id": "OP12-063",
+  "set": "OP12",
+  "number": 63,
+  "name": "Vinsmoke Reiju",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Vinsmoke Family",
+    "GERMA 66"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP12/OP12-063.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "If your trash has 4 or more Events, this Character gains +2000 power and +5 cost. \nBlocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your trash has 4 or more Events, this Character gains +2000 power and +5 cost.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

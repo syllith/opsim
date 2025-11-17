@@ -1,0 +1,54 @@
+{
+  "id": "OP05-072",
+  "set": "OP05",
+  "number": 72,
+  "name": "Bonekishi",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-072.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your board has 8 or more DON!!, give up to 2 opponent characters power -2000.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 8,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your board has 8 or more DON!!, give up to 2 opponent characters power -2000.",
+        "powerMod": null,
+        "targets": [
+          "up to 2 opponent characters"
+        ],
+        "conditions": [
+          "your board has 8 or more DON!!"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

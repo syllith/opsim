@@ -1,0 +1,53 @@
+{
+  "id": "OP13-026",
+  "set": "OP13",
+  "number": 26,
+  "name": "Sunny-Kun",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-026.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate:Main Once Per Turn You may rest 1 of your DON!! cards: This Character gains +2000 power until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may rest 1 of your DON!! cards: This Character gains +2000 power until the end of your opponent's next turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

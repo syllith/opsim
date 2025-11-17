@@ -1,0 +1,49 @@
+{
+  "id": "OP06-106",
+  "set": "OP06",
+  "number": 106,
+  "name": "Kozuki Hiyori",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Wano country",
+    "Kozuki Clan"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP06/OP06-106.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may put the top or bottom card of your life pile into your hand. Put up to one card from your hand on the top of your life pile.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may put the top or bottom card of your life pile into your hand. Put up to one card from your hand on the top of your life pile.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

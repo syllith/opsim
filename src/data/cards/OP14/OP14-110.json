@@ -1,0 +1,64 @@
+{
+  "id": "OP14-110",
+  "set": "OP14",
+  "number": 110,
+  "name": "Dr. Hogback",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-110.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O.",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your trash rested."
+  },
+  "text": "On K.O. Play up to 1 Character card with a cost of 4 or less and a [Trigger] other than [Dr. Hogback] from your trash. Trigger Play up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your trash rested.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 Character card with a cost of 4 or less and a [Trigger] other than [Dr. Hogback] from your trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your trash rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "id": "P-039",
+  "set": "P",
+  "number": 39,
+  "name": "Bellamy",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Bellamy Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-039.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Banish",
+    "DON!! x2"
+  ],
+  "trigger": null,
+  "text": "Banish (When a character deals damage, the target card is trashed without activating its Trigger.)\nDON!! x2 When you have 0 life this character gains +2000 power.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Banish (When a character deals damage, the target card is trashed without activating its Trigger.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When you have 0 life this character gains +2000 power.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "self:life=0"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

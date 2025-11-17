@@ -1,0 +1,53 @@
+{
+  "id": "OP11-044",
+  "set": "OP11",
+  "number": 44,
+  "name": "Vinsmoke Judge",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Vinsmoke Family",
+    "GERMA 66"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-044.png",
+  "stats": {
+    "cost": 6,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 8000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may trash 1 card from your hand: All of your (GERMA 66) type Characters gain +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: All of your (GERMA 66) type Characters gain +1000 power during this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

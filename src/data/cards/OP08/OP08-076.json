@@ -1,0 +1,68 @@
+{
+  "id": "OP08-076",
+  "set": "OP08",
+  "number": 76,
+  "name": "It's to die for♡",
+  "category": "Event",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "The Four Emperors",
+    "Big Mom Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP08/OP08-076.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Add up to 1 DON!! card from your DON!! deck and set it as active."
+  },
+  "text": "Main Add up to 1 DON!! card from your DON!! deck and set it as active. Then, if your opponent has a Character with 6000 power or more in play, add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active. Then, if your opponent has a Character with 6000 power or more in play, add up to 1 DON!! card from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "conditions": [
+          "opponentCharacter>=power6000"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

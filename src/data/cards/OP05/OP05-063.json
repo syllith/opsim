@@ -1,0 +1,51 @@
+{
+  "id": "OP05-063",
+  "set": "OP05",
+  "number": 63,
+  "name": "Orobi",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-063.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have 8 or more DON!! cards on your field, K.O. up to one of your opponent's Characters that costs 3 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 8,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 8 or more DON!! cards on your field, K.O. up to one of your opponent's Characters that costs 3 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

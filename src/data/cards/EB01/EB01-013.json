@@ -1,0 +1,59 @@
+{
+  "id": "EB01-013",
+  "set": "EB01",
+  "number": 13,
+  "name": "Kozuki Hiyori",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Land of Wano",
+    "Kozuki Clan"
+  ],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-013.png",
+  "stats": {
+    "cost": 4,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "[Activate: Main] You may place this card into your trash: Place up to one cost 5 or less {Land of Wano} type character (other than [Kozuki Hiyori]) from your hand into play. Then, draw one card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place this card into your trash: Place up to one cost 5 or less {Land of Wano} type character (other than [Kozuki Hiyori]) from your hand into play. Then, draw one card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": [
+          "self",
+          "hand"
+        ],
+        "conditions": [
+          "characterCost<=5",
+          "characterTypeLandOfWano",
+          "notKozukiHiyori"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": false
+}

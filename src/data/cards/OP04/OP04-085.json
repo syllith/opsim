@@ -1,0 +1,71 @@
+{
+  "id": "OP04-085",
+  "set": "OP04",
+  "number": 85,
+  "name": "Suleiman",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-085.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "On Play / When Attacking If your leader is [Dressrosa] type, give -2 cost to up to one of your opponent's characters. Then, place 1 card from the top of your deck in the trash.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is [Dressrosa] type, give -2 cost to up to one of your opponent's characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "yourLeaderIsDressrosaType"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place 1 card from the top of your deck in the trash.",
+        "powerMod": null,
+        "targets": [
+          "topCardOfYourDeck"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

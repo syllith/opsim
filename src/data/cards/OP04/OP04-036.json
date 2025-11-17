@@ -1,0 +1,57 @@
+{
+  "id": "OP04-036",
+  "set": "OP04",
+  "number": 36,
+  "name": "Donquixote Family",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-036.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's #Counter effect."
+  },
+  "text": "#Counter Look at 5 cards from the top of your deck; reveal up to 1 (Donquixote Pirates) type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 (Donquixote Pirates) type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": [
+          "top5CardsOfDeck"
+        ],
+        "conditions": [
+          "isDonquixotePirates"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner of the card."
+  }
+}

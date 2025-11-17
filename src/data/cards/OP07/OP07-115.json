@@ -1,0 +1,50 @@
+{
+  "id": "OP07-115",
+  "set": "OP07",
+  "number": 115,
+  "name": "Please Save me !!!",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Scientist/Egghead"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-115.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play Up to 1 Cost 5 or lower <Egghead> type character card from your trash."
+  },
+  "text": "If you have 2 or less life, Give up to 1 of your Leader or Characters +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play Up to 1 Cost 5 or lower <Egghead> type character card from your trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

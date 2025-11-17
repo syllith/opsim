@@ -1,0 +1,50 @@
+{
+  "id": "ST19-004",
+  "set": "ST19",
+  "number": 4,
+  "name": "Hina",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Special",
+  "types": ["Navy"],
+  "rarity": "SR",
+  "art": "/cards/ST19/ST19-004.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["DON!! x1", "Opponent's Turn", "Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "DON!! x1 Opponent's Turn This character has +4 cost. Activate: Main Once Per Turn You may place one card from your trash on the bottom of your deck: Give your leader or up to one of your characters up to 1 rested Don!!.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "This character has +4 cost.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may place one card from your trash on the bottom of your deck: Give your leader or up to one of your characters up to 1 rested Don!!.",
+        "powerMod": null,
+        "targets": ["ally:Leader", "upToOneAllyCharacter"],
+        "conditions": ["optionalMoveTrashCardToDeckBottom"],
+        "giveDon": { "amount": 1, "state": "rested" }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

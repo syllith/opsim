@@ -1,0 +1,37 @@
+{
+  "id": "ST18-005",
+  "set": "ST18",
+  "number": 5,
+  "name": "Luffy-tarou",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Straw Hat Crew"],
+  "rarity": "SR",
+  "art": "/cards/ST18/ST18-005.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "DON!!-1: (You may rest the specified number of DON!! cards in your Cost Area) Play up to 1 Purple (Straw Hat Crew) type Character card with a cost of 5 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "Play up to 1 Purple (Straw Hat Crew) type Character card with a cost of 5 or less from your hand.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter:Purple:Straw Hat Crew:<=5"],
+        "conditions": ["donRestedFromCostArea"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

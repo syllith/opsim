@@ -1,0 +1,53 @@
+{
+  "id": "OP05-026",
+  "set": "OP05",
+  "number": 26,
+  "name": "Sarquiss",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Bellamy Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-026.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "When Attacking",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking Once Per Turn: You may rest one of your characters that costs 3 or more: Set this character as active.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest one of your characters that costs 3 or more: Set this character as active.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourCharacters>=cost3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

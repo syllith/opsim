@@ -1,0 +1,55 @@
+{
+  "id": "OP10-069",
+  "set": "OP10",
+  "number": 69,
+  "name": "Fighting Fish",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal",
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-069.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking DON!! -1: K.O. up to 1 of your opponent's Characters with a Cost of 1 or lower.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "DON!! -1: K.O. up to 1 of your opponent's Characters with a Cost of 1 or lower.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "Cost<=1"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has 'Nakamaru' watermark, likely a promotional or preview card. Rarity 'C' is confirmed by the box in bottom right."
+  }
+}

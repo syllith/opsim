@@ -1,0 +1,65 @@
+{
+  "id": "OP09-083",
+  "set": "OP09",
+  "number": 83,
+  "name": "Van Augur",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Blackbeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-083.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this character: If your leader has the (Blackbeard Pirates) type, give up to one of your opponent's characters -3 cost for this turn. On K.O. Draw one card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character: If your leader has the (Blackbeard Pirates) type, give up to one of your opponent's characters -3 cost for this turn.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has the (Blackbeard Pirates) type"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw one card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

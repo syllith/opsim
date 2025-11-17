@@ -1,0 +1,37 @@
+{
+  "id": "EB02-032",
+  "set": "EB02",
+  "number": 32,
+  "name": "Iceburg",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Wisdom",
+  "types": ["Water 7", "Galley-La Company"],
+  "rarity": "C",
+  "art": "/cards/EB02/EB02-032.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] If there are 3 or more DON!! cards on your field, look at 7 cards from the top of your deck; reveal up to 1 [Galley-La Company] and add it to your hand. Then, place the rest at the bottom of your deck in any order and play up to 1 [Galley-La Company] from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If there are 3 or more DON!! cards on your field, look at 7 cards from the top of your deck; reveal up to 1 [Galley-La Company] and add it to your hand. Then, place the rest at the bottom of your deck in any order and play up to 1 [Galley-La Company] from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck", "hand:GalleyLaCompany"],
+        "conditions": ["3orMoreDonOnField"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

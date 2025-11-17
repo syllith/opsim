@@ -1,0 +1,55 @@
+{
+  "id": "OP09-093",
+  "set": "OP09",
+  "number": 93,
+  "name": "Marshall D Teach",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Four Emperors",
+    "Blackbeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-093.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 12000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn. If your leader has the type (Blackbeard Pirates), and if this character has played this turn, Up to one of your opponents leaders effects are negated for the rest of the turn. Then, up to one of your opponents characters effects are negated until the end of your opponent's next turn, that character also cannot attack.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the type (Blackbeard Pirates), and if this character has played this turn, Up to one of your opponents leaders effects are negated for the rest of the turn. Then, up to one of your opponents characters effects are negated until the end of your opponent's next turn, that character also cannot attack.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader:hasType(Blackbeard Pirates)",
+          "thisCharacter:hasPlayedThisTurn"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

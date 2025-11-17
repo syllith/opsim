@@ -1,0 +1,37 @@
+{
+  "id": "EB01-009",
+  "set": "EB01",
+  "number": 9,
+  "name": "Shut Up and Come With Us!!",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Drum Kingdom", "Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-009.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter"],
+  "trigger": null,
+  "text": "[Counter] Look at the top 5 cards of your deck and put up to one cost 3 or less {Animal} type character into play. Then, place the rest on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck and put up to one cost 3 or less {Animal} type character into play. Then, place the rest on the bottom of your deck in any order.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck"],
+        "conditions": ["characterCost<=3", "characterTypeAnimal"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP07-051",
+  "set": "OP07",
+  "number": 51,
+  "name": "Boa Hancock",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Seven Warlords of the Sea",
+    "Kuja Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP07/OP07-051.png",
+  "stats": {
+    "cost": 6,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Up to one of your opponents characters other than [Monkey.D. Luffy] cannot attack until the end of their next turn. Then, place up to one cost 1 or less character on the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to one of your opponents characters other than [Monkey.D. Luffy] cannot attack until the end of their next turn. Then, place up to one cost 1 or less character on the bottom of its owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

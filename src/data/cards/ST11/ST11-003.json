@@ -1,0 +1,50 @@
+{
+  "id": "ST11-003",
+  "set": "ST11",
+  "number": 3,
+  "name": "Backlight",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Song", "FILM"],
+  "rarity": "C",
+  "art": "/cards/ST11/ST11-003.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Main If your leader is Uta, choose 1 of the below: Rest up to 1 of your opponent's cost 5 or lower characters. KO up to 1 of your opponent's cost 5 or lower rested characters.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader is Uta, rest up to 1 of your opponent's cost 5 or lower characters.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=5"],
+        "conditions": ["leaderIs:Uta"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader is Uta, KO up to 1 of your opponent's cost 5 or lower rested characters.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=5:rested"],
+        "conditions": ["leaderIs:Uta"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

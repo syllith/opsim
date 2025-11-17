@@ -1,0 +1,49 @@
+{
+  "id": "OP06-031",
+  "set": "OP06",
+  "number": 31,
+  "name": "Hatchan",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Fishman",
+    "Former Arolng Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-031.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Play up to one <Fishman> or <Merfolk> character with a cost of 3 or less from your hand."
+  },
+  "text": null,
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to one <Fishman> or <Merfolk> character with a cost of 3 or less from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but all data is extracted from printed text."
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "EB02-045",
+  "set": "EB02",
+  "number": 45,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Slash",
+  "types": ["Dressrosa", "Supernova", "Heart Pirates"],
+  "rarity": "SR",
+  "art": "/cards/EB02/EB02-045.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker]\n[On Play] You may return 2 cards from your trash to the bottom of your deck in any order: Choose one of the following,\n◉Draw 1 card.\n◉If your opponent has 5 or more cards in their hand, they discard 1 card from their hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may return 2 cards from your trash to the bottom of your deck in any order: Choose one of the following, ◉Draw 1 card. ◉If your opponent has 5 or more cards in their hand, they discard 1 card from their hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["trash", "deck", "opponentHand"],
+        "conditions": ["mayReturn2FromTrash"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

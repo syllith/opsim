@@ -1,0 +1,50 @@
+{
+  "id": "OP12-031",
+  "set": "OP12",
+  "number": 31,
+  "name": "Tashigi",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "East Blue",
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-031.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] Rest up to 1 of your opponent's Character with an original cost of 6 or less. Then, give up to 3 rested DON!! cards to your [Roronoa Zoro] Leader.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Character with an original cost of 6 or less. Then, give up to 3 rested DON!! cards to your [Roronoa Zoro] Leader.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

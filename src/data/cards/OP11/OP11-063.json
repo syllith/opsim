@@ -1,0 +1,71 @@
+{
+  "id": "OP11-063",
+  "set": "OP11",
+  "number": 63,
+  "name": "Little Sadie",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Impel Down"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-063.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "On Play DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): If your Leader has the {Impel Down} type, rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return the specified number of DON!! cards from your field to your DON!! deck.",
+        "powerMod": null,
+        "conditions": [
+          "your Leader has the {Impel Down} type"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Impel Down} type, rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+        "powerMod": null,
+        "targets": [
+          "up to 1 of your opponent's Characters with a cost of 3 or less"
+        ],
+        "conditions": [
+          "your Leader has the {Impel Down} type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

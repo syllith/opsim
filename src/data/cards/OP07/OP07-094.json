@@ -1,0 +1,62 @@
+{
+  "id": "OP07-094",
+  "set": "OP07",
+  "number": 94,
+  "name": "Shave",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-094.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Return up to one of your characters to hand."
+  },
+  "text": "#Counter Give up to one character or leader +2000 Power for the battle. Then, if your trash has 10 or more cards, return one card that contains the type \"CP\" to your hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one character or leader +2000 Power for the battle. Then, if your trash has 10 or more cards, return one card that contains the type \"CP\" to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to one of your characters to hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

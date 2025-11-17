@@ -1,0 +1,52 @@
+{
+  "id": "OP10-009",
+  "set": "OP10",
+  "number": 9,
+  "name": "Smiley",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Biological Weapon",
+    "Punk Hazard"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP10/OP10-009.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your leader has the (Punk Hazard) type, give up to one of your opponents characters -3000 power for this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the (Punk Hazard) type, give up to one of your opponents characters -3000 power for this turn.",
+        "powerMod": null,
+        "conditions": [
+          "leader:hasType(Punk Hazard)"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

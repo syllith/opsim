@@ -1,0 +1,62 @@
+{
+  "id": "OP11-056",
+  "set": "OP11",
+  "number": 56,
+  "name": "Brook",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-056.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Blocker: After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: Place up to 1 Character with an original cost of 1 at the bottom of the owner's deck.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to 1 Character with an original cost of 1 at the bottom of the owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

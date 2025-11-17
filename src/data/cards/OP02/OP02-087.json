@@ -1,0 +1,41 @@
+{
+  "id": "OP02-087",
+  "set": "OP02",
+  "number": 87,
+  "name": "Minotaur",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Impel Down", "Jailer Beast"],
+  "rarity": "UC",
+  "art": "/cards/OP02/OP02-087.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Double Attack", "On K.O."],
+  "trigger": null,
+  "text": "[Double Attack] (This card deals 2 damage.)\n[On K.O.] If your Leader has the {Impel Down} type, add 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Impel Down} type, add 1 DON!! card from your DON!! deck and rest it.",
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["field"]
+        },
+        "targets": ["ally:Leader"],
+        "conditions": ["leaderTypeImpelDown"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

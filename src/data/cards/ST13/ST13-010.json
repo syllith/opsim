@@ -1,0 +1,37 @@
+{
+  "id": "ST13-010",
+  "set": "ST13",
+  "number": 10,
+  "name": "Portgas D. Ace",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Goa Kingdom"],
+  "rarity": "C",
+  "art": "/cards/ST13/ST13-010.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "Activate: Main You may trash this character: Look at the top card of your life, if the card is a 5 cost (Portgas D. Ace) card you may play it. If you play it, up to 1 of your leader gets +2000 until the end of your opponent's turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash this character: Look at the top card of your life, if the card is a 5 cost (Portgas D. Ace) card you may play it. If you play it, up to 1 of your leader gets +2000 until the end of your opponent's turn.",
+        "powerMod": { "amount": 2000, "duration": "endOfOpponentsTurn" },
+        "targets": ["self:trash:optional", "self:lifeTop:view", "oneAllyCharacter=5:name=Portgas D. Ace:play", "ally:Leader"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

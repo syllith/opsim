@@ -1,0 +1,71 @@
+{
+  "id": "OP14-076",
+  "set": "OP14",
+  "number": 76,
+  "name": "Ever White",
+  "category": "Event",
+  "colors": [
+    "White"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea/Donquixote Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-076.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main You may rest 2 of your DON!! cards: If your Leader has the (Donquixote Pirates) type, add up to 1 DON!! card from your DON!! deck and rest it. \nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "If your Leader has the (Donquixote Pirates) type, add up to 1 DON!! card from your DON!! deck and rest it.",
+        "powerMod": null,
+        "conditions": [
+          "your Leader has the (Donquixote Pirates) type"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "up to 1 of your Leader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

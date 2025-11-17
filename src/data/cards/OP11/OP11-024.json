@@ -1,0 +1,48 @@
+{
+  "id": "OP11-024",
+  "set": "OP11",
+  "number": 24,
+  "name": "Aladine",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Merfolk",
+    "Fish-Man Island",
+    "Sun Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-024.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When this Character would be K.O.'d by 1 of your opponent's effects, you may trash one hand and rest one DON!! card. If you do, play up to one (Fish-Man) or (Merfolk) type Character with a cost of 6 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When this Character would be K.O.'d by 1 of your opponent's effects, you may trash one hand and rest one DON!! card. If you do, play up to one (Fish-Man) or (Merfolk) type Character with a cost of 6 or less from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

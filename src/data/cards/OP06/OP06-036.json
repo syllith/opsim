@@ -1,0 +1,77 @@
+{
+  "id": "OP06-036",
+  "set": "OP06",
+  "number": 36,
+  "name": "Ryuma",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Land of Wano",
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-036.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On Play / On K.O. K.O. up to 1 of your opponent's rested character with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested character with a cost of 4 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "cost<=4",
+          "rested"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested character with a cost of 4 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "cost<=4",
+          "rested"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

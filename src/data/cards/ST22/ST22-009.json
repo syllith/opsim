@@ -1,0 +1,36 @@
+{
+  "id": "ST22-009",
+  "set": "ST22",
+  "number": 9,
+  "name": "Vista",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST22/ST22-009.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

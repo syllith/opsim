@@ -1,0 +1,72 @@
+{
+  "id": "OP10-097",
+  "set": "OP10",
+  "number": 97,
+  "name": "Gum Gum Rhino Schneider",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Dressrosa",
+    "Supernova",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-097.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 2 cards, then discard 1 card."
+  },
+  "text": "Main: Give up to 1 of your \"Dressrosa\" type characters +2000 Power for this turn. Then, if you have 10 or more cards in your trash, that character gains [Banish] for the turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your \"Dressrosa\" type characters +2000 Power for this turn. Then, if you have 10 or more cards in your trash, that character gains [Banish] for the turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourCharacters:Type=Dressrosa"
+        ],
+        "conditions": [
+          "trash>=10"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards, then discard 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "ST24-004",
+  "set": "ST24",
+  "number": 4,
+  "name": "Law & Bepo",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Minks", "Supernovas", "Heart Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST24/ST24-004.png",
+  "stats": {
+    "cost": 10,
+    "power": 11000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] Rest up to 1 of your opponent's Characters and that Character will not become active in your opponent's next Refresh Phase. Then, if your opponent has 2 or more rested Characters, your Leader gains +2000 power until the end of your opponent's next End Phase.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Characters and that Character will not become active in your opponent's next Refresh Phase. Then, if your opponent has 2 or more rested Characters, your Leader gains +2000 power until the end of your opponent's next End Phase.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "untilEndOfOpponentsNextEndPhase"
+        },
+        "targets": ["opponent:Character", "self:Leader"],
+        "conditions": ["opponentRestedCharacters>=2"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

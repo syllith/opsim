@@ -1,0 +1,63 @@
+{
+  "id": "PRB02-006",
+  "set": "PRB02",
+  "number": 6,
+  "name": "Marco",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Land of Wano",
+    "Former Whitebeard Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/PRB02/PRB02-006.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. Draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "P-043",
+  "set": "P",
+  "number": 43,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-043.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Return up to 1 cost 3 or less character on the field to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 cost 3 or less character on the field to the owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

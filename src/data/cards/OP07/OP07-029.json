@@ -1,0 +1,73 @@
+{
+  "id": "OP07-029",
+  "set": "OP07",
+  "number": 29,
+  "name": "Basil Hawkins",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernova",
+    "Hawkins Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-029.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "If you leader has \"Supernova\" in its types, This character gains (Blocker) (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) Once Per Turn: If this character were to be removed from play by one of your opponents effects, you may instead rest one of your opponents characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you leader has \"Supernova\" in its types, This character gains (Blocker) (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this character were to be removed from play by one of your opponents effects, you may instead rest one of your opponents characters.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "oneOpponentCharacter"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

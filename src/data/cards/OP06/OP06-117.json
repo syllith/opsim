@@ -1,0 +1,49 @@
+{
+  "id": "OP06-117",
+  "set": "OP06",
+  "number": 117,
+  "name": "Ark Maxim",
+  "category": "Stage",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-117.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may rest this Stage and one of your [Enel]: K.O. all of your opponent's characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Stage and one of your [Enel]: K.O. all of your opponent's characters with a cost of 2 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

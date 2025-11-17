@@ -1,0 +1,65 @@
+{
+  "id": "OP10-079",
+  "set": "OP10",
+  "number": 79,
+  "name": "God Thread",
+  "category": "Event",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Seven Warlord of the Sea",
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-079.png",
+  "stats": {
+    "cost": 5,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Add up to one active don from your don deck."
+  },
+  "text": "Main KO up to one of your opponent's 5 cost or below characters. Then, add up to one active don from your don deck.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to one of your opponent's 5 cost or below characters. Then, add up to one active don from your don deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to one active don from your don deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

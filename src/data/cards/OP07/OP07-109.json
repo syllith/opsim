@@ -1,0 +1,75 @@
+{
+  "id": "OP07-109",
+  "set": "OP07",
+  "number": 109,
+  "name": "Monkey D. Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Four Emperors",
+    "Egghead",
+    "Strawhat Crew"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP07/OP07-109.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "KO up to one of your opponents cost 4 or less characters."
+  },
+  "text": "Activate: Main You may place this character in your trash: If your life is 2 or less, KO up to one of your opponents cost 4 or less characters. Then, draw one card. Trigger KO up to one of your opponents cost 4 or less characters.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place this character in your trash: If your life is 2 or less, KO up to one of your opponents cost 4 or less characters. Then, draw one card.",
+        "powerMod": null,
+        "conditions": [
+          "your life is 2 or less"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to one of your opponents cost 4 or less characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "cost 4 or less"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

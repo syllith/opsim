@@ -1,0 +1,37 @@
+{
+  "id": "EB03-036",
+  "set": "EB03",
+  "number": 36,
+  "name": "Baby 5",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Ranged",
+  "types": ["Donquixote Pirates"],
+  "rarity": "C",
+  "art": "/cards/EB03/EB03-036.png",
+  "stats": {
+    "cost": 4,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "DON!! -1"],
+  "trigger": null,
+  "text": "[On Play] [DON!! -1]: K.O. up to 2 of your opponent's Characters with a base cost of 3 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "[DON!! -1]: K.O. up to 2 of your opponent's Characters with a base cost of 3 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo2:opponent:Character:baseCost<=3"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": "DON!! -1 means return 1 DON!! from field to DON!! deck as cost" }
+}

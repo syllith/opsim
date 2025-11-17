@@ -1,0 +1,62 @@
+{
+  "id": "OP11-049",
+  "set": "OP11",
+  "number": 49,
+  "name": "Carrot",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Minks"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-049.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "On Opponent's Attack"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 3 cards of your deck, place them at the top or bottom of your deck in any order. On Opponent's Attack: You may trash this Character: Give up to 1 of your Leader's +1000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 3 cards of your deck, place them at the top or bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Opponent's Attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this Character: Give up to 1 of your Leader's +1000 power during this battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

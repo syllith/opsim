@@ -1,0 +1,55 @@
+{
+  "id": "P-034",
+  "set": "P",
+  "number": 34,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-034.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!!",
+    "Your Turn"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 Your Turn: While your Life area has 2 or less life cards, this Character gains +2000 power.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "While your Life area has 2 or less life cards, this Character gains +2000 power.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "your Life area has 2 or less life cards"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is C (not UC)."
+  }
+}

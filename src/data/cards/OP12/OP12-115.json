@@ -1,0 +1,55 @@
+{
+  "id": "OP12-115",
+  "set": "OP12",
+  "number": 115,
+  "name": "I Love You!!",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy/Donquixote Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP12/OP12-115.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Up to 1 of your Leader or Characters gains +2000 power during this battle. Then, if you have 2 or less cards in you Life area, add up to 1 [Trafalgar Law] from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader or Characters gains +2000 power during this battle. Then, if you have 2 or less cards in you Life area, add up to 1 [Trafalgar Law] from your trash to your hand.",
+        "powerMod": null,
+        "targets": [
+          "upTo1:ally:Leader",
+          "upTo1:ally:Character"
+        ],
+        "conditions": [
+          "you:LifeArea:<=2"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

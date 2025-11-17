@@ -1,0 +1,50 @@
+{
+  "id": "OP10-087",
+  "set": "OP10",
+  "number": 87,
+  "name": "Tony Tony Chopper",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal",
+    "Dressrosa",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-087.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this and one of your leader or stage that has the {Dressrosa} type: If your opponent's hand is 5 or greater, your opponent trashes 1 card from their hand. Then, trash the top 2 cards of your deck.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this and one of your leader or stage that has the {Dressrosa} type: If your opponent's hand is 5 or greater, your opponent trashes 1 card from their hand. Then, trash the top 2 cards of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

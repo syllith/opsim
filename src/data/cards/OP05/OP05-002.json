@@ -1,0 +1,46 @@
+{
+  "id": "OP05-002",
+  "set": "OP05",
+  "number": 2,
+  "name": "Belo Betty",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP05/OP05-002.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may discard one <Revolutionary Army> type card from your hand. Give up to 3 of your <Revolutionary Army> or Trigger type characters +3000 power for this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard one <Revolutionary Army> type card from your hand. Give up to 3 of your <Revolutionary Army> or Trigger type characters +3000 power for this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

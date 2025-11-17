@@ -1,0 +1,55 @@
+{
+  "id": "OP03-067",
+  "set": "OP03",
+  "number": 67,
+  "name": "Peepley Lulu",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Water 7",
+    "Galley-La Company"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-067.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!!x1 When Attacking If your Leader has the (Galley-La Company) type, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Galley-La Company) type, add up to 1 DON!! card from your DON!! deck and rest it.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "leaderHasType:Galley-La Company"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is confirmed as 'C' from the bottom right corner. The card is a sample, but all printed text is legible."
+  }
+}

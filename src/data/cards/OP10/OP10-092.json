@@ -1,0 +1,52 @@
+{
+  "id": "OP10-092",
+  "set": "OP10",
+  "number": 92,
+  "name": "Perona",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP10/OP10-092.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may place 2 cards with the <Thriller Bark Pirates> from your trash at the bottom of your deck in any order: Up to 1 of your Characters other than [Perona] gains +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place 2 cards with the <Thriller Bark Pirates> from your trash at the bottom of your deck in any order: Up to 1 of your Characters other than [Perona] gains +2000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "up to 1 of your Characters other than self"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

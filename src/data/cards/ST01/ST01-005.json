@@ -1,0 +1,37 @@
+{
+  "id": "ST01-005",
+  "set": "ST01",
+  "number": 5,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Fish-Man", "Straw Hat Crew"],
+  "rarity": null,
+  "art": "/cards/ST01/ST01-005.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 — When Attacking: Your Leader or up to 1 of your Characters other than this card gains +1000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters other than this card gains +1000 Power during this turn.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "this turn" },
+        "targets": ["ally:Leader", "ally:CharacterExceptSelf"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": "Counter value not visible on scan; treated as none." }
+}

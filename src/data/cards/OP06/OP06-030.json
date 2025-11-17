@@ -1,0 +1,53 @@
+{
+  "id": "OP06-030",
+  "set": "OP06",
+  "number": 30,
+  "name": "Dosun",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fishman",
+    "New Fishman Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-030.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking: If your leader has the [New Fishman Pirates] Type, this character cannot be KO'd in battle, and has Power +2000 until the start of your next turn. Then, add the top card of your life to your hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the [New Fishman Pirates] Type, this character cannot be KO'd in battle, and has Power +2000 until the start of your next turn. Then, add the top card of your life to your hand.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "leader:hasType[New Fishman Pirates]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

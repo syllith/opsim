@@ -1,0 +1,42 @@
+{
+  "id": "EB01-028",
+  "set": "EB01",
+  "number": 28,
+  "name": "Gum Gum Champion Rifle",
+  "category": "Event",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Straw Hat Crew", "Impel Down"],
+  "rarity": "UC",
+  "art": "/cards/EB01/EB01-028.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": {
+    "text": "Return up to one cost 3 or lower character to the bottom of its owner's deck"
+  },
+  "text": "[Counter] If your Leader has the [Impel Down] type, give up to 1 of your leader or characters +2000 Power until the end of this battle. Then, your opponent returns 1 of their active characters to the owner's hand.\n[Trigger] Return up to one cost 3 or lower character to the bottom of its owner's deck",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the [Impel Down] type, give up to 1 of your leader or characters +2000 Power until the end of this battle. Then, your opponent returns 1 of their active characters to the owner's hand.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "thisBattle"
+        },
+        "targets": ["self:Leader", "ally:Character"],
+        "conditions": ["leaderTypeImpelDown"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

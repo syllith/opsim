@@ -1,0 +1,39 @@
+{
+  "id": "EB02-018",
+  "set": "EB02",
+  "number": 18,
+  "name": "Buggy",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["East Blue", "Buggy Pirates"],
+  "rarity": "UC",
+  "art": "/cards/EB02/EB02-018.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "Trigger"],
+  "trigger": {
+    "text": "Rest up to one of your opponent's characters with a cost of 4 or less."
+  },
+  "text": "[On Play] If you do not have another \"Buggy\" character in play, up to one of your leaders gains [Double Attack] until the end of the turn.\n[Trigger] Rest up to one of your opponent's characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you do not have another \"Buggy\" character in play, up to one of your leaders gains [Double Attack] until the end of the turn.",
+        "grants": ["Double Attack"],
+        "powerMod": null,
+        "targets": ["upTo1:self:Leader"],
+        "conditions": ["noOtherBuggyInPlay"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

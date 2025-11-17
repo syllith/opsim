@@ -1,0 +1,74 @@
+{
+  "id": "OP13-076",
+  "set": "OP13",
+  "number": 76,
+  "name": "Divine Departure",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Pirate King/Roger Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-076.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main: You may rest 5 of your DON!! cards: If you have any given DON!! cards, give up to 1 of your opponent's Characters -8000 power during this turn. Counter: You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 5
+      },
+      "effect": {
+        "text": "If you have any given DON!! cards, give up to 1 of your opponent's Characters -8000 power during this turn.",
+        "powerMod": null,
+        "conditions": [
+          "any given DON!! cards"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "up to 1 of your Leader or Character cards"
+        ],
+        "conditions": [
+          "You may trash 1 card from your hand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

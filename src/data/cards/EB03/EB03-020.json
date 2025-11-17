@@ -1,0 +1,42 @@
+{
+  "id": "EB03-020",
+  "set": "EB03",
+  "number": 20,
+  "name": "There You Go, Being a Sore Loser Again!",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["FILM"],
+  "rarity": "C",
+  "art": "/cards/EB03/EB03-020.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": {
+    "text": "Set up to 1 of your Characters as active."
+  },
+  "text": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have 2 or more {FILM} type Characters on your field, that card gains an additional +2000 power.\n[Trigger] Set up to 1 of your Characters as active.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have 2 or more {FILM} type Characters on your field, that card gains an additional +2000 power.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "duringThisBattle"
+        },
+        "targets": ["upTo1:ally:LeaderOrCharacter"],
+        "conditions": ["conditionalBonus2OrMoreFILM"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

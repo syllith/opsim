@@ -1,0 +1,75 @@
+{
+  "id": "OP14-018",
+  "set": "OP14",
+  "number": 18,
+  "name": "Time for the Counter-Attack",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Supernovas",
+    "Heart Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-018.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play up to 1 red Character card with 2000 power or less from your hand."
+  },
+  "text": "Counter: If there is a Character with 8000 power or more, up to 1 of your Leader or Character cards gains +4000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If there is a Character with 8000 power or more, up to 1 of your Leader or Character cards gains +4000 power during this battle.",
+        "powerMod": null,
+        "targets": [
+          "up to 1 of your Leader or Character cards"
+        ],
+        "conditions": [
+          "if there is a Character with 8000 power or more"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 red Character card with 2000 power or less from your hand.",
+        "powerMod": null,
+        "targets": [
+          "up to 1 red Character card with 2000 power or less from your hand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

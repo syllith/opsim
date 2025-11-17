@@ -1,0 +1,21 @@
+{
+  "id": "ST05-017",
+  "set": "ST05",
+  "number": 17,
+  "name": "Union Armado",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["FILM", "Pirate Fest"],
+  "rarity": null,
+  "art": "/cards/ST05/ST05-017.png",
+  "stats": { "cost": 2, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": "Add 1 DON!! card from your DON!! deck and set it as active.",
+  "text": "Counter: Up to 1 of your FILM type Leader or Characters gains +4000 Power during this battle. If that card is a Character, that Character cannot be K.O.'d during this turn.",
+  "abilities": [
+    {"timing": "Counter", "frequency": null, "donReq": null, "cost": null, "effect": {"text": "Up to 1 FILM Leader/Character gains +4000 Power this battle. If Character, cannot be K.O.'d this turn.", "grants": ["power+4000", "cannotBeKOdThisTurn"], "powerMod": 4000, "targets": ["oneFilmLeaderOrCharacter"], "conditions": []}},
+    {"timing": "Trigger", "frequency": null, "donReq": null, "cost": null, "effect": {"text": "Add 1 DON!! from DON deck and set as active.", "grants": ["addDonActive"], "powerMod": null, "targets": ["donDeck"], "conditions": []}}
+  ],
+  "meta": {"notes": null}
+}

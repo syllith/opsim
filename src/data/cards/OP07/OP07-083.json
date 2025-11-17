@@ -1,0 +1,55 @@
+{
+  "id": "OP07-083",
+  "set": "OP07",
+  "number": 83,
+  "name": "Gekko Moria",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Seven Warlords of the Sea",
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP07/OP07-083.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Place 4 cards from your trash with the type {Thriller Bark Pirates} on the bottom of your deck in: This character gains Banish and +1000 Power for the turn. (When a character deals damage, the target card is trashed without activating its Trigger.)",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place 4 cards from your trash with the type {Thriller Bark Pirates} on the bottom of your deck in: This character gains Banish and +1000 Power for the turn.",
+        "grants": [
+          "Banish"
+        ],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is marked as a 'SAMPLE' and has a 'SPECIAL' rarity indicator. The text includes a parenthetical note about Trigger activation."
+  }
+}

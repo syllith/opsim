@@ -1,0 +1,64 @@
+{
+  "id": "OP09-104",
+  "set": "OP09",
+  "number": 104,
+  "name": "Sabo",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP09/OP09-104.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your leader is multi-colored, draw 2 cards."
+  },
+  "text": "On Play: Place up to one (Revolutionary Army) type character from your hand on top of your life face-up. Then, if you have 2 or more life, put the top or bottom card of your life into your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to one (Revolutionary Army) type character from your hand on top of your life face-up. Then, if you have 2 or more life, put the top or bottom card of your life into your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is multi-colored, draw 2 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

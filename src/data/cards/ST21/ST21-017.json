@@ -1,0 +1,60 @@
+{
+  "id": "ST21-017",
+  "set": "ST21",
+  "number": 17,
+  "name": "Gum-Gum Mole Gun",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Four Emperors", "Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST21/ST21-017.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Main", "Trigger"],
+  "trigger": { "text": "Activate this card's Main effect." },
+  "text": "Main Give up to one of your opponent's characters -5000 power during this turn. Then, if you have a character with 6000 power or more, KO up to one of your opponent's characters with a power of 2000 or less. Trigger Activate this card's Main effect.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to one of your opponent's characters -5000 power during this turn.",
+        "powerMod": { "amount": -5000, "duration": "this turn" },
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["optionalTarget"]
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have a character with 6000 power or more, KO up to one of your opponent's characters with a power of 2000 or less.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=2000"],
+        "conditions": ["hasAllyCharacter>=6000", "optionalTarget"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["triggered"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

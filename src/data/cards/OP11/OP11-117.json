@@ -1,0 +1,52 @@
+{
+  "id": "OP11-117",
+  "set": "OP11",
+  "number": 117,
+  "name": "Fish-Man Island",
+  "category": "Stage",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Fish-Man Island"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-117.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn If your Leader is [Shirahoshi], you may turn the top card of your Life cards face-up: Up to 1 of your (Sea King), (Fish-Man) or (Merfolk) type Characters gain +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Shirahoshi], you may turn the top card of your Life cards face-up: Up to 1 of your (Sea King), (Fish-Man) or (Merfolk) type Characters gain +1000 power during this turn.",
+        "powerMod": null,
+        "conditions": [
+          "your Leader is [Shirahoshi]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

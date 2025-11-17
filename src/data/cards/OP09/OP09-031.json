@@ -1,0 +1,67 @@
+{
+  "id": "OP09-031",
+  "set": "OP09",
+  "number": 31,
+  "name": "Donquixote Donflamingo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "ODYSSEY",
+    "The Seven Warlords of the Sea",
+    "Donquixote Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP09/OP09-031.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nEnd of Your Turn: If you have two or more rested characters in play, set this character as active.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have two or more rested characters in play, set this character as active.",
+        "powerMod": null,
+        "conditions": [
+          "two or more rested characters in play"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

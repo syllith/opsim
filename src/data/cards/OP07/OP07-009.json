@@ -1,0 +1,52 @@
+{
+  "id": "OP07-009",
+  "set": "OP07",
+  "number": 9,
+  "name": "Dogura & Magura",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Mountain Bandits"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-009.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Double Attack"
+  ],
+  "trigger": null,
+  "text": "On Play: Give up to 1 of your Red Cost 1 Characters. Double Attack until the end of this turn. (This card deals 2 damage.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your Red Cost 1 Characters. Double Attack until the end of this turn. (This card deals 2 damage.)",
+        "grants": [
+          "Double Attack"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but content is readable."
+  }
+}

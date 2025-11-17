@@ -1,0 +1,37 @@
+{
+  "id": "OP01-055",
+  "set": "OP01",
+  "number": 55,
+  "name": "You Can Be My Samurai!!!",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Wano Country", "Kozuki Family"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-055.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main"],
+  "trigger": null,
+  "text": "[Main] You may rest 2 of your Characters: Draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest 2 of your Characters: Draw 2 cards.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:Character", "deck"],
+        "conditions": ["mayRest2Characters"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

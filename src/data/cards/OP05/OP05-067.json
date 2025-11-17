@@ -1,0 +1,56 @@
+{
+  "id": "OP05-067",
+  "set": "OP05",
+  "number": 67,
+  "name": "Zorojuro",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-067.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: If you have 3 or less Life, Add up to 1 Don!! from your Don!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 3 or less Life, Add up to 1 Don!! from your Don!! deck and set it as active.",
+        "powerMod": null,
+        "conditions": [
+          "self:Life<=3"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "Don!! deck",
+          "to": []
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

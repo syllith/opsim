@@ -1,0 +1,65 @@
+{
+  "id": "OP05-106",
+  "set": "OP05",
+  "number": 106,
+  "name": "Shura",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Sky Island",
+    "God's Priests"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-106.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "On Play: Look at the top 5 cards of your deck, reveal up to 1 [Sky Island] type card other than [Shura] and add it to your hand. Return the rest to the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to 1 [Sky Island] type card other than [Shura] and add it to your hand. Return the rest to the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

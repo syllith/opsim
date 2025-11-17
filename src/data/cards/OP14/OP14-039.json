@@ -1,0 +1,60 @@
+{
+  "id": "OP14-039",
+  "set": "OP14",
+  "number": 39,
+  "name": "Coffin Boat",
+  "category": "Stage",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "East Blue",
+    "The Seven Warlords of the Sea"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-039.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "On Play: If your Leader is [Dracule Mihawk], draw 1 card.\nEnd of Your Turn: If your Leader is [Dracule Mihawk], set up to 1 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Dracule Mihawk], draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Dracule Mihawk], set up to 1 of your DON!! cards as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

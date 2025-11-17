@@ -1,0 +1,35 @@
+{
+  "id": "OP03-029",
+  "set": "OP03",
+  "number": 29,
+  "name": "Choo",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Ranged",
+  "types": ["Fish-Man", "East Blue", "Arlong Crew"],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-029.png",
+  "stats": {
+    "cost": 4,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": "Play this card.",
+  "text": "[On Play] K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+        "targets": ["opponentCharacter"],
+        "conditions": ["rested", "costLessOrEqual4"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

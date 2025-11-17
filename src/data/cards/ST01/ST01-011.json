@@ -1,0 +1,44 @@
+{
+  "id": "ST01-011",
+  "set": "ST01",
+  "number": 11,
+  "name": "Brook",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Straw Hat Crew"],
+  "rarity": null,
+  "art": "/cards/ST01/ST01-011.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": [],
+        "giveDon": {
+          "quantity": 2,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["ally:Leader", "oneAllyCharacter"],
+          "optional": true
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

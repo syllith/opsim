@@ -1,0 +1,57 @@
+{
+  "id": "OP13-110",
+  "set": "OP13",
+  "number": 110,
+  "name": "Stussy",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Egghead",
+    "CP0"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP13/OP13-110.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your Leader has the (Egghead) type, play up to 1 Character card with a cost of 5 or less with a from your hand."
+  },
+  "text": "If your Leader has the (Egghead) type, play up to 1 Character card with a cost of 5 or less with a from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Egghead) type, play up to 1 Character card with a cost of 5 or less with a from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType(Egghead)"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

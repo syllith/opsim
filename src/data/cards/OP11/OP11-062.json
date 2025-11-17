@@ -1,0 +1,53 @@
+{
+  "id": "OP11-062",
+  "set": "OP11",
+  "number": 62,
+  "name": "Charlotte Katakuri",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP11/OP11-062.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "On Opponent's Attack",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "DON!!: Look at the top card of your opponent's deck. Then, this Leader gains +1000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top card of your opponent's deck. Then, this Leader gains +1000 power during this battle.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "ST22-003",
+  "set": "ST22",
+  "number": 3,
+  "name": "Edward.Newgate",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Strike",
+  "types": ["The Four Emperors", "Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST22/ST22-003.png",
+  "stats": {
+    "cost": 9,
+    "power": 10000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Double Attack", "On Play"],
+  "trigger": null,
+  "text": "Double Attack (This card deals 2 damage.) On Play Reveal the top card of your deck. If that card has 'Whitebeard Pirates' in its types, draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "Double Attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This card deals 2 damage.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["doubleAttack"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Reveal the top card of your deck. If that card has 'Whitebeard Pirates' in its types, draw 2 cards.",
+        "powerMod": null,
+        "targets": ["deckTop1"],
+        "conditions": ["ifWhitebeardPiratesDraw2"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,62 @@
+{
+  "id": "OP10-037",
+  "set": "OP10",
+  "number": 37,
+  "name": "Lim",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "ODYSSEY"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-037.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Once Per Turn",
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "Once Per Turn: If this character were to be removed from the board by one of your opponent's effects, you may instead rest 1 of your (ODYSSEY) Characters. End of Your Turn: You may set up to 1 of your (ODYSSEY) type characters active.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this character were to be removed from the board by one of your opponent's effects, you may instead rest 1 of your (ODYSSEY) Characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may set up to 1 of your (ODYSSEY) type characters active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

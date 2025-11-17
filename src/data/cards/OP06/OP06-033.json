@@ -1,0 +1,49 @@
+{
+  "id": "OP06-033",
+  "set": "OP06",
+  "number": 33,
+  "name": "Vander Decken IX",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Fishman",
+    "Flying Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-033.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash a <Fishman> type card from your hand or trash a \"Noa's Ark\" from your hand or field. K.O. up to one of your opponent's rested characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash a <Fishman> type card from your hand or trash a \"Noa's Ark\" from your hand or field. K.O. up to one of your opponent's rested characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

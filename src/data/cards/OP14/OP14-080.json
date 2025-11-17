@@ -1,0 +1,63 @@
+{
+  "id": "OP14-080",
+  "set": "OP14",
+  "number": 80,
+  "name": "Gecko Moria",
+  "category": "Leader",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP14/OP14-080.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "Activate:Main Once Per Turn You may K.O. 1 of your {Thriller Bark Pirates} type Characters: Your Leader and all of your Characters gain +1000 power during this turn. When Attacking You may trash 3 cards from your hand: Add up to 1 card from the top of your deck to the top of your Life cards.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may K.O. 1 of your {Thriller Bark Pirates} type Characters: Your Leader and all of your Characters gain +1000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 3 cards from your hand: Add up to 1 card from the top of your deck to the top of your Life cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

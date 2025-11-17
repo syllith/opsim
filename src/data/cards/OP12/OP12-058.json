@@ -1,0 +1,71 @@
+{
+  "id": "OP12-058",
+  "set": "OP12",
+  "number": 58,
+  "name": "...I Will Make Whitebeard The King",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-058.png",
+  "stats": {
+    "cost": 9,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "Main If your Leader has \"Whitebeard Pirates\" in its types, reveal the top card of your deck. If it is a Character with a cost of 9 or lower with \"Whitebeard Pirates\" in its types, you may play it. If you played it, it gains Rush during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has \"Whitebeard Pirates\" in its types, reveal the top card of your deck. If it is a Character with a cost of 9 or lower with \"Whitebeard Pirates\" in its types, you may play it. If you played it, it gains Rush during this turn.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Whitebeard Pirates"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

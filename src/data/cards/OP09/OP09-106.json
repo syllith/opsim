@@ -1,0 +1,64 @@
+{
+  "id": "OP09-106",
+  "set": "OP09",
+  "number": 106,
+  "name": "Nico Olvia",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Ohara"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-106.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your leader is \"Nico Robin\", draw 3 cards, then discard 2 cards."
+  },
+  "text": "On Play: Give up to 1 of your leader \"Nico Robin\" Power +3000 for the turn. Trigger: If your leader is \"Nico Robin\", draw 3 cards, then discard 2 cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your leader \"Nico Robin\" Power +3000 for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is \"Nico Robin\", draw 3 cards, then discard 2 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

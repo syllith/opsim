@@ -1,0 +1,54 @@
+{
+  "id": "OP03-049",
+  "set": "OP03",
+  "number": 49,
+  "name": "Patty",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-049.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play If your deck has 20 cards or less, you may return up to 1 Character with a cost of 3 or less to its owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your deck has 20 cards or less, you may return up to 1 Character with a cost of 3 or less to its owner's hand.",
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=cost3"
+        ],
+        "conditions": [
+          "deckSize<=20"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'UC' confirmed from the 'UC' symbol next to the card number. Power value is clearly 5000. Cost is clearly 3. The card is a Character with the attribute Slash and the type East Blue."
+  }
+}

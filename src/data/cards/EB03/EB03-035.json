@@ -1,0 +1,37 @@
+{
+  "id": "EB03-035",
+  "set": "EB03",
+  "number": 35,
+  "name": "Charlotte Pudding",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Wisdom",
+  "types": ["Big Mom Pirates"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-035.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker]\n[On Play] If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and rest it.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["donDeck"],
+        "conditions": ["ownDonEqualOrLessThanOpponentDon"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

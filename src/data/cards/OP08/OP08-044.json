@@ -1,0 +1,52 @@
+{
+  "id": "OP08-044",
+  "set": "OP08",
+  "number": 44,
+  "name": "Kingdew",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "UB",
+  "art": "/cards/OP08/OP08-044.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may reveal 2 cards with {Whitebeard Pirates} included in their types from your hand. This character gains +2000 power until end of turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may reveal 2 cards with {Whitebeard Pirates} included in their types from your hand. This character gains +2000 power until end of turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

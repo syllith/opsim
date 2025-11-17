@@ -1,0 +1,63 @@
+{
+  "id": "ST13-018",
+  "set": "ST13",
+  "number": 18,
+  "name": "Gum-Gum Jet Spear",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Punk Hazard", "Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST13/ST13-018.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["Counter"],
+  "trigger": { "text": "You may add the top or bottom card of your life to your hand: Place one card from your hand to the top of your life." },
+  "text": "Counter Give up to 1 of your leader or characters +2000 Power for this battle. Then, if your life is 0, draw 1 card. Trigger You may add the top or bottom card of your life to your hand: Place one card from your hand to the top of your life.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your leader or characters +2000 Power for this battle.",
+        "powerMod": { "amount": 2000, "duration": "this battle" },
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your life is 0, draw 1 card.",
+        "powerMod": null,
+        "targets": ["self:lifeIsZero", "self:draw"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may add the top or bottom card of your life to your hand: Place one card from your hand to the top of your life.",
+        "powerMod": null,
+        "targets": ["self:lifeTopOrBottom:hand:optional", "self:hand:lifeTop"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

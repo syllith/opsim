@@ -1,0 +1,72 @@
+{
+  "id": "OP08-097",
+  "set": "OP08",
+  "number": 97,
+  "name": "Heliceratops",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-097.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less."
+  },
+  "text": "Main If your Leader has the {Animal Kingdom Pirates} type, give up to 1 of your opponent's Characters -2 Cost during this turn. Then, K.O. up to 1 of your opponents Characters with a cost of 0.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Animal Kingdom Pirates} type, give up to 1 of your opponent's Characters -2 Cost during this turn. Then, K.O. up to 1 of your opponents Characters with a cost of 0.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Animal Kingdom Pirates"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+        "powerMod": null,
+        "conditions": [
+          "oneOpponentCharacter",
+          "cost<=3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has a 'BANZA MADE IN JAPAN' watermark, which may indicate it's not an official release. Rarity is 'C' as printed."
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP13-069",
+  "set": "OP13",
+  "number": 69,
+  "name": "Tom",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Fish-Man",
+    "Water Seven"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-069.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play DON-1: Add up to 1 Stage card with a cost of 3 or less from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 Stage card with a cost of 3 or less from your trash to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

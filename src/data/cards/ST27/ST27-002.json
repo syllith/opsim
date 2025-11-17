@@ -1,0 +1,50 @@
+{
+  "id": "ST27-002",
+  "set": "ST27",
+  "number": 2,
+  "name": "Catarina Devon",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": null,
+  "types": ["Blackbeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST27/ST27-002.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Activate:Main", "On K.O."],
+  "trigger": null,
+  "text": "[Activate:Main] You may trash this Character: If your Leader has the {Blackbeard Pirates} type, give up to 1 of your opponent's Characters −1 cost during this turn.\n[On K.O.] Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash this Character: If your Leader has the {Blackbeard Pirates} type, give up to 1 of your opponent's Characters −1 cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": ["mayTrashThisCharacter", "leaderHasBlackbeardPiratesType"]
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw 1 card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

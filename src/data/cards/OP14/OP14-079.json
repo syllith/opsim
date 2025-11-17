@@ -1,0 +1,67 @@
+{
+  "id": "OP14-079",
+  "set": "OP14",
+  "number": 79,
+  "name": "Crocodile",
+  "category": "Leader",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP14/OP14-079.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "All of your opponent's Characters cannot be removed from the field by your effects.\nActivate:Main Once Per Turn You may K.O. 1 of your Characters with a type including \"Baroque Works\": Give up to 1 of your opponent's Characters -10 cost during this turn. Then, trash 2 cards from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "All of your opponent's Characters cannot be removed from the field by your effects.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may K.O. 1 of your Characters with a type including \"Baroque Works\": Give up to 1 of your opponent's Characters -10 cost during this turn. Then, trash 2 cards from the top of your deck.",
+        "powerMod": null,
+        "conditions": [
+          "oneOfYourCharacters",
+          "typeIncludes:Baroque Works"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

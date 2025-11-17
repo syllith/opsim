@@ -1,0 +1,53 @@
+{
+  "id": "OP04-090",
+  "set": "OP04",
+  "number": 90,
+  "name": "Monkey D. Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Dressrosa",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-090.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main [Once Per Turn] You may return 7 cards from your trash to the bottom of your deck in any order. Set this Character to active. Then, during your next Refresh Phase, this Character cannot be set to active.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return 7 cards from your trash to the bottom of your deck in any order. Set this Character to active. Then, during your next Refresh Phase, this Character cannot be set to active.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card. The card is marked as a sample."
+  }
+}

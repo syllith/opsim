@@ -1,0 +1,37 @@
+{
+  "id": "EB02-047",
+  "set": "EB02",
+  "number": 47,
+  "name": "Blueno",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Strike",
+  "types": ["CP9"],
+  "rarity": "UC",
+  "art": "/cards/EB02/EB02-047.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "[Activate: Main] You may discard 1 card from your hand and place this character in your trash: Play up to one cost 5 or lower character with {CP} included in its types from your trash.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may discard 1 card from your hand and place this character in your trash: Play up to one cost 5 or lower character with {CP} included in its types from your trash.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["hand", "self", "trash:Character:CP:cost<=5"],
+        "conditions": ["discard1AndTrashSelf"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "P-083",
+  "set": "P",
+  "number": 83,
+  "name": "Shanks",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Four Emperors",
+    "Red hair pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-083.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! X1 When Attacking: You may trash 1 character card from your hand. Give up to 1 of your opponent's characters Power -1000 for the turn. Then, draw a card.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 character card from your hand. Give up to 1 of your opponent's characters Power -1000 for the turn. Then, draw a card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

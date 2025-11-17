@@ -1,0 +1,67 @@
+{
+  "id": "OP10-077",
+  "set": "OP10",
+  "number": 77,
+  "name": "Bellamy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-077.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "When Blocking"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) When Blocking: You may rest 2 don: Add up to one active don from your don deck.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Blocking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest 2 don: Add up to one active don from your don deck.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "don deck",
+          "to": []
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": "This is a sample card with placeholder text. The actual card may have different text or layout."
+  }
+}

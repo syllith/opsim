@@ -1,0 +1,52 @@
+{
+  "id": "OP09-109",
+  "set": "OP09",
+  "number": 109,
+  "name": "Jaguar D. Saul",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Ohara",
+    "Giants",
+    "Navy"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-109.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": {
+    "text": "If your leader is \"Nico Robin\", play this card."
+  },
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

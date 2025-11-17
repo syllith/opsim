@@ -1,0 +1,70 @@
+{
+  "id": "OP11-098",
+  "set": "OP11",
+  "number": 98,
+  "name": "Blue Hole",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-098.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Up to 1 of your Leader or Character cards gains +1000 power during this turn."
+  },
+  "text": "Main You may trash the top 3 cards of your deck. K.O. up to 1 of your opponent's Characters with a cost of 2 or less.\nTrigger Up to 1 of your Leader or Character cards gains +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash the top 3 cards of your deck. K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader or Character cards gains +1000 power during this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOfYourLeaderOrCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

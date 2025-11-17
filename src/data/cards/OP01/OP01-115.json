@@ -1,0 +1,57 @@
+{
+  "id": "OP01-115",
+  "set": "OP01",
+  "number": 115,
+  "name": "Elephant's Marchoo",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Animal Kingdom Pirates", "Smile"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-115.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main", "Trigger"],
+  "trigger": { "text": "Activate this card's Main effect." },
+  "text": "Main K.O. up to 1 of your opponent's Characters with a cost of 2 or less, then add 1 DON!! card from your DON!! deck and set it as active. Trigger Activate this card's Main effect.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 2 or less, then add 1 DON!! card from your DON!! deck and set it as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=2"],
+        "conditions": [],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "costArea",
+          "to": ["field"]
+        }
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["activateMainEffect"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

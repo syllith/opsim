@@ -1,0 +1,69 @@
+{
+  "id": "OP04-055",
+  "set": "OP04",
+  "number": 55,
+  "name": "Plague Shot",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-055.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main You may trash 1 \"Ice Oni\" card from your hand and place 1 character of 4 cost or lower on the bottom of the owner's deck: Play 1 \"Ice Oni\" card from your trash.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 \"Ice Oni\" card from your hand and place 1 character of 4 cost or lower on the bottom of the owner's deck: Play 1 \"Ice Oni\" card from your trash.",
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=cost4",
+          "oneIceOniCardFromHand",
+          "oneIceOniCardFromTrash"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card's cost is indicated by the number '2' in the top-left corner. The rarity 'C' is printed in the bottom-right corner."
+  }
+}

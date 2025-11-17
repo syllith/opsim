@@ -1,0 +1,37 @@
+{
+  "id": "OP02-037",
+  "set": "OP02",
+  "number": 37,
+  "name": "Nico Robin",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Strike",
+  "types": ["FILM", "Straw Hat Crew"],
+  "rarity": "UG",
+  "art": "/cards/OP02/OP02-037.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Play up to 1 {FILM} or {Straw Hat Crew} type Character card with a cost of 2 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play up to 1 {FILM} or {Straw Hat Crew} type Character card with a cost of 2 or less from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["Character"],
+        "conditions": ["FILM or Straw Hat Crew type", "cost 2 or less"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

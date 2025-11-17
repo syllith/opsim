@@ -1,0 +1,38 @@
+{
+  "id": "OP01-102",
+  "set": "OP01",
+  "number": 102,
+  "name": "Jack",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-102.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "When Attacking", "DON!!"],
+  "trigger": null,
+  "text": "When Attacking DON!! -1 Your opponent trashes 1 card from their hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "Your opponent trashes 1 card from their hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponentHand:oneCard"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

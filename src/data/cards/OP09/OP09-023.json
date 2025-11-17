@@ -1,0 +1,70 @@
+{
+  "id": "OP09-023",
+  "set": "OP09",
+  "number": 23,
+  "name": "Adio",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "ODYSSEY"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP09/OP09-023.png",
+  "stats": {
+    "cost": 9,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 9000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Opponent attack",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the ODYSSEY type, set up to 3 of your DON!! active. Opponent attack: Once Per Turn - You may rest 1 of your DON!! : up to 1 of your Leader or Characters gains Power +2000 for the battle.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the ODYSSEY type, set up to 3 of your DON!! active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Opponent attack",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may rest 1 of your DON!! : up to 1 of your Leader or Characters gains Power +2000 for the battle.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneOpponentCharacter",
+          "oneOpponentCharacter<=cost4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

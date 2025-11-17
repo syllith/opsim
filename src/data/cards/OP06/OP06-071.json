@@ -1,0 +1,52 @@
+{
+  "id": "OP06-071",
+  "set": "OP06",
+  "number": 71,
+  "name": "Gild Tesoro",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "Gran Tesoro"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP06/OP06-071.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play DON!!-1 if your leader has the [FILM] type, add 2 cost 4 or lower [FILM] type characters from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "if your leader has the [FILM] type, add 2 cost 4 or lower [FILM] type characters from your trash to your hand.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has the [FILM] type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample with 'SAMPLE' watermark. Rarity is 'US' as printed in the bottom right corner."
+  }
+}

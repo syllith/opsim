@@ -1,0 +1,64 @@
+{
+  "id": "OP09-061",
+  "set": "OP09",
+  "number": 61,
+  "name": "Monkey.D.Luffy",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Four Emperors",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-061.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "DON!!",
+    "Your Turn",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "DON!!x1 Your characters have +1 cost. Your Turn Once Per Turn When 2 or more DON!! cards are returned to your DON!! deck from play, set up to one from your DON!! deck as active and up to one from your DON!! deck as rested.",
+  "abilities": [
+    {
+      "timing": "DON!!",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your characters have +1 cost.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When 2 or more DON!! cards are returned to your DON!! deck from play, set up to one from your DON!! deck as active and up to one from your DON!! deck as rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP01-095",
+  "set": "OP01",
+  "number": 95,
+  "name": "Kyoshiro",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Slash",
+  "types": ["Wano Country"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-095.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: If you have 8 or more DON!! cards on your field, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 8 or more DON!! cards on your field, draw 1 card.",
+        "grants": ["Draw 1 Card"],
+        "powerMod": null,
+        "targets": ["player"],
+        "conditions": ["donOnField>=8"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

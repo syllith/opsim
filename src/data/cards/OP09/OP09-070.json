@@ -1,0 +1,48 @@
+{
+  "id": "OP09-070",
+  "set": "OP09",
+  "number": 70,
+  "name": "Nami",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP09/OP09-070.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Return 1 or more Dons to your don deck. Attached 2 of your rested don to 1 of your leader or Character.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return 1 or more Dons to your don deck. Attached 2 of your rested don to 1 of your leader or Character.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'SPECIAL Q' in the top right corner, which may indicate a promotional or special edition card. The rarity is marked as 'SP' in the bottom right corner."
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "OP10-042",
+  "set": "OP10",
+  "number": 42,
+  "name": "Usopp",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Dressrosa",
+    "StrawHat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-042.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Opponent's Turn",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Your cost 2 and greater (Dressrosa) type characters have +1 cost.\nOpponent's Turn Once Per Turn This effect may be activated when one of your (Dressrosa) type Characters are removed from the field by your opponent's effect, or are K.O.d. If you have 5 or less cards in your hand, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your cost 2 and greater (Dressrosa) type characters have +1 cost.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Opponent's Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This effect may be activated when one of your (Dressrosa) type Characters are removed from the field by your opponent's effect, or are K.O.d. If you have 5 or less cards in your hand, draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

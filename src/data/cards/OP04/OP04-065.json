@@ -1,0 +1,73 @@
+{
+  "id": "OP04-065",
+  "set": "OP04",
+  "number": 65,
+  "name": "Miss Golden Week (Marianne)",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-065.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card."
+  },
+  "text": "[On Play] If your Leader's type includes \"Baroque Works\", up to 1 of your opponent's Characters with a cost of 5 or less cannot attack until the start of your next turn.\n[Trigger] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader's type includes \"Baroque Works\", up to 1 of your opponent's Characters with a cost of 5 or less cannot attack until the start of your next turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost5"
+        ],
+        "conditions": [
+          "yourLeader:Baroque Works"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Play this card.",
+        "powerMod": null,
+        "targets": [
+          "thisCard"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a Character with a cost of 2, power of 3000, and a Counter of 1000. The Trigger effect requires 1 DON!! to be returned from the field to the DON!! deck to play the card."
+  }
+}

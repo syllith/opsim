@@ -1,0 +1,48 @@
+{
+  "id": "OP12-006",
+  "set": "OP12",
+  "number": 6,
+  "name": "Shakuyaku",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Amazon Lily"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-006.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 5 cards of your deck; reveal up to 1 [Monkey.D.Luffy] or red Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck; reveal up to 1 [Monkey.D.Luffy] or red Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

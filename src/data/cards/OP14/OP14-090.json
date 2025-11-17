@@ -1,0 +1,48 @@
+{
+  "id": "OP14-090",
+  "set": "OP14",
+  "number": 90,
+  "name": "Mr.1 (Daz.Bonez)",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-090.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "If there is a Character with a cost of 0 or a Character with a cost of 8 or more, this Character can attack Characters on the turn in which it is played.\nOn Play: Rest up to 1 of your opponent's Characters with a cost of 0.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Characters with a cost of 0.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

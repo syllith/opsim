@@ -1,0 +1,66 @@
+{
+  "id": "OP10-041",
+  "set": "OP10",
+  "number": 41,
+  "name": "Radio Knife",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Dressrosa",
+    "Supernova",
+    "Heart Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-041.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Rest up to 1 of your opponent's 4 cost characters."
+  },
+  "text": "Main Rest up to 1 of your opponent's cost 6 or lower characters. Then, KO up to 1 of your opponent's rested 5 cost or lower characters.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's cost 6 or lower characters. Then, KO up to 1 of your opponent's rested 5 cost or lower characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's 4 cost characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "P-102",
+  "set": "P",
+  "number": 102,
+  "name": "Nami",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Egghead",
+    "Straw Hat Crew"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-102.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the {Straw Hat Crew} type, set up to 2 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Straw Hat Crew} type, set up to 2 of your DON!! cards as active.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Straw Hat Crew"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

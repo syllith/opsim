@@ -1,0 +1,46 @@
+{
+  "id": "P-076",
+  "set": "P",
+  "number": 76,
+  "name": "Sakazuki",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-076.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may discard one card from your hand with the (Navy) type. Give up to one of your opponents characters -1 cost for the turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard one card from your hand with the (Navy) type. Give up to one of your opponents characters -1 cost for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

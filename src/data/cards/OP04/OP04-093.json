@@ -1,0 +1,77 @@
+{
+  "id": "OP04-093",
+  "set": "OP04",
+  "number": 93,
+  "name": "Gum-Gum King Kong Gun",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Dressrosa",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-093.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 3 cards and trash 2 cards."
+  },
+  "text": "Main Choose one {Dressrosa} type character, power +6000. After, if your trash has 15 or more cards, this character gains Double Attack for the turn. (This card deals 2 damage.)",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose one {Dressrosa} type character, power +6000. After, if your trash has 15 or more cards, this character gains Double Attack for the turn.",
+        "grants": [
+          "Double Attack"
+        ],
+        "powerMod": {
+          "amount": 6000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneDressrosaCharacter"
+        ],
+        "conditions": [
+          "trash>=15"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 3 cards and trash 2 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is printed in the bottom right corner. The card is an Event with no power or life. The text includes a note about damage: '(This card deals 2 damage.)' which is not a formal ability but part of the rules text."
+  }
+}

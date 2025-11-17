@@ -1,0 +1,37 @@
+{
+  "id": "OP01-044",
+  "set": "OP01",
+  "number": 44,
+  "name": "Shachi",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Strike",
+  "types": ["Heart Pirates"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-044.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If you do not have [Penguin] in play, play up to 1 [Penguin] card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you do not have [Penguin] in play, play up to 1 [Penguin] card from your hand.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["hand"],
+        "conditions": ["notHavePenguinInPlay"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

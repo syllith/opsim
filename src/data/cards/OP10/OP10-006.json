@@ -1,0 +1,49 @@
+{
+  "id": "OP10-006",
+  "set": "OP10",
+  "number": 6,
+  "name": "Caesar Clown",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Scientist",
+    "Punk Hazard"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-006.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 5 cards of your deck and reveal up to one [Smiley] and put it into your hand. Place the rest of the cards on the bottom of your deck. Then play up to one [Smiley] from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck and reveal up to one [Smiley] and put it into your hand. Place the rest of the cards on the bottom of your deck. Then play up to one [Smiley] from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

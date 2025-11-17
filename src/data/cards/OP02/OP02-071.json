@@ -1,0 +1,39 @@
+{
+  "id": "OP02-071",
+  "set": "OP02",
+  "number": 71,
+  "name": "Magellan",
+  "category": "Leader",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Impel Down"],
+  "rarity": "L",
+  "art": "/cards/OP02/OP02-071.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Your Turn", "Once Per Turn"],
+  "trigger": null,
+  "text": "[Your Turn] [Once Per Turn] When a DON!! card is returned from the field to the DON!! deck, this Leader gains +1000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "When a DON!! card is returned from the field to the DON!! deck, this Leader gains +1000 Power during this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": ["self:Leader"],
+        "conditions": ["donReturnedFromFieldToDeck"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

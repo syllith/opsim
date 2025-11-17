@@ -1,0 +1,51 @@
+{
+  "id": "OP03-083",
+  "set": "OP03",
+  "number": 83,
+  "name": "Corgy",
+  "category": "Character",
+  "colors": [
+    "Wisdom"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "World Government"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-083.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play Look at 5 cards from the top of your deck and place up to 2 cards in the trash. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck and place up to 2 cards in the trash. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": [
+          "top5CardsOfDeck"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

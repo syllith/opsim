@@ -1,0 +1,52 @@
+{
+  "id": "OP11-108",
+  "set": "OP11",
+  "number": 108,
+  "name": "Neptune",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Merfolk",
+    "Fishman Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-108.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader is [Shirahoshi], you may turn the top of your Life cards face down: Draw 2 cards and trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Shirahoshi], you may turn the top of your Life cards face down: Draw 2 cards and trash 1 card from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIs[Shirahoshi]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

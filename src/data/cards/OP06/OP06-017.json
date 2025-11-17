@@ -1,0 +1,50 @@
+{
+  "id": "OP06-017",
+  "set": "OP06",
+  "number": 17,
+  "name": "Meteor Strike of Love",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-017.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main / Counter: You may add 1 Life Card to your hand: Up to 1 of your leader or character gains +3000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may add 1 Life Card to your hand: Up to 1 of your leader or character gains +3000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

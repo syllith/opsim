@@ -1,0 +1,49 @@
+{
+  "id": "OP11-051",
+  "set": "OP11",
+  "number": 51,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-051.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "When this Character is K.O'd by an opponent's effect, look at the top 5 cards of your deck and play up to 1 Character card with the type (Straw Hat Crew) and a cost of 5 or less. Then, place the rest of the cards on the bottom of your deck in any order.\nOn Play: Return up to 1 Character with an original power of 5000 or less to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 Character with an original power of 5000 or less to the owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP07-050",
+  "set": "OP07",
+  "number": 50,
+  "name": "Boa Sandersonia",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Kuja Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP07/OP07-050.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have two or more characters in play with the (Amazon Lily) or (Kuja Pirates) type, return up to one of your opponents cost 3 or less character to its owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have two or more characters in play with the (Amazon Lily) or (Kuja Pirates) type, return up to one of your opponents cost 3 or less character to its owner's hand.",
+        "powerMod": null,
+        "conditions": [
+          "twoOrMoreCharactersInPlayWithTypeAmazonLilyOrKujaPirates"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but content is read from printed text."
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "OP06-022",
+  "set": "OP06",
+  "number": 22,
+  "name": "Yamato",
+  "category": "Leader",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Land of wano"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-022.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Double Attack",
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Double Attack (This card deals 2 damage.)\nActivate: Main Once Per Turn If your opponent has 3 or less life, attach up to 2 rested DON!! to one of your characters.",
+  "abilities": [
+    {
+      "timing": "Double Attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This card deals 2 damage.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent has 3 or less life, attach up to 2 rested DON!! to one of your characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourCharacters"
+        ],
+        "conditions": [
+          "opponentLife <= 3"
+        ],
+        "giveDon": {
+          "quantity": 2,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "oneOfYourCharacters"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

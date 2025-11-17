@@ -1,0 +1,47 @@
+{
+  "id": "OP10-049",
+  "set": "OP10",
+  "number": 49,
+  "name": "Sabo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Revolutionary Army",
+    "Dressrosa"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-049.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If one of your characters other than \"Sabo\" with an original cost of 7 cost or lower would be removed from the board by your opponent's effect, you may instead return this character to your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If one of your characters other than \"Sabo\" with an original cost of 7 cost or lower would be removed from the board by your opponent's effect, you may instead return this character to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

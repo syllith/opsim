@@ -1,0 +1,49 @@
+{
+  "id": "OP07-025",
+  "set": "OP07",
+  "number": 25,
+  "name": "Coribou",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Supernova",
+    "Caribou Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-025.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Play up to 1 Cost 4 or lower [Caribou] from your hand rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 Cost 4 or lower [Caribou] from your hand rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

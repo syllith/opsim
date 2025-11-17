@@ -1,0 +1,48 @@
+{
+  "id": "OP05-034",
+  "set": "OP05",
+  "number": 34,
+  "name": "Baby 5",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP05/OP05-034.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main (You may rest the specified number of DON!! cards in your Cost Area) You may rest this character: Look at the top 5 cards of your deck, reveal up to 1 card with the (Donquixote Pirates) type and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character: Look at the top 5 cards of your deck, reveal up to 1 card with the (Donquixote Pirates) type and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

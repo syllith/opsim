@@ -1,0 +1,20 @@
+{
+  "id": "ST04-006",
+  "set": "ST04",
+  "number": 6,
+  "name": "Sasaki",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Ranged",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST04/ST04-006.png",
+  "stats": { "cost": 3, "power": 4000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "keywords": ["On Play", "DON!! -1"],
+  "trigger": null,
+  "text": "On Play — DON!! -1: Draw 1 card.",
+  "abilities": [
+    {"timing": "On Play", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Draw 1 card.", "grants": [], "powerMod": null, "targets": [], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

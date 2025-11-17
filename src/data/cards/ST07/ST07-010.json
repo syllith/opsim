@@ -1,0 +1,37 @@
+{
+  "id": "ST07-010",
+  "set": "ST07",
+  "number": 10,
+  "name": "Zeus",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Big Mom Pirates", "Homies"],
+  "rarity": null,
+  "art": "/cards/ST07/ST07-010.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": { "text": "Play this card." },
+  "text": "Activate: Main: You may rest this card: Up to 1 of your [Charlotte Linlin] gains Banish during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this card: Up to 1 of your [Charlotte Linlin] gains Banish during this turn.",
+        "grants": ["banish"],
+        "powerMod": null,
+        "targets": ["oneCharlotteLinlin"],
+        "conditions": ["restSelf", "duration:turn"]
+      }
+    }
+  ],
+  "meta": { "notes": "Banish note: when a character deals damage, the target card is trashed without activating its Trigger." }
+}

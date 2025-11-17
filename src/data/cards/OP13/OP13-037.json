@@ -1,0 +1,64 @@
+{
+  "id": "OP13-037",
+  "set": "OP13",
+  "number": 37,
+  "name": "Roronoa Zoro",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "FILM",
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-037.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the (FILM) or (Straw Hat Crew) type, set up to 2 of your DON!! cards as active. End of Your Turn: Set this Character as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (FILM) or (Straw Hat Crew) type, set up to 2 of your DON!! cards as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set this Character as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

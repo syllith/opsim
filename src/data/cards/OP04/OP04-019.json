@@ -1,0 +1,52 @@
+{
+  "id": "OP04-019",
+  "set": "OP04",
+  "number": 19,
+  "name": "Donquixote Doflamingo",
+  "category": "Leader",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-019.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] Set up to 2 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to 2 of your DON!! cards as active.",
+        "powerMod": null,
+        "targets": [
+          "donCards"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner."
+  }
+}

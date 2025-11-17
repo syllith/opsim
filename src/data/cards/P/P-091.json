@@ -1,0 +1,63 @@
+{
+  "id": "P-091",
+  "set": "P",
+  "number": 91,
+  "name": "Shirahoshi",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Fishman Island",
+    "Merfolk"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-091.png",
+  "stats": {
+    "cost": 4,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "On Play: Play up to 1 cost 5 or lower (Sea King) or (Fishman Island) type Character card from your hand. \nActivate: Main: You may rest this Character. Up to 1 of your (Sea King) type Characters can attack Characters on the turn it's played.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 cost 5 or lower (Sea King) or (Fishman Island) type Character card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character. Up to 1 of your (Sea King) type Characters can attack Characters on the turn it's played.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

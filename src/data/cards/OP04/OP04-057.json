@@ -1,0 +1,78 @@
+{
+  "id": "OP04-057",
+  "set": "OP04",
+  "number": 57,
+  "name": "Dragon Twister Demolishing Wind",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Four Emperors",
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-057.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Return up to 1 cost 6 or less character to its owner's hand."
+  },
+  "text": "#Counter Give up to 1 of your leaders or characters +4000 Power this battle. Then, place up to 1 cost 1 or lower character on the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your leaders or characters +4000 Power this battle. Then, place up to 1 cost 1 or lower character on the bottom of its owner's deck.",
+        "powerMod": {
+          "amount": 4000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneAllyLeader",
+          "oneAllyCharacter"
+        ],
+        "conditions": [
+          "cost1orLower"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 cost 6 or less character to its owner's hand.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost6"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
+  }
+}

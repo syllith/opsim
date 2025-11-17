@@ -1,0 +1,68 @@
+{
+  "id": "OP09-040",
+  "set": "OP09",
+  "number": 40,
+  "name": "Thunder Lance Flip Pound Phoenix Shot",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "ODYSSEY",
+    "Straw Hat Crew"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-040.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Rest up to one of your opponent's cost 4 or lower characters."
+  },
+  "text": "Main If you have two or more rested characters in play, KO up to one of your opponent's cost 4 or lower characters. Trigger Rest up to one of your opponent's cost 4 or lower characters.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have two or more rested characters in play, KO up to one of your opponent's cost 4 or lower characters.",
+        "powerMod": null,
+        "conditions": [
+          "twoOrMoreRestedCharactersInPlay"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to one of your opponent's cost 4 or lower characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

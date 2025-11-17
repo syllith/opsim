@@ -1,0 +1,59 @@
+{
+  "id": "P-117",
+  "set": "P",
+  "number": 117,
+  "name": "Nami",
+  "category": "Leader",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-117.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Under the rules of this game, you can only include cards with the (East Blue) type in your deck. Also, when your deck is reduced to 0, you win the game instead of losing, according to the rules.\nDON!! x1 When this Leader's attack deals damage to your opponent's Life, you may trash 1 card from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Under the rules of this game, you can only include cards with the (East Blue) type in your deck. Also, when your deck is reduced to 0, you win the game instead of losing, according to the rules.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When this Leader's attack deals damage to your opponent's Life, you may trash 1 card from the top of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

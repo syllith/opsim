@@ -1,0 +1,64 @@
+{
+  "id": "OP06-041",
+  "set": "OP06",
+  "number": 41,
+  "name": "Noah's Ark",
+  "category": "Stage",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Fishman Island"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-041.png",
+  "stats": {
+    "cost": 6,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Put this card into play."
+  },
+  "text": "On Play: Rest all of your opponent's characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest all of your opponent's characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Put this card into play.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP11-030",
+  "set": "OP11",
+  "number": 30,
+  "name": "Shirahoshi",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Merfolk",
+    "Fishman Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-030.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest 1 DON!! card and this Character: Look at the top 5 cards of your deck, reveal up to 1 {Sea King} or {Fishman Island} type card and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to 1 {Sea King} or {Fishman Island} type card and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

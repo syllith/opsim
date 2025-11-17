@@ -1,0 +1,56 @@
+{
+  "id": "OP04-086",
+  "set": "OP04",
+  "number": 86,
+  "name": "Chinjao",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Dressrosa",
+    "Happo Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-086.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When the opponent's character battling this one is K.O'd: draw 2 cards and trash 2 cards from your hand.",
+  "abilities": [
+    {
+      "timing": "DON!!",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "When the opponent's character battling this one is K.O'd: draw 2 cards and trash 2 cards from your hand.",
+        "powerMod": null,
+        "targets": [
+          "opponentCharacter"
+        ],
+        "conditions": [
+          "battling",
+          "K.O'd"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is confirmed as 'C' from the bottom right corner of the card."
+  }
+}

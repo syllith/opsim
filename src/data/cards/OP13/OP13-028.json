@@ -1,0 +1,49 @@
+{
+  "id": "OP13-028",
+  "set": "OP13",
+  "number": 28,
+  "name": "Shanks",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "FILM/The Four Emperors",
+    "Red-Haired Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP13/OP13-028.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 12000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Set up all of your DON!! cards as active. Then, you cannot play any cards from your hand during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up all of your DON!! cards as active. Then, you cannot play any cards from your hand during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

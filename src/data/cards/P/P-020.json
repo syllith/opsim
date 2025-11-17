@@ -1,0 +1,57 @@
+{
+  "id": "P-020",
+  "set": "P",
+  "number": 20,
+  "name": "Helmeppo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "FILM",
+    "Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-020.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Your Leader or up to 1 of your Characters gains +1000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +1000 Power during this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "self",
+          "ally:Leader",
+          "ally:Character"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

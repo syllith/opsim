@@ -1,0 +1,51 @@
+{
+  "id": "OP06-001",
+  "set": "OP06",
+  "number": 1,
+  "name": "Uta",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "FILM"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP06/OP06-001.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking: You may trash 1 FILM type card from your hand: Give up to one of your opponents' characters -2000 power until the end of turn. Then, add up to 1 DON!! from your DON!! deck as rested.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 FILM type card from your hand: Give up to one of your opponents' characters -2000 power until the end of turn. Then, add up to 1 DON!! from your DON!! deck as rested.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "DON!! deck",
+          "to": []
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "OP13-058",
+  "set": "OP13",
+  "number": 58,
+  "name": "Phoenix Pyreapple",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Former Whitebeard Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP13/OP13-058.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main: You may rest 1 of your DON!! cards: Place up to 1 of your opponent's Characters with 3000 power or less at the bottom of the owner's deck. \nCounter: Up to 1 of your Leader gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Place up to 1 of your opponent's Characters with 3000 power or less at the bottom of the owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "OP04-089",
+  "set": "OP04",
+  "number": 89,
+  "name": "Bartolomeo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Dressrosa",
+    "Barto Club"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP04/OP04-089.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": 2000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "(Blocker) (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "targets": [
+          "thisCard"
+        ],
+        "conditions": [
+          "afterOpponentDeclaresAttack"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample. The '3000' in the top right is the power value. The '3' in the top left is the cost. The '2000' in the bottom left is the life value. The '1000' in the counter icon is the counter value. The 'SP' rarity is in the top right corner. The 'OP04-089' ID is in the bottom right corner."
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "OP09-074",
+  "set": "OP09",
+  "number": 74,
+  "name": "Bepo",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Minks",
+    "Heart Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-074.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Once Per Turn",
+    "Your Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn Once Per Turn When a DON!! card on your field is returned to your DON!! deck, up to 1 of your Leader or Character cards gains +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When a DON!! card on your field is returned to your DON!! deck, up to 1 of your Leader or Character cards gains +1000 power during this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "up to 1 of your Leader or Character cards"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but ID and stats are read from the card. Counter value is 2000 as printed."
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ST21-012",
+  "set": "ST21",
+  "number": 12,
+  "name": "Brook",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST21/ST21-012.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "When Attacking Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+        "powerMod": null,
+        "targets": ["oneAllyLeader", "oneAllyCharacter"],
+        "conditions": ["optionalTarget"]
+      },
+      "giveDon": { "amount": 2, "state": "rested", "to": "oneAllyLeaderOrCharacter" }
+    }
+  ],
+  "meta": { "notes": null }
+}

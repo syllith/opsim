@@ -1,0 +1,54 @@
+{
+  "id": "OP03-075",
+  "set": "OP03",
+  "number": 75,
+  "name": "Galley-La Company",
+  "category": "Event",
+  "colors": [
+    "Water"
+  ],
+  "attribute": null,
+  "types": [
+    "Galley-La Company"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-075.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Stage: If your Leader is [Iceburg], add up to 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Stage: If your Leader is [Iceburg], add up to 1 DON!! card from your DON!! deck and rest it.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "leader:Iceburg"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "EB03-050",
+  "set": "EB03",
+  "number": 50,
+  "name": "Conis",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Sky Island"],
+  "rarity": "C",
+  "art": "/cards/EB03/EB03-050.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] Up to 1 of your {Sky Island} type Characters gains [Double Attack] during this turn.\n(This card deals 2 damage.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to 1 of your {Sky Island} type Characters gains [Double Attack] during this turn. (This card deals 2 damage.)",
+        "grants": ["Double Attack"],
+        "powerMod": null,
+        "targets": ["upTo1:ally:Character"],
+        "conditions": ["skyIslandType"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

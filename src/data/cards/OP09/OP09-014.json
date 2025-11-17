@@ -1,0 +1,50 @@
+{
+  "id": "OP09-014",
+  "set": "OP09",
+  "number": 14,
+  "name": "Limejuice",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Red Hair Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-014.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "[On Play]: Up to one of your opponents characters with power 4000 or less cannot activate [Blocker] the rest of this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to one of your opponents characters with power 4000 or less cannot activate Blocker the rest of this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP12-100",
+  "set": "OP12",
+  "number": 100,
+  "name": "Sabo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Revolutionary Army",
+    "Dressrosa"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-100.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "If you have 3 or less Life cards, this Character gains and +3 cost.\nOn Play: You may add the top card of your Life cards to your hand: Draw 2 cards and trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may add the top card of your Life cards to your hand: Draw 2 cards and trash 1 card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

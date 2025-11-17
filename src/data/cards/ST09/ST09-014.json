@@ -1,0 +1,45 @@
+{
+  "id": "ST09-014",
+  "set": "ST09",
+  "number": 14,
+  "name": "Narikabura Arrow",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Land of Wano"],
+  "rarity": null,
+  "art": "/cards/ST09/ST09-014.png",
+  "stats": { "cost": 1, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "You may trash 2 cards from your hand: You may place up to 1 card from the top of your deck at the top of your Life area." },
+  "text": "Counter: If you have 2 or less cards in your life area, give up to 1 of your opponent's Leader or Characters -3000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "If you have 2 or less cards in your life area, give up to 1 of your opponent's Leader or Characters -3000 Power during this turn.",
+        "grants": [],
+        "powerMod": -3000,
+        "targets": ["oneOpponentLeaderOrCharacter"],
+        "conditions": ["ifYourLifeArea<=2", "duration:turn"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "You may trash 2 cards from your hand: You may place up to 1 card from the top of your deck at the top of your Life area.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["topDeckCard"],
+        "conditions": ["trashFromHand:2", "putTopDeckToTopOfLife"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

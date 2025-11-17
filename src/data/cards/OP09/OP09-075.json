@@ -1,0 +1,57 @@
+{
+  "id": "OP09-075",
+  "set": "OP09",
+  "number": 75,
+  "name": "Eustass \"Captain\" Kid",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Kid Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP09/OP09-075.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Add the top card of your life to your hand; if your leader has <Kid Pirates> type add 1 DON!! card from your DON!! deck as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add the top card of your life to your hand; if your leader has <Kid Pirates> type add 1 DON!! card from your DON!! deck as active.",
+        "powerMod": null,
+        "conditions": [
+          "leader",
+          "has type <Kid Pirates>"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "DON!! deck",
+          "to": []
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

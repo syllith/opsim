@@ -1,0 +1,74 @@
+{
+  "id": "OP11-114",
+  "set": "OP11",
+  "number": 114,
+  "name": "Gum-Gum Red Hawk",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-114.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main: You may rest 3 DON!! cards: If both players' total amount of Life cards is 5 or more, K.O. up to 1 of your opponent's Characters with an original cost of 5 or less. \nCounter: Up to 1 of your Leaders gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 3,
+      "cost": {
+        "restDonFromCostArea": 3
+      },
+      "effect": {
+        "text": "If both players' total amount of Life cards is 5 or more, K.O. up to 1 of your opponent's Characters with an original cost of 5 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost5"
+        ],
+        "conditions": [
+          "bothPlayersLifeCards>=5"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leaders gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneYourLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

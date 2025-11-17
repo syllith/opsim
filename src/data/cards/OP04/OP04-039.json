@@ -1,0 +1,56 @@
+{
+  "id": "OP04-039",
+  "set": "OP04",
+  "number": 39,
+  "name": "Rebecca",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-039.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 5,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "This Leader cannot attack. Activate: Main (Once Per Turn) (You may rest the specified number of DON!! cards in your Cost Area): If you have 6 or less cards in your hand, look at 2 cards from the top of your deck; reveal up to 1 (Dressrosa) type card and add it to your hand. Then, trash the rest.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If you have 6 or less cards in your hand, look at 2 cards from the top of your deck; reveal up to 1 (Dressrosa) type card and add it to your hand. Then, trash the rest.",
+        "powerMod": null,
+        "targets": [
+          "top2CardsOfDeck",
+          "oneDressrosaCard"
+        ],
+        "conditions": [
+          "handCards<=6"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card's power is not printed, but the text says 'This Leader cannot attack', so power is null. The '5000' in the top right is the life value, not power."
+  }
+}

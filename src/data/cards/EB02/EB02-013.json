@@ -1,0 +1,37 @@
+{
+  "id": "EB02-013",
+  "set": "EB02",
+  "number": 13,
+  "name": "Carrot",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Special",
+  "types": ["Minks"],
+  "rarity": "C",
+  "art": "/cards/EB02/EB02-013.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] If you have 3 or more DON!! cards on the field, look at the top 7 cards of your deck, reveal up to 1 [Zou] and put it into your hand. Then, place the rest on the bottom of your deck in any order and play up to 1 [Zou] from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 3 or more DON!! cards on the field, look at the top 7 cards of your deck, reveal up to 1 [Zou] and put it into your hand. Then, place the rest on the bottom of your deck in any order and play up to 1 [Zou] from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck", "hand"],
+        "conditions": ["3orMoreDonOnField"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

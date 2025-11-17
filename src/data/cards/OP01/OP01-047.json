@@ -1,0 +1,37 @@
+{
+  "id": "OP01-047",
+  "set": "OP01",
+  "number": 47,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Supernovas", "Heart Pirates"],
+  "rarity": "SR",
+  "art": "/cards/OP01/OP01-047.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] You may return 1 of your Characters to your hand: Play up to 1 Character card with a cost of 3 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may return 1 of your Characters to your hand: Play up to 1 Character card with a cost of 3 or less from your hand.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["ally:Character", "hand"],
+        "conditions": ["mayReturnCharacterToHand", "characterCost<=3"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

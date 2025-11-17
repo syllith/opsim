@@ -1,0 +1,64 @@
+{
+  "id": "OP07-055",
+  "set": "OP07",
+  "number": 55,
+  "name": "Snake Dance",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Snake Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-055.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may return 1 of your characters to its owner's hand; Return up to 1 of your opponent's Cost 5 or lower Characters to its owner's hand."
+  },
+  "text": "Counter: Give up to 1 of your Leader or Characters +4000 power during this battle. Then return up to 1 of your Characters to its owner's hand. Trigger: You may return 1 of your characters to its owner's hand; Return up to 1 of your opponent's Cost 5 or lower Characters to its owner's hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your Leader or Characters +4000 power during this battle. Then return up to 1 of your Characters to its owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return 1 of your characters to its owner's hand; Return up to 1 of your opponent's Cost 5 or lower Characters to its owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

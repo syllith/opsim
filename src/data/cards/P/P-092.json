@@ -1,0 +1,69 @@
+{
+  "id": "P-092",
+  "set": "P",
+  "number": 92,
+  "name": "Coby",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy",
+    "SWORD"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-092.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Opponent's Turn",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "Opponent's Turn: This Character gains -3000 power. When Attacking: If your Leader has the (Navy) type, your Leader's original power becomes 7000 until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This Character gains -3000 power.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Navy) type, your Leader's original power becomes 7000 until the end of your opponent's next turn.",
+        "powerMod": {
+          "amount": 7000,
+          "duration": "until the end of your opponent's next turn"
+        },
+        "conditions": [
+          "your Leader has the (Navy) type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

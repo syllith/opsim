@@ -1,0 +1,50 @@
+{
+  "id": "EB01-012",
+  "set": "EB01",
+  "number": 12,
+  "name": "Cavendish",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Supernova", "Beautiful Pirates"],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-012.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "When Attacking"],
+  "trigger": null,
+  "text": "[On Play] / [When Attacking] If your leader is a Supernova type and you have no other Cavendish on the field, Active 2 Don.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader is a Supernova type and you have no other Cavendish on the field, Active 2 Don.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["don"],
+        "conditions": ["leaderTypeSupernova", "noOtherCavendish"]
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader is a Supernova type and you have no other Cavendish on the field, Active 2 Don.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["don"],
+        "conditions": ["leaderTypeSupernova", "noOtherCavendish"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

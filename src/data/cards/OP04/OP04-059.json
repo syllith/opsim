@@ -1,0 +1,75 @@
+{
+  "id": "OP04-059",
+  "set": "OP04",
+  "number": 59,
+  "name": "Iceburg",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Water Seven",
+    "Galley-La Company"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-059.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Opponent attack",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "Opponent attack DON!!-1: If your leader is {Water 7} type, this character gains Blocker for the turn. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Opponent attack",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is {Water 7} type, this character gains Blocker for the turn.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "targets": [
+          "thisCharacter"
+        ],
+        "conditions": [
+          "yourLeaderIsWater7"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Opponent attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": [
+          "thisCard"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

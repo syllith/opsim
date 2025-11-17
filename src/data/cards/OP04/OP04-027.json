@@ -1,0 +1,52 @@
+{
+  "id": "OP04-027",
+  "set": "OP04",
+  "number": 27,
+  "name": "Daddy Masterson",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "East Blue",
+    "Former Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-027.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "DON!!: x1 [End of Your Turn] Set this Character as active.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Set this Character as active.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, but all fields are based on visible text."
+  }
+}

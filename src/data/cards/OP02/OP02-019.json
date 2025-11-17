@@ -1,0 +1,38 @@
+{
+  "id": "OP02-019",
+  "set": "OP02",
+  "number": 19,
+  "name": "Rakuyo",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "UC",
+  "art": "/cards/OP02/OP02-019.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "DON!!", "Your Turn"],
+  "trigger": null,
+  "text": "DON!! x1 Your Turn All of your Characters with {Whitebeard Pirates} in their types gain +1000 Power.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "All of your Characters with {Whitebeard Pirates} in their types gain +1000 Power.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "this turn" },
+        "targets": ["allAllyCharacters:Whitebeard Pirates"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

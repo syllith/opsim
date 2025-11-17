@@ -1,0 +1,60 @@
+{
+  "id": "OP09-081",
+  "set": "OP09",
+  "number": 81,
+  "name": "Catarina Devon",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Blackbeard Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP09/OP09-081.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn",
+    "Double Attack",
+    "Banish",
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn If your leader has the (Blackbeard Pirates) type, until the end of your opponent's next turn this character gains Double Attack, Banish or Blocker.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the (Blackbeard Pirates) type, until the end of your opponent's next turn this character gains Double Attack, Banish or Blocker.",
+        "grants": [
+          "Double Attack",
+          "Banish",
+          "Blocker"
+        ],
+        "powerMod": null,
+        "conditions": [
+          "your leader has the (Blackbeard Pirates) type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

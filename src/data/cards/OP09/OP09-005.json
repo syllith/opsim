@@ -1,0 +1,66 @@
+{
+  "id": "OP09-005",
+  "set": "OP09",
+  "number": 5,
+  "name": "Silvers Rayleigh",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Roger Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-005.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: If your opponent has two or more characters with an original power of 5000 or more, Draw 2 cards and discard 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent has two or more characters with an original power of 5000 or more, Draw 2 cards and discard 1 card from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "opponent:hasTwoOrMoreCharacters",
+          "character:originalPower>=5000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

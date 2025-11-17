@@ -1,0 +1,46 @@
+{
+  "id": "OP02-096",
+  "set": "OP02",
+  "number": 96,
+  "name": "Kuzan",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Navy"],
+  "rarity": "SR",
+  "art": "/cards/OP02/OP02-096.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "When Attacking"],
+  "trigger": null,
+  "text": "[On Play] Draw 1 card.\n[When Attacking] Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw 1 card.",
+        "targets": ["self:player"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
+        "targets": ["upTo1:opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

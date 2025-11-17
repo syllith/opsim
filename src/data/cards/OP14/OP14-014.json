@@ -1,0 +1,54 @@
+{
+  "id": "OP14-014",
+  "set": "OP14",
+  "number": 14,
+  "name": "Eustass\"Captain\"Kid",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Supernovas",
+    "Kid Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP14/OP14-014.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the (Supernovas) type, play up to 1 red Character card with 2000 power or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Supernovas) type, play up to 1 red Character card with 2000 power or less from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Supernovas"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

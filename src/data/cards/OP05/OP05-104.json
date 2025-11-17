@@ -1,0 +1,48 @@
+{
+  "id": "OP05-104",
+  "set": "OP05",
+  "number": 104,
+  "name": "Conis",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Sky Island"
+  ],
+  "rarity": "UB",
+  "art": "/cards/OP05/OP05-104.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may place 1 of your stage cards on the bottom of your deck: Draw 1 cards, then trash 1.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place 1 of your stage cards on the bottom of your deck: Draw 1 cards, then trash 1.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

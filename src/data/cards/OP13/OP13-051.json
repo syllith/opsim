@@ -1,0 +1,52 @@
+{
+  "id": "OP13-051",
+  "set": "OP13",
+  "number": 51,
+  "name": "Boa Hancock",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Seven Warlords of the Sea/Kuja Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP13/OP13-051.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On K.O. If your Leader is [Boa Hancock] or multicolored, draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Boa Hancock] or multicolored, draw 2 cards.",
+        "powerMod": null,
+        "conditions": [
+          "your Leader is [Boa Hancock]",
+          "multicolored"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

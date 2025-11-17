@@ -1,0 +1,56 @@
+{
+  "id": "OP14-001",
+  "set": "OP14",
+  "number": 1,
+  "name": "Traffagar Law",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Supernovas",
+    "Heart Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP14/OP14-001.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate:Main Once Per Turn Select 2 of your (Supernovas) or {Heart Pirates} type Characters. Swap the base power of the selected Characters with each other during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Select 2 of your (Supernovas) or {Heart Pirates} type Characters. Swap the base power of the selected Characters with each other during this turn.",
+        "powerMod": null,
+        "targets": [
+          "twoOfYourCharacters",
+          "oneOfYourCharacters",
+          "oneOfYourCharacters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

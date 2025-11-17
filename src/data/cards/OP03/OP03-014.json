@@ -1,0 +1,35 @@
+{
+  "id": "OP03-014",
+  "set": "OP03",
+  "number": 14,
+  "name": "Monkey. D. Garp",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Navy"],
+  "rarity": "R",
+  "art": "/cards/OP03/OP03-014.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "[When Attacking] Play up to 1 red Character card with a cost of 1 from your hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play up to 1 red Character card with a cost of 1 from your hand.",
+        "targets": ["hand"],
+        "conditions": ["colorRed", "categoryCharacter", "costEqual1"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

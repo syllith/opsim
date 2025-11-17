@@ -1,0 +1,50 @@
+{
+  "id": "OP02-102",
+  "set": "OP02",
+  "number": 102,
+  "name": "Smoker",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Navy"],
+  "rarity": "SR",
+  "art": "/cards/OP02/OP02-102.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "This Character cannot be K.O'd by effects.\n[When Attacking] If there is a Character with a cost of 0 in play, this Character gains +2000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This Character cannot be K.O'd by effects.",
+        "targets": ["self"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If there is a Character with a cost of 0 in play, this Character gains +2000 power during this battle.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this battle"
+        },
+        "targets": ["self"],
+        "conditions": ["characterCost0InPlay"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

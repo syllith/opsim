@@ -1,0 +1,56 @@
+{
+  "id": "OP09-041",
+  "set": "OP09",
+  "number": 41,
+  "name": "Soul FRANKY Swing Arm BOXING Solid",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "ODYSSEY",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-041.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Rest up to 1 of your opponent's Characters with a cost of 4 or less."
+  },
+  "text": "Up to 1 of your Leader or Characters gains +2000 power during this battle. Then, if your Leader has the {{ODYSSEY}} type and you have 2 or more rested Characters, set up to 2 of your Characters as active.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader or Characters gains +2000 power during this battle. Then, if your Leader has the {{ODYSSEY}} type and you have 2 or more rested Characters, set up to 2 of your Characters as active.",
+        "powerMod": null,
+        "conditions": [
+          "your Leader has the {{ODYSSEY}} type",
+          "you have 2 or more rested Characters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample and has 'SAMPLE' watermark. Text is legible."
+  }
+}

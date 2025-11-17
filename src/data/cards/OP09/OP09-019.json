@@ -1,0 +1,68 @@
+{
+  "id": "OP09-019",
+  "set": "OP09",
+  "number": 19,
+  "name": "I won't forgive anyone who messes with my friends!!!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Red Hair Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-019.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw a card."
+  },
+  "text": "Main If your leader has the {Red Hair Pirates} type, give up to one of your opponents' characters -3000 power for this turn. Then if your opponent has a character with power 5000 or greater in play, draw a card.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the {Red Hair Pirates} type, give up to one of your opponents' characters -3000 power for this turn. Then if your opponent has a character with power 5000 or greater in play, draw a card.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Red Hair Pirates"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw a card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

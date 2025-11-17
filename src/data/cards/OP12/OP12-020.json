@@ -1,0 +1,52 @@
+{
+  "id": "OP12-020",
+  "set": "OP12",
+  "number": 20,
+  "name": "Roronoa Zoro",
+  "category": "Leader",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP12/OP12-020.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "DON!! x3",
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "[DON!! x3] [Activate: Main] [Once Per Turn] If this Leader has battled your opponent's Character during this turn, set this Leader as active. Then, this card cannot attack Characters with an original cost of 7 or less during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 3,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this Leader has battled your opponent's Character during this turn, set this Leader as active. Then, this card cannot attack Characters with an original cost of 7 or less during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

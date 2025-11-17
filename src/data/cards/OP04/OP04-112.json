@@ -1,0 +1,54 @@
+{
+  "id": "OP04-112",
+  "set": "OP04",
+  "number": 112,
+  "name": "Yamato",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Land of Wano"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP04/OP04-112.png",
+  "stats": {
+    "cost": 9,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: K.O. up to one of your opponent's characters with a cost that is equal to or less than the total life of you and your opponent. Then, if you have 1 or less life, you may add up to 1 card from the top of your deck to your life area.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to one of your opponent's characters with a cost that is equal to or less than the total life of you and your opponent. Then, if you have 1 or less life, you may add up to 1 card from the top of your deck to your life area.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=costTotalLife"
+        ],
+        "conditions": [
+          "ifYouHave1OrLessLife"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'SR' is printed in the bottom right corner. The card is a sample, indicated by the large 'SAMPLE' watermark."
+  }
+}

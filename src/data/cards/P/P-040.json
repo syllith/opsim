@@ -1,0 +1,47 @@
+{
+  "id": "P-040",
+  "set": "P",
+  "number": 40,
+  "name": "Kaido",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Four Emperors",
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-040.png",
+  "stats": {
+    "cost": 8,
+    "power": 10000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 10000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If there are 10 don on your opponent's board, this character can not be KO'd.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If there are 10 don on your opponent's board, this character can not be KO'd.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

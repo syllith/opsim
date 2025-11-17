@@ -1,0 +1,48 @@
+{
+  "id": "OP05-021",
+  "set": "OP05",
+  "number": 21,
+  "name": "Revolutionary Army General Headquarters",
+  "category": "Stage",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-021.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may trash 1 card from your hand and rest this Stage: Look at the top 3 cards of your deck; reveal up to 1 {Revolutionary Army} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand and rest this Stage: Look at the top 3 cards of your deck; reveal up to 1 {Revolutionary Army} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

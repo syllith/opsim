@@ -1,0 +1,49 @@
+{
+  "id": "OP05-004",
+  "set": "OP05",
+  "number": 4,
+  "name": "Emporio Ivankov",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP05/OP05-004.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn If this character has 7000 Power or more, play up to 1 <Revolutionary Army>-type character other than \"Emporio Ivankov\" with Power 5000 or less.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this character has 7000 Power or more, play up to 1 <Revolutionary Army>-type character other than \"Emporio Ivankov\" with Power 5000 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

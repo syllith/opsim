@@ -1,0 +1,39 @@
+{
+  "id": "OP02-093",
+  "set": "OP02",
+  "number": 93,
+  "name": "Smoker",
+  "category": "Leader",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Navy"],
+  "rarity": "L",
+  "art": "/cards/OP02/OP02-093.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["DON!! x1", "Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "[DON!! x1] [Activate: Main] [Once Per Turn] Give up to 1 of your opponent's Characters -1 to their cost during this turn. Then, if there is a Character with a cost of 0 in play, this Leader gains +1000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -1 to their cost during this turn. Then, if there is a Character with a cost of 0 in play, this Leader gains +1000 Power during this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": ["upTo1:opponent:Character", "self:Leader"],
+        "conditions": ["characterCost0InPlay"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

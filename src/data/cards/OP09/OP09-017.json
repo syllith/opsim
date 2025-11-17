@@ -1,0 +1,51 @@
+{
+  "id": "OP09-017",
+  "set": "OP09",
+  "number": 17,
+  "name": "Wire",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Kid Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-017.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "DON!! x1: If your leader has Power 7000 or higher and the \"Kid Pirates\" type, this character gains Rush.",
+  "abilities": [
+    {
+      "timing": "DON!!",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has Power 7000 or higher and the \"Kid Pirates\" type, this character gains Rush.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

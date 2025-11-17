@@ -1,0 +1,50 @@
+{
+  "id": "OP10-043",
+  "set": "OP10",
+  "number": 43,
+  "name": "Ucy",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Dressrosa",
+    "Animal"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-043.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Banish"
+  ],
+  "trigger": null,
+  "text": "On Play: You may rest up to 1 of your \"Dressrosa\" type Leaders or Stages: Up to one of your character [Monkey D. Luffy] Banish until the end of turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest up to 1 of your \"Dressrosa\" type Leaders or Stages: Up to one of your character [Monkey D. Luffy] Banish until the end of turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has a SAMPLE watermark. Attribute is Strike. Rarity is C. Power and Life are not printed on the card."
+  }
+}

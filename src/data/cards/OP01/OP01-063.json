@@ -1,0 +1,38 @@
+{
+  "id": "OP01-063",
+  "set": "OP01",
+  "number": 63,
+  "name": "Arlong",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Fish-Man", "Arlong Crew"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-063.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x1", "Activate: Main"],
+  "trigger": null,
+  "text": "DON!! x1 | Activate: Main: You may rest this Character: Choose 1 card from your opponent's hand and reveal it. If the revealed card is an Event, place 1 card from your opponent's Life area at the bottom of the owner's deck.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this Character: Choose 1 card from your opponent's hand and reveal it. If the revealed card is an Event, place 1 card from your opponent's Life area at the bottom of the owner's deck.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self", "oneOpponentHandCard", "oneOpponentLifeCard"],
+        "conditions": ["restSelf", "revealedCardIsEvent"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

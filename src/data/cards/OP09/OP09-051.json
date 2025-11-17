@@ -1,0 +1,49 @@
+{
+  "id": "OP09-051",
+  "set": "OP09",
+  "number": 51,
+  "name": "Buggy",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Cross Guild",
+    "Four Emperors"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-051.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 12000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Return up to one of your opponents characters to the bottom of the deck, then if you do not control 5 characters with a cost of 5 or more, return this character to the bottom of the deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to one of your opponents characters to the bottom of the deck, then if you do not control 5 characters with a cost of 5 or more, return this character to the bottom of the deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, so stats may not reflect final version. Power value is 12000 as printed."
+  }
+}

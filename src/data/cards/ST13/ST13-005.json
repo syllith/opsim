@@ -1,0 +1,50 @@
+{
+  "id": "ST13-005",
+  "set": "ST13",
+  "number": 5,
+  "name": "Emporio Ivankov",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Revolutionary Army"],
+  "rarity": "R",
+  "art": "/cards/ST13/ST13-005.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Play You may trash the top or bottom card of your life: Reveal one cost 5 character card from your hand then place it facedown on the top of your life.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash the top or bottom card of your life: Reveal one cost 5 character card from your hand then place it facedown on the top of your life.",
+        "powerMod": null,
+        "targets": ["self:lifeTopOrBottom:trash:optional", "oneAllyCharacter=5:hand:reveal:lifeTop:faceDown"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

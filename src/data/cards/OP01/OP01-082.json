@@ -1,0 +1,38 @@
+{
+  "id": "OP01-082",
+  "set": "OP01",
+  "number": 82,
+  "name": "Monet",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Donquixote Pirates", "Punk Hazard"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-082.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Trigger"],
+  "trigger": { "text": "Play this card." },
+  "text": "Trigger: Play this card.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play this card.",
+        "grants": ["Play this card"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP09-052",
+  "set": "OP09",
+  "number": 52,
+  "name": "Marco",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP09/OP09-052.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Opponent's Turn"
+  ],
+  "trigger": null,
+  "text": "Opponent's Turn: You may trash 1 card from your hand: When this character would be KOD by your opponent's effects, play this character as rested from your trash.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: When this character would be KOD by your opponent's effects, play this character as rested from your trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

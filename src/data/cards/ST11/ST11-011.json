@@ -1,0 +1,42 @@
+{
+  "id": "ST11-011",
+  "set": "ST11",
+  "number": 11,
+  "name": "Guard Point",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Animal", "Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST11/ST11-011.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main"],
+  "trigger": {
+    "text": "Up to 1 of your Leader or Character cards gains +3000 power during this battle."
+  },
+  "text": "[Main] Up to 1 of your Leader or Character cards gains +1000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to 1 of your Leader or Character cards gains +1000 power during this battle.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "duringThisBattle"
+        },
+        "targets": ["upTo1:self:Leader", "upTo1:ally:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

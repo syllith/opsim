@@ -1,0 +1,51 @@
+{
+  "id": "OP06-098",
+  "set": "OP06",
+  "number": 98,
+  "name": "Thriller Bark",
+  "category": "Stage",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-098.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main (You may rest the specified number of DON!! cards in your Cost Area) rest this stage: If your leader has the [Thriller Bark Pirates] type, you may play up to 1 cost 2 or lower [Thriller Bark Pirates] type character card from your trash rested.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "rest this stage: If your leader has the [Thriller Bark Pirates] type, you may play up to 1 cost 2 or lower [Thriller Bark Pirates] type character card from your trash rested.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has the [Thriller Bark Pirates] type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

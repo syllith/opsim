@@ -1,0 +1,49 @@
+{
+  "id": "P-42",
+  "set": "P",
+  "number": 42,
+  "name": "Roronoa Zoro",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Wano",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-042.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "KO up to one of your opponent's cost 4 or lower characters."
+  },
+  "text": null,
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to one of your opponent's cost 4 or lower characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

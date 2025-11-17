@@ -1,0 +1,50 @@
+{
+  "id": "ST12-002",
+  "set": "ST12",
+  "number": 2,
+  "name": "Kuina",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Shimotsuki Village"],
+  "rarity": "C",
+  "art": "/cards/ST12/ST12-002.png",
+  "stats": {
+    "cost": 3,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": [],
+  "trigger": { "text": "Play this card." },
+  "text": "Activate: Main You may rest this character: rest up to 1 of your opponent's cost 4 or lower characters. Trigger Play this card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this character: rest up to 1 of your opponent's cost 4 or lower characters.",
+        "powerMod": null,
+        "targets": ["self:rest", "oneOpponentCharacter<=4:rest"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play this card.",
+        "powerMod": null,
+        "targets": ["self:play"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

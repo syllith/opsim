@@ -1,0 +1,62 @@
+{
+  "id": "OP01-003",
+  "set": "OP01",
+  "number": 3,
+  "name": "Monkey. D. Luffy",
+  "category": "Leader",
+  "colors": [
+    "Red",
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP01/OP01-003.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "[Activate: Main] [Once Per Turn] ④ (You may rest the specified number of DON!! cards in your Cost Area): Set up to 1 of your {Supernovas} or {Straw Hat Crew} type Character cards with a cost of 5 or less as active. It gains +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate Main",
+      "frequency": "Once Per Turn",
+      "donReq": 4,
+      "cost": {
+        "restDonFromCostArea": 4
+      },
+      "effect": {
+        "text": "Set up to 1 of your {Supernovas} or {Straw Hat Crew} type Character cards with a cost of 5 or less as active. It gains +1000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "duringThisTurn"
+        },
+        "targets": [
+          "upTo1:ally:Character"
+        ],
+        "conditions": [
+          "supernovasOrStrawHatCrew",
+          "characterCost<=5"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

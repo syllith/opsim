@@ -1,0 +1,64 @@
+{
+  "id": "OP06-058",
+  "set": "OP06",
+  "number": 58,
+  "name": "Gravity Blade Raging Tiger",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-058.png",
+  "stats": {
+    "cost": 7,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Place up to one cost 5 or less character on the bottom of its owner's deck."
+  },
+  "text": "Main: Place up to 2 cost 6 or less characters in any order on the bottom of their owner's deck. Trigger: Place up to one cost 5 or less character on the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to 2 cost 6 or less characters in any order on the bottom of their owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to one cost 5 or less character on the bottom of its owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

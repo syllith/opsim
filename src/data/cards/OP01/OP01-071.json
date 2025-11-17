@@ -1,0 +1,52 @@
+{
+  "id": "OP01-071",
+  "set": "OP01",
+  "number": 71,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Strike",
+  "types": ["Fish-Man", "Straw Hat Crew"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-071.png",
+  "stats": {
+    "cost": 4,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "Trigger"],
+  "trigger": { "text": "Play this card." },
+  "text": "On Play: Place 1 Character with a cost of 3 or less at the bottom of the owner's deck.\nTrigger: Play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Place 1 Character with a cost of 3 or less at the bottom of the owner's deck.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneCharacter<=3"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play this card.",
+        "grants": ["Play this card"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST10-016",
+  "set": "ST10",
+  "number": 16,
+  "name": "Gum-Gum Kong Gatling",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST10/ST10-016.png",
+  "stats": {
+    "cost": 5,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main", "Trigger"],
+  "trigger": { "text": "Until the end of your next turn, up to 1 of your Leaders gains +1000 Power." },
+  "text": "Main: K.O. up to 1 of your opponent's Characters with 7000 Power or less. Trigger: Until the end of your next turn, up to 1 of your Leaders gains +1000 Power.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 5 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with 7000 Power or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=7000"],
+        "conditions": ["optionalTarget"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Until the end of your next turn, up to 1 of your Leaders gains +1000 Power.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "untilStartOfYourNextTurn" },
+        "targets": ["ally:Leader"],
+        "conditions": ["optionalTarget", "lifeTrigger"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

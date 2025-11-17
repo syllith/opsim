@@ -1,0 +1,43 @@
+{
+  "id": "OP01-113",
+  "set": "OP01",
+  "number": 113,
+  "name": "Holdem",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Animal Kingdom Pirates", "Smile"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-113.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "On K.O."],
+  "trigger": null,
+  "text": "On K.O. Add 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Add 1 DON!! card from your DON!! deck and rest it.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["field"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "OP03-048",
+  "set": "OP03",
+  "number": 48,
+  "name": "Nojiko",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-048.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play If your Leader is [Nami], return up to 1 of your opponent's Characters with a cost of 5 or less to its owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Nami], return up to 1 of your opponent's Characters with a cost of 5 or less to its owner's hand.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost5"
+        ],
+        "conditions": [
+          "leaderIsNami"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'UC' is confirmed from the 'UC' symbol in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP08-029",
+  "set": "OP08",
+  "number": 29,
+  "name": "Pekoms",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Minks",
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-029.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "As long as this character is active, your cost 3 or less (Minks) type characters other than [Pekoms] cannot be KO'd by effects.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "As long as this character is active, your cost 3 or less (Minks) type characters other than [Pekoms] cannot be KO'd by effects.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

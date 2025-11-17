@@ -1,0 +1,65 @@
+{
+  "id": "OP05-094",
+  "set": "OP05",
+  "number": 94,
+  "name": "Haute Couture: Patch★Work",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Tontatta Tribe",
+    "Dressrosa"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-094.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 2 cards, then trash 1 card from your hand."
+  },
+  "text": "Main: Give up to 1 of your opponent's characters -3 cost during this turn. Then, up to 1 of your opponent's characters with a cost of 0 isn't set as active during the next Refresh Phase.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's characters -3 cost during this turn. Then, up to 1 of your opponent's characters with a cost of 0 isn't set as active during the next Refresh Phase.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards, then trash 1 card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

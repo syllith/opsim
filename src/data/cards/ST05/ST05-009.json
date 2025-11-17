@@ -1,0 +1,20 @@
+{
+  "id": "ST05-009",
+  "set": "ST05",
+  "number": 9,
+  "name": "Scarlet",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["FILM", "Animal", "Golden Lion Pirates"],
+  "rarity": null,
+  "art": "/cards/ST05/ST05-009.png",
+  "stats": { "cost": 2, "power": 3000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "keywords": ["Trigger"],
+  "trigger": "Play this card.",
+  "text": null,
+  "abilities": [
+    {"timing": "Trigger", "frequency": null, "donReq": null, "cost": null, "effect": {"text": "Play this card.", "grants": ["playThisCard"], "powerMod": null, "targets": ["self"], "conditions": []}}
+  ],
+  "meta": {"notes": null}
+}

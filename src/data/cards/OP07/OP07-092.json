@@ -1,0 +1,48 @@
+{
+  "id": "OP07-092",
+  "set": "OP07",
+  "number": 92,
+  "name": "Yusef",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "CP0"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-092.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Return 2 [CP] cards from your trash to your bottom deck. K.O. 1 of your opponent's characters with a cost of 1 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return 2 [CP] cards from your trash to your bottom deck. K.O. 1 of your opponent's characters with a cost of 1 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

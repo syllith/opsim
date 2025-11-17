@@ -1,0 +1,48 @@
+{
+  "id": "ST14-017",
+  "set": "ST14",
+  "number": 17,
+  "name": "Thousand Sunny",
+  "category": "Stage",
+  "colors": ["Black"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST14/ST14-017.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "Your black characters with the {Straw Hat Crew} type have +1 cost. On Play: If your leader has the {Straw Hat Crew} type, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your black characters with the {Straw Hat Crew} type have +1 cost.",
+        "powerMod": null,
+        "targets": ["allAllyCharacter:type=Straw Hat Crew;color=Black"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader has the {Straw Hat Crew} type, draw 1 card.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["leaderType=Straw Hat Crew"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

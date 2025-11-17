@@ -1,0 +1,49 @@
+{
+  "id": "OP10-099",
+  "set": "OP10",
+  "number": 99,
+  "name": "Eustass \"Captain\" Kid",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Supernova",
+    "Kid Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP10/OP10-099.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "End of Your Turn: You may turn the top card of your Life cards face-up. Set up to one of your 3 to 8 cost characters with the (Supernova) type active, that character gains until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may turn the top card of your Life cards face-up. Set up to one of your 3 to 8 cost characters with the (Supernova) type active, that character gains until the end of your opponent's next turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

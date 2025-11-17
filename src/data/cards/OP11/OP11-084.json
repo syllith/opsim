@@ -1,0 +1,62 @@
+{
+  "id": "OP11-084",
+  "set": "OP11",
+  "number": 84,
+  "name": "Kuzan",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-084.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "On Play: Trash the top 3 cards of your deck. When Attacking: Up to 1 of your Leaders or Characters with the {Navy} type can attack active Characters during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Trash the top 3 cards of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leaders or Characters with the {Navy} type can attack active Characters during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

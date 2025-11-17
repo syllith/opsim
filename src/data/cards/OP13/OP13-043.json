@@ -1,0 +1,48 @@
+{
+  "id": "OP13-043",
+  "set": "OP13",
+  "number": 43,
+  "name": "Otama",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Land of Wano"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-043.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have 3 or less Life cards, draw 2 cards and trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 3 or less Life cards, draw 2 cards and trash 1 card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

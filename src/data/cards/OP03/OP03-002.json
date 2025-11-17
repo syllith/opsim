@@ -1,0 +1,35 @@
+{
+  "id": "OP03-002",
+  "set": "OP03",
+  "number": 2,
+  "name": "Adio",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Ranged",
+  "types": ["ODYSSEY"],
+  "rarity": "R",
+  "art": "/cards/OP03/OP03-002.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x1", "When Attacking"],
+  "trigger": null,
+  "text": "[DON!! x1] [When Attacking] Your opponent cannot activate <Blocker> of Characters with 2000 Power or less during this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your opponent cannot activate <Blocker> of Characters with 2000 Power or less during this battle.",
+        "targets": ["opponent:Character<=2000"],
+        "conditions": ["hasBlocker"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

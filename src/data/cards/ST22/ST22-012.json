@@ -1,0 +1,53 @@
+{
+  "id": "ST22-012",
+  "set": "ST22",
+  "number": 12,
+  "name": "Marco",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Whitebeard Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST22/ST22-012.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Once Per Turn"],
+  "trigger": null,
+  "text": "[Once Per Turn] If this Character would be K.O'd by your opponents effects, you may instead trash 1 card from your hand.\n[When Attacking] Reveal the top card of your deck. If it has \"Whitebeard Pirates\" in its types, give this Character +1000 power until the end of your opponent's next turn",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If this Character would be K.O'd by your opponents effects, you may instead trash 1 card from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["koByOpponentEffect"]
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Reveal the top card of your deck. If it has \"Whitebeard Pirates\" in its types, give this Character +1000 power until the end of your opponent's next turn",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "untilEndOfOpponentsNextTurn"
+        },
+        "targets": ["self"],
+        "conditions": ["topDeckHasWhitebeardPirates"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

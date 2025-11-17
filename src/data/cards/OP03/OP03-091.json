@@ -1,0 +1,54 @@
+{
+  "id": "OP03-091",
+  "set": "OP03",
+  "number": 91,
+  "name": "Helmepo",
+  "category": "Character",
+  "colors": [
+    "Wisdom"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-091.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Make up to 1 of your opponent's Characters with no base effect cost 0 during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Make up to 1 of your opponent's Characters with no base effect cost 0 during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "noBaseEffectCost"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

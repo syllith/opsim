@@ -1,0 +1,38 @@
+{
+  "id": "OP02-009",
+  "set": "OP02",
+  "number": 9,
+  "name": "Squard",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Whitebeard Pirates Subordinates"],
+  "rarity": "UC",
+  "art": "/cards/OP02/OP02-009.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "On Play"],
+  "trigger": null,
+  "text": "On Play If your Leader has the {Whitebeard Pirates} type, give up to 1 of your opponent's Characters -4000 Power during this turn, then add the top card from your Life area to your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Whitebeard Pirates} type, give up to 1 of your opponent's Characters -4000 Power during this turn, then add the top card from your Life area to your hand.",
+        "grants": [],
+        "powerMod": { "amount": -4000, "duration": "this turn" },
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["leaderHasType:Whitebeard Pirates", "optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

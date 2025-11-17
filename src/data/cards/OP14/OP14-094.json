@@ -1,0 +1,66 @@
+{
+  "id": "OP14-094",
+  "set": "OP14",
+  "number": 94,
+  "name": "Mr.5(Gem)",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-094.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play If there is a Character with a cost of 0 or a Character with a cost of 8 or more, draw 2 cards and trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If there is a Character with a cost of 0 or a Character with a cost of 8 or more, draw 2 cards and trash 1 card from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "a Character with a cost of 0",
+          "a Character with a cost of 8 or more"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

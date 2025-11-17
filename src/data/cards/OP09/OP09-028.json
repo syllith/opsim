@@ -1,0 +1,49 @@
+{
+  "id": "OP09-028",
+  "set": "OP09",
+  "number": 28,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "ODYSSEY",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-028.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On K.O. You may put the top or bottom card of your life into your hand: Play up to one cost 4 or lower character with the <<Odyssey>> or <<Straw Hat Crew>> type from your trash into play as rested.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may put the top or bottom card of your life into your hand: Play up to one cost 4 or lower character with the <<Odyssey>> or <<Straw Hat Crew>> type from your trash into play as rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

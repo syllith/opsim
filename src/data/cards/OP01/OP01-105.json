@@ -1,0 +1,38 @@
+{
+  "id": "OP01-105",
+  "set": "OP01",
+  "number": 105,
+  "name": "Bao Huang",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Wisdom",
+  "types": ["Animal Kingdom Pirates", "Smile"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-105.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "On Play"],
+  "trigger": null,
+  "text": "On Play Choose 2 cards from your opponent's hand and reveal them.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Choose 2 cards from your opponent's hand and reveal them.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponentHand:twoCards"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

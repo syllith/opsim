@@ -1,0 +1,46 @@
+{
+  "id": "OP08-045",
+  "set": "OP08",
+  "number": 45,
+  "name": "Thatch",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP08/OP08-045.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If this character were to be KOD, or removed from play by your opponents effect, you may instead place this character into the trash, and then draw one card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this character were to be KOD, or removed from play by your opponents effect, you may instead place this character into the trash, and then draw one card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has 'US' rarity, which is not standard in One Piece TCG. Assuming 'US' is a misprint or placeholder for 'UC' or similar."
+  }
+}

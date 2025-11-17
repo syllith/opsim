@@ -1,0 +1,75 @@
+{
+  "id": "OP03-063",
+  "set": "OP03",
+  "number": 63,
+  "name": "Zambai",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Water 7",
+    "Franky Family"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-063.png",
+  "stats": {
+    "cost": 3,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): If your leader has the (Water 7) type, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may return the specified number of DON!! cards from your field to your DON!! deck: If your leader has the (Water 7) type, draw 1 card.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "leader:Water 7"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "targets": [
+          "thisCard"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample image, indicated by the 'SAMPLE' watermark. The text and numbers are legible, but the image is not a final product."
+  }
+}

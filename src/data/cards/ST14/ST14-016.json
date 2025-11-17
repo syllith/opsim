@@ -1,0 +1,60 @@
+{
+  "id": "ST14-016",
+  "set": "ST14",
+  "number": 16,
+  "name": "I Have My Crew!!",
+  "category": "Event",
+  "colors": ["Black"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST14/ST14-016.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Main", "Trigger"],
+  "trigger": { "text": "KO up to one of your opponents 3 Cost or lower characters." },
+  "text": "Main: Draw one card. After this, give up to one of your characters +3 Cost until the end of your opponents next turn. Trigger: KO up to one of your opponents 3 Cost or lower characters.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw one card.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to one of your characters +3 Cost until the end of your opponents next turn.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "KO up to one of your opponents 3 Cost or lower characters.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=3"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP01-013",
+  "set": "OP01",
+  "number": 13,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Straw Hat Crew"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-013.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Activate Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "[Activate: Main] [Once Per Turn] You may add 1 card from your Life area to your hand: This Character gains +2000 power during this turn. Then, give this Character up to 2 rested DON!! cards.",
+  "abilities": [
+    {
+      "timing": "Activate Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may add 1 card from your Life area to your hand: This Character gains +2000 power during this turn. Then, give this Character up to 2 rested DON!! cards.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["life", "hand", "self"],
+        "conditions": ["mayAddLifeToHand"],
+        "giveDon": {
+          "quantity": 2,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

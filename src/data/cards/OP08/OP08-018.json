@@ -1,0 +1,66 @@
+{
+  "id": "OP08-018",
+  "set": "OP08",
+  "number": 18,
+  "name": "Cloven Hoof (Roseo)",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Animal",
+    "Drum Kingdom",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-018.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Give up to one of your opponents leaders or characters -3000 Power during this turn."
+  },
+  "text": "Activate: Main Give up to three of your characters +1000 Power for the turn. And then, give up to one opponent's character -2000 Power for the turn.\nTrigger Give up to one of your opponents leaders or characters -3000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to three of your characters +1000 Power for the turn. And then, give up to one opponent's character -2000 Power for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one of your opponents leaders or characters -3000 Power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

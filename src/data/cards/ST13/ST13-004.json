@@ -1,0 +1,37 @@
+{
+  "id": "ST13-004",
+  "set": "ST13",
+  "number": 4,
+  "name": "Edward Newgate",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Four Emperors", "Whitebeard Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST13/ST13-004.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play Add the top card of your deck to the top of your life cards. Then, look at all your life cards, place 1 of the cards on the top of your deck. Return your remaining life cards in your desired order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Add the top card of your deck to the top of your life cards. Then, look at all your life cards, place 1 of the cards on the top of your deck. Return your remaining life cards in your desired order.",
+        "powerMod": null,
+        "targets": ["self:deckTop:lifeTop", "self:lifeAll:view", "self:lifeOne:deckTop", "self:lifeRest:order"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

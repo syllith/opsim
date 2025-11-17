@@ -1,0 +1,81 @@
+{
+  "id": "OP03-037",
+  "set": "OP03",
+  "number": 37,
+  "name": "Tooth Attack",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Fish-Man",
+    "East Blue",
+    "Arlong Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-037.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play up to 1 Character with a cost 4 or less with Trigger from your hand."
+  },
+  "text": "Main You may rest 1 of your {East Blue} type Characters: K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.\nTrigger Play up to 1 Character with a cost 4 or less with Trigger from your hand.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may rest 1 of your {East Blue} type Characters: K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost3"
+        ],
+        "conditions": [
+          "rested"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 Character with a cost 4 or less with Trigger from your hand.",
+        "grants": [
+          "Trigger"
+        ],
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=cost4"
+        ],
+        "conditions": [
+          "fromHand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

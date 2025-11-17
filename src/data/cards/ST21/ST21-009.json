@@ -1,0 +1,37 @@
+{
+  "id": "ST21-009",
+  "set": "ST21",
+  "number": 9,
+  "name": "Nami",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST21/ST21-009.png",
+  "stats": {
+    "cost": 3,
+    "power": 1000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn Give up to 2 rested DON!! cards to 1 of your {Straw Hat Crew} type Leader or Characters.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 2 rested DON!! cards to 1 of your {Straw Hat Crew} type Leader or Characters.",
+        "powerMod": null,
+        "targets": ["oneAllyLeader:StrawHatCrew", "oneAllyCharacter:StrawHatCrew"],
+        "conditions": ["optionalTarget"]
+      },
+      "giveDon": { "amount": 2, "state": "rested", "to": "oneAllyLeaderOrCharacter:StrawHatCrew" }
+    }
+  ],
+  "meta": { "notes": null }
+}

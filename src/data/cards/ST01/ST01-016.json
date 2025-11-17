@@ -1,0 +1,50 @@
+{
+  "id": "ST01-016",
+  "set": "ST01",
+  "number": 16,
+  "name": "Diable Jambe",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": null,
+  "art": "/cards/ST01/ST01-016.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": [],
+  "trigger": { "text": "K.O. up to 1 of your opponent's Blocker Characters with a cost of 3 or less." },
+  "text": "Main: Select up to 1 of your {Straw Hat Crew} type Leader or Character cards. Your opponent cannot activate Blocker if that Leader or Character attacks during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Choose up to 1 Straw Hat Crew Leader or Character. If that card attacks this turn, your opponent cannot activate Blocker during that battle.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:one(LeaderOrCharacter:Straw Hat Crew)"],
+        "conditions": ["appliesWhenChosenCardAttacksThisTurn", "blockerDisabled"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Blocker Characters with a cost of 3 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:oneBlocker(cost<=3)"],
+        "conditions": ["lifeTrigger", "optionalTarget"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

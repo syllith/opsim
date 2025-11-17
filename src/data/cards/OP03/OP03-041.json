@@ -1,0 +1,70 @@
+{
+  "id": "OP03-041",
+  "set": "OP03",
+  "number": 41,
+  "name": "Usopp",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP03/OP03-041.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 (This card can attack on the turn in which it is played.)\nWhen this Character deals damage to your opponent's life, you may trash 7 cards from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "This card can attack on the turn in which it is played.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When this Character deals damage to your opponent's life, you may trash 7 cards from the top of your deck.",
+        "powerMod": null,
+        "targets": [
+          "opponent:Character"
+        ],
+        "conditions": [
+          "dealsDamage"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'SR' is printed in the bottom right corner. The card has a 'Ranged' attribute icon. The 'Rush' keyword is printed in the top-left corner."
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "OP01-001",
+  "set": "OP01",
+  "number": 1,
+  "name": "Roronoa Zoro",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP01/OP01-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "Your Turn"
+  ],
+  "trigger": null,
+  "text": "[DON!! x1] [Your Turn] All your Characters gain +1000 power.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "All your Characters gain +1000 power.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "duringYourTurn"
+        },
+        "targets": [
+          "ally:Character"
+        ],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

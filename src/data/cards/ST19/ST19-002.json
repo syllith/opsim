@@ -1,0 +1,37 @@
+{
+  "id": "ST19-002",
+  "set": "ST19",
+  "number": 2,
+  "name": "Sengoku",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Wisdom",
+  "types": ["Navy"],
+  "rarity": "C",
+  "art": "/cards/ST19/ST19-002.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "Counter +1000"],
+  "trigger": null,
+  "text": "On Play You may trash 2 black {Navy} type cards from your hand: If your leader has the {Navy} type, draw 3 cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 2 black {Navy} type cards from your hand: If your leader has the {Navy} type, draw 3 cards.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["optionalTrashHandCard:Black:Navy:2", "leaderType:Navy"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

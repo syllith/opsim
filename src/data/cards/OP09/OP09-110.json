@@ -1,0 +1,62 @@
+{
+  "id": "OP09-110",
+  "set": "OP09",
+  "number": 110,
+  "name": "Gol D. Roger",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Pirate King",
+    "Roger Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP09/OP09-110.png",
+  "stats": {
+    "cost": 10,
+    "power": 13000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 13000
+    }
+  },
+  "keywords": [
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "Rush (This card can attack on the turn in which it is played.) When your opponent activates Blocker if you or your opponent have 0 life, you win the game.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This card can attack on the turn in which it is played.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When your opponent activates Blocker if you or your opponent have 0 life, you win the game.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "P-063",
+  "set": "P",
+  "number": 63,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fishman"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-063.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Rest up to one of your opponent's characters with a cost of 1 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to one of your opponent's characters with a cost of 1 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost1"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'NOT FOR SALE' in image. Power value is 5000, not 5000+2000 as shown in the counter box. Counter value is 2000."
+  }
+}

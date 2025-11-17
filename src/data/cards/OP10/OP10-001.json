@@ -1,0 +1,65 @@
+{
+  "id": "OP10-001",
+  "set": "OP10",
+  "number": 1,
+  "name": "Smoker",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Punk Hazard",
+    "Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-001.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Opponent's Turn: Your characters with the {Navy} or {Punk Hazard} trait gain +1000 Power. Activate: Main Once Per Turn: If you have a character with 7000 power or more, Set 2 DON!! as active.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your characters with the {Navy} or {Punk Hazard} trait gain +1000 Power.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a character with 7000 power or more, Set 2 DON!! as active.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 2,
+          "state": "active",
+          "from": "costArea",
+          "to": []
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

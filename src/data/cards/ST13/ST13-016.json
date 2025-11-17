@@ -1,0 +1,37 @@
+{
+  "id": "ST13-016",
+  "set": "ST13",
+  "number": 16,
+  "name": "Yamato",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Wano Country"],
+  "rarity": "C",
+  "art": "/cards/ST13/ST13-016.png",
+  "stats": {
+    "cost": 5,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Rush", "On Play"],
+  "trigger": null,
+  "text": "Rush (This card can attack on the turn in which it is played.) On Play Look at all your life cards, place 1 of the cards on the top of your deck. Then, return your life cards in your desired order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at all your life cards, place 1 of the cards on the top of your deck. Then, return your life cards in your desired order.",
+        "powerMod": null,
+        "targets": ["self:lifeAll:view", "self:lifeOne:deckTop", "self:lifeRest:order"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": "This card can attack on the turn in which it is played." }
+}

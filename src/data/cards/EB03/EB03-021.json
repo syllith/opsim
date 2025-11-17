@@ -1,0 +1,37 @@
+{
+  "id": "EB03-021",
+  "set": "EB03",
+  "number": 21,
+  "name": "Alvida",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Strike",
+  "types": ["Cross Guild"],
+  "rarity": "C",
+  "art": "/cards/EB03/EB03-021.png",
+  "stats": {
+    "cost": 4,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] You may trash 1 card from your hand: Place up to 1 of your opponent's Characters with 4000 base power or less and up to 1 of your opponent's Characters with a base cost of 3 or less at the bottom of the owner's deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Place up to 1 of your opponent's Characters with 4000 base power or less and up to 1 of your opponent's Characters with a base cost of 3 or less at the bottom of the owner's deck.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:opponent:Character:basePower<=4000", "upTo1:opponent:Character:baseCost<=3"],
+        "conditions": ["trash1FromHand"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "P-077",
+  "set": "P",
+  "number": 77,
+  "name": "Urouge",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Beast Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-077.png",
+  "stats": {
+    "cost": 6,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "During your turn: When your field has 2 or more DON!! cards, when a DON!! card is returned to the deck, add 1 DON!! card from the deck to the rest area. Then, activate your Purple Stage 1 card.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When your field has 2 or more DON!! cards, when a DON!! card is returned to the deck, add 1 DON!! card from the deck to the rest area. Then, activate your Purple Stage 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, not for sale. Text is in Japanese. Rarity is R (Rare)."
+  }
+}

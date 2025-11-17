@@ -1,0 +1,53 @@
+{
+  "id": "ST27-001",
+  "set": "ST27",
+  "number": 1,
+  "name": "Avalo Pizarro",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": null,
+  "types": ["Blackbeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST27/ST27-001.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate:Main", "Once Per Turn", "On K.O."],
+  "trigger": null,
+  "text": "[Activate:Main] [Once Per Turn] You may rest 1 of your [Fullalead] cards: If your Leader has the {Blackbeard Pirates} type, this Character gains +4000 power during this turn.\n[On K.O.] Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest 1 of your [Fullalead] cards: If your Leader has the {Blackbeard Pirates} type, this Character gains +4000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": 4000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["self"],
+        "conditions": ["mayRest1Fullalead", "leaderHasBlackbeardPiratesType"]
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw 1 card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

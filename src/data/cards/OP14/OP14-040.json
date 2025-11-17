@@ -1,0 +1,56 @@
+{
+  "id": "OP14-040",
+  "set": "OP14",
+  "number": 40,
+  "name": "Jinbe",
+  "category": "Leader",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fish-Man",
+    "The Seven Warlords of the Sea",
+    "The Sun Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP14/OP14-040.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate:Main You may trash 1 card from your hand: Give up to 2 rested DON!! card to 1 of your {Fish-Man} or {Merfolk} type Leader or Character cards.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Give up to 2 rested DON!! card to 1 of your {Fish-Man} or {Merfolk} type Leader or Character cards.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYour{Fish-Man}or{Merfolk}typeLeaderorCharacterCards"
+        ],
+        "conditions": [
+          "upTo2restedDON!!card"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

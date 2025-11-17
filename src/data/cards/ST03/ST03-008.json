@@ -1,0 +1,20 @@
+{
+  "id": "ST03-008",
+  "set": "ST03",
+  "number": 8,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["The Seven Warlords of the Sea", "Heart Pirates"],
+  "rarity": null,
+  "art": "/cards/ST03/ST03-008.png",
+  "stats": { "cost": 1, "power": 1000, "life": null, "counter": null },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {"timing": "Block", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "After opponent declares an attack you may rest this to become new target.", "grants": [], "powerMod": null, "targets": ["self"], "conditions": ["opponentDeclaredAttack"]}}
+  ],
+  "meta": {"notes": null}
+}

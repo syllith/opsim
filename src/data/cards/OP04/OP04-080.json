@@ -1,0 +1,54 @@
+{
+  "id": "OP04-080",
+  "set": "OP04",
+  "number": 80,
+  "name": "Gyats",
+  "category": "Character",
+  "colors": [
+    "Wisdom"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-080.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Up to 1 of your Characters with the {Dressrosa} type may attack your opponent's Characters in active during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Characters with the {Dressrosa} type may attack your opponent's Characters in active during this turn.",
+        "powerMod": null,
+        "targets": [
+          "upTo1CharacterWithDressrosaType"
+        ],
+        "conditions": [
+          "duringThisTurn"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner."
+  }
+}

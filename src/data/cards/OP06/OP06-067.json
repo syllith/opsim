@@ -1,0 +1,80 @@
+{
+  "id": "OP06-067",
+  "set": "OP06",
+  "number": 67,
+  "name": "Vinsmoke Yonji",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family",
+    "Germa 66"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-067.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "If you have equal to or less DON!! on your field than your opponent, this Character has +1000 power. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have equal to or less DON!! on your field than your opponent, this Character has +1000 power.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "conditions": [
+          "self",
+          "opponent",
+          "field",
+          "DON!!",
+          "lessThanOrEqual"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "opponent",
+          "declares an attack",
+          "optionalTarget"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

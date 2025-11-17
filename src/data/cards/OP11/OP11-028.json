@@ -1,0 +1,65 @@
+{
+  "id": "OP11-028",
+  "set": "OP11",
+  "number": 28,
+  "name": "Lord of the Coast",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Sea Kings",
+    "East Blue"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-028.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less."
+  },
+  "text": "On Play: Up to 1 of your opponent's rested Characters will not become active in your opponent's next Refresh Phase.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your opponent's rested Characters will not become active in your opponent's next Refresh Phase.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP10-022",
+  "set": "OP10",
+  "number": 22,
+  "name": "Trafalgar Law",
+  "category": "Leader",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Heart Pirates",
+    "Supernovas",
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-022.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!!x1 Activate: Main Once Per Turn If the total cost of your characters is 5 or more, you can return 1 of your characters to the hand: Reveal the top of your life, and if that card is a {Supernova} type character card with a cost of 5 or less, you can play it.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If the total cost of your characters is 5 or more, you can return 1 of your characters to the hand: Reveal the top of your life, and if that card is a {Supernova} type character card with a cost of 5 or less, you can play it.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

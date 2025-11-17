@@ -1,0 +1,67 @@
+{
+  "id": "OP04-101",
+  "set": "OP04",
+  "number": 101,
+  "name": "Carmel",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Sheep's House"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-101.png",
+  "stats": {
+    "cost": 2,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play this card. Then, K.O. up to 1 opponent's 2 cost or less character."
+  },
+  "text": "Your Turn [On Play] Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play this card. Then, K.O. up to 1 opponent's 2 cost or less character.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost2"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample. The text 'SAMPLE' is overlaid on the image."
+  }
+}

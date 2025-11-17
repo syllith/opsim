@@ -1,0 +1,50 @@
+{
+  "id": "OP10-051",
+  "set": "OP10",
+  "number": 51,
+  "name": "Hack",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fishman",
+    "Dressarosa",
+    "Revolutionary Army"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP10/OP10-051.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking: Look at 3 cards from the top of your deck, reveal up to one (Revolutionary Army) type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 3 cards from the top of your deck, reveal up to one (Revolutionary Army) type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

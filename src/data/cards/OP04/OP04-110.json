@@ -1,0 +1,54 @@
+{
+  "id": "OP04-110",
+  "set": "OP04",
+  "number": 110,
+  "name": "Nefertari Vivi",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Alabasta Kingdom"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP04/OP04-110.png",
+  "stats": {
+    "cost": 7,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "All of your red Characters with a cost of 3 or more other than this Character gain Rush. (This card can attack on the turn in which it is played.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "All of your red Characters with a cost of 3 or more other than this Character gain Rush.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "targets": [
+          "allRedCharactersWithCost3OrMoreExceptSelf"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'R' in the bottom right corner. Power value is clearly 4000. Counter value is clearly 1000. Cost is clearly 7. Attribute is clearly Wisdom. All text is legible."
+  }
+}

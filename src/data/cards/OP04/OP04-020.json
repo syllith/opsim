@@ -1,0 +1,75 @@
+{
+  "id": "OP04-020",
+  "set": "OP04",
+  "number": 20,
+  "name": "Issho",
+  "category": "Leader",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP04/OP04-020.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "DON!!",
+    "On Play",
+    "End of Turn"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 Your Turn All of your opponent's Characters get -1 to their cost. End of Turn [1] (You may rest the specified number of DON!! cards in your Cost Area) Set up to 1 of your Characters With a Cost of 5 or less as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "All of your opponent's Characters get -1 to their cost.",
+        "powerMod": null,
+        "targets": [
+          "allOpponentCharacters"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Set up to 1 of your Characters With a Cost of 5 or less as active.",
+        "grants": [
+          "active"
+        ],
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=cost5"
+        ],
+        "conditions": [
+          "cost<=5"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample. The rarity 'SP' is printed in the top right corner. The text 'DON!! x1' is printed in the top left of the ability box."
+  }
+}

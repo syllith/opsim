@@ -1,0 +1,48 @@
+{
+  "id": "OP05-082",
+  "set": "OP05",
+  "number": 82,
+  "name": "Shirahoshi",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Mermaid"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-082.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this character, then return 2 cards from your trash to the bottom of your deck in any order: If your opponent has 6 or more cards in their hand, your opponent discards 1.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character, then return 2 cards from your trash to the bottom of your deck in any order: If your opponent has 6 or more cards in their hand, your opponent discards 1.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

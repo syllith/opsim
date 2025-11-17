@@ -1,0 +1,65 @@
+{
+  "id": "OP06-116",
+  "set": "OP06",
+  "number": 116,
+  "name": "Reject",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island",
+    "Shandora Warrior"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-116.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "Main: Choose one of the following:\n• KO up to 1 of your opponent's 5 cost or lower characters.\n• If your opponent has 1 life, deal 1 damage to them. Then add the top card of your life to your hand.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose one of the following:\n• KO up to 1 of your opponent's 5 cost or lower characters.\n• If your opponent has 1 life, deal 1 damage to them. Then add the top card of your life to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

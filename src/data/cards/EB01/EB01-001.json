@@ -1,0 +1,53 @@
+{
+  "id": "EB01-001",
+  "set": "EB01",
+  "number": 1,
+  "name": "Kozuki Oden",
+  "category": "Leader",
+  "colors": ["Red", "Green"],
+  "attribute": null,
+  "types": ["Land of Wano", "Kozuki Clan"],
+  "rarity": "L",
+  "art": "/cards/EB01/EB01-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["DON!! x1", "When Attacking"],
+  "trigger": null,
+  "text": "According to the rules, your character cards with the type {Land of Wano} without a counter have +1000 counter.\n[DON!! x1] [When Attacking] If you have a cost 5 or greater {Land of Wano} character in play, this leader gets +1000 power until the start of your next turn.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "According to the rules, your character cards with the type {Land of Wano} without a counter have +1000 counter.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:Character"],
+        "conditions": ["characterTypeLandOfWano", "noCounter"]
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have a cost 5 or greater {Land of Wano} character in play, this leader gets +1000 power until the start of your next turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "untilStartOfNextTurn"
+        },
+        "targets": ["self:Leader"],
+        "conditions": ["allyCharacterCost>=5", "characterTypeLandOfWano"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

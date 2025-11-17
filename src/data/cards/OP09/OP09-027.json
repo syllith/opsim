@@ -1,0 +1,53 @@
+{
+  "id": "OP09-027",
+  "set": "OP09",
+  "number": 27,
+  "name": "Sabo",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Special",
+  "types": [
+    "ODYSSEY",
+    "Revolutionary Army"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-027.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "When Attacking Once Per Turn: If you have three or more rested characters in play, draw one card.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have three or more rested characters in play, draw one card.",
+        "powerMod": null,
+        "conditions": [
+          "three or more rested characters in play"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

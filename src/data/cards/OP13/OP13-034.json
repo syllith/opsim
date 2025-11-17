@@ -1,0 +1,54 @@
+{
+  "id": "OP13-034",
+  "set": "OP13",
+  "number": 34,
+  "name": "Brook",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-034.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 1 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 1 of your DON!! cards as active.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:FILM",
+          "hasType:Straw Hat Crew"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

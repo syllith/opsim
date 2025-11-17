@@ -1,0 +1,32 @@
+{
+  "id": "ST07-017",
+  "set": "ST07",
+  "number": 17,
+  "name": "Queen Mama Chanter",
+  "category": "Stage",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Big Mom Pirates", "Homies"],
+  "rarity": null,
+  "art": "/cards/ST07/ST07-017.png",
+  "stats": { "cost": 2, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Activate: Main"],
+  "trigger": { "text": "Play this card." },
+  "text": "Activate: Main: Rest this stage, you may add 1 card from the top or bottom of your Life area to your hand: Place up to 1 of your Characters with a cost of 3 on top of the owner's Life area face-up.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Rest this stage, you may add 1 card from the top or bottom of your Life area to your hand: Place up to 1 of your Characters with a cost of 3 on top of the owner's Life area face-up.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["lifeArea", "oneCharacterCost3"],
+        "conditions": ["restThisStage", "chooseTopOrBottom", "placeCharacterOnTopOfLife"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

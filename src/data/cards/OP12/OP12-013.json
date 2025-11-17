@@ -1,0 +1,49 @@
+{
+  "id": "OP12-013",
+  "set": "OP12",
+  "number": 13,
+  "name": "Hatchan",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Fish-Man",
+    "Former Arolng Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-013.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Character and reveal 2 Event cards from your hand: Give up to 2 rested DON!! card to your Leader or 1 of your Characters.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character and reveal 2 Event cards from your hand: Give up to 2 rested DON!! card to your Leader or 1 of your Characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

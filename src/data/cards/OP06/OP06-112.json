@@ -1,0 +1,65 @@
+{
+  "id": "OP06-112",
+  "set": "OP06",
+  "number": 112,
+  "name": "Raizo",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Land of Wano",
+    "The Akazaya Nine"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-112.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your opponent has 3 life cards or less, play this card."
+  },
+  "text": "When Attacking: You may discard 1 card from your hand: Rest up to 1 of your opponent's DON!! cards.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard 1 card from your hand: Rest up to 1 of your opponent's DON!! cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent has 3 life cards or less, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has a '4000' power value in top right corner. The 'R' rarity is visible in the bottom right corner."
+  }
+}

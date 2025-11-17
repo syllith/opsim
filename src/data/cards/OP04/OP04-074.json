@@ -1,0 +1,78 @@
+{
+  "id": "OP04-074",
+  "set": "OP04",
+  "number": 74,
+  "name": "Colors Trap",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-074.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Add up to 1 DON!! card from your DON!! deck and set it as active."
+  },
+  "text": "#Counter DON!!-1: Give up to 1 of your leaders or characters +1000 Power for the battle. Then, rest up to 1 of your opponent's cost 4 or lower characters.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Give up to 1 of your leaders or characters +1000 Power for the battle. Then, rest up to 1 of your opponent's cost 4 or lower characters.",
+        "powerMod": null,
+        "targets": [
+          "oneAllyCharacter",
+          "oneOpponentCharacter<=cost4"
+        ],
+        "conditions": [
+          "cost4orLower"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "donDeck",
+          "to": [
+            "activeDon"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

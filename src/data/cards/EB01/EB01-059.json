@@ -1,0 +1,39 @@
+{
+  "id": "EB01-059",
+  "set": "EB01",
+  "number": 59,
+  "name": "Raigo",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Sky Island"],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-059.png",
+  "stats": {
+    "cost": 6,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main", "Trigger"],
+  "trigger": {
+    "text": "KO up to one of your opponents characters with a cost equal to or less than you and your opponent's total life cards."
+  },
+  "text": "[Main] KO up to one of your opponents characters. Then, trash the top of your life cards so your life total becomes 1.\n[Trigger] KO up to one of your opponents characters with a cost equal to or less than you and your opponent's total life cards.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "KO up to one of your opponents characters. Then, trash the top of your life cards so your life total becomes 1.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character", "self:Life"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

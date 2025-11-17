@@ -1,0 +1,39 @@
+{
+  "id": "EB02-030",
+  "set": "EB02",
+  "number": 30,
+  "name": "That Time is When your Friend's Dreams are Laughed at!",
+  "category": "Event",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Straw Hat Crew", "Alabasta"],
+  "rarity": "UC",
+  "art": "/cards/EB02/EB02-030.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "[Counter] This turn, when one of your characters would be KO'd in battle, you may instead discard 1 card from your hand.\n[Trigger] Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This turn, when one of your characters would be KO'd in battle, you may instead discard 1 card from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:Character"],
+        "conditions": ["characterWouldBeKOdInBattle"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

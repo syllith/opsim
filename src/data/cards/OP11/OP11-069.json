@@ -1,0 +1,52 @@
+{
+  "id": "OP11-069",
+  "set": "OP11",
+  "number": 69,
+  "name": "Charlotte Brulee",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-069.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may add the top card of your Life cards to your hand. If your Leader has the (Big Mom Pirates) type, add up to one active DON!! card from your DON!! deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may add the top card of your Life cards to your hand. If your Leader has the (Big Mom Pirates) type, add up to one active DON!! card from your DON!! deck.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Big Mom Pirates"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

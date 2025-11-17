@@ -1,0 +1,38 @@
+{
+  "id": "OP01-067",
+  "set": "OP01",
+  "number": 67,
+  "name": "Crocodile",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
+  "rarity": "SR",
+  "art": "/cards/OP01/OP01-067.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Banish", "DON!! x1"],
+  "trigger": null,
+  "text": "Banish (When a character deals damage, the target card is trashed without activating its Trigger.) | DON!! x1: Blue Event cards in your hand cost 1 less to play.",
+  "abilities": [
+    {
+      "timing": "Passive",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Blue Event cards in your hand cost 1 less to play.",
+        "grants": ["Banish"],
+        "powerMod": null,
+        "targets": ["blueEventCardsInHand"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

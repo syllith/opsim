@@ -1,0 +1,52 @@
+{
+  "id": "OP09-089",
+  "set": "OP09",
+  "number": 89,
+  "name": "Stronger",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Animal",
+    "Blackbeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-089.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may trash one card from your hand and this character: If your leader has the {Blackbeard Pirates} type, draw one card. Then give up to one of your opponents characters -2 cost for the turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash one card from your hand and this character: If your leader has the {Blackbeard Pirates} type, draw one card. Then give up to one of your opponents characters -2 cost for the turn.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has the {Blackbeard Pirates} type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, so some values may be placeholder or not final. Rarity is R as printed."
+  }
+}

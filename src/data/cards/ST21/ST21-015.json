@@ -1,0 +1,48 @@
+{
+  "id": "ST21-015",
+  "set": "ST21",
+  "number": 15,
+  "name": "Roronoa Zoro",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Straw Hat Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST21/ST21-015.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Rush", "On K.O."],
+  "trigger": null,
+  "text": "DON!! x2 This character gains Rush. On K.O. You may play a Red character with 6000 base power or below other than <Roronoa Zoro> from your hand.",
+  "abilities": [
+    {
+      "timing": "DON!!",
+      "frequency": null,
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This character gains Rush.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["donAttached"]
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may play a Red character with 6000 base power or below other than <Roronoa Zoro> from your hand.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter:Red<=6000!RoronoaZoro"],
+        "conditions": ["optionalTarget"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

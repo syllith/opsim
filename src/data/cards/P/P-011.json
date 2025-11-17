@@ -1,0 +1,52 @@
+{
+  "id": "P-011",
+  "set": "P",
+  "number": 11,
+  "name": "Uta",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "FILM"
+  ],
+  "rarity": "L",
+  "art": "/cards/P/P-011.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn (You may rest the specified number of DON!! cards in your Cost Area; Up to 1 of your Characters without effects gains +2000 power during this turn.)",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest the specified number of DON!! cards in your Cost Area; Up to 1 of your Characters without effects gains +2000 power during this turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "Up to 1 of your Characters without effects"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

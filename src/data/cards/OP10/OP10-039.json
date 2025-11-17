@@ -1,0 +1,72 @@
+{
+  "id": "OP10-039",
+  "set": "OP10",
+  "number": 39,
+  "name": "Gum-Gum Dragon Fire Pistol Twister Star",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Odyssey",
+    "Supernova",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-039.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Rest up to one of your opponent's characters with a cost of 5 or less."
+  },
+  "text": "Main If your leader has the \"Odyssey\" type, look at the 5 cards from the top of your deck, reveal up to 2 character cards with the \"Odyssey\" type and add them to your hand. Then, put the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the \"Odyssey\" type, look at the 5 cards from the top of your deck, reveal up to 2 character cards with the \"Odyssey\" type and add them to your hand. Then, put the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "conditions": [
+          "leader:hasType:Odyssey"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to one of your opponent's characters with a cost of 5 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost5"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

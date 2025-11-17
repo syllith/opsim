@@ -1,0 +1,55 @@
+{
+  "id": "P-095",
+  "set": "P",
+  "number": 95,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-095.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Your Opponent's Attack",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "On Your Opponent's Attack: Once Per Turn. You may trash 1 Event card from your hand: Up to 1 of your Leader or Character gains +2000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "On Your Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 Event card from your hand: Up to 1 of your Leader or Character gains +2000 power during this battle.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "up to 1 of your Leader or Character"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

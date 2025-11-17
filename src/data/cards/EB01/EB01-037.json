@@ -1,0 +1,37 @@
+{
+  "id": "EB01-037",
+  "set": "EB01",
+  "number": 37,
+  "name": "Mr.9",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Baroque Works"],
+  "rarity": "UC",
+  "art": "/cards/EB01/EB01-037.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On opponent's attack", "Once Per Turn", "DON!! -1"],
+  "trigger": null,
+  "text": "[On opponent's attack] [Once Per Turn] Don!! -1: (You may return the specified number of DON!! cards from your field to your DON!! deck) K.O. up to one of your opponent's cost 2 or less characters.",
+  "abilities": [
+    {
+      "timing": "On opponent's attack",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Don!! -1: (You may return the specified number of DON!! cards from your field to your DON!! deck) K.O. up to one of your opponent's cost 2 or less characters.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": ["characterCost<=2"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

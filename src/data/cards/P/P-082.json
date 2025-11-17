@@ -1,0 +1,49 @@
+{
+  "id": "P-082",
+  "set": "P",
+  "number": 82,
+  "name": "Crocodile",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Cross Guild",
+    "Former Baroque Works"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-082.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "During Your Turn On Play: If your leader's type includes (Cross-guild) or (Baroque Works), place up to one of your opponents power 2000 or lower characters on the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader's type includes (Cross-guild) or (Baroque Works), place up to one of your opponents power 2000 or lower characters on the bottom of its owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

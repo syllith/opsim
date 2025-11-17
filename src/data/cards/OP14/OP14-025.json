@@ -1,0 +1,52 @@
+{
+  "id": "OP14-025",
+  "set": "OP14",
+  "number": 25,
+  "name": "Kuro",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "East Blue",
+    "Black Cat Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP14/OP14-025.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader is [Kuro], play up to 1 (East Blue) type Character card with a cost of 6 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Kuro], play up to 1 (East Blue) type Character card with a cost of 6 or less from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIs[Kuro]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

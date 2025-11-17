@@ -1,0 +1,49 @@
+{
+  "id": "OP07-012",
+  "set": "OP07",
+  "number": 12,
+  "name": "Porushuumi",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Goa Kingdom",
+    "Bluejam Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-012.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Give up to one of your opponents Characters -1000 power for the turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one of your opponents Characters -1000 power for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP03-100",
+  "set": "OP03",
+  "number": 100,
+  "name": "Kingbaum",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Big Mom Pirates",
+    "Homies"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-100.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may trash the top or bottom card of your Life: Play this card."
+  },
+  "text": "Trigger\nYou may trash the top or bottom card of your Life: Play this card.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash the top or bottom card of your Life: Play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is visible in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

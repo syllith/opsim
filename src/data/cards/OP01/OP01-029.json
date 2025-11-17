@@ -1,0 +1,42 @@
+{
+  "id": "OP01-029",
+  "set": "OP01",
+  "number": 29,
+  "name": "Radical Beam!!",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-029.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter"],
+  "trigger": {
+    "text": "Your Leader or up to 1 of your Characters gains +1000 power during this turn."
+  },
+  "text": "[Counter] Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, if you have 2 or less Life cards, that card gains an additional +2000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, if you have 2 or less Life cards, that card gains an additional +2000 power during this battle.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "duringThisBattle"
+        },
+        "targets": ["self:Leader", "upTo1:ally:Character"],
+        "conditions": ["has2OrLessLife"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "OP12-007",
+  "set": "OP12",
+  "number": 7,
+  "name": "Shanks",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Roger Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-007.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "On Play: Up to 1 of your {Roger Pirates} type Characters other than [Shanks] gains Rush during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your {Roger Pirates} type Characters other than [Shanks] gains Rush during this turn.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

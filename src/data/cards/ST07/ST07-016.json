@@ -1,0 +1,45 @@
+{
+  "id": "ST07-016",
+  "set": "ST07",
+  "number": 16,
+  "name": "Power Mochi",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Big Mom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST07/ST07-016.png",
+  "stats": { "cost": 1, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "Draw 1 card. Look at up to 1 card from the top of your or your opponent's Life area and place it at the top or bottom of the Life area." },
+  "text": "Counter: Look at up to 1 card from the top of your or your opponent's Life area and place it at the top or bottom of the Life area. Then, up to 1 of your Leader or Characters gains +2000 Power during this battle.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "Look at up to 1 card from the top of your or your opponent's Life area and place it at the top or bottom of the Life area. Then, up to 1 of your Leader or Characters gains +2000 Power during this battle.",
+        "grants": ["power+2000"],
+        "powerMod": 2000,
+        "targets": ["topLifeCardSelfOrOpponent", "oneLeaderOrCharacter"],
+        "conditions": ["chooseTopOrBottom"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "Draw 1 card. Look at up to 1 card from the top of your or your opponent's Life area and place it at the top or bottom of the Life area.",
+        "grants": ["draw:1"],
+        "powerMod": null,
+        "targets": ["topLifeCardSelfOrOpponent"],
+        "conditions": ["chooseTopOrBottom"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

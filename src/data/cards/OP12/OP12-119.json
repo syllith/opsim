@@ -1,0 +1,62 @@
+{
+  "id": "OP12-119",
+  "set": "OP12",
+  "number": 119,
+  "name": "Bartholomew Kuma",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Straw Hats of the Sea Revolutionary Army"
+  ],
+  "rarity": "ED",
+  "art": "/cards/OP12/OP12-119ED.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash 1 card from your hand. Add the top card of your deck to your top of your Life cards. Then, this Character gains +2 cost until the end of your opponent's next turn. \nOpponent's Turn: On K.O. Add the top card of your deck to the top of your Life cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand. Add the top card of your deck to your top of your Life cards. Then, this Character gains +2 cost until the end of your opponent's next turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add the top card of your deck to the top of your Life cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST27-005",
+  "set": "ST27",
+  "number": 5,
+  "name": "Marshall.D.Teach",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": null,
+  "types": ["The Four Emperors", "Blackbeard Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST27/ST27-005.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Activate:Main", "On K.O."],
+  "trigger": null,
+  "text": "[Activate:Main] You may rest this Character: K.O. up to 1 Character with a cost of 3 or less.\n[On K.O.] Add up to 1 black card from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this Character: K.O. up to 1 Character with a cost of 3 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": ["mayRestThisCharacter", "characterCost<=3"]
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Add up to 1 black card from your trash to your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

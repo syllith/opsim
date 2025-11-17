@@ -1,0 +1,55 @@
+{
+  "id": "OP06-085",
+  "set": "OP06",
+  "number": 85,
+  "name": "Kumacy",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-085.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x2",
+    "Your Turn"
+  ],
+  "trigger": null,
+  "text": "DON!! x2 Your Turn: For every 5 cards in your trash, this character gets +1000 power.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "For every 5 cards in your trash, this character gets +1000 power.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "every 5 cards in your trash"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but this is not a meta field. Card ID is OP06-085, rarity is R (indicated by 'R' in bottom right corner)."
+  }
+}

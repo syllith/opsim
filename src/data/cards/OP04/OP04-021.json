@@ -1,0 +1,51 @@
+{
+  "id": "OP04-021",
+  "set": "OP04",
+  "number": 21,
+  "name": "Viola",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP04/OP04-021.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": 2000,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "When opponent attack"
+  ],
+  "trigger": null,
+  "text": "When opponent attack 2 (You may rest the specified number of DON!! cards in your Cost Area) Rest up to 1 of your opponent's DON!!.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's DON!!.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentDon"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample. The text 'SAMPLE' is overlaid on the image."
+  }
+}

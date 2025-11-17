@@ -1,0 +1,49 @@
+{
+  "id": "OP11-085",
+  "set": "OP11",
+  "number": 85,
+  "name": "Kurozumi Orochi",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Wano Country",
+    "Kurozumi Family"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-085.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Add up to 1 {SMILE} type card with a cost of 5 or less from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 {SMILE} type card with a cost of 5 or less from your trash to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

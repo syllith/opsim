@@ -1,0 +1,76 @@
+{
+  "id": "OP04-117",
+  "set": "OP04",
+  "number": 117,
+  "name": "Heavenly Fire",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Four Emperors",
+    "Big Mom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-117.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may add 1 card to your hand from the top or bottom of your life: Place up to one card from your hand on top of your life."
+  },
+  "text": "Main Add up to 1 of your opponent's cost 3 or less characters to the top or bottom of your opponent's life face-up.\nTrigger You may add 1 card to your hand from the top or bottom of your life: Place up to one card from your hand on top of your life.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 of your opponent's cost 3 or less characters to the top or bottom of your opponent's life face-up.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost3"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may add 1 card to your hand from the top or bottom of your life: Place up to one card from your hand on top of your life.",
+        "powerMod": null,
+        "targets": [
+          "oneCardFromLife",
+          "oneCardFromHand"
+        ],
+        "conditions": [
+          "fromLife",
+          "fromHand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

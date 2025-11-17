@@ -1,0 +1,51 @@
+{
+  "id": "OP08-001",
+  "set": "OP08",
+  "number": 1,
+  "name": "Tony.Tony.Chopper",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal",
+    "Drum Kingdom",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-001.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn Put up to 1 rested DON!! each on up to 3 of your [Animal] or [Drum Kingdom] type characters.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Put up to 1 rested DON!! each on up to 3 of your [Animal] or [Drum Kingdom] type characters.",
+        "powerMod": null,
+        "targets": [
+          "up to 3 of your [Animal] or [Drum Kingdom] type characters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

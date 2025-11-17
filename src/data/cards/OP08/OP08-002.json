@@ -1,0 +1,51 @@
+{
+  "id": "OP08-002",
+  "set": "OP08",
+  "number": 2,
+  "name": "Marco",
+  "category": "Leader",
+  "colors": [
+    "Red",
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP08/OP08-002.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn",
+    "DON!! x1"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 Activate: Main Once Per Turn Draw one card, then place one card from your hand on the top or bottom of your deck. Then give up to one of your opponents characters -2000 for this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw one card, then place one card from your hand on the top or bottom of your deck. Then give up to one of your opponents characters -2000 for this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

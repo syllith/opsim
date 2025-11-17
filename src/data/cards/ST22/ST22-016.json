@@ -1,0 +1,42 @@
+{
+  "id": "ST22-016",
+  "set": "ST22",
+  "number": 16,
+  "name": "Take Back... What You Just Said!!!",
+  "category": "Event",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST22/ST22-016.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "[Counter] Reveal the top card of your deck. If that card has \"Whitebeard Pirates\" in its types, give up to 1 of your Leader or Character card +4000 power during this battle.\n[Trigger] Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Reveal the top card of your deck. If that card has \"Whitebeard Pirates\" in its types, give up to 1 of your Leader or Character card +4000 power during this battle.",
+        "grants": [],
+        "powerMod": {
+          "amount": 4000,
+          "duration": "duringThisBattle"
+        },
+        "targets": ["ally:Leader", "ally:Character"],
+        "conditions": ["topDeckHasWhitebeardPirates"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

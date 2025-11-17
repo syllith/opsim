@@ -1,0 +1,37 @@
+{
+  "id": "ST12-001",
+  "set": "ST12",
+  "number": 1,
+  "name": "Roronoa Zoro & Sanji",
+  "category": "Leader",
+  "colors": ["Blue", "Green"],
+  "attribute": "Slash",
+  "types": ["Straw Hat Crew"],
+  "rarity": "L",
+  "art": "/cards/ST12/ST12-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking Once Per Turn You may return one of your cost 2 or higher characters to its owner's hand: Set up to one of your Power 7000 or less characters as active.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may return one of your cost 2 or higher characters to its owner's hand: Set up to one of your Power 7000 or less characters as active.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter>=2", "oneAllyCharacter<=7000:active"],
+        "conditions": ["donAttached", "optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

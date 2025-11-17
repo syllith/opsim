@@ -1,0 +1,52 @@
+{
+  "id": "OP10-057",
+  "set": "OP10",
+  "number": 57,
+  "name": "Leo",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Tontatta",
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-057.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may rest one of your leader or stage: If your leader is Usopp, look at the top 5 cards of your deck. Reveal up to 2 cards other than [Leo] that have the (Dressrosa) type, and put them into your hand. Put the rest on the bottom of your deck and trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest one of your leader or stage: If your leader is Usopp, look at the top 5 cards of your deck. Reveal up to 2 cards other than [Leo] that have the (Dressrosa) type, and put them into your hand. Put the rest on the bottom of your deck and trash 1 card from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "your leader is Usopp"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

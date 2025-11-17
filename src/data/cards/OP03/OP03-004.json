@@ -1,0 +1,34 @@
+{
+  "id": "OP03-004",
+  "set": "OP03",
+  "number": 4,
+  "name": "Curiel",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Ranged",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-004.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Rush", "DON!! x1"],
+  "trigger": null,
+  "text": "This Character cannot attack your opponent's Leader during the turn this Character is played.\n[DON!! x1] [When Attacking] This Character gains [Rush] during this turn.\n(This card may attack on the turn in which it is played.)",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This Character gains [Rush] during this turn. (This card may attack on the turn in which it is played.)",
+        "giveDon": { "rushUntilEOT": true }
+      }
+    }
+  ],
+  "meta": { "notes": "Cannot attack opponent's Leader during the turn this Character is played." }
+}

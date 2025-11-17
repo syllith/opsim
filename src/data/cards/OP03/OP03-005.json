@@ -1,0 +1,35 @@
+{
+  "id": "OP03-005",
+  "set": "OP03",
+  "number": 5,
+  "name": "Thatch",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-005.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate Main"],
+  "trigger": null,
+  "text": "[Activate: Main] [Once Per Turn] You may trash this Character: Give up to 1 of your Leader or Character cards +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0, "trashThisCharacter": true },
+      "effect": {
+        "text": "Give up to 1 of your Leader or Character cards +2000 power during this turn.",
+        "powerMod": { "amount": 2000 },
+        "targets": ["yourLeaderOrCharacter"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

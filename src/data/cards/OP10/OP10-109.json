@@ -1,0 +1,65 @@
+{
+  "id": "OP10-109",
+  "set": "OP10",
+  "number": 109,
+  "name": "Basil Hawkins",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernova",
+    "Hawkins Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-109.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O.",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 2 cards and discard 1 card from your hand."
+  },
+  "text": "On K.O. Trash up to 1 card from the top of your opponent's Life cards.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Trash up to 1 card from the top of your opponent's Life cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards and discard 1 card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "This is a sample card with 'SAMPLE' watermark. The printed text is accurate based on visible content."
+  }
+}

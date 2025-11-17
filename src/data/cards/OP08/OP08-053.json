@@ -1,0 +1,64 @@
+{
+  "id": "OP08-053",
+  "set": "OP08",
+  "number": 53,
+  "name": "Thank you... For Loving me!!!",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-053.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "Main If your leader's type includes {Whitebeard Pirates} in it, look at the top 3 cards of your deck, reveal up to one card with {Whitebeard Pirates} included in its types, or [Monkey D. Luffy] and put it into your hand. Then, place the rest of the cards on the top or bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader's type includes {Whitebeard Pirates} in it, look at the top 3 cards of your deck, reveal up to one card with {Whitebeard Pirates} included in its types, or [Monkey D. Luffy] and put it into your hand. Then, place the rest of the cards on the top or bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

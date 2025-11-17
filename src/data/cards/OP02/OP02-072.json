@@ -1,0 +1,39 @@
+{
+  "id": "OP02-072",
+  "set": "OP02",
+  "number": 72,
+  "name": "Z",
+  "category": "Leader",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["FILM", "Neo Navy"],
+  "rarity": "L",
+  "art": "/cards/OP02/OP02-072.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["When Attacking", "DON!! -4"],
+  "trigger": null,
+  "text": "[When Attacking] DON!! -4 (You may return the specified number of DON!! cards from your field to your DON!! deck): K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, this Leader gains +1000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 4,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, this Leader gains +1000 Power during this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": ["upTo1:opponent:Character<=3"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

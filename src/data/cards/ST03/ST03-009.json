@@ -1,0 +1,20 @@
+{
+  "id": "ST03-009",
+  "set": "ST03",
+  "number": 9,
+  "name": "Donquixote Doflamingo",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Donquixote Pirates"],
+  "rarity": null,
+  "art": "/cards/ST03/ST03-009.png",
+  "stats": { "cost": 7, "power": 7000, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Return up to 1 Character with a cost of 7 or less to the owner's hand.",
+  "abilities": [
+    {"timing": "On Play", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Return up to 1 target Character with cost 7 or less to owner's hand.", "grants": [], "powerMod": null, "targets": ["oneCharacter"], "conditions": []}}
+  ],
+  "meta": {"notes": null}
+}

@@ -1,0 +1,52 @@
+{
+  "id": "P-078",
+  "set": "P",
+  "number": 78,
+  "name": "Adio",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "ODYSSEY"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-078.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If you have 2 or more {ODYSSEY} type rested Characters, this Character gains +1000 power.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 2 or more {ODYSSEY} type rested Characters, this Character gains +1000 power.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "conditions": [
+          "2 or more {ODYSSEY} type rested Characters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but this is not a real card. All values are read from the image."
+  }
+}

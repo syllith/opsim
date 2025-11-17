@@ -1,0 +1,66 @@
+{
+  "id": "OP09-010",
+  "set": "OP09",
+  "number": 10,
+  "name": "Bonk Punch",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Red Hair Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-010.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "DON!! x1",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "On Play: Play up to 1 \"Monster\" from your hand. DON!! x1 When Attacking: This character gains Power +2000 for the turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 \"Monster\" from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This character gains Power +2000 for the turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP09-103",
+  "set": "OP09",
+  "number": 103,
+  "name": "Koala",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP09/OP09-103.png",
+  "stats": {
+    "cost": 6,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may add the top or bottom of your life to your hand: Play up to 1 cost 4 cost or less \"Revolutionary Army\" character from your hand and Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may add the top or bottom of your life to your hand: Play up to 1 cost 4 cost or less \"Revolutionary Army\" character from your hand and Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

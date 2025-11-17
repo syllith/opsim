@@ -1,0 +1,49 @@
+{
+  "id": "P-032",
+  "set": "P",
+  "number": 32,
+  "name": "Sengoku",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-032.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "Your Turn"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 Your Turn: All of your opponent's Characters get -2 to their cost.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "All of your opponent's Characters get -2 to their cost.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample; 'SAMPLE' watermark present. Rarity 'C' confirmed. Power value is 6000. No life value printed. Attribute is Wisdom. Type is Navy. Cost is 5. Text is 'DON!! x1 Your Turn: All of your opponent's Characters get -2 to their cost.'"
+  }
+}

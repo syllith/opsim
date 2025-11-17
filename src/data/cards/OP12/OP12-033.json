@@ -1,0 +1,53 @@
+{
+  "id": "OP12-033",
+  "set": "OP12",
+  "number": 33,
+  "name": "Helmeppo",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "East Blue",
+    "Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-033.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Block"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Block: Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "abilities": [
+    {
+      "timing": "On Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost5"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

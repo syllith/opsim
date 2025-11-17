@@ -1,0 +1,48 @@
+{
+  "id": "OP09-069",
+  "set": "OP09",
+  "number": 69,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Heart Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-069.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 4 cards of your deck and reveal up to one cost 2 or greater card with the (Straw Hat Crew) or (Heart Pirates) type and put it into your hand. Then place the rest of the cards on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 4 cards of your deck and reveal up to one cost 2 or greater card with the (Straw Hat Crew) or (Heart Pirates) type and put it into your hand. Then place the rest of the cards on the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

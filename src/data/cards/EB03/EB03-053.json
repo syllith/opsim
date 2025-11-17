@@ -1,0 +1,56 @@
+{
+  "id": "EB03-053",
+  "set": "EB03",
+  "number": 53,
+  "name": "Nami",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Straw Hat Crew"],
+  "rarity": "SR",
+  "art": "/cards/EB03/EB03-053.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "On K.O."],
+  "trigger": null,
+  "text": "[On Play] Give up to 1 rested DON!! card to your Leader. Then, if your opponent has 3 or more Life cards, your opponent adds 1 card from the top of their Life cards to their hand.\n[On K.O.] You may turn 1 card from the top of your Life cards face-up: Play up to 1 Character card with 6000 power or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 rested DON!! card to your Leader. Then, if your opponent has 3 or more Life cards, your opponent adds 1 card from the top of their Life cards to their hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Leader", "opponent:Life"],
+        "conditions": ["opponentHas3OrMoreLife"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self:Leader"]
+        }
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may turn 1 card from the top of your Life cards face-up: Play up to 1 Character card with 6000 power or less from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["life", "hand"],
+        "conditions": ["mayTurnLifeFaceUp", "characterPower<=6000"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

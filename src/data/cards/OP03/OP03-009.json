@@ -1,0 +1,35 @@
+{
+  "id": "OP03-009",
+  "set": "OP03",
+  "number": 9,
+  "name": "Haruta",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-009.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate Main"],
+  "trigger": null,
+  "text": "[Activate: Main] [Once Per Turn] Give up to 1 of your Leader or Character cards +1 rested DON!! card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your Leader or Character cards +1 rested DON!! card.",
+        "giveDon": { "amount": 1, "state": "rested" },
+        "targets": ["yourLeaderOrCharacter"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

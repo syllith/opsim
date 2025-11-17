@@ -1,0 +1,32 @@
+{
+  "id": "ST07-001",
+  "set": "ST07",
+  "number": 1,
+  "name": "Charlotte Linlin",
+  "category": "Leader",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["The Four Emperors", "Big Mom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST07/ST07-001.png",
+  "stats": { "cost": null, "power": 5000, "life": 5, "counter": { "present": false, "value": 0 } },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "DON!! x2 — When Attacking: You may add 1 card from the top or bottom of your Life area to your hand. If your Life is at 2 or less, you may place up to 1 card from your hand at the top of your Life area.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may add 1 card from the top or bottom of your Life area to your hand. If your Life is at 2 or less, you may place up to 1 card from your hand at the top of your Life area.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self","lifeArea"],
+        "conditions": ["chooseTopOrBottom","ifLife<=2:placeFromHandToTopOfLife"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

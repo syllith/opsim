@@ -1,0 +1,21 @@
+{
+  "id": "ST04-005",
+  "set": "ST04",
+  "number": 5,
+  "name": "Queen",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST04/ST04-005.png",
+  "stats": { "cost": 5, "power": 6000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "keywords": ["Blocker", "On Play", "DON!! -1"],
+  "trigger": null,
+  "text": "Blocker. On Play — DON!! -1: Draw 2 cards and trash 1 card from your hand.",
+  "abilities": [
+    {"timing": "Block", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "After opponent declares an attack you may rest this to become new target.", "grants": [], "powerMod": null, "targets": ["self"], "conditions": ["opponentDeclaredAttack"]}},
+    {"timing": "On Play", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Draw 2 cards then discard 1 card.", "grants": [], "powerMod": null, "targets": [], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

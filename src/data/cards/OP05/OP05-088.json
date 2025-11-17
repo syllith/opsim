@@ -1,0 +1,49 @@
+{
+  "id": "OP05-088",
+  "set": "OP05",
+  "number": 88,
+  "name": "Mansherry",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Tontatta Tribe",
+    "Dressrosa"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP05/OP05-088.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main (You may rest the specified number of DON!! cards in your Cost Area) Rest this character, return 2 cards from your trash to the bottom of your deck in any order: Return one cost 3 to 5 black character card from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest this character, return 2 cards from your trash to the bottom of your deck in any order: Return one cost 3 to 5 black character card from your trash to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

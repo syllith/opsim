@@ -1,0 +1,55 @@
+{
+  "id": "OP11-007",
+  "set": "OP11",
+  "number": 7,
+  "name": "Tashigi",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-007.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Character: If your Leader has the (Navy) type, give up to 1 of your Characters with the (Navy) type +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character: If your Leader has the (Navy) type, give up to 1 of your Characters with the (Navy) type +2000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "self"
+        ],
+        "conditions": [
+          "yourLeaderHasType(Navy)"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

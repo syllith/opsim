@@ -1,0 +1,54 @@
+{
+  "id": "OP06-007",
+  "set": "OP06",
+  "number": 7,
+  "name": "Shanks",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "FILM",
+    "Four Emperors",
+    "Red Hair Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP06/OP06-007.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] K.O. up to 1 of your opponent's characters with 10000 power or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's characters with 10000 power or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=power10000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

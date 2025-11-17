@@ -1,0 +1,72 @@
+{
+  "id": "PRB02-015",
+  "set": "PRB02",
+  "number": 15,
+  "name": "Shiryu",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Blackbeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/PRB02/PRB02-015.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If your Leader has the {Blackbeard Pirates} type, this Character gains Blocker and +4 Cost. On K.O. If your Leader has the {Blackbeard Pirates} type, K.O. up to 1 of your opponent's Characters with a base cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Blackbeard Pirates} type, this Character gains Blocker and +4 Cost.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "conditions": [
+          "your Leader has the {Blackbeard Pirates} type"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Blackbeard Pirates} type, K.O. up to 1 of your opponent's Characters with a base cost of 4 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "your Leader has the {Blackbeard Pirates} type",
+          "base cost of 4 or less"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

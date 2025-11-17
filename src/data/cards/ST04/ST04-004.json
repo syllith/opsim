@@ -1,0 +1,20 @@
+{
+  "id": "ST04-004",
+  "set": "ST04",
+  "number": 4,
+  "name": "King",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST04/ST04-004.png",
+  "stats": { "cost": 6, "power": 7000, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["On Play", "DON!! -1"],
+  "trigger": null,
+  "text": "On Play — DON!! -1: K.O. 1 of your opponent's Characters with a cost of 4 or less.",
+  "abilities": [
+    {"timing": "On Play", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "K.O. 1 opponent Character with cost 4 or less.", "grants": [], "powerMod": null, "targets": ["oneOpponentCharacter"], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

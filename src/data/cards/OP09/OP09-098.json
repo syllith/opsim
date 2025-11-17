@@ -1,0 +1,72 @@
+{
+  "id": "OP09-098",
+  "set": "OP09",
+  "number": 98,
+  "name": "Black Hole",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Blackbeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-098.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Negate the effect of up to 1 of your opponent's Leader or Character cards during this turn."
+  },
+  "text": "Main If your Leader has the {Blackbeard Pirates} type, negate the effect of up to 1 of your opponent's Characters during this turn. Then, if that Character has a cost of 4 or less, K.O. it. Trigger Negate the effect of up to 1 of your opponent's Leader or Character cards during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Blackbeard Pirates} type, negate the effect of up to 1 of your opponent's Characters during this turn. Then, if that Character has a cost of 4 or less, K.O. it.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Blackbeard Pirates"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Negate the effect of up to 1 of your opponent's Leader or Character cards during this turn.",
+        "powerMod": null,
+        "conditions": [
+          "oneOpponentCharacter",
+          "oneOpponentLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but ID and other data are read from printed text."
+  }
+}

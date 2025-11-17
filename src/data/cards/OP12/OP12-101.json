@@ -1,0 +1,62 @@
+{
+  "id": "OP12-101",
+  "set": "OP12",
+  "number": 101,
+  "name": "Jewelry Bonney",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Supernovas",
+    "Bonney Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-101.png",
+  "stats": {
+    "cost": 3,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your Leader has the {Supernovas} type, play this card."
+  },
+  "text": "Activate: Main You may rest this Character: Up to 1 of your {Supernovas} type Leader gains +1000 power until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character: Up to 1 of your {Supernovas} type Leader gains +1000 power until the end of your opponent's next turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "self",
+          "ally:Leader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

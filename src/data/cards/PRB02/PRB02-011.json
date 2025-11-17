@@ -1,0 +1,50 @@
+{
+  "id": "PRB02-011",
+  "set": "PRB02",
+  "number": 11,
+  "name": "Donquixote Doflamingo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Donquixote Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/PRB02/PRB02-011.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "If your leader is multicolored, add up to 1 DON!! card from your DON!! deck and set it as rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is multicolored, add up to 1 DON!! card from your DON!! deck and set it as rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

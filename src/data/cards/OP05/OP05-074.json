@@ -1,0 +1,49 @@
+{
+  "id": "OP05-074",
+  "set": "OP05",
+  "number": 74,
+  "name": "Eustass'Captain'Kid",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Kid Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP05/OP05-074.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "When a DON!! card from your field is returned to your DON!! deck, add 1 DON!! from your DON!! deck as active.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When a DON!! card from your field is returned to your DON!! deck, add 1 DON!! from your DON!! deck as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

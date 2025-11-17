@@ -1,0 +1,69 @@
+{
+  "id": "OP05-119",
+  "set": "OP05",
+  "number": 119,
+  "name": "Monkey D. Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Four Emperors",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-119.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 12000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "On Play DON!! -10: Place all your Characters other than this Character at the bottom of your deck in any order. Then, after this turn, take another turn. Activate: Main Once Per Turn ① Add one DON!! from your DON!! deck as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": "Once Per Turn",
+      "donReq": 10,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place all your Characters other than this Character at the bottom of your deck in any order. Then, after this turn, take another turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Add one DON!! from your DON!! deck as active.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "DON!! deck",
+          "to": []
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

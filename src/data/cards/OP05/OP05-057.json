@@ -1,0 +1,64 @@
+{
+  "id": "OP05-057",
+  "set": "OP05",
+  "number": 57,
+  "name": "Hound Blaze",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-057.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Return a character with a cost of 3 or less to its owner's hand."
+  },
+  "text": "Main: Up to 1 of your leaders or characters gains +3000 Power this turn. Then, place a character with 2 or less cost on the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your leaders or characters gains +3000 Power this turn. Then, place a character with 2 or less cost on the bottom of its owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return a character with a cost of 3 or less to its owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

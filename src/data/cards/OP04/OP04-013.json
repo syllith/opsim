@@ -1,0 +1,51 @@
+{
+  "id": "OP04-013",
+  "set": "OP04",
+  "number": 13,
+  "name": "Pell",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Alabasta Kingdom"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-013.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 [When Attacking] K.O. up to 1 of your opponent's Characters with 4000 or less power.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with 4000 or less power.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=4000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

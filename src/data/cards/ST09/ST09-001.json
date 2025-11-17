@@ -1,0 +1,32 @@
+{
+  "id": "ST09-001",
+  "set": "ST09",
+  "number": 1,
+  "name": "Yamato",
+  "category": "Leader",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Land of Wano"],
+  "rarity": null,
+  "art": "/cards/ST09/ST09-001.png",
+  "stats": { "cost": null, "power": 5000, "life": 5, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Opponent's Turn"],
+  "trigger": null,
+  "text": "DON!! x1 — Opponent's Turn: While your Life area has 2 or less cards, this Leader gains +1000 Power.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": null,
+      "effect": {
+        "text": "While your Life area has 2 or less cards, this Leader gains +1000 Power.",
+        "grants": ["power+1000"],
+        "powerMod": 1000,
+        "targets": ["self"],
+        "conditions": ["ifYourLifeArea<=2"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

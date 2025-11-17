@@ -1,0 +1,52 @@
+{
+  "id": "OP07-065",
+  "set": "OP07",
+  "number": 65,
+  "name": "Gina",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Foxy Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-065.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the (Foxy Pirates) type and the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Foxy Pirates) type and the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader:hasType(Foxy Pirates)",
+          "donCountOnYourField <= donCountOnOpponentField"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has a 'C' rarity symbol in the bottom right corner, which is likely a placeholder or error. The printed rarity is 'R' (Rare) as indicated by the 'R' in the bottom right corner."
+  }
+}

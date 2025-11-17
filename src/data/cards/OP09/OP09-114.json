@@ -1,0 +1,65 @@
+{
+  "id": "OP09-114",
+  "set": "OP09",
+  "number": 114,
+  "name": "Lindburg",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Minks",
+    "Revolutionary Army"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP09/OP09-114.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your Leader has the {{Revolutionary Army}} type and the total of your and your opponent's Life cards is 5 or less, play this card."
+  },
+  "text": "On Play: If the total of your and your opponent's Life cards is 5 or less, K.O. up to 1 of your opponent's Characters with 2000 power or less. Trigger: If your Leader has the {{Revolutionary Army}} type and the total of your and your opponent's Life cards is 5 or less, play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If the total of your and your opponent's Life cards is 5 or less, K.O. up to 1 of your opponent's Characters with 2000 power or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {{Revolutionary Army}} type and the total of your and your opponent's Life cards is 5 or less, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'SPECIAL' in the image, but these are not part of the card's official data. The 'SPECIAL' rarity is not standard in One Piece TCG, but the printed rarity is 'SP'."
+  }
+}

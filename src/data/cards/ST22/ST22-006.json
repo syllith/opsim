@@ -1,0 +1,36 @@
+{
+  "id": "ST22-006",
+  "set": "ST22",
+  "number": 6,
+  "name": "Jozu",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Strike",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST22/ST22-006.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play Reveal the top card of your deck, if it has 'Whitebeard Pirates' in its types, draw 2 cards and discard 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Reveal the top card of your deck, if it has 'Whitebeard Pirates' in its types, draw 2 cards and discard 1 card from your hand.",
+        "powerMod": null,
+        "targets": ["deckTop1"],
+        "conditions": ["ifWhitebeardPiratesDraw2Discard1"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

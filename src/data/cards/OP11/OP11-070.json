@@ -1,0 +1,62 @@
+{
+  "id": "OP11-070",
+  "set": "OP11",
+  "number": 70,
+  "name": "Charlotte Pudding",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-070.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 5 cards of your deck, reveal up to one cost 2 or greater (Big Mom Pirates) type card and put it into your hand. Then, put the rest at the bottom of your deck in any order.\nActivate: Main: DON!!-1, then rest this Character. Look at the top card of your opponent's deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to one cost 2 or greater (Big Mom Pirates) type card and put it into your hand. Then, put the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "DON!!-1, then rest this Character. Look at the top card of your opponent's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

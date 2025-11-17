@@ -1,0 +1,48 @@
+{
+  "id": "OP06-092",
+  "set": "OP06",
+  "number": 92,
+  "name": "Brook",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Former Rumbar Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-092.png",
+  "stats": {
+    "cost": 6,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Choose one: Put up to one of your opponent's characters with a cost of 4 or less into their trash. • Your opponent puts 3 cards from their trash to the bottom of their deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose one: Put up to one of your opponent's characters with a cost of 4 or less into their trash. • Your opponent puts 3 cards from their trash to the bottom of their deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

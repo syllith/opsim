@@ -1,0 +1,54 @@
+{
+  "id": "OP04-025",
+  "set": "OP04",
+  "number": 25,
+  "name": "Giolla",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-025.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "opponent attack"
+  ],
+  "trigger": null,
+  "text": "[opponent attack] 2 (You may rest the specified number of DON!! cards in your Cost Area): Rest up to 1 of your opponent's cost 4 or lower characters.",
+  "abilities": [
+    {
+      "timing": "opponent attack",
+      "frequency": "Once Per Turn",
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's cost 4 or lower characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "conditions": [
+          "opponentAttack"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, but all printed text is legible."
+  }
+}

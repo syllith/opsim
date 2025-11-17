@@ -1,0 +1,54 @@
+{
+  "id": "OP04-010",
+  "set": "OP04",
+  "number": 10,
+  "name": "Tony Tony Chopper",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal",
+    "Alabasta",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-010.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Play up to 1 (Animal) type Character card with 3000 power or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 (Animal) type Character card with 3000 power or less from your hand.",
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=power3000",
+          "animalType"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner."
+  }
+}

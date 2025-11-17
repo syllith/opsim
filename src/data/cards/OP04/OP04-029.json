@@ -1,0 +1,51 @@
+{
+  "id": "OP04-029",
+  "set": "OP04",
+  "number": 29,
+  "name": "Dellinger",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-029.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "End of Your Turn: Set up to 1 of your DON!! as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to 1 of your DON!! as active.",
+        "powerMod": null,
+        "targets": [
+          "activeDon"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP13-078",
+  "set": "OP13",
+  "number": 78,
+  "name": "Oro Jackson",
+  "category": "Stage",
+  "colors": [],
+  "attribute": null,
+  "types": [
+    "Roger Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-078.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Once Per Turn If your Character with a type including \"Roger Pirates\" would be removed from the field by your opponent's effect, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Character with a type including \"Roger Pirates\" would be removed from the field by your opponent's effect, add up to 1 DON!! card from your DON!! deck and rest it.",
+        "powerMod": null,
+        "conditions": [
+          "your Character with a type including \"Roger Pirates\" would be removed from the field by your opponent's effect"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

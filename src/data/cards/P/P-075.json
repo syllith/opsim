@@ -1,0 +1,66 @@
+{
+  "id": "P-075",
+  "set": "P",
+  "number": 75,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Supernova",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-075.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "On Play: Give your leader or one of your characters up to one rested Don!\nWhen Attacking: If you have a cost 8 or greater character in play, draw one card then discard one card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give your leader or one of your characters up to one rested Don!",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a cost 8 or greater character in play, draw one card then discard one card from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "cost 8 or greater character in play"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

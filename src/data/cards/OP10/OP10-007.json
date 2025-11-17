@@ -1,0 +1,48 @@
+{
+  "id": "OP10-007",
+  "set": "OP10",
+  "number": 7,
+  "name": "Caesar's Soldier",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Punk Hazard"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP10/OP10-007.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Play up to 1 {Punk Hazard} type Character card with a cost of 2 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 {Punk Hazard} type Character card with a cost of 2 or less from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

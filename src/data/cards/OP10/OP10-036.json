@@ -1,0 +1,50 @@
+{
+  "id": "OP10-036",
+  "set": "OP10",
+  "number": 36,
+  "name": "Perona",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Shikkearu Kingdom",
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP10/OP10-036.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Your Turn",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn Once Per Turn When a character is rested by one of your effects, set up to 1 of your DON!! active.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When a character is rested by one of your effects, set up to 1 of your DON!! active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ST10-011",
+  "set": "ST10",
+  "number": 11,
+  "name": "Heat",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Kid Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST10/ST10-011.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Your Turn", "Once Per Turn"],
+  "trigger": null,
+  "text": "Your Turn — Once Per Turn: When a DON!! is returned to the DON!! deck from your field, this Character gains +2000 power until the start of your next turn.",
+  "abilities": [
+    {
+      "timing": "When DON!! Returned",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "When a DON!! is returned to the DON!! deck from your field, this Character gains +2000 power until the start of your next turn.",
+        "grants": [],
+        "powerMod": { "amount": 2000, "duration": "untilStartOfYourNextTurn" },
+        "targets": ["self"],
+        "conditions": ["donReturnedToDeck"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

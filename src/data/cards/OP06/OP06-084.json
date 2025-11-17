@@ -1,0 +1,52 @@
+{
+  "id": "OP06-084",
+  "set": "OP06",
+  "number": 84,
+  "name": "Jigorou of the Wind",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-084.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On K.O. Give up to 1 of your leaders or characters +1000 power for this turn.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your leaders or characters +1000 power for this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourLeaders",
+          "oneOfYourCharacters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

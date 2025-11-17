@@ -1,0 +1,67 @@
+{
+  "id": "OP12-077",
+  "set": "OP12",
+  "number": 77,
+  "name": "This Technique Extinguishes All Sound Created By Your Influence",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Heart Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-077.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "Main Up to 1 of your [Trafalgar Law] gains +2000 power during this turn. If that Character attacks during this turn, your opponent cannot activate Blocker. Trigger Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your [Trafalgar Law] gains +2000 power during this turn. If that Character attacks during this turn, your opponent cannot activate Blocker.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourCharacters: [Trafalgar Law]"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "id": "OP03-094",
+  "set": "OP03",
+  "number": 94,
+  "name": "Air Door",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "CP"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-094.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play up to 1 black Character card with a cost of 3 or less from your trash."
+  },
+  "text": "Main If your Leader has {CP} in its types, look at 5 cards from the top of your deck, play up to 1 Character with a cost of 5 or less with {CP} in its types. Then, put the rest in the trash.\n\nTrigger Play up to 1 black Character card with a cost of 3 or less from your trash.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has {CP} in its types, look at 5 cards from the top of your deck, play up to 1 Character with a cost of 5 or less with {CP} in its types. Then, put the rest in the trash.",
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=cost5",
+          "self"
+        ],
+        "conditions": [
+          "leaderHasCP"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 black Character card with a cost of 3 or less from your trash.",
+        "powerMod": null,
+        "targets": [
+          "oneBlackCharacter<=cost3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is printed in the bottom right corner. The card ID 'OP03-094' is printed in the bottom right corner. The cost '4' is printed in the top left corner. The card name 'Air Door' is printed in the bottom center. The card type 'EVENT' is printed above the name. The card's text is split into 'Main' and 'Trigger' sections."
+  }
+}

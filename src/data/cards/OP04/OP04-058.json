@@ -1,0 +1,49 @@
+{
+  "id": "OP04-058",
+  "set": "OP04",
+  "number": 58,
+  "name": "Crocodile",
+  "category": "Leader",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Seven Warlords Of The Sea",
+    "Baroque Works"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP04/OP04-058.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Opponent's Turn Once Per Turn When you return DON!! from your field to the DON!! deck through one of your effects, add 1 DON!! from your DON!! deck as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When you return DON!! from your field to the DON!! deck through one of your effects, add 1 DON!! from your DON!! deck as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample. The text 'Opponent's Turn' is printed in a blue box, indicating the timing condition."
+  }
+}

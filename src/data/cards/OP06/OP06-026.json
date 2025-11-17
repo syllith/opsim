@@ -1,0 +1,48 @@
+{
+  "id": "OP06-026",
+  "set": "OP06",
+  "number": 26,
+  "name": "Koushirou",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Shimotsuki Village"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-026.png",
+  "stats": {
+    "cost": 3,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Set up to 1 of your cost 4 or lower [Slash] trait characters active. Then, for this turn, you may not attack your opponent's leader.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to 1 of your cost 4 or lower [Slash] trait characters active. Then, for this turn, you may not attack your opponent's leader.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

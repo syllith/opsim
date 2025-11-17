@@ -1,0 +1,53 @@
+{
+  "id": "OP10-035",
+  "set": "OP10",
+  "number": 35,
+  "name": "Brook",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "ODYSSEY",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-035.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On K.O. Rest up to 1 of your opponent's leader or cost 5 or lower characters.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's leader or cost 5 or lower characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost5",
+          "oneOpponentLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

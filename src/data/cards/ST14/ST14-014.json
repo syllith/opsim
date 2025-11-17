@@ -1,0 +1,48 @@
+{
+  "id": "ST14-014",
+  "set": "ST14",
+  "number": 14,
+  "name": "Gum Gum Giant Rifle",
+  "category": "Event",
+  "colors": ["Black"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST14/ST14-014.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "Add up to one 2 cost or lower character from your trash to your hand." },
+  "text": "Counter: If you control a cost 8 or greater character, give up to one leader or character +3000 Power for this battle. Trigger: Add up to one 2 cost or lower character from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you control a cost 8 or greater character, give up to one leader or character +3000 Power for this battle.",
+        "powerMod": { "amount": 3000, "duration": "this battle" },
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["hasAllyCharacter>=8"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Add up to one 2 cost or lower character from your trash to your hand.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter<=2:fromTrash"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

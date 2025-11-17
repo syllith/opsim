@@ -1,0 +1,50 @@
+{
+  "id": "ST20-001",
+  "set": "ST20",
+  "number": 1,
+  "name": "Katakuri",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Big Mom Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST20/ST20-001.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "Activate: Main", "Once Per Turn", "Counter +1000"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) Activate: Main Once Per Turn You may turn the top card of your life cards face up: Give your leader or up to one of your characters up to 1 rested Don!!.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may turn the top card of your life cards face up: Give your leader or up to one of your characters up to 1 rested Don!!.",
+        "powerMod": null,
+        "targets": ["ally:Leader", "upToOneAllyCharacter"],
+        "conditions": ["optionalTurnLifeCardFaceUp"],
+        "giveDon": { "amount": 1, "state": "rested" }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

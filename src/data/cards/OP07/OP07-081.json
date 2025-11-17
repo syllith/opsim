@@ -1,0 +1,49 @@
+{
+  "id": "OP07-081",
+  "set": "OP07",
+  "number": 81,
+  "name": "Kalifa",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "CP0"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP07/OP07-081.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "Your Turn"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 Your Turn: Give all of your opponents -1 cost.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give all of your opponents -1 cost.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, which is not part of the card's official text. Rarity is 'SP' as printed in the bottom right corner."
+  }
+}

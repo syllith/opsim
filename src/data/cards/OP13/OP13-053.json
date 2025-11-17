@@ -1,0 +1,51 @@
+{
+  "id": "OP13-053",
+  "set": "OP13",
+  "number": 53,
+  "name": "Marshall.D.Teac",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-053.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking You may trash 1 of your Characters with a type including \"Whitebeard Pirates\": Draw 1 card. Then, this Character gains Banish.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 of your Characters with a type including \"Whitebeard Pirates\": Draw 1 card. Then, this Character gains Banish.",
+        "grants": [
+          "Banish"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

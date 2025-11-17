@@ -1,0 +1,54 @@
+{
+  "id": "OP04-041",
+  "set": "OP04",
+  "number": 41,
+  "name": "Apis",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-041.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play You may trash 2 cards in your hand: Look at the top 5 cards of your deck, reveal up to 1 card with the \"East Blue\" type and add it to your hand. Place the remaining cards at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 2 cards in your hand: Look at the top 5 cards of your deck, reveal up to 1 card with the \"East Blue\" type and add it to your hand. Place the remaining cards at the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": [
+          "oneCardWithEastBlueType"
+        ],
+        "conditions": [
+          "2CardsInHand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

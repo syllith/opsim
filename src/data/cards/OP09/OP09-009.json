@@ -1,0 +1,49 @@
+{
+  "id": "OP09-009",
+  "set": "OP09",
+  "number": 9,
+  "name": "Benn Beckman",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Red Hair Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP09/OP09-009.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] Trash up to 1 of your opponent's Characters with a power of 6000 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Trash up to 1 of your opponent's Characters with a power of 6000 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

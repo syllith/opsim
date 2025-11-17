@@ -1,0 +1,52 @@
+{
+  "id": "OP01-075",
+  "set": "OP01",
+  "number": 75,
+  "name": "Pacifista",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Biological Weapon", "Navy"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-075.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "You may have more than 4 copies of this card in your deck.\nBlocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Passive",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may have more than 4 copies of this card in your deck.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared", "restSelf"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

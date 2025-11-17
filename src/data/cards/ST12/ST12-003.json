@@ -1,0 +1,37 @@
+{
+  "id": "ST12-003",
+  "set": "ST12",
+  "number": 3,
+  "name": "Dracule Mihawk",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Seven Warlords of the Sea", "Shikkeau Kingdom"],
+  "rarity": "SR",
+  "art": "/cards/ST12/ST12-003.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play If you have 2 or less characters, play up to 1 4 cost or lower 'Shigearu Kingdom' type or 'Slash' trait character card other than 'Dracule Mihawk' from your hand rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 2 or less characters, play up to 1 4 cost or lower 'Shigearu Kingdom' type or 'Slash' trait character card other than 'Dracule Mihawk' from your hand rested.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter<=4:type=Shigearu Kingdom|trait=Slash:rested:exclude=Dracule Mihawk"],
+        "conditions": ["maxAllyCharacters=2"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

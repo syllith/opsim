@@ -1,0 +1,37 @@
+{
+  "id": "EB01-048",
+  "set": "EB01",
+  "number": 48,
+  "name": "Laboon",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Strike",
+  "types": ["Animal"],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-048.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "[Activate: Main] You may rest this character: Give up to one of your opponent's characters cost -4 for this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this character: Give up to one of your opponent's characters cost -4 for this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

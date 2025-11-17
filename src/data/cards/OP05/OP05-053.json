@@ -1,0 +1,52 @@
+{
+  "id": "OP05-053",
+  "set": "OP05",
+  "number": 53,
+  "name": "Mozambia",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-053.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Your Turn",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn Once Per Turn When you draw a card except for during your draw phase this character gets +2000 during this turn.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When you draw a card except for during your draw phase this character gets +2000 during this turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "id": "OP11-079",
+  "set": "OP11",
+  "number": 79,
+  "name": "When Two Men are Fighting... the Last Thing I Need is Some Half-Assed Assistance!!!",
+  "category": "Event",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP11/OP11-079.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Trigger",
+    "Counter"
+  ],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "When Two Men are Fighting... the Last Thing I Need is Some Half-Assed Assistance!!!",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may declare a cost. Reveal 1 card from the top of your opponent's deck. If the revealed card has the same cost as the declared cost, your Leader or up to 1 of your Characters gets +5000 power during this battle.",
+        "powerMod": {
+          "amount": 5000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "self",
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "declaredCost",
+          "revealedCardHasSameCost"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

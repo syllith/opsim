@@ -1,0 +1,53 @@
+{
+  "id": "OP10-023",
+  "set": "OP10",
+  "number": 23,
+  "name": "Issho",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa",
+    "Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-023.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your leader has the \"Navy\" type, Rest up to 2 of your opponent's characters with cost 5 or below.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the \"Navy\" type, Rest up to 2 of your opponent's characters with cost 5 or below.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Navy"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "ST16-004",
+  "set": "ST16",
+  "number": 4,
+  "name": "Shanks",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["FILM", "Four Emperors", "Red Hair Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST16/ST16-004.png",
+  "stats": {
+    "cost": 9,
+    "power": 11000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: KO up to one of your opponent's rested characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "KO up to one of your opponent's rested characters.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter:rested"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

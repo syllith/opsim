@@ -1,0 +1,45 @@
+{
+  "id": "ST06-016",
+  "set": "ST06",
+  "number": 16,
+  "name": "White Out",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST06/ST06-016.png",
+    "stats": { "cost": 1, "power": null, "life": null, "counter": null },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "Draw 1 card. Your Characters cannot be K.O.'d during this turn." },
+  "text": "Counter: Your leader or up to 1 of your Characters gains +2000 Power during this battle. Trigger: Draw 1 card. Your Characters cannot be K.O.'d during this turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "Your leader or up to 1 of your Characters gains +2000 Power during this battle.",
+        "grants": ["power+2000"],
+        "powerMod": 2000,
+        "targets": ["oneLeaderOrCharacter"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "Draw 1 card. Your Characters cannot be K.O.'d during this turn.",
+        "grants": ["draw:1","cannotBeKOdThisTurn"],
+        "powerMod": null,
+        "targets": ["selfCharacters"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

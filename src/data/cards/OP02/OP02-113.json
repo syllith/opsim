@@ -1,0 +1,52 @@
+{
+  "id": "OP02-113",
+  "set": "OP02",
+  "number": 113,
+  "name": "Helmeppo",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Navy"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-113.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "[When Attacking] Give up to 1 of your opponent's Characters -2 to their cost. Then, if there's a Character with a cost of 0 in play, this Character gains +2000 Power during this turn.\n[Trigger] Play this card.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -2 to their cost. Then, if there's a Character with a cost of 0 in play, this Character gains +2000 Power during this turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "targets": ["upTo1:opponent:Character", "self"],
+        "conditions": ["characterCost0InPlay"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play this card.",
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

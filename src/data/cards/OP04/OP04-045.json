@@ -1,0 +1,48 @@
+{
+  "id": "OP04-045",
+  "set": "OP04",
+  "number": 45,
+  "name": "King",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-045.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner."
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP13-032",
+  "set": "OP13",
+  "number": 32,
+  "name": "Nico Robin",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP13/OP13-032.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Up to 1 of your opponent's Characters with a cost of 8 or less cannot be rested until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your opponent's Characters with a cost of 8 or less cannot be rested until the end of your opponent's next turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost8"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

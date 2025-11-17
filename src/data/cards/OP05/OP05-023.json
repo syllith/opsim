@@ -1,0 +1,55 @@
+{
+  "id": "OP05-023",
+  "set": "OP05",
+  "number": 23,
+  "name": "Vergo",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy/Donquixote Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-023.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!!x1 When Attacking K.O. up to 1 of your opponent's rested characters with a cost of 3 or less.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested characters with a cost of 3 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "rested"
+        ],
+        "conditions": [
+          "cost<=3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

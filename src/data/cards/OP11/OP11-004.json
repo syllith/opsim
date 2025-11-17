@@ -1,0 +1,69 @@
+{
+  "id": "OP11-004",
+  "set": "OP11",
+  "number": 4,
+  "name": "Kujiyaku",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy",
+    "SWORD"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP11/OP11-004.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at 5 cards from the top of your deck; reveal up to 1 {Navy} type card other than [Kujiyaku] and add it to your hand. Then, place the rest at the bottom of your deck in any order.\nActivate: Main: You may trash this Character: Up to 1 of your Characters gains +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Navy} type card other than [Kujiyaku] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this Character: Up to 1 of your Characters gains +1000 power during this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOfYourCharacters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

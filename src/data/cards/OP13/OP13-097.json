@@ -1,0 +1,75 @@
+{
+  "id": "OP13-097",
+  "set": "OP13",
+  "number": 97,
+  "name": "The World's Equilibrium Cannot Be Maintained Forever",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Five Elders",
+    "Celestial Dragons"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-097.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main You may rest 5 of your DON!! cards: if the only Characters on your field are (Celestial Dragons) type Characters, K.O. up to 1 of your opponent's Characters with base cost 6 or less.\nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 5,
+      "cost": {
+        "restDonFromCostArea": 5
+      },
+      "effect": {
+        "text": "if the only Characters on your field are (Celestial Dragons) type Characters, K.O. up to 1 of your opponent's Characters with base cost 6 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost6"
+        ],
+        "conditions": [
+          "onlyCharactersOnFieldAre(CelestialDragons)"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
+        "grants": [
+          "+3000Power"
+        ],
+        "powerMod": null,
+        "targets": [
+          "oneLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

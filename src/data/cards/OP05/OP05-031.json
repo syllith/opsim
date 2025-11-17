@@ -1,0 +1,49 @@
+{
+  "id": "OP05-031",
+  "set": "OP05",
+  "number": 31,
+  "name": "buffalo",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-031.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking Once Per Turn If two or more of your characters are rested, you may set up to one of your cost 1 characters as active.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If two or more of your characters are rested, you may set up to one of your cost 1 characters as active.",
+        "powerMod": null,
+        "conditions": [
+          "two or more of your characters are rested"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

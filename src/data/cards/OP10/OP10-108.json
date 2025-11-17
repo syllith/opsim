@@ -1,0 +1,61 @@
+{
+  "id": "OP10-108",
+  "set": "OP10",
+  "number": 108,
+  "name": "Scratchmen Apoo",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Supernova",
+    "On Air Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-108.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If you have a yellow \"Supernova\" character other than \"Scratchmen Apoo\", this character gain Blocker.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a yellow \"Supernova\" character other than \"Scratchmen Apoo\", this character gain Blocker.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "conditions": [
+          "you",
+          "have",
+          "a",
+          "yellow",
+          "\"Supernova\"",
+          "character",
+          "other",
+          "than",
+          "\"Scratchmen Apoo\""
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but processed as per printed content."
+  }
+}

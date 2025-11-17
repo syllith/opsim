@@ -1,0 +1,83 @@
+{
+  "id": "OP14-117",
+  "set": "OP14",
+  "number": 117,
+  "name": "Brick Bat",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-117.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your trash rested."
+  },
+  "text": "Counter: Up to 1 of your {Thriller Bark Pirates} type Leader or Character cards gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your {Thriller Bark Pirates} type Leader or Character cards gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneOfYour:Leader",
+          "oneOfYour:Character"
+        ],
+        "conditions": [
+          "type:Thriller Bark Pirates"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your trash rested.",
+        "powerMod": null,
+        "targets": [
+          "optionalTarget"
+        ],
+        "conditions": [
+          "type:Thriller Bark Pirates",
+          "cost<=4",
+          "from:trash",
+          "rested"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP01-089",
+  "set": "OP01",
+  "number": 89,
+  "name": "Crescent Cutlass",
+  "category": "Event",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-089.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter"],
+  "trigger": null,
+  "text": "Counter: If your Leader has the {The Seven Warlords of the Sea} type, return up to 1 Character with a cost of 5 or less to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {The Seven Warlords of the Sea} type, return up to 1 Character with a cost of 5 or less to the owner's hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneCharacter<=5"],
+        "conditions": ["leaderHasSevenWarlords"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

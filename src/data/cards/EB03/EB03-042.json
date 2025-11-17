@@ -1,0 +1,50 @@
+{
+  "id": "EB03-042",
+  "set": "EB03",
+  "number": 42,
+  "name": "Koala",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Strike",
+  "types": ["Dressrosa", "Revolutionary Army"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-042.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On K.O", "Opponent's Turn"],
+  "trigger": null,
+  "text": "If your Leader has the {Revolutionary Army} type, this Character gains -4 cost.\n[Opponent's Turn] [On K.O] Play up to 1 Character with a cost of 6 or less with the name [Nico Robin] or with the {Revolutionary Army} type other than [Koala] from your hand or trash.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Revolutionary Army} type, this Character gains -4 cost.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["leaderHasRevolutionaryArmy"]
+      }
+    },
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "[On K.O] Play up to 1 Character with a cost of 6 or less with the name [Nico Robin] or with the {Revolutionary Army} type other than [Koala] from your hand or trash.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["handOrTrash:Character:cost<=6:NicoRobinOrRevolutionaryArmy:notKoala"],
+        "conditions": ["onKO"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

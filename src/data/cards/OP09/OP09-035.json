@@ -1,0 +1,49 @@
+{
+  "id": "OP09-035",
+  "set": "OP09",
+  "number": 35,
+  "name": "Portgas.D.Ace",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "ODYSSEY",
+    "Whitebeard Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-035.png",
+  "stats": {
+    "cost": 5,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have two or more rested characters in play, rest up to one of your opponents cost 5 or lower characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have two or more rested characters in play, rest up to one of your opponents cost 5 or lower characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

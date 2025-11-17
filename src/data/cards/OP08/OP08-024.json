@@ -1,0 +1,48 @@
+{
+  "id": "OP08-024",
+  "set": "OP08",
+  "number": 24,
+  "name": "Conslot",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Minks"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP08/OP08-024.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: Up to 1 of your opponent's rested cost 4 or lower characters cannot be set active during their next Refresh Phase.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your opponent's rested cost 4 or lower characters cannot be set active during their next Refresh Phase.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and '新 SLASH' (new Slash) in the top right corner, which is not part of the official card text. The rarity is UC (Ultra Common) as indicated by the 'UC' in the bottom right corner."
+  }
+}

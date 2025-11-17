@@ -1,0 +1,37 @@
+{
+  "id": "ST09-012",
+  "set": "ST09",
+  "number": 12,
+  "name": "Yamato",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Land of Wano"],
+  "rarity": null,
+  "art": "/cards/ST09/ST09-012.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "When Attacking: You may add the top or bottom card of your Life area to your hand: This Character gains +2000 Power until the start of your next turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may add the top or bottom card of your Life area to your hand: This Character gains +2000 Power until the start of your next turn.",
+        "grants": ["power+2000"],
+        "powerMod": 2000,
+        "targets": ["self", "topOrBottomLifeCard"],
+        "conditions": ["chooseTopOrBottom", "duration:untilStartOfNextTurn"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

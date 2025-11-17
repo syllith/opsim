@@ -1,0 +1,63 @@
+{
+  "id": "OP14-033",
+  "set": "OP14",
+  "number": 33,
+  "name": "Perona",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Muggy Kingdom",
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP14/OP14-033.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On Play: Up to 2 of your opponent's Characters with a cost of 5 or less cannot be rested until the end of your opponent's next turn. On K.O.: You may rest 1 of your cards: Play up to 1 green Character card with a cost of 5 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 2 of your opponent's Characters with a cost of 5 or less cannot be rested until the end of your opponent's next turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may rest 1 of your cards: Play up to 1 green Character card with a cost of 5 or less from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

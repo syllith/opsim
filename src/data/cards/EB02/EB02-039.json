@@ -1,0 +1,37 @@
+{
+  "id": "EB02-039",
+  "set": "EB02",
+  "number": 39,
+  "name": "GERMA 66",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Vinsmoke Family", "Germa 66"],
+  "rarity": "R",
+  "art": "/cards/EB02/EB02-039.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main"],
+  "trigger": null,
+  "text": "[Main] You may discard a character with 4000 or less power and the {Germa 66} type from your hand: If the number of DON!! cards on your board is equal to or less than your opponent's, play a character card from your trash that has 5000 to 7000 power and the same name as the discarded card.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may discard a character with 4000 or less power and the {Germa 66} type from your hand: If the number of DON!! cards on your board is equal to or less than your opponent's, play a character card from your trash that has 5000 to 7000 power and the same name as the discarded card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["hand:Character:power<=4000:Germa66", "trash:Character:power5000-7000"],
+        "conditions": ["yourDonEqualOrLessThanOpponent", "sameName"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP09-022",
+  "set": "OP09",
+  "number": 22,
+  "name": "Lim",
+  "category": "Leader",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "ODYSSEY"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-022.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Your characters enter play as rested.\nActivate: Main Once Per Turn You may rest 3 of your Don!!: Set up to one Don!! from your Don!! deck as rested. Then, play a cost 5 or lower (Odyssey) type character from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your characters enter play as rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 3
+      },
+      "effect": {
+        "text": "Set up to one Don!! from your Don!! deck as rested. Then, play a cost 5 or lower (Odyssey) type character from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

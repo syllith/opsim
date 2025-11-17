@@ -1,0 +1,63 @@
+{
+  "id": "OP14-024",
+  "set": "OP14",
+  "number": 24,
+  "name": "Kin'emon",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Land of Wano",
+    "The Akazaya Nine"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP14/OP14-024.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On Play: Set up to 3 of your DON!! cards as active. Then, you cannot play any Character cards on your field during this turn. On K.O.: Rest up to 1 of your opponent's cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to 3 of your DON!! cards as active. Then, you cannot play any Character cards on your field during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

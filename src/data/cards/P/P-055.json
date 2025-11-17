@@ -1,0 +1,48 @@
+{
+  "id": "P-055",
+  "set": "P",
+  "number": 55,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-055.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash 2 cards from your hand: Your opponent chooses a character they own and places it at the bottom of their deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 2 cards from your hand: Your opponent chooses a character they own and places it at the bottom of their deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has 'BANDAI MADE IN JAPAN' text, but these are not part of the card's official data. The card ID is P-055, which is consistent with the printed ID in the bottom right corner."
+  }
+}

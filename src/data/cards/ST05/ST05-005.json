@@ -1,0 +1,20 @@
+{
+  "id": "ST05-005",
+  "set": "ST05",
+  "number": 5,
+  "name": "Carina",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Wisdom",
+  "types": ["FILM", "Gran Tesoro"],
+  "rarity": null,
+  "art": "/cards/ST05/ST05-005.png",
+  "stats": { "cost": 2, "power": 3000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "keywords": ["Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "Activate: Main — Once Per Turn: Rest this Character, you may trash 1 FILM type card from your hand: If your opponent has more DON!! cards on their field than you, add 2 DON!! cards from your DON!! deck and rest them.",
+  "abilities": [
+    {"timing": "Activate: Main", "frequency": "Once Per Turn", "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Rest this Character, trash 1 FILM card from hand: If opponent has more DON!!, add 2 DON!! from DON deck and rest them.", "grants": [], "powerMod": null, "targets": ["donDeck"], "conditions": ["restSelf", "trashFilmCard", "opponentMoreDon"]}}
+  ],
+  "meta": {"notes": null}
+}

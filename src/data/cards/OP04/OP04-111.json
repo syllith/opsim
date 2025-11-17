@@ -1,0 +1,59 @@
+{
+  "id": "OP04-111",
+  "set": "OP04",
+  "number": 111,
+  "name": "Hera",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Big Mom Pirates",
+    "Homies"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP04/OP04-111.png",
+  "stats": {
+    "cost": 5,
+    "power": 3000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "Activate: Main\nYou may trash 1 of your (Homies) type Characters other than this Character and rest this Character. Set up to 1 of your [Charlotte Linlin] Characters as active.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 of your (Homies) type Characters other than this Character and rest this Character. Set up to 1 of your [Charlotte Linlin] Characters as active.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYour(Homies)Character",
+          "oneOfYour(CharlotteLinlin)Character"
+        ],
+        "conditions": [
+          "otherThanThisCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'UC' confirmed from the 'UC' symbol in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

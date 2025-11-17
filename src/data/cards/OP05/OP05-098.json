@@ -1,0 +1,46 @@
+{
+  "id": "OP05-098",
+  "set": "OP05",
+  "number": 98,
+  "name": "Enel",
+  "category": "Leader",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP05/OP05-098.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Opponent's Turn Once Per Turn When your life hits 0, you may add the top card of your deck to your life. Then, discard 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When your life hits 0, you may add the top card of your deck to your life. Then, discard 1 card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

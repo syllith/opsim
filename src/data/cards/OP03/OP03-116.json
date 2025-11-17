@@ -1,0 +1,64 @@
+{
+  "id": "OP03-116",
+  "set": "OP03",
+  "number": 116,
+  "name": "Shirahoshi",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Mermaid"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-116.png",
+  "stats": {
+    "cost": 5,
+    "power": 1000,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "[On Play] Draw 3 cards and trash 2 cards from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 3 cards and trash 2 cards from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample image, indicated by the 'SAMPLE' watermark. The rarity is inferred from the 'UC' symbol in the bottom right corner."
+  }
+}

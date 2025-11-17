@@ -1,0 +1,50 @@
+{
+  "id": "ST13-001",
+  "set": "ST13",
+  "number": 1,
+  "name": "Sabo",
+  "category": "Leader",
+  "colors": ["Red", "Black"],
+  "attribute": "Special",
+  "types": ["Dressrosa", "Revolutionary Army"],
+  "rarity": "L",
+  "art": "/cards/ST13/ST13-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 Activate: Main Once Per Turn You may add 1 of your cost 3 or higher characters with 7000 Power or higher to the top of your life face up. Give up to 1 of your characters +2000 Power until the start of your next turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may add 1 of your cost 3 or higher characters with 7000 Power or higher to the top of your life face up.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter>=3:power>=7000:lifeTop:faceUp"],
+        "conditions": ["donAttached", "optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your characters +2000 Power until the start of your next turn.",
+        "powerMod": { "amount": 2000, "duration": "startOfNextTurn" },
+        "targets": ["oneAllyCharacter"],
+        "conditions": ["donAttached", "optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

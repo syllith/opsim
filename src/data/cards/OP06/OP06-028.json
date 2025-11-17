@@ -1,0 +1,55 @@
+{
+  "id": "OP06-028",
+  "set": "OP06",
+  "number": 28,
+  "name": "Zeo",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Fishman",
+    "New Fishman Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-028.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking: If your leader has the <New Fishman Pirates> type, set up to 1 of your DON!! active, and this character gains Power +1000 for this turn. Then, add the top card of your life to your hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the <New Fishman Pirates> type, set up to 1 of your DON!! active, and this character gains Power +1000 for this turn. Then, add the top card of your life to your hand.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "leader:hasType<New Fishman Pirates>"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'BANDAI MADE IN JAPAN' on the image, but these are not part of the card's official data. The printed ID is OP06-028, set is OP06, number is 28, rarity is C (indicated by 'C' in the rarity box)."
+  }
+}

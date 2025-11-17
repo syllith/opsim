@@ -1,0 +1,60 @@
+{
+  "id": "OP14-056",
+  "set": "OP14",
+  "number": 56,
+  "name": "Wadatsumi",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fish-Man",
+    "The Sun Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP14/OP14-056.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "This Character cannot attack. When a card is trashed from your hand by your effect, this Character's effect is negated during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This Character cannot attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When a card is trashed from your hand by your effect, this Character's effect is negated during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

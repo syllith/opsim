@@ -1,0 +1,48 @@
+{
+  "id": "OP06-047",
+  "set": "OP06",
+  "number": 47,
+  "name": "Charlotte Pudding",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-047.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Your opponent returns all of their hand cards to their deck and shuffles their deck. Then, your opponent draws 5 cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your opponent returns all of their hand cards to their deck and shuffles their deck. Then, your opponent draws 5 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

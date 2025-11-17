@@ -1,0 +1,52 @@
+{
+  "id": "OP02-018",
+  "set": "OP02",
+  "number": 18,
+  "name": "Marco",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-018.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "Blocker", "On K.O."],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On K.O. You may trash 1 card from your hand with {Whitebeard Pirates} in its type: If you have 2 or less Life cards, play this Character card from your Trash rested.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 card from your hand with {Whitebeard Pirates} in its type: If you have 2 or less Life cards, play this Character card from your Trash rested.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["trashWhitebeardPiratesCardFromHand", "lifeCards<=2"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

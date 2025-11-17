@@ -1,0 +1,52 @@
+{
+  "id": "OP09-065",
+  "set": "OP09",
+  "number": 65,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP09/OP09-065.png",
+  "stats": {
+    "cost": 7,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "On Play: You may return one or more of your Don!! cards from play to your Don!! deck. This character gains Rush for this turn. Then, rest up to one of your opponents cost 6 or lower characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return one or more of your Don!! cards from play to your Don!! deck. This character gains Rush for this turn. Then, rest up to one of your opponents cost 6 or lower characters.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

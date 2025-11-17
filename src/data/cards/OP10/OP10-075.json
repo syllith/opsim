@@ -1,0 +1,48 @@
+{
+  "id": "OP10-075",
+  "set": "OP10",
+  "number": 75,
+  "name": "Foxy",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Foxy Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP10/OP10-075.png",
+  "stats": {
+    "cost": 2,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate:Main You may trash this Character: if the number of DON!! cards on your field is equal to or less than the number on your opponent's field, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this Character: if the number of DON!! cards on your field is equal to or less than the number on your opponent's field, draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but rarity is SP as printed."
+  }
+}

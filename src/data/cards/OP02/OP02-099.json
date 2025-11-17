@@ -1,0 +1,35 @@
+{
+  "id": "OP02-099",
+  "set": "OP02",
+  "number": 99,
+  "name": "Sakazuki",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Navy"],
+  "rarity": "SR",
+  "art": "/cards/OP02/OP02-099.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] You may trash 1 card from your hand: K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 card from your hand: K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
+        "targets": ["upTo1:opponent:Character<=5"],
+        "conditions": ["trashFromHand"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

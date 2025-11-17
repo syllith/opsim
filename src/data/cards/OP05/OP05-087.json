@@ -1,0 +1,53 @@
+{
+  "id": "OP05-087",
+  "set": "OP05",
+  "number": 87,
+  "name": "Hakuba",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa",
+    "Beautiful Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-087.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!!x1",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!!x1 When Attacking: You may KO one of your characters other than this card. Give up to 1 of your opponent's characters cost -5.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may KO one of your characters other than this card. Give up to 1 of your opponent's characters cost -5.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

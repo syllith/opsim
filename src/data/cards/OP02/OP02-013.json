@@ -1,0 +1,52 @@
+{
+  "id": "OP02-013",
+  "set": "OP02",
+  "number": 13,
+  "name": "Portgas. D. Ace",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "SR",
+  "art": "/cards/OP02/OP02-013.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "Rush"],
+  "trigger": null,
+  "text": "On Play Give up to 2 of your opponent's Characters -3000 Power during this turn. Then, if your Leader has [Whitebeard Pirates] in its types, this Character gains Rush during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 2 of your opponent's Characters -3000 Power during this turn.",
+        "grants": [],
+        "powerMod": { "amount": -3000, "duration": "this turn" },
+        "targets": ["twoOpponentCharacters"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has [Whitebeard Pirates] in its types, this Character gains Rush during this turn.",
+        "grants": ["rush"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["leaderHasType:Whitebeard Pirates"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

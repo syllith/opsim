@@ -1,0 +1,38 @@
+{
+  "id": "OP01-100",
+  "set": "OP01",
+  "number": 100,
+  "name": "Kurozumi Higurashi",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Wano Country", "Kurozumi Family"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-100.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared", "restSelf"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

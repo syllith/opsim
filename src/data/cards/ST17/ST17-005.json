@@ -1,0 +1,36 @@
+{
+  "id": "ST17-005",
+  "set": "ST17",
+  "number": 5,
+  "name": "Marshall D. Teach",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Seven Warlords of the Sea", "Blackbeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST17/ST17-005.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate: Main", "Once Per Turn", "Counter"],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn: Place 1 card from your hand at the top of your deck: attach up to 2 rested DON!! to one of your leader or characters.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Place 1 card from your hand at the top of your deck: attach up to 2 rested DON!! to one of your leader or characters.",
+        "powerMod": null,
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["placeCardFromHandOnTopDeck", "giveDon:rested:2"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

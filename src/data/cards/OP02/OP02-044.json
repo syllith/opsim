@@ -1,0 +1,37 @@
+{
+  "id": "OP02-044",
+  "set": "OP02",
+  "number": 44,
+  "name": "Wanda",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Mink Tribe"],
+  "rarity": "C",
+  "art": "/cards/OP02/OP02-044.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Play up to 1 {Mink Tribe} type Character card other than [Wanda] with a cost of 3 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play up to 1 {Mink Tribe} type Character card other than [Wanda] with a cost of 3 or less from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["Character"],
+        "conditions": ["Mink Tribe type", "other than Wanda", "cost 3 or less"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

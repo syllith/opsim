@@ -1,0 +1,36 @@
+{
+  "id": "ST17-003",
+  "set": "ST17",
+  "number": 3,
+  "name": "Buggy",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["The Seven Warlords of the Sea", "Buggy's delivery"],
+  "rarity": "C",
+  "art": "/cards/ST17/ST17-003.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play", "Counter"],
+  "trigger": null,
+  "text": "On Play: Look at the top 3 cards of your deck, then place them in any order on the top of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top 3 cards of your deck, then place them in any order on the top of your deck.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["lookTopDeck:3", "reorderTopDeck:3"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

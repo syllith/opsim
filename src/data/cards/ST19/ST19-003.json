@@ -1,0 +1,50 @@
+{
+  "id": "ST19-003",
+  "set": "ST19",
+  "number": 3,
+  "name": "Tashigi",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Slash",
+  "types": ["Navy"],
+  "rarity": "SR",
+  "art": "/cards/ST19/ST19-003.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "Activate: Main", "Once Per Turn", "Counter +1000"],
+  "trigger": null,
+  "text": "On Play If your leader is [Smoker], give up to one of your opponent's characters -4 cost for this turn. Activate: Main Once Per Turn If it is the turn this character was played, place up to one of your opponent's cost 0 characters into its owner's trash.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader is [Smoker], give up to one of your opponent's characters -4 cost for this turn.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["leaderName:Smoker"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If it is the turn this character was played, place up to one of your opponent's cost 0 characters into its owner's trash.",
+        "powerMod": null,
+        "targets": ["upToOneOpponentCharacter:0"],
+        "conditions": ["turnPlayed"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

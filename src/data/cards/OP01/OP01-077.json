@@ -1,0 +1,38 @@
+{
+  "id": "OP01-077",
+  "set": "OP01",
+  "number": 77,
+  "name": "Perona",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Thriller Bark Pirates"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-077.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Look at 5 cards from the top of your deck and return them to the top or bottom of the deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck and return them to the top or bottom of the deck in any order.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["top5DeckCards"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

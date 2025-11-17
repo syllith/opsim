@@ -1,0 +1,20 @@
+{
+  "id": "ST03-010",
+  "set": "ST03",
+  "number": 10,
+  "name": "Bartholomew Kuma",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Strike",
+  "types": ["The Seven Warlords of the Sea", "Revolutionary Army"],
+  "rarity": null,
+  "art": "/cards/ST03/ST03-010.png",
+  "stats": { "cost": 2, "power": 3000, "life": null, "counter": null },
+  "keywords": ["On Play"],
+  "trigger": {"text": "Play this card."},
+  "text": "On Play: Look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order.",
+  "abilities": [
+    {"timing": "On Play", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Look at top 3 cards; reorder placing any on top or bottom in any order.", "grants": [], "powerMod": null, "targets": ["top3Deck"], "conditions": []}}
+  ],
+  "meta": {"notes": null}
+}

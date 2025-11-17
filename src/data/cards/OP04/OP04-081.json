@@ -1,0 +1,53 @@
+{
+  "id": "OP04-081",
+  "set": "OP04",
+  "number": 81,
+  "name": "Cavendish",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa",
+    "Beautiful Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-081.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 This Character can attack active Characters.\nWhen Attacking: You may rest your leader: K.0, up to one of your opponent's Characters that cost 1 or less. Then, trash two cards from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may rest your leader: K.0, up to one of your opponent's Characters that cost 1 or less. Then, trash two cards from the top of your deck.",
+        "powerMod": null,
+        "targets": [
+          "leader:rested",
+          "oneOpponentCharacter<=cost1"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. Power value is 6000 as printed. Cost is 5 as printed. Attribute is 'Slash' as indicated by the icon. The card is a Character type. The text is fully captured from the card."
+  }
+}

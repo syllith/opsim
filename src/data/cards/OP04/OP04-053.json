@@ -1,0 +1,52 @@
+{
+  "id": "OP04-053",
+  "set": "OP04",
+  "number": 53,
+  "name": "Page One",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP04/OP04-053.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "DON!!",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 [Once Per Turn] When one of your events activate, draw 1 card. Then, place 1 card on bottom of your deck from your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "When one of your events activate, draw 1 card. Then, place 1 card on bottom of your deck from your hand.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is UC, confirmed by 'U' and 'C' printed together in the bottom right corner."
+  }
+}

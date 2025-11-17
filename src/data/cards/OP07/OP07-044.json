@@ -1,0 +1,48 @@
+{
+  "id": "OP07-044",
+  "set": "OP07",
+  "number": 44,
+  "name": "Mihawk",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Seven Warlords of the Sea"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-044.png",
+  "stats": {
+    "cost": 8,
+    "power": 10000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 10000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Draw 1 Card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 Card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has a '10000' counter value, which is interpreted as the power value. Rarity is 'R' as printed in the bottom right corner."
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "OP11-107",
+  "set": "OP11",
+  "number": 107,
+  "name": "Chonmage",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Sea Kings"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-107.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn If your Leader is [Shirahoshi], you may turn 1 card from the top of your Life cards face-down: At the end of your turn, set this Character as active.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Shirahoshi], you may turn 1 card from the top of your Life cards face-down: At the end of your turn, set this Character as active.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIs[Shirahoshi]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

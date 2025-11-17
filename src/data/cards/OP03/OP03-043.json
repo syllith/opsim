@@ -1,0 +1,54 @@
+{
+  "id": "OP03-043",
+  "set": "OP03",
+  "number": 43,
+  "name": "Gaimon",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-043.png",
+  "stats": {
+    "cost": 2,
+    "power": 1000,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "When you deal damage to your opponent's Life, you may trash the top 3 cards of your deck, and if you do, place this Character in the trash.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When you deal damage to your opponent's Life, you may trash the top 3 cards of your deck, and if you do, place this Character in the trash.",
+        "powerMod": null,
+        "targets": [
+          "opponent:Life"
+        ],
+        "conditions": [
+          "dealDamage"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the card's bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

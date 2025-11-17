@@ -1,0 +1,37 @@
+{
+  "id": "ST07-003",
+  "set": "ST07",
+  "number": 3,
+  "name": "Charlotte Katakuri",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Big Mom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST07/ST07-003.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Look at up to 1 Life card from the top of your or your opponent's Life Area and put it either on the top or the bottom of the Life Area. Then, if you have less Life Cards than your opponent, this Character gains Rush.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at up to 1 Life card from the top of your or your opponent's Life Area and put it either on the top or the bottom of the Life Area. Then, if you have less Life Cards than your opponent, this Character gains Rush.",
+        "grants": ["Rush"],
+        "powerMod": null,
+        "targets": ["topLifeCardSelfOrOpponent"],
+        "conditions": ["chooseTopOrBottom","ifYourLifeCount<opponentLifeCount"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

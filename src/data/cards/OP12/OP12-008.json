@@ -1,0 +1,52 @@
+{
+  "id": "OP12-008",
+  "set": "OP12",
+  "number": 8,
+  "name": "Shanks",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "The Four Emperors",
+    "Red-Haired Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-008.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Your Opponent's Attack",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "[Blocker]\n[On Your Opponent's Attack] [Once Per Turn] You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Your Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

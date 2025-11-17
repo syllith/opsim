@@ -1,0 +1,65 @@
+{
+  "id": "OP06-018",
+  "set": "OP06",
+  "number": 18,
+  "name": "Gum Gum King Kong Gatling",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-018.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "KO up to 1 of your opponent's characters with 5000 Power or less."
+  },
+  "text": "Main: Give up to 1 of your leader or characters +3000 Power. Then, if your opponent has a character with 7000 Power or more, give up to 1 of your Leaders or Characters +1000 Power for the turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your leader or characters +3000 Power. Then, if your opponent has a character with 7000 Power or more, give up to 1 of your Leaders or Characters +1000 Power for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to 1 of your opponent's characters with 5000 Power or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

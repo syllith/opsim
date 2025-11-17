@@ -1,0 +1,48 @@
+{
+  "id": "OP12-056",
+  "set": "OP12",
+  "number": 56,
+  "name": "Monkey.D.Garp",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP12/OP12-056.png",
+  "stats": {
+    "cost": 8,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 8000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash 1 card from your hand. Play up to 1 blue (Navy) Character card with a power of 8000 or less other than [Monkey.D.Garp] from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand. Play up to 1 blue (Navy) Character card with a power of 8000 or less other than [Monkey.D.Garp] from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

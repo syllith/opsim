@@ -1,0 +1,45 @@
+{
+  "id": "ST06-015",
+  "set": "ST06",
+  "number": 15,
+  "name": "Great Eruption",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST06/ST06-015.png",
+  "stats": { "cost": 1, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Main", "Trigger"],
+  "trigger": { "text": "Your opponent trashes 1 card from their hand." },
+  "text": "Main: Draw 1 card. Then, give up to 1 of your opponent's Characters -2 to their cost during this turn. Trigger: Your opponent trashes 1 card from their hand.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw 1 card. Then, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self","oneOpponentCharacter"],
+        "conditions": ["draw:1","reduceCost:-2","duration:turn"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "Your opponent trashes 1 card from their hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent"],
+        "conditions": ["trashFromHand:1"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP11-104",
+  "set": "OP11",
+  "number": 104,
+  "name": "Shyarley",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Merfolk",
+    "Fishman Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-104.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may flip the top card of your Life area face down. Look at the top 3 cards of your deck, reveal up to 1 {Fishman Island} type card and add it to your hand. Then, place the remaining cards at the top or bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may flip the top card of your Life area face down. Look at the top 3 cards of your deck, reveal up to 1 {Fishman Island} type card and add it to your hand. Then, place the remaining cards at the top or bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

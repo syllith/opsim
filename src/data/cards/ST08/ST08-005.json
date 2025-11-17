@@ -1,0 +1,50 @@
+{
+  "id": "ST08-005",
+  "set": "ST08",
+  "number": 5,
+  "name": "Shirahoshi",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Wisdom",
+  "types": ["Mermaid"],
+  "rarity": null,
+  "art": "/cards/ST08/ST08-005.png",
+  "stats": {
+    "cost": 4,
+    "power": 0,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Play: Give up to 1 of your opponent's Characters -4 cost during this turn.",
+  "abilities": [
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentDeclaredAttack"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -4 cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["reduceCost:-4", "duration:turn"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

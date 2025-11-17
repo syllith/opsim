@@ -1,0 +1,74 @@
+{
+  "id": "OP14-074",
+  "set": "OP14",
+  "number": 74,
+  "name": "Monet",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Punk Hazard",
+    "Donquixote Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-074.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the (Donquixote Pirates) type, add up to 1 DON!! card from your DON!! deck and set it as active. On K.O.: Draw 2 cards and trash 1 card from your hand. Then, add up to 2 DON!! cards from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Donquixote Pirates) type, add up to 1 DON!! card from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Donquixote Pirates"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards and trash 1 card from your hand. Then, add up to 2 DON!! cards from your DON!! deck and rest it.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 2,
+          "state": "rested",
+          "from": "DON!! deck",
+          "to": [
+            "self"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

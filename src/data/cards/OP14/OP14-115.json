@@ -1,0 +1,64 @@
+{
+  "id": "OP14-115",
+  "set": "OP14",
+  "number": 115,
+  "name": "Rindo",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Kuja Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP14/OP14-115.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your Leader has the {Kuja Pirates} type, play this card."
+  },
+  "text": "Opponent's Turn On K.O. Add up to 1 card from the top of your deck to the top of your Life cards. Then, you take 1 damage.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Opponent's Turn On K.O. Add up to 1 card from the top of your deck to the top of your Life cards. Then, you take 1 damage.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Kuja Pirates} type, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

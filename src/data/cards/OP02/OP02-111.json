@@ -1,0 +1,39 @@
+{
+  "id": "OP02-111",
+  "set": "OP02",
+  "number": 111,
+  "name": "Fullbody",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Strike",
+  "types": ["Navy"],
+  "rarity": "C",
+  "art": "/cards/OP02/OP02-111.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "[When Attacking] If you have [Django] in play, this Character gains +3000 Power during this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have [Django] in play, this Character gains +3000 Power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": ["self"],
+        "conditions": ["allyDjangoInPlay"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

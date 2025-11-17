@@ -1,0 +1,56 @@
+{
+  "id": "OP01-006",
+  "set": "OP01",
+  "number": 6,
+  "name": "Otama",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Wano Country"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-006.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": -2000,
+          "duration": "duringThisTurn"
+        },
+        "targets": [
+          "upTo1:opponent:Character"
+        ],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

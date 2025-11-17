@@ -1,0 +1,63 @@
+{
+  "id": "EB01-007",
+  "set": "EB01",
+  "number": 7,
+  "name": "Yamato",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Land of Wano"
+  ],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-007.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main [Once Per Turn] Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+        "grants": [],
+        "powerMod": null,
+        "targets": [
+          "self:Leader",
+          "ally:Character"
+        ],
+        "conditions": [],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "self",
+            "oneAllyCharacter"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

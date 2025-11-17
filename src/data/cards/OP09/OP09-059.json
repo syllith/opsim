@@ -1,0 +1,64 @@
+{
+  "id": "OP09-059",
+  "set": "OP09",
+  "number": 59,
+  "name": "Murder at the Steam Bath",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Buggy Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-059.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw a card."
+  },
+  "text": "Give up to one of your leader or characters +3000 power for this battle, then trash up to 2 cards from your hand. Then, trash the same number of cards from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one of your leader or characters +3000 power for this battle, then trash up to 2 cards from your hand. Then, trash the same number of cards from the top of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw a card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

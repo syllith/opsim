@@ -1,0 +1,55 @@
+{
+  "id": "OP11-034",
+  "set": "OP11",
+  "number": 34,
+  "name": "Hatchan",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Fish-Man",
+    "Fish-Man Island",
+    "Former Arolng Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-034.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Character: If your Leader has the (Fish-Man) or (Merfolk) type, up to 1 of your opponent's Characters with a cost of 3 or less may not be rested until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character: If your Leader has the (Fish-Man) or (Merfolk) type, up to 1 of your opponent's Characters with a cost of 3 or less may not be rested until the end of your opponent's next turn.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Fish-Man",
+          "hasType:Merfolk"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

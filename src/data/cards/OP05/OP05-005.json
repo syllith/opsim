@@ -1,0 +1,76 @@
+{
+  "id": "OP05-005",
+  "set": "OP05",
+  "number": 5,
+  "name": "Karasu",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-005.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "On Play: If your leader's type is (Revolutionary Army), Give up to 1 of your opponent's Leader or Characters -1000 power during this turn. When Attacking: If this character has 7000 power or more, Give up to 1 of your opponent's Leader or Characters -1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader's type is (Revolutionary Army), Give up to 1 of your opponent's Leader or Characters -1000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "oneOpponentLeader"
+        ],
+        "conditions": [
+          "leaderType:Revolutionary Army"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this character has 7000 power or more, Give up to 1 of your opponent's Leader or Characters -1000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "oneOpponentLeader"
+        ],
+        "conditions": [
+          "thisCharacterPower>=7000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

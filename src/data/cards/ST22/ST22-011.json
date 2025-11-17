@@ -1,0 +1,36 @@
+{
+  "id": "ST22-011",
+  "set": "ST22",
+  "number": 11,
+  "name": "Whitey Bay",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST22/ST22-011.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Your Turn", "On Play"],
+  "trigger": null,
+  "text": "Your Turn On Play You may reveal 2 cards with a type including 'Whitebeard Pirates' from your hand: Give up to 1 of your Leader with a type including 'Whitebeard Pirates' +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may reveal 2 cards with a type including 'Whitebeard Pirates' from your hand: Give up to 1 of your Leader with a type including 'Whitebeard Pirates' +2000 power during this turn.",
+        "powerMod": { "amount": 2000, "duration": "this turn" },
+        "targets": ["oneAllyLeader:WhitebeardPirates"],
+        "conditions": ["optionalTarget", "reveal2WhitebeardPiratesCardsFromHand"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

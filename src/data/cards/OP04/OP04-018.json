@@ -1,0 +1,73 @@
+{
+  "id": "OP04-018",
+  "set": "OP04",
+  "number": 18,
+  "name": "Captivating Dizziness Dance",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Alabasta Kingdom"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-018.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main If your Leader has the (Alabasta) type, give up to 2 of your opponent's Characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Alabasta) type, give up to 2 of your opponent's Characters -2000 power during this turn.",
+        "powerMod": {
+          "amount": -2000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "upTo2OpponentCharacters"
+        ],
+        "conditions": [
+          "yourLeaderHasAlabastaType"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is an Event with a cost of 3. The Main effect requires the Leader to have the (Alabasta) type. The Trigger effect activates the Main effect."
+  }
+}

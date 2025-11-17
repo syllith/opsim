@@ -1,0 +1,60 @@
+{
+  "id": "OP03-105",
+  "set": "OP03",
+  "number": 105,
+  "name": "Charlotte Oven",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-105.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "When Attacking: You may trash 1 card with Trigger from your hand. This Character gains +3000 Power during this battle."
+  },
+  "text": "DON!!x1 When Attacking: You may trash 1 card with Trigger from your hand. This Character gains +3000 Power during this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may trash 1 card with Trigger from your hand. This Character gains +3000 Power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneCardWithTriggerFromHand"
+        ],
+        "conditions": [
+          "hasTrigger"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is UC, as indicated by the 'U' and 'C' in the bottom right corner. The card is a sample, so the 'SAMPLE' watermark is present but does not affect the data extraction."
+  }
+}

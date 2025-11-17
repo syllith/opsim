@@ -1,0 +1,49 @@
+{
+  "id": "OP14-092",
+  "set": "OP14",
+  "number": 92,
+  "name": "Mr.3(Galdino)",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP14/OP14-092.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Opponent's Turn",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Opponent's Turn Once Per Turn: If this Character would be K.O'd, you may place 3 cards from your trash at the bottom of your deck in any order instead.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this Character would be K.O'd, you may place 3 cards from your trash at the bottom of your deck in any order instead.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

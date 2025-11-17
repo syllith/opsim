@@ -1,0 +1,51 @@
+{
+  "id": "OP08-088",
+  "set": "OP08",
+  "number": 88,
+  "name": "Duval",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Rosy Life Riders"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP08/OP08-088.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Give up to 1 of your Characters +1 cost until the end of your opponent's turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your Characters +1 cost until the end of your opponent's turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourCharacters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has a 'U' and 'C' in the rarity box, indicating UC rarity. Power value is clearly printed as 2000."
+  }
+}

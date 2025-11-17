@@ -1,0 +1,51 @@
+{
+  "id": "OP11-073",
+  "set": "OP11",
+  "number": 73,
+  "name": "Charlotte Linlin",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-073.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 12000
+    }
+  },
+  "keywords": [
+    "Rush",
+    "On Opponent's Attack",
+    "Once Per Turn",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "If your leader has the type {Big Mom Pirates}, this Character gains Rush. On Opponent's Attack Once Per Turn DON!! -5: You may declare a cost. Reveal 1 card from the top of your opponent's deck. If the revealed card has the same cost as the declared cost, give up to 1 of your Leaders +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": 5,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may declare a cost. Reveal 1 card from the top of your opponent's deck. If the revealed card has the same cost as the declared cost, give up to 1 of your Leaders +2000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

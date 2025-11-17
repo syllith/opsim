@@ -1,0 +1,52 @@
+{
+  "id": "OP05-006",
+  "set": "OP05",
+  "number": 6,
+  "name": "Koala",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-006.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your leader has the type <Revolutionary Army>, give up to one opponent's character Power -3000 for this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the type <Revolutionary Army>, give up to one opponent's character Power -3000 for this turn.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Revolutionary Army"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "id": "OP04-005",
+  "set": "OP04",
+  "number": 5,
+  "name": "Kung-Fu Dugong",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal",
+    "Alabasta Kingdom"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-005.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "If you have a [Kung-Fu Dugong] in play other than this Character, this Character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a [Kung-Fu Dugong] in play other than this Character, this Character gains Blocker.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "hasAnotherKungFuDugongInPlay"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "targets": [
+          "attackingCharacter"
+        ],
+        "conditions": [
+          "afterOpponentDeclaresAttack"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample image, indicated by the 'SAMPLE' watermark. The text and details are based on the visible content."
+  }
+}

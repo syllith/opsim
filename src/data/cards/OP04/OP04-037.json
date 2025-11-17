@@ -1,0 +1,80 @@
+{
+  "id": "OP04-037",
+  "set": "OP04",
+  "number": 37,
+  "name": "Flap Thread",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-037.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's rested 4 cost or lower characters."
+  },
+  "text": "#Counter If your leader is the {Donquixote Pirates} type, up to 1 of your leaders or characters gains +2000 Power this turn.\n\nTrigger K.O. up to 1 of your opponent's rested 4 cost or lower characters.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is the {Donquixote Pirates} type, up to 1 of your leaders or characters gains +2000 Power this turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneLeaderOrCharacter"
+        ],
+        "conditions": [
+          "leaderIsType:Donquixote Pirates"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested 4 cost or lower characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "conditions": [
+          "rested"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is clearly printed as 'C' in the bottom right corner."
+  }
+}

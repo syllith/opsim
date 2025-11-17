@@ -1,0 +1,68 @@
+{
+  "id": "P-058",
+  "set": "P",
+  "number": 58,
+  "name": "Where The Wind Blows",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Song",
+    "FILM"
+  ],
+  "rarity": "P",
+  "art": "/cards/P/P-058.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Set all your [FILM] type characters active."
+  },
+  "text": "Main: If your leader is Uta, at the end of your turn, set all your [FILM] type characters active. Trigger: Set all your [FILM] type characters active.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is Uta, at the end of your turn, set all your [FILM] type characters active.",
+        "powerMod": null,
+        "conditions": [
+          "your leader is Uta"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set all your [FILM] type characters active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

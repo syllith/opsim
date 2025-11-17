@@ -1,0 +1,55 @@
+{
+  "id": "OP03-066",
+  "set": "OP03",
+  "number": 66,
+  "name": "Paulie",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Water 7",
+    "Galley-La Company"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-066.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] (2) (You may rest the specified number of DON!! cards in your Cost Area): Add up to 1 DON!! card from your DON!! deck and set it as active. Then, if you have 8 or more DON!! in play, K.O. up to 1 of your opponent's Character's with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": "Once Per Turn",
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active. Then, if you have 8 or more DON!! in play, K.O. up to 1 of your opponent's Character's with a cost of 4 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "conditions": [
+          "8orMoreDONInPlay"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

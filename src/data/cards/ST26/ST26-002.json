@@ -1,0 +1,37 @@
+{
+  "id": "ST26-002",
+  "set": "ST26",
+  "number": 2,
+  "name": "Tony Tony.Chopper",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Animal", "Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST26/ST26-002.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Rest up to 1 of your opponent's DON!! cards or Characters with a cost of 1 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Rest up to 1 of your opponent's DON!! cards or Characters with a cost of 1 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Don", "opponent:Character"],
+        "conditions": ["characterCost<=1"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

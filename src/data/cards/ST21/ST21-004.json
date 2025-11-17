@@ -1,0 +1,36 @@
+{
+  "id": "ST21-004",
+  "set": "ST21",
+  "number": 4,
+  "name": "Jewelry Bonney",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["Egghead", "Bonney Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST21/ST21-004.png",
+  "stats": {
+    "cost": 1,
+    "power": 3000,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["On K.O.", "Draw"],
+  "trigger": null,
+  "text": "DON!! x2 On K.O. Draw a card.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw a card.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["donAttached"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "OP13-096",
+  "set": "OP13",
+  "number": 96,
+  "name": "The Five Elders... Are At Your Service",
+  "category": "Event",
+  "colors": [],
+  "attribute": null,
+  "types": [
+    "Five Elders",
+    "Celestial Dragons"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-096.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main Look at 3 cards from the top of your deck; reveal up to 1 {Celestial Dragons} type card other than [The Five Elders... Are At Your Service] and add it to your hand. Then, trash the rest.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 3 cards from the top of your deck; reveal up to 1 {Celestial Dragons} type card other than [The Five Elders... Are At Your Service] and add it to your hand. Then, trash the rest.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

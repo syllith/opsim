@@ -1,0 +1,76 @@
+{
+  "id": "OP03-119",
+  "set": "OP03",
+  "number": 119,
+  "name": "Buzz Cut Mochi",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP03/OP03-119.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play up to 1 Character with a cost of 4 or less with Trigger from your hand."
+  },
+  "text": "Main If you have less life than your opponent, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have less life than your opponent, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "conditions": [
+          "lessLifeThanOpponent"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 Character with a cost of 4 or less with Trigger from your hand.",
+        "grants": [
+          "Trigger"
+        ],
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=cost4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'R' in the bottom right corner. The card is an Event with a cost of 2. The text is fully legible."
+  }
+}

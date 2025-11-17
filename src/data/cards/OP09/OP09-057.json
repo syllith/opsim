@@ -1,0 +1,64 @@
+{
+  "id": "OP09-057",
+  "set": "OP09",
+  "number": 57,
+  "name": "Cross Guild",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Cross Guild"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-057.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main Effect."
+  },
+  "text": "Main Look at the top 4 cards of your deck, reveal and add to your hand up to one card with the type (Cross Guild), Then return the rest to the bottom of the deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 4 cards of your deck, reveal and add to your hand up to one card with the type (Cross Guild), Then return the rest to the bottom of the deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main Effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

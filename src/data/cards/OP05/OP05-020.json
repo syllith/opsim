@@ -1,0 +1,65 @@
+{
+  "id": "OP05-020",
+  "set": "OP05",
+  "number": 20,
+  "name": "4000 Brick Fist",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Fish-Man",
+    "Revolutionary Army"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP05/OP05-020.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Up to 1 of your Leader or Characters gains +1000 power during this turn."
+  },
+  "text": "Main: During this turn, up to 1 of your Leader or Characters gains +2000 power. Then, KO up to 1 of your opponent's characters with 2000 power or less.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "During this turn, up to 1 of your Leader or Characters gains +2000 power. Then, KO up to 1 of your opponent's characters with 2000 power or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader or Characters gains +1000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

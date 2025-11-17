@@ -1,0 +1,20 @@
+{
+  "id": "ST04-016",
+  "set": "ST04",
+  "number": 16,
+  "name": "Blast Breath",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["The Four Emperors", "Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST04/ST04-016.png",
+  "stats": { "cost": 1, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Counter", "DON!! -1"],
+  "trigger": null,
+  "text": "Counter — DON!! -1: Your Leader or 1 of your Characters gains +4000 Power during this battle.",
+  "abilities": [
+    {"timing": "Counter", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Give +4000 Power to Leader or 1 Character this battle.", "grants": ["+4000 power"], "powerMod": {"amount": 4000, "duration": "thisBattle"}, "targets": ["leader", "oneCharacter"], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

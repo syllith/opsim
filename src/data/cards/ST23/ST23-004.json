@@ -1,0 +1,40 @@
+{
+  "id": "ST23-004",
+  "set": "ST23",
+  "number": 4,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["FILM", "Supernovas", "Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST23/ST23-004.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "[Activate:Main] You may rest 1 of your DON!! cards and this Character: Give up to 1 of your opponent's Characters −1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "You may rest 1 of your DON!! cards and this Character: Give up to 1 of your opponent's Characters −1000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": -1000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["opponent:Character"],
+        "conditions": ["restThisCharacter"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

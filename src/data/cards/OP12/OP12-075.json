@@ -1,0 +1,64 @@
+{
+  "id": "OP12-075",
+  "set": "OP12",
+  "number": 75,
+  "name": "Ms. All Sunday",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP12/OP12-075.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "DON!!-1: Play this card."
+  },
+  "text": "On Play K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, your opponent may add up to 1 DON!! card from their DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, your opponent may add up to 1 DON!! card from their DON!! deck and set it as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

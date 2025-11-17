@@ -1,0 +1,35 @@
+{
+  "id": "OP03-012",
+  "set": "OP03",
+  "number": 12,
+  "name": "Marshall. D. Teach",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP03/OP03-012.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "[When Attacking] You may trash 1 red Character card with 4000 Power or more: Draw 1 card. Then, this Character gains +1000 Power during this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0, "trashRedCharacter4000Plus": true },
+      "effect": {
+        "text": "Draw 1 card. Then, this Character gains +1000 Power during this battle.",
+        "powerMod": { "amount": 1000 },
+        "targets": ["thisCharacter"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

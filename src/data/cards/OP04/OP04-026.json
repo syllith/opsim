@@ -1,0 +1,62 @@
+{
+  "id": "OP04-026",
+  "set": "OP04",
+  "number": 26,
+  "name": "Senor Pink",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-026.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking ① (You may rest the specified number of DON!! cards in your Cost Area): If your Leader has the (Donquixote Pirates) type, rest up to 1 of your opponent's Characters with a cost of 4 or less. Then, set up to 1 of your DON!! cards as active at the end of this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If your Leader has the (Donquixote Pirates) type, rest up to 1 of your opponent's Characters with a cost of 4 or less. Then, set up to 1 of your DON!! cards as active at the end of this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4",
+          "oneDonCard"
+        ],
+        "conditions": [
+          "yourLeaderHasType:Donquixote Pirates"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "costArea",
+          "to": [
+            "oneDonCard"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in a box in the bottom right. The card is marked as 'SPECIAL' in the top right, but this is not a rarity and is treated as a flavor/indicator. Power value is clearly 5000. Cost is clearly 3. The card is a Character type."
+  }
+}

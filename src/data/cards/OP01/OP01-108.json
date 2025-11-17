@@ -1,0 +1,38 @@
+{
+  "id": "OP01-108",
+  "set": "OP01",
+  "number": 108,
+  "name": "Kamazo the Manslayer",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Slash",
+  "types": ["Supernovas", "Kid Pirates", "Smile"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-108.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "On K.O.", "DON!!"],
+  "trigger": null,
+  "text": "On K.O. DON!! -1 K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=5"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

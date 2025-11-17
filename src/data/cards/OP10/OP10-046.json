@@ -1,0 +1,51 @@
+{
+  "id": "OP10-046",
+  "set": "OP10",
+  "number": 46,
+  "name": "Kyros",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-046.png",
+  "stats": {
+    "cost": 7,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 9000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Return a cost 5 or lower character to its owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return a cost 5 or lower character to its owner's hand.",
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=cost5"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

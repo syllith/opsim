@@ -1,0 +1,50 @@
+{
+  "id": "OP12-027",
+  "set": "OP12",
+  "number": 27,
+  "name": "Koushirou",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "East Blue",
+    "Frost Moon Village"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP12/OP12-027.png",
+  "stats": {
+    "cost": 2,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "If 1 of your cost 5 or lower <Slash> attribute Characters other than this Character would be K.O.'d by an opponent's effect, you may rest this Character instead.\n[Blocker]",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If 1 of your cost 5 or lower <Slash> attribute Characters other than this Character would be K.O'd by an opponent's effect, you may rest this Character instead.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

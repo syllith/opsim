@@ -1,0 +1,56 @@
+{
+  "id": "OP07-103",
+  "set": "OP07",
+  "number": 103,
+  "name": "Chopper",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Animal",
+    "Egghead",
+    "Strawhat pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-103.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "choose 1 of your chara with <egghead>, during this turn, it gains Blocker. Then add this card to your hand."
+  },
+  "text": null,
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "choose 1 of your chara with <egghead>, during this turn, it gains Blocker. Then add this card to your hand.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

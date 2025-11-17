@@ -1,0 +1,35 @@
+{
+  "id": "OP02-083",
+  "set": "OP02",
+  "number": 83,
+  "name": "Hanyabal",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Impel Down"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-083.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 purple {Impel Down} type card other than [Hanyabal] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 purple {Impel Down} type card other than [Hanyabal] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "targets": ["deck"],
+        "conditions": ["purpleColor", "typeImpelDown", "notHanyabal"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

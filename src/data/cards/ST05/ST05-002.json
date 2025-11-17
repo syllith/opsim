@@ -1,0 +1,20 @@
+{
+  "id": "ST05-002",
+  "set": "ST05",
+  "number": 2,
+  "name": "Ain",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["FILM", "Neo Navy"],
+  "rarity": null,
+  "art": "/cards/ST05/ST05-002.png",
+  "stats": { "cost": 4, "power": 5000, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Add 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {"timing": "On Play", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Add 1 DON!! from DON deck and rest it.", "grants": [], "powerMod": null, "targets": ["donDeck"], "conditions": []}}
+  ],
+  "meta": {"notes": null}
+}

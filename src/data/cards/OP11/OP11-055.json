@@ -1,0 +1,47 @@
+{
+  "id": "OP11-055",
+  "set": "OP11",
+  "number": 55,
+  "name": "Bartolomeo",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Dressrosa",
+    "Supernovas"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP11/OP11-055.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When this card is played, you may rest 1 DON!! from your cost area. If you do, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "When this card is played, you may rest 1 DON!! from your cost area. If you do, draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

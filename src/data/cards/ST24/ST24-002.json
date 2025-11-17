@@ -1,0 +1,50 @@
+{
+  "id": "ST24-002",
+  "set": "ST24",
+  "number": 2,
+  "name": "Kid & Killer",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Supernovas", "Kid Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST24/ST24-002.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "On Your Opponent's Attack"],
+  "trigger": null,
+  "text": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[On Your Opponent's Attack] You may trash this Character: Set up to 1 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "On Your Opponent's Attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash this Character: Set up to 1 of your DON!! cards as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["mayTrashThisCharacter"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "P-038",
+  "set": "P",
+  "number": 38,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Heart Pirates",
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-038.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may rest 1 of your Leaders: K.O. up to 1 of your opponent's characters that costs 1 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest 1 of your Leaders: K.O. up to 1 of your opponent's characters that costs 1 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

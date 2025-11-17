@@ -1,0 +1,35 @@
+{
+  "id": "OP03-018",
+  "set": "OP03",
+  "number": 18,
+  "name": "Fire Fist",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Whitebeard Pirates"],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-018.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": null
+  },
+  "keywords": ["Main"],
+  "trigger": "K.O. up to 1 of your opponent's Characters with 5000 Power or less.",
+  "text": "[Main] You may discard 1 Event from your hand: K.O. up to 1 of your opponent's Characters with 5000 Power or less and up to 1 of your opponent's Characters with 4000 Power or less.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0, "discardEventFromHand": true },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with 5000 Power or less and up to 1 of your opponent's Characters with 4000 Power or less.",
+        "targets": ["opponentCharacter"],
+        "conditions": ["powerLessOrEqual5000", "powerLessOrEqual4000"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

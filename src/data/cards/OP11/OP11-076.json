@@ -1,0 +1,53 @@
+{
+  "id": "OP11-076",
+  "set": "OP11",
+  "number": 76,
+  "name": "Hannyabal",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Impel Down"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-076.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the {Impel Down} type, you may play 1 {Impel Down} type Character and a cost of 3 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Impel Down} type, you may play 1 {Impel Down} type Character and a cost of 3 or less from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Impel Down"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

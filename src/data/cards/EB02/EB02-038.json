@@ -1,0 +1,37 @@
+{
+  "id": "EB02-038",
+  "set": "EB02",
+  "number": 38,
+  "name": "Magellan",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Impel Down"],
+  "rarity": "SR",
+  "art": "/cards/EB02/EB02-038.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] Play a 2 Cost or lower {Impel Down} type Character card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play a 2 Cost or lower {Impel Down} type Character card from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["hand:Character:ImpelDown:cost<=2"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

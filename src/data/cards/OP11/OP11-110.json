@@ -1,0 +1,49 @@
+{
+  "id": "OP11-110",
+  "set": "OP11",
+  "number": 110,
+  "name": "Fukaboshi",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Merfolk",
+    "Fish-Man Island"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-110.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "If this Character would be K.O.d, you may rest your [Shirahoshi] Leader or your [Fish-Man Island] instead.\nOn Play: You may add 1 card from the top or bottom of your Life cards to your hand; K.O. up to 1 of your opponent's Characters with a cost or 1 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may add 1 card from the top or bottom of your Life cards to your hand; K.O. up to 1 of your opponent's Characters with a cost or 1 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP12-012",
+  "set": "OP12",
+  "number": 12,
+  "name": "Buggy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Roger Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-012.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "On Play: Up to 1 of your (Roger Pirates) type Characters other than [Buggy] gains Blocker until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your (Roger Pirates) type Characters other than [Buggy] gains Blocker until the end of your opponent's next turn.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "targets": [
+          "oneOfYourCharacters",
+          "otherThanSelf"
+        ],
+        "conditions": [
+          "type:Roger Pirates"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

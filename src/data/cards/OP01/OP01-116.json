@@ -1,0 +1,52 @@
+{
+  "id": "OP01-116",
+  "set": "OP01",
+  "number": 116,
+  "name": "Artificial Devil Fruit Smile",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Animal Kingdom Pirates", "Smile"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-116.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main", "Trigger"],
+  "trigger": { "text": "Activate this card's Main effect." },
+  "text": "Main Look at 5 from the top of your deck; reveal up to 1 {Smile} type Character card with a cost of 3 or less and play it. Then, place the rest at the bottom of your deck in any order. Trigger Activate this card's Main effect.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 from the top of your deck; reveal up to 1 {Smile} type Character card with a cost of 3 or less and play it. Then, place the rest at the bottom of your deck in any order.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck:top5", "oneSmileCharacter<=3"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["activateMainEffect"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

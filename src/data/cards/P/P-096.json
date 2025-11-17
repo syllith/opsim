@@ -1,0 +1,70 @@
+{
+  "id": "P-096",
+  "set": "P",
+  "number": 96,
+  "name": "Young Girl",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Sabaody Archipelago"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-096.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "On Play: Draw 1 card and trash 1 card from your hand. Activate: Main Once Per Turn: Give up to 1 rested DON!! card to your [Nami].",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card and trash 1 card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 rested DON!! card to your [Nami].",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "[Nami]"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

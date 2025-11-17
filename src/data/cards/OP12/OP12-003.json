@@ -1,0 +1,48 @@
+{
+  "id": "OP12-003",
+  "set": "OP12",
+  "number": 3,
+  "name": "Crocus",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Former Roger Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-003.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On K.O. You may reveal 2 Events from your hand: Play up to 1 red Character card with 3000 power or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may reveal 2 Events from your hand: Play up to 1 red Character card with 3000 power or less from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

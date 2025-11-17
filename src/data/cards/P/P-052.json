@@ -1,0 +1,48 @@
+{
+  "id": "P-052",
+  "set": "P",
+  "number": 52,
+  "name": "Dracule Mihawk",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Seven Warlords of the Sea"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-052.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! X1"
+  ],
+  "trigger": null,
+  "text": "DON!! X1 This Character cannot be K.O'd in battle by <Slash> attribute Characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This Character cannot be K.O'd in battle by <Slash> attribute Characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but ID and stats are read from printed text."
+  }
+}

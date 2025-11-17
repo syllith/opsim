@@ -1,0 +1,70 @@
+{
+  "id": "OP04-052",
+  "set": "OP04",
+  "number": 52,
+  "name": "Black Maria",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-052.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "Activate: Main [2] (You may rest the specified number of DON!! cards in your Cost Area) and you may rest this Character: Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "You may rest this Character: Draw 1 card.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "rested"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card. The card is a sample, so the 'SAMPLE' watermark is present but does not affect the data extraction."
+  }
+}

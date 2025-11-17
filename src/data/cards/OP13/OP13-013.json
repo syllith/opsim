@@ -1,0 +1,54 @@
+{
+  "id": "OP13-013",
+  "set": "OP13",
+  "number": 13,
+  "name": "Higuma",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Mountain Bandits"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-013.png",
+  "stats": {
+    "cost": 1,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: K.O. up to 1 of your opponent's Characters with 0 power or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with 0 power or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "power<=0"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "P-099",
+  "set": "P",
+  "number": 99,
+  "name": "Monley.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Special",
+  "types": [
+    "The Four Emperors",
+    "Straw Hat Crew"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-099.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking DON!! -10: Set this Character as active.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 10,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set this Character as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Special promo card with alternate spelling of name"
+  }
+}

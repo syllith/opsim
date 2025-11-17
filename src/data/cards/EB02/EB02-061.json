@@ -1,0 +1,50 @@
+{
+  "id": "EB02-061",
+  "set": "EB02",
+  "number": 61,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Water 7", "Straw Hat Crew"],
+  "rarity": "SR",
+  "art": "/cards/EB02/EB02-061.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Rush", "When Attacking", "Once Per Turn"],
+  "trigger": null,
+  "text": "If your leader is multi-colored and your opponent has 5 or more DON!! cards on the field, this Character gains [Rush].\n[When Attacking] [Once Per Turn] You may return 2 of your active DON!! cards to your DON!! deck: Set this character as active. Then, add the top card of your life to your hand.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader is multi-colored and your opponent has 5 or more DON!! cards on the field, this Character gains [Rush].",
+        "grants": ["Rush"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["leaderIsMulticolored", "opponent5OrMoreDonOnField"]
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may return 2 of your active DON!! cards to your DON!! deck: Set this character as active. Then, add the top card of your life to your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self", "activeDon:2", "life"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,74 @@
+{
+  "id": "OP03-051",
+  "set": "OP03",
+  "number": 51,
+  "name": "Bell-Mère",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-051.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!!",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When this Character deals damage to your opponent's Life, you may trash 7 cards from the top of your deck. On K.O. You may trash 3 cards from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "When this Character deals damage to your opponent's Life, you may trash 7 cards from the top of your deck.",
+        "powerMod": null,
+        "targets": [
+          "opponent:Life"
+        ],
+        "conditions": [
+          "thisCharacter:dealsDamage"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 3 cards from the top of your deck.",
+        "powerMod": null,
+        "targets": [
+          "topOfDeck"
+        ],
+        "conditions": [
+          "thisCharacter:K.O."
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "ST09-015",
+  "set": "ST09",
+  "number": 15,
+  "name": "Thunder Bagua",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Land of Wano"],
+  "rarity": null,
+  "art": "/cards/ST09/ST09-015.png",
+  "stats": { "cost": 2, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "Draw 1 card." },
+  "text": "Counter: Up to 1 of your Leader or Characters gains +4000 Power during this battle. Then, if you have 2 or less cards in your life area, place up to 1 of your opponent's Characters with a cost of 3 or less face down at the top or bottom of their Life.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "Up to 1 of your Leader or Characters gains +4000 Power during this battle. Then, if you have 2 or less cards in your life area, place up to 1 of your opponent's Characters with a cost of 3 or less face down at the top or bottom of their Life.",
+        "grants": ["power+4000"],
+        "powerMod": 4000,
+        "targets": ["oneLeaderOrCharacter", "oneOpponentCharacter"],
+        "conditions": ["ifYourLifeArea<=2", "targetCost<=3", "chooseTopOrBottom", "faceDown"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "Draw 1 card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["draw:1"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

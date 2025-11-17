@@ -1,0 +1,52 @@
+{
+  "id": "OP09-064",
+  "set": "OP09",
+  "number": 64,
+  "name": "Killer",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Kid Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-064.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Don-1"
+  ],
+  "trigger": null,
+  "text": "On Play Don-1: Choose one leader with <Kid Pirates> type and activate it.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose one leader with <Kid Pirates> type and activate it.",
+        "powerMod": null,
+        "targets": [
+          "oneLeaderWith<Kid Pirates>"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is 'R' as printed. Power is 5000. Cost is 5. Counter is +1000. Text is 'On Play Don-1: Choose one leader with <Kid Pirates> type and activate it.'"
+  }
+}

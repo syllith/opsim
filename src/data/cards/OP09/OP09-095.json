@@ -1,0 +1,48 @@
+{
+  "id": "OP09-095",
+  "set": "OP09",
+  "number": 95,
+  "name": "Laffitte",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Blackbeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-095.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this character and one of your Don!!: Look at the top 5 cards of your deck, reveal up to one (Blackbeard Pirates) type card and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to one (Blackbeard Pirates) type card and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

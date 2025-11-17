@@ -1,0 +1,53 @@
+{
+  "id": "OP04-044",
+  "set": "OP04",
+  "number": 44,
+  "name": "Kaido",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal Kingdom Pirates",
+    "Four Emperors"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-044.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] Return up to 1 Character that costs 8 or less and up to 1 Character that costs 3 or less to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 Character that costs 8 or less and up to 1 Character that costs 3 or less to the owner's hand.",
+        "powerMod": null,
+        "targets": [
+          "upTo1Character<=cost8",
+          "upTo1Character<=cost3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is inferred from the 'C' symbol in the bottom right corner. The card is a sample, so the artwork and text are not final."
+  }
+}

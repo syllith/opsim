@@ -1,0 +1,68 @@
+{
+  "id": "OP03-095",
+  "set": "OP03",
+  "number": 95,
+  "name": "Soap Sheep",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-095.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Your opponent discards 1 card from their hand."
+  },
+  "text": "Main: Give up to 2 of your opponent's Characters -2 to their cost during this turn.\nTrigger: Your opponent discards 1 card from their hand.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 2 of your opponent's Characters -2 to their cost during this turn.",
+        "powerMod": null,
+        "targets": [
+          "upTo2OpponentCharacters"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your opponent discards 1 card from their hand.",
+        "powerMod": null,
+        "targets": [
+          "opponent"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

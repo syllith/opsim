@@ -1,0 +1,71 @@
+{
+  "id": "OP07-105",
+  "set": "OP07",
+  "number": 105,
+  "name": "Pythagoras",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Egghead",
+    "Scientist"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP07/OP07-105.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O.",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your leader is \"Vegapunk\", play this card."
+  },
+  "text": "On K.O. If you have 2 or less life, Summon a 4 cost or below character with <Egghead> from your trash, rested.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 2 or less life, Summon a 4 cost or below character with <Egghead> from your trash, rested.",
+        "powerMod": null,
+        "conditions": [
+          "self:life<=2"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is \"Vegapunk\", play this card.",
+        "powerMod": null,
+        "conditions": [
+          "leader:isVegapunk"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but rarity is confirmed as UC from printed text."
+  }
+}

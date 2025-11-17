@@ -1,0 +1,55 @@
+{
+  "id": "OP03-062",
+  "set": "OP03",
+  "number": 62,
+  "name": "Kokoro",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Mermaid",
+    "Water 7"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-062.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play Look at 5 cards from the top of your deck; reveal up to 1 {Water 7} type card other than [Kokoro] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Water 7} type card other than [Kokoro] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "Water 7"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

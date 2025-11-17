@@ -1,0 +1,44 @@
+{
+  "id": "OP13-079",
+  "set": "OP13",
+  "number": 79,
+  "name": "Imu",
+  "category": "Leader",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [],
+  "rarity": "L",
+  "art": "/cards/OP13/OP13-079.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Under the rules of this game, you cannot include Events with a cost of 2 or more in your deck. Also, at the start of the game, play up to 1 {Mary Geoise} type Stage from your deck.\nActivate:Main Once Per Turn You may trash 1 {Celestial Dragons} type Character from your field or 1 card from your hand: Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Activate:Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 {Celestial Dragons} type Character from your field or 1 card from your hand: Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

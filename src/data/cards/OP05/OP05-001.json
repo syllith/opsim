@@ -1,0 +1,46 @@
+{
+  "id": "OP05-001",
+  "set": "OP05",
+  "number": 1,
+  "name": "Sabo",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP05/OP05-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 Opponent's Turn Once Per Turn If one of your characters with 5000 Power or more were to be KO'd, you may instead give that character power -1000 for the turn.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If one of your characters with 5000 Power or more were to be KO'd, you may instead give that character power -1000 for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

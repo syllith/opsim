@@ -1,0 +1,35 @@
+{
+  "id": "OP02-106",
+  "set": "OP02",
+  "number": 106,
+  "name": "Tsuru",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Wisdom",
+  "types": ["Navy"],
+  "rarity": "UC",
+  "art": "/cards/OP02/OP02-106.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] Give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+        "targets": ["upTo1:opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

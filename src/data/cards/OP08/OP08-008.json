@@ -1,0 +1,67 @@
+{
+  "id": "OP08-008",
+  "set": "OP08",
+  "number": 8,
+  "name": "Dalton",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Drum Kingdom"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-008.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main",
+    "Once Per Turn",
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "On Play: Give up to one of your opponent's characters -1000 Power for the turn. DON!! x1 Activate: Main Once Per Turn: You may take the top card of your life and add it to your hand: This character gains Rush for the turn. (This card can attack on the turn in which it is played.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one of your opponent's characters -1000 Power for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may take the top card of your life and add it to your hand: This character gains Rush for the turn.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

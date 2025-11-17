@@ -1,0 +1,71 @@
+{
+  "id": "OP04-103",
+  "set": "OP04",
+  "number": 103,
+  "name": "Kozuki Hiyori",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Wano Country",
+    "Kozuki Family"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-103.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "[On Play] Give up to 1 of your leaders or characters with the (Wano Country) type +1000 Power for this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your leaders or characters with the (Wano Country) type +1000 Power for this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneAllyCharacter<=type:Wano Country"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card's cost is printed as a large '2' in the top-left corner. The power is 0, as indicated by the '0' in the top-right corner. The counter value is 2000, as indicated by the 'COUNTER +2000' text on the left side. The attribute 'Wisdom' is indicated by the icon in the top-right corner. The rarity 'C' is printed in the bottom-right corner."
+  }
+}

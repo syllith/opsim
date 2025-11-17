@@ -1,0 +1,73 @@
+{
+  "id": "OP4-024",
+  "set": "OP04",
+  "number": 24,
+  "name": "Sugar",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-024.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Once Per Turn",
+    "Opponent's Turn"
+  ],
+  "trigger": null,
+  "text": "Opponent's Turn [Once Per Turn] When your opponent plays a character card, if your leader is of the Donquixote Pirates, rest up to 1 of your opponent's Characters, then rest this card. On Play: Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When your opponent plays a character card, if your leader is of the Donquixote Pirates, rest up to 1 of your opponent's Characters, then rest this card.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "opponentPlaysCharacterCard",
+          "leaderIsDonquixotePirates"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in a box in the bottom right. The card ID is 'OP4-024' with 'C' as the rarity. The 'S' in the bottom right is part of the card number and not a rarity indicator."
+  }
+}

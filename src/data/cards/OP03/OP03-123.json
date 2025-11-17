@@ -1,0 +1,51 @@
+{
+  "id": "OP03-123",
+  "set": "OP03",
+  "number": 123,
+  "name": "Charlotte Katakuri",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-123.png",
+  "stats": {
+    "cost": 8,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] Put up to 1 Character with a cost of 8 or less on the top or bottom of its owner's Life Area face-up.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Put up to 1 Character with a cost of 8 or less on the top or bottom of its owner's Life Area face-up.",
+        "powerMod": null,
+        "targets": [
+          "Character<=cost8"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST13-019",
+  "set": "ST13",
+  "number": 19,
+  "name": "Three Brothers' Bond",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Goa Kingdom"],
+  "rarity": "C",
+  "art": "/cards/ST13/ST13-019.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Main"],
+  "trigger": { "text": "Activate this card's Main ability." },
+  "text": "Main Look at the top 5 cards of your deck and reveal up to one cost 5 or less [Sabo] or [Portgaz D. Ace] or [Monkey D. Luffy] then put it into your hand. Then, place the rest on the bottom of your deck in any order. Trigger Activate this card's Main ability.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck and reveal up to one cost 5 or less [Sabo] or [Portgaz D. Ace] or [Monkey D. Luffy] then put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": ["self:deckTop5", "oneAllyCharacter<=5:name=Sabo|Portgaz D. Ace|Monkey D. Luffy:reveal:hand:optional", "self:deckBottom"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Activate this card's Main ability.",
+        "powerMod": null,
+        "targets": ["self:mainEffect"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

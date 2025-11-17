@@ -1,0 +1,40 @@
+{
+  "id": "EB01-019",
+  "set": "EB01",
+  "number": 19,
+  "name": "Off White",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["The Seven Warlords", "Donquixote Pirates"],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-019.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter"],
+  "trigger": null,
+  "text": "[Counter] Give up to 1 of your Leader or Characters Power +4000 for this battle. Then, look at the top 3 cards of your deck, reveal up to 1 [Donquixote Pirates] type Character card and add it to your hand. Then, return the remaining cards to the bottom of your deck in your desired order.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your Leader or Characters Power +4000 for this battle. Then, look at the top 3 cards of your deck, reveal up to 1 [Donquixote Pirates] type Character card and add it to your hand. Then, return the remaining cards to the bottom of your deck in your desired order.",
+        "grants": [],
+        "powerMod": {
+          "amount": 4000,
+          "duration": "thisBattle"
+        },
+        "targets": ["self:Leader", "ally:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

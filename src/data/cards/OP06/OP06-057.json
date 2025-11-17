@@ -1,0 +1,65 @@
+{
+  "id": "OP06-057",
+  "set": "OP06",
+  "number": 57,
+  "name": "I could never doubt a woman's tears!!!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Dressrosa",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-057.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Put up to one cost 2 character from your hand into play."
+  },
+  "text": "Main Up to one of your leader or characters gain +1000 for this turn. Then, reveal the top card of your deck and put up to one cost 2 character into play and put the rest on the top of bottom of your deck.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to one of your leader or characters gain +1000 for this turn. Then, reveal the top card of your deck and put up to one cost 2 character into play and put the rest on the top of bottom of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Put up to one cost 2 character from your hand into play.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

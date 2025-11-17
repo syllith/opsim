@@ -1,0 +1,48 @@
+{
+  "id": "OP10-093",
+  "set": "OP10",
+  "number": 93,
+  "name": "Saint Homing",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Celestial Dragons"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-093.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may trash this character: Give up to 1 of your Black Characters Cost +3 until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this character: Give up to 1 of your Black Characters Cost +3 until the end of your opponent's next turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

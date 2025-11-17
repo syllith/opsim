@@ -1,0 +1,20 @@
+{
+  "id": "ST03-015",
+  "set": "ST03",
+  "number": 15,
+  "name": "Sables",
+  "category": "Event",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
+  "rarity": null,
+  "art": "/cards/ST03/ST03-015.png",
+  "stats": { "cost": 4, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Main"],
+  "trigger": {"text": "Activate this card's Main effect."},
+  "text": "Main: Return up to 1 Character with a cost of 7 or less to the owner's hand. Trigger: Activate this card's Main effect.",
+  "abilities": [
+    {"timing": "Main", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Return up to 1 target Character cost 7 or less to owner's hand.", "grants": [], "powerMod": null, "targets": ["oneCharacter"], "conditions": []}}
+  ],
+  "meta": {"notes": null}
+}

@@ -1,0 +1,63 @@
+{
+  "id": "OP10-072",
+  "set": "OP10",
+  "number": 72,
+  "name": "Donquixote Rosinante",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy",
+    "Donquixote Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP10/OP10-072.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash 1 event card from your hand: Draw 2 cards.\nEnd of Your Turn: If you have 7 or more Don!! cards, set up to two of them as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 event card from your hand: Draw 2 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": 7,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 7 or more Don!! cards, set up to two of them as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

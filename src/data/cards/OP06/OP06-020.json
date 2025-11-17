@@ -1,0 +1,49 @@
+{
+  "id": "OP06-020",
+  "set": "OP06",
+  "number": 20,
+  "name": "Hody Jones",
+  "category": "Leader",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fish-Man",
+    "New Fish-Man Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-020.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Leader: Rest up to 1 of your opponent's Characters that cost 3 or less, or 1 of their DON!!. Then, during this turn, you can not add life cards to your hand through your own effects.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Leader: Rest up to 1 of your opponent's Characters that cost 3 or less, or 1 of their DON!!. Then, during this turn, you can not add life cards to your hand through your own effects.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

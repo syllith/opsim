@@ -1,0 +1,48 @@
+{
+  "id": "OP08-092",
+  "set": "OP08",
+  "number": 92,
+  "name": "Page One",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-092.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Play up to 1 cost 4 or lower \"Ulti\" from your trash.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 cost 4 or lower \"Ulti\" from your trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

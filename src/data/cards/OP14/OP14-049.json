@@ -1,0 +1,69 @@
+{
+  "id": "OP14-049",
+  "set": "OP14",
+  "number": 49,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fish-Man",
+    "The Seven Warlords of the Sea",
+    "The Sun Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP14/OP14-049.png",
+  "stats": {
+    "cost": 8,
+    "power": 10000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "When a card is trashed from your hand by your effect, this Character gains Rush during this turn.\nOn Play: You may rest 2 of your DON!! cards: Draw 2 cards. Then, return up to 1 Character with a cost of 7 or less to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When a card is trashed from your hand by your effect, this Character gains Rush during this turn.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "You may rest 2 of your DON!! cards: Draw 2 cards. Then, return up to 1 Character with a cost of 7 or less to the owner's hand.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost7"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

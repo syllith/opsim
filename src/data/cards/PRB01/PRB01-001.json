@@ -1,0 +1,56 @@
+{
+  "id": "PRB01-001",
+  "set": "PRB01",
+  "number": 1,
+  "name": "Sanji",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/PRB01/PRB01-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn Up to one of your cost 8 or lower characters without an On Play effect gains Rush until the end of this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to one of your cost 8 or lower characters without an On Play effect gains Rush until the end of this turn.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "cost<=8",
+          "withoutOnPlayEffect"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

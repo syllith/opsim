@@ -1,0 +1,50 @@
+{
+  "id": "ST09-007",
+  "set": "ST09",
+  "number": 7,
+  "name": "Shinobu",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Wisdom",
+  "types": ["Land of Wano"],
+  "rarity": null,
+  "art": "/cards/ST09/ST09-007.png",
+  "stats": {
+    "cost": 3,
+    "power": 2000,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["Blocker", "On Block"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Block: You may add 1 card from the top or bottom of your Life area to your hand: This Character gains +4000 Power during this battle.",
+  "abilities": [
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentDeclaredAttack"]
+      }
+    },
+    {
+      "timing": "On Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may add 1 card from the top or bottom of your Life area to your hand: This Character gains +4000 Power during this battle.",
+        "grants": ["power+4000"],
+        "powerMod": 4000,
+        "targets": ["self", "topOrBottomLifeCard"],
+        "conditions": ["chooseTopOrBottom", "duration:battle"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

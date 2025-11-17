@@ -1,0 +1,37 @@
+{
+  "id": "ST14-002",
+  "set": "ST14",
+  "number": 2,
+  "name": "Usopp",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Ranged",
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST14/ST14-002.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking If you have a character with a cost of 8 or more, KO up to one of your opponents characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have a character with a cost of 8 or more, KO up to one of your opponents characters with a cost of 4 or less.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=4:KO"],
+        "conditions": ["donAttached", "controlCharacter>=8", "optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

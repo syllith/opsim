@@ -1,0 +1,49 @@
+{
+  "id": "OP06-086",
+  "set": "OP06",
+  "number": 86,
+  "name": "Gecko Moria",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Seven Warlords of the Sea",
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP06/OP06-086.png",
+  "stats": {
+    "cost": 8,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 9000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Choose up to one cost 4 or less and up to one cost 2 or less character card from your trash. Play one of them, then play the remaining restored.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose up to one cost 4 or less and up to one cost 2 or less character card from your trash. Play one of them, then play the remaining restored.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

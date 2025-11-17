@@ -1,0 +1,94 @@
+{
+  "id": "OP05-090",
+  "set": "OP05",
+  "number": 90,
+  "name": "Riku Doldo the Third",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-090.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play / On K.O. Select one of your character with <Dressrosa> attribute, give power +2k for the turn.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Select one of your character with <Dressrosa> attribute, give power +2k for the turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOfYourCharacters"
+        ],
+        "conditions": [
+          "<Dressrosa> attribute"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Select one of your character with <Dressrosa> attribute, give power +2k for the turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOfYourCharacters"
+        ],
+        "conditions": [
+          "<Dressrosa> attribute"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

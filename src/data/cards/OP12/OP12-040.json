@@ -1,0 +1,46 @@
+{
+  "id": "OP12-040",
+  "set": "OP12",
+  "number": 40,
+  "name": "Kuzan",
+  "category": "Leader",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP12/OP12-040.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When you trash cards from your hand due to your (Navy) card effect's, you may draw an equal number of cards that was trashed due to that effect.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When you trash cards from your hand due to your (Navy) card effect's, you may draw an equal number of cards that was trashed due to that effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "ST28-004",
+  "set": "ST28",
+  "number": 4,
+  "name": "Kouzuki Momonosuke",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Land of Wano", "Kouzuki Clan"],
+  "rarity": "SR",
+  "art": "/cards/ST28/ST28-004.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Your Turn", "Activate:Main", "Once Per Turn", "Rush"],
+  "trigger": null,
+  "text": "[Your Turn] If you have 2 or less Life cards, your Leader gains +1000 power.\n[Activate:Main] [Once Per Turn] You may return 2 total of your currently given DON!! cards to your DON!! deck: Rest up to 1 of your opponent's Characters. This Character gains [Rush] and +1000 power during this turn.\n(This card can attack on the turn in which it is played.)",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 2 or less Life cards, your Leader gains +1000 power.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "duringYourTurn"
+        },
+        "targets": ["self:Leader"],
+        "conditions": ["yourLife<=2"]
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may return 2 total of your currently given DON!! cards to your DON!! deck: Rest up to 1 of your opponent's Characters. This Character gains [Rush] and +1000 power during this turn.",
+        "grants": ["Rush"],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["opponent:Character", "self"],
+        "conditions": ["mayReturn2Don"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP07-112",
+  "set": "OP07",
+  "number": 112,
+  "name": "Lucy",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Dressrosa",
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-112.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "When Attacking (Once Per Turn) You may put the top or bottom card of your life pile into your hand. Rest up to one of your opponents cost 4 or less characters. Then, if your life total is 1 or less, place the top card of your deck onto the top of your life.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may put the top or bottom card of your life pile into your hand. Rest up to one of your opponents cost 4 or less characters. Then, if your life total is 1 or less, place the top card of your deck onto the top of your life.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

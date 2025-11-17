@@ -1,0 +1,35 @@
+{
+  "id": "OP03-015",
+  "set": "OP03",
+  "number": 15,
+  "name": "Lim",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Wisdom",
+  "types": ["ODYSSEY"],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-015.png",
+  "stats": {
+    "cost": 3,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Blocker", "On K.O."],
+  "trigger": null,
+  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Opponent's Turn] [On K.O.] When this card is K.O.ed, give -2000 power to up to 1 of your opponent's Leader or Characters.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": "Opponent's Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "When this card is K.O.ed, give -2000 power to up to 1 of your opponent's Leader or Characters.",
+        "powerMod": { "amount": -2000 },
+        "targets": ["opponentLeaderOrCharacter"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP10-027",
+  "set": "OP10",
+  "number": 27,
+  "name": "Kin'e'mon",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Punk Hazard",
+    "Wano Country",
+    "Nine Red Scabbards"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-027.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may place this character and a \"Kin'e'mon\" with 1000 power from your trash to the bottom of your deck in your any order: Play up to one \"Kin'e'mon\" with 6 cost from your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place this character and a \"Kin'e'mon\" with 1000 power from your trash to the bottom of your deck in your any order: Play up to one \"Kin'e'mon\" with 6 cost from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "P-094",
+  "set": "P",
+  "number": 94,
+  "name": "Roronoa Zoro",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "L",
+  "art": "/cards/P/P-094.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: K.O. up to 1 of your opponent's rested Characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 2 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost2"
+        ],
+        "conditions": [
+          "rested"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

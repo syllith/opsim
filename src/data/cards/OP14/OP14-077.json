@@ -1,0 +1,75 @@
+{
+  "id": "OP14-077",
+  "set": "OP14",
+  "number": 77,
+  "name": "Penta-Chromatic String",
+  "category": "Event",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea/Donquixote Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-077.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, if your opponent has a Character with 6000 power or more, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader or Character cards gains +4000 power during this battle.",
+        "powerMod": {
+          "amount": 4000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneOfYourLeaderOrCharacter"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Then, if your opponent has a Character with 6000 power or more, add up to 1 DON!! card from your DON!! deck and rest it.",
+        "powerMod": null,
+        "conditions": [
+          "opponentHasCharacter>=6000"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "DON!! deck",
+          "to": [
+            "oneOpponentCharacter"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

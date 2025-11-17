@@ -1,0 +1,66 @@
+{
+  "id": "OP07-020",
+  "set": "OP07",
+  "number": 20,
+  "name": "Aladdin",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Merfolk",
+    "Sun Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP07/OP07-020.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. If your leader has the <Fishman> type, summon a 3 cost or lower <Fishman> or <Merfolk> type character card from your hand.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the <Fishman> type, summon a 3 cost or lower <Fishman> or <Merfolk> type character card from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has the <Fishman> type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

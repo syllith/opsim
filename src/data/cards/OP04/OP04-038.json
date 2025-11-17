@@ -1,0 +1,78 @@
+{
+  "id": "OP04-038",
+  "set": "OP04",
+  "number": 38,
+  "name": "Weaklings Can't Choose the Way They Die",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Counter",
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-038.png",
+  "stats": {
+    "cost": 5,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Set up to 5 of your DON!! as active."
+  },
+  "text": "Main / Counter Rest up to 1 of your opponent's leaders or characters, then, K.O. up to 1 of your opponent's rested 6 cost or lower characters.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's leaders or characters, then, K.O. up to 1 of your opponent's rested 6 cost or lower characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentLeader",
+          "oneOpponentCharacter",
+          "oneOpponentCharacter<=cost6"
+        ],
+        "conditions": [
+          "rested"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to 5 of your DON!! as active.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 5,
+          "state": "active",
+          "from": "costArea",
+          "to": []
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample. The '5' in the top-left corner is a large number, likely indicating the cost. The text '5' is also visible in the top-left corner, which is likely the cost. The 'C' in the bottom right corner indicates the rarity."
+  }
+}

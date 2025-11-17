@@ -1,0 +1,50 @@
+{
+  "id": "OP08-104",
+  "set": "OP08",
+  "number": 104,
+  "name": "Charlotte Poire",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-104.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may trash 1 card from your hand: Play this card. Then, draw 1 card."
+  },
+  "text": null,
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Play this card. Then, draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image; no text beyond trigger is readable."
+  }
+}

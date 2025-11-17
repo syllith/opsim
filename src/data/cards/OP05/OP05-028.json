@@ -1,0 +1,48 @@
+{
+  "id": "OP05-028",
+  "set": "OP05",
+  "number": 28,
+  "name": "Donquixote Doflamingo",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-028.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may place this character in your trash: KO up to 1 of your opponent's rested characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place this character in your trash: KO up to 1 of your opponent's rested characters with a cost of 2 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP09-053",
+  "set": "OP09",
+  "number": 53,
+  "name": "Mohji",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Cross Guild"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-053.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 5 cards of your deck and reveal up to one (Richie) and put it into your hand, then place the rest of the cards on the bottom of your deck in any order and play up to one (Richie) from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck and reveal up to one (Richie) and put it into your hand, then place the rest of the cards on the bottom of your deck in any order and play up to one (Richie) from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

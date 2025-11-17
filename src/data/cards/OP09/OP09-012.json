@@ -1,0 +1,47 @@
+{
+  "id": "OP09-012",
+  "set": "OP09",
+  "number": 12,
+  "name": "Monster",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal",
+    "Red Hair Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-012.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If your character \"Bonk Punch\" would be KO'd by an effect, you may instead send this character to the trash.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your character \"Bonk Punch\" would be KO'd by an effect, you may instead send this character to the trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

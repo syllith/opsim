@@ -1,0 +1,76 @@
+{
+  "id": "OP04-116",
+  "set": "OP04",
+  "number": 116,
+  "name": "Diable Jambe: Joue Shoot",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-116.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "#Counter Up to 1 of your leaders or characters gains +6000 Power for this battle. Then, if you and your opponent's total life is 4 or less, K.O. up to 1 opponent's character of 2 cost or lower.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your leaders or characters gains +6000 Power for this battle.",
+        "powerMod": {
+          "amount": 6000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneAllyCharacter"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Then, if you and your opponent's total life is 4 or less, K.O. up to 1 opponent's character of 2 cost or lower.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost2"
+        ],
+        "conditions": [
+          "totalLife<=4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP08-107",
+  "set": "OP08",
+  "number": 107,
+  "name": "Nitro",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Big Mom Pirates",
+    "Homies"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP08/OP08-107.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this character. Give up to one of your [Charlotte Pudding] +2000 power for the turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character. Give up to one of your [Charlotte Pudding] +2000 power for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

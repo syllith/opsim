@@ -1,0 +1,54 @@
+{
+  "id": "OP04-105",
+  "set": "OP04",
+  "number": 105,
+  "name": "Charlotte Amande",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-105.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": 2000,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "From your hand: Rest up to 1 of your opponent's Characters with a cost of 2 or less."
+  },
+  "text": "Activate: Main [Once Per Turn] You may trash 1 card with a Trigger from your hand: Rest up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card with a Trigger from your hand: Rest up to 1 of your opponent's Characters with a cost of 2 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost2"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

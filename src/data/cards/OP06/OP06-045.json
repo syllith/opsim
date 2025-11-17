@@ -1,0 +1,48 @@
+{
+  "id": "OP06-045",
+  "set": "OP06",
+  "number": 45,
+  "name": "Kuzan",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP06/OP06-045.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Draw 2 cards, then place 2 cards from your hand at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards, then place 2 cards from your hand at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'SPECIAL' in the image, but these are not part of the card's official printed data. The rarity is 'SP' as printed in the bottom right corner."
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "OP12-105",
+  "set": "OP12",
+  "number": 105,
+  "name": "Trafalgar Lami",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Flevance"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-105.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Your Turn"
+  ],
+  "trigger": null,
+  "text": "On Play Your Turn: Up to 1 of your [Trafalgar Law] cards gains +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your [Trafalgar Law] cards gains +2000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourCharacters"
+        ],
+        "conditions": [
+          "[Trafalgar Law]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "OP11-037",
+  "set": "OP11",
+  "number": 37,
+  "name": "The Ancient Weapon \"Poseidon\"",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Fishman Island"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP11/OP11-037.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "Main: Look at the top 4 cards of your deck. Reveal up to 1 (Sea King) or (Fishman Island) type Character card and add it to your hand, then place the remaining cards at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 4 cards of your deck. Reveal up to 1 (Sea King) or (Fishman Island) type Character card and add it to your hand, then place the remaining cards at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

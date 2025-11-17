@@ -1,0 +1,73 @@
+{
+  "id": "OP11-036",
+  "set": "OP11",
+  "number": 36,
+  "name": "Gum-Gum Elephant Gatling",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Fish-Man Island",
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-036.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main: You may rest 1 of your DON!! cards: Rest up to 1 of your opponent's Characters with a cost of 5 or less. \nCounter: Up to 1 of your Leader cards gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may rest 1 of your DON!! cards: Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost5"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader cards gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "OP06-100",
+  "set": "OP06",
+  "number": 100,
+  "name": "Inuarashi",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Minks",
+    "Land of Wano",
+    "The Akazaya Nine"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-100.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x2",
+    "When Attacking",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your opponent has 3 life cards or less, play this card."
+  },
+  "text": "DON!! x2 When Attacking: You may discard 1 card from your hand: K.O. up to one of your opponent's characters with a cost equal to or less than the number of your opponent's current life cards.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard 1 card from your hand: K.O. up to one of your opponent's characters with a cost equal to or less than the number of your opponent's current life cards.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "cost <= opponent's current life cards"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent has 3 life cards or less, play this card.",
+        "powerMod": null,
+        "conditions": [
+          "opponent has 3 life cards or less"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is marked as a sample. Rarity is UC (Uncommon) as printed. Power is 5000. Life is not printed. Counter is +1000."
+  }
+}

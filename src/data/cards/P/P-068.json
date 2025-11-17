@@ -1,0 +1,49 @@
+{
+  "id": "P-068",
+  "set": "P",
+  "number": 68,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family",
+    "Germa Kingdom"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-068.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may place this card in your trash: Look at the top 5 cards of your deck, then place them at the top or bottom of your deck in your preferred order.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place this card in your trash: Look at the top 5 cards of your deck, then place them at the top or bottom of your deck in your preferred order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but this is not a game error; it's a placeholder for the card image."
+  }
+}

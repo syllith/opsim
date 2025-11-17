@@ -1,0 +1,75 @@
+{
+  "id": "OP12-059",
+  "set": "OP12",
+  "number": 59,
+  "name": "Concasser",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island",
+    "Straw Hat Crew"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP12/OP12-059.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main: If your Leader is [Sanji], draw 1 card. \nCounter: If you have 4 or more Event cards in your trash, up to 1 of your Leader gains +4000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Sanji], draw 1 card.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIs[Sanji]"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 4 or more Event cards in your trash, up to 1 of your Leader gains +4000 power during this battle.",
+        "powerMod": {
+          "amount": 4000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "upTo1OfYourLeader"
+        ],
+        "conditions": [
+          "youHave4OrMoreEventCardsInYourTrash"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP05-095",
+  "set": "OP05",
+  "number": 95,
+  "name": "Dragon Claw",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Dressrosa",
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-095.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, if you have 15 or more cards in your trash, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, if you have 15 or more cards in your trash, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is marked as a SAMPLE, but the printed ID, set, number, and rarity are used as per the system prompt. The Counter value is 4000 as printed."
+  }
+}

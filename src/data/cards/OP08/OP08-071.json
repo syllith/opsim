@@ -1,0 +1,53 @@
+{
+  "id": "OP08-071",
+  "set": "OP08",
+  "number": 71,
+  "name": "Count Niwatori",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-071.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main",
+    "When Attacking",
+    "Blocker",
+    "Rush",
+    "Trigger"
+  ],
+  "trigger": null,
+  "text": "Opponent's Turn On K.O. DON!! -1: Play up to 1 [Baron Tamago] with a cost of 4 or less from your deck, then shuffle your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Opponent's Turn On K.O. DON!! -1: Play up to 1 [Baron Tamago] with a cost of 4 or less from your deck, then shuffle your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has a 'SAMPLE' watermark, which is not part of the official card data."
+  }
+}

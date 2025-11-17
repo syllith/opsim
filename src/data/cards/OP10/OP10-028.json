@@ -1,0 +1,50 @@
+{
+  "id": "OP10-028",
+  "set": "OP10",
+  "number": 28,
+  "name": "Kozuki Momonosuke",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Punk Hazard",
+    "Land of Wano",
+    "Kozuki Clan"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-028.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest two of your Don!! and place this character into your trash: Look at the top 5 cards of your deck. Reveal up to two \"The Akazaya 9\" type cards and put them into your hand. Then bottom the rest in any order.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck. Reveal up to two \"The Akazaya 9\" type cards and put them into your hand. Then bottom the rest in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "ST21-014",
+  "set": "ST21",
+  "number": 14,
+  "name": "Monkey D. Luffy",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Four Emperors", "Straw Hat Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST21/ST21-014.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Rush", "When Attacking"],
+  "trigger": null,
+  "text": "Rush (This card can attack on the turn in which it is played.) When Attacking Give your leader or up to 1 of your characters 1 rested Don!! card.",
+  "abilities": [
+    {
+      "timing": "Rush",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This card can attack on the turn in which it is played.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["playedThisTurn"]
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give your leader or up to 1 of your characters 1 rested Don!! card.",
+        "powerMod": null,
+        "targets": ["oneAllyLeader", "oneAllyCharacter"],
+        "conditions": ["optionalTarget"]
+      },
+      "giveDon": { "amount": 1, "state": "rested", "to": "oneAllyLeaderOrCharacter" }
+    }
+  ],
+  "meta": { "notes": null }
+}

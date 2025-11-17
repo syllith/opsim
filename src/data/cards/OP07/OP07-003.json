@@ -1,0 +1,48 @@
+{
+  "id": "OP07-003",
+  "set": "OP07",
+  "number": 3,
+  "name": "Outlook III",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Goa Kingdom"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-003.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may place this card in the trash: Give up to two of your opponents characters -2000 power for the turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place this card in the trash: Give up to two of your opponents characters -2000 power for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has a watermark, but all printed data is legible."
+  }
+}

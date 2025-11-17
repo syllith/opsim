@@ -1,0 +1,48 @@
+{
+  "id": "OP12-043",
+  "set": "OP12",
+  "number": 43,
+  "name": "Kuzan",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-043.png",
+  "stats": {
+    "cost": 6,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "If you have 5 or more cards in your hand, this Character gains +1 cost.\nOn Play You may trash 1 card from your hand: Up to 1 of your opponent's Characters cannot attack until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Up to 1 of your opponent's Characters cannot attack until the end of your opponent's next turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

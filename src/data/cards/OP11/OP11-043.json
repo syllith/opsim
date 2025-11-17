@@ -1,0 +1,60 @@
+{
+  "id": "OP11-043",
+  "set": "OP11",
+  "number": 43,
+  "name": "Vinsmoke Ichiji",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family",
+    "GERMA 66"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-043.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Opponent's Attack",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "On Opponent's Attack Once Per Turn If you only have Characters that have a type that includes \"GERMA\" in play, you may activate this effect. Up to one of you Leaders or Characters gains +1000 power during this battle. Then, trash 2 cards from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "On Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you only have Characters that have a type that includes \"GERMA\" in play, you may activate this effect. Up to one of you Leaders or Characters gains +1000 power during this battle. Then, trash 2 cards from the top of your deck.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "upToOneOfYourLeadersOrCharacters"
+        ],
+        "conditions": [
+          "onlyHaveCharactersWithTypeIncludingGERMAInPlay"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

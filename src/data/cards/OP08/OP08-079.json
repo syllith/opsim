@@ -1,0 +1,50 @@
+{
+  "id": "OP08-079",
+  "set": "OP08",
+  "number": 79,
+  "name": "Kaido",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Former Rocks Pirate",
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-079.png",
+  "stats": {
+    "cost": 9,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 9000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may discard one card from your hand: if this character was played this turn, place up to 1 of your opponent's 7 cost or lower characters in the trash. Then, your opponent discards 1 card from their hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard one card from your hand: if this character was played this turn, place up to 1 of your opponent's 7 cost or lower characters in the trash. Then, your opponent discards 1 card from their hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

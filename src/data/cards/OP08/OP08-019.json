@@ -1,0 +1,64 @@
+{
+  "id": "OP08-019",
+  "set": "OP08",
+  "number": 19,
+  "name": "Baku Baku Shock",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Drum Kingdom"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-019.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "KO up to 1 of your opponent's characters with 5000 Power or less."
+  },
+  "text": "Main / Counter Give up to 1 of your opponent's characters Power -3000 for the turn. Then, give up to 1 of your characters power +3000 for the turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's characters Power -3000 for the turn. Then, give up to 1 of your characters power +3000 for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to 1 of your opponent's characters with 5000 Power or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

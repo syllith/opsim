@@ -1,0 +1,37 @@
+{
+  "id": "OP02-070",
+  "set": "OP02",
+  "number": 70,
+  "name": "New Kama Land",
+  "category": "Stage",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Impel Down"],
+  "rarity": "C",
+  "art": "/cards/OP02/OP02-070.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "Activate: Main: You may rest this Stage: If your Leader is [Emporio Ivankov], draw 1 card and trash 1 card from your hand. Then, trash up to 3 cards from your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this Stage: If your Leader is [Emporio Ivankov], draw 1 card and trash 1 card from your hand. Then, trash up to 3 cards from your hand.",
+        "grants": ["draw", "trash"],
+        "powerMod": null,
+        "targets": ["Player"],
+        "conditions": ["Leader is Emporio Ivankov"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP04-009",
+  "set": "OP04",
+  "number": 9,
+  "name": "Super Spot-Billed Duck Squad",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal",
+    "Alabasta Kingdom"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-009.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: Give up to 1 of your active leaders -5000 during this turn. Return this card to your hand at the end of your turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your active leaders -5000 during this turn. Return this card to your hand at the end of your turn.",
+        "powerMod": null,
+        "targets": [
+          "oneActiveLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
+  }
+}

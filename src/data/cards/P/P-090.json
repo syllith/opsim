@@ -1,0 +1,50 @@
+{
+  "id": "P-090",
+  "set": "P",
+  "number": 90,
+  "name": "Charlotte Smoothie",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-090.png",
+  "stats": {
+    "cost": 7,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O.",
+    "Opponent's Turn",
+    "DON!!:1"
+  ],
+  "trigger": null,
+  "text": "On K.O. Opponent's Turn DON!!:1: Play up to 1 (Big Mom Pirates) type Character card from your hand other than [Charlotte Smoothie] with a cost less than or equal to your opponent's DON!! cards on their field.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 (Big Mom Pirates) type Character card from your hand other than [Charlotte Smoothie] with a cost less than or equal to your opponent's DON!! cards on their field.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

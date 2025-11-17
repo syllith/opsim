@@ -1,0 +1,37 @@
+{
+  "id": "ST08-015",
+  "set": "ST08",
+  "number": 15,
+  "name": "Mr. 2 Bon Clay (Bentham)",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Former Baroque Works"],
+  "rarity": null,
+  "art": "/cards/ST08/ST08-015.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+     "counter": null
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 — At the end of the battle in which this Character battles an opponent's Character, you may K.O. your opponent's Character that battled. If you do, K.O. this Character.",
+  "abilities": [
+    {
+      "timing": "Continuous",
+      "frequency": null,
+      "donReq": 1,
+      "cost": null,
+      "effect": {
+        "text": "At the end of the battle in which this Character battles an opponent's Character, you may K.O. your opponent's Character that battled. If you do, K.O. this Character.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponentBattledCharacter", "self"],
+        "conditions": ["atEndOfBattle", "ifKOOpponentThenKOSelf"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

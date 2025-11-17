@@ -1,0 +1,52 @@
+{
+  "id": "OP01-088",
+  "set": "OP01",
+  "number": 88,
+  "name": "Desert Spada",
+  "category": "Event",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-088.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "Draw 2 cards and trash 1 card from your hand." },
+  "text": "Counter: Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order.\nTrigger: Draw 2 cards and trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order.",
+        "grants": [],
+        "powerMod": { "amount": 2000, "duration": "this battle" },
+        "targets": ["ally:Leader", "oneAllyCharacter", "top3DeckCards"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw 2 cards and trash 1 card from your hand.",
+        "grants": ["Draw 2 Cards", "Trash 1 Card"],
+        "powerMod": null,
+        "targets": ["player"],
+        "conditions": ["trashHandCard"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

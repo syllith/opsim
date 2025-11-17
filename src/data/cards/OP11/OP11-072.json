@@ -1,0 +1,49 @@
+{
+  "id": "OP11-072",
+  "set": "OP11",
+  "number": 72,
+  "name": "Charlotte Montdor",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP11/OP11-072.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn DON!!-1, then rest this Character: Your opponent places 2 cards from their trash to the bottom of their deck in any order. Then, add the top card of your Life cards to your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Your opponent places 2 cards from their trash to the bottom of their deck in any order. Then, add the top card of your Life cards to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

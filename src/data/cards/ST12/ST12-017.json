@@ -1,0 +1,50 @@
+{
+  "id": "ST12-017",
+  "set": "ST12",
+  "number": 17,
+  "name": "Parrage Shot",
+  "category": "Event",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST12/ST12-017.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Counter"],
+  "trigger": null,
+  "text": "Counter Give up to 1 of your Leaders or Characters +2000 power for this battle. Then, reveal the top card of your deck, play up to one cost 2 character. Then, place the remaining cards at the top or bottom of your deck.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your Leaders or Characters +2000 power for this battle.",
+        "powerMod": { "amount": 2000, "duration": "this battle" },
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Reveal the top card of your deck, play up to one cost 2 character. Then, place the remaining cards at the top or bottom of your deck.",
+        "powerMod": null,
+        "targets": ["self:deckTop", "oneAllyCharacter=2:play", "self:deckTopOrBottom"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

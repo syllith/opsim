@@ -1,0 +1,48 @@
+{
+  "id": "OP11-066",
+  "set": "OP11",
+  "number": 66,
+  "name": "Charlotte Oven",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-066.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Character: Declare a cost of your choice and reveal the top card of your opponent's deck. If the revealed card has the same cost as the declared cost, KO up to 1 of your opponent's Characters with an original cost of 3 or less. Then, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character: Declare a cost of your choice and reveal the top card of your opponent's deck. If the revealed card has the same cost as the declared cost, KO up to 1 of your opponent's Characters with an original cost of 3 or less. Then, add up to 1 DON!! card from your DON!! deck and rest it.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

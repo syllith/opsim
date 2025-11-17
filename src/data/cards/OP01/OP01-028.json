@@ -1,0 +1,42 @@
+{
+  "id": "OP01-028",
+  "set": "OP01",
+  "number": 28,
+  "name": "Green Star: Rafflesia",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-028.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter"],
+  "trigger": {
+    "text": "Activate this card's [Counter] effect."
+  },
+  "text": "[Counter] Give up to 1 of your opponent's Leader or Characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Leader or Characters -2000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": -2000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["upTo1:opponent:Leader", "upTo1:opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

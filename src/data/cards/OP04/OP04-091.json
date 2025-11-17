@@ -1,0 +1,55 @@
+{
+  "id": "OP04-091",
+  "set": "OP04",
+  "number": 91,
+  "name": "Leo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Tontatta",
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-091.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may rest 1 of your Leader. If your Leader has the {Dressrosa} type, KO up to 1 of your opponents Cost 1 or lower Characters. Then, trash 2 cards from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may rest 1 of your Leader. If your Leader has the {Dressrosa} type, KO up to 1 of your opponents Cost 1 or lower Characters. Then, trash 2 cards from the top of your deck.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost1"
+        ],
+        "conditions": [
+          "leaderHasType:Dressrosa"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

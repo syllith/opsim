@@ -1,0 +1,53 @@
+{
+  "id": "OP14-050",
+  "set": "OP14",
+  "number": 50,
+  "name": "Chew",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Fish-Man",
+    "The Sun Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-050.png",
+  "stats": {
+    "cost": 1,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the (Fish-Man) type, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Fish-Man) type, draw 1 card.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Fish-Man"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

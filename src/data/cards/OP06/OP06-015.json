@@ -1,0 +1,50 @@
+{
+  "id": "OP06-015",
+  "set": "OP06",
+  "number": 15,
+  "name": "Lily Carnation",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "Omatsuri Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-015.png",
+  "stats": {
+    "cost": 4,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may trash one of your characters with 6000 power or more. Play up to 1 [FILM] type character card with a power between 2000 to 5000 from your trash, rested.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash one of your characters with 6000 power or more. Play up to 1 [FILM] type character card with a power between 2000 to 5000 from your trash, rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

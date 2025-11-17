@@ -1,0 +1,49 @@
+{
+  "id": "OP05-048",
+  "set": "OP05",
+  "number": 48,
+  "name": "Bastille",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP05/OP05-048.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking: Place up to 1 Character with a cost of 2 or less to the bottom of the owner's deck.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to 1 Character with a cost of 2 or less to the bottom of the owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

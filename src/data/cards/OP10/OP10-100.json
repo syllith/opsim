@@ -1,0 +1,75 @@
+{
+  "id": "OP10-100",
+  "set": "OP10",
+  "number": 100,
+  "name": "Inazuma",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-100.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!!",
+    "When Attacking",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your leader has the \"Revolutionary Army\" type, and the total of your and your opponent's Life cards is less than 5, play this card."
+  },
+  "text": "DON!! x1 When Attacking: Rest up to 1 of your opponent's Characters with a cost equal to or less than the total of your and your opponent's Life cards.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Characters with a cost equal to or less than the total of your and your opponent's Life cards.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "cost <= (yourLife + opponentLife)"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the \"Revolutionary Army\" type, and the total of your and your opponent's Life cards is less than 5, play this card.",
+        "powerMod": null,
+        "conditions": [
+          "leader.type == \"Revolutionary Army\"",
+          "yourLife + opponentLife < 5"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

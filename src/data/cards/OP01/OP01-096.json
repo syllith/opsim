@@ -1,0 +1,38 @@
+{
+  "id": "OP01-096",
+  "set": "OP01",
+  "number": 96,
+  "name": "King",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": "SR",
+  "art": "/cards/OP01/OP01-096.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck): K.O. up to 1 of your opponent's Characters with a cost of 3 or less and up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 2 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less and up to 1 of your opponent's Characters with a cost of 2 or less.",
+        "grants": ["KO Opponent Character"],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=3", "oneOpponentCharacter<=2"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

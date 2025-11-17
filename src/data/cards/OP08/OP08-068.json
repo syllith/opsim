@@ -1,0 +1,64 @@
+{
+  "id": "OP08-068",
+  "set": "OP08",
+  "number": 68,
+  "name": "Charlotte Perospero",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-068.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On K.O.",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Don!! -1: (You may return the specified number of DON!! cards from your field to your DON!! deck); Play this card."
+  },
+  "text": "On K.O.: Set up to one Don!! from your Don!! deck as rested.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to one Don!! from your Don!! deck as rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Don!! -1: (You may return the specified number of DON!! cards from your field to your DON!! deck); Play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark. Rarity is 'R' as printed. Attribute is 'Strike' as indicated by the icon. Power is 5000 as printed. Life is not printed, so set to null. Trigger text is fully legible."
+  }
+}

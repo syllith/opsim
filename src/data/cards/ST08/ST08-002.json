@@ -1,0 +1,50 @@
+{
+  "id": "ST08-002",
+  "set": "ST08",
+  "number": 2,
+  "name": "Uta",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["FILM"],
+  "rarity": null,
+  "art": "/cards/ST08/ST08-002.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "This character cannot be K.O.'d by battling against a Leader. Activate: Main: You may rest this card: Give up to 1 of your opponent's character cost -2 during this turn.",
+  "abilities": [
+    {
+      "timing": "Continuous",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "This character cannot be K.O.'d by battling against a Leader.",
+        "grants": ["cannotBeKOdByLeader"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's character cost -2 during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["reduceCost:-2", "duration:turn", "restSelf"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

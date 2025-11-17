@@ -1,0 +1,50 @@
+{
+  "id": "ST10-013",
+  "set": "ST10",
+  "number": 13,
+  "name": "Eustass\"Captain\"Kid",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Kid Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST10/ST10-013.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "When Attacking", "DON!! -1"],
+  "trigger": null,
+  "text": "On Play / When Attacking — DON!! -1: Up to 1 of your Leader gains +1000 power until the start of your next turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +1000 power until the start of your next turn.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "untilStartOfYourNextTurn" },
+        "targets": ["ally:Leader"],
+        "conditions": ["optionalTarget"]
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +1000 power until the start of your next turn.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "untilStartOfYourNextTurn" },
+        "targets": ["ally:Leader"],
+        "conditions": ["optionalTarget"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

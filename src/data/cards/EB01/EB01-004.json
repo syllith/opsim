@@ -1,0 +1,40 @@
+{
+  "id": "EB01-004",
+  "set": "EB01",
+  "number": 4,
+  "name": "Koza",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Alabasta Kingdom"],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-004.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "[When Attacking] You may give 1 of your active Leaders -5000 Power: Give up to 1 of your opponent's characters power -3000 for this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may give 1 of your active Leaders -5000 Power: Give up to 1 of your opponent's characters power -3000 for this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": -3000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["opponent:Character"],
+        "conditions": ["mayGiveActiveLeader-5000Power"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

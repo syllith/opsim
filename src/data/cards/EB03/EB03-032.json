@@ -1,0 +1,40 @@
+{
+  "id": "EB03-032",
+  "set": "EB03",
+  "number": 32,
+  "name": "Charlotte Flampe",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Ranged",
+  "types": ["Big Mom Pirates"],
+  "rarity": "C",
+  "art": "/cards/EB03/EB03-032.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Your Turn", "On Play"],
+  "trigger": null,
+  "text": "[Your Turn] [On Play] Up to 1 of your [Charlotte Katakuri] cards gains +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to 1 of your [Charlotte Katakuri] cards gains +2000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["upTo1:ally:CharlotteKatakuri"],
+        "conditions": ["yourTurn", "onPlay"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

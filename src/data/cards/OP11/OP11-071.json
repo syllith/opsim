@@ -1,0 +1,49 @@
+{
+  "id": "OP11-071",
+  "set": "OP11",
+  "number": 71,
+  "name": "Charlotte Perospero",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-071.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may trash 1 card from your hand: Declare a cost of your choice and reveal 1 card from the top of your opponent's deck. If the revealed cost is the same as the declared cost, draw 1 card and add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Declare a cost of your choice and reveal 1 card from the top of your opponent's deck. If the revealed cost is the same as the declared cost, draw 1 card and add up to 1 DON!! card from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

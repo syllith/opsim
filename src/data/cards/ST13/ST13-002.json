@@ -1,0 +1,50 @@
+{
+  "id": "ST13-002",
+  "set": "ST13",
+  "number": 2,
+  "name": "Portgas D. Ace",
+  "category": "Leader",
+  "colors": ["Blue", "Black"],
+  "attribute": "Special",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "L",
+  "art": "/cards/ST13/ST13-002.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x2 Activate: Main Once Per Turn Look at the top 5 cards of your deck. Add up to 1 5 cost character card to the top of your life face up. Then, place the remaining cards at the bottom of your deck in any order. At the end of your turn Send all face up cards in your life to the trash.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck. Add up to 1 5 cost character card to the top of your life face up. Then, place the remaining cards at the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": ["self:deckTop5", "oneAllyCharacter=5:lifeTop:faceUp", "self:deckBottom"],
+        "conditions": ["donAttached", "optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Send all face up cards in your life to the trash.",
+        "powerMod": null,
+        "targets": ["self:lifeFaceUp:trashAll"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

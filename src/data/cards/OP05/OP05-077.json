@@ -1,0 +1,61 @@
+{
+  "id": "OP05-077",
+  "set": "OP05",
+  "number": 77,
+  "name": "Gamma Knife",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Heart Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-077.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Add up to 1 DON!! from your deck as active."
+  },
+  "text": "Main DON!!-1 Give up to one of your opponent's characters Power -5000.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Give up to one of your opponent's characters Power -5000.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 DON!! from your deck as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

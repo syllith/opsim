@@ -1,0 +1,52 @@
+{
+  "id": "OP13-017",
+  "set": "OP13",
+  "number": 17,
+  "name": "Monkey.D.Dragon",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-017.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Once Per Turn: If your (Revolutionary Army) type Character would be removed from the field by your opponent's effects, you may give this Character -2000 power during this turn instead.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your (Revolutionary Army) type Character would be removed from the field by your opponent's effects, you may give this Character -2000 power during this turn instead.",
+        "powerMod": null,
+        "conditions": [
+          "your (Revolutionary Army) type Character",
+          "would be removed from the field by your opponent's effects"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

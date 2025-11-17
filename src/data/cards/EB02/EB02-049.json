@@ -1,0 +1,56 @@
+{
+  "id": "EB02-049",
+  "set": "EB02",
+  "number": 49,
+  "name": "Garp",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Strike",
+  "types": ["Navy"],
+  "rarity": "UC",
+  "art": "/cards/EB02/EB02-049.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "Activate: Main"],
+  "trigger": null,
+  "text": "[On Play] Give your Leader up to 2 rested DON!! cards.\n[Activate: Main] You may rest this character: If your leader is {Monkey D. Garp}, K.O up to one of your opponent's cost 1 or lower characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give your Leader up to 2 rested DON!! cards.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Leader"],
+        "conditions": [],
+        "giveDon": {
+          "quantity": 2,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self:Leader"]
+        }
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this character: If your leader is {Monkey D. Garp}, K.O up to one of your opponent's cost 1 or lower characters.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:opponent:Character:cost<=1"],
+        "conditions": ["restSelf", "leaderIsMonkeyDGarp"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

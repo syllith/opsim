@@ -1,0 +1,65 @@
+{
+  "id": "OP09-020",
+  "set": "OP09",
+  "number": 20,
+  "name": "Come on!! We'll fight you!!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "The Four Emperors",
+    "Red Hair Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-020.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw one card."
+  },
+  "text": "Activate: Main You may look at the top 5 cards of your deck, reveal and add one card with the type [Red Hair Pirates] that is not \"Come on!! We'll fight you!!\" to your hand. Then place the rest at the bottom of the deck in the order. Trigger Draw one card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may look at the top 5 cards of your deck, reveal and add one card with the type [Red Hair Pirates] that is not \"Come on!! We'll fight you!!\" to your hand. Then place the rest at the bottom of the deck in the order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw one card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

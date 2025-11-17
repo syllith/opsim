@@ -1,0 +1,51 @@
+{
+  "id": "OP05-010",
+  "set": "OP05",
+  "number": 10,
+  "name": "Nico Robin",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP05/OP05-010.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: K.O. up to 1 of your opponent's characters with 1000 power or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's characters with 1000 power or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=power1000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

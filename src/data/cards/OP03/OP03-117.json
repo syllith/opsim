@@ -1,0 +1,58 @@
+{
+  "id": "OP03-117",
+  "set": "OP03",
+  "number": 117,
+  "name": "Napoleon",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Big Mom Pirates",
+    "Homies"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-117.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "Activate: Main\nYou may rest this Character: Up to 1 of your [Charlotte Linlin] gains +1000 Power until the start of your next turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character: Up to 1 of your [Charlotte Linlin] gains +1000 Power until the start of your next turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

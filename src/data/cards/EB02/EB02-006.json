@@ -1,0 +1,43 @@
+{
+  "id": "EB02-006",
+  "set": "EB02",
+  "number": 6,
+  "name": "Yamato",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Land of Wano"],
+  "rarity": "R",
+  "art": "/cards/EB02/EB02-006.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Activate: Main", "Once Per Turn", "Rush"],
+  "trigger": null,
+  "text": "[Activate: Main] [Once Per Turn] If your Leader has the {Land of Wano} type or is [Portgas D. Ace], give up to 1 rested DON!! card to your Leader. Then, this Character gains [Rush] during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Land of Wano} type or is [Portgas D. Ace], give up to 1 rested DON!! card to your Leader. Then, this Character gains [Rush] during this turn.",
+        "grants": ["Rush"],
+        "powerMod": null,
+        "targets": ["self:Leader", "self"],
+        "conditions": ["leaderHasLandOfWanoOrIsPortgasDAce"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self:Leader"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

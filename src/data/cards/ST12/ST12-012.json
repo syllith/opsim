@@ -1,0 +1,37 @@
+{
+  "id": "ST12-012",
+  "set": "ST12",
+  "number": 12,
+  "name": "Charlotte Pudding",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Wisdom",
+  "types": ["Big Mom Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST12/ST12-012.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "Activate: Main Return this character to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Return this character to the owner's hand.",
+        "powerMod": null,
+        "targets": ["self:hand"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

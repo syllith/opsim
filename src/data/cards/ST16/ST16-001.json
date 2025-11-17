@@ -1,0 +1,48 @@
+{
+  "id": "ST16-001",
+  "set": "ST16",
+  "number": 1,
+  "name": "Uta",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Special",
+  "types": ["FILM"],
+  "rarity": "SR",
+  "art": "/cards/ST16/ST16-001.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Blocker", "Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) Activate: Main Once Per Turn: You may trash 1 {Film} type card from your hand: Give your leader or up to one of your characters up to 1 rested Don!!.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["blocker"]
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 {Film} type card from your hand: Give your leader or up to one of your characters up to 1 rested Don!!.",
+        "powerMod": null,
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["trashCard:type=Film", "giveDon:rested:1"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

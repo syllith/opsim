@@ -1,0 +1,52 @@
+{
+  "id": "OP10-029",
+  "set": "OP10",
+  "number": 29,
+  "name": "Dracule Mihawk",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "ODDSYSEY",
+    "Seven Warlords of the Sea"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-029.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have 2 or more rested characters, set up to one of your cost 5 or lower rested {ODDSYSEY} type characters as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 2 or more rested characters, set up to one of your cost 5 or lower rested {ODDSYSEY} type characters as active.",
+        "powerMod": null,
+        "conditions": [
+          "have 2 or more rested characters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is 'R' as printed. Power is 6000. Life is not printed. Counter is +1000."
+  }
+}

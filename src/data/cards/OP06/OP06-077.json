@@ -1,0 +1,65 @@
+{
+  "id": "OP06-077",
+  "set": "OP06",
+  "number": 77,
+  "name": "Black Bug",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Vinsmoke Family",
+    "Germa 66"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-077.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Place one of your opponent's cost 4 or less character's on the bottom of its owner's deck."
+  },
+  "text": "Main: If the number of Don!! on your Don!! field is equal to or less than your opponent's Don!! place up to one of your opponent's cost 5 or less characters on the bottom of its owner's deck. Trigger: Place one of your opponent's cost 4 or less character's on the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If the number of Don!! on your Don!! field is equal to or less than your opponent's Don!! place up to one of your opponent's cost 5 or less characters on the bottom of its owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place one of your opponent's cost 4 or less character's on the bottom of its owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but this is not a real card. The ID, set, number, rarity, and stats are based on the printed information."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "OP01-057",
+  "set": "OP01",
+  "number": 57,
+  "name": "Paradise Waterfall",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Wano Country", "Kozuki Family"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-057.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter"],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less."
+  },
+  "text": "[Counter] Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, set up to 1 of your Characters as active.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, set up to 1 of your Characters as active.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "duringThisBattle"
+        },
+        "targets": ["self:Leader", "upTo1:ally:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

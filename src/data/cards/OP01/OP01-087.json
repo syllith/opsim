@@ -1,0 +1,52 @@
+{
+  "id": "OP01-087",
+  "set": "OP01",
+  "number": 87,
+  "name": "Officer Agents",
+  "category": "Event",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Baroque Works"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-087.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": { "text": "Activate this card's Counter effect." },
+  "text": "Counter: Play up to 1 {Baroque Works} type Character card with a cost of 3 or less from your hand.\nTrigger: Activate this card's Counter effect.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play up to 1 {Baroque Works} type Character card with a cost of 3 or less from your hand.",
+        "grants": ["Play Character"],
+        "powerMod": null,
+        "targets": ["oneBaroqueWorksCharacterFromHand<=3"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Activate this card's Counter effect.",
+        "grants": ["Activate Counter"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

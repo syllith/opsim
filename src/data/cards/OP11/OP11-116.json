@@ -1,0 +1,65 @@
+{
+  "id": "OP11-116",
+  "set": "OP11",
+  "number": 116,
+  "name": "Merman Combat Ultramarine",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Merfolk",
+    "Fishmen Island"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-116.png",
+  "stats": {
+    "cost": 6,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Add up to 1 of your opponent's Characters with a cost of 4 or less to either the top or bottom of their Life area face up."
+  },
+  "text": "Main: Add up to 1 Character with a cost of 6 or less face up to the top or the bottom of owner's Life area. Trigger: Add up to 1 of your opponent's Characters with a cost of 4 or less to either the top or bottom of their Life area face up.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 Character with a cost of 6 or less face up to the top or the bottom of owner's Life area.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 of your opponent's Characters with a cost of 4 or less to either the top or bottom of their Life area face up.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

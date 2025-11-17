@@ -1,0 +1,54 @@
+{
+  "id": "OP04-032",
+  "set": "OP04",
+  "number": 32,
+  "name": "Baby 5",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP04/OP04-032.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": 2000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "End of Your Turn: You may trash this character: Set up to 2 of your DON!! as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this character: Set up to 2 of your DON!! as active.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "endOfYourTurn"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is UC, indicated by 'U' and 'C' together in the rarity box. The card is a sample, as indicated by the watermark."
+  }
+}

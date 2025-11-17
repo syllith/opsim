@@ -1,0 +1,38 @@
+{
+  "id": "OP02-016",
+  "set": "OP02",
+  "number": 16,
+  "name": "Magra",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Mountain Bandit"],
+  "rarity": "C",
+  "art": "/cards/OP02/OP02-016.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "On Play"],
+  "trigger": null,
+  "text": "On Play Up to 1 of your Red Characters with a cost of 1 gains +3000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to 1 of your Red Characters with a cost of 1 gains +3000 Power during this turn.",
+        "grants": [],
+        "powerMod": { "amount": 3000, "duration": "this turn" },
+        "targets": ["oneRedCharacter<=1"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "ST03-001",
+  "set": "ST03",
+  "number": 1,
+  "name": "Crocodile",
+  "category": "Leader",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
+  "rarity": null,
+  "art": "/cards/ST03/ST03-001.png",
+  "stats": { "cost": null, "power": 5000, "life": 5, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "(Placeholder) DON!! -4: Return up to 1 Character with cost <=5 to owner's hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {"restDonFromCostArea": 0},
+      "effect": {"text": "Return up to 1 Character with cost 5 or less to owner's hand.", "grants": [], "powerMod": null, "targets": ["oneCharacter"], "conditions": []}
+    }
+  ],
+  "meta": {"notes": null}
+}

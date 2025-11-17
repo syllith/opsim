@@ -1,0 +1,65 @@
+{
+  "id": "OP05-096",
+  "set": "OP05",
+  "number": 96,
+  "name": "I bid 500 million!!",
+  "category": "Event",
+  "colors": [],
+  "attribute": null,
+  "types": [
+    "Celestial Dragon"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-096.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's cost 6 or lower Characters, or return it to it's owners hand"
+  },
+  "text": "Main K.O. up to 1 of your opponent's cost 1 or lower Characters, or return it to it's owners hand or place it at the top or bottom of it's owner's life. Then, if you have a (Celestial Dragon) type character, draw 1 card. Trigger K.O. up to 1 of your opponent's cost 6 or lower Characters, or return it to it's owners hand",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's cost 1 or lower Characters, or return it to it's owners hand or place it at the top or bottom of it's owner's life. Then, if you have a (Celestial Dragon) type character, draw 1 card.",
+        "powerMod": null,
+        "conditions": [
+          "have a (Celestial Dragon) type character"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's cost 6 or lower Characters, or return it to it's owners hand",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

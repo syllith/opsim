@@ -1,0 +1,40 @@
+{
+  "id": "OP01-027",
+  "set": "OP01",
+  "number": 27,
+  "name": "Round Table",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Supernovas", "Beautiful Pirates"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-027.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main"],
+  "trigger": null,
+  "text": "[Main] Give up to 1 of your opponent's Characters -10000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -10000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": -10000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["upTo1:opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

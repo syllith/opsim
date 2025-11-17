@@ -1,0 +1,66 @@
+{
+  "id": "OP06-023",
+  "set": "OP06",
+  "number": 23,
+  "name": "Arlong",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Fishman",
+    "East Blue",
+    "Arlong Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-023.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Rest up to 1 of your opponent's cost 4 or lower characters."
+  },
+  "text": "On Play: You may discard 1 card from your hand: up to 1 of your opponent's rested leaders may not attack until the end of their next turn. Trigger: Rest up to 1 of your opponent's cost 4 or lower characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard 1 card from your hand: up to 1 of your opponent's rested leaders may not attack until the end of their next turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's cost 4 or lower characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

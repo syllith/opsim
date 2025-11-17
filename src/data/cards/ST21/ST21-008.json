@@ -1,0 +1,36 @@
+{
+  "id": "ST21-008",
+  "set": "ST21",
+  "number": 8,
+  "name": "Tony Tony.Chopper",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Wisdom",
+  "types": ["Animal", "Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST21/ST21-008.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter"],
+  "trigger": null,
+  "text": "Counter +1000",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Counter +1000",
+        "powerMod": { "amount": 1000, "duration": "this battle" },
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

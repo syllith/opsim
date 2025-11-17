@@ -1,0 +1,57 @@
+{
+  "id": "EB01-021",
+  "set": "EB01",
+  "number": 21,
+  "name": "Hannyabal",
+  "category": "Leader",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Impel Down"
+  ],
+  "rarity": "L",
+  "art": "/cards/EB01/EB01-021.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "At the end of your turn"
+  ],
+  "trigger": null,
+  "text": "[At the end of your turn] You may return one of your cost 2 or greater {Impel Down} characters to your hand: Set up to one Don!! card from your Don!! deck as active.",
+  "abilities": [
+    {
+      "timing": "At the end of your turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return one of your cost 2 or greater {Impel Down} characters to your hand: Set up to one Don!! card from your Don!! deck as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": [
+          "ally:Character",
+          "don"
+        ],
+        "conditions": [
+          "characterCost>=2",
+          "characterTypeImpelDown"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": false
+}

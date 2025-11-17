@@ -1,0 +1,82 @@
+{
+  "id": "OP04-104",
+  "set": "OP04",
+  "number": 104,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP04/OP04-104.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may trash 1 card in your hand: Play this card."
+  },
+  "text": "(Blocker) (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nTrigger: You may trash 1 card in your hand: Play this card.",
+  "abilities": [
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "afterOpponentDeclaresAttack"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card in your hand: Play this card.",
+        "grants": [
+          "Play"
+        ],
+        "powerMod": null,
+        "targets": [
+          "thisCard"
+        ],
+        "conditions": [
+          "afterTrashCard"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'SR' is printed in the bottom right corner. The card number '104' is printed next to the ID."
+  }
+}

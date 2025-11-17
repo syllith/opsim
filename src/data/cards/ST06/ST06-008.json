@@ -1,0 +1,37 @@
+{
+  "id": "ST06-008",
+  "set": "ST06",
+  "number": 8,
+  "name": "Hina",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST06/ST06-008.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["reduceCost:-4","duration:turn"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

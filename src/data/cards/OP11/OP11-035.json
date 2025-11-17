@@ -1,0 +1,63 @@
+{
+  "id": "OP11-035",
+  "set": "OP11",
+  "number": 35,
+  "name": "Fisher Tiger",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fish-Man",
+    "Fish-Man Island",
+    "Sun Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-035.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "When this Character would be K.O.'d by 1 of your opponent's effects, you may trash one hand and rest one DON!! card. If you do, play up to 1 {Fish-Man} or {Merfolk} type Character with a cost of 4 or less from your hand.\nOn Play Rest up to 1 of your opponent's characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When this Character would be K.O.'d by 1 of your opponent's effects, you may trash one hand and rest one DON!! card. If you do, play up to 1 {Fish-Man} or {Merfolk} type Character with a cost of 4 or less from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

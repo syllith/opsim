@@ -1,0 +1,57 @@
+{
+  "id": "OP05-080",
+  "set": "OP05",
+  "number": 80,
+  "name": "Elizabello II",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Prodence Kingdom",
+    "Dressrosa"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-080.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "Once Per Turn",
+    "Double Attack"
+  ],
+  "trigger": null,
+  "text": "When Attacking Once Per Turn: You may return 20 cards from your trash to your deck and shuffle. During this battle, this Character gains Double Attack and +1000 power. (This card deals 2 damage.)",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return 20 cards from your trash to your deck and shuffle. During this battle, this Character gains Double Attack and +1000 power.",
+        "grants": [
+          "Double Attack"
+        ],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "EB01-035",
+  "set": "EB01",
+  "number": 35,
+  "name": "Miss Monday",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Baroque Works"],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-035.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "Trigger", "DON!! -1"],
+  "trigger": {
+    "text": "DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card."
+  },
+  "text": "[On Play] If your Leader's type includes \"Baroque Works\", give up to 1 of your Leader or Characters +1000 power during this turn.\n[Trigger] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader's type includes \"Baroque Works\", give up to 1 of your Leader or Characters +1000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "thisTurn"
+        },
+        "targets": ["self:Leader", "ally:Character"],
+        "conditions": ["leaderTypeBaroqueWorks"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

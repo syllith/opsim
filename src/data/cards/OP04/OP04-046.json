@@ -1,0 +1,54 @@
+{
+  "id": "OP04-046",
+  "set": "OP04",
+  "number": 46,
+  "name": "Queen",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-046.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play If your Leader has the (Animal Kingdom Pirates) type, look at up to 7 cards from the top of your deck, reveal up to 2 total [Plague Rounds] or [Ice Oni] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Animal Kingdom Pirates) type, look at up to 7 cards from the top of your deck, reveal up to 2 total [Plague Rounds] or [Ice Oni] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "leaderHasType:Animal Kingdom Pirates"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is marked as a sample."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST27-004",
+  "set": "ST27",
+  "number": 4,
+  "name": "Sanjuan.Wolf",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": null,
+  "types": ["Giant", "Blackbeard Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST27/ST27-004.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "If your Leader has the {Blackbeard Pirates} type, this Character gains [Blocker] and +1 cost for every 4 cards in your trash.\n(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Blackbeard Pirates} type, this Character gains [Blocker] and +1 cost for every 4 cards in your trash.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["leaderHasBlackbeardPiratesType", "trashCount"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Trash 1 card from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

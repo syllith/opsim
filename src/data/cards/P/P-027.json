@@ -1,0 +1,50 @@
+{
+  "id": "P-027",
+  "set": "P",
+  "number": 27,
+  "name": "Franky Shougun",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-027.png",
+  "stats": {
+    "cost": 2,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Opponent's Turn: All of your Characters with a printed Power of 3000 or less gain +1000 Power.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "All of your Characters with a printed Power of 3000 or less gain +1000 Power.",
+        "powerMod": null,
+        "conditions": [
+          "allCharacters",
+          "printedPower<=3000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card name is treated as [Franky] per printed text. Power value is clearly 4000. Rarity is C. No life value printed. No counter icon. No keywords or trigger box."
+  }
+}

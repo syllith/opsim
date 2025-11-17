@@ -1,0 +1,49 @@
+{
+  "id": "OP12-086",
+  "set": "OP12",
+  "number": 86,
+  "name": "Koala",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Dressrosa",
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-086.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the {Revolutionary Army} type, look at 3 cards from the top of your deck; reveal up to 1 [Nico Robin] or {Revolutionary Army} type card other than [Koala] and add it to your hand. Then, trash the rest.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Revolutionary Army} type, look at 3 cards from the top of your deck; reveal up to 1 [Nico Robin] or {Revolutionary Army} type card other than [Koala] and add it to your hand. Then, trash the rest.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

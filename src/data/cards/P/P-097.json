@@ -1,0 +1,64 @@
+{
+  "id": "P-097",
+  "set": "P",
+  "number": 97,
+  "name": "Shanks",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "The Four Emperors",
+    "Red-Haired Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-097.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 12000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "When Attacking",
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "On Play / When Attacking: Your opponent cannot activate during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your opponent cannot activate during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your opponent cannot activate during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

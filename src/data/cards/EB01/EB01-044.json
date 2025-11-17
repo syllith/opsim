@@ -1,0 +1,40 @@
+{
+  "id": "EB01-044",
+  "set": "EB01",
+  "number": 44,
+  "name": "Funkfreed",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Slash",
+  "types": ["CP9"],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-044.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "[Activate: Main] You may rest this Character: Give up to 1 of your [Spandam] Characters +3000 Power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this Character: Give up to 1 of your [Spandam] Characters +3000 Power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": 3000,
+          "duration": "thisTurn"
+        },
+        "targets": ["ally:Character"],
+        "conditions": ["characterNameSpandam"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

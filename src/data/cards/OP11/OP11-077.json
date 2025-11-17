@@ -1,0 +1,53 @@
+{
+  "id": "OP11-077",
+  "set": "OP11",
+  "number": 77,
+  "name": "Randolph",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Homies",
+    "Big Mom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-077.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Your Turn",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn Once Per Turn When a DON!! card is returned to your DON!! deck, up to 1 of your (Big Mom Pirates) type Characters gain +2 cost until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When a DON!! card is returned to your DON!! deck, up to 1 of your (Big Mom Pirates) type Characters gain +2 cost until the end of your opponent's next turn.",
+        "powerMod": null,
+        "targets": [
+          "up to 1 of your (Big Mom Pirates) type Characters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

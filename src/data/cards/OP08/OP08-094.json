@@ -1,0 +1,64 @@
+{
+  "id": "OP08-094",
+  "set": "OP08",
+  "number": 94,
+  "name": "Imperial Flame",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-094.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main / #Counter You may place 3 cards from your trash at the bottom of your deck in any order: K.Q. up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place 3 cards from your trash at the bottom of your deck in any order: K.Q. up to 1 of your opponent's Characters with a cost of 2 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but rarity and ID are read from printed text."
+  }
+}

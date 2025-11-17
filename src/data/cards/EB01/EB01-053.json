@@ -1,0 +1,39 @@
+{
+  "id": "EB01-053",
+  "set": "EB01",
+  "number": 53,
+  "name": "Gastino",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Scientist"],
+  "rarity": "UC",
+  "art": "/cards/EB01/EB01-053.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "Trigger"],
+  "trigger": {
+    "text": "Give up to 2 of your opponent's leader or characters Power -3000."
+  },
+  "text": "[On Play] Place up to 1 of your opponent's cost 3 or lower characters to the top or bottom of their life face-up.\n[Trigger] Give up to 2 of your opponent's leader or characters Power -3000.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Place up to 1 of your opponent's cost 3 or lower characters to the top or bottom of their life face-up.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": ["characterCost<=3"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "ST16-002",
+  "set": "ST16",
+  "number": 2,
+  "name": "Gordon",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Wisdom",
+  "types": ["FILM"],
+  "rarity": "C",
+  "art": "/cards/ST16/ST16-002.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "When opponent attack", "Counter"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) When opponent attack: You may trash any number of {Music} type cards from your hand: Your Leader or 1 of your Characters gains +1000 power during this battle for every card trashed.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["blocker"]
+      }
+    },
+    {
+      "timing": "When opponent attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash any number of {Music} type cards from your hand: Your Leader or 1 of your Characters gains +1000 power during this battle for every card trashed.",
+        "powerMod": { "amount": 1000, "duration": "this battle" },
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["trashCard:type=Music:variable"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

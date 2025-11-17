@@ -1,0 +1,51 @@
+{
+  "id": "OP04-051",
+  "set": "OP04",
+  "number": 51,
+  "name": "Who's Who",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-051.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play Look at the top 5 cards of your deck, reveal up to 1 {Animal Kingdom Pirates} type card other than [Who's Who] and add it to your hand. Place the remaining cards at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to 1 {Animal Kingdom Pirates} type card other than [Who's Who] and add it to your hand. Place the remaining cards at the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

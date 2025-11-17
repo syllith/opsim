@@ -1,0 +1,37 @@
+{
+  "id": "ST10-005",
+  "set": "ST10",
+  "number": 5,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Fishmen", "Straw Hat Crew"],
+  "rarity": null,
+  "art": "/cards/ST10/ST10-005.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["When Attacking", "DON!! x1"],
+  "trigger": null,
+  "text": "DON!! x1 — When Attacking: Give up to 1 of your opponent's Characters -2000 Power for this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -2000 Power for this turn.",
+        "grants": [],
+        "powerMod": { "amount": -2000, "duration": "thisTurn" },
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["donAttached"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

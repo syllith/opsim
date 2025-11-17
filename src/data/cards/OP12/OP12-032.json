@@ -1,0 +1,64 @@
+{
+  "id": "OP12-032",
+  "set": "OP12",
+  "number": 32,
+  "name": "Nekomamushi",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Minks",
+    "Land of Wano",
+    "The Akazaya Nine"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP12/OP12-032.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking: If this character attacks, you may pay 1 DON!! to make it deal 2000 more damage this turn. [Main] Pay 1 DON!! to make this character gain 2000 power until end of turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If this character attacks, you may pay 1 DON!! to make it deal 2000 more damage this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Pay 1 DON!! to make this character gain 2000 power until end of turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "until end of turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

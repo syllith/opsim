@@ -1,0 +1,53 @@
+{
+  "id": "ST23-002",
+  "set": "ST23",
+  "number": 2,
+  "name": "Shanks",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["The Four Emperors", "Red-Haired Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST23/ST23-002.png",
+  "stats": {
+    "cost": 9,
+    "power": 10000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "If your opponent has a Character with 8000 base power or more, give this card in your hand −3 cost.\n[On Play] If your Leader has the {Red-Haired Pirates} type or is [Uta], your Leader gains +2000 power until the end of your opponent's next End Phase.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your opponent has a Character with 8000 base power or more, give this card in your hand −3 cost.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentCharacterBasePower>=8000"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Red-Haired Pirates} type or is [Uta], your Leader gains +2000 power until the end of your opponent's next End Phase.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "untilEndOfOpponentsNextEndPhase"
+        },
+        "targets": ["self:Leader"],
+        "conditions": ["leaderHasRedHairedPiratesTypeOrIsUta"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

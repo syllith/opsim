@@ -1,0 +1,54 @@
+{
+  "id": "OP04-079",
+  "set": "OP04",
+  "number": 79,
+  "name": "Orlombus",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-079.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main [Once Per Turn] Reduce the cost of up to 1 of your opponent's Characters by -4 during this turn, and trash the top 2 cards of your deck. Then, K.O. 1 of your \"Dressrosa\" type Characters.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Reduce the cost of up to 1 of your opponent's Characters by -4 during this turn, and trash the top 2 cards of your deck. Then, K.O. 1 of your \"Dressrosa\" type Characters.",
+        "powerMod": null,
+        "targets": [
+          "upTo1OpponentCharacter",
+          "top2CardsOfYourDeck",
+          "oneOfYourDressrosaTypeCharacters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

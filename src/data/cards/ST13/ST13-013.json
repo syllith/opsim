@@ -1,0 +1,37 @@
+{
+  "id": "ST13-013",
+  "set": "ST13",
+  "number": 13,
+  "name": "Monkey D. Garp",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Navy"],
+  "rarity": "SR",
+  "art": "/cards/ST13/ST13-013.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play Look at the top 5 cards of your deck, reveal up to 1 [Sabo], [Portgas D. Ace] or [Monkey D. Luffy] card with a cost of 5 or less, then put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to 1 [Sabo], [Portgas D. Ace] or [Monkey D. Luffy] card with a cost of 5 or less, then put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": ["self:deckTop5", "oneAllyCharacter<=5:name=Sabo|Portgas D. Ace|Monkey D. Luffy:reveal:hand:optional", "self:deckBottom"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

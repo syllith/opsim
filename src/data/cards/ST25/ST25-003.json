@@ -1,0 +1,50 @@
+{
+  "id": "ST25-003",
+  "set": "ST25",
+  "number": 3,
+  "name": "Crocodile & Mihawk",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Cross Guild", "Former Baroque Works"],
+  "rarity": "SR",
+  "art": "/cards/ST25/ST25-003.png",
+  "stats": {
+    "cost": 8,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "Once Per Turn"],
+  "trigger": null,
+  "text": "[On Play] Draw 2 cards and trash 1 card from your hand. Then, play up to 1 {Cross Guild} type Character card with a cost of 4 or less from your hand.\n[Once Per Turn] If your {Cross Guild} type Character would be removed from the field by your opponent's effect, you may trash 1 card from your hand instead.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw 2 cards and trash 1 card from your hand. Then, play up to 1 {Cross Guild} type Character card with a cost of 4 or less from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your {Cross Guild} type Character would be removed from the field by your opponent's effect, you may trash 1 card from your hand instead.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:Character"],
+        "conditions": ["characterTypeIsCrossGuild", "removedByOpponentEffect"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

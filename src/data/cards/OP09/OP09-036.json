@@ -1,0 +1,49 @@
+{
+  "id": "OP09-036",
+  "set": "OP09",
+  "number": 36,
+  "name": "Monkey .D. Luffy",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Supernova",
+    "Straw Hat Crew"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP09/OP09-036.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have 2 or more rested characters, choose up to 1 of your opponent's cost 6 or lower characters or up to 1 of your opponent's DON!! and rest it.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 2 or more rested characters, choose up to 1 of your opponent's cost 6 or lower characters or up to 1 of your opponent's DON!! and rest it.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

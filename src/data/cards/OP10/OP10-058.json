@@ -1,0 +1,48 @@
+{
+  "id": "OP10-058",
+  "set": "OP10",
+  "number": 58,
+  "name": "Rebecca",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP10/OP10-058.png",
+  "stats": {
+    "cost": 7,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If there is a cost 8 or greater character in play, draw 1 card. Then reveal up to 2 cost 7 or lower (Dressrosa) type characters other than \"Rebecca\" from your hand. Play one of them as active, then if the other has a cost of 4 or lower play it as rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If there is a cost 8 or greater character in play, draw 1 card. Then reveal up to 2 cost 7 or lower (Dressrosa) type characters other than \"Rebecca\" from your hand. Play one of them as active, then if the other has a cost of 4 or lower play it as rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "This is a sample card with placeholder text. Actual card text may differ."
+  }
+}

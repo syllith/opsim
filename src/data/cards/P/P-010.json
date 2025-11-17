@@ -1,0 +1,49 @@
+{
+  "id": "P-010",
+  "set": "P",
+  "number": 10,
+  "name": "Kaido",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "The Four Emperors",
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-010.png",
+  "stats": {
+    "cost": 8,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 9000
+    }
+  },
+  "keywords": [
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "End of Your Turn: Add 1 DON!! card from your DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add 1 DON!! card from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

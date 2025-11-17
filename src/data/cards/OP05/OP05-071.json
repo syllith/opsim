@@ -1,0 +1,50 @@
+{
+  "id": "OP05-071",
+  "set": "OP05",
+  "number": 71,
+  "name": "Bepo",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "mink tribe",
+    "Heart pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-071.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking: If you have less DON!! cards on your field than your opponent, give up to 1 of your opponent's Characters -2000 power until the end of this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have less DON!! cards on your field than your opponent, give up to 1 of your opponent's Characters -2000 power until the end of this turn.",
+        "powerMod": null,
+        "conditions": [
+          "you have less DON!! cards on your field than your opponent"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

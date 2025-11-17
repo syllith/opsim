@@ -1,0 +1,54 @@
+{
+  "id": "OP13-106",
+  "set": "OP13",
+  "number": 106,
+  "name": "Conney",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Bonney Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP13/OP13-106.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Trigger",
+    "Blocker"
+  ],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "Opponent's Turn: This effect can be activated when you activate Trigger. This Character gains Blocker during this turn.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This effect can be activated when you activate Trigger. This Character gains Blocker during this turn.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

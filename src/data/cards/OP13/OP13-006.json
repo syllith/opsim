@@ -1,0 +1,52 @@
+{
+  "id": "OP13-006",
+  "set": "OP13",
+  "number": 6,
+  "name": "Woop Slap",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Windmill Village"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-006.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Give up to 2 rested DON!! card to 1 of your [Monkey.D.Luffy].",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "Give up to 2 rested DON!! card to 1 of your [Monkey.D.Luffy].",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourCharacters",
+          "oneOfYourCharacters=[Monkey.D.Luffy]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

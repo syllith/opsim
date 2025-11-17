@@ -1,0 +1,53 @@
+{
+  "id": "OP06-061",
+  "set": "OP06",
+  "number": 61,
+  "name": "Vinsmoke Ichiji",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family",
+    "Germa 66"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-061.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have equal to or less DON!! on your field than you opponent, give up to 1 of your opponent's Characters -2000 power for this turn, and this Character gains Rush. (This card can attack on the turn in which it is played.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have equal to or less DON!! on your field than you opponent, give up to 1 of your opponent's Characters -2000 power for this turn, and this Character gains Rush.",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

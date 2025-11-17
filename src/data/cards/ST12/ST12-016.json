@@ -1,0 +1,63 @@
+{
+  "id": "ST12-016",
+  "set": "ST12",
+  "number": 16,
+  "name": "Lion's Song",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST12/ST12-016.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["Main", "Counter"],
+  "trigger": { "text": "Activate this card's Main effect." },
+  "text": "Main / Counter Rest up to 1 of your opponent's Leaders or Cost 4 or lower characters. Trigger Activate this card's Main effect.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Leaders or Cost 4 or lower characters.",
+        "powerMod": null,
+        "targets": ["oneOpponentLeader", "oneOpponentCharacter<=4:rest"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Leaders or Cost 4 or lower characters.",
+        "powerMod": null,
+        "targets": ["oneOpponentLeader", "oneOpponentCharacter<=4:rest"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "targets": ["self:mainEffect"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

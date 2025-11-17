@@ -1,0 +1,38 @@
+{
+  "id": "OP01-094",
+  "set": "OP01",
+  "number": 94,
+  "name": "Kaido",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["The Four Emperors", "Animal Kingdom Pirates"],
+  "rarity": "SR",
+  "art": "/cards/OP01/OP01-094.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: DON!! -6 (You may return the specified number of DON!! cards from your field to your DON!! deck): If your Leader has the {Animal Kingdom Pirates} type, K.O. all Characters other than this one.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 6 },
+      "effect": {
+        "text": "If your Leader has the {Animal Kingdom Pirates} type, K.O. all Characters other than this one.",
+        "grants": ["KO All Characters Except Self"],
+        "powerMod": null,
+        "targets": ["allCharactersExceptSelf"],
+        "conditions": ["leaderHasAnimalKingdomPirates"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

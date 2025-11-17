@@ -1,0 +1,43 @@
+{
+  "id": "EB03-045",
+  "set": "EB03",
+  "number": 45,
+  "name": "Perona",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Special",
+  "types": ["Muggy Kingdom", "Thriller Bark Pirates"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-045.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker]\n[On Play] Give up to 1 rested DON!! card to your Leader or 1 of your Characters. Then, if you have 10 or more cards in your trash, play up to 1 {Thriller Bark Pirates} type Character card with a cost of 2 or less from your trash rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 rested DON!! card to your Leader or 1 of your Characters. Then, if you have 10 or more cards in your trash, play up to 1 {Thriller Bark Pirates} type Character card with a cost of 2 or less from your trash rested.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Leader", "ally:oneCharacter", "trash:Character:ThrillerBarkPirates:cost<=2"],
+        "conditions": ["10orMoreCardsInTrash"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self:Leader", "oneAllyCharacter"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

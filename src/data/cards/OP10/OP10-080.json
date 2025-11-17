@@ -1,0 +1,50 @@
+{
+  "id": "OP10-080",
+  "set": "OP10",
+  "number": 80,
+  "name": "Little Black Bears",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-080.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Add up to one active don from your don deck."
+  },
+  "text": "Up to one of your characters or leaders gain +4000 for this battle. Then, if you have 7 or more don on your field, and you have 5 or less cards in hand, draw one card.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to one of your characters or leaders gain +4000 for this battle. Then, if you have 7 or more don on your field, and you have 5 or less cards in hand, draw one card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

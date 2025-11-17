@@ -1,0 +1,52 @@
+{
+  "id": "OP04-092",
+  "set": "OP04",
+  "number": 92,
+  "name": "Rebecca",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-092.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play Look at the top 3 cards of your deck, reveal 1 (Dressrosa) type card other than [Rebecca] and add it to your hand. Then trash the remaining cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 3 cards of your deck, reveal 1 (Dressrosa) type card other than [Rebecca] and add it to your hand. Then trash the remaining cards.",
+        "powerMod": null,
+        "targets": [
+          "top3CardsOfDeck",
+          "oneDressrosaCardOtherThanRebecca"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "id": "OP11-086",
+  "set": "OP11",
+  "number": 86,
+  "name": "Coribou",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Caribou Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-086.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "On Play: Trash 1 card from your hand.\nActivate: Main: You may trash this Character: Play up to 1 [Caribou] with a cost of 4 or less from your trash.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Trash 1 card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this Character: Play up to 1 [Caribou] with a cost of 4 or less from your trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

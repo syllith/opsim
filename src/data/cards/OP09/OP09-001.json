@@ -1,0 +1,47 @@
+{
+  "id": "OP09-001",
+  "set": "OP09",
+  "number": 1,
+  "name": "Shanks",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "The Four Emperors",
+    "Red Hair Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Once Per Turn: You may activate this effect when your opponent attacks. Give up to 1 of your opponent's leader or characters Power -1000 for the turn.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may activate this effect when your opponent attacks. Give up to 1 of your opponent's leader or characters Power -1000 for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

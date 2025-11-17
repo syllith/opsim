@@ -1,0 +1,37 @@
+{
+  "id": "ST02-009",
+  "set": "ST02",
+  "number": 9,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Supernovas", "Heart Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST02/ST02-009.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "On Play: Set up to 1 of your {Supernovas} or {Heart Pirates} type rested Characters with a cost of 5 or less as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Set up to 1 of your {Supernovas} or {Heart Pirates} type rested Characters with a cost of 5 or less as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:restedCharacterType(Supernovas|Heart Pirates):cost<=5"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

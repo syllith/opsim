@@ -1,0 +1,71 @@
+{
+  "id": "OP14-096",
+  "set": "OP14",
+  "number": 96,
+  "name": "Ground Death",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea/Baroque Works"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-096.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main You may rest 2 of your DON!! cards: Negate the effect of up to 1 of your opponent's Characters with a cost of 5 or less during this turn. \nCounter If you have 10 or more cards in your trash, up to 1 of your Leader or Character cards gains +4000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "Negate the effect of up to 1 of your opponent's Characters with a cost of 5 or less during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 10 or more cards in your trash, up to 1 of your Leader or Character cards gains +4000 power during this battle.",
+        "powerMod": {
+          "amount": 4000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "up to 1 of your Leader or Character cards"
+        ],
+        "conditions": [
+          "you have 10 or more cards in your trash"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

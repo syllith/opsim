@@ -1,0 +1,65 @@
+{
+  "id": "OP06-038",
+  "set": "OP06",
+  "number": 38,
+  "name": "Billion-fold World Trichiliocosm",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew",
+    "Dressrosa"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-038.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "KO up to one of your opponent's rested characters with a cost of 3 or less."
+  },
+  "text": "Up to 1 of your Leader or Characters gains +2000 power during this battle. Then, if you have 8 or more rested cards, that card gains an additional +2000 power.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader or Characters gains +2000 power during this battle. Then, if you have 8 or more rested cards, that card gains an additional +2000 power.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to one of your opponent's rested characters with a cost of 3 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

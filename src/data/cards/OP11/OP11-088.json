@@ -1,0 +1,68 @@
+{
+  "id": "OP11-088",
+  "set": "OP11",
+  "number": 88,
+  "name": "Shu",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP11/OP11-088.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOnce Per Turn: When your opponent's Character attacks, you may activate this effect. If that Character has the <Slash> attribute, this Character gains +5000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When your opponent's Character attacks, you may activate this effect. If that Character has the <Slash> attribute, this Character gains +5000 power during this battle.",
+        "powerMod": {
+          "amount": 5000,
+          "duration": "this battle"
+        },
+        "conditions": [
+          "that Character has the <Slash> attribute"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

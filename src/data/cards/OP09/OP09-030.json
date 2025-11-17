@@ -1,0 +1,50 @@
+{
+  "id": "OP09-030",
+  "set": "OP09",
+  "number": 30,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "ODYSSEY",
+    "Supernova",
+    "Heart Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-030.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may return one of your characters to your hand: Play up to one cost 3 or lower <<Odyssey>> type character other than [Trafalgar Law] from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return one of your characters to your hand: Play up to one cost 3 or lower <<Odyssey>> type character other than [Trafalgar Law] from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

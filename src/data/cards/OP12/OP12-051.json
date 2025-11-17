@@ -1,0 +1,49 @@
+{
+  "id": "OP12-051",
+  "set": "OP12",
+  "number": 51,
+  "name": "Hina",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP12/OP12-051.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Character and trash 1 card from your hand: Up to 1 of your opponent's Characters with an original cost of 4 or less cannot activate Blocker during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character and trash 1 card from your hand: Up to 1 of your opponent's Characters with an original cost of 4 or less cannot activate Blocker during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP10-033",
+  "set": "OP10",
+  "number": 33,
+  "name": "Nami",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "ODYSSEY",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP10/OP10-033.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have two or more rested {ODYSSEY} type Characters, up to one of your opponent's rested Don!! will not become active during your opponent's next Refresh Phase.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have two or more rested {ODYSSEY} type Characters, up to one of your opponent's rested Don!! will not become active during your opponent's next Refresh Phase.",
+        "powerMod": null,
+        "conditions": [
+          "two or more rested {ODYSSEY} type Characters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'US' as printed on the card. The card has a 'SAMPLE' watermark, which is not part of the official card data."
+  }
+}

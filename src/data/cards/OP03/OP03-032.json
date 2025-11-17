@@ -1,0 +1,49 @@
+{
+  "id": "OP03-032",
+  "set": "OP03",
+  "number": 32,
+  "name": "Buggy",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "East Blue",
+    "Buggy Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-032.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "This character cannot be K.O'd in battle with (Slash) attribute cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This character cannot be K.O'd in battle with (Slash) attribute cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is indicated by 'C' in the bottom right corner. The card is a sample, so the artwork and text are for demonstration only."
+  }
+}

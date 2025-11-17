@@ -1,0 +1,49 @@
+{
+  "id": "OP05-003",
+  "set": "OP05",
+  "number": 3,
+  "name": "Inazuma",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP05/OP05-003.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If a character you control other than this character has a power of 7000 or more, this character gains Rush. (This card can attack on the turn in which it is played.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If a character you control other than this character has a power of 7000 or more, this character gains Rush. (This card can attack on the turn in which it is played.)",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

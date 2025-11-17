@@ -1,0 +1,50 @@
+{
+  "id": "OP07-045",
+  "set": "OP07",
+  "number": 45,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fishman",
+    "Seven Warlords",
+    "Sun Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-045.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Play up to 1 Cost 4 or lower <Seven Warlords of the Sea> type character card other than \"Jinbe\" from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 Cost 4 or lower <Seven Warlords of the Sea> type character card other than \"Jinbe\" from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

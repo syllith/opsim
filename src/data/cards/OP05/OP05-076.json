@@ -1,0 +1,62 @@
+{
+  "id": "OP05-076",
+  "set": "OP05",
+  "number": 76,
+  "name": "When you're at sea you fight pirates!!!",
+  "category": "Event",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-076.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect"
+  },
+  "text": "Main Look at the top 3 cards of your deck, reveal up to 1 <Straw Hat Crew>, <Kid Pirates> or <Heart Pirates> type card and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 3 cards of your deck, reveal up to 1 <Straw Hat Crew>, <Kid Pirates> or <Heart Pirates> type card and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

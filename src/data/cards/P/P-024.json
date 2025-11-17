@@ -1,0 +1,65 @@
+{
+  "id": "P-024",
+  "set": "P",
+  "number": 24,
+  "name": "I Will Become The Pirate King!!!",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-024.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Your Leader or up to 1 of your Characters gains +1000 power during this turn."
+  },
+  "text": "Main: Your Leader gains +1000 power during this turn for each of your Characters.\nTrigger: Your Leader or up to 1 of your Characters gains +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your Leader gains +1000 power during this turn for each of your Characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +1000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

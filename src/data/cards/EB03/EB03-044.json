@@ -1,0 +1,50 @@
+{
+  "id": "EB03-044",
+  "set": "EB03",
+  "number": 44,
+  "name": "Black Maria",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Special",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-044.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "If your Leader is multicolored, this Character gains [Blocker].\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 [Onigashima Island] and add it to your hand. Then, place the rest at the bottom of your deck in any order and play up to 1 [Onigashima Island] from your hand.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader is multicolored, this Character gains [Blocker].",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["leaderIsMulticolored"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 [Onigashima Island] and add it to your hand. Then, place the rest at the bottom of your deck in any order and play up to 1 [Onigashima Island] from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck", "hand:OnigashimaIsland"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

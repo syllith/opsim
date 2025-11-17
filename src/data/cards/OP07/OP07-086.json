@@ -1,0 +1,48 @@
+{
+  "id": "OP07-086",
+  "set": "OP07",
+  "number": 86,
+  "name": "Spandam",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "CPO"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-086.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Place the top 2 cards of your deck into your trash, and give up to one of your opponents characters -2 cost for this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place the top 2 cards of your deck into your trash, and give up to one of your opponents characters -2 cost for this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

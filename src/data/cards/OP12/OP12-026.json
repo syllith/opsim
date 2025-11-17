@@ -1,0 +1,54 @@
+{
+  "id": "OP12-026",
+  "set": "OP12",
+  "number": 26,
+  "name": "Kuina",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "East Blue",
+    "Frost Moon Village"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP12/OP12-026.png",
+  "stats": {
+    "cost": 4,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "[Activate: Main] You may rest this Character: Rest up to 1 of your opponent's Characters with an original cost of 4 or less. Then, attach up to 3 rested DON!! cards to 1 of your [Roronoa Zoro] Leaders.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character: Rest up to 1 of your opponent's Characters with an original cost of 4 or less. Then, attach up to 3 rested DON!! cards to 1 of your [Roronoa Zoro] Leaders.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4",
+          "oneOfYour[Roronoa Zoro]Leaders"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

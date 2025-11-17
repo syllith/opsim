@@ -1,0 +1,35 @@
+{
+  "id": "OP03-003",
+  "set": "OP03",
+  "number": 3,
+  "name": "Izou",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Ranged",
+  "types": ["Land of Wano", "Whitebeard Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP03/OP03-003.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] Look at 5 cards from the top of your deck, reveal up to 1 card with {Whitebeard Pirates} in its types other than [Izou] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck, reveal up to 1 card with {Whitebeard Pirates} in its types other than [Izou] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "targets": ["deck"],
+        "conditions": ["typeWhitebeardPirates", "notIzou"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

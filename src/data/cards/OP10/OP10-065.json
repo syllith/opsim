@@ -1,0 +1,48 @@
+{
+  "id": "OP10-065",
+  "set": "OP10",
+  "number": 65,
+  "name": "Sugar",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-065.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest 1 of your DON!! and this character: Look at the top 5 cards of your deck, reveal up to 1 card with the (Donquixote Pirates) type and add it to your hand. Place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to 1 card with the (Donquixote Pirates) type and add it to your hand. Place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

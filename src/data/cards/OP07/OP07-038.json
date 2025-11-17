@@ -1,0 +1,47 @@
+{
+  "id": "OP07-038",
+  "set": "OP07",
+  "number": 38,
+  "name": "Boa Hancock",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Seven Warlords of the Sea",
+    "Kuja Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP07/OP07-038.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "During Your Turn Once Per Turn You may activate this when a character leaves play from one of your abilities. If you have 5 or less cards in hand, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "During Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may activate this when a character leaves play from one of your abilities. If you have 5 or less cards in hand, draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

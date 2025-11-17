@@ -1,0 +1,49 @@
+{
+  "id": "OP09-042",
+  "set": "OP09",
+  "number": 42,
+  "name": "Buggy",
+  "category": "Leader",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "The Four Emperors",
+    "Cross Guild"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-042.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest 5 DON!! and discard 1 card from your hand: Play up to 1 character with the \"Cross Guild\" type from your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 5
+      },
+      "effect": {
+        "text": "You may rest 5 DON!! and discard 1 card from your hand: Play up to 1 character with the \"Cross Guild\" type from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

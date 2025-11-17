@@ -1,0 +1,52 @@
+{
+  "id": "OP08-041",
+  "set": "OP08",
+  "number": 41,
+  "name": "Aphelandra",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Amazon Lily"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-041.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may return this Character to the owner's hand: If your Leader has the (Amazon Lily) type, place up to 1 Character with a cost of 1 or less at the bottom of the owner's deck.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return this Character to the owner's hand: If your Leader has the (Amazon Lily) type, place up to 1 Character with a cost of 1 or less at the bottom of the owner's deck.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Amazon Lily"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but this is not a game error. The card ID, set, number, and other fields are read from the printed text."
+  }
+}

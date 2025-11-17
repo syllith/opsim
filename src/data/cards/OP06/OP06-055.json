@@ -1,0 +1,48 @@
+{
+  "id": "OP06-055",
+  "set": "OP06",
+  "number": 55,
+  "name": "Monkey D. Garp",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-055.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x2 When Attacking: If you have 4 or less cards in your hand, your opponent cannot activate Blocker during this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 4 or less cards in your hand, your opponent cannot activate Blocker during this battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has 'BANDAI MADE IN JAPAN' watermark. Card ID is OP06-055, set OP06, number 55. Rarity is 'R' as printed in the bottom right corner. Attribute is 'Strike' as indicated by the icon. Type is 'Navy' as printed. Cost is 5, Power is 7000. Text is 'DON!! x2 When Attacking: If you have 4 or less cards in your hand, your opponent cannot activate Blocker during this battle.'"
+  }
+}

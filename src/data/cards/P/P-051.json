@@ -1,0 +1,51 @@
+{
+  "id": "P-051",
+  "set": "P",
+  "number": 51,
+  "name": "Shanks",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Red Hair Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-051.png",
+  "stats": {
+    "cost": 7,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 9000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: You may discard any number of cards from your hand. This character gains +1000 power during this battle for each card discarded this way.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard any number of cards from your hand. This character gains +1000 power during this battle for each card discarded this way.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is marked as a sample. Counter value is 9000, which is printed as 9000, not 9000/1000. No rarity symbol visible in the bottom right corner, but the card is labeled as R rarity."
+  }
+}

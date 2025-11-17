@@ -1,0 +1,38 @@
+{
+  "id": "OP01-112",
+  "set": "OP01",
+  "number": 112,
+  "name": "Page One",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-112.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "Activate: Main", "Once Per Turn", "DON!!"],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn DON!! -1 This Character can also attack your opponent's active Characters during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "This Character can also attack your opponent's active Characters during this turn.",
+        "grants": ["canAttackActiveCharacters"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "OP14-019",
+  "set": "OP14",
+  "number": 19,
+  "name": "I Have a Plan... To Take Down One of The Four Emperors!!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Supernovas",
+    "Heart Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-019.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "Main Look at 4 cards from the top of your deck; reveal up to 1 {Straw Hat Crew} or {Supernovas} type Character card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 4 cards from the top of your deck; reveal up to 1 {Straw Hat Crew} or {Supernovas} type Character card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

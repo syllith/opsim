@@ -1,0 +1,52 @@
+{
+  "id": "OP02-089",
+  "set": "OP02",
+  "number": 89,
+  "name": "Hell's Judgement",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Impel Down"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-089.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "DON!! -1"],
+  "trigger": {
+    "text": "If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck."
+  },
+  "text": "[Counter] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Give up to 2 of your opponent's Leader or Characters -3000 Power during this turn.\n[Trigger] If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 2 of your opponent's Leader or Characters -3000 Power during this turn.",
+        "powerMod": {
+          "amount": -3000,
+          "duration": "this turn"
+        },
+        "targets": ["upTo2:opponent:Leader", "upTo2:opponent:Character"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck.",
+        "targets": ["opponent:Don"],
+        "conditions": ["opponentHas6OrMoreDon"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "EB02-052",
+  "set": "EB02",
+  "number": 52,
+  "name": "Enel",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Sky Island"],
+  "rarity": "SR",
+  "art": "/cards/EB02/EB02-052.png",
+  "stats": {
+    "cost": 10,
+    "power": 11000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Rush", "When Attacking"],
+  "trigger": null,
+  "text": "If your leader has the {Sky Island} type, this character gains [Rush].\n[When Attacking] You may trash 1 card from your hand: If your life has 1 or less cards, place up to 1 card from the top of your deck onto your life. Then give this character +1000 power for this turn.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader has the {Sky Island} type, this character gains [Rush].",
+        "grants": ["Rush"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["leaderHasSkyIsland"]
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 card from your hand: If your life has 1 or less cards, place up to 1 card from the top of your deck onto your life. Then give this character +1000 power for this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "forThisTurn"
+        },
+        "targets": ["self", "deck", "life"],
+        "conditions": ["mayTrash1FromHand", "yourLife1OrLess"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

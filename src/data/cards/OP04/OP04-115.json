@@ -1,0 +1,72 @@
+{
+  "id": "OP04-115",
+  "set": "OP04",
+  "number": 115,
+  "name": "Donquixote Rosinante",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Navy",
+    "Donquixote Pirates"
+  ],
+  "rarity": "SEC",
+  "art": "/cards/OP04/OP04-115.png",
+  "stats": {
+    "cost": 8,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Opponent's Turn"
+  ],
+  "trigger": null,
+  "text": "Opponent's Turn: If this Character is rested, your active Characters with a original cost of 5 cannot be K.O'd by effects. On Play: You may rest this Character: Play up to 1 green Character card with a cost of 5 from your hand.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this Character is rested, your active Characters with a original cost of 5 cannot be K.O'd by effects.",
+        "powerMod": null,
+        "targets": [
+          "activeCharacters<=cost5"
+        ],
+        "conditions": [
+          "thisCharacter:rested"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may rest this Character: Play up to 1 green Character card with a cost of 5 from your hand.",
+        "powerMod": null,
+        "targets": [
+          "greenCharacter<=cost5"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'SEC' as printed in the bottom right corner. The card has a 'SPECIAL' icon next to the power value, but this is not a rarity."
+  }
+}

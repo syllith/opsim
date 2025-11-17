@@ -1,0 +1,43 @@
+{
+  "id": "EB03-014",
+  "set": "EB03",
+  "number": 14,
+  "name": "Kuina",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["East Blue", "Frost Moon Village"],
+  "rarity": "C",
+  "art": "/cards/EB03/EB03-014.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "[Activate: Main] You may rest this Character: Give up to 2 rested DON!! cards to your <Slash> attribute Leader.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this Character: Give up to 2 rested DON!! cards to your <Slash> attribute Leader.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Leader:attributeSlash"],
+        "conditions": ["restSelf"],
+        "giveDon": {
+          "quantity": 2,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self:Leader:attributeSlash"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

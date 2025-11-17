@@ -1,0 +1,48 @@
+{
+  "id": "OP06-051",
+  "set": "OP06",
+  "number": 51,
+  "name": "Tsuru",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP06/OP06-051.png",
+  "stats": {
+    "cost": 5,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash 2 cards from your hand: Your opponent returns one of their characters to its owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 2 cards from your hand: Your opponent returns one of their characters to its owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but ID and other fields are based on printed text."
+  }
+}

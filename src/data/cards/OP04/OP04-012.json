@@ -1,0 +1,54 @@
+{
+  "id": "OP04-012",
+  "set": "OP04",
+  "number": 12,
+  "name": "Nefertari Cobra",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Alabasta Kingdom"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-012.png",
+  "stats": {
+    "cost": 2,
+    "power": 1000,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[Your Turn] All of your {Alabasta} type Characters other than this Character gain +1000 power.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "All of your {Alabasta} type Characters other than this Character gain +1000 power.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "allAlabastaCharactersOtherThanSelf"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card has a 'SAMPLE' watermark, but all text and numbers are legible."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "OP02-105",
+  "set": "OP02",
+  "number": 105,
+  "name": "Tashigi",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Navy"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-105.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["DON!! x1", "When Attacking"],
+  "trigger": null,
+  "text": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters -3 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -3 to their cost during this turn.",
+        "targets": ["upTo1:opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

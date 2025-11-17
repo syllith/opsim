@@ -1,0 +1,79 @@
+{
+  "id": "OP04-016",
+  "set": "OP04",
+  "number": 16,
+  "name": "Bad Manners Kick Course",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Alabasta Kingdom",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-016.png",
+  "stats": {
+    "cost": 0,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Give up to one of your opponent's leaders or characters -3000 Power for this turn."
+  },
+  "text": "#Counter You may trash 1 card from your hand: Give up to 1 of your leaders or characters +3000 Power this battle.\n\nTrigger Give up to one of your opponent's leaders or characters -3000 Power for this turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Give up to 1 of your leaders or characters +3000 Power this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneAllyLeader",
+          "oneAllyCharacter"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one of your opponent's leaders or characters -3000 Power for this turn.",
+        "powerMod": {
+          "amount": -3000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOpponentLeader",
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is clearly visible in the bottom right corner."
+  }
+}

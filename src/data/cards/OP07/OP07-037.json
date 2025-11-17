@@ -1,0 +1,65 @@
+{
+  "id": "OP07-037",
+  "set": "OP07",
+  "number": 37,
+  "name": "More Pizza!!!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Supernova",
+    "Bonney Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP07/OP07-037.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card"
+  },
+  "text": "Main Look at the top 5 cards of your deck and reveal up to one card with the (Supernova) type besides \"More Pizza!!!\" and add it to your hand. Then, place the remaining cards on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck and reveal up to one card with the (Supernova) type besides \"More Pizza!!!\" and add it to your hand. Then, place the remaining cards on the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

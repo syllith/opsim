@@ -1,0 +1,48 @@
+{
+  "id": "OP06-081",
+  "set": "OP06",
+  "number": 81,
+  "name": "Absalom",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-081.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may return 2 cards from your trash to the bottom of your deck in any order. KO up to 1 character with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return 2 cards from your trash to the bottom of your deck in any order. KO up to 1 character with a cost of 2 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

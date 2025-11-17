@@ -1,0 +1,35 @@
+{
+  "id": "OP02-103",
+  "set": "OP02",
+  "number": 103,
+  "name": "Sengoku",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Wisdom",
+  "types": ["Navy"],
+  "rarity": "UC",
+  "art": "/cards/OP02/OP02-103.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["DON!! x1", "When Attacking"],
+  "trigger": null,
+  "text": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+        "targets": ["upTo1:opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

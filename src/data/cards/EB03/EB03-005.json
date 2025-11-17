@@ -1,0 +1,37 @@
+{
+  "id": "EB03-005",
+  "set": "EB03",
+  "number": 5,
+  "name": "Sugar",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["Donquixote Pirates"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-005.png",
+  "stats": {
+    "cost": 3,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] If your Leader is [Sugar], play up to 1 {Donquixote Pirates} type Character card with 6000 power or less from your hand rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader is [Sugar], play up to 1 {Donquixote Pirates} type Character card with 6000 power or less from your hand rested.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["hand:Character:DonquixotePirates:power<=6000"],
+        "conditions": ["leaderIsSugar"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

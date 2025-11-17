@@ -1,0 +1,39 @@
+{
+  "id": "EB02-056",
+  "set": "EB02",
+  "number": 56,
+  "name": "Vegapunk",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Wisdom",
+  "types": ["Egghead", "Scientist"],
+  "rarity": "SR",
+  "art": "/cards/EB02/EB02-056.png",
+  "stats": {
+    "cost": 5,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play", "Trigger"],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "[Blocker]\n[On Play] Look at the top 5 cards of your deck, play up to 1 cost 5 or lower {Scientist} type Character other than \"Vegapunk\", and place the rest at the bottom of your deck in any order, and if your opponent has 2 characters or less, discard 1 card.\n[Trigger] Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, play up to 1 cost 5 or lower {Scientist} type Character other than \"Vegapunk\", and place the rest at the bottom of your deck in any order, and if your opponent has 2 characters or less, discard 1 card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck", "opponentHand"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

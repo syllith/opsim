@@ -1,0 +1,37 @@
+{
+  "id": "ST13-003",
+  "set": "ST13",
+  "number": 3,
+  "name": "Monkey D. Luffy",
+  "category": "Leader",
+  "colors": ["Black", "Yellow"],
+  "attribute": "Strike",
+  "types": ["Supernova", "Straw Hat Crew"],
+  "rarity": "L",
+  "art": "/cards/ST13/ST13-003.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x2 Activate: Main Once Per Turn You may discard one card from your hand; if your life is at 0 cards, you may add up to 2 5 cost characters from your hand or trash to your life face up.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may discard one card from your hand; if your life is at 0 cards, you may add up to 2 5 cost characters from your hand or trash to your life face up.",
+        "powerMod": null,
+        "targets": ["self:discardHand:optional", "self:lifeIsZero", "oneAllyCharacter=5:handOrTrash:lifeFaceUp:max2"],
+        "conditions": ["donAttached", "optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": "Per the rules, your face up life cards will be sent to the bottom of your deck instead of to your hand." }
+}

@@ -1,0 +1,68 @@
+{
+  "id": "OP06-040",
+  "set": "OP06",
+  "number": 40,
+  "name": "Shark Arrows",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Fishman",
+    "New Fishman Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-040.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main K.O. up to 2 of your opponent's rested characters with a cost of 3 or less.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 2 of your opponent's rested characters with a cost of 3 or less.",
+        "powerMod": null,
+        "targets": [
+          "up to 2 of your opponent's rested characters with a cost of 3 or less"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "ST04-015",
+  "set": "ST04",
+  "number": 15,
+  "name": "Brachio Bomber",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST04/ST04-015.png",
+  "stats": { "cost": 6, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Main"],
+  "trigger": {"text": "Add 1 DON!! card from your DON!! deck and set it as active."},
+  "text": "Main: K.O. 1 of your opponent's Characters with a cost of 6 or less, then add 1 DON!! card from your DON!! deck and set it as active. Trigger: Add 1 DON!! card from your DON!! deck and set it as active.",
+  "abilities": [
+    {"timing": "Main", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "K.O. 1 opponent Character with cost 6 or less, then add 1 DON!! from DON deck set active.", "grants": [], "powerMod": null, "targets": ["oneOpponentCharacter", "donDeck"], "conditions": []}}
+  ],
+  "meta": {"notes": null}
+}

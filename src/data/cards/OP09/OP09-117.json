@@ -1,0 +1,64 @@
+{
+  "id": "OP09-117",
+  "set": "OP09",
+  "number": 117,
+  "name": "Dereshi!!",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Event"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-117.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw a card."
+  },
+  "text": "Main Look at the top five cards of your deck, reveal up to two cards with triggers other than \"Dereshi!!\", and add them to your hand. Then, return the rest to the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top five cards of your deck, reveal up to two cards with triggers other than \"Dereshi!!\", and add them to your hand. Then, return the rest to the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw a card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

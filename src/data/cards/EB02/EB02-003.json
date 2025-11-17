@@ -1,0 +1,59 @@
+{
+  "id": "EB02-003",
+  "set": "EB02",
+  "number": 3,
+  "name": "Tony Tony Chopper",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Animal", "Drum Kingdom", "Straw Hat Crew"],
+  "rarity": "R",
+  "art": "/cards/EB02/EB02-003.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x2", "Opponent's Turn", "On Play"],
+  "trigger": null,
+  "text": "[DON!! x2] [Opponent's Turn] This character has +2000 power.\n[On Play] If your leader has the {Straw Hat Crew} type, give your leader or one character up to 1 rested DON!! cards.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This character has +2000 power.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "continuous"
+        },
+        "targets": ["self"],
+        "conditions": ["opponentsTurn"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader has the {Straw Hat Crew} type, give your leader or one character up to 1 rested DON!! cards.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Leader", "ally:oneCharacter"],
+        "conditions": ["leaderHasStrawHatCrew"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self:Leader", "oneAllyCharacter"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

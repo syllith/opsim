@@ -1,0 +1,54 @@
+{
+  "id": "OP05-068",
+  "set": "OP05",
+  "number": 68,
+  "name": "Chopperemon",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Animal",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-068.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have 8 or more DON!! on your field, set up to 1 of your purple characters with 6000 power or less and the (Straw Hat Crew) type as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 8,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 8 or more DON!! on your field, set up to 1 of your purple characters with 6000 power or less and the (Straw Hat Crew) type as active.",
+        "powerMod": null,
+        "targets": [
+          "upTo1",
+          "yourPurpleCharacter<=power6000",
+          "typeStrawHatCrew"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

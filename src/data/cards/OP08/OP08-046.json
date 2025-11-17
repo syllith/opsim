@@ -1,0 +1,49 @@
+{
+  "id": "OP08-046",
+  "set": "OP08",
+  "number": 46,
+  "name": "Shakuyaku",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Amazon Lily"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-046.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Your Turn",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn Once Per Turn When a character leaves play from one of your effects, if your opponent has 5 or more cards in hand, they place 1 card from their hand on the bottom of their deck. Then, rest this character.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When a character leaves play from one of your effects, if your opponent has 5 or more cards in hand, they place 1 card from their hand on the bottom of their deck. Then, rest this character.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

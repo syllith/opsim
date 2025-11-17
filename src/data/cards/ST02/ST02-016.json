@@ -1,0 +1,37 @@
+{
+  "id": "ST02-016",
+  "set": "ST02",
+  "number": 16,
+  "name": "Repel",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Supernovas", "Kid Pirates"],
+  "rarity": null,
+  "art": "/cards/ST02/ST02-016.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter"],
+  "trigger": null,
+  "text": "Counter: Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, set up to 1 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 2 },
+      "effect": {
+        "text": "Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, set up to 1 of your DON!! cards as active.",
+        "grants": [],
+        "powerMod": { "amount": 4000, "duration": "this battle" },
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["then:setUpTo1DonActive"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

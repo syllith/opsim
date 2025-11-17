@@ -1,0 +1,72 @@
+{
+  "id": "OP13-075",
+  "set": "OP13",
+  "number": 75,
+  "name": "Guess We'll Have Another Scrap, You Can Only Risk Death While You're Still Alive!!!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Pirate King/Roger Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP13/OP13-075.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main You may rest 1 of your DON!! cards: If your Leader is [Gol.D.Roger] and you have any given DON!! cards, add up to 1 DON!! cards from your DON!! deck and rest it. \nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If your Leader is [Gol.D.Roger] and you have any given DON!! cards, add up to 1 DON!! cards from your DON!! deck and rest it.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIs[Gol.D.Roger]",
+          "youHaveAnyGivenDON!!Cards"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "upTo1OfYourLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

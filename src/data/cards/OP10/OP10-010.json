@@ -1,0 +1,53 @@
+{
+  "id": "OP10-010",
+  "set": "OP10",
+  "number": 10,
+  "name": "Chadros Higelyges (Brown Beard)",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Punk Hazard",
+    "Brownbeard Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-010.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking: If you have 1 or less Characters with 6000 or more power, this character gets +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 1 or less Characters with 6000 or more power, this character gets +1000 power during this turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "you have 1 or less Characters with 6000 or more power"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

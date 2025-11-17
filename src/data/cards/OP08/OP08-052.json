@@ -1,0 +1,48 @@
+{
+  "id": "OP08-052",
+  "set": "OP08",
+  "number": 52,
+  "name": "Portgas .D. Ace",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP08/OP08-052.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Reveal the top 1 card of your deck, you may put into play up to 1 character with the type [Whitebeard Pirates] and a cost of 4 or less. After this, return the remaining cards to the top or bottom of the deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Reveal the top 1 card of your deck, you may put into play up to 1 character with the type [Whitebeard Pirates] and a cost of 4 or less. After this, return the remaining cards to the top or bottom of the deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

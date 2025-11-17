@@ -1,0 +1,37 @@
+{
+  "id": "EB01-056",
+  "set": "EB01",
+  "number": 56,
+  "name": "Charlotte Flampe",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Big Mom Pirates"],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-056.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] You may add 1 card from the top or bottom of your Life cards to your hand: Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may add 1 card from the top or bottom of your Life cards to your hand: Draw 1 card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Life"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

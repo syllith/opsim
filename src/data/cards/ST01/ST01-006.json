@@ -1,0 +1,37 @@
+{
+  "id": "ST01-006",
+  "set": "ST01",
+  "number": 6,
+  "name": "Tony Tony.Chopper",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Animal", "Straw Hat Crew"],
+  "rarity": null,
+  "art": "/cards/ST01/ST01-006.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentDeclaredAttack" ]
+      }
+    }
+  ],
+  "meta": { "notes": "Counter value not visible on scan; treated as none." }
+}

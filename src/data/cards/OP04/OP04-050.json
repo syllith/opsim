@@ -1,0 +1,54 @@
+{
+  "id": "OP04-050",
+  "set": "OP04",
+  "number": 50,
+  "name": "Mr. Hanger",
+  "category": "Character",
+  "colors": [
+    "Wisdom"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-050.png",
+  "stats": {
+    "cost": 2,
+    "power": 1000,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may trash 1 card from your hand and rest this character: Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand and rest this character: Draw 1 card.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "oneCardFromHand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

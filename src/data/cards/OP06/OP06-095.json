@@ -1,0 +1,53 @@
+{
+  "id": "OP06-095",
+  "set": "OP06",
+  "number": 95,
+  "name": "Shadow's Asgard",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Seven Warlords of the Sea",
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-095.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw two cards and trash one from your hand."
+  },
+  "text": "Main / Counter Your Leader gains +1000 power during this turn. Then, you may K.O. any number of your cost 2 or less characters with the \"Thriller Bark Pirates\" type. For each K.O.d character, your leader gains +1000 during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your Leader gains +1000 power during this turn. Then, you may K.O. any number of your cost 2 or less characters with the \"Thriller Bark Pirates\" type. For each K.O.d character, your leader gains +1000 during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

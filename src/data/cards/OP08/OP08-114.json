@@ -1,0 +1,71 @@
+{
+  "id": "OP08-114",
+  "set": "OP08",
+  "number": 114,
+  "name": "S-Hawk",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Egghead",
+    "Seraphim"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-114.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Trigger",
+    "DON!! x1"
+  ],
+  "trigger": {
+    "text": "You may trash 1 card from your hand: If you have 2 or less life, play this character."
+  },
+  "text": "DON!! x1 While your life total is lower than your opponents, this character has +2000 power and cannot by KO'd in battle by cards with the (Slash) attribute.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: If you have 2 or less life, play this character.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "DON!! x1",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "While your life total is lower than your opponents, this character has +2000 power and cannot by KO'd in battle by cards with the (Slash) attribute.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this battle"
+        },
+        "conditions": [
+          "your life total is lower than your opponents"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

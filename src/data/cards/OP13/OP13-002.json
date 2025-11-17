@@ -1,0 +1,65 @@
+{
+  "id": "OP13-002",
+  "set": "OP13",
+  "number": 2,
+  "name": "Portgas.D.Ace",
+  "category": "Leader",
+  "colors": [
+    "Red",
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-002.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": 3,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "On Your Opponent's Attack",
+    "Once Per Turn",
+    "DON!! x1",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "On Your Opponent's Attack Once Per Turn You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this battle. DON!! x1 Once Per Turn When you receive damage or your Character with 6000 base power or more is K.O.'d, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Your Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "DON!! x1",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When you receive damage or your Character with 6000 base power or more is K.O.'d, draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

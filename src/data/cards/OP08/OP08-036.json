@@ -1,0 +1,64 @@
+{
+  "id": "OP08-036",
+  "set": "OP08",
+  "number": 36,
+  "name": "Electrical Luna",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Minks"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-036.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Rest up to one of your opponent's characters."
+  },
+  "text": "Main All of your opponent's rested characters with a cost of 7 or less do not become active during your opponent's next refresh phase.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "All of your opponent's rested characters with a cost of 7 or less do not become active during your opponent's next refresh phase.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to one of your opponent's characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

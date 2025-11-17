@@ -1,0 +1,37 @@
+{
+  "id": "ST14-004",
+  "set": "ST14",
+  "number": 4,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Strike",
+  "types": ["Fishman", "Sun Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST14/ST14-004.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn Give up to one of your black characters with the {Straw Hat Crew} +2 cost until the end of your opponents next turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to one of your black characters with the {Straw Hat Crew} +2 cost until the end of your opponents next turn.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter:color=Black:type=Straw Hat Crew:cost+2"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

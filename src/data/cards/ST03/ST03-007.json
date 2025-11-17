@@ -1,0 +1,20 @@
+{
+  "id": "ST03-007",
+  "set": "ST03",
+  "number": 7,
+  "name": "Sentomaru",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST03/ST03-007.png",
+  "stats": { "cost": 3, "power": 4000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "keywords": ["Activate: Main", "Once Per Turn", "DON!! x1"],
+  "trigger": null,
+  "text": "(Placeholder) DON!! x1 Activate: Main Once Per Turn: Play up to 1 Pacifista with cost 4 or less from deck then shuffle.",
+  "abilities": [
+    {"timing": "Activate: Main", "frequency": "Once Per Turn", "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Play 1 cost 4 or less Pacifista from deck then shuffle.", "grants": [], "powerMod": null, "targets": ["oneCharacterDeck"], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

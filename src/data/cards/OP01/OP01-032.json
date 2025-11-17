@@ -1,0 +1,40 @@
+{
+  "id": "OP01-032",
+  "set": "OP01",
+  "number": 32,
+  "name": "Ashura Douji",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Wano Country", "Nine Red Scabbards"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-032.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x1"],
+  "trigger": null,
+  "text": "[DON!! x1] If your opponent has 2 or more rested Characters, this Character gains +2000 power.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your opponent has 2 or more rested Characters, this Character gains +2000 power.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "static"
+        },
+        "targets": ["self"],
+        "conditions": ["opponentHas2OrMoreRestedCharacters"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

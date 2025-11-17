@@ -1,0 +1,38 @@
+{
+  "id": "OP01-062",
+  "set": "OP01",
+  "number": 62,
+  "name": "Crocodile",
+  "category": "Leader",
+  "colors": ["Blue", "Purple"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
+  "rarity": null,
+  "art": "/cards/OP01/OP01-062.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["DON!! x1"],
+  "trigger": null,
+  "text": "DON!! x1: After you activate an Event, you may draw 1 card if you have 4 or less cards in your hand and haven't drawn a card using this Leader's effect during this turn.",
+  "abilities": [
+    {
+      "timing": "After Event Activated",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may draw 1 card if you have 4 or less cards in your hand and haven't drawn a card using this Leader's effect during this turn.",
+        "grants": ["Draw 1 Card"],
+        "powerMod": null,
+        "targets": ["player"],
+        "conditions": ["handSize<=4", "notDrawnWithLeaderThisTurn"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

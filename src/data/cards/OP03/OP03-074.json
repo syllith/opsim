@@ -1,0 +1,67 @@
+{
+  "id": "OP03-074",
+  "set": "OP03",
+  "number": 74,
+  "name": "Top Knot",
+  "category": "Event",
+  "colors": [
+    "Water"
+  ],
+  "attribute": null,
+  "types": [
+    "Galley-La Company"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-074.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck): Return up to 1 of your opponent's Characters with a cost of 4 or less to the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "Return up to 1 of your opponent's Characters with a cost of 4 or less to the bottom of its owner's deck.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

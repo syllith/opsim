@@ -1,0 +1,37 @@
+{
+  "id": "ST06-007",
+  "set": "ST06",
+  "number": 7,
+  "name": "Tsuru",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Wisdom",
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST06/ST06-007.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentDeclaredAttack"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

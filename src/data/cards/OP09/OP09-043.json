@@ -1,0 +1,52 @@
+{
+  "id": "OP09-043",
+  "set": "OP09",
+  "number": 43,
+  "name": "Alvida",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Cross Guild"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP09/OP09-043.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On K.O. If your leader has the \"Cross Guild\" type, play up to 1 cost 5 or lower character card, other than 'Alvida', from your hand.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the \"Cross Guild\" type, play up to 1 cost 5 or lower character card, other than 'Alvida', from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Cross Guild"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'BANDAI MADE IN JAPAN' are not part of the card data. 'US' rarity is printed in the bottom right corner."
+  }
+}

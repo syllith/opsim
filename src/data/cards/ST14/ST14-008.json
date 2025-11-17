@@ -1,0 +1,48 @@
+{
+  "id": "ST14-008",
+  "set": "ST14",
+  "number": 8,
+  "name": "Haredas",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Wisdom",
+  "types": ["Sky Island"],
+  "rarity": "C",
+  "art": "/cards/ST14/ST14-008.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Activate: Main", "Counter"],
+  "trigger": null,
+  "text": "Activate: Main You may rest this card: Give up to one of your black characters with the type {Straw Hat Pirates} +2 cost until the end of your opponents next turn. After this, if you control a Cost 8 or higher character, draw one card and trash one card from your hand.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Rest this card: Give up to one of your black characters with the type {Straw Hat Pirates} +2 cost until the end of your opponents next turn.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter:type=Straw Hat Pirates;color=Black"],
+        "conditions": ["restThisCard"]
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you control a Cost 8 or higher character, draw one card and trash one card from your hand.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["hasAllyCharacter>=8"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

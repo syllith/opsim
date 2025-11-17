@@ -1,0 +1,37 @@
+{
+  "id": "OP02-062",
+  "set": "OP02",
+  "number": 62,
+  "name": "Monkey. D. Luffy",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Strike",
+  "types": ["Impel Down", "Straw Hat Crew"],
+  "rarity": "SR",
+  "art": "/cards/OP02/OP02-062.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "When Attacking", "Double Attack"],
+  "trigger": null,
+  "text": "On Play / When Attacking: You may trash 2 cards from your hand: Return up to 1 Character with a cost of 4 or less to the owner's hand. Then, this Character gains Double Attack during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play / When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 2 cards from your hand: Return up to 1 Character with a cost of 4 or less to the owner's hand. Then, this Character gains Double Attack during this turn.",
+        "grants": ["Double Attack", "trash"],
+        "powerMod": null,
+        "targets": ["Character"],
+        "conditions": ["cost 4 or less"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

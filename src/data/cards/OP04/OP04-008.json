@@ -1,0 +1,57 @@
+{
+  "id": "OP04-008",
+  "set": "OP04",
+  "number": 8,
+  "name": "Chaka",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Alabasta Kingdom"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-008.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking If your leader is \"Nefertari Vivi\", give up to 1 of your opponent's characters -3000 Power for the turn. Then, K.O. up to 1 of your opponent's characters with 0 Power or less.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If your leader is \"Nefertari Vivi\", give up to 1 of your opponent's characters -3000 Power for the turn. Then, K.O. up to 1 of your opponent's characters with 0 Power or less.",
+        "powerMod": {
+          "amount": -3000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "conditions": [
+          "leaderIsNefertariVivi"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner."
+  }
+}

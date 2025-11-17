@@ -1,0 +1,58 @@
+{
+  "id": "EB01-010",
+  "set": "EB01",
+  "number": 10,
+  "name": "There is no way you could defeat me!!",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Water 7",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-010.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "KO up to one of your opponents characters with an original power of 5000 or less."
+  },
+  "text": "[Counter] KO up to one of your opponents characters with an original power of 6000 or less.\n[Trigger] KO up to one of your opponents characters with an original power of 5000 or less.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to one of your opponents characters with an original power of 6000 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": [
+          "opponent:Character"
+        ],
+        "conditions": [
+          "characterPower<=6000"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

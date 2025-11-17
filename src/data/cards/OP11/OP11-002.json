@@ -1,0 +1,49 @@
+{
+  "id": "OP11-002",
+  "set": "OP11",
+  "number": 2,
+  "name": "Ain",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "FILM",
+    "Neo Navy"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP11/OP11-002.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Give up to 1 of your opponent's Characters -1000 power during this turn. Then, up to 1 of your opponent's Characters with 0 power or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -1000 power during this turn. Then, up to 1 of your opponent's Characters with 0 power or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

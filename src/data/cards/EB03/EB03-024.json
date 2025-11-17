@@ -1,0 +1,37 @@
+{
+  "id": "EB03-024",
+  "set": "EB03",
+  "number": 24,
+  "name": "Nefeltari Vivi",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Wisdom",
+  "types": ["Alabasta"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-024.png",
+  "stats": {
+    "cost": 5,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker]\n[On Play] Play up to 1 {Straw Hat Crew} or {Alabasta} type Character card with a cost of 5 or less from your hand. Then, you cannot play Character cards during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play up to 1 {Straw Hat Crew} or {Alabasta} type Character card with a cost of 5 or less from your hand. Then, you cannot play Character cards during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["hand:Character:StrawHatCrewOrAlabasta:cost<=5"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

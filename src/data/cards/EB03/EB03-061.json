@@ -1,0 +1,50 @@
+{
+  "id": "EB03-061",
+  "set": "EB03",
+  "number": 61,
+  "name": "Uta",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["FILM"],
+  "rarity": "SEC",
+  "art": "/cards/EB03/EB03-061.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Activate Main", "Once Per Turn", "End of Your Turn"],
+  "trigger": null,
+  "text": "[Activate:Main] [Once Per Turn] Set up to 1 of your DON!! cards as active. Then, rest up to 1 of your opponent's DON!! cards or up to 1 of your opponent's Characters with a cost of 4 or less.\n[End of Your Turn] You may rest 1 of your DON!! cards: Set up to 1 of your {FILM} type Characters as active.",
+  "abilities": [
+    {
+      "timing": "Activate Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Set up to 1 of your DON!! cards as active. Then, rest up to 1 of your opponent's DON!! cards or up to 1 of your opponent's Characters with a cost of 4 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Don", "opponent:Don", "opponent:Character"],
+        "conditions": ["opponentCharacterCost<=4"]
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "You may rest 1 of your DON!! cards: Set up to 1 of your {FILM} type Characters as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:Character"],
+        "conditions": ["FILMType"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

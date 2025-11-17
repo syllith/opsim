@@ -1,0 +1,49 @@
+{
+  "id": "OP09-105",
+  "set": "OP09",
+  "number": 105,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Egghead",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-105.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "If your leader has <Egghead> type, Add the top card from your deck to the top of your life, then discard 2 cards."
+  },
+  "text": null,
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has <Egghead> type, Add the top card from your deck to the top of your life, then discard 2 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but processed as per printed data. Rarity 'R' confirmed."
+  }
+}

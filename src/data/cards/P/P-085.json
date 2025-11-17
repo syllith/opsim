@@ -1,0 +1,53 @@
+{
+  "id": "P-085",
+  "set": "P",
+  "number": 85,
+  "name": "Jewelry Bonney",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Supernova",
+    "Bonney Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-085.png",
+  "stats": {
+    "cost": 5,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the {Supernovas} type and your life total is equal to or less than your opponent's, place up to one of your opponent's cost 4 or lower characters on the top or bottom of their life face-up.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Supernovas} type and your life total is equal to or less than your opponent's, place up to one of your opponent's cost 4 or lower characters on the top or bottom of their life face-up.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderHasType{Supernovas}",
+          "yourLifeTotal <= opponentLifeTotal"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is 'SP' as printed. Power and life are not printed on the card."
+  }
+}

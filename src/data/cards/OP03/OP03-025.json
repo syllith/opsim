@@ -1,0 +1,45 @@
+{
+  "id": "OP03-025",
+  "set": "OP03",
+  "number": 25,
+  "name": "Krieg",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Special",
+  "types": ["East Blue", "Krieg Pirates"],
+  "rarity": "SR",
+  "art": "/cards/OP03/OP03-025.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["On Play", "DON!! x1"],
+  "trigger": null,
+  "text": "[On Play] You may trash 1 card from your hand: K.O. up to 2 of your opponent's rested Characters with a cost of 4 or less.\n[DON!! x1] This Character gains [Double Attack].\n(This card deals 2 damage.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0, "trashCardFromHand": true },
+      "effect": {
+        "text": "K.O. up to 2 of your opponent's rested Characters with a cost of 4 or less.",
+        "targets": ["opponentCharacter"],
+        "conditions": ["rested", "costLessOrEqual4"]
+      }
+    },
+    {
+      "timing": null,
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This Character gains [Double Attack]. (This card deals 2 damage.)",
+        "giveDon": { "doubleAttack": true }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

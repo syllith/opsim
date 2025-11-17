@@ -1,0 +1,38 @@
+{
+  "id": "OP02-001",
+  "set": "OP02",
+  "number": 1,
+  "name": "Edward Newgate",
+  "category": "Leader",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["The Four Emperors", "Whitebeard Pirates"],
+  "rarity": "L",
+  "art": "/cards/OP02/OP02-001.png",
+  "stats": {
+    "cost": null,
+    "power": 6000,
+    "life": 6,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["End of Your Turn"],
+  "trigger": null,
+  "text": "End of Your Turn Add 1 card from the top of your Life Area to your hand.",
+  "abilities": [
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Add 1 card from the top of your Life Area to your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["lifeArea:topCard"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

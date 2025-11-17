@@ -1,0 +1,20 @@
+{
+  "id": "ST05-001",
+  "set": "ST05",
+  "number": 1,
+  "name": "Shanks",
+  "category": "Leader",
+  "colors": ["Purple"],
+  "attribute": "Slash",
+  "types": ["FILM", "The Four Emperors", "Red Hair Pirates"],
+  "rarity": null,
+  "art": "/cards/ST05/ST05-001.png",
+  "stats": { "cost": null, "power": 5000, "life": 5, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Activate: Main", "Once Per Turn", "DON!! -3"],
+  "trigger": null,
+  "text": "Activate: Main — Once Per Turn DON!! -3: Your FILM type Characters gain +2000 Power during this turn.",
+  "abilities": [
+    {"timing": "Activate: Main", "frequency": "Once Per Turn", "donReq": 3, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "FILM type Characters gain +2000 Power this turn.", "grants": ["+2000 power"], "powerMod": {"amount": 2000, "duration": "thisTurn"}, "targets": ["filmCharacters"], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

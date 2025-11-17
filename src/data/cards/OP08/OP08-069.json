@@ -1,0 +1,49 @@
+{
+  "id": "OP08-069",
+  "set": "OP08",
+  "number": 69,
+  "name": "Charlotte Linlin",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Former Rocks Pirates",
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-069.png",
+  "stats": {
+    "cost": 9,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 9000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play Don!! -1: trash 1 card from your hand: Add up to 1 card from the top of your deck to the top of your life. Then, place up to one of your opponents characters with a cost of 6 or less to the top or bottom of its owner's life face up.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "trash 1 card from your hand: Add up to 1 card from the top of your deck to the top of your life. Then, place up to one of your opponents characters with a cost of 6 or less to the top or bottom of its owner's life face up.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

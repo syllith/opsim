@@ -1,0 +1,38 @@
+{
+  "id": "OP02-002",
+  "set": "OP02",
+  "number": 2,
+  "name": "Monkey D. Garp",
+  "category": "Leader",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Navy"],
+  "rarity": "L",
+  "art": "/cards/OP02/OP02-002.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Your Turn", "DON!!"],
+  "trigger": null,
+  "text": "Your Turn When you attach DON!! to this Leader or 1 of your Characters, give up to 1 of your opponent's 7 cost or lower Characters -1 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "When you attach DON!! to this Leader or 1 of your Characters, give up to 1 of your opponent's 7 cost or lower Characters -1 to their cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=7"],
+        "conditions": ["donAttached"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

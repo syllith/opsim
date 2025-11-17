@@ -1,0 +1,52 @@
+{
+  "id": "OP09-033",
+  "set": "OP09",
+  "number": 33,
+  "name": "Nico Robin",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "ODYSSEY",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-033.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have two or more rested characters in play, until the end of your opponent's next turn, all of your characters with the <<Odyssey>> or <<Strawhat Crew>> type can't be KOD by effects.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have two or more rested characters in play, until the end of your opponent's next turn, all of your characters with the <<Odyssey>> or <<Strawhat Crew>> type can't be KOD by effects.",
+        "powerMod": null,
+        "conditions": [
+          "two or more rested characters in play"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

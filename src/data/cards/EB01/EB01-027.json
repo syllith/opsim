@@ -1,0 +1,53 @@
+{
+  "id": "EB01-027",
+  "set": "EB01",
+  "number": 27,
+  "name": "Mr.1 (Daz Bonez)",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Slash",
+  "types": ["Baroque Works"],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-027.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "If your leader's type includes {Baroque Works}, this character gains +1000 power for every 2 event cards in your trash.\n[On Play] Draw 2 cards then trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader's type includes {Baroque Works}, this character gains +1000 power for every 2 event cards in your trash.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "whileConditionMet"
+        },
+        "targets": ["self"],
+        "conditions": ["leaderTypeBaroqueWorks", "per2EventCardsInTrash"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw 2 cards then trash 1 card from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

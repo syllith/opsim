@@ -1,0 +1,65 @@
+{
+  "id": "OP06-109",
+  "set": "OP06",
+  "number": 109,
+  "name": "Denjiro",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Land of wano",
+    "Akazaya Nine"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP06/OP06-109.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "DON!! x2",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your opponent's life is at 3 or less, play this card."
+  },
+  "text": "DON!! x2 If your opponent's life is at 3 or less, this character cannot be KO'd by effects.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent's life is at 3 or less, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "DON!! x2",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent's life is at 3 or less, this character cannot be KO'd by effects.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

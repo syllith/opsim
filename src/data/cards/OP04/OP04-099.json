@@ -1,0 +1,52 @@
+{
+  "id": "OP04-099",
+  "set": "OP04",
+  "number": 99,
+  "name": "O-Lin",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Land of Wano",
+    "Four Emperors",
+    "Big Mom Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP04/OP04-099.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If you have 1 or less cards in your Life Area: You may play this card."
+  },
+  "text": "Also treat this card's name as [Charlotte Linlin] according to the rules.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 1 or less cards in your Life Area: You may play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card name is explicitly stated to be treated as [Charlotte Linlin] according to the rules. The card is a Character with a cost of 7 and power of 7000. The Trigger effect allows playing the card if the player has 1 or fewer cards in their Life Area."
+  }
+}

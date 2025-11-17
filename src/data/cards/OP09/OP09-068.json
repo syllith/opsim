@@ -1,0 +1,51 @@
+{
+  "id": "OP09-068",
+  "set": "OP09",
+  "number": 68,
+  "name": "Tony Tony Chopper",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-068.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "End of Your Turn: Return 1 or more DON!! to your DON!! deck. Set this character as active. Then, this character gains Blocker until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return 1 or more DON!! to your DON!! deck. Set this character as active. Then, this character gains Blocker until the end of your opponent's next turn.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but ID and other fields are based on printed text."
+  }
+}

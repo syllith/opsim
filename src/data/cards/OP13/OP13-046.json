@@ -1,0 +1,49 @@
+{
+  "id": "OP13-046",
+  "set": "OP13",
+  "number": 46,
+  "name": "Vista",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-046.png",
+  "stats": {
+    "cost": 6,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 8000
+    }
+  },
+  "keywords": [
+    "Double Attack",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Double Attack\nOnce Per Turn: If this Character would be K.O.'d in battle, or if this Character would be removed from the field by your opponent's effect, you may trash 1 card with a type including \"Whitebeard Pirates\" from your hand instead.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this Character would be K.O.'d in battle, or if this Character would be removed from the field by your opponent's effect, you may trash 1 card with a type including \"Whitebeard Pirates\" from your hand instead.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

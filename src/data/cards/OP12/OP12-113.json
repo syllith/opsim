@@ -1,0 +1,73 @@
+{
+  "id": "OP12-113",
+  "set": "OP12",
+  "number": 113,
+  "name": "Roronoa Zoro",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP12/OP12-113.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O.",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's Characters with a cost of 1. Then, add this card to your hand."
+  },
+  "text": "On K.O. If your Leader has the (Supernovas) type, play up to 1 cost 4 or lower (Supernova) type Character card from your hand rested.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Supernovas) type, play up to 1 cost 4 or lower (Supernova) type Character card from your hand rested.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Supernovas"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 1. Then, add this card to your hand.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "cost:1"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

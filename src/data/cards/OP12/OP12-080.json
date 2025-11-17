@@ -1,0 +1,54 @@
+{
+  "id": "OP12-080",
+  "set": "OP12",
+  "number": 80,
+  "name": "Baratie",
+  "category": "Stage",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-080.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "Activate: Main You may place this Stage to the bottom of it's owner's deck: If your Leader is [Sanji], look at 3 cards from the top of your deck; reveal up to 1 Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place this Stage to the bottom of it's owner's deck: If your Leader is [Sanji], look at 3 cards from the top of your deck; reveal up to 1 Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIs[Sanji]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "OP12-016",
+  "set": "OP12",
+  "number": 16,
+  "name": "To Never Doubt--That Is Power!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Former Roger Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-016.png",
+  "stats": {
+    "cost": 0,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "Main You may give up to 2 active DON!! cards to your [Silvers Rayleigh]: Your opponent cannot activate if that Leader or Character attacks during this turn. \n#Counter Give up to 1 of your Characters or [Silvers Rayleigh] +2000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "You may give up to 2 active DON!! cards to your [Silvers Rayleigh]: Your opponent cannot activate if that Leader or Character attacks during this turn.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "ally:Leader",
+          "ally:Character"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Give up to 1 of your Characters or [Silvers Rayleigh] +2000 power during this battle.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneOpponentCharacter",
+          "self"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

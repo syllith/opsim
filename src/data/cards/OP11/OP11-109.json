@@ -1,0 +1,52 @@
+{
+  "id": "OP11-109",
+  "set": "OP11",
+  "number": 109,
+  "name": "Pappag",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Animal",
+    "Fish-Man Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-109.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have a [Camie] in play, draw 2 cards and trash 2 cards from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a [Camie] in play, draw 2 cards and trash 2 cards from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "have a [Camie] in play"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

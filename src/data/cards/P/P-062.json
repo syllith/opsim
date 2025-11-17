@@ -1,0 +1,51 @@
+{
+  "id": "P-062",
+  "set": "P",
+  "number": 62,
+  "name": "Hody & Hyouzou",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fishman",
+    "Merfolk",
+    "New Fishman Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-062.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn. Rest up to 1 of your opponent cost 4 or lower characters, this character gains +1000 for the turn. Then, add the top card of your life to your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent cost 4 or lower characters, this character gains +1000 for the turn. Then, add the top card of your life to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has 'BANDAI MADE IN JAPAN' text, but these are not part of the card's official data. The rarity is 'R' as printed."
+  }
+}

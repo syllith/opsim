@@ -1,0 +1,48 @@
+{
+  "id": "ST17-002",
+  "set": "ST17",
+  "number": 2,
+  "name": "Trafalgar Law",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Seven Warlords of the Sea", "Heart Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST17/ST17-002.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "Counter"],
+  "trigger": null,
+  "text": "On Play: You may return one of your characters to its owner's hand. If your leader has the {Seven Warlords of the Sea} type, return up to one cost 4 or lower character to its owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may return one of your characters to its owner's hand.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter"],
+        "conditions": ["optionalTarget"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader has the {Seven Warlords of the Sea} type, return up to one cost 4 or lower character to its owner's hand.",
+        "powerMod": null,
+        "targets": ["oneCharacter<=4"],
+        "conditions": ["leaderType=Seven Warlords of the Sea"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

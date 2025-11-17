@@ -1,0 +1,55 @@
+{
+  "id": "OP09-011",
+  "set": "OP09",
+  "number": 11,
+  "name": "Hongo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Red Hair Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP09/OP09-011.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "[Activate: Main] You may rest this character: If your leader has the type \"Red Haired Pirates\", give up to 1 of your opponent's characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character: If your leader has the type \"Red Haired Pirates\", give up to 1 of your opponent's characters -2000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "leader:hasType(\"Red Haired Pirates\")"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

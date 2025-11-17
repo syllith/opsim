@@ -1,0 +1,49 @@
+{
+  "id": "OP05-110",
+  "set": "OP05",
+  "number": 110,
+  "name": "Kaido",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Four Emperors",
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "SEC",
+  "art": "/cards/OP05/OP05-110.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 12000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your opponent has 3 or less Life cards, draw 4 cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent has 3 or less Life cards, draw 4 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

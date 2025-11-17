@@ -1,0 +1,52 @@
+{
+  "id": "OP05-014",
+  "set": "OP05",
+  "number": 14,
+  "name": "Pell",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Alabasta Kingdom"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-014.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking: Give up to 1 of your opponent's characters power -2000 for this turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's characters power -2000 for this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "OP03-073",
+  "set": "OP03",
+  "number": 73,
+  "name": "Hull Dismantler Slash",
+  "category": "Event",
+  "colors": [
+    "Water"
+  ],
+  "attribute": null,
+  "types": [
+    "Water 7",
+    "Franky Family"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-073.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): If your Leader has the {Water 7} type, K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If your Leader has the {Water 7} type, K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost2"
+        ],
+        "conditions": [
+          "leaderHasType:Water 7"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
+  }
+}

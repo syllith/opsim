@@ -1,0 +1,69 @@
+{
+  "id": "OP05-047",
+  "set": "OP05",
+  "number": 47,
+  "name": "Basil Hawkins",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Animal Kingdom Pirates",
+    "Hawkins Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-047.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "When Blocking"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) When Blocking: If you have 3 or less cards in your hand, draw 1 card. Then, this character gains +1000 power for this battle.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Blocking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 3 or less cards in your hand, draw 1 card. Then, this character gains +1000 power for this battle.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "conditions": [
+          "self:hand<=3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

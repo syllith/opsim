@@ -1,0 +1,55 @@
+{
+  "id": "OP06-034",
+  "set": "OP06",
+  "number": 34,
+  "name": "Hyouzou",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Merfolk"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-034.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn Rest up to one of your opponent's characters with a cost of 4 or less, and this Character gains +1000 power during this turn. Then, add the top card of your life to your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to one of your opponent's characters with a cost of 4 or less, and this Character gains +1000 power during this turn. Then, add the top card of your life to your hand.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOpponentCharacter<=cost4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample image; actual card may differ. Rarity is UC as printed."
+  }
+}

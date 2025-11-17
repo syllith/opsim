@@ -1,0 +1,77 @@
+{
+  "id": "OP11-115",
+  "set": "OP11",
+  "number": 115,
+  "name": "You're Not My Type...!!",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Merfolk",
+    "Fish-Man Island"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP11/OP11-115.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's Characters with a cost of 2 or less."
+  },
+  "text": "#Counter If your Leader is [Shirahoshi], up to 1 of your Leader or Character cards gains +4000 power during this battle. Trigger K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Shirahoshi], up to 1 of your Leader or Character cards gains +4000 power during this battle.",
+        "powerMod": {
+          "amount": 4000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "up to 1 of your Leader or Character cards"
+        ],
+        "conditions": [
+          "your Leader is [Shirahoshi]"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+        "powerMod": null,
+        "targets": [
+          "up to 1 of your opponent's Characters with a cost of 2 or less"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "OP08-106",
+  "set": "OP08",
+  "number": 106,
+  "name": "Nami",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Egghead",
+    "Straw Hat Crew"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP08/OP08-106.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger",
+    "Activate: Main"
+  ],
+  "trigger": {
+    "text": "Activate this card's On Play effect."
+  },
+  "text": "On Play: You may trash 1 card with a Trigger from your hand: KO up to one of your opponents characters with a cost of 5 or less. Then, if your hand has 3 or less cards in it, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card with a Trigger from your hand: KO up to one of your opponents characters with a cost of 5 or less. Then, if your hand has 3 or less cards in it, draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's On Play effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "OP04-088",
+  "set": "OP04",
+  "number": 88,
+  "name": "Hajrudin",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Giant",
+    "Dressrosa",
+    "New Giant Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-088.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main\nYou may rest 1 of your Leaders: Reduce the cost of up to 1 of your opponent's Characters by -4 during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Reduce the cost of up to 1 of your opponent's Characters by -4 during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, but all fields are extracted from the visible text and layout."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST01-014",
+  "set": "ST01",
+  "number": 14,
+  "name": "Guard Point",
+  "category": "Event",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Animal", "Straw Hat Crew"],
+  "rarity": null,
+  "art": "/cards/ST01/ST01-014.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": [],
+  "trigger": { "text": "Your Leader or up to 1 of your Characters gains +1000 power during this turn." },
+  "text": "Counter: Your Leader or up to 1 of your Characters gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "+3000 power during this battle to your Leader or up to 1 of your Characters.",
+        "grants": [],
+        "powerMod": { "amount": 3000, "duration": "this battle" },
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["playFromHandDuringCounter"]
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "+1000 power during this turn to your Leader or up to 1 of your Characters.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "this turn" },
+        "targets": ["ally:Leader", "oneAllyCharacter"],
+        "conditions": ["lifeTrigger"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

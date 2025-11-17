@@ -1,0 +1,50 @@
+{
+  "id": "P-030",
+  "set": "P",
+  "number": 30,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fish-man",
+    "The 7 Warlords of the Sea",
+    "Sun Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-030.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "On K.O. Place up to 1 Character with a cost of 3 or less at the bottom of the owner's deck.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to 1 Character with a cost of 3 or less at the bottom of the owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'BANDAI MADE IN JAPAN' indicates it is not a real card from a published set. The ID 'P-030' is used as a placeholder."
+  }
+}

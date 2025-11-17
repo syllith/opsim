@@ -1,0 +1,35 @@
+{
+  "id": "OP02-100",
+  "set": "OP02",
+  "number": 100,
+  "name": "Django",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Navy"],
+  "rarity": "C",
+  "art": "/cards/OP02/OP02-100.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If you have [Fullbody] in play, this Character cannot be K.O'd by battle.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have [Fullbody] in play, this Character cannot be K.O'd by battle.",
+        "targets": ["self"],
+        "conditions": ["allyFullbodyInPlay"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

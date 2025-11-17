@@ -1,0 +1,38 @@
+{
+  "id": "OP02-017",
+  "set": "OP02",
+  "number": 17,
+  "name": "Masked Deuce",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Wisdom",
+  "types": ["Spade Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-017.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Counter", "DON!!", "When Attacking"],
+  "trigger": null,
+  "text": "DON!! x2 When Attacking K.O. up to 1 of your opponent's Characters with 2000 power or less.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with 2000 power or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=2000power"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

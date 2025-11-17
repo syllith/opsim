@@ -1,0 +1,37 @@
+{
+  "id": "OP02-075",
+  "set": "OP02",
+  "number": 75,
+  "name": "Shiki",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["FILM", "Golden Lion Pirates"],
+  "rarity": "SR",
+  "art": "/cards/OP02/OP02-075.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Trigger", "DON!! -1"],
+  "trigger": {
+    "text": "DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card."
+  },
+  "text": "[Trigger] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play this card.",
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

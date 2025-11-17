@@ -1,0 +1,35 @@
+{
+  "id": "OP03-028",
+  "set": "OP03",
+  "number": 28,
+  "name": "Django",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Ranged",
+  "types": ["East Blue", "Black Cat Pirates"],
+  "rarity": "SR",
+  "art": "/cards/OP03/OP03-028.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] Choose 1 of the following effects.\n• Set up to 1 of your Leader or Characters with the {East Blue} type with a cost of 6 or less as active.\n• Rest this Character and up to 1 of your opponent's Characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Choose 1 of the following effects. • Set up to 1 of your Leader or Characters with the {East Blue} type with a cost of 6 or less as active. • Rest this Character and up to 1 of your opponent's Characters.",
+        "targets": ["yourLeaderOrCharacter", "thisCharacter", "opponentCharacter"],
+        "conditions": ["typeEastBlue", "costLessOrEqual6"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

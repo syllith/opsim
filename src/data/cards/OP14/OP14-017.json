@@ -1,0 +1,53 @@
+{
+  "id": "OP14-017",
+  "set": "OP14",
+  "number": 17,
+  "name": "Shambles",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Supernovas",
+    "Heart Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP14/OP14-017.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main"
+  ],
+  "trigger": null,
+  "text": "Main: Select 2 of your opponent's Characters with 9000 base power or less. Swap the base power of the selected Characters with each other during this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Select 2 of your opponent's Characters with 9000 base power or less. Swap the base power of the selected Characters with each other during this turn.",
+        "powerMod": null,
+        "targets": [
+          "twoOpponentCharacters<=9000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

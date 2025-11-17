@@ -1,0 +1,63 @@
+{
+  "id": "OP14-059",
+  "set": "OP14",
+  "number": 59,
+  "name": "Please Take Me With You!! I Can Be of Great Help to You!!",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Fish-Man",
+    "The Seven Warlords of the Sea",
+    "The Sun Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-059.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Return up to 1 Character with a cost of 4 or less to the owner's hand."
+  },
+  "text": "Main If your Leader is [Jinbe] and you have 2 or less cards in your hand, draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Jinbe] and you have 2 or less cards in your hand, draw 2 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 Character with a cost of 4 or less to the owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

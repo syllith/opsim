@@ -1,0 +1,38 @@
+{
+  "id": "OP02-005",
+  "set": "OP02",
+  "number": 5,
+  "name": "Curly Dadan",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Mountain Bandit"],
+  "rarity": "UC",
+  "art": "/cards/OP02/OP02-005.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "On Play"],
+  "trigger": null,
+  "text": "On Play Look at 5 cards from the top of your deck; reveal up to 1 red Character card with a cost of 1 or less and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 red Character card with a cost of 1 or less and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck:top5", "oneRedCharacter<=1"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP03-122",
+  "set": "OP03",
+  "number": 122,
+  "name": "Sogeking",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Sniper Island"
+  ],
+  "rarity": "SEC",
+  "art": "/cards/OP03/OP03-122.png",
+  "stats": {
+    "cost": 7,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Return up to 1 Character with a cost of 6 or less to the owner's hand. Then, draw 2 cards and trash 2 cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 Character with a cost of 6 or less to the owner's hand. Then, draw 2 cards and trash 2 cards.",
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=cost6"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card's name is also treated as [Usopp]. Rarity 'SEC' is printed in the bottom right corner. The 'Counter +1000' text is visible on the left side of the card."
+  }
+}

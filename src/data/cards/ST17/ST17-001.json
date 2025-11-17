@@ -1,0 +1,36 @@
+{
+  "id": "ST17-001",
+  "set": "ST17",
+  "number": 1,
+  "name": "Crocodile",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
+  "rarity": "C",
+  "art": "/cards/ST17/ST17-001.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "Counter"],
+  "trigger": null,
+  "text": "On Play: Reveal 1 card from the top of your deck. If that card has the {The Seven Warlords of the Sea} type, draw 2 cards and place 1 card from your hand on the top of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Reveal 1 card from the top of your deck. If that card has the {The Seven Warlords of the Sea} type, draw 2 cards and place 1 card from your hand on the top of your deck.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["revealTopDeck", "revealedCardType=The Seven Warlords of the Sea"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP10-083",
+  "set": "OP10",
+  "number": 83,
+  "name": "Kozuki Momonosuke",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa",
+    "Wano",
+    "Kozuki Family"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-083.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this character and one of your Leader or Stages with the \"Dressrosa\" type. Give up to 1 of your opponent's characters cost -2 for the turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character and one of your Leader or Stages with the \"Dressrosa\" type. Give up to 1 of your opponent's characters cost -2 for the turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample with 'SAMPLE' watermark. Counter value is 2000 as printed."
+  }
+}

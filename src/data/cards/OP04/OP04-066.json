@@ -1,0 +1,70 @@
+{
+  "id": "OP04-066",
+  "set": "OP04",
+  "number": 66,
+  "name": "Miss Valentine (Mikita)",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP04/OP04-066.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card."
+  },
+  "text": "On Play Look at the top 5 cards of your deck, reveal 1 card with \"Baroque Works\" in one of its types and add it to your hand. Place the remaining cards at the bottom of your deck in any order.\nTrigger DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal 1 card with \"Baroque Works\" in one of its types and add it to your hand. Place the remaining cards at the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": [
+          "oneCardWithBaroqueWorks"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Play this card.",
+        "powerMod": null,
+        "targets": [
+          "thisCard"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'R' is printed in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

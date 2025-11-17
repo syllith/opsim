@@ -1,0 +1,40 @@
+{
+  "id": "EB01-058",
+  "set": "EB01",
+  "number": 58,
+  "name": "Mont Blanc Cricket",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Saruyama Alliance"],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-058.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["DON!! x1", "Your Turn"],
+  "trigger": null,
+  "text": "[DON!! x1] [Your Turn] If you have 2 or less life, this character has +2000 power.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 2 or less life, this character has +2000 power.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "whileConditionMet"
+        },
+        "targets": ["self"],
+        "conditions": ["selfLife<=2"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

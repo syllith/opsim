@@ -1,0 +1,56 @@
+{
+  "id": "ST10-012",
+  "set": "ST10",
+  "number": 12,
+  "name": "Bepo",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Mink Tribe", "Heart Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST10/ST10-012.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "When Attacking"],
+  "trigger": null,
+  "text": "On Play / When Attacking: If the number of DON!! cards on your opponent's field is greater than the number of DON!! cards on your field, add 1 DON!! card from your DON!! deck rested to your cost area.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If the number of DON!! cards on your opponent's field is greater than the number of DON!! cards on your field, add 1 DON!! card from your DON!! deck rested to your cost area.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["donDeck"],
+        "conditions": ["opponentFieldDon>yourFieldDon"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["costArea"]
+        }
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If the number of DON!! cards on your opponent's field is greater than the number of DON!! cards on your field, add 1 DON!! card from your DON!! deck rested to your cost area.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["donDeck"],
+        "conditions": ["opponentFieldDon>yourFieldDon"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

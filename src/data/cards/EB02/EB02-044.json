@@ -1,0 +1,37 @@
+{
+  "id": "EB02-044",
+  "set": "EB02",
+  "number": 44,
+  "name": "Sengoku",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Wisdom",
+  "types": ["Navy"],
+  "rarity": "R",
+  "art": "/cards/EB02/EB02-044.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker]\n[On Play] Play up to 1 Black {Navy} type Character card with a cost of 4 or less from your trash as rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play up to 1 Black {Navy} type Character card with a cost of 4 or less from your trash as rested.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["trash:Character:Black:Navy:cost<=4"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

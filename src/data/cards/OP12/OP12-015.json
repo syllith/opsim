@@ -1,0 +1,58 @@
+{
+  "id": "OP12-015",
+  "set": "OP12",
+  "number": 15,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew",
+    "Supernovas"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-015.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "If you have 2 or more attached DON!! cards on the field, this Character gains +2000 power.\nOn Play: You may reveal 2 Event cards from your hand: Play up to 1 red Character with a power of 3000 or less from your hand. Then, give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may reveal 2 Event cards from your hand: Play up to 1 red Character with a power of 3000 or less from your hand. Then, give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "self",
+            "ally:Leader",
+            "ally:Character"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

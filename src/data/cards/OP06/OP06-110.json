@@ -1,0 +1,66 @@
+{
+  "id": "OP06-110",
+  "set": "OP06",
+  "number": 110,
+  "name": "Nekomamushi",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Minks",
+    "Land of Wano",
+    "The Akazaya Nine"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-110.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x2",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your opponent has 3 life cards or less, play this card."
+  },
+  "text": "DON!! x2: This Character can also attack your opponent's active Characters.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent has 3 life cards or less, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "DON!! x2",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This Character can also attack your opponent's active Characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, so stats may not reflect final version. Counter value is 1000 as printed. Rarity is UC as printed."
+  }
+}

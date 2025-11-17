@@ -1,0 +1,48 @@
+{
+  "id": "OP09-087",
+  "set": "OP09",
+  "number": 87,
+  "name": "Charlotte Pudding",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-087.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your opponents hand has 5 or more cards in it, your opponent trashes 1 card from their hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponents hand has 5 or more cards in it, your opponent trashes 1 card from their hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but rarity is clearly 'R' in the bottom right corner."
+  }
+}

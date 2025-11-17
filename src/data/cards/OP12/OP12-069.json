@@ -1,0 +1,60 @@
+{
+  "id": "OP12-069",
+  "set": "OP12",
+  "number": 69,
+  "name": "Crocodile",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP12/OP12-069.png",
+  "stats": {
+    "cost": 6,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 8000
+    }
+  },
+  "keywords": [
+    "On Your Opponent's Attack",
+    "Once Per Turn",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "On Your Opponent's Attack Once Per Turn DON!! -1: If your Leader has the [Baroque Works] type, up to 1 of your Leader or Character cards gain +2000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "On Your Opponent's Attack",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If your Leader has the [Baroque Works] type, up to 1 of your Leader or Character cards gain +2000 power during this battle.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "up to 1 of your Leader or Character cards"
+        ],
+        "conditions": [
+          "your Leader has the [Baroque Works] type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

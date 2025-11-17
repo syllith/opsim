@@ -1,0 +1,72 @@
+{
+  "id": "OP07-057",
+  "set": "OP07",
+  "number": 57,
+  "name": "Perfume Femur",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Seven Warlords of the Sea",
+    "Kuja Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-057.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "Main Up to one of your {Seven Warlords of the Sea} type Leader or Character cards gains +2000 power during this turn. Your opponent cannot activate Blocker when the selected card attacks.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to one of your {Seven Warlords of the Sea} type Leader or Character cards gains +2000 power during this turn. Your opponent cannot activate Blocker when the selected card attacks.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYour:Leader",
+          "oneOfYour:Character"
+        ],
+        "conditions": [
+          "type:Seven Warlords of the Sea"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

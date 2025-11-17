@@ -1,0 +1,53 @@
+{
+  "id": "OP11-102",
+  "set": "OP11",
+  "number": 102,
+  "name": "Camie",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Mefolk",
+    "Fish-Man Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-102.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Your Turn",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn Once Per Turn When your opponent activates an event or Trigger, you may activate this effect. If your opponent has 2 or more Life cards, trash the top card of both players' Life area.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When your opponent activates an event or Trigger, you may activate this effect. If your opponent has 2 or more Life cards, trash the top card of both players' Life area.",
+        "powerMod": null,
+        "conditions": [
+          "opponent has 2 or more Life cards"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

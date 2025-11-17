@@ -1,0 +1,50 @@
+{
+  "id": "OP12-109",
+  "set": "OP12",
+  "number": 109,
+  "name": "Pacifista",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Biological Weapon",
+    "Egghead",
+    "Navy"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP12/OP12-109.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's Characters with a cost of 1 or lower. Then, add this card to your hand."
+  },
+  "text": null,
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 1 or lower. Then, add this card to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP01-085",
+  "set": "OP01",
+  "number": 85,
+  "name": "Mr. 3 (Galdino)",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Baroque Works"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-085.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: If your Leader has the {Baroque Works} type, up to 1 of your opponent's Characters with a cost of 4 or less cannot attack, until your opponent's next end of turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Baroque Works} type, up to 1 of your opponent's Characters with a cost of 4 or less cannot attack, until your opponent's next end of turn.",
+        "grants": ["Cannot Attack"],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=4"],
+        "conditions": ["leaderHasBaroqueWorks"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

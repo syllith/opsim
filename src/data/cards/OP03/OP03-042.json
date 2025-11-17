@@ -1,0 +1,55 @@
+{
+  "id": "OP03-042",
+  "set": "OP03",
+  "number": 42,
+  "name": "Usopp Pirates",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-042.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] Add up to 1 blue [Usopp] from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 blue [Usopp] from your trash to your hand.",
+        "powerMod": null,
+        "targets": [
+          "oneCardFromTrash"
+        ],
+        "conditions": [
+          "blue",
+          "Usopp"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

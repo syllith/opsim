@@ -1,0 +1,64 @@
+{
+  "id": "OP12-061",
+  "set": "OP12",
+  "number": 61,
+  "name": "Donquixote Rosinante",
+  "category": "Leader",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Navy",
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-061.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Once Per Turn",
+    "Activate: Main",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "Once Per Turn: If your [Trafalgar Law] would be K.O'd, you may add the top card of your Life pile to your hand instead. Activate: Main: Once Per Turn: DON!! -1: During this turn, the next time you play [Trafalgar Law] from your hand with a cost of 4 or more will have its cost reduced by 2.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your [Trafalgar Law] would be K.O'd, you may add the top card of your Life pile to your hand instead.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "During this turn, the next time you play [Trafalgar Law] from your hand with a cost of 4 or more will have its cost reduced by 2.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP02-010",
+  "set": "OP02",
+  "number": 10,
+  "name": "Dogura",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Mountain Bandits"],
+  "rarity": "C",
+  "art": "/cards/OP02/OP02-010.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "Activate: Main"],
+  "trigger": null,
+  "text": "Activate: Main You may rest this Character: Play up to 1 red Character other than [Dogura] with a cost of 1 from your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this Character: Play up to 1 red Character other than [Dogura] with a cost of 1 from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneRedCharacter<=1:notDogura"],
+        "conditions": ["restSelf", "optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

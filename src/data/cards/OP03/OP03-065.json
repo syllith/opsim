@@ -1,0 +1,58 @@
+{
+  "id": "OP03-065",
+  "set": "OP03",
+  "number": 65,
+  "name": "Chimney & Gonbe",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Animal",
+    "Water"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-065.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "(Blocker) (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "afterOpponentDeclaresAttack"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample image, indicated by the large 'SAMPLE' watermark. The card number and rarity are visible in the bottom right corner."
+  }
+}

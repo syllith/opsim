@@ -1,0 +1,38 @@
+{
+  "id": "OP01-072",
+  "set": "OP01",
+  "number": 72,
+  "name": "Smiley",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Biological Weapon", "Punk Hazard"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-072.png",
+  "stats": {
+    "cost": 3,
+    "power": 1000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x1", "Your Turn"],
+  "trigger": null,
+  "text": "DON!! x1 | Your Turn: This Character gains +1000 power for each card in your hand.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This Character gains +1000 power for each card in your hand.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "while in play per hand card" },
+        "targets": ["self"],
+        "conditions": ["perHandCard"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

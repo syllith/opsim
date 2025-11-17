@@ -1,0 +1,83 @@
+{
+  "id": "OP12-044",
+  "set": "OP12",
+  "number": 44,
+  "name": "Sakazuki",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-044.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 8000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the {Navy} type, draw 2 cards. Activate: Main: Once Per Turn. You may trash 1 card from your hand. Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Navy} type, draw 2 cards.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Navy"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand. Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "self"
+        ],
+        "conditions": [
+          "optionalTarget",
+          "rested"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "yourLeader",
+            "oneOfYourCharacters"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

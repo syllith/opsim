@@ -1,0 +1,52 @@
+{
+  "id": "OP03-076",
+  "set": "OP03",
+  "number": 76,
+  "name": "Rob Lucci",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-076.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 5000,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Your Turn Once Per Turn You may discard 2 cards from your hand: When an opponent's Character is K.O.ed, set this Leader as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard 2 cards from your hand: When an opponent's Character is K.O.ed, set this Leader as active.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "opponentCharacterKo"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample. The text 'SAMPLE' is overlaid on the card image."
+  }
+}

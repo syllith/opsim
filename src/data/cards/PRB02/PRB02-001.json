@@ -1,0 +1,73 @@
+{
+  "id": "PRB02-001",
+  "set": "PRB02",
+  "number": 1,
+  "name": "Koby",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy",
+    "SWORD"
+  ],
+  "rarity": "R",
+  "art": "/cards/PRB02/PRB02-001.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "Opponent's Turn: If your Leader has the (Navy) type, this Character gains +1000 power. When Attacking: K.O. up to 1 of your opponent's Characters with 3000 base power or less. Then, if you have 6 or less cards in your hand, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Navy) type, this Character gains +1000 power.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Navy"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with 3000 base power or less. Then, if you have 6 or less cards in your hand, draw 1 card.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "withBasePower<=3000"
+        ],
+        "conditions": [
+          "youHave6OrLessCardsInHand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

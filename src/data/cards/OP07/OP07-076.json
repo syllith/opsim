@@ -1,0 +1,51 @@
+{
+  "id": "OP07-076",
+  "set": "OP07",
+  "number": 76,
+  "name": "NoroNoro Beam Sword",
+  "category": "Event",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Foxy Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-076.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Add up to 1 DON!! card from your DON!! deck and set it as active."
+  },
+  "text": "#Counter Don!!-1: Give up to one character or leader +2000 Power for this battle. Then, rest up to one of your opponents characters.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one character or leader +2000 Power for this battle. Then, rest up to one of your opponents characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

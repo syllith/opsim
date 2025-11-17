@@ -1,0 +1,37 @@
+{
+  "id": "OP02-051",
+  "set": "OP02",
+  "number": 51,
+  "name": "Emporio Ivankov",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Impel Down", "Revolutionary Army"],
+  "rarity": "SR",
+  "art": "/cards/OP02/OP02-051.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Draw cards until you have 3 cards in your hand, then play up to 1 blue {Impel Down} type Character card with a cost of 6 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw cards until you have 3 cards in your hand, then play up to 1 blue {Impel Down} type Character card with a cost of 6 or less from your hand.",
+        "grants": ["draw"],
+        "powerMod": null,
+        "targets": ["Player", "Character"],
+        "conditions": ["Impel Down type", "cost 6 or less"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

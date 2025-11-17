@@ -1,0 +1,54 @@
+{
+  "id": "OP10-114",
+  "set": "OP10",
+  "number": 114,
+  "name": "X.Drake",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "Navy",
+    "Drake Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP10/OP10-114.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this character: If the number of your life cards is less than or equal to the number of your opponent's life cards, rest up to one of your opponent's characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character: If the number of your life cards is less than or equal to the number of your opponent's life cards, rest up to one of your opponent's characters with a cost of 4 or less.",
+        "powerMod": null,
+        "conditions": [
+          "self",
+          "oneOpponentCharacter<=cost4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

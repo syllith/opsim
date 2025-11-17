@@ -1,0 +1,55 @@
+{
+  "id": "OP12-072",
+  "set": "OP12",
+  "number": 72,
+  "name": "Zeff",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-072.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "When 1 or more of your DON!! cards is returned to your DON!! Deck and your Leader is [Sanji], this Character gains Rush. (This card can attack on the turn in which it is played.)",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When 1 or more of your DON!! cards is returned to your DON!! Deck and your Leader is [Sanji], this Character gains Rush. (This card can attack on the turn in which it is played.)",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "conditions": [
+          "1 or more of your DON!! cards is returned to your DON!! Deck",
+          "your Leader is [Sanji]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

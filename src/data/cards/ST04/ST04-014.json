@@ -1,0 +1,20 @@
+{
+  "id": "ST04-014",
+  "set": "ST04",
+  "number": 14,
+  "name": "Lead Performer \"Disaster\"",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST04/ST04-014.png",
+  "stats": { "cost": 4, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Main"],
+  "trigger": {"text": "Activate this card's Main effect."},
+  "text": "Main: Draw 1 card, then add 1 card from your DON!! deck and set it as active. Trigger: Activate this card's Main effect.",
+  "abilities": [
+    {"timing": "Main", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Draw 1 card, then add 1 DON!! from DON deck set active.", "grants": [], "powerMod": null, "targets": ["self", "donDeck"], "conditions": []}}
+  ],
+  "meta": {"notes": null}
+}

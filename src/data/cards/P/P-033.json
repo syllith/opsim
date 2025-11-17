@@ -1,0 +1,48 @@
+{
+  "id": "P-033",
+  "set": "P",
+  "number": 33,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "L",
+  "art": "/cards/P/P-033.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may return this Character to the bottom of its owner's deck. Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return this Character to the bottom of its owner's deck. Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'L' is visible in the bottom right corner. The card is a Character with a cost of 4, power of 5000, and a counter of 1000. The text is clearly readable."
+  }
+}

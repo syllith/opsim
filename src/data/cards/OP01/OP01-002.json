@@ -1,0 +1,61 @@
+{
+  "id": "OP01-002",
+  "set": "OP01",
+  "number": 2,
+  "name": "Trafalgar Law",
+  "category": "Leader",
+  "colors": [
+    "Red",
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "Heart Pirates"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP01/OP01-002.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "[Activate: Main] [Once Per Turn] ② (You may rest the specified number of DON!! cards in your Cost Area): If you have 5 Characters, return 1 of your Characters to the owner's hand, then play up to 1 Character with a cost of 5 or less of a different color as the returned Character from your hand.",
+  "abilities": [
+    {
+      "timing": "Activate Main",
+      "frequency": "Once Per Turn",
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "If you have 5 Characters, return 1 of your Characters to the owner's hand, then play up to 1 Character with a cost of 5 or less of a different color as the returned Character from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": [
+          "ally:Character",
+          "hand"
+        ],
+        "conditions": [
+          "has5Characters",
+          "characterCost<=5",
+          "differentColor"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

@@ -1,0 +1,37 @@
+{
+  "id": "OP01-054",
+  "set": "OP01",
+  "number": 54,
+  "name": "X.Drake",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Supernovas", "Navy", "Drake Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-054.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:opponent:Character"],
+        "conditions": ["restedCharacter", "opponentCharacterCost<=4"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

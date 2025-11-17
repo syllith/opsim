@@ -1,0 +1,48 @@
+{
+  "id": "PRB02-018",
+  "set": "PRB02",
+  "number": 18,
+  "name": "Portgas.D.Ace",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/PRB02/PRB02-018.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have a face-up Life card, play up to 1 [Sabo], [Portgas.D.Ace] or [Monkey.D.Luffy] with a cost of 2 from your hand or trash.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a face-up Life card, play up to 1 [Sabo], [Portgas.D.Ace] or [Monkey.D.Luffy] with a cost of 2 from your hand or trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

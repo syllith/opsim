@@ -1,0 +1,50 @@
+{
+  "id": "EB02-053",
+  "set": "EB02",
+  "number": 53,
+  "name": "Olga Myskina",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Wisdom",
+  "types": ["Alchemi"],
+  "rarity": "C",
+  "art": "/cards/EB02/EB02-053.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "On K.O"],
+  "trigger": null,
+  "text": "[On Play] / [On K.O] Look at the top card of your or your opponent's Life, move it to the top or bottom of the Life cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top card of your or your opponent's Life, move it to the top or bottom of the Life cards.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:Life", "opponent:Life"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "On K.O",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top card of your or your opponent's Life, move it to the top or bottom of the Life cards.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:Life", "opponent:Life"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "OP08-043",
+  "set": "OP08",
+  "number": 43,
+  "name": "Edward Newgate",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "The Four Emperors",
+    "Whitebeard Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP08/OP08-043.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 12000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader's type includes \"Whitebeard Pirates\" and you have 2 or less Life cards, until the end of your opponent's next turn all of your opponent's Characters cannot attack unless they first discard 2 cards from their hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader's type includes \"Whitebeard Pirates\" and you have 2 or less Life cards, until the end of your opponent's next turn all of your opponent's Characters cannot attack unless they first discard 2 cards from their hand.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderTypeIncludesWhitebeardPirates",
+          "youHave2OrLessLifeCards"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

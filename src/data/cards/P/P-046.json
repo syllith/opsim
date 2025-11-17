@@ -1,0 +1,48 @@
+{
+  "id": "P-046",
+  "set": "P",
+  "number": 46,
+  "name": "Yamato",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Land of Wano"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-046.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may place all cards in your hand at the bottom of your deck in any order. Then, draw as many cards as placed.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place all cards in your hand at the bottom of your deck in any order. Then, draw as many cards as placed.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

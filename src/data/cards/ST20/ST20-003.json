@@ -1,0 +1,37 @@
+{
+  "id": "ST20-003",
+  "set": "ST20",
+  "number": 3,
+  "name": "Charlotte Brûlée",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Big Mom Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST20/ST20-003.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Trigger", "Counter +2000"],
+  "trigger": { "text": "Look at the top card of your or your opponent's life and put it back on the top or bottom of the life pile. Then, add this card to your hand." },
+  "text": "Trigger Look at the top card of your or your opponent's life and put it back on the top or bottom of the life pile. Then, add this card to your hand.",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top card of your or your opponent's life and put it back on the top or bottom of the life pile. Then, add this card to your hand.",
+        "powerMod": null,
+        "targets": ["topLifeCard:playerOrOpponent"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

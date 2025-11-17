@@ -1,0 +1,37 @@
+{
+  "id": "EB03-003",
+  "set": "EB03",
+  "number": 3,
+  "name": "Uta",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["FILM"],
+  "rarity": "SR",
+  "art": "/cards/EB03/EB03-003.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] If your Leader is [Uta], draw 2 cards. Then, play up to 1 Character card with 6000 power or less and no base effect from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader is [Uta], draw 2 cards. Then, play up to 1 Character card with 6000 power or less and no base effect from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck", "hand:Character:power<=6000:noBaseEffect"],
+        "conditions": ["leaderIsUta"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

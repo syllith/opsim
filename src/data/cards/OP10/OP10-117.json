@@ -1,0 +1,65 @@
+{
+  "id": "OP10-117",
+  "set": "OP10",
+  "number": 117,
+  "name": "ROOM",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Supernova",
+    "Heart Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-117.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "If you have 1 or less life, give up to 1 of your leader or characters +3000 Power for this battle. Then, set up to 1 of your 5 cost or lower characters active.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 1 or less life, give up to 1 of your leader or characters +3000 Power for this battle. Then, set up to 1 of your 5 cost or lower characters active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

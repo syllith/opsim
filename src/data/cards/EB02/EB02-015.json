@@ -1,0 +1,37 @@
+{
+  "id": "EB02-015",
+  "set": "EB02",
+  "number": 15,
+  "name": "Jewelry Bonney",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Special",
+  "types": ["Supernova", "Bonnie Pirates"],
+  "rarity": "SR",
+  "art": "/cards/EB02/EB02-015.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] Up to one of your opponent's rested characters will not become active during your opponent's next refresh phase. Then, at the end of your turn, set up to 1 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Up to one of your opponent's rested characters will not become active during your opponent's next refresh phase. Then, at the end of your turn, set up to 1 of your DON!! cards as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:opponent:restedCharacter", "upTo1:ownDon"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP06-046",
+  "set": "OP06",
+  "number": 46,
+  "name": "Sakazuki",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP06/OP06-046.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Place up to 1 character with a cost of 2 or less at the bottom of the owner's deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to 1 character with a cost of 2 or less at the bottom of the owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'SPECIAL' in the top right corner, which may indicate it's a promotional or special edition card. The rarity is printed as 'US' in the bottom right corner."
+  }
+}

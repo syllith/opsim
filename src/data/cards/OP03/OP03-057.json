@@ -1,0 +1,71 @@
+{
+  "id": "OP03-057",
+  "set": "OP03",
+  "number": 57,
+  "name": "Three Thousand Worlds",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "East Blue",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-057.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Place up to 1 Character with a cost of 3 or less at the bottom of its owner's deck."
+  },
+  "text": "Main\nPlace up to 1 Character with a cost of 5 or less at the bottom of its owner's deck.\n\nTrigger\nPlace up to 1 Character with a cost of 3 or less at the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to 1 Character with a cost of 5 or less at the bottom of its owner's deck.",
+        "powerMod": null,
+        "targets": [
+          "upTo1Character<=cost5"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to 1 Character with a cost of 3 or less at the bottom of its owner's deck.",
+        "powerMod": null,
+        "targets": [
+          "upTo1Character<=cost3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "OP12-010",
+  "set": "OP12",
+  "number": 10,
+  "name": "Douglas Bullet",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM/The Pirates Fest",
+    "Former Roger Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP12/OP12-010.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When Attacking: If this character attacks, you may pay 1 DON!! to gain 2000 power for this battle. [Main] Pay 1 DON!! to gain 2000 power for this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If this character attacks, you may pay 1 DON!! to gain 2000 power for this battle.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this battle"
+        },
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Pay 1 DON!! to gain 2000 power for this battle.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this battle"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

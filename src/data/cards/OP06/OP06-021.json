@@ -1,0 +1,49 @@
+{
+  "id": "OP06-021",
+  "set": "OP06",
+  "number": 21,
+  "name": "Perona",
+  "category": "Leader",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP06/OP06-021.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn Choose one of the following effects: • Rest up to 1 of your opponent's characters with a cost of 4 or less. • Up to 1 of your opponent's characters gets -1 cost during this turn",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose one of the following effects: • Rest up to 1 of your opponent's characters with a cost of 4 or less. • Up to 1 of your opponent's characters gets -1 cost during this turn",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

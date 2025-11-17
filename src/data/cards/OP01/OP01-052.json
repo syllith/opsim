@@ -1,0 +1,37 @@
+{
+  "id": "OP01-052",
+  "set": "OP01",
+  "number": 52,
+  "name": "Raizo",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Wano Country", "Nine Red Scabbards"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-052.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["When Attacking", "Once Per Turn"],
+  "trigger": null,
+  "text": "[When Attacking] [Once Per Turn] If you have 2 or more rested Characters, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 2 or more rested Characters, draw 1 card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck"],
+        "conditions": ["has2OrMoreRestedCharacters"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

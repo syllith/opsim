@@ -1,0 +1,66 @@
+{
+  "id": "OP09-086",
+  "set": "OP09",
+  "number": 86,
+  "name": "Jesus Burgess",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Blackbeard Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-086.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "This character cannot be KO'd by your opponents effects. If your leader has the (Blackbeard Pirates) type, this character gets +1000 power for every 4 cards in your trash.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This character cannot be KO'd by your opponents effects.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the (Blackbeard Pirates) type, this character gets +1000 power for every 4 cards in your trash.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "yourLeader",
+          "hasType:Blackbeard Pirates"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

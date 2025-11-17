@@ -1,0 +1,55 @@
+{
+  "id": "OP04-098",
+  "set": "OP04",
+  "number": 98,
+  "name": "Toko",
+  "category": "Character",
+  "colors": [
+    "Wisdom"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Wano Country"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-098.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play You may trash 2 cards with the {Wano Country} type from your hand. If your life is 1 or less, add 1 card from the top of your deck to the top of your life.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 2 cards with the {Wano Country} type from your hand. If your life is 1 or less, add 1 card from the top of your deck to the top of your life.",
+        "powerMod": null,
+        "targets": [
+          "2 cards with the {Wano Country} type from your hand",
+          "1 card from the top of your deck"
+        ],
+        "conditions": [
+          "your life is 1 or less"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

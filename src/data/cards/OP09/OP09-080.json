@@ -1,0 +1,46 @@
+{
+  "id": "OP09-080",
+  "set": "OP09",
+  "number": 80,
+  "name": "Thousand Sunny",
+  "category": "Stage",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-080.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Opponent's Turn: You may rest this stage: When one of your {Straw Hat Crew} type characters leave play due to your opponent's effects, set up to one rested Don!! from your Don!! deck as rested.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this stage: When one of your {Straw Hat Crew} type characters leave play due to your opponent's effects, set up to one rested Don!! from your Don!! deck as rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but this is not a game error; it's a placeholder for the card image."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "OP14-118",
+  "set": "OP14",
+  "number": 118,
+  "name": "You'll Frighten Me..",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea/Kuja Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-118.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play up to 1 Character card with 6000 power or less and a Trigger from your hand."
+  },
+  "text": "If you have 2 or less Life cards, up to 1 of your opponent's active Characters cannot attack during this turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 2 or less Life cards, up to 1 of your opponent's active Characters cannot attack during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 Character card with 6000 power or less and a Trigger from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

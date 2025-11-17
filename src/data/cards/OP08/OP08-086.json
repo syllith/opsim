@@ -1,0 +1,49 @@
+{
+  "id": "OP08-086",
+  "set": "OP08",
+  "number": 86,
+  "name": "Ginrummy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal Kingdom Pirates",
+    "SMILE"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-086.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your opponent has a Character with a cost of 0, draw 2 cards and trash 2 cards from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent has a Character with a cost of 0, draw 2 cards and trash 2 cards from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has '打' (Strike) symbol in top right corner, which is consistent with 'Strike' attribute. Power value is clearly 3000. Rarity is 'C' as printed in bottom right corner. No life value printed."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP11-045",
+  "set": "OP11",
+  "number": 45,
+  "name": "Vinsmoke Niji",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "The Vinsmoke Family",
+    "GERMA 66"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP11/OP11-045.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When this card is played, you may rest 1 DON!! from your cost area. If you do, this card gains +2000 power until end of turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "When this card is played, you may rest 1 DON!! from your cost area. If you do, this card gains +2000 power until end of turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

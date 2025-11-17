@@ -1,0 +1,38 @@
+{
+  "id": "OP01-069",
+  "set": "OP01",
+  "number": 69,
+  "name": "Caesar Clown",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Scientist", "Punk Hazard"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-069.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On K.O."],
+  "trigger": null,
+  "text": "On K.O.: Play 1 [Smiley] card from your deck, then shuffle your deck.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play 1 [Smiley] card from your deck, then shuffle your deck.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneSmileyFromDeck"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

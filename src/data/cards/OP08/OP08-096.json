@@ -1,0 +1,64 @@
+{
+  "id": "OP08-096",
+  "set": "OP08",
+  "number": 96,
+  "name": "People's Dreams... Don't Ever End!!",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Blackbeard Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-096.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play up to 1 black Character card with a cost of 3 or less from your trash."
+  },
+  "text": "Counter: Trash 1 card from the top of your deck. If that card has a cost of 6 or greater, up to 1 of your Leader or Character cards gains +5000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Trash 1 card from the top of your deck. If that card has a cost of 6 or greater, up to 1 of your Leader or Character cards gains +5000 power during this battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 black Character card with a cost of 3 or less from your trash.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

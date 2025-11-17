@@ -1,0 +1,37 @@
+{
+  "id": "EB02-036",
+  "set": "EB02",
+  "number": 36,
+  "name": "Nico Robin",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Straw Hat Crew"],
+  "rarity": "R",
+  "art": "/cards/EB02/EB02-036.png",
+  "stats": {
+    "cost": 3,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On K.O", "DON!! -1"],
+  "trigger": null,
+  "text": "[Blocker]\n[On K.O] [DON!! -1]: Look at the top 3 cards of your deck, reveal up to 1 {Strawhat Crew} type card and put it into your hand. Then place the rest on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On K.O",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "Look at the top 3 cards of your deck, reveal up to 1 {Strawhat Crew} type card and put it into your hand. Then place the rest on the bottom of your deck in any order.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": "DON!! -1 means return 1 DON!! card from field to DON!! deck as cost" }
+}

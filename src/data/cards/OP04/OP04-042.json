@@ -1,0 +1,54 @@
+{
+  "id": "OP04-042",
+  "set": "OP04",
+  "number": 42,
+  "name": "Ipponmatsu",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-042.png",
+  "stats": {
+    "cost": 2,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play Up to 1 of your characters with the (Slash) attribute gain +3000 Power this turn. Then, trash 1 card from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your characters with the (Slash) attribute gain +3000 Power this turn. Then, trash 1 card from the top of your deck.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "upTo1Character:ally:withAttribute:Slash"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card has a 'SAMPLE' watermark, but all other text is legible."
+  }
+}

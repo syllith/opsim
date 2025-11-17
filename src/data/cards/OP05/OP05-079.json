@@ -1,0 +1,48 @@
+{
+  "id": "OP05-079",
+  "set": "OP05",
+  "number": 79,
+  "name": "Viola",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP05/OP05-079.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Your opponent chooses 3 cards in their trash and they return them to the bottom of their deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your opponent chooses 3 cards in their trash and they return them to the bottom of their deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

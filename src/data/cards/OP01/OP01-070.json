@@ -1,0 +1,38 @@
+{
+  "id": "OP01-070",
+  "set": "OP01",
+  "number": 70,
+  "name": "Dracule Mihawk",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["The Seven Warlords of the Sea"],
+  "rarity": "SR",
+  "art": "/cards/OP01/OP01-070.png",
+  "stats": {
+    "cost": 9,
+    "power": 9000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Place up to 1 Character with a cost of 7 or less at the bottom of the owner's deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Place up to 1 Character with a cost of 7 or less at the bottom of the owner's deck.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneCharacter<=7"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

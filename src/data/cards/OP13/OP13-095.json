@@ -1,0 +1,48 @@
+{
+  "id": "OP13-095",
+  "set": "OP13",
+  "number": 95,
+  "name": "Saint Rosward",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Celestial Dragons"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-095.png",
+  "stats": {
+    "cost": 3,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash 1 card from your hand: If the only Characters on your field are (Celestial Dragons) type Characters, K.O. up to 2 of your opponent's Characters with a base cost of 3 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: If the only Characters on your field are (Celestial Dragons) type Characters, K.O. up to 2 of your opponent's Characters with a base cost of 3 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

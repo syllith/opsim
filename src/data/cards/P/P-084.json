@@ -1,0 +1,49 @@
+{
+  "id": "P-084",
+  "set": "P",
+  "number": 84,
+  "name": "Buggy",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Cross Guild",
+    "Four Emperors"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-084.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 8000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "This character cannot attack. If your leader is [Buggy], all cost 3 and 4 characters cannot attack. \nOn Play: Play up to one cost 6 or lower (Cross Guild) type character from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to one cost 6 or lower (Cross Guild) type character from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

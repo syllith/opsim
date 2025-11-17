@@ -1,0 +1,48 @@
+{
+  "id": "OP06-003",
+  "set": "OP06",
+  "number": 3,
+  "name": "Emporio Ivankov",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP06/OP06-003.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 3 cards of your deck. Play up to 1 (Revolutionary) type Character Card with power 5000 or less. Then, return the remaining cards to the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 3 cards of your deck. Play up to 1 (Revolutionary) type Character Card with power 5000 or less. Then, return the remaining cards to the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is marked as 'SAMPLE' and has a 'US' rarity, which is likely 'Ultra Rare' or similar. The text is fully legible."
+  }
+}

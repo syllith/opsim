@@ -1,0 +1,70 @@
+{
+  "id": "OP12-014",
+  "set": "OP12",
+  "number": 14,
+  "name": "Boa Hancock",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "The Seven Warlords of the Sea/Kuja Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP12/OP12-014.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 5 cards of your deck; reveal up to 1 red Event card or [Monkey.D.Luffy] and put it into your hand. Then, place the rest at the bottom of your deck in any order. Activate: Main: You may trash this Character. Give up to 2 rested DON!! cards to 1 of your Leader or Character cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck; reveal up to 1 red Event card or [Monkey.D.Luffy] and put it into your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this Character. Give up to 2 rested DON!! cards to 1 of your Leader or Character cards.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 2,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "oneLeader",
+            "oneCharacter"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

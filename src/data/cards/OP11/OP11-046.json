@@ -1,0 +1,62 @@
+{
+  "id": "OP11-046",
+  "set": "OP11",
+  "number": 46,
+  "name": "Vinsmoke Yonji",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family",
+    "GERMA 66"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-046.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) If all of the Characters on your field have a type that includes \"GERMA\", this Character cannot be K.O'd or rested by your opponent's effects.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If all of the Characters on your field have a type that includes \"GERMA\", this Character cannot be K.O'd or rested by your opponent's effects.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "OP12-038",
+  "set": "OP12",
+  "number": 38,
+  "name": "Two-Sword Style Iai Rashomon",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-038.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main: You may rest 2 of your DON!! cards: K.O. up to 2 rested Characters with a original cost of 4 or less. \nCounter: Up to 1 of your Leader gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "You may rest 2 of your DON!! cards: K.O. up to 2 rested Characters with a original cost of 4 or less.",
+        "powerMod": null,
+        "targets": [
+          "up to 2 rested Characters with a original cost of 4 or less"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "up to 1 of your Leader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

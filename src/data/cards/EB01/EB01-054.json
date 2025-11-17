@@ -1,0 +1,50 @@
+{
+  "id": "EB01-054",
+  "set": "EB01",
+  "number": 54,
+  "name": "Gan Fall",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Strike",
+  "types": ["Sky Island"],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-054.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If your opponent has 1 or less life, KO up to 1 of your opponent's cost 3 or lower Characters.",
+  "abilities": [
+    {
+      "timing": "Block Step",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your opponent has 1 or less life, KO up to 1 of your opponent's cost 3 or lower Characters.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": ["opponentLife<=1", "characterCost<=3"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

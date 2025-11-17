@@ -1,0 +1,77 @@
+{
+  "id": "OP05-078",
+  "set": "OP05",
+  "number": 78,
+  "name": "Punk Rotten",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Kid Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP05/OP05-078.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Add up to 1 DON!! from your deck as active."
+  },
+  "text": "Main DON!!-1 Choose 1 of your leader or character with <Kid Pirates> attribute, give power +5000.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose 1 of your leader or character with <Kid Pirates> attribute, give power +5000.",
+        "powerMod": {
+          "amount": 5000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneOfYourLeaderOrCharacterWith<Kid Pirates>Attribute"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 DON!! from your deck as active.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "deck",
+          "to": [
+            "self"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

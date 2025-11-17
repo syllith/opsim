@@ -1,0 +1,54 @@
+{
+  "id": "OP12-004",
+  "set": "OP12",
+  "number": 4,
+  "name": "Kouzuki Oden",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Land of Wano",
+    "Kouzuki Clan",
+    "Roger Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-004.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may reveal 2 Event cards from your hand: This Character gains +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may reveal 2 Event cards from your hand: This Character gains +2000 power during this turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

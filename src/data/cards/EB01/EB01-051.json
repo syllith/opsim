@@ -1,0 +1,57 @@
+{
+  "id": "EB01-051",
+  "set": "EB01",
+  "number": 51,
+  "name": "Shigan (Finger Gun)",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "CP9"
+  ],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-051.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's [Main] ability."
+  },
+  "text": "[Main] You may trash the top 2 cards of your deck: KO up to one of your opponents cost 5 or less characters.\n[Trigger] Activate this card's [Main] ability.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash the top 2 cards of your deck: KO up to one of your opponents cost 5 or less characters.",
+        "grants": [],
+        "powerMod": null,
+        "targets": [
+          "opponent:Character"
+        ],
+        "conditions": [
+          "characterCost<=5"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

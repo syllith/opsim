@@ -1,0 +1,57 @@
+{
+  "id": "OP08-012",
+  "set": "OP08",
+  "number": 12,
+  "name": "Lapahn",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal",
+    "Drum Kingdom"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-012.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x2 When Attacking: If your Leader has the {Drum Kingdom} type, K.O. up to 1 of your opponent's Characters with 4000 power or less.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Drum Kingdom} type, K.O. up to 1 of your opponent's Characters with 4000 power or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "oneOpponentCharacter<=power4000"
+        ],
+        "conditions": [
+          "yourLeader",
+          "hasType:Drum Kingdom"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but rarity is R as printed. Power value is clearly 3000."
+  }
+}

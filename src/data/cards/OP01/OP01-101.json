@@ -1,0 +1,43 @@
+{
+  "id": "OP01-101",
+  "set": "OP01",
+  "number": 101,
+  "name": "Sasaki",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Slash",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-101.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Counter", "When Attacking", "DON!!"],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking You may trash 1 card from your hand: Add 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Add 1 DON!! card from your DON!! deck and rest it.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["trashCardFromHand"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["field"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

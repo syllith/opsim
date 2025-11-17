@@ -1,0 +1,48 @@
+{
+  "id": "OP05-056",
+  "set": "OP05",
+  "number": 56,
+  "name": "Diez Barrels",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Former Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-056.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may place 1 of your characters other than this character on the bottom of your deck. Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place 1 of your characters other than this character on the bottom of your deck. Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

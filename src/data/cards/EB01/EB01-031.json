@@ -1,0 +1,37 @@
+{
+  "id": "EB01-031",
+  "set": "EB01",
+  "number": 31,
+  "name": "Khalifa",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Wisdom",
+  "types": ["Water 7", "Galley-la Company"],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-031.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "DON!! -1"],
+  "trigger": null,
+  "text": "[On Play] Don!! -1: If your leader has the {Water 7} type, return up to 2 cost 4 or less character cards from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Don!! -1: If your leader has the {Water 7} type, return up to 2 cost 4 or less character cards from your trash to your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["trash"],
+        "conditions": ["leaderTypeWater7", "characterCost<=4"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

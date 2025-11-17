@@ -1,0 +1,62 @@
+{
+  "id": "OP04-061",
+  "set": "OP04",
+  "number": 61,
+  "name": "Tom",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Fish-Man",
+    "Water 7"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-061.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may trash this character. If your leader is {Water 7} type, add up to 1 DON!! from your DON!! deck and set it rested.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this character. If your leader is {Water 7} type, add up to 1 DON!! from your DON!! deck and set it rested.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "leader:Water 7"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "donDeck",
+          "to": [
+            "donArea"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample. The rarity 'C' is visible in the bottom right corner. The text is fully legible."
+  }
+}

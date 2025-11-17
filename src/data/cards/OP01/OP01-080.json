@@ -1,0 +1,38 @@
+{
+  "id": "OP01-080",
+  "set": "OP01",
+  "number": 80,
+  "name": "Miss Double Finger (Zala)",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Baroque Works"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-080.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On K.O."],
+  "trigger": null,
+  "text": "On K.O.: Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw 1 card.",
+        "grants": ["Draw 1 Card"],
+        "powerMod": null,
+        "targets": ["player"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

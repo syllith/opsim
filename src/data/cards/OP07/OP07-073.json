@@ -1,0 +1,50 @@
+{
+  "id": "OP07-073",
+  "set": "OP07",
+  "number": 73,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-073.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn",
+    "DON!!-3"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn DON!!-3 : If your opponent has 3 or more characters in play, set this character as active.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 3,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent has 3 or more characters in play, set this character as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

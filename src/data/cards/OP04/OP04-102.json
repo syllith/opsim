@@ -1,0 +1,55 @@
+{
+  "id": "OP04-102",
+  "set": "OP04",
+  "number": 102,
+  "name": "Kin'emon",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Wano Country"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-102.png",
+  "stats": {
+    "cost": 6,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main [Once Per Turn] (1) (You may rest the specified number of DON!! cards in your Cost Area) You may add one card from the top or bottom of your life to your hand: This card becomes active.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may add one card from the top or bottom of your life to your hand: This card becomes active.",
+        "powerMod": null,
+        "targets": [
+          "oneCardFromLife"
+        ],
+        "conditions": [
+          "rested"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

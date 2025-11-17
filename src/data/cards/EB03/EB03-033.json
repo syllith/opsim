@@ -1,0 +1,37 @@
+{
+  "id": "EB03-033",
+  "set": "EB03",
+  "number": 33,
+  "name": "Charlotte Brulee",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Big Mom Pirates"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-033.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Opponent's Turn", "Once Per Turn"],
+  "trigger": null,
+  "text": "[Opponent's Turn] [Once Per Turn] If your Leader has the {Big Mom Pirates} type, when a DON!! card on your field is returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Big Mom Pirates} type, when a DON!! card on your field is returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and rest it.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["donDeck"],
+        "conditions": ["leaderHasBigMomPirates", "donReturnedToDonDeck"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

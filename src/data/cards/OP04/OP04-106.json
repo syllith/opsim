@@ -1,0 +1,79 @@
+{
+  "id": "OP04-106",
+  "set": "OP04",
+  "number": 106,
+  "name": "Charlotte Bavarois",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-106.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!!",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may discard 1 card from your hand: Play this card."
+  },
+  "text": "DON!! x1 If you have less Life cards than your opponent, this Character gains +1000 power",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have less Life cards than your opponent, this Character gains +1000 power",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "lessLifeThanOpponent"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard 1 card from your hand: Play this card.",
+        "powerMod": null,
+        "targets": [
+          "thisCard"
+        ],
+        "conditions": [
+          "discard1CardFromHand"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

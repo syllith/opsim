@@ -1,0 +1,21 @@
+{
+  "id": "ST05-004",
+  "set": "ST05",
+  "number": 4,
+  "name": "Uta",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["FILM"],
+  "rarity": null,
+  "art": "/cards/ST05/ST05-004.png",
+  "stats": { "cost": 4, "power": 5000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "keywords": ["Blocker", "On Block", "DON!! -1"],
+  "trigger": null,
+  "text": "Blocker. On Block — DON!! -1: Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "abilities": [
+    {"timing": "Block", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "After opponent declares an attack you may rest this to become new target.", "grants": [], "powerMod": null, "targets": ["self"], "conditions": ["opponentDeclaredAttack"]}},
+    {"timing": "On Block", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Rest up to 1 opponent Character with cost 5 or less.", "grants": [], "powerMod": null, "targets": ["oneOpponentCharacter"], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ST06-010",
+  "set": "ST06",
+  "number": 10,
+  "name": "Helmeppo",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST06/ST06-010.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Give up to 1 of your opponent's Characters -3 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -3 to their cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["reduceCost:-3","duration:turn"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

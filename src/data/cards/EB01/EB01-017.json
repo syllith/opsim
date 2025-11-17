@@ -1,0 +1,37 @@
+{
+  "id": "EB01-017",
+  "set": "EB01",
+  "number": 17,
+  "name": "Blueno",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Strike",
+  "types": ["FILM", "CP0"],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-017.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Block Step",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP05-117",
+  "set": "OP05",
+  "number": 117,
+  "name": "Upper Yard",
+  "category": "Stage",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-117.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 5 cards of your deck, reveal up to 1 card with the (Sky Island) type and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to 1 card with the (Sky Island) type and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

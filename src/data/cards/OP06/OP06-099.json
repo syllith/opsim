@@ -1,0 +1,48 @@
+{
+  "id": "OP06-099",
+  "set": "OP06",
+  "number": 99,
+  "name": "Aisa",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Sky Island"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP06/OP06-099.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at up to 1 card from the top of your or your opponent's Life cards, and place it at the top or bottom of the Life Cards.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at up to 1 card from the top of your or your opponent's Life cards, and place it at the top or bottom of the Life Cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample; no additional notes needed."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "ST04-002",
+  "set": "ST04",
+  "number": 2,
+  "name": "Ulti",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Strike",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST04/ST04-002.png",
+  "stats": { "cost": 4, "power": 5000, "life": null, "counter": { "present": true, "value": 2000 } },
+  "keywords": ["On Play", "DON!! -1"],
+  "trigger": null,
+  "text": "On Play — DON!! -1: Play 1 [Page One] card with a cost of 4 or less from your hand.",
+  "abilities": [
+    {"timing": "On Play", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Play 1 Page One Character with cost 4 or less from hand.", "grants": [], "powerMod": null, "targets": ["oneCharacterHand"], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

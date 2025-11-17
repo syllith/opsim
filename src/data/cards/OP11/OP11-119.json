@@ -1,0 +1,70 @@
+{
+  "id": "OP11-119",
+  "set": "OP11",
+  "number": 119,
+  "name": "Koby",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy",
+    "SWORD"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-119.png",
+  "stats": {
+    "cost": 8,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "On Play: Up to 1 of your Characters can attack one of your opponent's active Characters this turn. When Attacking: You may return 2 cards from your trash to the bottom of your deck in any order. Give your Leader or up to 1 of your Characters +1000 power until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Characters can attack one of your opponent's active Characters this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return 2 cards from your trash to the bottom of your deck in any order. Give your Leader or up to 1 of your Characters +1000 power until the end of your opponent's next turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "until the end of your opponent's next turn"
+        },
+        "targets": [
+          "self",
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

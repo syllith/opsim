@@ -1,0 +1,66 @@
+{
+  "id": "OP08-111",
+  "set": "OP08",
+  "number": 111,
+  "name": "S-Shark",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Egghead",
+    "Seraphim"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP08/OP08-111.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "When Attacking",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may trash 1 card from your hand: if you have 2 or less Life cards, play this card."
+  },
+  "text": "DON!!x1 When Attacking Your opponent cannot activate during this battle. Trigger You may trash 1 card from your hand: if you have 2 or less Life cards, play this card.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Your opponent cannot activate during this battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: if you have 2 or less Life cards, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'SPECIAL' on image; these are not part of the card's official printed data and are ignored. Rarity is 'US' as printed in the bottom right corner."
+  }
+}

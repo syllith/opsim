@@ -1,0 +1,37 @@
+{
+  "id": "OP02-052",
+  "set": "OP02",
+  "number": 52,
+  "name": "Cabaji",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Buggy Pirates"],
+  "rarity": "C",
+  "art": "/cards/OP02/OP02-052.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: If you have [Mohji] in play, draw 2 cards and trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have [Mohji] in play, draw 2 cards and trash 1 card from your hand.",
+        "grants": ["draw", "trash"],
+        "powerMod": null,
+        "targets": ["Player"],
+        "conditions": ["Mohji in play"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

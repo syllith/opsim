@@ -1,0 +1,37 @@
+{
+  "id": "EB03-048",
+  "set": "EB03",
+  "number": 48,
+  "name": "Rebecca",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Dressrosa"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-048.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker]\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Dressrosa} type Stage card and add it to your hand. Then, place the rest on the bottom of your deck in any order and play up to 1 {Dressrosa} type Stage card with a cost of 1 from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Dressrosa} type Stage card and add it to your hand. Then, place the rest on the bottom of your deck in any order and play up to 1 {Dressrosa} type Stage card with a cost of 1 from your hand.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["deck", "hand"],
+        "conditions": ["dressrosaType", "stageCost1"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

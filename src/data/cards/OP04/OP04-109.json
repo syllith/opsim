@@ -1,0 +1,54 @@
+{
+  "id": "OP04-109",
+  "set": "OP04",
+  "number": 109,
+  "name": "Tonoyasu",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Wano Country"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-109.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may trash this character: Up to one of your leaders or characters with the (Wano Country) type gain +3000 Power for this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this character: Up to one of your leaders or characters with the (Wano Country) type gain +3000 Power for this turn.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneLeaderOrCharacter:Wano Country"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner."
+  }
+}

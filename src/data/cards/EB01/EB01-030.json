@@ -1,0 +1,39 @@
+{
+  "id": "EB01-030",
+  "set": "EB01",
+  "number": 30,
+  "name": "Logue Town",
+  "category": "Stage",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["East Blue"],
+  "rarity": "UC",
+  "art": "/cards/EB01/EB01-030.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Activate: Main", "Trigger"],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "[Activate: Main] You may place this card and one card from your hand on the bottom of your deck in any order: Draw 2 cards.\n[Trigger] Play this card.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may place this card and one card from your hand on the bottom of your deck in any order: Draw 2 cards.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self", "hand"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "EB03-016",
+  "set": "EB03",
+  "number": 16,
+  "name": "Kouzuki Hiyori",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Wisdom",
+  "types": ["Land of Wano", "Kouzuki Clan"],
+  "rarity": "C",
+  "art": "/cards/EB03/EB03-016.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "Activate: Main"],
+  "trigger": null,
+  "text": "[On Play] If your Leader is [Kouzuki Oden], draw 1 card.\n[Activate: Main] You may trash this Character: Give up to 1 rested DON!! card to your {Land of Wano} type Leader.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader is [Kouzuki Oden], draw 1 card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck"],
+        "conditions": ["leaderIsKouzukiOden"]
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash this Character: Give up to 1 rested DON!! card to your {Land of Wano} type Leader.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Leader:LandOfWano"],
+        "conditions": ["trashSelf"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self:Leader:LandOfWano"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP02-056",
+  "set": "OP02",
+  "number": 56,
+  "name": "Donquixote Doflamingo",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Donquixote Pirates"],
+  "rarity": "UG",
+  "art": "/cards/OP02/OP02-056.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "DON!! x1", "When Attacking"],
+  "trigger": null,
+  "text": "On Play: Look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order. DON!! x1 When Attacking: Trash 1 card from your hand: Place up to 1 of your opponent’s Characters with a cost of 1 or less to the bottom of the deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["Player"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Trash 1 card from your hand: Place up to 1 of your opponent’s Characters with a cost of 1 or less to the bottom of the deck.",
+        "grants": ["trash"],
+        "powerMod": null,
+        "targets": ["Opponent Character"],
+        "conditions": ["cost 1 or less"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

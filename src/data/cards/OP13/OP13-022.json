@@ -1,0 +1,51 @@
+{
+  "id": "OP13-022",
+  "set": "OP13",
+  "number": 22,
+  "name": "Windmill Village",
+  "category": "Stage",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Windmill Village"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-022.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate:Main You may rest this Stage: Up to 1 of your Characters with 2000 base power or less gains +1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Stage: Up to 1 of your Characters with 2000 base power or less gains +1000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "up to 1 of your Characters with 2000 base power or less"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

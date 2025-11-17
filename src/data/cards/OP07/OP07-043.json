@@ -1,0 +1,52 @@
+{
+  "id": "OP07-043",
+  "set": "OP07",
+  "number": 43,
+  "name": "Salome",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal",
+    "Kuja Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP07/OP07-043.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Your Turn On Play: Up to one of your [Boa Hancock] gain +2000 Power for the turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to one of your [Boa Hancock] gain +2000 Power for the turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

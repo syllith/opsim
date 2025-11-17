@@ -1,0 +1,55 @@
+{
+  "id": "OP12-024",
+  "set": "OP12",
+  "number": 24,
+  "name": "Gyukimaru",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Animal",
+    "Land of Wano"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-024.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "If this Character is active, it cannot be K.O.'d by your opponent's effects.\nWhen Attacking: If you have 3 or more attached DON!! cards, rest up to 1 of your opponent's Characters with an original cost of 6 or less.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 3,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 3 or more attached DON!! cards, rest up to 1 of your opponent's Characters with an original cost of 6 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost6"
+        ],
+        "conditions": [
+          "haveAttachedDonCards>=3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

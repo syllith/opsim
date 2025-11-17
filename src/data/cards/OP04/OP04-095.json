@@ -1,0 +1,58 @@
+{
+  "id": "OP04-095",
+  "set": "OP04",
+  "number": 95,
+  "name": "Baaaarrier!!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Dressrosa",
+    "Bart Club"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-095.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 2, trash 1."
+  },
+  "text": "#Counter Up to one of your leaders or characters gains +2000 Power for this battle. If your trash has at least 15 cards, gain another +2000 Power.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to one of your leaders or characters gains +2000 Power for this battle. If your trash has at least 15 cards, gain another +2000 Power.",
+        "powerMod": null,
+        "targets": [
+          "oneAllyLeaderOrCharacter"
+        ],
+        "conditions": [
+          "trash>=15"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is confirmed as 'C' from the bottom right corner of the card."
+  }
+}

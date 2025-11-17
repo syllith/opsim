@@ -1,0 +1,37 @@
+{
+  "id": "ST08-009",
+  "set": "ST08",
+  "number": 9,
+  "name": "Makino",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Wisdom",
+  "types": ["East Blue"],
+  "rarity": null,
+  "art": "/cards/ST08/ST08-009.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: If there's a Character with a cost of 0 in play, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If there's a Character with a cost of 0 in play, draw 1 card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["ifCharacterCost0InPlay", "draw:1"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

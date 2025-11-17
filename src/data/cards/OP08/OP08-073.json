@@ -1,0 +1,49 @@
+{
+  "id": "OP08-073",
+  "set": "OP08",
+  "number": 73,
+  "name": "Viscount Hiyoko",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-073.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "DON!! -1"
+  ],
+  "trigger": null,
+  "text": "Opponent's Turn On K.O. DON!! -1: Play up to 1 [Count Niwatori] with a cost of 6 or less from your deck, then shuffle your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 [Count Niwatori] with a cost of 6 or less from your deck, then shuffle your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample; 'SAMPLE' watermark present. Rarity 'R' confirmed. Power value is 6000. Attribute is 'Strike'."
+  }
+}

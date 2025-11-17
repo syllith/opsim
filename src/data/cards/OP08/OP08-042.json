@@ -1,0 +1,52 @@
+{
+  "id": "OP08-042",
+  "set": "OP08",
+  "number": 42,
+  "name": "Edward Weevil",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "The Seven Warlords of the Sea"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP08/OP08-042.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!! x1",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking: Return up to 1 Character with a cost of 3 or less to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 Character with a cost of 3 or less to the owner's hand.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost3"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but this is not a real card. Rarity is 'US' as printed."
+  }
+}

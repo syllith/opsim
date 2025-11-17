@@ -1,0 +1,53 @@
+{
+  "id": "OP03-102",
+  "set": "OP03",
+  "number": 102,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP03/OP03-102.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x2 When Attacking: You may add the top or bottom card of your Life to your hand: Add up to 1 card from the top of your deck to your Life.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may add the top or bottom card of your Life to your hand: Add up to 1 card from the top of your deck to your Life.",
+        "powerMod": null,
+        "targets": [
+          "yourLife",
+          "topOrBottomCardOfYourLife",
+          "topCardOfYourDeck"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'R' in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "OP09-116",
+  "set": "OP09",
+  "number": 116,
+  "name": "Don't underestimate a miracle!",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-116.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Trigger",
+    "On Play"
+  ],
+  "trigger": {
+    "text": "Play up to 1 character card with the trait \"Revolutionary Army\" and a cost of 4 or less from your hand."
+  },
+  "text": "Never underestimate the power of miracles!! Miracles only happen to those who never give up!!\n#Counter Give up to one of your leaders or characters +2000 during this battle.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Never underestimate the power of miracles!! Miracles only happen to those who never give up!!",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 character card with the trait \"Revolutionary Army\" and a cost of 4 or less from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

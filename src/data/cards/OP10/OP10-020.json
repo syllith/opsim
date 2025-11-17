@@ -1,0 +1,71 @@
+{
+  "id": "OP10-020",
+  "set": "OP10",
+  "number": 20,
+  "name": "Gum-Gum UFO",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Straw Hat Crew",
+    "Punk Hazard"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-020.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "K.O. up to 1 of your opponent's 3000 power or less characters."
+  },
+  "text": "Main Give up to 1 of your opponent's characters -4000 power until the end of this turn. Then if you have 2 or less life give your leader or up to 1 of your characters +1000 power until the end of this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's characters -4000 power until the end of this turn. Then if you have 2 or less life give your leader or up to 1 of your characters +1000 power until the end of this turn.",
+        "powerMod": null,
+        "conditions": [
+          "you have 2 or less life"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's 3000 power or less characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=power3000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

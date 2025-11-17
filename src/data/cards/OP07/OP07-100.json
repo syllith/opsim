@@ -1,0 +1,65 @@
+{
+  "id": "OP07-100",
+  "set": "OP07",
+  "number": 100,
+  "name": "Edison",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Scientist",
+    "Egghead"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-100.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your Leader is [Vegapunk], play this card."
+  },
+  "text": "On Play: If you have 2 or less Life cards, draw 2 cards and trash 2 cards from your hand. Trigger: If your Leader is [Vegapunk], play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 2 or less Life cards, draw 2 cards and trash 2 cards from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Vegapunk], play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

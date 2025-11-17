@@ -1,0 +1,66 @@
+{
+  "id": "OP06-103",
+  "set": "OP06",
+  "number": 103,
+  "name": "Kawamatsu",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Fishman",
+    "Land of wano",
+    "Akazaya Nine"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-103.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your opponent's life is at 3 or less, play this card."
+  },
+  "text": "When Attacking: You may discard 2 cards; return up to 1 of your power 0 characters to the top or bottom of its owner's life face up.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard 2 cards; return up to 1 of your power 0 characters to the top or bottom of its owner's life face up.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent's life is at 3 or less, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

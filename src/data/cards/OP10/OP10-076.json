@@ -1,0 +1,56 @@
+{
+  "id": "OP10-076",
+  "set": "OP10",
+  "number": 76,
+  "name": "Baby 5",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-076.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may discard 1 card from your hand. If your Leader has the type \"Donquixote Pirates\", add up to 1 DON!! from your DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard 1 card from your hand. If your Leader has the type \"Donquixote Pirates\", add up to 1 DON!! from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "conditions": [
+          "Leader has type \"Donquixote Pirates\""
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "DON!! deck",
+          "to": []
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample with 'SAMPLE' watermark. Power and life stats are not printed on the card."
+  }
+}

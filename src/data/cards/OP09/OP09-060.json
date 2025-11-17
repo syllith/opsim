@@ -1,0 +1,49 @@
+{
+  "id": "OP09-060",
+  "set": "OP09",
+  "number": 60,
+  "name": "Karai Bari Island",
+  "category": "Stage",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Cross Guild"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-060.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Activate: Main Send 2 cards from your hand to the bottom of your deck and rest this stage: If your leader has <Cross Guild> Draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Send 2 cards from your hand to the bottom of your deck and rest this stage: If your leader has <Cross Guild> Draw 2 cards.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has <Cross Guild>"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but ID and other fields are legible."
+  }
+}

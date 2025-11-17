@@ -1,0 +1,48 @@
+{
+  "id": "OP13-024",
+  "set": "OP13",
+  "number": 24,
+  "name": "Gordon",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Film"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-024.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may reveal 1 {Film} or {Music} type card from your hand. At the end of this turn, set up to 2 of your DON!! cards as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may reveal 1 {Film} or {Music} type card from your hand. At the end of this turn, set up to 2 of your DON!! cards as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

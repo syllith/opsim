@@ -1,0 +1,37 @@
+{
+  "id": "EB01-045",
+  "set": "EB01",
+  "number": 45,
+  "name": "Brook",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Slash",
+  "types": ["Rumbar Pirates"],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-045.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "Rush"],
+  "trigger": null,
+  "text": "[On Play] If your opponent has a cost 0 Character, this Character gains [Rush].\n(This card can attack on the turn in which it is played.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your opponent has a cost 0 Character, this Character gains [Rush].",
+        "grants": ["Rush"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentHasCost0Character"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

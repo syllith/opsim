@@ -1,0 +1,49 @@
+{
+  "id": "OP06-065",
+  "set": "OP06",
+  "number": 65,
+  "name": "Vinsmoke Niji",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Vinsmoke Family",
+    "Germa 66"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP06/OP06-065.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have equal to or less DON!! on your field than your opponent, choose one of the following.\n• K.O. up to 1 of your opponent's Characters that cost 2 or less.\n• Return up to 1 of your opponent's Characters that cost 4 or less to their owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have equal to or less DON!! on your field than your opponent, choose one of the following.\n• K.O. up to 1 of your opponent's Characters that cost 2 or less.\n• Return up to 1 of your opponent's Characters that cost 4 or less to their owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

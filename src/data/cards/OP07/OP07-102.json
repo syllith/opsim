@@ -1,0 +1,49 @@
+{
+  "id": "OP07-102",
+  "set": "OP07",
+  "number": 102,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fishman/Egghead",
+    "Strawhat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-102.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Return up to one 4c or lower character to your opponents hand, then add this card to your hand."
+  },
+  "text": null,
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to one 4c or lower character to your opponents hand, then add this card to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

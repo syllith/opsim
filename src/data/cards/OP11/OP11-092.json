@@ -1,0 +1,49 @@
+{
+  "id": "OP11-092",
+  "set": "OP11",
+  "number": 92,
+  "name": "Helmeppo",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Navy",
+    "SWORD"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP11/OP11-092.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may trash 1 card from your hand: Draw 1 card and play up to 1 [SWORD] type Character with a cost of 8 or less from your trash other then [Helmeppo]. Then, at the end of this turn, place 1 Character played out by this effect to the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Draw 1 card and play up to 1 [SWORD] type Character with a cost of 8 or less from your trash other then [Helmeppo]. Then, at the end of this turn, place 1 Character played out by this effect to the bottom of its owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

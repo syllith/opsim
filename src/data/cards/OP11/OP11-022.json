@@ -1,0 +1,50 @@
+{
+  "id": "OP11-022",
+  "set": "OP11",
+  "number": 22,
+  "name": "Shirahoshi",
+  "category": "Leader",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Fishman Island",
+    "Merfolk"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP11/OP11-022.png",
+  "stats": {
+    "cost": 5,
+    "power": null,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "This Leader cannot attack.\nActivate: Main Once Per Turn You may rest 1 of your DON!! cards and flip the top card of your Life cards face up: You may play up to 1 Character card with the (Sea King) type or up to 1 [Megalos] Character card with a cost equal to or less than the total number of DON!! cards on your board from your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may rest 1 of your DON!! cards and flip the top card of your Life cards face up: You may play up to 1 Character card with the (Sea King) type or up to 1 [Megalos] Character card with a cost equal to or less than the total number of DON!! cards on your board from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

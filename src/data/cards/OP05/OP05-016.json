@@ -1,0 +1,65 @@
+{
+  "id": "OP05-016",
+  "set": "OP05",
+  "number": 16,
+  "name": "Morley",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Giant",
+    "Revolutionary Army"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP05/OP05-016.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may trash 1 card. If your leader is multicolored, play this card."
+  },
+  "text": "When Attacking: If this character has 7000 power or more, your opponent cannot activate Blocker during this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this character has 7000 power or more, your opponent cannot activate Blocker during this battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card. If your leader is multicolored, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

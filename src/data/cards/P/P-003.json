@@ -1,0 +1,52 @@
+{
+  "id": "P-003",
+  "set": "P",
+  "number": 3,
+  "name": "Eustass\"Captain\"Kid",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Supernovas",
+    "Kid Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-003.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "DON!!x2"
+  ],
+  "trigger": null,
+  "text": "DON!!x2 This Character gains Double Attack (This card deals 2 damage.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This Character gains Double Attack (This card deals 2 damage.)",
+        "grants": [
+          "Double Attack"
+        ],
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample and has 'SAMPLE' text overlaid. 'Double Attack' is a keyword, not an attribute."
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "id": "OP03-072",
+  "set": "OP03",
+  "number": 72,
+  "name": "Gum-Gum Jet Gatling",
+  "category": "Event",
+  "colors": [
+    "Water"
+  ],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-072.png",
+  "stats": {
+    "cost": 0,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Add up to 1 DON!! card from your DON!! deck and set it as active."
+  },
+  "text": "#Counter You may discard 1 card from your hand: Up to 1 of your Leader or Characters gains +3000 Power during this battle.\n\nTrigger Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard 1 card from your hand: Up to 1 of your Leader or Characters gains +3000 Power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "upTo1LeaderOrCharacter"
+        ],
+        "conditions": [
+          "discard1CardFromHand"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "donDeck",
+          "to": [
+            "activeDon"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

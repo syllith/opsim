@@ -1,0 +1,38 @@
+{
+  "id": "OP01-114",
+  "set": "OP01",
+  "number": 114,
+  "name": "X.Drake",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Slash",
+  "types": ["Navy", "Drake Pirates", "Animal Kingdom Pirates"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-114.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Counter", "On Play", "DON!!"],
+  "trigger": null,
+  "text": "On Play DON!! -1 Your opponent trashes 1 card from their hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "Your opponent trashes 1 card from their hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponentHand:oneCard"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

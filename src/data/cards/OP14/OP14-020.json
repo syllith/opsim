@@ -1,0 +1,65 @@
+{
+  "id": "OP14-020",
+  "set": "OP14",
+  "number": 20,
+  "name": "Dracule Mihawk",
+  "category": "Leader",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "The Seven Warlords of the Sea"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP14/OP14-020.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 5,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "If your opponent's Leader has the <Slash> attribute, this Leader gains +1000 power.\nActivate: Main Once Per Turn You may rest 1 of your cards: If there is a Character with a cost of 5 or more, set up to 3 of your DON!! cards as active. Then, you cannot play Character cards from your hand during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent's Leader has the <Slash> attribute, this Leader gains +1000 power.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "If there is a Character with a cost of 5 or more, set up to 3 of your DON!! cards as active. Then, you cannot play Character cards from your hand during this turn.",
+        "powerMod": null,
+        "conditions": [
+          "Character with a cost of 5 or more"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

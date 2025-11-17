@@ -1,0 +1,37 @@
+{
+  "id": "EB02-046",
+  "set": "EB02",
+  "number": 46,
+  "name": "Hildon",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Wisdom",
+  "types": ["Thriller Bark Pirates"],
+  "rarity": "C",
+  "art": "/cards/EB02/EB02-046.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] Trash 2 cards from the top of your deck, then give up to 1 of your opponent's characters -1 cost during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Trash 2 cards from the top of your deck, then give up to 1 of your opponent's characters -1 cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck", "upTo1:opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

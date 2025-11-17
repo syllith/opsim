@@ -1,0 +1,35 @@
+{
+  "id": "OP02-078",
+  "set": "OP02",
+  "number": 78,
+  "name": "Daifugo",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Ranged",
+  "types": ["Animal Kingdom Pirates", "SMILE"],
+  "rarity": "UC",
+  "art": "/cards/OP02/OP02-078.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "DON!! -2"],
+  "trigger": null,
+  "text": "[On Play] DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play up to 1 {SMILE} type Character card other than [Daifugo] with a cost of 3 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Play up to 1 {SMILE} type Character card other than [Daifugo] with a cost of 3 or less from your hand.",
+        "targets": ["upTo1:hand:Character<=3"],
+        "conditions": ["typeSMILE", "notDaifugo"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

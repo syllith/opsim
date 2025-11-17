@@ -1,0 +1,73 @@
+{
+  "id": "OP10-110",
+  "set": "OP10",
+  "number": 110,
+  "name": "Heat & Wire",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Kid Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-110.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If you have 2 or less Life cards, play this card."
+  },
+  "text": "On Play: Rest up to 1 of your opponent's Characters with a cost equal to or less than the number of your opponent's Life cards. Trigger: If you have 2 or less Life cards, play this card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Characters with a cost equal to or less than the number of your opponent's Life cards.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "cost <= opponent's Life cards"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 2 or less Life cards, play this card.",
+        "powerMod": null,
+        "conditions": [
+          "your Life cards <= 2"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

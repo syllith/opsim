@@ -1,0 +1,37 @@
+{
+  "id": "ST19-001",
+  "set": "ST19",
+  "number": 1,
+  "name": "Smoker",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Special",
+  "types": ["Navy"],
+  "rarity": "SR",
+  "art": "/cards/ST19/ST19-001.png",
+  "stats": {
+    "cost": 6,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play You may trash 1 black {Navy} type card from your hand: Up to two of your opponents cost 4 or less characters cannot attack during your opponents next turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 black {Navy} type card from your hand: Up to two of your opponents cost 4 or less characters cannot attack during your opponents next turn.",
+        "powerMod": null,
+        "targets": ["upToTwoOpponentCharacters:<=4"],
+        "conditions": ["optionalTrashHandCard:Black:Navy"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,72 @@
+{
+  "id": "OP12-053",
+  "set": "OP12",
+  "number": 53,
+  "name": "Borsalino",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-053.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Once Per Turn",
+    "Opponent's Turn"
+  ],
+  "trigger": null,
+  "text": "Once Per Turn: If this Character would be removed by your opponent's effect, you may trash 1 card from your hand instead. Opponent's Turn: If your Leader has the (Navy) type, this Character gains Blocker and +1000 power.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this Character would be removed by your opponent's effect, you may trash 1 card from your hand instead.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Navy) type, this Character gains Blocker and +1000 power.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "yourLeader",
+          "hasType:(Navy)"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "EB01-029",
+  "set": "EB01",
+  "number": 29,
+  "name": "Sorry, I'm dead",
+  "category": "Event",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["East Blue", "Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-029.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter", "Trigger"],
+  "trigger": {
+    "text": "Return up to one cost 8 or less character to its owner's hand."
+  },
+  "text": "[Counter] Reveal the top card of your deck. If the revealed card has a cost of 4 or greater, return up to one of your characters to your hand. Then, place the revealed card on the bottom of your deck.\n[Trigger] Return up to one cost 8 or less character to its owner's hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Reveal the top card of your deck. If the revealed card has a cost of 4 or greater, return up to one of your characters to your hand. Then, place the revealed card on the bottom of your deck.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck", "ally:Character"],
+        "conditions": ["revealedCardCost>=4"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

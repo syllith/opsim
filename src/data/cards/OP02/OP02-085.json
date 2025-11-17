@@ -1,0 +1,46 @@
+{
+  "id": "OP02-085",
+  "set": "OP02",
+  "number": 85,
+  "name": "Magellan",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Impel Down"],
+  "rarity": "SR",
+  "art": "/cards/OP02/OP02-085.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "DON!! -1", "Opponent's Turn"],
+  "trigger": null,
+  "text": "[On Play] DON!! -1: Your opponent returns 1 of their DON!! cards on the field to their DON!! deck.\n[Opponent's Turn] When this Character is K.O.'ed, your opponent returns 2 of their DON!! cards on the field to their DON!! deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Your opponent returns 1 of their DON!! cards on the field to their DON!! deck.",
+        "targets": ["opponent:Don"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "When this Character is K.O.'ed, your opponent returns 2 of their DON!! cards on the field to their DON!! deck.",
+        "targets": ["opponent:Don"],
+        "conditions": ["whenKOed"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

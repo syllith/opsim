@@ -1,0 +1,58 @@
+{
+  "id": "EB01-024",
+  "set": "EB01",
+  "number": 24,
+  "name": "Hamlet",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Animal Kingdom Pirates",
+    "SMILE"
+  ],
+  "rarity": "C",
+  "art": "/cards/EB01/EB01-024.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If you have 4 or less cards in your hand, all of your <SMILE> characters get +1000 power.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 4 or less cards in your hand, all of your <SMILE> characters get +1000 power.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "whileConditionMet"
+        },
+        "targets": [
+          "ally:Character"
+        ],
+        "conditions": [
+          "handSize<=4",
+          "characterTypeSMILE"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": false
+}

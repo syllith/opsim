@@ -1,0 +1,61 @@
+{
+  "id": "OP13-120",
+  "set": "OP13",
+  "number": 120,
+  "name": "Sabo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Dressrosa",
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP13/OP13-120.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate:Main Once Per Turn Up to 1 of your Characters gains +2 cost until the end of your opponent's next turn. Then, give up to 1 rested DON!! card to your Leader",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Characters gains +2 cost until the end of your opponent's next turn. Then, give up to 1 rested DON!! card to your Leader",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourCharacters"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "yourLeader"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

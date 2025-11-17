@@ -1,0 +1,62 @@
+{
+  "id": "OP05-059",
+  "set": "OP05",
+  "number": 59,
+  "name": "Let us begin the \"World of Violence\"!!!",
+  "category": "Event",
+  "colors": [],
+  "attribute": null,
+  "types": [
+    "Four Emperors/Animal Kingdom Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP05/OP05-059.png",
+  "stats": {
+    "cost": 5,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your leader is mixed coloured, draw 2 cards."
+  },
+  "text": "Main If your leader is mixed coloured, draw a card. Then, return a cost 5 or lower character to its owner's hand.\nTrigger If your leader is mixed coloured, draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is mixed coloured, draw a card. Then, return a cost 5 or lower character to its owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is mixed coloured, draw 2 cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark. Rarity is UC as printed in the bottom right corner. No colors printed on card, so colors field is empty."
+  }
+}

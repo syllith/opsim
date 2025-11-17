@@ -1,0 +1,20 @@
+{
+  "id": "ST05-006",
+  "set": "ST05",
+  "number": 6,
+  "name": "Gild Tesoro",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["FILM", "Gran Tesoro"],
+  "rarity": null,
+  "art": "/cards/ST05/ST05-006.png",
+  "stats": { "cost": 5, "power": 6000, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["When Attacking", "DON!! -2"],
+  "trigger": null,
+  "text": "When Attacking — DON!! -2: Draw 2 cards.",
+  "abilities": [
+    {"timing": "When Attacking", "frequency": null, "donReq": 2, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Draw 2 cards.", "grants": [], "powerMod": null, "targets": ["self"], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

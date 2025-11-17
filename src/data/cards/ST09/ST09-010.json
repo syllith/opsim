@@ -1,0 +1,37 @@
+{
+  "id": "ST09-010",
+  "set": "ST09",
+  "number": 10,
+  "name": "Portgas D. Ace",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Wano Country", "Whitebeard Pirates"],
+  "rarity": null,
+  "art": "/cards/ST09/ST09-010.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["Once Per Turn"],
+  "trigger": null,
+  "text": "Once Per Turn: If this character would be K.O.'d, you can trash 1 card from the top or bottom of your Life Area instead.",
+  "abilities": [
+    {
+      "timing": "Continuous",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "If this character would be K.O.'d, you can trash 1 card from the top or bottom of your Life Area instead.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["topOrBottomLifeCard"],
+        "conditions": ["ifWouldBeKOd", "chooseTopOrBottom", "trashInstead"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

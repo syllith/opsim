@@ -1,0 +1,51 @@
+{
+  "id": "OP09-021",
+  "set": "OP09",
+  "number": 21,
+  "name": "Red Force",
+  "category": "Stage",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Red Hair Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-021.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this stage: If your leader has the (Red Hair Pirates) type, give up to one of your opponent's characters -1000 power for this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this stage: If your leader has the (Red Hair Pirates) type, give up to one of your opponent's characters -1000 power for this turn.",
+        "powerMod": null,
+        "conditions": [
+          "your leader has the (Red Hair Pirates) type"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

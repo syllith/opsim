@@ -1,0 +1,68 @@
+{
+  "id": "OP09-079",
+  "set": "OP09",
+  "number": 79,
+  "name": "Gum Gum Jump-Rope",
+  "category": "Event",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Four Emperors",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-079.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Set up to one Don!! from your Don!! deck as active."
+  },
+  "text": "Main Don!!-2: Rest up to one of your opponent's cost 5 or lower characters. Then, draw a card.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to one of your opponent's cost 5 or lower characters. Then, draw a card.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost5"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to one Don!! from your Don!! deck as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but this is not a real card. The printed ID is OP09-079, set OP09, number 79, rarity C, and the text is legible."
+  }
+}

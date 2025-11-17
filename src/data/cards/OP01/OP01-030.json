@@ -1,0 +1,39 @@
+{
+  "id": "OP01-030",
+  "set": "OP01",
+  "number": 30,
+  "name": "In Two Years!! At the Sabaody Archipelago!!",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-030.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main"],
+  "trigger": {
+    "text": "Activate this card's [Main] effect."
+  },
+  "text": "[Main] Look at 5 cards from the top of your deck; reveal up to1 {Straw Hat Crew} type Character card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to1 {Straw Hat Crew} type Character card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck", "hand"],
+        "conditions": ["strawHatCrewType"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "ST06-017",
+  "set": "ST06",
+  "number": 17,
+  "name": "Marineford",
+  "category": "Stage",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Navy"],
+  "rarity": null,
+  "art": "/cards/ST06/ST06-017.png",
+  "stats": { "cost": 1, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["On Play", "Activate: Main"],
+  "trigger": null,
+  "text": "On Play: Give up to 1 of your opponent's Characters -1 to their cost during this turn. Activate: Main: You may rest this Stage: If your Leader has the {Navy} type, give up to 1 of your opponent's Characters -1 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": null,
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -1 to their cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["reduceCost:-1","duration:turn"]
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this Stage: If your Leader has the {Navy} type, give up to 1 of your opponent's Characters -1 to their cost during this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter"],
+        "conditions": ["leaderType:Navy","restThisStage","reduceCost:-1","duration:turn"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

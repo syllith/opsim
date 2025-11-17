@@ -1,0 +1,49 @@
+{
+  "id": "OP10-034",
+  "set": "OP10",
+  "number": 34,
+  "name": "Franky",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "ODYSSEY",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-034.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Once Per Turn: If this character were to be KO'd in battle, you may instead add the top card of your life to your hand.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this character were to be KO'd in battle, you may instead add the top card of your life to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP09-046",
+  "set": "OP09",
+  "number": 46,
+  "name": "Crocodile",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Cross Guild",
+    "Former Baroque Works"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-046.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Play up to one Character card with the (Cross Guild) type or with a type including \"Baroque Works\" and a cost of 5 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to one Character card with the (Cross Guild) type or with a type including \"Baroque Works\" and a cost of 5 or less from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

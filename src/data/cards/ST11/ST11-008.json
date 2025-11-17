@@ -1,0 +1,37 @@
+{
+  "id": "ST11-008",
+  "set": "ST11",
+  "number": 8,
+  "name": "Usopp",
+  "category": "Character",
+  "colors": ["Red", "Green"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST11/ST11-008.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x2", "When Attacking"],
+  "trigger": null,
+  "text": "[DON!! x2] [When Attacking] If your opponent cannot activate [Blocker] during this battle, this Character cannot be K.O.'d in battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your opponent cannot activate [Blocker] during this battle, this Character cannot be K.O.'d in battle.",
+        "grants": ["cannotBeKOd"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentCannotActivateBlocker"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

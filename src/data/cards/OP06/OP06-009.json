@@ -1,0 +1,84 @@
+{
+  "id": "OP06-009",
+  "set": "OP06",
+  "number": 9,
+  "name": "Shuraiya",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "Shipbuilding Town"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-009.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "When Attacking",
+    "When Blocking",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nWhen Attacking / When Blocking Once Per Turn This Character's base power becomes the same as the power of your opponent's Leader until the start of your next turn.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This Character's base power becomes the same as the power of your opponent's Leader until the start of your next turn.",
+        "powerMod": {
+          "amount": 0,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Blocking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This Character's base power becomes the same as the power of your opponent's Leader until the start of your next turn.",
+        "powerMod": {
+          "amount": 0,
+          "duration": "this turn"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

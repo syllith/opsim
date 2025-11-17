@@ -1,0 +1,40 @@
+{
+  "id": "EB02-059",
+  "set": "EB02",
+  "number": 59,
+  "name": "Without you... I can't become King of the Pirates!!!!",
+  "category": "Event",
+  "colors": ["Yellow"],
+  "attribute": null,
+  "types": ["Straw Hat Crew"],
+  "rarity": "R",
+  "art": "/cards/EB02/EB02-059.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Counter"],
+  "trigger": null,
+  "text": "[Counter] Give your Leader or up to one of your Characters +1000 power for this battle. Then, if your life total is 1 or less, play up to one yellow cost 5 or lower {Straw Hat Crew} type or \"Sanji\" Character from your hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give your Leader or up to one of your Characters +1000 power for this battle. Then, if your life total is 1 or less, play up to one yellow cost 5 or lower {Straw Hat Crew} type or \"Sanji\" Character from your hand.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "forThisBattle"
+        },
+        "targets": ["ally:LeaderOrCharacter", "hand:yellow:Character:cost<=5:StrawHatCrewOrSanji"],
+        "conditions": ["yourLife1OrLess"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

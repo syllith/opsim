@@ -1,0 +1,72 @@
+{
+  "id": "OP14-016",
+  "set": "OP14",
+  "number": 16,
+  "name": "X.Drake",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Navy",
+    "Supernovas",
+    "Drake Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-016.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 7000
+    }
+  },
+  "keywords": [
+    "Opponent's Turn",
+    "Once Per Turn",
+    "DON!!",
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "Opponent's Turn Once Per Turn If your (Supernovas) type Character would be removed from the field by your opponent's effect, you may give your 1 Leader -2000 power during this turn instead. DON!! x1 When Attacking Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your (Supernovas) type Character would be removed from the field by your opponent's effect, you may give your 1 Leader -2000 power during this turn instead.",
+        "powerMod": null,
+        "conditions": [
+          "your (Supernovas) type Character would be removed from the field by your opponent's effect"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

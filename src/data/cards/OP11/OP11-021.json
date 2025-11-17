@@ -1,0 +1,47 @@
+{
+  "id": "OP11-021",
+  "set": "OP11",
+  "number": 21,
+  "name": "Jinbe",
+  "category": "Leader",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fishman",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP11/OP11-021.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 5,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "End of Your Turn: If you have 6 cards or less in your hand, set up to 1 of your (Fishman) or (Merfolk) type Character cards and up to 1 DON!! as active.",
+  "abilities": [
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 6 cards or less in your hand, set up to 1 of your (Fishman) or (Merfolk) type Character cards and up to 1 DON!! as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

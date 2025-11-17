@@ -1,0 +1,37 @@
+{
+  "id": "OP01-039",
+  "set": "OP01",
+  "number": 39,
+  "name": "Killer",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Supernovas", "Kid Pirates"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-039.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "DON!! x1", "On Block"],
+  "trigger": null,
+  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[DON!! x1] [On Block] If you have 3 or more Characters, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Block",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 3 or more Characters, draw 1 card.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["deck"],
+        "conditions": ["has3OrMoreCharacters"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

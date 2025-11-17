@@ -1,0 +1,38 @@
+{
+  "id": "OP01-083",
+  "set": "OP01",
+  "number": 83,
+  "name": "Mr. 1 (Daz Bones)",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Baroque Works"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-083.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x1", "Your Turn"],
+  "trigger": null,
+  "text": "DON!! x1 | Your Turn: If your Leader has the {Baroque Works} type, this Character gains +1000 power for every 2 Event cards in your trash.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Baroque Works} type, this Character gains +1000 power for every 2 Event cards in your trash.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "while in play per 2 event cards in trash" },
+        "targets": ["self"],
+        "conditions": ["leaderHasBaroqueWorks", "per2EventCardsInTrash"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "OP14-105",
+  "set": "OP14",
+  "number": 105,
+  "name": "Gorgon Sisters",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea/Kuja Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-105.png",
+  "stats": {
+    "cost": 6,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your Leader has the {Kuja Pirates} type, play this card."
+  },
+  "text": "Activate:Main Once Per Turn You may reveal 3 cards with {Amazon Lily} or {Kuja Pirates} type from your hand: Give your Leader and all of your Characters up to 1 rested DON!! cards each.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may reveal 3 cards with {Amazon Lily} or {Kuja Pirates} type from your hand: Give your Leader and all of your Characters up to 1 rested DON!! cards each.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Kuja Pirates} type, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

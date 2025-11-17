@@ -1,0 +1,65 @@
+{
+  "id": "OP06-104",
+  "set": "OP06",
+  "number": 104,
+  "name": "Kikunojo",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Land of wano",
+    "Akazaya Nine"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-104.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "On K.O.",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If your opponent's life is at 3 or less, play this card."
+  },
+  "text": "On K.O. If your opponent's life is 3 or less, place the top card of your deck to the top of your life.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent's life is 3 or less, place the top card of your deck to the top of your life.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent's life is at 3 or less, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

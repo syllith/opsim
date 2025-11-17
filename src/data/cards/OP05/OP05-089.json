@@ -1,0 +1,48 @@
+{
+  "id": "OP05-089",
+  "set": "OP05",
+  "number": 89,
+  "name": "Saint Mjosgard",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Celestial Dragon"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-089.png",
+  "stats": {
+    "cost": 5,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main (You may rest the specified number of DON!! cards in your Cost Area) you may rest this character and 1 of your characters: Add up to 1 black character with a cost of 1 or less from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character and 1 of your characters: Add up to 1 black character with a cost of 1 or less from your trash to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

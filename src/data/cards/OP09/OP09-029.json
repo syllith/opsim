@@ -1,0 +1,48 @@
+{
+  "id": "OP09-029",
+  "set": "OP09",
+  "number": 29,
+  "name": "Tony Tony Chopper",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "ODYSSEY",
+    "Animal",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP09/OP09-029.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "End of Your Turn: Set up to 1 of your {ODYSSEY} type Characters with a cost of 4 or less as active.",
+  "abilities": [
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to 1 of your {ODYSSEY} type Characters with a cost of 4 or less as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but this is not a game error; it's a placeholder for the card image."
+  }
+}

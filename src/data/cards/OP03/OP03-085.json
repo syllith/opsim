@@ -1,0 +1,75 @@
+{
+  "id": "OP03-085",
+  "set": "OP03",
+  "number": 85,
+  "name": "Jabra",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Supernovas",
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-085.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "[On Play] You may rest 1 of your DON!! from the cost area. If you do, this character gains +1000 power until the end of the turn.\n[Activate: Main] [Counter: 1000] (You may rest 1 of your DON!! from the cost area) Choose 1 of your opponent's characters. That character's power becomes 0 until the end of the turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "This character gains +1000 power until the end of the turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "self"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Choose 1 of your opponent's characters. That character's power becomes 0 until the end of the turn.",
+        "powerMod": {
+          "amount": -9999,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, so the text and abilities are based on the visible content."
+  }
+}

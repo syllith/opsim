@@ -1,0 +1,38 @@
+{
+  "id": "OP01-091",
+  "set": "OP01",
+  "number": 91,
+  "name": "King",
+  "category": "Leader",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/OP01/OP01-091.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Your Turn"],
+  "trigger": null,
+  "text": "Your Turn: If you have 10 DON!! cards on your field, all of your opponent's Characters have -1000 power.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 10 DON!! cards on your field, all of your opponent's Characters have -1000 power.",
+        "grants": [],
+        "powerMod": { "amount": -1000, "duration": "while in play" },
+        "targets": ["allOpponentCharacters"],
+        "conditions": ["donOnField>=10"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

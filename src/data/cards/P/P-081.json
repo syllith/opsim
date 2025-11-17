@@ -1,0 +1,51 @@
+{
+  "id": "P-081",
+  "set": "P",
+  "number": 81,
+  "name": "Dracule Mihawk",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Cross Guild"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-081.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may return this character to your hand: If you have 3 or more (Cross Guild) type characters in play, you may play up to one cost 5 (Cross Guild) type character from your hand.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may return this character to your hand: If you have 3 or more (Cross Guild) type characters in play, you may play up to one cost 5 (Cross Guild) type character from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "have 3 or more (Cross Guild) type characters in play"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

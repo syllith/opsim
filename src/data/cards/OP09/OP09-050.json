@@ -1,0 +1,48 @@
+{
+  "id": "OP09-050",
+  "set": "OP09",
+  "number": 50,
+  "name": "Nami",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-050.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: Look at the top 5 cards of your deck and reveal up to one blue event card and put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck and reveal up to one blue event card and put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

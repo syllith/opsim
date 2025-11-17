@@ -1,0 +1,37 @@
+{
+  "id": "EB02-022",
+  "set": "EB02",
+  "number": 22,
+  "name": "Usopp",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Ranged",
+  "types": ["East Blue", "Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/EB02/EB02-022.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] If you have 2 or fewer characters with 5000 or more power in play, play up to one power 6000 or lower character from your hand that has no abilities.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 2 or fewer characters with 5000 or more power in play, play up to one power 6000 or lower character from your hand that has no abilities.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["hand:Character:power<=6000:noAbilities"],
+        "conditions": ["2orFewerCharactersWith5000OrMorePower"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "EB01-022",
+  "set": "EB01",
+  "number": 22,
+  "name": "Inazuma",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Impel Down",
+    "Revolutionary Army"
+  ],
+  "rarity": "SR",
+  "art": "/cards/EB01/EB01-022.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "[End of Your Turn] If you have 2 or less cards in hand, draw 2 cards.",
+  "abilities": [
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 2 or less cards in hand, draw 2 cards.",
+        "grants": [],
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "handSize<=2"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": false
+}

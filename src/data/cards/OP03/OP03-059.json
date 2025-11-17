@@ -1,0 +1,56 @@
+{
+  "id": "OP03-059",
+  "set": "OP03",
+  "number": 59,
+  "name": "Kaku",
+  "category": "Character",
+  "colors": [
+    "Water"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Water 7",
+    "Galley-La Company"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-059.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "When Attacking DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): This Character gains Banish during this turn. (When a character deals damage, the target card is trashed without activating its Trigger.)",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "This Character gains Banish during this turn. (When a character deals damage, the target card is trashed without activating its Trigger.)",
+        "grants": [
+          "Banish"
+        ],
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
+  }
+}

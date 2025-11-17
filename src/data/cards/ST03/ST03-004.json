@@ -1,0 +1,20 @@
+{
+  "id": "ST03-004",
+  "set": "ST03",
+  "number": 4,
+  "name": "Gecko Moria",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Thriller Bark Pirates"],
+  "rarity": null,
+  "art": "/cards/ST03/ST03-004.png",
+  "stats": { "cost": 4, "power": 5000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "(Placeholder) On Play: Add up to 1 Character (Warlords/Thriller Bark Pirates) with cost <=4 except Gecko Moria from trash to hand.",
+  "abilities": [
+    {"timing": "On Play", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Return one target Character with cost 4 or less matching type from trash to hand.", "grants": [], "powerMod": null, "targets": ["oneCharacterTrash"], "conditions": []}}
+  ],
+  "meta": {"notes": null}
+}

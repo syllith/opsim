@@ -1,0 +1,50 @@
+{
+  "id": "ST14-001",
+  "set": "ST14",
+  "number": 1,
+  "name": "Monkey. D. Luffy",
+  "category": "Leader",
+  "colors": ["Black"],
+  "attribute": "Strike",
+  "types": ["Straw hat Crew"],
+  "rarity": "L",
+  "art": "/cards/ST14/ST14-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 Give all of your characters +1 Cost. If you control a Cost 8 or higher character this leader gains +1000 Power.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give all of your characters +1 Cost.",
+        "powerMod": null,
+        "targets": ["allAllyCharacters:cost+1"],
+        "conditions": ["donAttached"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you control a Cost 8 or higher character this leader gains +1000 Power.",
+        "powerMod": { "amount": 1000, "duration": "whileConditionMet" },
+        "targets": ["self"],
+        "conditions": ["donAttached", "controlCharacter>=8"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

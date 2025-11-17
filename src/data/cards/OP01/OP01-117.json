@@ -1,0 +1,38 @@
+{
+  "id": "OP01-117",
+  "set": "OP01",
+  "number": 117,
+  "name": "Sheep's Horn",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Animal Kingdom Pirates", "Smile"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-117.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main", "DON!!"],
+  "trigger": null,
+  "text": "Main DON!! -1 Rest up to 1 of your opponent's Characters with a cost of 6 or less.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Characters with a cost of 6 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=6"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

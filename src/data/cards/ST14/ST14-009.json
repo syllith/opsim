@@ -1,0 +1,36 @@
+{
+  "id": "ST14-009",
+  "set": "ST14",
+  "number": 9,
+  "name": "Franky",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Special",
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST14/ST14-009.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["DON!! x1", "Opponent's Turn", "Counter"],
+  "trigger": null,
+  "text": "DON!! x1 Opponent's Turn: If you have a 6 cost or above character on your field, this character cannot be KO-ed by your opponent's effect and Gain +2000 power.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have a 6 cost or above character on your field, this character cannot be KO-ed by your opponent's effect and Gain +2000 power.",
+        "powerMod": { "amount": 2000, "duration": "this turn" },
+        "targets": ["self"],
+        "conditions": ["hasAllyCharacter>=6"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

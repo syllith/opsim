@@ -1,0 +1,37 @@
+{
+  "id": "ST23-003",
+  "set": "ST23",
+  "number": 3,
+  "name": "Benn.Beckman",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Red-Haired Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST23/ST23-003.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] You may trash 1 card from your hand: If your Leader has the {Red-Haired Pirates} type, K.O. up to 1 of your opponent's Characters with 4000 base power or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 card from your hand: If your Leader has the {Red-Haired Pirates} type, K.O. up to 1 of your opponent's Characters with 4000 base power or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": ["mayTrash1FromHand", "leaderHasRedHairedPiratesType", "characterBasePower<=4000"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

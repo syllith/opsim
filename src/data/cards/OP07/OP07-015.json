@@ -1,0 +1,61 @@
+{
+  "id": "OP07-015",
+  "set": "OP07",
+  "number": 15,
+  "name": "Monkey.D.Dragon",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-015.png",
+  "stats": {
+    "cost": 8,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 9000
+    }
+  },
+  "keywords": [
+    "Rush",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Rush (This card can attack on the turn in which it is played.)\nOn Play Give your leader or up to one of your characters up to 2 rested don!!.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give your leader or up to one of your characters up to 2 rested don!!.",
+        "powerMod": null,
+        "targets": [
+          "self",
+          "oneOpponentCharacter"
+        ],
+        "giveDon": {
+          "quantity": 2,
+          "state": "rested",
+          "from": "costArea",
+          "to": [
+            "self",
+            "oneOpponentCharacter"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

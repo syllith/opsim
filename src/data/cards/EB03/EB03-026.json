@@ -1,0 +1,56 @@
+{
+  "id": "EB03-026",
+  "set": "EB03",
+  "number": 26,
+  "name": "Boa Hancock",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Kuja Pirates"],
+  "rarity": "SR",
+  "art": "/cards/EB03/EB03-026.png",
+  "stats": {
+    "cost": 6,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "Activate: Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "[On Play] If your opponent has 5 or more cards in their hand, your opponent places 1 card from their hand at the bottom of their deck.\n[Activate: Main] [Once Per Turn] Place up to 1 of your Characters at the bottom of the owner's deck: Give your Leader and 1 Character up to 1 rested DON!! card each.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your opponent has 5 or more cards in their hand, your opponent places 1 card from their hand at the bottom of their deck.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:hand"],
+        "conditions": ["opponent5OrMoreCardsInHand"]
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Place up to 1 of your Characters at the bottom of the owner's deck: Give your Leader and 1 Character up to 1 rested DON!! card each.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Leader", "ally:oneCharacter"],
+        "conditions": ["placeUpTo1OwnCharacterBottomOfDeck"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self:Leader", "oneAllyCharacter"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

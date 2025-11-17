@@ -1,0 +1,57 @@
+{
+  "id": "OP04-047",
+  "set": "OP04",
+  "number": 47,
+  "name": "Ice Oni",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Plague",
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-047.png",
+  "stats": {
+    "cost": 8,
+    "power": 1000,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn At the end of battle between this character and an opponent's 5 cost or lower character, place the opponent's character at the bottom of the owner's deck.",
+  "abilities": [
+    {
+      "timing": "On Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "At the end of battle between this character and an opponent's 5 cost or lower character, place the opponent's character at the bottom of the owner's deck.",
+        "powerMod": null,
+        "targets": [
+          "thisCharacter",
+          "oneOpponentCharacter<=cost5"
+        ],
+        "conditions": [
+          "battle",
+          "opponentCharacter<=cost5"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is visible in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

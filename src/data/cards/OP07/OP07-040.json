@@ -1,0 +1,49 @@
+{
+  "id": "OP07-040",
+  "set": "OP07",
+  "number": 40,
+  "name": "Crocodile",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP07/OP07-040.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play (You may rest the specified number of DON!! cards in your Cost Area) Return up to one 2 cost or lower character to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to one 2 cost or lower character to the owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ST02-005",
+  "set": "ST02",
+  "number": 5,
+  "name": "Killer",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Supernovas", "Kid Pirates"],
+  "rarity": null,
+  "art": "/cards/ST02/ST02-005.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": [],
+  "trigger": { "text": "Play this card." },
+  "text": "On Play: K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:restedCharacterCost<=3"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "OP03-008",
+  "set": "OP03",
+  "number": 8,
+  "name": "Buggy",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Wisdom",
+  "types": ["Former Prisoner of the Great Prison", "Buggy's Delivery"],
+  "rarity": "R",
+  "art": "/cards/OP03/OP03-008.png",
+  "stats": {
+    "cost": 1,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "This Character cannot be K.O.'d in battle by [Slash] attribute cards.\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Red} type Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Red} type Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "targets": ["deck"],
+        "conditions": ["colorRed", "categoryEvent"]
+      }
+    }
+  ],
+  "meta": { "notes": "This Character cannot be K.O.'d in battle by [Slash] attribute cards." }
+}

@@ -1,0 +1,73 @@
+{
+  "id": "OP10-003",
+  "set": "OP10",
+  "number": 3,
+  "name": "Sugar",
+  "category": "Leader",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-003.png",
+  "stats": {
+    "cost": null,
+    "power": null,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "End of Your Turn: If you have a character with the {Donquixote Pirates} type with a power of 6000 power or more, set up to 1 of your Don!! as active. Opponent's Turn: Once Per Turn - When you activate an event, set up to 1 of your Don!! from you Don!! deck as active.",
+  "abilities": [
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a character with the {Donquixote Pirates} type with a power of 6000 power or more, set up to 1 of your Don!! as active.",
+        "powerMod": null,
+        "conditions": [
+          "character:Donquixote Pirates",
+          "power>=6000"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Opponent's Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When you activate an event, set up to 1 of your Don!! from you Don!! deck as active.",
+        "powerMod": null,
+        "conditions": [
+          "activateEvent"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "Don!! deck",
+          "to": [
+            "self"
+          ]
+        }
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

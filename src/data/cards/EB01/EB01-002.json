@@ -1,0 +1,59 @@
+{
+  "id": "EB01-002",
+  "set": "EB01",
+  "number": 2,
+  "name": "Izou",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Land of Wano", "Whitebeard Pirates"],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-002.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play", "When opponent attack", "Once Per Turn"],
+  "trigger": null,
+  "text": "[On Play] Attach up to one rested don!! to your leader or one of your characters.\n[When opponent attack] [Once Per Turn] You may trash 1 card from your hand.: If your leader has the {Land of Wano} or {Whitebeard Pirates} type, give up to one of your opponent's leader or character -2000 power for this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Attach up to one rested don!! to your leader or one of your characters.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self:Leader", "ally:Character"],
+        "conditions": [],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["self:Leader", "oneAllyCharacter"]
+        }
+      }
+    },
+    {
+      "timing": "When opponent attack",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 card from your hand.: If your leader has the {Land of Wano} or {Whitebeard Pirates} type, give up to one of your opponent's leader or character -2000 power for this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": -2000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["opponent:Leader", "opponent:Character"],
+        "conditions": ["mayTrash1FromHand", "leaderHasLandOfWanoOrWhitebeardPirates"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

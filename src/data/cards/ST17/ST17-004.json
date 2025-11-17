@@ -1,0 +1,60 @@
+{
+  "id": "ST17-004",
+  "set": "ST17",
+  "number": 4,
+  "name": "Boa Hancock",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Seven Warlords of the Sea", "Kuja Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST17/ST17-004.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Blocker", "On Play", "Counter"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Play: Look at the top 3 cards of your deck, then place them in any order on the top or bottom of your deck. Then, give up to one of your {Seven Warlords of the Sea} type leader or characters up to one rested Don!!.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["blocker"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at the top 3 cards of your deck, then place them in any order on the top or bottom of your deck.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["lookTopDeck:3", "reorderTopOrBottomDeck:3"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Give up to one of your {Seven Warlords of the Sea} type leader or characters up to one rested Don!!.",
+        "powerMod": null,
+        "targets": ["oneAllyLeader:type=Seven Warlords of the Sea", "oneAllyCharacter:type=Seven Warlords of the Sea"],
+        "conditions": ["giveDon:rested:1"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

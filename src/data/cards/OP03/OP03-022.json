@@ -1,0 +1,35 @@
+{
+  "id": "OP03-022",
+  "set": "OP03",
+  "number": 22,
+  "name": "Arlong",
+  "category": "Leader",
+  "colors": ["Green", "Yellow"],
+  "attribute": "Slash",
+  "types": ["Fish-Man", "East Blue", "Arlong Crew"],
+  "rarity": "L",
+  "art": "/cards/OP03/OP03-022.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": null
+  },
+  "keywords": ["DON!! x2", "When Attacking"],
+  "trigger": null,
+  "text": "[DON!! x2] [When Attacking] (1) (You may rest the specified number of DON!! cards in your Cost Area): Play up to 1 Character card with a cost of 4 or less with [Trigger] from your hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 2,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "Play up to 1 Character card with a cost of 4 or less with [Trigger] from your hand.",
+        "targets": ["hand"],
+        "conditions": ["categoryCharacter", "costLessOrEqual4", "hasTrigger"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

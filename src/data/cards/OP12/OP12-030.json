@@ -1,0 +1,49 @@
+{
+  "id": "OP12-030",
+  "set": "OP12",
+  "number": 30,
+  "name": "Dracule Mihawk",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "The Seven Warlords of the Sea/Muggy Kingdom"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-030.png",
+  "stats": {
+    "cost": 8,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 8000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Set up to 4 rested DON!! cards as active. Then, you may not play a Character with an original cost of 7 or more during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Set up to 4 rested DON!! cards as active. Then, you may not play a Character with an original cost of 7 or more during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

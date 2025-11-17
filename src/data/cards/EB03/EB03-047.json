@@ -1,0 +1,50 @@
+{
+  "id": "EB03-047",
+  "set": "EB03",
+  "number": 47,
+  "name": "Miss.Valentine(Mikita)",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Strike",
+  "types": ["Baroque Works"],
+  "rarity": "C",
+  "art": "/cards/EB03/EB03-047.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "On K.O"],
+  "trigger": null,
+  "text": "[On Play] Trash 3 cards from the top of your deck.\n[On K.O] Draw 1 card.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Trash 3 cards from the top of your deck.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "On K.O",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw 1 card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

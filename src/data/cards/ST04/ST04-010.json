@@ -1,0 +1,20 @@
+{
+  "id": "ST04-010",
+  "set": "ST04",
+  "number": 10,
+  "name": "Who's Who",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Slash",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": null,
+  "art": "/cards/ST04/ST04-010.png",
+  "stats": { "cost": 3, "power": 3000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "keywords": ["On Play", "DON!! -1"],
+  "trigger": {"text": "Play this card."},
+  "text": "On Play — DON!! -1: K.O. 1 of your opponent's Characters with a cost of 3 or less. Trigger: Play this card.",
+  "abilities": [
+    {"timing": "On Play", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "K.O. 1 opponent Character with cost 3 or less.", "grants": [], "powerMod": null, "targets": ["oneOpponentCharacter"], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

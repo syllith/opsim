@@ -1,0 +1,48 @@
+{
+  "id": "P-028",
+  "set": "P",
+  "number": 28,
+  "name": "Portgas.D.Ace",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-028.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "Double Attack"
+  ],
+  "trigger": null,
+  "text": "Double Attack (This card deals 2 damage)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "This card deals 2 damage",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'NOT FOR SALE'. Rarity is 'SP' as printed. Power is 6000, which is also shown as a counter. No life value printed. Attribute not present."
+  }
+}

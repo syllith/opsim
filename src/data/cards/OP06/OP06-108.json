@@ -1,0 +1,55 @@
+{
+  "id": "OP06-108",
+  "set": "OP06",
+  "number": 108,
+  "name": "Tenguyama Hitetsu",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Land of Wano",
+    "Kouzuki Clan"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-108.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "Up to 1 of your (Land of Wano) type Leader or Character cards gains +2000 power during this turn."
+  },
+  "text": null,
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your (Land of Wano) type Leader or Character cards gains +2000 power during this turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOfYour:Land of Wano type Leader or Character"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but this is not a valid card for the deck builder. The card ID is OP06-108, which is a valid card in the One Piece TCG."
+  }
+}

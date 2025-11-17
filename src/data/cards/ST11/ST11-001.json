@@ -1,0 +1,37 @@
+{
+  "id": "ST11-001",
+  "set": "ST11",
+  "number": 1,
+  "name": "Uta",
+  "category": "Leader",
+  "colors": ["Green"],
+  "attribute": "Special",
+  "types": ["FILM"],
+  "rarity": "L",
+  "art": "/cards/ST11/ST11-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking Once Per Turn Reveal the top card of your deck. If it is a [FILM] type card, add it to your hand. Then, return the remaining card to the bottom of your deck.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Reveal the top card of your deck. If it is a [FILM] type card, add it to your hand. Then, return the remaining card to the bottom of your deck.",
+        "powerMod": null,
+        "targets": ["self:deckTop", "self:hand"],
+        "conditions": ["donAttached"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

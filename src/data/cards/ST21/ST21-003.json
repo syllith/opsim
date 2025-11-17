@@ -1,0 +1,36 @@
+{
+  "id": "ST21-003",
+  "set": "ST21",
+  "number": 3,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST21/ST21-003.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play", "Blocker"],
+  "trigger": null,
+  "text": "On Play Choose up to 1 of your {Straw Hat Crew} type Characters with a Power of 6000 or more. During this turn, your opponent may not activate Blocker when that character attacks.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Choose up to 1 of your {Straw Hat Crew} type Characters with a Power of 6000 or more. During this turn, your opponent may not activate Blocker when that character attacks.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter:StrawHatCrew>=6000"],
+        "conditions": ["optionalTarget"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

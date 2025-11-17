@@ -1,0 +1,69 @@
+{
+  "id": "OP09-115",
+  "set": "OP09",
+  "number": 115,
+  "name": "Ice Block (Partisan)",
+  "category": "Event",
+  "colors": [
+    "Navy"
+  ],
+  "attribute": null,
+  "types": [],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-115.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card."
+  },
+  "text": "Main K.O. up to 1 of your opponent's Characters with a Trigger and a cost of 3 or less.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a Trigger and a cost of 3 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "hasTrigger",
+          "cost<=3"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

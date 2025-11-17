@@ -1,0 +1,37 @@
+{
+  "id": "OP01-059",
+  "set": "OP01",
+  "number": 59,
+  "name": "Beben!!",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Wano Country"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-059.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main"],
+  "trigger": null,
+  "text": "[Main] You may trash 1 {Wano Country} type card from your hand: Set up to 1 of your {Wano Country} type Character cards with a cost of 3 or less as active.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 {Wano Country} type card from your hand: Set up to 1 of your {Wano Country} type Character cards with a cost of 3 or less as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["hand", "upTo1:ally:Character"],
+        "conditions": ["mayTrash1WanoCountryFromHand", "wanoCountryType", "characterCost<=3"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

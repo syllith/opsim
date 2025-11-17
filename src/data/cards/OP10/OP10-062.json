@@ -1,0 +1,49 @@
+{
+  "id": "OP10-062",
+  "set": "OP10",
+  "number": 62,
+  "name": "Viola",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP10/OP10-062.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "DON!! -1: If your leader's type includes \"Donquixote Pirates\", add up to 1 purple event card from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader's type includes \"Donquixote Pirates\", add up to 1 purple event card from your trash to your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

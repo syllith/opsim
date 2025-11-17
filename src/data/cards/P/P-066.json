@@ -1,0 +1,47 @@
+{
+  "id": "P-066",
+  "set": "P",
+  "number": 66,
+  "name": "Boa Hancock",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Seven Warlords of the Sea",
+    "Kuja Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-066.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Your Turn: If your hand has 5 or less cards in it, your characters with the type (Kuja Pirates) all have +1000 power.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your hand has 5 or less cards in it, your characters with the type (Kuja Pirates) all have +1000 power.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

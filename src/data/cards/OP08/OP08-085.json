@@ -1,0 +1,52 @@
+{
+  "id": "OP08-085",
+  "set": "OP08",
+  "number": 85,
+  "name": "Jinbe",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fishman",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP08/OP08-085.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking: If you have a character with a cost of 8 or more, KO up to one of your opponent's characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have a character with a cost of 8 or more, KO up to one of your opponent's characters with a cost of 4 or less.",
+        "powerMod": null,
+        "conditions": [
+          "have a character with a cost of 8 or more"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

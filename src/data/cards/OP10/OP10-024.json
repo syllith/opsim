@@ -1,0 +1,49 @@
+{
+  "id": "OP10-024",
+  "set": "OP10",
+  "number": 24,
+  "name": "Edward Newgate",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Four Emperors",
+    "Whitebeard Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP10/OP10-024.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If you have 2 or more rested Characters, rest up to 1 of your opponent's Characters of 5 cost or less. Then, KO up to one of your opponents rested Character of 3 cost or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 2 or more rested Characters, rest up to 1 of your opponent's Characters of 5 cost or less. Then, KO up to one of your opponents rested Character of 3 cost or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

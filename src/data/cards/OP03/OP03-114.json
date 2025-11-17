@@ -1,0 +1,57 @@
+{
+  "id": "OP03-114",
+  "set": "OP03",
+  "number": 114,
+  "name": "Charlotte Linlin",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Four Emperors",
+    "Big Mom Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP03/OP03-114.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has the {Big Mom Pirates} type, place up to 1 card from your deck at the top of your Life area. Then, trash up to 1 card from the top of your opponent's Life area.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the {Big Mom Pirates} type, place up to 1 card from your deck at the top of your Life area. Then, trash up to 1 card from the top of your opponent's Life area.",
+        "powerMod": null,
+        "targets": [
+          "yourDeck",
+          "yourLifeArea",
+          "opponentLifeArea"
+        ],
+        "conditions": [
+          "yourLeaderHasType:Big Mom Pirates"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is SR, visible in the bottom right corner. The card is a sample, indicated by the large 'SAMPLE' watermark."
+  }
+}

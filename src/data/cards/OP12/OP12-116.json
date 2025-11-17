@@ -1,0 +1,65 @@
+{
+  "id": "OP12-116",
+  "set": "OP12",
+  "number": 116,
+  "name": "The Bell Will Always Ring For You!!",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Shandian Warrior",
+    "Jaya/Sky Island"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-116.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card"
+  },
+  "text": "Main: Look at the top 5 cards of your deck; reveal up to 2 {Shandian Warrior} type Character cards or [Mont Blanc Noland] and add them to your hand. Then, put the rest at the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck; reveal up to 2 {Shandian Warrior} type Character cards or [Mont Blanc Noland] and add them to your hand. Then, put the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

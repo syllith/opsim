@@ -1,0 +1,37 @@
+{
+  "id": "ST12-008",
+  "set": "ST12",
+  "number": 8,
+  "name": "Roronoa Zoro",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST12/ST12-008.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["When Attacking"],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking Rest up to 1 of your opponent's cost 6 or lower characters.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's cost 6 or lower characters.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=6:rest"],
+        "conditions": ["donAttached", "optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

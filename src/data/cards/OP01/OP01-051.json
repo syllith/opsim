@@ -1,0 +1,50 @@
+{
+  "id": "OP01-051",
+  "set": "OP01",
+  "number": 51,
+  "name": "Eustass\"Captain\"Kid",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Special",
+  "types": ["Supernovas", "Kid Pirates"],
+  "rarity": "SR",
+  "art": "/cards/OP01/OP01-051.png",
+  "stats": {
+    "cost": 8,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["DON!! x1", "Opponent's Turn", "Activate Main", "Once Per Turn"],
+  "trigger": null,
+  "text": "[DON!! x1] [Opponent's Turn] If this Character is rested, your opponent cannot attack anything other than Characters named [Captain Kid].\n[Activate: Main] [Once Per Turn] You may rest this Character: Play up to 1 Character card with a cost of 3 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If this Character is rested, your opponent cannot attack anything other than Characters named [Captain Kid].",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["thisCharacterRested"]
+      }
+    },
+    {
+      "timing": "Activate Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this Character: Play up to 1 Character card with a cost of 3 or less from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["hand"],
+        "conditions": ["mayRestThisCharacter", "characterCost<=3"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

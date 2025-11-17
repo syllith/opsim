@@ -1,0 +1,35 @@
+{
+  "id": "OP03-026",
+  "set": "OP03",
+  "number": 26,
+  "name": "Kuroobi",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Strike",
+  "types": ["Fish-Man", "East Blue", "Arlong Crew"],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-026.png",
+  "stats": {
+    "cost": 4,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": "Play this card.",
+  "text": "[On Play] If your Leader has the {East Blue} type, rest up to 1 of your opponent's Characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {East Blue} type, rest up to 1 of your opponent's Characters.",
+        "targets": ["opponentCharacter"],
+        "conditions": ["leaderHasEastBlue"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP01-098",
+  "set": "OP01",
+  "number": 98,
+  "name": "Kurozumi Orochi",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Wisdom",
+  "types": ["Wano Country", "Kurozumi Family"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-098.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: Reveal 1 [Artificial Devil Fruit Smile] from your deck and add it to your hand. Then, shuffle your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Reveal 1 [Artificial Devil Fruit Smile] from your deck and add it to your hand. Then, shuffle your deck.",
+        "grants": ["Add Card to Hand"],
+        "powerMod": null,
+        "targets": ["oneArtificialDevilFruitSmileFromDeck"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP01-109",
+  "set": "OP01",
+  "number": 109,
+  "name": "Who's Who",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Slash",
+  "types": ["Animal Kingdom Pirates"],
+  "rarity": "UC",
+  "art": "/cards/OP01/OP01-109.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Counter", "Your Turn", "DON!!"],
+  "trigger": null,
+  "text": "DON!! x1 Your Turn If you have 8 or more DON!! on your field, this Character gains +1000 power.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 8 or more DON!! on your field, this Character gains +1000 power.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "while condition met" },
+        "targets": ["self"],
+        "conditions": ["donOnField>=8"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

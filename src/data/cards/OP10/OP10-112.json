@@ -1,0 +1,66 @@
+{
+  "id": "OP10-112",
+  "set": "OP10",
+  "number": 112,
+  "name": "Eustass \"Captain\" Kid",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Supernova",
+    "Kid Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP10/OP10-112.png",
+  "stats": {
+    "cost": 8,
+    "power": 9000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 9000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "On Play: You may rest this character: Trash up to 1 card from the top of your opponent's Life cards.\nEnd of Your Turn: If your opponent has 2 or less Life cards, draw 1 card and discard 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character: Trash up to 1 card from the top of your opponent's Life cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent has 2 or less Life cards, draw 1 card and discard 1 card from your hand.",
+        "powerMod": null,
+        "conditions": [
+          "opponent:Life<=2"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

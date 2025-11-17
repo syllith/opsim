@@ -1,0 +1,47 @@
+{
+  "id": "OP10-032",
+  "set": "OP10",
+  "number": 32,
+  "name": "Tashigi",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Punk Hazard",
+    "Navy"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP10/OP10-032.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When one of your green characters other than [Tashigi] would be removed from play due to your opponent's effects, you may instead rest this character.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "When one of your green characters other than [Tashigi] would be removed from play due to your opponent's effects, you may instead rest this character.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' with large overlay text; power value is 4000 as printed. Rarity is SR as printed. No attribute icon present."
+  }
+}

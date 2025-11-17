@@ -1,0 +1,46 @@
+{
+  "id": "OP12-048",
+  "set": "OP12",
+  "number": 48,
+  "name": "Donquixote Rosinante",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-048.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Opponent's Turn: If 1 of your blue (Navy) type Characters would be removed from the field by your opponent's effect, you may rest this Character and trash 1 card from your hand instead.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If 1 of your blue (Navy) type Characters would be removed from the field by your opponent's effect, you may rest this Character and trash 1 card from your hand instead.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

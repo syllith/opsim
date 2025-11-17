@@ -1,0 +1,80 @@
+{
+  "id": "OP03-045",
+  "set": "OP03",
+  "number": 45,
+  "name": "Carne",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-045.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "Opponent's Turn"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOpponent's Turn If your deck has 20 or less cards, this Character gains +3000 power.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your deck has 20 or less cards, this Character gains +3000 power.",
+        "grants": [
+          "Opponent's Turn"
+        ],
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "deckSize<=20"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'UC' as printed in the bottom right corner. The card is a sample, indicated by the watermark."
+  }
+}

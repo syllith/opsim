@@ -1,0 +1,20 @@
+{
+  "id": "ST03-003",
+  "set": "ST03",
+  "number": 3,
+  "name": "Crocodile",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
+  "rarity": null,
+  "art": "/cards/ST03/ST03-003.png",
+  "stats": { "cost": 5, "power": 6000, "life": null, "counter": { "present": false, "value": 0 } },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "(Placeholder) Blocker. DON!! x1 On Block: Bottom deck up to 1 cost <=2 Character.",
+  "abilities": [
+    {"timing": "Block", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Place up to 1 cost 2 or less Character on bottom of its owner's deck.", "grants": [], "powerMod": null, "targets": ["oneCharacter"], "conditions": ["donAttached"]}}
+  ],
+  "meta": {"notes": null}
+}

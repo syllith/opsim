@@ -1,0 +1,72 @@
+{
+  "id": "OP10-019",
+  "set": "OP10",
+  "number": 19,
+  "name": "Divine Departure",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Four Emperors",
+    "Red Hair Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-019.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main You may rest 5 DON!!: KO up to 1 of your opponent's characters with 8000 Power or less. \n#Counter Up to 1 of your Leaders gains +3000 Power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 5,
+      "cost": {
+        "restDonFromCostArea": 5
+      },
+      "effect": {
+        "text": "KO up to 1 of your opponent's characters with 8000 Power or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=power8000"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leaders gains +3000 Power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneLeader"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "OP07-034",
+  "set": "OP07",
+  "number": 34,
+  "name": "Roronora Zoro",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "Strawhat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-034.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking: If you have three or more characters in play, this card gains +2000 Power for the turn.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have three or more characters in play, this card gains +2000 Power for the turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "threeOrMoreCharactersInPlay"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has a '2000' power value in top right corner, which is likely a placeholder or error. The printed power is 2000, and the counter is +1000. The rarity is 'R' as printed in the bottom right corner."
+  }
+}

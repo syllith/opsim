@@ -1,0 +1,81 @@
+{
+  "id": "OP04-071",
+  "set": "OP04",
+  "number": 71,
+  "name": "Mr.4(Babe)",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-071.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Blocker",
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "Opponent attack DON!!-1: This character gains Blocker and +1000 Power for this battle. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "This character gains Blocker and +1000 Power for this battle.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "self"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "grants": [
+          "Rush"
+        ],
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "afterOpponentDeclaresAttack"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample. The text 'SAMPLE' is overlaid on the image."
+  }
+}

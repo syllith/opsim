@@ -1,0 +1,50 @@
+{
+  "id": "OP06-119",
+  "set": "OP06",
+  "number": 119,
+  "name": "Kaido and Linlin",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Four Emperors",
+    "Animal Kingdom Pirates",
+    "Big Mom Pirates"
+  ],
+  "rarity": "SEC",
+  "art": "/cards/OP06/OP06-119.png",
+  "stats": {
+    "cost": 10,
+    "power": 12000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 12000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking -10 Don!!: KO all other characters. Then, put up to one card from the top of your deck on your life pile and trash up to one card from the top of your opponent's life pile.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 10,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "-10 Don!!: KO all other characters. Then, put up to one card from the top of your deck on your life pile and trash up to one card from the top of your opponent's life pile.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

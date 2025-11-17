@@ -1,0 +1,50 @@
+{
+  "id": "ST11-004",
+  "set": "ST11",
+  "number": 4,
+  "name": "New Genesis",
+  "category": "Event",
+  "colors": ["Green"],
+  "attribute": null,
+  "types": ["Song", "FILM"],
+  "rarity": "SR",
+  "art": "/cards/ST11/ST11-004.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": null }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Main if your leader is Uta, look at the top 3 cards of your deck, reveal up to 1 <FILM> type card other than [New Genesis] and add it to your hand. Return the remaining cards to the bottom of your deck in any order. Then, set up to 1 rested DON!! as active.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your leader is Uta, look at the top 3 cards of your deck, reveal up to 1 <FILM> type card other than [New Genesis] and add it to your hand. Return the remaining cards to the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": ["self:deckTop3", "self:hand"],
+        "conditions": ["leaderIs:Uta"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Set up to 1 rested DON!! as active.",
+        "powerMod": null,
+        "targets": ["oneRestedDon"],
+        "conditions": [],
+        "giveDon": { "amount": 1, "to": "active" }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

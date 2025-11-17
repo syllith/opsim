@@ -1,0 +1,63 @@
+{
+  "id": "OP14-034",
+  "set": "OP14",
+  "number": 34,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-034.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn: All of your (Straw Hat Crew) Characters with a base cost of 4 or more gain +1000 power. Once Per Turn: If your (Straw Hat Crew) type Character would be K.O.'d by your opponent's effect, you may rest 1 of your Characters instead.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "All of your (Straw Hat Crew) Characters with a base cost of 4 or more gain +1000 power.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your (Straw Hat Crew) type Character would be K.O.'d by your opponent's effect, you may rest 1 of your Characters instead.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

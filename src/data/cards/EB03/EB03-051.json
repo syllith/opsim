@@ -1,0 +1,37 @@
+{
+  "id": "EB03-051",
+  "set": "EB03",
+  "number": 51,
+  "name": "Charlotte Smoothie",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Big Mom Pirates"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-051.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] If you have a face-up Life card, K.O. up to 1 of your opponent's Characters with a cost of 2 or less. Then, turn all of your Life cards face-down.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have a face-up Life card, K.O. up to 1 of your opponent's Characters with a cost of 2 or less. Then, turn all of your Life cards face-down.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:opponent:Character"],
+        "conditions": ["hasFaceUpLifeCard", "opponentCharacterCost<=2"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

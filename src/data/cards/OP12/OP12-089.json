@@ -1,0 +1,78 @@
+{
+  "id": "OP12-089",
+  "set": "OP12",
+  "number": 89,
+  "name": "Hack",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fish-man",
+    "Dressrosa",
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-089.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On K.O.",
+    "Rush"
+  ],
+  "trigger": null,
+  "text": "If your Leader has the (Revolutionary Army) type, this Character gains Blocker and +4 cost. On K.O. If your Leader has the (Revolutionary Army) type, K.O. up to 1 of your opponent's Characters with an original cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Revolutionary Army) type, this Character gains Blocker and +4 cost.",
+        "grants": [
+          "Blocker"
+        ],
+        "powerMod": null,
+        "conditions": [
+          "your Leader has the (Revolutionary Army) type"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Revolutionary Army) type, K.O. up to 1 of your opponent's Characters with an original cost of 4 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "your Leader has the (Revolutionary Army) type",
+          "original cost <= 4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

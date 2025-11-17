@@ -1,0 +1,51 @@
+{
+  "id": "OP08-051",
+  "set": "OP08",
+  "number": 51,
+  "name": "Buckin",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Former Rocks Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-051.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Your Turn On Play: Up to 1 of your [Edward Weevil] cards gains +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your [Edward Weevil] cards gains +2000 power during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourCharacters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

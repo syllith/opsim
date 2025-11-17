@@ -1,0 +1,68 @@
+{
+  "id": "OP06-039",
+  "set": "OP06",
+  "number": 39,
+  "name": "You couldn't even kill my boredom!!!",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-039.png",
+  "stats": {
+    "cost": 4,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Activate this card's Main effect."
+  },
+  "text": "Main: Choose 1 of the following effects:\n• Rest up to one of your opponent's characters with a cost of 6 or less.\n• K.O. up to one of your opponent's rested characters with a cost of 6 or less.\n\nTrigger: Activate this card's Main effect.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose 1 of the following effects:\n• Rest up to one of your opponent's characters with a cost of 6 or less.\n• K.O. up to one of your opponent's rested characters with a cost of 6 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost6",
+          "oneOpponentCharacter<=cost6"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Activate this card's Main effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP02-050",
+  "set": "OP02",
+  "number": 50,
+  "name": "Inazuma",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Slash",
+  "types": ["Impel Down", "Revolutionary Army"],
+  "rarity": "C",
+  "art": "/cards/OP02/OP02-050.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "If you have 1 or less cards in your hand, this Character gains +2000 Power. Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Continuous",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 1 or less cards in your hand, this Character gains +2000 Power.",
+        "grants": [],
+        "powerMod": { "amount": 2000, "duration": "Continuous" },
+        "targets": ["Character"],
+        "conditions": ["1 or less cards in hand"]
+      }
+    },
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

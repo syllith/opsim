@@ -1,0 +1,55 @@
+{
+  "id": "OP08-103",
+  "set": "OP08",
+  "number": 103,
+  "name": "Charlotte Custard",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP08/OP08-103.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may add the top card of life to your hand: Give up to one of your characters +1000 power until the end of your opponents next turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may add the top card of life to your hand: Give up to one of your characters +1000 power until the end of your opponents next turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "until the end of your opponents next turn"
+        },
+        "targets": [
+          "oneOfYourCharacters"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but this is not a game error. The card ID, set, number, and stats are legible."
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "id": "OP05-018",
+  "set": "OP05",
+  "number": 18,
+  "name": "Emporio Tension Hormone",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Revolutionary Army"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-018.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play up to 1 character card with the [Revolutionary Army] type with 5000 power or less from your hand."
+  },
+  "text": "Up to 1 of your leaders or characters gain +3000 Power this battle. Then, play up to 1 character card with the [Revolutionary Army] type with 5000 power or less from your hand.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your leaders or characters gain +3000 Power this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneOfYourLeaders",
+          "oneOfYourCharacters"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play up to 1 character card with the [Revolutionary Army] type with 5000 power or less from your hand.",
+        "powerMod": null,
+        "targets": [
+          "optionalTarget"
+        ],
+        "conditions": [
+          "character:Revolutionary Army",
+          "power<=5000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

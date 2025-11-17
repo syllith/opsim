@@ -1,0 +1,47 @@
+{
+  "id": "OP08-116",
+  "set": "OP08",
+  "number": 116,
+  "name": "Burn Bazooka",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island",
+    "Shandian Warrior"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-116.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, you may add 1 card from the top or bottom of your Life cards to your hand. If you do, add up to 1 card with the (Shandian Warrior) type from your hand to the top of your Life cards face up.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, you may add 1 card from the top or bottom of your Life cards to your hand. If you do, add up to 1 card with the (Shandian Warrior) type from your hand to the top of your Life cards face up.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

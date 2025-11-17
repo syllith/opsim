@@ -1,0 +1,37 @@
+{
+  "id": "ST02-014",
+  "set": "ST02",
+  "number": 14,
+  "name": "X.Drake",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Navy", "Supernovas", "Drake Pirates"],
+  "rarity": null,
+  "art": "/cards/ST02/ST02-014.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 — Your Turn: If this Character is rested, your {Supernovas} or {Navy} type Leaders and Characters gain +1000 power.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If this Character is rested, your {Supernovas} or {Navy} type Leaders and Characters gain +1000 power.",
+        "grants": [],
+        "powerMod": { "amount": 1000, "duration": "your turn" },
+        "targets": ["ally:LeaderType(Supernovas|Navy)", "ally:CharacterType(Supernovas|Navy)"],
+        "conditions": ["selfRested"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

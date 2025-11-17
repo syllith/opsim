@@ -1,0 +1,58 @@
+{
+  "id": "OP13-094",
+  "set": "OP13",
+  "number": 94,
+  "name": "York",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Scientist",
+    "Egghead"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-094.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Up to 1 of your (Celestial Dragons) Characters gains +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your (Celestial Dragons) Characters gains +2000 power during this turn.",
+        "powerMod": {
+          "amount": 2000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneOfYourCharacters"
+        ],
+        "conditions": [
+          "(Celestial Dragons)"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

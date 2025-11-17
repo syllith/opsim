@@ -1,0 +1,50 @@
+{
+  "id": "P-029",
+  "set": "P",
+  "number": 29,
+  "name": "Bartolomeo",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "FILM",
+    "Supernovas",
+    "Barto Club"
+  ],
+  "rarity": "L",
+  "art": "/cards/P/P-029.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "End of Your Turn: You may rest this Character. Set up to 1 of your (FILM) type Characters other than [Bartolomeo] as active.",
+  "abilities": [
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this Character. Set up to 1 of your (FILM) type Characters other than [Bartolomeo] as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'NOT FOR SALE IN JAPAN'."
+  }
+}

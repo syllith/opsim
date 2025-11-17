@@ -1,0 +1,50 @@
+{
+  "id": "OP10-045",
+  "set": "OP10",
+  "number": 45,
+  "name": "Cavendish",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressarosa",
+    "Beautiful Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-045.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "When Attacking Once Per Turn: Draw 2 cards and trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards and trash 1 card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but ID and other fields are extracted from printed text."
+  }
+}

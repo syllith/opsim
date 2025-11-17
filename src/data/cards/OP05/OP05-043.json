@@ -1,0 +1,48 @@
+{
+  "id": "OP05-043",
+  "set": "OP05",
+  "number": 43,
+  "name": "Ulti",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Animal Kigdom Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP05/OP05-043.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your leader is multicolored, look at the top 3 cards of your deck and add 1 to your hand. Then, place the rest in any order on the top or bottom of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader is multicolored, look at the top 3 cards of your deck and add 1 to your hand. Then, place the rest in any order on the top or bottom of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

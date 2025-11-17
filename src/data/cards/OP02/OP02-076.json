@@ -1,0 +1,35 @@
+{
+  "id": "OP02-076",
+  "set": "OP02",
+  "number": 76,
+  "name": "Shiryu",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Impel Down"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-076.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "DON!! -1"],
+  "trigger": null,
+  "text": "[On Play] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
+        "targets": ["upTo1:opponent:Character<=1"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST11-002",
+  "set": "ST11",
+  "number": 2,
+  "name": "Uta",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Special",
+  "types": ["FILM"],
+  "rarity": "SR",
+  "art": "/cards/ST11/ST11-002.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) End of Your Turn You may discard 1 event card from your hand: Set up to 1 of your [FILM] type characters as active.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may discard 1 event card from your hand: Set up to 1 of your [FILM] type characters as active.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter:type=FILM"],
+        "conditions": ["discardEventFromHand"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

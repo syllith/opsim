@@ -1,0 +1,48 @@
+{
+  "id": "OP02-119",
+  "set": "OP02",
+  "number": 119,
+  "name": "Meteor Volcano",
+  "category": "Event",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Navy"],
+  "rarity": "R",
+  "art": "/cards/OP02/OP02-119.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main"],
+  "trigger": {
+    "text": "Draw 2 cards and trash 1 card from your hand."
+  },
+  "text": "[Main] K.O. up to 1 of your opponent's Characters with a cost of 1 or less.\n[Trigger] Draw 2 cards and trash 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
+        "targets": ["upTo1:opponent:Character<=1"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Draw 2 cards and trash 1 card from your hand.",
+        "targets": ["self:player"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "P-019",
+  "set": "P",
+  "number": 19,
+  "name": "Bepo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Film",
+    "Mink tribe",
+    "Heart Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/P/P-019.png",
+  "stats": {
+    "cost": 3,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!!x1 When Attacking K.O. up to 1 of your opponent's Characters with 3000 power or less.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with 3000 power or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=power3000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

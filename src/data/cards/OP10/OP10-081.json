@@ -1,0 +1,49 @@
+{
+  "id": "OP10-081",
+  "set": "OP10",
+  "number": 81,
+  "name": "Usopp",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Dressrosa",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-081.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Rest a stage or leader with the \"Dressrosa\" type: KO a 2 cost or lower character. After that, trash the top card of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest a stage or leader with the \"Dressrosa\" type: KO a 2 cost or lower character. After that, trash the top card of your deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

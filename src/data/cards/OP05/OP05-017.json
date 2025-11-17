@@ -1,0 +1,65 @@
+{
+  "id": "OP05-017",
+  "set": "OP05",
+  "number": 17,
+  "name": "Lindberg",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Minks",
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-017.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "You may discard a card: If your leader is multi-coloured, play this card."
+  },
+  "text": "When Attacking: If this character has 7000 power or more, KO up to 1 of your opponent's characters with 3000 power or less.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this character has 7000 power or more, KO up to 1 of your opponent's characters with 3000 power or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may discard a card: If your leader is multi-coloured, play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

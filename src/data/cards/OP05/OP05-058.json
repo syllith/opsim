@@ -1,0 +1,64 @@
+{
+  "id": "OP05-058",
+  "set": "OP05",
+  "number": 58,
+  "name": "It's a Waste of Human Life!",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-058.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Place all cost 2 or less characters on the bottom of their owner's decks."
+  },
+  "text": "Main: Place all cost 3 or lower characters on the bottom of their owner's decks. Then, until there are 5 cards in each players' hands, discard cards.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place all cost 3 or lower characters on the bottom of their owner's decks. Then, until there are 5 cards in each players' hands, discard cards.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place all cost 2 or less characters on the bottom of their owner's decks.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

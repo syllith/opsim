@@ -1,0 +1,52 @@
+{
+  "id": "OP06-091",
+  "set": "OP06",
+  "number": 91,
+  "name": "Victoria Cindry",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-091.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: If your Leader has (Thriller Bark Pirates) type, trash 5 cards from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has (Thriller Bark Pirates) type, trash 5 cards from the top of your deck.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeader",
+          "hasType:Thriller Bark Pirates"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card has 'SAMPLE' watermark, but this is not a game error; it's a placeholder for the card image."
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "id": "OP10-118",
+  "set": "OP10",
+  "number": 118,
+  "name": "Monkey D. Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Dressrosa Supernovas",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP10/OP10-118.png",
+  "stats": {
+    "cost": 6,
+    "power": 7000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "Once per turn, this character cannot be K.O'd by your opponent's effects.\nWhen Attacking: You may place 3 cards from your trash to the bottom of your deck in any order. Then, if your opponent has 5 or more cards in their hand, your opponent trashes 1 card from their hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Once per turn, this character cannot be K.O'd by your opponent's effects.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place 3 cards from your trash to the bottom of your deck in any order. Then, if your opponent has 5 or more cards in their hand, your opponent trashes 1 card from their hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

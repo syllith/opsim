@@ -1,0 +1,40 @@
+{
+  "id": "EB02-002",
+  "set": "EB02",
+  "number": 2,
+  "name": "Sabo",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Special",
+  "types": ["Dressrosa", "Revolutionary Army"],
+  "rarity": "UC",
+  "art": "/cards/EB02/EB02-002.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Activate: Main"],
+  "trigger": null,
+  "text": "Activate: Main You may rest this character: Up to one of your {Revolutionary Army} character other than \"Sabo\" gains +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this character: Up to one of your {Revolutionary Army} character other than \"Sabo\" gains +2000 power during this turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": 2000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["ally:oneCharacter:RevolutionaryArmy:notSabo"],
+        "conditions": ["restSelf"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

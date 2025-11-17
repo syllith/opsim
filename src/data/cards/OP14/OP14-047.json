@@ -1,0 +1,50 @@
+{
+  "id": "OP14-047",
+  "set": "OP14",
+  "number": 47,
+  "name": "Shirahoshi",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Merfolk",
+    "Fish-Man Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP14/OP14-047.png",
+  "stats": {
+    "cost": 4,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Blocker\nOn Play: Draw 1 card. Then, play up to 1 {Fish-Man} or {Merfolk} type Character card with a cost of 3 or less from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card. Then, play up to 1 {Fish-Man} or {Merfolk} type Character card with a cost of 3 or less from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "OP06-107",
+  "set": "OP06",
+  "number": 107,
+  "name": "Kozuki Momonosuke",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Land of Wano",
+    "Kozuki Clan"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP06/OP06-107.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Blocker - (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: Place up to one of your (Wano) type characters other than (Kozuki Momonosuke) on the top or bottom of its owners life pile face-up.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Place up to one of your (Wano) type characters other than (Kozuki Momonosuke) on the top or bottom of its owners life pile face-up.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

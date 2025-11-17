@@ -1,0 +1,50 @@
+{
+  "id": "ST14-006",
+  "set": "ST14",
+  "number": 6,
+  "name": "Nami",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Special",
+  "types": ["Straw Hat Crew"],
+  "rarity": "SR",
+  "art": "/cards/ST14/ST14-006.png",
+  "stats": {
+    "cost": 3,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Play If you have a character with a cost of 8 or more and you have 6 or less cards in hand, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have a character with a cost of 8 or more and you have 6 or less cards in hand, draw 1 card.",
+        "powerMod": null,
+        "targets": ["self:draw"],
+        "conditions": ["controlCharacter>=8", "handSize<=6"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

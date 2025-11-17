@@ -1,0 +1,50 @@
+{
+  "id": "OP08-057",
+  "set": "OP08",
+  "number": 57,
+  "name": "King",
+  "category": "Leader",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP08/OP08-057.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn",
+    "Don!!:2"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn Don!!:2: Choose one: • If your hand is 5 or less cards, draw 1 card. • Give up to one of your opponents characters -2 cost this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Choose one: • If your hand is 5 or less cards, draw 1 card. • Give up to one of your opponents characters -2 cost this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "OP04-100",
+  "set": "OP04",
+  "number": 100,
+  "name": "Capone Bege",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Fire Tank Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-100.png",
+  "stats": {
+    "cost": 3,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Up to 1 of your opponent's leaders or Characters cannot attack during this turn"
+  },
+  "text": "Trigger\nUp to 1 of your opponent's leaders or Characters cannot attack during this turn",
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your opponent's leaders or Characters cannot attack during this turn",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentLeader",
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner."
+  }
+}

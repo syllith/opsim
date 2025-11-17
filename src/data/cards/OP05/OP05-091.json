@@ -1,0 +1,49 @@
+{
+  "id": "OP05-091",
+  "set": "OP05",
+  "number": 91,
+  "name": "Rebecca",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-091.png",
+  "stats": {
+    "cost": 4,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Return up to 1 black character other than \"Rebecca\" with a cost of 3 to 7 from the trash to your hand. Then, play 1 cost 3 or less black character from your hand to the field rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 black character other than \"Rebecca\" with a cost of 3 to 7 from the trash to your hand. Then, play 1 cost 3 or less black character from your hand to the field rested.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

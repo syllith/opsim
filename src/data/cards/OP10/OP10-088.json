@@ -1,0 +1,54 @@
+{
+  "id": "OP10-088",
+  "set": "OP10",
+  "number": 88,
+  "name": "Nami",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Dressrosa",
+    "Straw Hat Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP10/OP10-088.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": 0,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this and one of your leader or stage that has the (Dressrosa) type: Draw one card, then trash 2 cards from the top of your deck.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this and one of your leader or stage that has the (Dressrosa) type: Draw one card, then trash 2 cards from the top of your deck.",
+        "powerMod": null,
+        "conditions": [
+          "oneOpponentCharacter",
+          "self",
+          "rested"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'SPECIAL' in image, but these are not part of the card's official printed data. The rarity is SP as printed."
+  }
+}

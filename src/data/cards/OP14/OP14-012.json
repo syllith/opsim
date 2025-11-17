@@ -1,0 +1,56 @@
+{
+  "id": "OP14-012",
+  "set": "OP14",
+  "number": 12,
+  "name": "Bepo",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Minks",
+    "Heart Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP14/OP14-012.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "When Attacking If this Character has 5000 power or more, Give up to 2 rested DON!! card to your Leader or 1 of your Characters.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this Character has 5000 power or more, Give up to 2 rested DON!! card to your Leader or 1 of your Characters.",
+        "powerMod": null,
+        "targets": [
+          "yourLeader",
+          "oneOfYourCharacters"
+        ],
+        "conditions": [
+          "thisCharacterPower>=5000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

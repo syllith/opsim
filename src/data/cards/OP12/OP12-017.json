@@ -1,0 +1,51 @@
+{
+  "id": "OP12-017",
+  "set": "OP12",
+  "number": 17,
+  "name": "Observation Haki",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Former Roger Pirates"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP12/OP12-017.png",
+  "stats": {
+    "cost": 0,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main"
+  ],
+  "trigger": null,
+  "text": "Main You may attach 1 active DON!! card to 1 of your [Silvers Rayleigh]: Look at the top 4 cards of your deck and reveal up to 1 red Event card or up to 1 cost 3 or greater Character card and add it to your hand. Then, place the rest on the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may attach 1 active DON!! card to 1 of your [Silvers Rayleigh]: Look at the top 4 cards of your deck and reveal up to 1 red Event card or up to 1 cost 3 or greater Character card and add it to your hand. Then, place the rest on the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

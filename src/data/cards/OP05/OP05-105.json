@@ -1,0 +1,49 @@
+{
+  "id": "OP05-105",
+  "set": "OP05",
+  "number": 105,
+  "name": "Satori",
+  "category": "Character",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Sky Island",
+    "God's Priest"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-105.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": {
+    "text": "You may trash 1 cards from your hand: Play this card."
+  },
+  "text": null,
+  "abilities": [
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 cards from your hand: Play this card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

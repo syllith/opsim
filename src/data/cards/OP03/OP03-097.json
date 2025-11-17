@@ -1,0 +1,74 @@
+{
+  "id": "OP03-097",
+  "set": "OP03",
+  "number": 97,
+  "name": "Six King Pistol",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-097.png",
+  "stats": {
+    "cost": 0,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card. Then, K.O. up to 1 of your opponent's Characters with a cost of 1 or less."
+  },
+  "text": "#Counter You may trash 1 card from your hand: Up to 1 of your Leader or Characters gains +3000 Power during this battle.\n\nTrigger Draw 1 card. Then, K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Up to 1 of your Leader or Characters gains +3000 Power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "upTo1LeaderOrCharacter"
+        ],
+        "conditions": [
+          "yourHand"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card. Then, K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
+        "powerMod": null,
+        "targets": [
+          "upTo1OpponentCharacter<=cost1"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is visible in the bottom right corner. The card is an Event with no cost, power, or life. The Counter and Trigger abilities are clearly defined."
+  }
+}

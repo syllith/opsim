@@ -1,0 +1,37 @@
+{
+  "id": "EB02-051",
+  "set": "EB02",
+  "number": 51,
+  "name": "Three Verse Hum: Arrow Notch Cut",
+  "category": "Event",
+  "colors": ["Black"],
+  "attribute": null,
+  "types": ["Former Rumbar Pirates"],
+  "rarity": "R",
+  "art": "/cards/EB02/EB02-051.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main"],
+  "trigger": null,
+  "text": "[Main] Choose one of the following:\n• K.O. up to one of your opponent's characters with the cost of 2 or lower.\n• Give up to one of your opponent's characters -4 cost for this turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Choose one of the following: • K.O. up to one of your opponent's characters with the cost of 2 or lower. • Give up to one of your opponent's characters -4 cost for this turn.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:opponent:Character:cost<=2", "upTo1:opponent:Character"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

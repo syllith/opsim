@@ -1,0 +1,48 @@
+{
+  "id": "OP05-093",
+  "set": "OP05",
+  "number": 93,
+  "name": "Rob Lucci",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "CP0"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP05/OP05-093.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may place 3 cards from your trash on the bottom of your deck in any order. K.O. up to 1 of your opponent's characters with a cost of 2 or less and up to 1 of your opponent's characters with a cost of 1 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may place 3 cards from your trash on the bottom of your deck in any order. K.O. up to 1 of your opponent's characters with a cost of 2 or less and up to 1 of your opponent's characters with a cost of 1 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

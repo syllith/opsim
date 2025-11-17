@@ -1,0 +1,56 @@
+{
+  "id": "OP06-011",
+  "set": "OP06",
+  "number": 11,
+  "name": "Tot Musica",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Film"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP06/OP06-011.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Once Per Turn"
+  ],
+  "trigger": null,
+  "text": "Activate: Main Once Per Turn You may rest one of your (Uta): This character gains +5000 Power for this turn.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest one of your (Uta): This character gains +5000 Power for this turn.",
+        "powerMod": {
+          "amount": 5000,
+          "duration": "this turn"
+        },
+        "conditions": [
+          "oneOpponentCharacter",
+          "self"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and has 'SPECIAL' rarity indicator, but rarity is confirmed as 'SP' from printed text."
+  }
+}

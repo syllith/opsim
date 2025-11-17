@@ -1,0 +1,50 @@
+{
+  "id": "ST02-013",
+  "set": "ST02",
+  "number": 13,
+  "name": "Eustass\"Captain\"Kid",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Special",
+  "types": ["Supernovas", "Kid Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST02/ST02-013.png",
+  "stats": {
+    "cost": 7,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Blocker"],
+  "trigger": null,
+  "text": "Blocker. DON!! x1 — End of Your Turn: Set this card as active.",
+  "abilities": [
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentDeclaredAttack"]
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Set this card as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

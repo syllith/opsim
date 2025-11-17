@@ -1,0 +1,48 @@
+{
+  "id": "OP07-006",
+  "set": "OP07",
+  "number": 6,
+  "name": "Stelly",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Goa Kingdom"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-006.png",
+  "stats": {
+    "cost": 1,
+    "power": 1000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may give your 1 active Leader -5000 power during this turn. Draw 1 card and discard 1 card from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may give your 1 active Leader -5000 power during this turn. Draw 1 card and discard 1 card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

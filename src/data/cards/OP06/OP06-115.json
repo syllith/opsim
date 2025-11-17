@@ -1,0 +1,64 @@
+{
+  "id": "OP06-115",
+  "set": "OP06",
+  "number": 115,
+  "name": "You're the one who should disappear!",
+  "category": "Event",
+  "colors": [
+    "Yellow"
+  ],
+  "attribute": null,
+  "types": [
+    "Sky Island"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-115.png",
+  "stats": {
+    "cost": 0,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "If you have 0 life cards, put the top card of your deck onto your life pile. Then, trash one card from your hand."
+  },
+  "text": "You may trash one card from your hand: Your leader or up to one of your characters get +3000 for this battle.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash one card from your hand: Your leader or up to one of your characters get +3000 for this battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 0 life cards, put the top card of your deck onto your life pile. Then, trash one card from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

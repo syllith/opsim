@@ -1,0 +1,51 @@
+{
+  "id": "OP08-077",
+  "set": "OP08",
+  "number": 77,
+  "name": "Hakai Ocean Sovereignty",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Four Emperors",
+    "Animal Kingdom Pirates",
+    "Big Mom Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP08/OP08-077.png",
+  "stats": {
+    "cost": 6,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Don!!"
+  ],
+  "trigger": null,
+  "text": "Main Don!!: If your leader's type has {Animal Kingdom Pirates} or {Big Mom Pirates} in it, KO up to two of your opponents cost 6 or lower characters.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader's type has {Animal Kingdom Pirates} or {Big Mom Pirates} in it, KO up to two of your opponents cost 6 or lower characters.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is marked as a SAMPLE, but this is not a valid card for gameplay. The printed ID is OP08-077, set is OP08, number is 77, rarity is C, and the text is as printed."
+  }
+}

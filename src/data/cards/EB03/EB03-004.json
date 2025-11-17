@@ -1,0 +1,40 @@
+{
+  "id": "EB03-004",
+  "set": "EB03",
+  "number": 4,
+  "name": "Carina",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Wisdom",
+  "types": ["FILM", "Grantesoro"],
+  "rarity": "C",
+  "art": "/cards/EB03/EB03-004.png",
+  "stats": {
+    "cost": 3,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "Opponent's Turn"],
+  "trigger": null,
+  "text": "[Blocker]\n[Opponent's Turn] If your Leader is multicolored and you have no Characters with a base power of 6000 or more, this Character gains +4000 power.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader is multicolored and you have no Characters with a base power of 6000 or more, this Character gains +4000 power.",
+        "grants": [],
+        "powerMod": {
+          "amount": 4000,
+          "duration": "continuous"
+        },
+        "targets": ["self"],
+        "conditions": ["leaderIsMulticolored", "noCharactersWithBasePower6000OrMore"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

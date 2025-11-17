@@ -1,0 +1,49 @@
+{
+  "id": "OP10-056",
+  "set": "OP10",
+  "number": 56,
+  "name": "Mansherry",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "Tontatta",
+    "Dressrosa"
+  ],
+  "rarity": "US",
+  "art": "/cards/OP10/OP10-056.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may rest one of your {Dressrosa} type leaders or stage cards, and return one of your cost 4 or greater {Dressrosa} type characters to your hand: Return up to one of your opponent's cost 4 or lower characters to its owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest one of your {Dressrosa} type leaders or stage cards, and return one of your cost 4 or greater {Dressrosa} type characters to your hand: Return up to one of your opponent's cost 4 or lower characters to its owner's hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'US' as printed in the bottom right corner. The card has a Counter +1000 icon. The text is split into two parts: the first part is the 'On Play' effect, and the second part is the 'Return up to one...' effect. The latter is a conditional effect based on the first action."
+  }
+}

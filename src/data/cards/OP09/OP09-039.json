@@ -1,0 +1,74 @@
+{
+  "id": "OP09-039",
+  "set": "OP09",
+  "number": 39,
+  "name": "Gum-Gum Quattro Mano Jet Cross Shock Bazooka",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "ODYSSEY",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-039.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "KO up to one of your opponent's rested cost 4 or lower characters."
+  },
+  "text": "If your leader has the <<Odyssey>> type and you have two or more rested characters in play, up to one of your leader or characters gains +2000 power for this turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your leader has the <<Odyssey>> type and you have two or more rested characters in play, up to one of your leader or characters gains +2000 power for this turn.",
+        "powerMod": null,
+        "conditions": [
+          "leader:hasType<<Odyssey>>",
+          "twoOrMore:restedCharactersInPlay"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to one of your opponent's rested cost 4 or lower characters.",
+        "powerMod": null,
+        "conditions": [
+          "oneOpponentCharacter",
+          "rested",
+          "cost<=4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

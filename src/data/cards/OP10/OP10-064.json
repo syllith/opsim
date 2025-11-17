@@ -1,0 +1,48 @@
+{
+  "id": "OP10-064",
+  "set": "OP10",
+  "number": 64,
+  "name": "Replicate soldier",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Germa Kingdom"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP10/OP10-064.png",
+  "stats": {
+    "cost": 2,
+    "power": 2000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker"
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "abilities": [
+    {
+      "timing": "Block",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but this is not a real card. Using printed ID and stats for output."
+  }
+}

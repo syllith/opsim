@@ -1,0 +1,49 @@
+{
+  "id": "OP10-048",
+  "set": "OP10",
+  "number": 48,
+  "name": "Sai",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Dressrosa",
+    "Happo Navy"
+  ],
+  "rarity": "L",
+  "art": "/cards/OP10/OP10-048.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 5000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: You may rest 1 of your {Dressrosa} type Leader or Stage: Place up to 1 of your opponent's Characters with a Cost of 1 or less to the bottom of its owner's deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest 1 of your {Dressrosa} type Leader or Stage: Place up to 1 of your opponent's Characters with a Cost of 1 or less to the bottom of its owner's deck.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card is a sample and has 'SAMPLE' text overlaid on the art. The printed ID is OP10-048, set OP10, number 48, rarity L, cost 3, power 5000, attribute Slash, types Dressrosa/Happo Navy, and no life value."
+  }
+}

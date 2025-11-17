@@ -1,0 +1,46 @@
+{
+  "id": "OP12-018",
+  "set": "OP12",
+  "number": 18,
+  "name": "Conqueror's Haki",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Former Roger Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-018.png",
+  "stats": {
+    "cost": 0,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "#Counter Give up to 1 of your Character or your [Silvers Rayleigh]+2000 power during this battle. Then, you may rest 1 of your DON!! cards. If you did, give all of your opponent's Characters and Leader -1000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Give up to 1 of your Character or your [Silvers Rayleigh]+2000 power during this battle. Then, you may rest 1 of your DON!! cards. If you did, give all of your opponent's Characters and Leader -1000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

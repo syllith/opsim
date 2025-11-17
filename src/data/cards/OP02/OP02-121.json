@@ -1,0 +1,46 @@
+{
+  "id": "OP02-121",
+  "set": "OP02",
+  "number": 121,
+  "name": "Kuzan",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Former Navy"],
+  "rarity": "SEC",
+  "art": "/cards/OP02/OP02-121.png",
+  "stats": {
+    "cost": 10,
+    "power": 10000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Your Turn", "On Play"],
+  "trigger": null,
+  "text": "[Your Turn] All of your opponent's Characters get -5 to their cost.\n[On Play] K.O. up to 1 of your opponent's Characters with a cost of 0.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "All of your opponent's Characters get -5 to their cost.",
+        "targets": ["opponent:Character"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "K.O. up to 1 of your opponent's Characters with a cost of 0.",
+        "targets": ["upTo1:opponent:Character=0"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

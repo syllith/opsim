@@ -1,0 +1,35 @@
+{
+  "id": "OP03-021",
+  "set": "OP03",
+  "number": 21,
+  "name": "Kuro",
+  "category": "Leader",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["East Blue", "Black Cat Pirates"],
+  "rarity": "L",
+  "art": "/cards/OP03/OP03-021.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": null
+  },
+  "keywords": ["Activate Main"],
+  "trigger": null,
+  "text": "[Activate: Main] (3) (You may rest the specified number of DON!! cards in your Cost Area): you may rest 2 of your Characters with the {East Blue} type: Set this Leader as active and rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 3, "restTwoEastBlueCharacters": true },
+      "effect": {
+        "text": "Set this Leader as active and rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+        "targets": ["thisLeader", "opponentCharacter"],
+        "conditions": ["costLessOrEqual5"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST25-001",
+  "set": "ST25",
+  "number": 1,
+  "name": "Alvida",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": null,
+  "types": ["Cross Guild"],
+  "rarity": "SR",
+  "art": "/cards/ST25/ST25-001.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "If you have 2 or more Characters with a base cost of 5 or more, this Character gains +1 cost.\n[On Play] If your Leader is [Buggy], draw 3 cards and trash 2 cards from your hand.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 2 or more Characters with a base cost of 5 or more, this Character gains +1 cost.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["allyCharactersBaseCost>=5Count>=2"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader is [Buggy], draw 3 cards and trash 2 cards from your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["leaderIsBuggy"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP12-079",
+  "set": "OP12",
+  "number": 79,
+  "name": "Luffy Is The Man Who Will Be The Pirate King!!!",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP12/OP12-079.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main"
+  ],
+  "trigger": null,
+  "text": "Main If your Leader is [Sanji], look at the top 3 cards of your deck, put 1 card into your hand and place the rest to the bottom of your deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader is [Sanji], look at the top 3 cards of your deck, put 1 card into your hand and place the rest to the bottom of your deck in any order.",
+        "powerMod": null,
+        "conditions": [
+          "yourLeaderIs[Sanji]"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

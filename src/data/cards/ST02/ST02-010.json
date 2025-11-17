@@ -1,0 +1,37 @@
+{
+  "id": "ST02-010",
+  "set": "ST02",
+  "number": 10,
+  "name": "Basil Hawkins",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Supernovas", "Hawkins Pirates"],
+  "rarity": null,
+  "art": "/cards/ST02/ST02-010.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Once Per Turn"],
+  "trigger": null,
+  "text": "DON!! x1 — Once Per Turn — Your Turn: If this Character battles your opponent's Character, set this card as active.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": 1,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If this Character battles your opponent's Character, set this card as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["battledOpponentCharacter"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

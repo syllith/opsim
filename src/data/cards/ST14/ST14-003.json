@@ -1,0 +1,37 @@
+{
+  "id": "ST14-003",
+  "set": "ST14",
+  "number": 3,
+  "name": "Sanji",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Strike",
+  "types": ["Straw Hat Crew"],
+  "rarity": "SR",
+  "art": "/cards/ST14/ST14-003.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+     "counter": null
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play If you have a cost 6 or greater character in play, KO up to one of your opponent's cost 5 or lower characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have a cost 6 or greater character in play, KO up to one of your opponent's cost 5 or lower characters.",
+        "powerMod": null,
+        "targets": ["oneOpponentCharacter<=5:KO"],
+        "conditions": ["controlCharacter>=6", "optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

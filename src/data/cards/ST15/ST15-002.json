@@ -1,0 +1,75 @@
+{
+  "id": "ST15-002",
+  "set": "ST15",
+  "number": 2,
+  "name": "Edward Newgate",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "The Four Emperors",
+    "Whitebeard Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/ST15/ST15-002.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": null
+    }
+  },
+  "keywords": [
+    "On Play",
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "[On Play] Give your leader or one of your characters up to one rested Don!!.\n[Activate: Main] You may rest this character: KO up to one of your opponent's characters with 5000 or less power.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give your leader or one of your characters up to one rested Don!!.",
+        "powerMod": null,
+        "targets": [
+          "ally:Leader",
+          "oneAllyCharacter"
+        ],
+        "conditions": [
+          "giveDon:rested:1"
+        ]
+      }
+    },
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may rest this character: KO up to one of your opponent's characters with 5000 or less power.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=5000"
+        ],
+        "conditions": [
+          "restThisCard"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

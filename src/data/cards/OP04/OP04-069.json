@@ -1,0 +1,77 @@
+{
+  "id": "OP04-069",
+  "set": "OP04",
+  "number": 69,
+  "name": "Mr.2 (Bon Clay)",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-069.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When opponent attack",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "DON!! -1: You may play this card"
+  },
+  "text": "When opponent attack DON!! -1: This character's original power becomes the attacking character or leader's power until the end of the turn.\nTrigger DON!! -1: You may play this card",
+  "abilities": [
+    {
+      "timing": "When opponent attack",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "This character's original power becomes the attacking character or leader's power until the end of the turn.",
+        "powerMod": null,
+        "targets": [
+          "self"
+        ],
+        "conditions": [
+          "attackingCharacter",
+          "leader"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "You may play this card",
+        "grants": [
+          "Play"
+        ],
+        "powerMod": null,
+        "targets": [
+          "thisCard"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is marked as a sample."
+  }
+}

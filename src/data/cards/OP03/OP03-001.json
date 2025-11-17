@@ -1,0 +1,39 @@
+{
+  "id": "OP03-001",
+  "set": "OP03",
+  "number": 1,
+  "name": "Portgaz. D. Ace",
+  "category": "Leader",
+  "colors": ["Red"],
+  "attribute": null,
+  "types": ["Whitebeard Pirates"],
+  "rarity": "L",
+  "art": "/cards/OP03/OP03-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 5,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "When this Leader attacks or is being attacked, you may trash any number of Event or Stage cards from your hand. For each card you trashed, this Leader gains +1000 Power during this battle.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash any number of Event or Stage cards from your hand. For each card you trashed, this Leader gains +1000 Power during this battle.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "targets": ["self:Leader"],
+        "conditions": ["trashEventOrStageFromHand"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

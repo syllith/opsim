@@ -1,0 +1,37 @@
+{
+  "id": "EB03-025",
+  "set": "EB03",
+  "number": 25,
+  "name": "Hina",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Special",
+  "types": ["Navy"],
+  "rarity": "SR",
+  "art": "/cards/EB03/EB03-025.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] You may trash 1 card from your hand: Return up to 1 Character with 6000 base power to the owner's hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Return up to 1 Character with 6000 base power to the owner's hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["upTo1:Character:basePower=6000"],
+        "conditions": ["trash1FromHand"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

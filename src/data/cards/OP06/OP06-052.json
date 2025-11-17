@@ -1,0 +1,46 @@
+{
+  "id": "OP06-052",
+  "set": "OP06",
+  "number": 52,
+  "name": "Tokikake",
+  "category": "Character",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-052.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "DON!! x1 If you have 4 or less cards in your hand, this character cannot be K.O'd in battle",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 4 or less cards in your hand, this character cannot be K.O'd in battle",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as SAMPLE, but rarity is R based on printed text. Power is 3000, not 3000 as printed in the top right corner. Life is not printed."
+  }
+}

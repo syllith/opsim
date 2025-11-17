@@ -1,0 +1,56 @@
+{
+  "id": "OP06-075",
+  "set": "OP06",
+  "number": 75,
+  "name": "Earl Battler",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": null,
+  "types": [
+    "FILM",
+    "Crown Island"
+  ],
+  "rarity": "SP",
+  "art": "/cards/OP06/OP06-075.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play DON!! -1: Rest up to 2 of your opponent's characters of 2 cost or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to 2 of your opponent's characters of 2 cost or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter",
+          "oneOpponentCharacter"
+        ],
+        "conditions": [
+          "cost<=2"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' and 'SPECIAL' in image, but rarity is printed as 'SP' on card. Power is 3000, not 3000+ as might be inferred from 'SPECIAL'."
+  }
+}

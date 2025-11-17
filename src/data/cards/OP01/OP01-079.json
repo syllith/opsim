@@ -1,0 +1,52 @@
+{
+  "id": "OP01-079",
+  "set": "OP01",
+  "number": 79,
+  "name": "Miss All Sunday",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Strike",
+  "types": ["Baroque Works"],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-079.png",
+  "stats": {
+    "cost": 3,
+    "power": 1000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On K.O."],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) | On K.O.: If your Leader has the {Baroque Works} type, return up to 1 Event card from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared", "restSelf"],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {Baroque Works} type, return up to 1 Event card from your trash to your hand.",
+        "grants": ["Return Event Card"],
+        "powerMod": null,
+        "targets": ["oneEventFromTrash"],
+        "conditions": ["leaderHasBaroqueWorks"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

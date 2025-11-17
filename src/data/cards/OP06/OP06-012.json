@@ -1,0 +1,47 @@
+{
+  "id": "OP06-012",
+  "set": "OP06",
+  "number": 12,
+  "name": "Bearing",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "FILM",
+    "Trump Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP06/OP06-012.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If your opponent has a leader or character with a base power of 6000 or higher, this character cannot be KO'd in battle.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your opponent has a leader or character with a base power of 6000 or higher, this character cannot be KO'd in battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP01-099",
+  "set": "OP01",
+  "number": 99,
+  "name": "Kurozumi Semimaru",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Special",
+  "types": ["Wano Country", "Kurozumi Family"],
+  "rarity": "C",
+  "art": "/cards/OP01/OP01-099.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "{Kurozumi Family} type Characters other than your [Kurozumi Semimaru] cannot be K.O.'d in battle.",
+  "abilities": [
+    {
+      "timing": "Passive",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "{Kurozumi Family} type Characters other than your [Kurozumi Semimaru] cannot be K.O.'d in battle.",
+        "grants": ["Cannot be KO'd"],
+        "powerMod": null,
+        "targets": ["kurozumiFamilyCharactersExceptSelf"],
+        "conditions": [],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

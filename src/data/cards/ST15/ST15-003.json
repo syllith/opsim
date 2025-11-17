@@ -1,0 +1,48 @@
+{
+  "id": "ST15-003",
+  "set": "ST15",
+  "number": 3,
+  "name": "Kingdew",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Strike",
+  "types": ["Whitebeard Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST15/ST15-003.png",
+  "stats": {
+    "cost": 3,
+    "power": 4000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "Opponent's Turn", "Counter"],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) Opponent's Turn: When this Character is K.O.'d by your opponent's effect, up to 1 of your Leader gains +2000 power during this turn.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["blocker"]
+      }
+    },
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "When this Character is K.O.'d by your opponent's effect, up to 1 of your Leader gains +2000 power during this turn.",
+        "powerMod": { "amount": 2000, "duration": "this turn" },
+        "targets": ["ally:Leader"],
+        "conditions": ["koByOpponentEffect"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "OP01-121",
+  "set": "OP01",
+  "number": 121,
+  "name": "Yamato",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Strike",
+  "types": ["Wano Country"],
+  "rarity": "SEC",
+  "art": "/cards/OP01/OP01-121.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Double Attack", "Banish"],
+  "trigger": null,
+  "text": "This card's name is also treated as [Kozuki Oden]. Double Attack (This card deals 2 damage.) Banish (When a character deals damage, the target card is trashed without activating its Trigger)",
+  "abilities": [
+    {
+      "timing": "Continuous",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This card's name is also treated as [Kozuki Oden].",
+        "grants": ["nameIsAlsoKozukiOden"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Double Attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This card deals 2 damage.",
+        "grants": ["doubleAttack"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": [],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Banish",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "When a character deals damage, the target card is trashed without activating its Trigger.",
+        "grants": ["banish"],
+        "powerMod": null,
+        "targets": ["targetCard"],
+        "conditions": ["dealsDamage"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "P-067",
+  "set": "P",
+  "number": 67,
+  "name": "Eustass Kid",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "Supernova",
+    "Kid Pirates"
+  ],
+  "rarity": "SP",
+  "art": "/cards/P/P-067.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 6000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "If this Character is rested, your opponent cannot attack any card other than Characters named [Eustass' Captain 'Kid'].",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If this Character is rested, your opponent cannot attack any card other than Characters named [Eustass' Captain 'Kid'].",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

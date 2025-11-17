@@ -1,0 +1,53 @@
+{
+  "id": "EB03-001",
+  "set": "EB03",
+  "number": 1,
+  "name": "Nefeltari Vivi",
+  "category": "Leader",
+  "colors": ["Red", "Blue"],
+  "attribute": null,
+  "types": ["Alabasta"],
+  "rarity": "L",
+  "art": "/cards/EB03/EB03-001.png",
+  "stats": {
+    "cost": null,
+    "power": 5000,
+    "life": 4,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Once Per Turn", "Activate: Main"],
+  "trigger": null,
+  "text": "[Once Per Turn] If your Character with a base cost of 4 or more would be K.O'd, you may trash 1 card from your hand instead.\n[Activate: Main] You may rest this Leader: Give up to 1 of your opponent's Characters -2000 power during this turn. Then, up to 1 of your Characters without a [When Attacking] effect gains [Rush] during this turn.",
+  "abilities": [
+    {
+      "timing": "Once Per Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Character with a base cost of 4 or more would be K.O'd, you may trash 1 card from your hand instead.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["ally:Character:baseCost>=4"],
+        "conditions": ["characterWouldBeKOd"]
+      }
+    },
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may rest this Leader: Give up to 1 of your opponent's Characters -2000 power during this turn. Then, up to 1 of your Characters without a [When Attacking] effect gains [Rush] during this turn.",
+        "grants": ["Rush"],
+        "powerMod": {
+          "amount": -2000,
+          "duration": "duringThisTurn"
+        },
+        "targets": ["upTo1:opponent:Character", "upTo1:ally:Character:noWhenAttacking"],
+        "conditions": ["restSelf"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

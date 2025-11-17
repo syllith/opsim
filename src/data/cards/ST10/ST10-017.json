@@ -1,0 +1,62 @@
+{
+  "id": "ST10-017",
+  "set": "ST10",
+  "number": 17,
+  "name": "Punk Vice",
+  "category": "Event",
+  "colors": ["Purple"],
+  "attribute": null,
+  "types": ["Kid Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST10/ST10-017.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Main", "Trigger"],
+  "trigger": { "text": "Add up to 1 DON!! card from your DON!! deck set as active." },
+  "text": "Main: Rest up to 1 of your opponent's Characters with a cost of 2 or less. Add up to 1 DON!! from your DON!! deck set as rested. Trigger: Add up to 1 DON!! from your DON!! deck set as active.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 3 },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's Characters with a cost of 2 or less. Add up to 1 DON!! from your DON!! deck set as rested.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["oneOpponentCharacterCost<=2", "donDeck"],
+        "conditions": ["optionalTarget"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "rested",
+          "from": "costArea",
+          "to": ["costArea"]
+        }
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Add up to 1 DON!! from your DON!! deck set as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["donDeck"],
+        "conditions": ["optionalTarget", "lifeTrigger"],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "costArea",
+          "to": ["costArea"]
+        }
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP03-081",
+  "set": "OP03",
+  "number": 81,
+  "name": "Kalifa",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "CP9"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-081.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Draw 2 cards, and trash 2 cards from your hand. Then, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 2 cards, and trash 2 cards from your hand. Then, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, but all fields are filled based on visible text."
+  }
+}

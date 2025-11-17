@@ -1,0 +1,82 @@
+{
+  "id": "OP04-073",
+  "set": "OP04",
+  "number": 73,
+  "name": "Mr. 13 & Miss Friday",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Animal",
+    "Baroque Works"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-073.png",
+  "stats": {
+    "cost": 3,
+    "power": 1000,
+    "life": 2000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Play this card."
+  },
+  "text": "Activate: Main You may trash this Character and 1 of your Characters with a type including \"Baroque Works\": Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash this Character and 1 of your Characters with a type including \"Baroque Works\": Add up to 1 DON!! card from your DON!! deck and set it as active.",
+        "powerMod": null,
+        "targets": [
+          "thisCharacter",
+          "oneAllyCharacter:type=Baroque Works"
+        ],
+        "conditions": [
+          "type=Baroque Works"
+        ],
+        "giveDon": {
+          "quantity": 1,
+          "state": "active",
+          "from": "donDeck",
+          "to": [
+            "activeDon"
+          ]
+        }
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Play this card.",
+        "powerMod": null,
+        "targets": [
+          "thisCard"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "The card is a sample card, indicated by the large 'SAMPLE' watermark. The text and layout are based on the visible content, but the card is not official."
+  }
+}

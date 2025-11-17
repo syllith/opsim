@@ -1,0 +1,50 @@
+{
+  "id": "EB03-018",
+  "set": "EB03",
+  "number": 18,
+  "name": "Tashigi",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Slash",
+  "types": ["Navy"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-018.png",
+  "stats": {
+    "cost": 4,
+    "power": 6000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Opponent's Turn", "Blocker", "End of Your Turn"],
+  "trigger": null,
+  "text": "[Opponent's Turn] This Character cannot be K.O'd by your opponent's effects and gains [Blocker].\n[End of Your Turn] You may rest 1 of your DON!! cards and trash 1 card from your hand: Set this Character as active.",
+  "abilities": [
+    {
+      "timing": "Opponent's Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "This Character cannot be K.O'd by your opponent's effects and gains [Blocker].",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentsTurn"]
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 1 },
+      "effect": {
+        "text": "You may rest 1 of your DON!! cards and trash 1 card from your hand: Set this Character as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["trash1FromHand"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,62 @@
+{
+  "id": "OP12-019",
+  "set": "OP12",
+  "number": 19,
+  "name": "Armament Haki",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Former Roger Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-019.png",
+  "stats": {
+    "cost": 3,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 2000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main: You may attach 1 active DON!! card to your [Silvers Rayleigh]: Give up to 1 of your Leader or Character +1000 power during this turn. \nCounter: Give up to 1 of your Character or your [Silvers Rayleigh] +2000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may attach 1 active DON!! card to your [Silvers Rayleigh]: Give up to 1 of your Leader or Character +1000 power during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to 1 of your Character or your [Silvers Rayleigh] +2000 power during this battle.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

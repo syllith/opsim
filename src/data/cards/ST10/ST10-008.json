@@ -1,0 +1,37 @@
+{
+  "id": "ST10-008",
+  "set": "ST10",
+  "number": 8,
+  "name": "Shachi and Penguin",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Ranged",
+  "types": ["Heart Pirates"],
+  "rarity": "C",
+  "art": "/cards/ST10/ST10-008.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play: If there are 3 or less DON!! on your field, you may add up to 2 DON!! from your DON!! deck set as rested.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If there are 3 or less DON!! on your field, you may add up to 2 DON!! from your DON!! deck set as rested.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["donDeck"],
+        "conditions": ["yourFieldDon<=3"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

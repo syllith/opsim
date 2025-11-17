@@ -1,0 +1,66 @@
+{
+  "id": "P-106",
+  "set": "P",
+  "number": 106,
+  "name": "Monkey.D.Luffy",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Egghead",
+    "The Four Emperors",
+    "Straw Hat Crew"
+  ],
+  "rarity": "R",
+  "art": "/cards/P/P-106.png",
+  "stats": {
+    "cost": 5,
+    "power": 6000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "End of Your Turn",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw 1 card and K.O. up to 1 of your opponent's Characters with a cost of 2 or less."
+  },
+  "text": "End of Your Turn: You may turn 1 card from the top of your Life cards face-up: Set up to 1 of your {Egghead} type Characters as active.\nTrigger: Draw 1 card and K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "abilities": [
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may turn 1 card from the top of your Life cards face-up: Set up to 1 of your {Egghead} type Characters as active.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw 1 card and K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

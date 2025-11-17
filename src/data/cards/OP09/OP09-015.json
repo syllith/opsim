@@ -1,0 +1,68 @@
+{
+  "id": "OP09-015",
+  "set": "OP09",
+  "number": 15,
+  "name": "Lucky Roux",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Red Hair Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP09/OP09-015.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Blocker",
+    "On K.O."
+  ],
+  "trigger": null,
+  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. If your Leader has the (Red Hair Pirates) type, K.O. up to 1 of your opponent's Characters with an original power of 6000 or less.",
+  "abilities": [
+    {
+      "timing": "Blocker",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "On K.O.",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Red Hair Pirates) type, K.O. up to 1 of your opponent's Characters with an original power of 6000 or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=power6000"
+        ],
+        "conditions": [
+          "self:hasType(Red Hair Pirates)"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

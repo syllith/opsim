@@ -1,0 +1,49 @@
+{
+  "id": "OP13-105",
+  "set": "OP13",
+  "number": 105,
+  "name": "Kouzuki Momonosuke",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Land of Wano",
+    "Kouzuki Clan"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP13/OP13-105.png",
+  "stats": {
+    "cost": 3,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at all of your Life cards and place them back in your Life area in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at all of your Life cards and place them back in your Life area in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

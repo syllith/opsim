@@ -1,0 +1,37 @@
+{
+  "id": "EB01-049",
+  "set": "EB01",
+  "number": 49,
+  "name": "T Bone",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Slash",
+  "types": ["Water 7", "Navy"],
+  "rarity": "UC",
+  "art": "/cards/EB01/EB01-049.png",
+  "stats": {
+    "cost": 5,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] KO up to 1 of your opponent's 2 cost or lower characters.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "KO up to 1 of your opponent's 2 cost or lower characters.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Character"],
+        "conditions": ["characterCost<=2"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

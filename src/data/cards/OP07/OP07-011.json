@@ -1,0 +1,52 @@
+{
+  "id": "OP07-011",
+  "set": "OP07",
+  "number": 11,
+  "name": "Bluejam",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Goa Kingdom",
+    "Bluejam Pirates"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP07/OP07-011.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "When Attacking"
+  ],
+  "trigger": null,
+  "text": "DON!! x1 When Attacking KO up to one of your opponents characters with 2000 Power or less.",
+  "abilities": [
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": 1,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "KO up to one of your opponents characters with 2000 Power or less.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=power2000"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but this is not a valid card for the deck builder. The card ID is OP07-011, which is a valid card in the One Piece TCG."
+  }
+}

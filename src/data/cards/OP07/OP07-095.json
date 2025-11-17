@@ -1,0 +1,74 @@
+{
+  "id": "OP07-095",
+  "set": "OP07",
+  "number": 95,
+  "name": "Iron Body",
+  "category": "Event",
+  "colors": [
+    "Black"
+  ],
+  "attribute": null,
+  "types": [],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-095.png",
+  "stats": {
+    "cost": 2,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 4000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Give up to one leader or character +1000 power for the turn."
+  },
+  "text": "Give up to one of your leaders or characters +4000 Power for the battle. Then, if your trash has 10 or more cards, give that card another +2000 Power for the battle.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one of your leaders or characters +4000 Power for the battle. Then, if your trash has 10 or more cards, give that card another +2000 Power for the battle.",
+        "powerMod": null,
+        "targets": [
+          "oneOfYourLeadersOrCharacters"
+        ],
+        "conditions": [
+          "trash>=10"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Give up to one leader or character +1000 power for the turn.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this turn"
+        },
+        "targets": [
+          "oneLeaderOrCharacter"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "EB03-037",
+  "set": "EB03",
+  "number": 37,
+  "name": "Lim",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Wisdom",
+  "types": ["ODYSSEY"],
+  "rarity": "R",
+  "art": "/cards/EB03/EB03-037.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] If you have 7 or more DON!! cards on your field, your Leader and all of your Characters with the {ODYSSEY} type gain +1000 power until the end of your opponent's next turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If you have 7 or more DON!! cards on your field, your Leader and all of your Characters with the {ODYSSEY} type gain +1000 power until the end of your opponent's next turn.",
+        "grants": [],
+        "powerMod": {
+          "amount": 1000,
+          "duration": "untilEndOfOpponentsNextTurn"
+        },
+        "targets": ["self:Leader", "ally:allCharacters:ODYSSEY"],
+        "conditions": ["7orMoreDonOnField"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

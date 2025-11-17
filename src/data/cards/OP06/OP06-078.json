@@ -1,0 +1,65 @@
+{
+  "id": "OP06-078",
+  "set": "OP06",
+  "number": 78,
+  "name": "GERMA 66",
+  "category": "Event",
+  "colors": [
+    "Red"
+  ],
+  "attribute": null,
+  "types": [
+    "Germa Kingdom",
+    "Germa 66"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP06/OP06-078.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Main",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Draw a card."
+  },
+  "text": "Main: Look at 5 cards from the top of your deck, reveal up to one card with a type including \"Germa\" other than [GERMA 66] and add it to your hand. Then, place the rest on the bottom of the deck in any order.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck, reveal up to one card with a type including \"Germa\" other than [GERMA 66] and add it to your hand. Then, place the rest on the bottom of the deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Draw a card.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

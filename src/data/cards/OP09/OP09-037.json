@@ -1,0 +1,65 @@
+{
+  "id": "OP09-037",
+  "set": "OP09",
+  "number": 37,
+  "name": "Lim",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "ODYSSEY"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP09/OP09-037.png",
+  "stats": {
+    "cost": 3,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play",
+    "End of Your Turn"
+  ],
+  "trigger": null,
+  "text": "On Play: Look at the top 5 cards of your deck, reveal up to one card with the [Odyssey] type other than <Lim> and put it in your hand. Then, place the rest at the bottom of your deck in any order.\nEnd of Your Turn: If you have 3 or more rested characters in play, set this character as active.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Look at the top 5 cards of your deck, reveal up to one card with the [Odyssey] type other than <Lim> and put it in your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "End of Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If you have 3 or more rested characters in play, set this character as active.",
+        "powerMod": null,
+        "conditions": [
+          "3 or more rested characters in play"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

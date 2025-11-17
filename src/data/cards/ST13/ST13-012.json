@@ -1,0 +1,37 @@
+{
+  "id": "ST13-012",
+  "set": "ST13",
+  "number": 12,
+  "name": "Makino",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Wisdom",
+  "types": ["Windmill Village"],
+  "rarity": "C",
+  "art": "/cards/ST13/ST13-012.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "On Play You may add the top or bottom card of your life to your hand: Look at your life cards, then return them in any order.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may add the top or bottom card of your life to your hand: Look at your life cards, then return them in any order.",
+        "powerMod": null,
+        "targets": ["self:lifeTopOrBottom:hand:optional", "self:lifeAll:view", "self:lifeAll:returnOrder"],
+        "conditions": ["optionalTarget"],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

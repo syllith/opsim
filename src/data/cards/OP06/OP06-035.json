@@ -1,0 +1,50 @@
+{
+  "id": "OP06-035",
+  "set": "OP06",
+  "number": 35,
+  "name": "Hody Jones",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Strike",
+  "types": [
+    "Fishman",
+    "New Fishman Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/OP06/OP06-035.png",
+  "stats": {
+    "cost": 7,
+    "power": 8000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "Rush",
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "Rush (This card can attack on the turn in which it is played!) On Play: Rest up to a total of 2 of your opponents characters and/or don. Then, put the top of your life cards into your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Rest up to a total of 2 of your opponents characters and/or don. Then, put the top of your life cards into your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "ST22-002",
+  "set": "ST22",
+  "number": 2,
+  "name": "Izo",
+  "category": "Character",
+  "colors": ["Blue"],
+  "attribute": "Ranged",
+  "types": ["Land of Wano", "Whitebeard Pirates"],
+  "rarity": "SR",
+  "art": "/cards/ST22/ST22-002.png",
+  "stats": {
+    "cost": 1,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play", "On Opponent's Attack"],
+  "trigger": null,
+  "text": "On Play Look at 5 cards from the top of your deck; reveal up to 1 card with a type including 'Whitebeard Pirates' other than [Izo] and add it to your hand. Then, place the rest at the bottom of your deck in any order. On Opponent's Attack You may trash this Character: Draw 1 card and place 1 card from your hand to the bottom of your deck.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Look at 5 cards from the top of your deck; reveal up to 1 card with a type including 'Whitebeard Pirates' other than [Izo] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+        "powerMod": null,
+        "targets": ["deckTop5"],
+        "conditions": ["optionalTarget", "revealWhitebeardPiratesCardOtherThanSelf"]
+      }
+    },
+    {
+      "timing": "On Opponent's Attack",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "You may trash this Character: Draw 1 card and place 1 card from your hand to the bottom of your deck.",
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": ["opponentAttackDeclared", "trashSelf"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "OP14-038",
+  "set": "OP14",
+  "number": 38,
+  "name": "I Never Bother to Remember the Faces of Trash",
+  "category": "Event",
+  "colors": [
+    "Green"
+  ],
+  "attribute": null,
+  "types": [
+    "The Seven Warlords of the Sea"
+  ],
+  "rarity": "UC",
+  "art": "/cards/OP14/OP14-038.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 3000
+    }
+  },
+  "keywords": [
+    "Main",
+    "Counter"
+  ],
+  "trigger": null,
+  "text": "Main: You may rest 2 of your cards: Draw 1 card. Then, rest up to 1 of your opponent's Characters with 7000 base power or less. \nCounter: Up to 1 of your Leader gains +3000 power during this battle.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 2
+      },
+      "effect": {
+        "text": "You may rest 2 of your cards: Draw 1 card. Then, rest up to 1 of your opponent's Characters with 7000 base power or less.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
+        "powerMod": {
+          "amount": 3000,
+          "duration": "this battle"
+        },
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

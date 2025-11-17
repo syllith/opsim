@@ -1,0 +1,48 @@
+{
+  "id": "OP05-092",
+  "set": "OP05",
+  "number": 92,
+  "name": "St. Rosward",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Ranged",
+  "types": [
+    "Celestial Dragon"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP05/OP05-092.png",
+  "stats": {
+    "cost": 5,
+    "power": 0,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Your Turn"
+  ],
+  "trigger": null,
+  "text": "Your Turn: If all your characters have the (Celestial Dragon) type, then all of your opponents characters get -6 to their cost.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If all your characters have the (Celestial Dragon) type, then all of your opponents characters get -6 to their cost.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

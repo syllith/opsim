@@ -1,0 +1,49 @@
+{
+  "id": "OP07-082",
+  "set": "OP07",
+  "number": 82,
+  "name": "Captain John",
+  "category": "Character",
+  "colors": [
+    "Black"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Thriller Bark Pirates",
+    "Original Rock Pirates"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP07/OP07-082.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "On Play: Trash 2 cards from the top of your deck. Give up to 1 of your opponents Character -1 cost during this turn.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Trash 2 cards from the top of your deck. Give up to 1 of your opponents Character -1 cost during this turn.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Card marked as 'SAMPLE' in image, but this is not a real card; using printed data only."
+  }
+}

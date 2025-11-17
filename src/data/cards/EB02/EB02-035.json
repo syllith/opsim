@@ -1,0 +1,50 @@
+{
+  "id": "EB02-035",
+  "set": "EB02",
+  "number": 35,
+  "name": "Sanji & Pudding",
+  "category": "Character",
+  "colors": ["Purple"],
+  "attribute": "Wisdom",
+  "types": ["Strawhat Crew", "Big Mom Pirates"],
+  "rarity": "SR",
+  "art": "/cards/EB02/EB02-035.png",
+  "stats": {
+    "cost": 5,
+    "power": 7000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["Your Turn", "Once Per Turn", "On Play"],
+  "trigger": null,
+  "text": "[Your Turn] [Once Per Turn] When 2 or more of your DON!! cards are returned to your DON!! deck, set up to one DON!! card from your DON!! deck as active.\n[On Play] If your number of DON!! cards are equal to or less than your opponent's, draw 1 card.",
+  "abilities": [
+    {
+      "timing": "Your Turn",
+      "frequency": "Once Per Turn",
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "When 2 or more of your DON!! cards are returned to your DON!! deck, set up to one DON!! card from your DON!! deck as active.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["donDeck"],
+        "conditions": ["2orMoreDonReturnedToDonDeck"]
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your number of DON!! cards are equal to or less than your opponent's, draw 1 card.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["deck"],
+        "conditions": ["yourDonEqualOrLessThanOpponent"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

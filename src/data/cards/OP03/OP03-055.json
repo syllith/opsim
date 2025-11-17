@@ -1,0 +1,74 @@
+{
+  "id": "OP03-055",
+  "set": "OP03",
+  "number": 55,
+  "name": "Gum-Gum Giant Gavel",
+  "category": "Event",
+  "colors": [
+    "Blue"
+  ],
+  "attribute": null,
+  "types": [
+    "East Blue",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP03/OP03-055.png",
+  "stats": {
+    "cost": 1,
+    "power": null,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Counter",
+    "Trigger"
+  ],
+  "trigger": {
+    "text": "Return up to 1 Character with a cost of 4 or less to its owner's hand."
+  },
+  "text": "#Counter You may trash 1 card from your hand: Up to 1 of your Leader gains +4000 power during this battle. Then you may trash the top 2 cards of your deck.",
+  "abilities": [
+    {
+      "timing": "Counter",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "You may trash 1 card from your hand: Up to 1 of your Leader gains +4000 power during this battle. Then you may trash the top 2 cards of your deck.",
+        "powerMod": {
+          "amount": 4000,
+          "duration": "this battle"
+        },
+        "targets": [
+          "oneLeader"
+        ],
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "Trigger",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 Character with a cost of 4 or less to its owner's hand.",
+        "powerMod": null,
+        "targets": [
+          "oneCharacter<=cost4"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
+  }
+}

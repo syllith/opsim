@@ -1,0 +1,58 @@
+{
+  "id": "OP01-005",
+  "set": "OP01",
+  "number": 5,
+  "name": "Uta",
+  "category": "Character",
+  "colors": [
+    "Red"
+  ],
+  "attribute": "Special",
+  "types": [
+    "FILM"
+  ],
+  "rarity": "R",
+  "art": "/cards/OP01/OP01-005.png",
+  "stats": {
+    "cost": 4,
+    "power": 4000,
+    "life": null,
+    "counter": {
+      "present": false,
+      "value": 0
+    }
+  },
+  "keywords": [
+    "On Play"
+  ],
+  "trigger": null,
+  "text": "[On Play] Return up to 1 red Character card other than [Uta] with a cost of 3 or less from your trash to your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "Return up to 1 red Character card other than [Uta] with a cost of 3 or less from your trash to your hand.",
+        "grants": [],
+        "powerMod": null,
+        "targets": [
+          "trash",
+          "hand"
+        ],
+        "conditions": [
+          "redCharacter",
+          "notUta",
+          "characterCost<=3"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

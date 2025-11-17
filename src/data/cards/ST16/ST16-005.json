@@ -1,0 +1,36 @@
+{
+  "id": "ST16-005",
+  "set": "ST16",
+  "number": 5,
+  "name": "Monkey D. Luffy",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Strike",
+  "types": ["FILM", "Supernovas", "Straw Hat Crew"],
+  "rarity": "C",
+  "art": "/cards/ST16/ST16-005.png",
+  "stats": {
+    "cost": 2,
+    "power": 3000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Counter"],
+  "trigger": null,
+  "text": "If your {Uta} is rested, this character has +1000 power.",
+  "abilities": [
+    {
+      "timing": "Static",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your {Uta} is rested, this character has +1000 power.",
+        "powerMod": { "amount": 1000, "duration": "static" },
+        "targets": ["self"],
+        "conditions": ["allyCharacterName=Uta:rested"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

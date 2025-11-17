@@ -1,0 +1,49 @@
+{
+  "id": "PRB02-010",
+  "set": "PRB02",
+  "number": 10,
+  "name": "Charlotte Pudding",
+  "category": "Character",
+  "colors": [
+    "Purple"
+  ],
+  "attribute": "Wisdom",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "rarity": "SR",
+  "art": "/cards/PRB02/PRB02-010.png",
+  "stats": {
+    "cost": 7,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "On Play",
+    "DON!!"
+  ],
+  "trigger": null,
+  "text": "On Play DON!! -2: If your Leader has the (Big Mom Pirates) type and your opponent has 6 or more DON!! cards on their field, draw 2 cards. Then, play up to 1 (Big Mom Pirates) type Character with a power of 6000 to 8000 from your hand.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": 2,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the (Big Mom Pirates) type and your opponent has 6 or more DON!! cards on their field, draw 2 cards. Then, play up to 1 (Big Mom Pirates) type Character with a power of 6000 to 8000 from your hand.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  }
+}

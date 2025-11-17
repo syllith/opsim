@@ -1,0 +1,67 @@
+{
+  "id": "OP12-036",
+  "set": "OP12",
+  "number": 36,
+  "name": "Roronoa Zoro",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP12/OP12-036.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [],
+  "trigger": null,
+  "text": "While this card is in your hand, it cannot be played by an effect. If your Leader has the <Slash> attribute, this Character cannot be KO'd in battle by <Slash> attribute cards and gains +1000 power.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "While this card is in your hand, it cannot be played by an effect.",
+        "powerMod": null,
+        "giveDon": null
+      }
+    },
+    {
+      "timing": "When Attacking",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 0
+      },
+      "effect": {
+        "text": "If your Leader has the <Slash> attribute, this Character cannot be KO'd in battle by <Slash> attribute cards and gains +1000 power.",
+        "powerMod": {
+          "amount": 1000,
+          "duration": "this battle"
+        },
+        "conditions": [
+          "yourLeaderHasAttribute:Slash"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": null
+  },
+  "verified": true
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP04-022",
+  "set": "OP04",
+  "number": 22,
+  "name": "Eric",
+  "category": "Character",
+  "colors": [
+    "Green"
+  ],
+  "attribute": "Slash",
+  "types": [
+    "East Blue"
+  ],
+  "rarity": "C",
+  "art": "/cards/OP04/OP04-022.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": 1000,
+    "counter": {
+      "present": true,
+      "value": 1000
+    }
+  },
+  "keywords": [
+    "Activate: Main"
+  ],
+  "trigger": null,
+  "text": "Activate: Main You may rest this character: Rest up to 1 of your opponent's cost 1 or less characters.",
+  "abilities": [
+    {
+      "timing": "Activate: Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": {
+        "restDonFromCostArea": 1
+      },
+      "effect": {
+        "text": "Rest up to 1 of your opponent's cost 1 or less characters.",
+        "powerMod": null,
+        "targets": [
+          "oneOpponentCharacter<=cost1"
+        ],
+        "giveDon": null
+      }
+    }
+  ],
+  "meta": {
+    "notes": "Rarity is printed as 'C' in the bottom right corner."
+  }
+}

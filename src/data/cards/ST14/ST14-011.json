@@ -1,0 +1,36 @@
+{
+  "id": "ST14-011",
+  "set": "ST14",
+  "number": 11,
+  "name": "Heracles",
+  "category": "Character",
+  "colors": ["Black"],
+  "attribute": "Wisdom",
+  "types": ["Boin Archipelago"],
+  "rarity": "C",
+  "art": "/cards/ST14/ST14-011.png",
+  "stats": {
+    "cost": 1,
+    "power": 2000,
+    "life": null,
+    "counter": { "present": true, "value": 2000 }
+  },
+  "keywords": ["Activate: Main", "Counter"],
+  "trigger": null,
+  "text": "Activate: Main You may rest this card: Give up to one of your black characters with the type {Straw Hat Pirates} +2 cost until the end of your opponents next turn.",
+  "abilities": [
+    {
+      "timing": "Main",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Rest this card: Give up to one of your black characters with the type {Straw Hat Pirates} +2 cost until the end of your opponents next turn.",
+        "powerMod": null,
+        "targets": ["oneAllyCharacter:type=Straw Hat Pirates;color=Black"],
+        "conditions": ["restThisCard"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

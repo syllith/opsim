@@ -1,0 +1,50 @@
+{
+  "id": "EB01-052",
+  "set": "EB01",
+  "number": 52,
+  "name": "Viola",
+  "category": "Character",
+  "colors": ["Yellow"],
+  "attribute": "Special",
+  "types": ["Dressrosa"],
+  "rarity": "R",
+  "art": "/cards/EB01/EB01-052.png",
+  "stats": {
+    "cost": 2,
+    "power": 0,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["Blocker", "On Play"],
+  "trigger": null,
+  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Choose 1 of the following:\n• Look at all of your opponent's life. Then return them in any order.\n• Turn all of your life cards face down.",
+  "abilities": [
+    {
+      "timing": "Block Step",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
+        "grants": ["Blocker"],
+        "powerMod": null,
+        "targets": ["self"],
+        "conditions": []
+      }
+    },
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "Choose 1 of the following: • Look at all of your opponent's life. Then return them in any order. • Turn all of your life cards face down.",
+        "grants": [],
+        "powerMod": null,
+        "targets": ["opponent:Life", "self:Life"],
+        "conditions": []
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}

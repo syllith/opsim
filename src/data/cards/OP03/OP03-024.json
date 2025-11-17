@@ -1,0 +1,35 @@
+{
+  "id": "OP03-024",
+  "set": "OP03",
+  "number": 24,
+  "name": "Gin",
+  "category": "Character",
+  "colors": ["Green"],
+  "attribute": "Strike",
+  "types": ["East Blue", "Krieg Pirates"],
+  "rarity": "UC",
+  "art": "/cards/OP03/OP03-024.png",
+  "stats": {
+    "cost": 4,
+    "power": 5000,
+    "life": null,
+    "counter": { "present": true, "value": 1000 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] If your Leader has the {East Blue} type, rest up to 2 of your opponent's Characters with a cost of 4 or less.",
+  "abilities": [
+    {
+      "timing": "On Play",
+      "frequency": null,
+      "donReq": null,
+      "cost": { "restDonFromCostArea": 0 },
+      "effect": {
+        "text": "If your Leader has the {East Blue} type, rest up to 2 of your opponent's Characters with a cost of 4 or less.",
+        "targets": ["opponentCharacter"],
+        "conditions": ["leaderHasEastBlue", "costLessOrEqual4"]
+      }
+    }
+  ],
+  "meta": { "notes": null }
+}
