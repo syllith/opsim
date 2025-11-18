@@ -140,6 +140,19 @@ export default function Home() {
         setLog((prev) => [...prev.slice(-199), `[T${turnNumber} ${turnSide} ${phase}] ${msg}`]);
     }, [turnNumber, turnSide, phase]);
 
+    // End Turn confirmation state
+    const [endTurnConfirming, setEndTurnConfirming] = useState(false);
+    const endTurnTimeoutRef = useRef(null);
+    
+    // Clear end turn confirmation timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (endTurnTimeoutRef.current) {
+                clearTimeout(endTurnTimeoutRef.current);
+            }
+        };
+    }, []);
+
     // TODO: Implement DON!! giving mechanism (rule 6-5-5)
     // Leaders and Characters should store givenDon array: [{ id: 'DON', ... }, ...]
     // During Main Phase, player can move DON from cost area to under Leader/Character
@@ -520,6 +533,7 @@ export default function Home() {
     }, []);
 
     const playSelectedCard = useCallback(() => {
+        if (openingShown) return; // Cannot play cards until opening hand is finalized
         if (!actionCard || !canPlayNow) return;
         const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
         
@@ -576,10 +590,11 @@ export default function Home() {
                 return currentAreas; // Don't modify areas, just read from it
             });
         }, 0);
-    }, [actionCard, canPlayNow, actionCardIndex, getCardCost, hasEnoughDonFor, appendLog, openCardAction, actionSource, turnNumber]);
+    }, [actionCard, canPlayNow, actionCardIndex, getCardCost, hasEnoughDonFor, appendLog, openCardAction, actionSource, turnNumber, openingShown]);
 
     // Start DON!! giving mode - select a DON!! card from cost area
     const startDonGiving = useCallback((side, donIndex) => {
+        if (openingShown) return; // Cannot give DON until opening hand is finalized
         if (side !== turnSide) {
             appendLog(`Cannot give DON: not ${side}'s turn.`);
             return;
@@ -601,7 +616,7 @@ export default function Home() {
             selectedDonIndex: donIndex
         });
         appendLog(`[DON Select] Click a Leader or Character to give DON!!.`);
-    }, [turnSide, phaseLower, battle, appendLog]);
+    }, [turnSide, phaseLower, battle, appendLog, openingShown]);
 
     // Cancel DON!! giving mode
     const cancelDonGiving = useCallback(() => {
@@ -818,6 +833,7 @@ export default function Home() {
     }, [getBasePower, getPowerMod, turnSide, areas]);
 
     const beginAttackForLeader = useCallback((leaderCard, attackingSide = 'player') => {
+        if (openingShown) return; // Cannot attack until opening hand is finalized
         if (battle) return; // Only one battle at a time
         if (!canLeaderAttack(leaderCard, attackingSide)) return;
         
@@ -863,9 +879,10 @@ export default function Home() {
                 counterTarget: null
             });
         });
-    }, [battle, canLeaderAttack, getTotalPower, startTargeting, setAreas, appendLog, areas, cancelDonGiving, modKey, setBattle, setCurrentAttack]);
+    }, [battle, canLeaderAttack, getTotalPower, startTargeting, setAreas, appendLog, areas, cancelDonGiving, modKey, setBattle, setCurrentAttack, openingShown]);
 
     const beginAttackForCard = useCallback((attackerCard, attackerIndex, attackingSide = 'player') => {
+        if (openingShown) return; // Cannot attack until opening hand is finalized
         if (battle) return; // Only one battle at a time
         if (!canCharacterAttack(attackerCard, attackingSide, attackerIndex)) return;
         
@@ -911,7 +928,7 @@ export default function Home() {
                 counterTarget: null
             });
         });
-    }, [battle, canCharacterAttack, getTotalPower, startTargeting, setAreas, appendLog, areas, cancelDonGiving, modKey, setBattle, setCurrentAttack]);
+    }, [battle, canCharacterAttack, getTotalPower, startTargeting, setAreas, appendLog, areas, cancelDonGiving, modKey, setBattle, setCurrentAttack, openingShown]);
 
     // Advance battle step automatically from attack -> block
     useEffect(() => {
@@ -1185,6 +1202,7 @@ export default function Home() {
 
     // --- Self-Play Engine Helpers ---
     const drawCard = useCallback((side) => {
+        if (openingShown) return; // Cannot draw cards until opening hand is finalized
         const isPlayer = side === 'player';
         const lib = isPlayer ? library : oppLibrary;
         if (!lib.length) return;
@@ -1199,7 +1217,7 @@ export default function Home() {
             return next;
         });
         (isPlayer ? setLibrary : setOppLibrary)((prev) => prev.slice(0, -1));
-    }, [library, oppLibrary, getAssetForId, createCardBacks]);
+    }, [library, oppLibrary, getAssetForId, createCardBacks, openingShown]);
 
     // Start deck search modal (for card abilities like "Look at top 5 cards...")
     const startDeckSearch = useCallback((config) => {
@@ -1293,6 +1311,7 @@ export default function Home() {
     }, [library, oppLibrary, getAssetForId, appendLog, createCardBacks]);
 
     const donPhaseGain = useCallback((side, count) => {
+        if (openingShown) return 0; // Cannot gain DON until opening hand is finalized
         let actualMoved = 0;
         setAreas((prev) => {
             const next = structuredClone(prev);
@@ -1316,7 +1335,7 @@ export default function Home() {
             return next;
         });
         return actualMoved;
-    }, [DON_FRONT]);
+    }, [DON_FRONT, openingShown]);
 
     // Execute Refresh Phase according to rule 6-2
     const executeRefreshPhase = useCallback((side) => {
@@ -1389,11 +1408,21 @@ export default function Home() {
     // Next Action button handler based on current phase
     const nextActionLabel = useMemo(() => {
         if (phaseLower === 'draw') return 'Draw Card';
-        if (phaseLower === 'don') return `Gain ${turnNumber === 1 && turnSide === 'player' ? 1 : 2} DON!!`;
+        if (phaseLower === 'don') {
+            const requestedAmount = turnNumber === 1 && turnSide === 'player' ? 1 : 2;
+            // Calculate actual DON!! available in the DON!! deck
+            const donDeck = turnSide === 'player' ? (areas?.player?.bottom?.don || []) : (areas?.opponent?.top?.don || []);
+            const availableDon = donDeck.length;
+            const actualAmount = Math.min(requestedAmount, availableDon);
+            return `Gain ${actualAmount} DON!!`;
+        }
+        // Show confirmation text if in confirming state
+        if (endTurnConfirming) return 'Are you sure?';
         return 'End Turn';
-    }, [phaseLower, turnNumber, turnSide]);
+    }, [phaseLower, turnNumber, turnSide, areas, endTurnConfirming]);
 
     const onNextAction = useCallback(() => {
+        if (openingShown) return; // Cannot advance phases until opening hand is finalized
         const isFirst = turnNumber === 1 && turnSide === 'player';
 
         if (phaseLower === 'draw') {
@@ -1414,7 +1443,34 @@ export default function Home() {
             }
             return setPhase('Main');
         }
-        // End Turn from Main
+        
+        // End Turn from Main - requires double-click confirmation
+        if (!endTurnConfirming) {
+            // First click: enter confirmation state
+            setEndTurnConfirming(true);
+            
+            // Clear any existing timeout
+            if (endTurnTimeoutRef.current) {
+                clearTimeout(endTurnTimeoutRef.current);
+            }
+            
+            // Set timeout to reset after 3 seconds
+            endTurnTimeoutRef.current = setTimeout(() => {
+                setEndTurnConfirming(false);
+                endTurnTimeoutRef.current = null;
+            }, 3000);
+            
+            return;
+        }
+        
+        // Second click: actually end turn
+        // Clear the timeout
+        if (endTurnTimeoutRef.current) {
+            clearTimeout(endTurnTimeoutRef.current);
+            endTurnTimeoutRef.current = null;
+        }
+        setEndTurnConfirming(false);
+        
         appendLog('[End Phase] End turn.');
         const nextSide = turnSide === 'player' ? 'opponent' : 'player';
         
@@ -1432,7 +1488,7 @@ export default function Home() {
         executeRefreshPhase(nextSide);
         
         setPhase('Draw');
-    }, [phaseLower, turnNumber, turnSide, drawCard, appendLog, donPhaseGain, executeRefreshPhase]);
+    }, [phaseLower, turnNumber, turnSide, drawCard, appendLog, donPhaseGain, executeRefreshPhase, cancelDonGiving, openingShown, endTurnConfirming]);
 
     // Render main UI: show loading, user info, or login/register form plus card viewer
     const [deckOpen, setDeckOpen] = useState(false);
@@ -1456,7 +1512,15 @@ export default function Home() {
                                     sx={{ animation: 'pulse 1.5s ease-in-out infinite', '@keyframes pulse': { '0%, 100%': { opacity: 1 }, '50%': { opacity: 0.7 } } }}
                                 />
                             )}
-                            <Button size="small" variant="contained" onClick={onNextAction}>{nextActionLabel}</Button>
+                            <Button 
+                                size="small" 
+                                variant="contained" 
+                                color={phaseLower === 'main' && endTurnConfirming ? 'error' : 'primary'}
+                                onClick={onNextAction} 
+                                disabled={openingShown}
+                            >
+                                {nextActionLabel}
+                            </Button>
                         </Stack>
                     )}
                     {isLoggedIn && (
