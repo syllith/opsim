@@ -65,6 +65,10 @@
             ],
             "description": "Canonical ability types. Use exactly these labels in JSON."
           },
+            "autoResolve": {
+              "type": ["boolean", "null"],
+              "description": "If false, do not auto-resolve this ability when its timing occurs (e.g., optional On Play). Defaults to true for auto-timed abilities."
+            },
           "frequency": { 
             "type": ["string", "null"],
             "enum": ["Once Per Turn", null],
@@ -147,7 +151,7 @@
                     "maxTargets": { "type": ["integer", "null"] },
 
                     "amount": { "type": ["integer", "null"], "description": "Power change amount" },
-                    "duration": { "type": ["string", "null"], "enum": ["thisTurn", "untilEndOfBattle", "permanent", null] },
+                    "duration": { "type": ["string", "null"], "enum": ["thisTurn", "untilEndOfBattle", "untilOpponentsNextTurn", "permanent", null] },
                     "powerLimit": { "type": ["integer", "null"] },
                     "costLimit": { "type": ["integer", "null"] },
 

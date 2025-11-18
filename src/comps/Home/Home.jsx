@@ -501,17 +501,24 @@ export default function Home() {
     const getCardMeta = useCallback((id) => metaById.get(id) || null, [metaById]);
 
     // --- Power Mod Overlays ---
-    const [powerMods, setPowerMods] = useState({}); // key => number delta
+    // Track power modifiers with explicit expiry side so we can clear correctly at Refresh Phase.
+    // Structure: { [key]: Array<{ delta: number, expireOnSide: 'player'|'opponent'|null }> }
+    const [powerMods, setPowerMods] = useState({});
     const modKey = useCallback((side, section, keyName, index) => `${side}:${section}:${keyName}:${index}`, []);
     
     // Track continuous effects that last "until start of your next turn" (for Refresh Phase cleanup)
     const [untilNextTurnEffects, setUntilNextTurnEffects] = useState({ player: [], opponent: [] });
-    const getPowerMod = useCallback((side, section, keyName, index) => powerMods[modKey(side, section, keyName, index)] || 0, [powerMods, modKey]);
-    const applyPowerMod = useCallback((side, section, keyName, index, delta) => {
+    const getPowerMod = useCallback((side, section, keyName, index) => {
+        const arr = powerMods[modKey(side, section, keyName, index)] || [];
+        return Array.isArray(arr) ? arr.reduce((sum, m) => sum + (m?.delta || 0), 0) : (typeof arr === 'number' ? arr : 0);
+    }, [powerMods, modKey]);
+    const applyPowerMod = useCallback((side, section, keyName, index, delta, expireOnSide = null) => {
         setPowerMods((prev) => {
             const k = modKey(side, section, keyName, index);
             const next = { ...prev };
-            next[k] = (next[k] || 0) + delta;
+            const list = Array.isArray(next[k]) ? [...next[k]] : [];
+            list.push({ delta, expireOnSide: expireOnSide || null });
+            next[k] = list;
             return next;
         });
     }, [modKey]);
@@ -628,7 +635,12 @@ export default function Home() {
 
     // Rule 6-5-5: Give DON!! Cards - complete the giving action
     const giveDonToCard = useCallback((side, targetSection, targetKeyName, targetIndex) => {
-        if (!donGivingMode.active || donGivingMode.side !== side) {
+        if (!donGivingMode.active) {
+            appendLog('[DON Select] Not in DON giving mode.');
+            return false;
+        }
+        if (donGivingMode.side !== side) {
+            appendLog(`[DON Select] Wrong side for giving (expected ${donGivingMode.side}, got ${side}).`);
             return false;
         }
         
@@ -640,11 +652,21 @@ export default function Home() {
             
             // Get the selected DON card
             if (donGivingMode.selectedDonIndex >= costArr.length) {
+                appendLog('[DON Select] Selected DON index out of range.');
                 return prev;
             }
             
             const donCard = costArr[donGivingMode.selectedDonIndex];
-            if (!donCard || donCard.id !== 'DON' || donCard.rested) {
+            if (!donCard) {
+                appendLog('[DON Select] Selected DON not found.');
+                return prev;
+            }
+            if (donCard.id !== 'DON') {
+                appendLog('[DON Select] Selected card is not a DON.');
+                return prev;
+            }
+            if (donCard.rested) {
+                appendLog('[DON Select] Selected DON is already rested.');
                 return prev;
             }
             
@@ -659,17 +681,22 @@ export default function Home() {
                     if (!sideLoc.middle.leaderDon) sideLoc.middle.leaderDon = [];
                     sideLoc.middle.leaderDon.push(restedDon);
                     success = true;
+                } else {
+                    appendLog('[DON Select] Leader target missing.');
                 }
             } else if (targetSection === 'char' && targetKeyName === 'char') {
-                if (sideLoc.char[targetIndex]) {
-                    // Ensure charDon array exists and has enough slots
+                if (sideLoc.char && sideLoc.char[targetIndex]) {
                     if (!sideLoc.charDon) sideLoc.charDon = [];
                     while (sideLoc.charDon.length <= targetIndex) {
                         sideLoc.charDon.push([]);
                     }
                     sideLoc.charDon[targetIndex].push(restedDon);
                     success = true;
+                } else {
+                    appendLog(`[DON Select] Character target #${targetIndex + 1} missing.`);
                 }
+            } else {
+                appendLog('[DON Select] Invalid target area.');
             }
             
             return next;
@@ -1437,6 +1464,16 @@ export default function Home() {
             }
             return { ...prev, [side]: [] };
         });
+
+        // Clear any power modifiers that expire on this side's Refresh Phase
+        setPowerMods((prev) => {
+            const next = {};
+            for (const [k, v] of Object.entries(prev || {})) {
+                const arr = Array.isArray(v) ? v.filter((m) => (m && m.expireOnSide !== side)) : [];
+                if (arr.length) next[k] = arr;
+            }
+            return next;
+        });
         
         // 6-2-2: Activate "at the start of your/opponent's turn" effects
         // TODO: Implement auto effect activation system
@@ -1565,8 +1602,7 @@ export default function Home() {
         // Cancel any active DON giving mode
         cancelDonGiving();
         
-        // Invalidate power modifiers that lasted "during this turn" (rule 6-6-1-3)
-        setPowerMods({});
+        // No blanket clear of power modifiers here; modifiers are cleared in executeRefreshPhase
         
         // Advance to next turn
         setTurnNumber((n) => n + 1);

@@ -440,6 +440,7 @@ export default function Board({
                         ) : (side === 'opponent' && section === 'char') ? (
                             <Box display="flex" gap={1}>
                                 {cardsArr.map((c, i) => {
+                                    const isValidDonTarget = donGivingMode?.active && donGivingMode.side === 'opponent' && !battle;
                                     const isTargetingHere = targeting.active && targeting.side === 'opponent' && (((targeting.section === 'char' && targeting.keyName === 'char')) || targeting.multi);
                                     const ctx = { side: 'opponent', section: 'char', keyName: 'char', index: i };
                                     const valid = isTargetingHere ? (typeof targeting.validator === 'function' ? targeting.validator(c, ctx) : true) : false;
@@ -487,14 +488,23 @@ export default function Board({
                                                 src={c.thumb}
                                                 alt={c.id}
                                                 style={{
-                                                    width: CARD_W, height: 'auto', cursor: isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : 'pointer', borderRadius: '2px', filter: isTargetingHere && !valid ? 'grayscale(0.9) brightness(0.6)' : 'none', transform: c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: (() => {
+                                                    width: CARD_W,
+                                                    height: 'auto',
+                                                    cursor: isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : (isValidDonTarget ? 'pointer' : 'pointer'),
+                                                    borderRadius: '2px',
+                                                    filter: isTargetingHere && !valid ? 'grayscale(0.9) brightness(0.6)' : 'none',
+                                                    transform: c.rested ? 'rotate(90deg)' : 'none',
+                                                    transformOrigin: 'center center',
+                                                    outline: (() => {
                                                         // Highlight eligible blockers during Block Step
                                                         if (battle && battle.step === 'block' && battle.target && battle.target.section !== 'char') {
                                                             const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
                                                             const active = !c.rested;
                                                             if (hasBlocker && active) return '3px solid #66bb6a';
                                                         }
-                                                        return selected ? '3px solid #ff9800' : 'none';
+                                                        if (selected) return '3px solid #ff9800';
+                                                        if (isValidDonTarget) return '3px solid #66bb6a';
+                                                        return 'none';
                                                     })(),
                                                     position: 'relative',
                                                     zIndex: 1
@@ -502,6 +512,11 @@ export default function Board({
                                                 data-cardkey={modKey('opponent', 'char', 'char', i)}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
+                                                    // Handle DON!! giving for opponent side
+                                                    if (isValidDonTarget && giveDonToCard) {
+                                                        giveDonToCard('opponent', 'char', 'char', i);
+                                                        return;
+                                                    }
                                                     if (isTargetingHere) {
                                                         if (!valid) return;
                                                         setTargeting((prev) => {

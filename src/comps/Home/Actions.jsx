@@ -110,18 +110,21 @@ export default function Actions({
       // Core ability type checks
       switch (type) {
         case 'On Play':
-          // On Play abilities are AUTO effects that trigger when card is played (Rule 10-2-6, 8-4-5)
-          // According to Rule 8-1-3-1-3, they must trigger immediately or are lost
-          // They should NOT be manually activatable - they auto-trigger or show as missed
-          canActivate = false; // Never manually activatable
+          // On Play abilities generally auto-trigger. If marked as optional via autoResolve === false,
+          // allow manual activation window immediately after play instead of auto-targeting.
           if (abilityUsed[index]) {
+            canActivate = false;
             reason = 'Already resolved when this card was played';
           } else if (!isOnField) {
+            canActivate = false;
             reason = 'Resolves only when this card is played';
           } else if (!wasJustPlayed) {
+            canActivate = false;
             reason = 'Resolves only when this card is played (already resolved)';
           } else {
-            reason = 'Will auto-trigger';
+            const autoResolve = ability.autoResolve !== false; // default true
+            canActivate = !autoResolve; // If optional, present an Activate button instead of auto trigger
+            reason = autoResolve ? 'Will auto-trigger' : '';
           }
           break;
 
@@ -197,11 +200,17 @@ export default function Actions({
           reason = canActivate ? '' : 'Cannot activate now';
       }
 
-      // Check DON!! requirement (condition.don)
+      // Check DON!! requirement (condition.don) using live board state
       if (condition.don && condition.don > 0 && isOnField) {
-        // Need to verify card has enough DON!! attached
-        // Simplified check - full implementation would count actual DON!!
-        const donCount = 0; // TODO: Get actual DON!! count from areas
+        let donCount = 0;
+        try {
+          const sideLoc = actionSource?.side === 'opponent' ? areas?.opponent : areas?.player;
+          if (actionSource?.section === 'middle' && actionSource?.keyName === 'leader') {
+            donCount = (sideLoc?.middle?.leaderDon || []).length;
+          } else if (actionSource?.section === 'char' && actionSource?.keyName === 'char') {
+            donCount = (sideLoc?.charDon?.[actionSource.index] || []).length;
+          }
+        } catch {}
         if (donCount < condition.don) {
           canActivate = false;
           reason = `Needs ${condition.don} DON!! attached`;
@@ -368,15 +377,31 @@ export default function Actions({
               }
             }, (targets) => {
               // Apply effects to targets
+              let expireOnSide = null;
+              if (duration === 'thisTurn') {
+                // expires when the next player's Refresh Phase runs
+                expireOnSide = (turnSide === 'player') ? 'opponent' : 'player';
+              } else if (duration === 'untilOpponentsNextTurn') {
+                // expires when the current player's next Refresh Phase runs
+                expireOnSide = (turnSide === 'player') ? 'player' : 'opponent';
+              }
               targets.forEach(t => {
                 if (applyPowerMod) {
-                  applyPowerMod(t.side, t.section, t.keyName, t.index, amount);
+                  applyPowerMod(t.side, t.section, t.keyName, t.index, amount, expireOnSide);
                 }
               });
               
-              // Register effect cleanup based on duration
-              if (duration === 'thisTurn' && registerUntilNextTurnEffect) {
-                registerUntilNextTurnEffect(turnSide, `${cardName}: ${effect.text}`);
+              // Determine expiry side for cleanup and register for visibility
+              if (registerUntilNextTurnEffect) {
+                if (duration === 'thisTurn') {
+                  // Expires at start of opponent's upcoming turn
+                  const expireOnSide = (turnSide === 'player') ? 'opponent' : 'player';
+                  registerUntilNextTurnEffect(expireOnSide, `${cardName}: ${effect.text}`);
+                } else if (duration === 'untilOpponentsNextTurn') {
+                  // Expires at start of your next turn (after opponent finishes their next turn)
+                  const expireOnSide = (turnSide === 'player') ? 'player' : 'opponent';
+                  registerUntilNextTurnEffect(expireOnSide, `${cardName}: ${effect.text}`);
+                }
               }
               
               // Mark ability as used and pay costs AFTER effect is successfully applied
@@ -534,6 +559,7 @@ export default function Actions({
       // Power modification effect
       const match = effectText.match(/([+-]\d+)\s*power/);
       const amount = match ? parseInt(match[1]) : 0;
+      const textHasThisTurn = effectText.includes('this turn');
       
       setSelectedAbilityIndex(abilityIndex);
       startTargeting({
@@ -549,11 +575,13 @@ export default function Actions({
       }, (targets) => {
         targets.forEach(t => {
           if (applyPowerMod) {
-            applyPowerMod(t.side, t.section, t.keyName, t.index, amount);
+            // For text-based parsing, assume 'thisTurn' if the effect includes it
+            const expireOnSide = textHasThisTurn ? ((turnSide === 'player') ? 'opponent' : 'player') : null;
+            applyPowerMod(t.side, t.section, t.keyName, t.index, amount, expireOnSide);
           }
         });
         
-        if (effectText.includes('this turn') && registerUntilNextTurnEffect) {
+        if (textHasThisTurn && registerUntilNextTurnEffect) {
           registerUntilNextTurnEffect(turnSide, `${cardName}: ${effect}`);
         }
         
@@ -670,7 +698,7 @@ export default function Actions({
     console.log(`[Ability] Activated: ${cardName} - ${effect}`);
   }, [activatableAbilities, applyPowerMod, registerUntilNextTurnEffect, turnSide, cardName, startTargeting, getCardMeta, startDeckSearch, actionSource]);
 
-  // Auto-trigger On Play abilities when card is just played
+  // Auto-trigger On Play abilities when card is just played (unless autoResolve === false)
   // According to Rule 8-1-3-1-3, On Play effects are AUTO effects that must trigger immediately
   useEffect(() => {
     if (!wasJustPlayed || autoTriggeredOnPlay) return;
@@ -683,8 +711,9 @@ export default function Actions({
       const type = ability.type || '';
       const isOnPlay = type === 'On Play';
       const notUsed = !abilityUsed[index];
-      console.log(`[Auto-Trigger] Ability ${index}:`, { type, isOnPlay, notUsed });
-      return isOnPlay && notUsed;
+      const autoResolve = ability.autoResolve !== false; // default true
+      console.log(`[Auto-Trigger] Ability ${index}:`, { type, isOnPlay, notUsed, autoResolve });
+      return isOnPlay && notUsed && autoResolve;
     });
     
     if (abilityIndex === -1) {

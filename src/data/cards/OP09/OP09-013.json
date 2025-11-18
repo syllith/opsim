@@ -23,49 +23,51 @@
     }
   },
   "keywords": [
-    "On Play",
-    "DON!! X1",
-    "When Attacking"
+    
   ],
   "trigger": null,
-  "text": "[On Play] Up to one of your leader gains +1000 power until the end of your opponents next turn.\n[DON!! x1] [When Attacking] Up to one of your opponents characters gets -1000 power for this turn.",
+  "text": "[On Play] Up to 1 of your Leader gains +1000 power until the end of your opponent's next turn.\n[DON!! x1] [On Attack] Up to 1 of your opponent's Characters gets -1000 power during this turn.",
+  
   "abilities": [
     {
-      "timing": "On Play",
+      "type": "On Play",
+      "autoResolve": false,
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
-        "text": "Up to one of your leader gains +1000 power until the end of your opponents next turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneLeader"
-        ],
-        "giveDon": null
+        "text": "Give up to 1 of your Leader +1000 power until the end of your opponent's next turn.",
+        "actions": [
+          {
+            "type": "powerMod",
+            "amount": 1000,
+            "targetSide": "player",
+            "targetType": "leader",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "duration": "untilOpponentsNextTurn"
+          }
+        ]
       }
     },
     {
-      "timing": "When Attacking",
+      "type": "On Attack",
       "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": { "don": 1 },
+      "cost": null,
       "effect": {
-        "text": "Up to one of your opponents characters gets -1000 power for this turn.",
-        "powerMod": {
-          "amount": -1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
+        "text": "Give up to 1 of your opponent's Characters -1000 power during this turn.",
+        "actions": [
+          {
+            "type": "powerMod",
+            "amount": -1000,
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "duration": "thisTurn"
+          }
+        ]
       }
     }
   ],
