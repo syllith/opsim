@@ -65,6 +65,14 @@ export default function DeckSearch({
         }
       }
 
+      // Check attribute filter
+      if (filter.attribute) {
+        const attr = (meta.attribute || '').toLowerCase();
+        if (attr !== String(filter.attribute).toLowerCase()) {
+          return { selectable: false, reason: `Must have ${filter.attribute} attribute` };
+        }
+      }
+
       // Check cost filter
       if (typeof filter.cost === 'number') {
         const cardCost = meta.stats?.cost;

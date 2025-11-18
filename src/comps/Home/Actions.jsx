@@ -30,6 +30,7 @@ export default function Actions({
   registerUntilNextTurnEffect,
   giveDonToCard,
   startDeckSearch,
+  returnCardToDeck,
   battle,
   battleApplyBlocker,
   battleSkipBlock,
@@ -38,9 +39,9 @@ export default function Actions({
   battleEndCounterStep,
   battleGetDefPower,
   children,
-  width = 420, 
-  height, 
-  maxHeight = 'calc(100vh - 32px)' 
+  width = 420,
+  height,
+  maxHeight = 'calc(100vh - 32px)'
 }) {
   // Local state for ability activation tracking
   const [abilityUsed, setAbilityUsed] = useState({}); // Track once-per-turn abilities
@@ -59,11 +60,25 @@ export default function Actions({
   const life = cardMeta?.stats?.life;
   const counterValue = cardMeta?.stats?.counter?.present ? cardMeta?.stats?.counter?.value : null;
 
-  // Check if card is on the field
-  const isOnField = actionSource && (
-    (actionSource.section === 'char' && actionSource.keyName === 'char') ||
-    (actionSource.section === 'middle' && actionSource.keyName === 'leader')
-  );
+  // Check if this specific card instance is still on the field
+  const isOnField = useMemo(() => {
+    if (!actionSource || !areas || !card?.id) return false;
+    const { side, section, keyName, index } = actionSource;
+    const sideLoc = side === 'player' ? areas.player : areas.opponent;
+    try {
+      if (section === 'char' && keyName === 'char') {
+        const arr = sideLoc?.char || [];
+        const inst = arr[index];
+        return !!(inst && inst.id === card.id);
+      }
+      if (section === 'middle' && keyName === 'leader') {
+        const arr = sideLoc?.middle?.leader || [];
+        const inst = arr[0];
+        return !!(inst && inst.id === card.id);
+      }
+    } catch {}
+    return false;
+  }, [actionSource, areas, card?.id]);
 
   // Check if this card was just played this turn (for On Play auto-triggering)
   // According to Rule 8-1-3-1-3, On Play must trigger immediately when played
@@ -84,7 +99,8 @@ export default function Actions({
   // Get abilities that can be activated based on current game state
   const activatableAbilities = useMemo(() => {
     return abilities.map((ability, index) => {
-      const type = ability.type?.toLowerCase() || '';
+      const typeLabel = ability.type || 'Unknown';
+      const type = String(typeLabel);
       const condition = ability.condition || {};
       const frequency = ability.frequency?.toLowerCase() || '';
 
@@ -93,78 +109,83 @@ export default function Actions({
 
       // Core ability type checks
       switch (type) {
-        case 'onplay':
-        case 'on play':
+        case 'On Play':
           // On Play abilities are AUTO effects that trigger when card is played (Rule 10-2-6, 8-4-5)
           // According to Rule 8-1-3-1-3, they must trigger immediately or are lost
           // They should NOT be manually activatable - they auto-trigger or show as missed
           canActivate = false; // Never manually activatable
           if (abilityUsed[index]) {
-            reason = 'On Play already triggered';
+            reason = 'Already resolved when this card was played';
           } else if (!isOnField) {
-            reason = 'Only triggers when played to field';
+            reason = 'Resolves only when this card is played';
           } else if (!wasJustPlayed) {
-            reason = 'Missed (should trigger immediately when played)';
+            reason = 'Resolves only when this card is played (already resolved)';
           } else {
             reason = 'Will auto-trigger';
           }
           break;
 
-        case 'activatemain':
-        case 'activate main':
+        case 'Activate Main':
           // Manual activation during Main Phase
-          canActivate = phase?.toLowerCase() === 'main' && isYourTurn && !battle;
-          reason = canActivate ? '' : 'Only during your Main Phase';
+          // Must be on the field (Character area, Leader area, or Stage area)
+          canActivate = phase?.toLowerCase() === 'main' && isYourTurn && !battle && isOnField;
+          if (!isOnField) {
+            reason = 'Card must be on the field to activate';
+          } else if (!canActivate) {
+            reason = 'Only during your Main Phase';
+          }
           break;
 
-        case 'onattack':
-        case 'on attack':
+        case 'On Attack':
           // Triggers when this card attacks
           canActivate = battle && battle.attacker?.id === cardId && battle.step === 'attack';
           reason = canActivate ? '' : 'Only when this card attacks';
           break;
 
-        case 'onblock':
-        case 'on block':
+        case 'On Block':
           // Triggers when this card blocks
           canActivate = battle && battle.step === 'block' && battle.blockerUsed;
           reason = canActivate ? '' : 'Only when this card blocks';
           break;
 
-        case 'blocker':
+        case 'Blocker':
           // Blocker is handled separately in battle system
           canActivate = false;
           reason = 'Keyword ability (automatic)';
           break;
 
-        case 'counter':
+        case 'Counter':
           // Counter abilities during Counter Step
           canActivate = battle && battle.step === 'counter';
           reason = canActivate ? '' : 'Only during Counter Step';
           break;
 
-        case 'whenko':
-        case 'when ko\'d':
+        case 'On KO':
           // Triggers when card is KO'd (handled by game engine)
           canActivate = false;
           reason = 'Triggers automatically when KO\'d';
           break;
 
-        case 'endofturn':
-        case 'end of turn':
+        case 'End of Turn':
           // Would trigger at end of turn
           canActivate = false;
           reason = 'Triggers at end of turn';
           break;
 
-        case 'opponentturn':
-        case 'opponent turn':
-          // Activates during opponent's turn (e.g., when they attack)
-          canActivate = !isYourTurn && phase?.toLowerCase() === 'main';
-          reason = canActivate ? '' : 'Only during opponent\'s turn';
+        case 'Opponents Turn':
+          // Only when your opponent is actively attacking you
+          // Require a battle in progress where this card's controller is the target side
+          if (battle && actionSource?.side && battle.target?.side === actionSource.side) {
+            // Allow during the initial attack declaration and block step windows
+            const step = battle.step;
+            canActivate = step === 'attack' || step === 'block';
+          } else {
+            canActivate = false;
+          }
+          reason = canActivate ? '' : 'Only when you are being attacked';
           break;
 
-        case 'continuous':
+        case 'Continuous':
           // Continuous effects are always active
           canActivate = false;
           reason = 'Passive effect (always active)';
@@ -198,7 +219,9 @@ export default function Actions({
         index,
         canActivate,
         reason,
-        type,
+        // Keep type as-is for display and internal checks
+        type: typeLabel,
+        typeKey: type,
         condition
       };
     });
@@ -210,8 +233,8 @@ export default function Actions({
     if (!ability) return;
 
     // Allow activation even if canActivate is false for auto-triggered On Play abilities
-    const abilityType = ability.type?.toLowerCase() || '';
-    const isOnPlay = abilityType === 'onplay' || abilityType === 'on play';
+    const abilityType = (ability.typeKey || '');
+    const isOnPlay = abilityType === 'On Play';
     
     // For non-On Play abilities, require canActivate to be true
     if (!isOnPlay && !ability.canActivate) return;
@@ -219,14 +242,75 @@ export default function Actions({
     const effect = ability.effect;
     if (!effect) return;
 
-    // Mark as used IMMEDIATELY when activation starts
-    // This prevents exploitation by canceling deck searches or other modal actions
-    // According to game rules, these abilities should only trigger once:
-    // - Once Per Turn abilities (explicit frequency)
-    // - On Play abilities can only trigger once when played (even if canceled)
-    if (ability.frequency?.toLowerCase() === 'once per turn' || isOnPlay) {
-      setAbilityUsed(prev => ({ ...prev, [abilityIndex]: true }));
-    }
+    // Store cost for later payment (after effect resolves and targets are confirmed)
+    const cost = ability.cost;
+    
+    // Helper function to mark ability as used and pay costs
+    // This should ONLY be called after targets are selected and effect is applied
+    const completeAbilityActivation = () => {
+      // Mark as used for Once Per Turn abilities and On Play abilities
+      if (ability.frequency?.toLowerCase() === 'once per turn' || isOnPlay) {
+        setAbilityUsed(prev => ({ ...prev, [abilityIndex]: true }));
+      }
+      
+      // Pay costs AFTER effect is applied and confirmed
+      if (cost) {
+        // Handle returnThisToDeck cost (return to top/bottom/shuffle)
+        if (cost.returnThisToDeck && returnCardToDeck && actionSource) {
+          console.log(`[Ability] Paying cost: Return this card to ${cost.returnThisToDeck} of deck`);
+          returnCardToDeck(
+            actionSource.side,
+            actionSource.section,
+            actionSource.keyName,
+            actionSource.index || cardIndex,
+            cost.returnThisToDeck
+          );
+        }
+        
+        // Handle trashThis cost (move card to trash instead of deck)
+        if (cost.trashThis && actionSource) {
+          console.log('[Ability] Paying cost: Trash this card');
+          // TODO: Implement trashCard function similar to returnCardToDeck
+          // trashCard(actionSource.side, actionSource.section, actionSource.keyName, actionSource.index || cardIndex);
+        }
+        
+        // Handle restThis cost (rest/tap this card)
+        if (cost.restThis && actionSource) {
+          console.log('[Ability] Paying cost: Rest this card');
+          // TODO: Implement restCard function
+          // restCard(actionSource.side, actionSource.section, actionSource.keyName, actionSource.index || cardIndex);
+        }
+        
+        // Handle restDon cost (rest X DON!! cards from cost area)
+        if (cost.restDon && typeof cost.restDon === 'number') {
+          console.log(`[Ability] Paying cost: Rest ${cost.restDon} DON!!`);
+          // TODO: Implement restDon function
+          // restDon(actionSource.side, cost.restDon);
+        }
+        
+        // Handle trash cost (trash X cards from hand)
+        if (cost.trash && typeof cost.trash === 'number') {
+          console.log(`[Ability] Paying cost: Trash ${cost.trash} card(s) from hand`);
+          // TODO: Implement hand card selection and trash
+          // This would need to open a card selection UI for the player to choose which cards to trash
+          // startHandSelection(actionSource.side, cost.trash, (selectedCards) => { trashCards(selectedCards); });
+        }
+        
+        // Handle discardFromLife cost (discard X cards from life)
+        if (cost.discardFromLife && typeof cost.discardFromLife === 'number') {
+          console.log(`[Ability] Paying cost: Discard ${cost.discardFromLife} card(s) from life`);
+          // TODO: Implement life card selection and discard
+          // startLifeSelection(actionSource.side, cost.discardFromLife, (selectedCards) => { discardFromLife(selectedCards); });
+        }
+        
+        // Handle payLifeCost (take damage as a cost)
+        if (cost.payLife && typeof cost.payLife === 'number') {
+          console.log(`[Ability] Paying cost: Pay ${cost.payLife} life`);
+          // TODO: Implement life payment
+          // payLife(actionSource.side, cost.payLife);
+        }
+      }
+    };
 
     // Check if effect has structured actions array
     const hasStructuredActions = typeof effect === 'object' && effect.actions && Array.isArray(effect.actions);
@@ -267,11 +351,14 @@ export default function Actions({
               max: maxTargets,
               validator: (card, ctx) => {
                 // Validate based on targetType
+                console.log('[Validator] targetType:', targetType, 'ctx:', ctx);
                 if (targetType === 'leader') {
                   return ctx?.section === 'middle' && ctx?.keyName === 'leader';
                 }
                 if (targetType === 'character') {
-                  return ctx?.section === 'char' && ctx?.keyName === 'char';
+                  const isValid = ctx?.section === 'char' && ctx?.keyName === 'char';
+                  console.log('[Validator] character check:', isValid, 'section:', ctx?.section, 'keyName:', ctx?.keyName);
+                  return isValid;
                 }
                 if (targetType === 'any') {
                   return (ctx?.section === 'middle' && ctx?.keyName === 'leader') ||
@@ -280,6 +367,7 @@ export default function Actions({
                 return false;
               }
             }, (targets) => {
+              // Apply effects to targets
               targets.forEach(t => {
                 if (applyPowerMod) {
                   applyPowerMod(t.side, t.section, t.keyName, t.index, amount);
@@ -290,6 +378,9 @@ export default function Actions({
               if (duration === 'thisTurn' && registerUntilNextTurnEffect) {
                 registerUntilNextTurnEffect(turnSide, `${cardName}: ${effect.text}`);
               }
+              
+              // Mark ability as used and pay costs AFTER effect is successfully applied
+              completeAbilityActivation();
               
               setSelectedAbilityIndex(null);
             });
@@ -344,6 +435,10 @@ export default function Actions({
                 console.log(`[Ability] KO target: ${t.card?.id}`);
                 // TODO: Implement KO in game state
               });
+              
+              // Mark ability as used and pay costs AFTER effect is successfully applied
+              completeAbilityActivation();
+              
               setSelectedAbilityIndex(null);
             });
             break;
@@ -355,6 +450,8 @@ export default function Actions({
             // This ensures opponent's cards search opponent's deck/hand
             const sourceSide = actionSource?.side || 'player';
             const filterType = action.filterType || null; // Card type to filter for
+            const filterColor = action.filterColor || null; // Card color to filter for
+            const filterAttribute = action.filterAttribute || null; // Card attribute to filter for
             const minSelect = action.minSelect !== undefined ? action.minSelect : 0;
             const maxSelect = action.maxSelect !== undefined ? action.maxSelect : 1;
             const destination = action.destination || 'hand'; // "hand" | "deck" | "trash"
@@ -364,13 +461,20 @@ export default function Actions({
               startDeckSearch({
                 side: sourceSide,
                 quantity: lookCount,
-                filter: filterType ? { type: filterType } : {},
+                filter: {
+                  ...(filterType ? { type: filterType } : {}),
+                  ...(filterColor ? { color: filterColor } : {}),
+                  ...(filterAttribute ? { attribute: filterAttribute } : {})
+                },
                 minSelect: minSelect,
                 maxSelect: maxSelect,
                 returnLocation: remainderLocation,
                 effectDescription: effect.text,
                 onComplete: (selectedCards, remainder) => {
                   console.log(`[Ability] Deck search complete: ${selectedCards.length} selected, ${remainder.length} returned to ${remainderLocation}`);
+                  
+                  // Mark ability as used and pay costs AFTER effect is successfully applied
+                  completeAbilityActivation();
                 }
               });
             }
@@ -418,6 +522,10 @@ export default function Actions({
           console.log(`[Ability] KO target: ${t.card?.id}`);
           // TODO: Implement KO in game state
         });
+        
+        // Mark ability as used and pay costs AFTER effect is successfully applied
+        completeAbilityActivation();
+        
         setSelectedAbilityIndex(null);
       });
     }
@@ -448,6 +556,9 @@ export default function Actions({
         if (effectText.includes('this turn') && registerUntilNextTurnEffect) {
           registerUntilNextTurnEffect(turnSide, `${cardName}: ${effect}`);
         }
+        
+        // Mark ability as used and pay costs AFTER effect is successfully applied
+        completeAbilityActivation();
         
         setSelectedAbilityIndex(null);
       });
@@ -536,6 +647,9 @@ export default function Actions({
           effectDescription: effectDesc,
           onComplete: (selectedCards, remainder) => {
             console.log(`[Ability] Deck search complete: ${selectedCards.length} selected, ${remainder.length} returned to ${returnLocation}`);
+            
+            // Mark ability as used and pay costs AFTER effect is successfully applied
+            completeAbilityActivation();
           }
         });
       } else {
@@ -566,8 +680,8 @@ export default function Actions({
     
     // Find On Play abilities that haven't been used yet
     const abilityIndex = abilities.findIndex((ability, index) => {
-      const type = ability.type?.toLowerCase() || '';
-      const isOnPlay = type === 'onplay' || type === 'on play';
+      const type = ability.type || '';
+      const isOnPlay = type === 'On Play';
       const notUsed = !abilityUsed[index];
       console.log(`[Auto-Trigger] Ability ${index}:`, { type, isOnPlay, notUsed });
       return isOnPlay && notUsed;
@@ -731,7 +845,7 @@ export default function Actions({
                       </Typography>
 
                       {/* Activation Controls */}
-                      {ability.canActivate ? (
+                      {ability.canActivate && !(selectedAbilityIndex === idx && targeting?.active) ? (
                         <Button
                           size="small"
                           variant="contained"
@@ -740,7 +854,7 @@ export default function Actions({
                         >
                           Activate
                         </Button>
-                      ) : (
+                      ) : !ability.canActivate ? (
                         <Alert 
                           severity={
                             ability.reason === 'Will auto-trigger' ? 'success' :
@@ -759,7 +873,7 @@ export default function Actions({
                         >
                           {ability.reason || 'Cannot activate now'}
                         </Alert>
-                      )}
+                      ) : null}
 
                       {/* Target Selection UI */}
                       {selectedAbilityIndex === idx && targeting?.active && (

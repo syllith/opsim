@@ -331,6 +331,10 @@ export default function Board({
                             <Box display="flex" gap={1}>
                                 {cardsArr.map((c, i) => {
                                     const isValidDonTarget = donGivingMode?.active && donGivingMode.side === 'player' && !battle;
+                                    const isTargetingHere = targeting.active && targeting.side === 'player' && (((targeting.section === 'char' && targeting.keyName === 'char')) || targeting.multi);
+                                    const ctx = { side: 'player', section: 'char', keyName: 'char', index: i };
+                                    const valid = isTargetingHere ? (typeof targeting.validator === 'function' ? targeting.validator(c, ctx) : true) : false;
+                                    const selected = targeting.multi ? targeting.selected.some(s => s.side === 'player' && s.section === 'char' && s.keyName === 'char' && s.index === i) : (isTargetingHere && targeting.selectedIdx.includes(i));
                                     return (
                                     <Box key={c.id + '-' + i} sx={{ position: 'relative' }}>
                                         {/* Physical DON!! cards underneath - stacked upright below and left */}
@@ -375,12 +379,14 @@ export default function Board({
                                             alt={c.id}
                                             data-cardkey={modKey('player', 'char', 'char', i)}
                                             style={{
-                                                width: CARD_W, height: 'auto', cursor: (targeting.active && targeting.side === 'player' && ((targeting.section === 'char' && targeting.keyName === 'char') || targeting.multi)) ? 'crosshair' : (isValidDonTarget ? 'pointer' : 'pointer'), borderRadius: '2px', transform: c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: (() => {
-                                                    const selected = targeting.multi ? targeting.selected.some(s => s.side === 'player' && s.section === 'char' && s.keyName === 'char' && s.index === i) : (targeting.active && targeting.side === 'player' && targeting.section === 'char' && targeting.keyName === 'char' && targeting.selectedIdx.includes(i));
-                                                    if (selected) return '3px solid #ff9800';
-                                                    if (isValidDonTarget) return '3px solid #66bb6a';
-                                                    return 'none';
-                                                })(),
+                                                width: CARD_W,
+                                                height: 'auto',
+                                                cursor: isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : (isValidDonTarget ? 'pointer' : 'pointer'),
+                                                borderRadius: '2px',
+                                                transform: c.rested ? 'rotate(90deg)' : 'none',
+                                                transformOrigin: 'center center',
+                                                filter: isTargetingHere && !valid ? 'grayscale(0.9) brightness(0.6)' : 'none',
+                                                outline: selected ? '3px solid #ff9800' : (isValidDonTarget ? '3px solid #66bb6a' : 'none'),
                                                 boxShadow: isValidDonTarget ? '0 0 12px rgba(102,187,106,0.6)' : 'none',
                                                 position: 'relative',
                                                 zIndex: 1
@@ -393,9 +399,7 @@ export default function Board({
                                                     return;
                                                 }
                                                 // Handle targeting for other purposes
-                                                if (targeting.active && targeting.side === 'player' && ((targeting.section === 'char' && targeting.keyName === 'char') || targeting.multi)) {
-                                                    const ctx = { side: 'player', section: 'char', keyName: 'char', index: i };
-                                                    const valid = typeof targeting.validator === 'function' ? targeting.validator(c, ctx) : true;
+                                                if (isTargetingHere) {
                                                     if (!valid) return;
                                                     setTargeting((prev) => {
                                                         if (prev.multi) {
@@ -568,6 +572,8 @@ export default function Board({
                                     const isTargetingHere = targeting.active && targeting.side === side && (((targeting.section === 'middle' && targeting.keyName === 'leader')) || targeting.multi);
                                     const selected = targeting.multi ? targeting.selected.some(s => s.side === side && s.section === 'middle' && s.keyName === 'leader' && s.index === idx) : (isTargetingHere && targeting.selectedIdx.includes(idx));
                                     const isValidDonTarget = donGivingMode?.active && donGivingMode.side === side && !battle;
+                                    const ctx = { side, section: 'middle', keyName: 'leader', index: idx };
+                                    const valid = isTargetingHere ? (typeof targeting.validator === 'function' ? targeting.validator(c, ctx) : true) : false;
                                     const onClick = (e) => {
                                         e.stopPropagation();
                                         // Handle DON!! giving
@@ -577,7 +583,7 @@ export default function Board({
                                         }
                                         // Handle targeting
                                         if (isTargetingHere) {
-                                            const ctx = { side, section: 'middle', keyName: 'leader', index: idx };
+                                            if (!valid) return;
                                             setTargeting((prev) => {
                                                 if (prev.multi) {
                                                     const has = prev.selected.some(s => s.side === side && s.section === 'middle' && s.keyName === 'leader' && s.index === idx);
@@ -649,12 +655,13 @@ export default function Board({
                                                     borderRadius: '2px', 
                                                     transform: c?.rested ? 'rotate(90deg)' : 'none', 
                                                     transformOrigin: 'center center', 
+                                                    filter: isTargetingHere && !valid ? 'grayscale(0.9) brightness(0.6)' : 'none',
                                                     outline: (() => {
                                                         if (selected) return '3px solid #ff9800';
                                                         if (isValidDonTarget) return '3px solid #66bb6a';
                                                         return 'none';
                                                     })(), 
-                                                    cursor: isTargetingHere || isValidDonTarget ? 'crosshair' : 'pointer',
+                                                    cursor: isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : (isValidDonTarget ? 'pointer' : 'pointer'),
                                                     boxShadow: isValidDonTarget ? '0 0 12px rgba(102,187,106,0.6)' : 'none',
                                                     position: 'relative',
                                                     zIndex: 1

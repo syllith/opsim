@@ -47,8 +47,23 @@
         "properties": {
           "type": { 
             "type": "string",
-            "enum": ["On Play", "Activate Main", "On Attack", "On Block", "Blocker", "Rush", "Double Attack", "Critical", "Counter", "When KO", "End of Turn", "Trigger", "Opponent Turn", "Continuous"],
-            "description": "Type of ability: On Play (when played), Activate Main (manual activation), On Attack (when attacking), On Block (when blocking), Blocker (keyword), Rush (keyword), Double Attack (keyword), Critical (keyword), Counter (during counter step), When KO (when KO'd), End of Turn (at end of turn), Trigger (when drawn as life), Opponent Turn (during opponent's turn), Continuous (always active)"
+            "enum": [
+              "On Play",
+              "Activate Main",
+              "On Attack",
+              "On Block",
+              "Blocker",
+              "Rush",
+              "Double Attack",
+              "Critical",
+              "Counter",
+              "On KO",
+              "End of Turn",
+              "Trigger",
+              "Opponents Turn",
+              "Continuous"
+            ],
+            "description": "Canonical ability types. Use exactly these labels in JSON."
           },
           "frequency": { 
             "type": ["string", "null"],
@@ -88,6 +103,23 @@
               "trash": {
                 "type": ["integer", "null"],
                 "description": "Number of cards to trash from hand"
+              },
+              "returnThisToDeck": {
+                "type": ["string", "null"],
+                "enum": ["top", "bottom", "shuffle", null],
+                "description": "Return this card to deck as part of the cost"
+              },
+              "trashThis": {
+                "type": ["boolean", "null"],
+                "description": "Trash this card as part of the cost"
+              },
+              "discardFromLife": {
+                "type": ["integer", "null"],
+                "description": "Discard X cards from life as part of the cost"
+              },
+              "payLife": {
+                "type": ["integer", "null"],
+                "description": "Pay X life as part of the cost"
               }
             }
           },
@@ -107,24 +139,29 @@
                     "type": {
                       "type": "string",
                       "enum": ["draw", "ko", "powerMod", "search", "addDon", "giveDon", "play", "return", "rest", "active"],
-                      "description": "Type of action: draw (cards), ko (destroy), powerMod (modify power), search (deck/trash), addDon (from deck), giveDon (to cards), play (from hand/trash), return (to hand/deck), rest (tap), active (untap)"
+                      "description": "Action type"
                     },
-                    "quantity": {
-                      "type": ["integer", "null"],
-                      "description": "Number of cards/Don/power affected"
-                    },
-                    "target": {
-                      "type": ["string", "null"],
-                      "description": "What can be targeted (e.g., 'opponent characters', 'your leader', 'this card')"
-                    },
-                    "filter": {
-                      "type": ["string", "null"],
-                      "description": "Filter criteria (e.g., '3000 power or less', 'Red Haired Pirates', 'cost 2 or less')"
-                    },
-                    "duration": {
-                      "type": ["string", "null"],
-                      "description": "How long effect lasts (e.g., 'this turn', 'until end of turn', 'permanent')"
-                    }
+                    "targetSide": { "type": ["string", "null"], "enum": ["player", "opponent", "both", null] },
+                    "targetType": { "type": ["string", "null"], "enum": ["leader", "character", "don", "any", null] },
+                    "minTargets": { "type": ["integer", "null"] },
+                    "maxTargets": { "type": ["integer", "null"] },
+
+                    "amount": { "type": ["integer", "null"], "description": "Power change amount" },
+                    "duration": { "type": ["string", "null"], "enum": ["thisTurn", "untilEndOfBattle", "permanent", null] },
+                    "powerLimit": { "type": ["integer", "null"] },
+                    "costLimit": { "type": ["integer", "null"] },
+
+                    "quantity": { "type": ["integer", "null"] },
+
+                    "lookCount": { "type": ["integer", "null"] },
+                    "minSelect": { "type": ["integer", "null"] },
+                    "maxSelect": { "type": ["integer", "null"] },
+                    "destination": { "type": ["string", "null"], "enum": ["hand", "deck", "trash", "field", null] },
+                    "remainderLocation": { "type": ["string", "null"], "enum": ["top", "bottom", "shuffle", null] },
+                    "remainderOrder": { "type": ["string", "null"], "enum": ["any", "same", null] },
+                    "filterType": { "type": ["string", "null"] },
+                    "filterColor": { "type": ["string", "null"] },
+                    "filterAttribute": { "type": ["string", "null"] }
                   },
                   "required": ["type"]
                 }

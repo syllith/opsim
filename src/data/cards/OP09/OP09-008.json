@@ -29,16 +29,25 @@
   "text": "[Activate: Main] You may place this character on the bottom of its owner's deck: Give up to one of your opponent's characters -3000 power for this turn.",
   "abilities": [
     {
-      "timing": "Activate: Main",
+      "type": "Activate Main",
       "frequency": null,
-      "donReq": null,
+      "condition": null,
       "cost": {
-        "restDonFromCostArea": 0
+        "returnThisToDeck": "bottom"
       },
       "effect": {
-        "text": "You may place this character on the bottom of its owner's deck: Give up to one of your opponent's characters -3000 power for this turn.",
-        "powerMod": null,
-        "giveDon": null
+        "text": "Give up to one of your opponent's characters -3000 power for this turn.",
+        "actions": [
+          {
+            "type": "powerMod",
+            "amount": -3000,
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "duration": "thisTurn"
+          }
+        ]
       }
     }
   ],

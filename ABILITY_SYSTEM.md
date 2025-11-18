@@ -39,11 +39,23 @@ Each card's JSON file includes an `abilities` array:
   "keywords": ["Rush", "Blocker"],
   "abilities": [
     {
-      "type": "onPlay",
+      "type": "On Play",
       "frequency": null,
       "condition": null,
       "cost": null,
-      "effect": "KO 1 of your opponent's Characters with 3000 power or less."
+      "effect": {
+        "text": "KO 1 of your opponent's Characters with 3000 power or less.",
+        "actions": [
+          {
+            "type": "ko",
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 1,
+            "maxTargets": 1,
+            "powerLimit": 3000
+          }
+        ]
+      }
     }
   ]
 }
@@ -51,24 +63,26 @@ Each card's JSON file includes an `abilities` array:
 
 ### Ability Types
 
-The `type` field determines when/how an ability activates:
+The `type` field determines when/how an ability activates. Use these canonical, human-readable labels (case and spacing as shown):
 
 | Type | Description | Example |
 |------|-------------|---------|
-| `onPlay` | Triggers when card is played to field | "Draw 2 cards" |
-| `activateMain` | Manual activation during Main Phase | "Rest this card → Draw 1 card" |
-| `onAttack` | Triggers when this card attacks | "Give a character +2000 power" |
-| `onBlock` | Triggers when this card blocks | "This gains +1000 power" |
-| `blocker` | Keyword - can redirect attacks | Automatic |
-| `rush` | Keyword - can attack turn played | Automatic |
-| `doubleAttack` | Keyword - deals 2 life damage | Automatic |
-| `critical` | Keyword - damage goes to trash | Automatic |
-| `counter` | Activates during Counter Step | "Give Leader +2000 power" |
-| `whenKO` | Triggers when card is KO'd | "Draw 1 card" |
-| `endOfTurn` | Triggers at end of turn | "Return this to hand" |
-| `trigger` | Only when drawn as life | "Play this card" |
-| `opponentTurn` | Active during opponent's turn | Continuous effect |
-| `continuous` | Always active while on field | "All opponent characters -1000" |
+| `On Play` | Triggers when card is played to field | "Draw 2 cards" |
+| `Activate Main` | Manual activation during Main Phase | "Rest this card → Draw 1 card" |
+| `On Attack` | Triggers when this card attacks | 
+| `On Block` | Triggers when this card blocks | 
+| `Blocker` | Keyword - can redirect attacks | Automatic |
+| `Rush` | Keyword - can attack turn played | Automatic |
+| `Double Attack` | Keyword - deals 2 life damage | Automatic |
+| `Critical` | Keyword - damage goes to trash | Automatic |
+| `Counter` | Activates during Counter Step | |
+| `On KO` | Triggers when card is KO'd | |
+| `End of Turn` | Triggers at end of turn | |
+| `Trigger` | Only when drawn as life | |
+| `Opponents Turn` | Active during opponent's turn | |
+| `Continuous` | Always active while on field | |
+
+Use exactly the canonical forms above in JSON. Aliases are not supported.
 
 ## Conditions
 
@@ -109,63 +123,52 @@ Manual activation abilities can have costs:
 
 ### Cost Fields
 
+Costs are paid AFTER the effect is successfully applied and targets are confirmed. If the user cancels target selection, costs are NOT paid.
+
 - `restThis` (boolean): Must rest this card
 - `restDon` (integer): Number of DON!! from cost area to rest
 - `trash` (integer): Number of cards to trash from hand
+- `returnThisToDeck` (string): Return this card to deck ("top" | "bottom" | "shuffle")
+- `trashThis` (boolean): Trash this card instead of returning to deck
+- `discardFromLife` (integer): Discard X cards from life area
+- `payLife` (integer): Take X life damage as a cost
+
+**Note:** Some costs like `trash` and `discardFromLife` may require additional UI for the player to select which cards to use. The ability activation will pause to allow this selection before completing.
 
 ## Effects
 
-Effects can be simple strings or structured objects:
+Effects can be simple strings or structured objects. Prefer structured actions for clarity and reuse; the engine supports explicit fields (no parsing of free text).
 
-### Simple String Effect
-
-```json
-{
-  "type": "onPlay",
-  "effect": "Look at the top 5 cards of your deck, reveal 1 Red Haired Pirates card and add it to hand."
-}
-```
-
-The Actions component will parse keywords in the effect text:
-- "draw" → Triggers draw action
-- "ko" / "k.o." → Triggers KO/destroy action
-- "power" with "+/-" → Triggers power modification
-- "look at" → Triggers deck viewing
-- "add" + "don" → Triggers DON!! manipulation
-
-### Structured Effect (Advanced)
+### Structured Effect (Preferred)
 
 For more complex effects, use the structured format:
 
 ```json
 {
-  "type": "onPlay",
+  "type": "On Play",
   "effect": {
     "text": "KO 1 opponent character with 3000 power or less",
     "actions": [
       {
         "type": "ko",
-        "quantity": 1,
-        "target": "opponent characters",
-        "filter": "3000 power or less"
+        "targetSide": "opponent",
+        "targetType": "character",
+        "minTargets": 1,
+        "maxTargets": 1,
+        "powerLimit": 3000
       }
     ]
   }
 }
 ```
 
-### Effect Action Types
+### Effect Action Types (explicit fields)
 
-- `draw` - Draw cards from deck
-- `ko` - Destroy/KO cards
-- `powerMod` - Modify power values
-- `search` - Look at cards in deck/trash
-- `addDon` - Add DON!! from DON!! deck
-- `giveDon` - Give DON!! to cards
-- `play` - Play cards from hand/trash
-- `return` - Return cards to hand/deck
-- `rest` - Rest (tap) cards
-- `active` - Make cards active (untap)
+- `powerMod`: `amount`, `targetSide`, `targetType`, `minTargets`, `maxTargets`, `duration`, (`powerLimit` optional)
+- `ko`: `targetSide`, `targetType`, `minTargets`, `maxTargets`, (`powerLimit`, `costLimit` optional)
+- `draw`: `quantity`
+- `search`: `lookCount`, `minSelect`, `maxSelect`, `destination`, `remainderLocation`, (`remainderOrder`, `filterType`, `filterColor`, `filterAttribute` optional)
+- `addDon`, `giveDon`, `play`, `return`, `rest`, `active`: as documented in ACTION_SCHEMA.md
 
 ## Examples
 
@@ -177,7 +180,7 @@ For more complex effects, use the structured format:
   "name": "Luffy",
   "abilities": [
     {
-      "type": "onPlay",
+      "type": "On Play",
       "effect": "Draw 2 cards"
     }
   ]
@@ -192,7 +195,7 @@ For more complex effects, use the structured format:
   "name": "Zoro",
   "abilities": [
     {
-      "type": "onAttack",
+      "type": "On Attack",
       "condition": {
         "don": 1
       },
@@ -210,8 +213,8 @@ For more complex effects, use the structured format:
   "name": "Nami",
   "abilities": [
     {
-      "type": "activateMain",
-      "frequency": "once per turn",
+      "type": "Activate Main",
+      "frequency": "Once Per Turn",
       "cost": {
         "restThis": true,
         "restDon": 1
@@ -230,7 +233,7 @@ For more complex effects, use the structured format:
   "name": "Ace",
   "abilities": [
     {
-      "type": "onPlay",
+      "type": "On Play",
       "effect": "KO 1 of your opponent's Characters with 3000 power or less"
     }
   ]
@@ -245,7 +248,7 @@ For more complex effects, use the structured format:
   "name": "Uta",
   "abilities": [
     {
-      "type": "onPlay",
+      "type": "On Play",
       "effect": "Look at the top 5 cards of your deck, reveal up to 1 Red Haired Pirates card and add it to hand"
     }
   ]
@@ -275,6 +278,50 @@ For more complex effects, use the structured format:
 }
 ```
 
+### Example 7: Return to Deck Cost (OP09-008)
+
+This example demonstrates an Activate Main ability with a `returnThisToDeck` cost. The cost is paid AFTER the effect resolves successfully. If the user cancels target selection, the card remains on the field and the ability is not consumed.
+
+**Activation Flow:**
+1. User clicks "Activate" button
+2. User selects a target character (or clicks "Cancel" to skip)
+3. If target selected: Apply -3000 power, then return card to bottom of deck
+4. If cancelled: Card stays on field, ability can be used again
+
+```json
+{
+  "id": "OP09-008",
+  "name": "Building Snake",
+  "abilities": [
+    {
+      "type": "Activate Main",
+      "frequency": null,
+      "condition": null,
+      "cost": {
+        "returnThisToDeck": "bottom"
+      },
+      "effect": {
+        "text": "Give up to one of your opponent's characters -3000 power for this turn.",
+        "actions": [
+          {
+            "type": "powerMod",
+            "amount": -3000,
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "duration": "thisTurn"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+**Variations:**
+Other cards might use `"trashThis": true` instead of `returnThisToDeck` to trash the card after activation rather than returning to deck. The system supports both variations seamlessly.
+
 ## Keywords
 
 Keywords are stored in the `keywords` array and are handled automatically:
@@ -300,21 +347,7 @@ Common keywords:
 
 The Actions component determines if an ability can be activated:
 
-```javascript
-// Example: onPlay abilities
-case 'onplay':
-case 'on play':
-  canActivate = phase?.toLowerCase() === 'main' && isYourTurn;
-  reason = canActivate ? '' : 'Only activates when card is played';
-  break;
-
-// Example: activateMain abilities
-case 'activatemain':
-case 'activate main':
-  canActivate = phase?.toLowerCase() === 'main' && isYourTurn && !battle;
-  reason = canActivate ? '' : 'Only during your Main Phase';
-  break;
-```
+The engine normalizes legacy aliases to the canonical labels automatically (e.g., `onplay` → `On Play`).
 
 ## Adding New Cards
 
@@ -356,7 +389,7 @@ To add a new card with abilities:
 - DON!! condition checking
 
 ### 🚧 Partial / Needs Enhancement
-- Structured effect actions (draw, KO, search, etc.) - Currently text parsing
+- Some advanced actions (e.g., temporary keyword grants) not fully wired to combat rules yet
 - Cost payment enforcement
 - DON!! counting for conditions
 - Deck viewing UI for search effects

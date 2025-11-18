@@ -4,6 +4,11 @@
 
 This document defines the **explicit action structure** for card abilities. All fields should contain **direct values**, NOT parseable strings. This ensures the ability system is fully dynamic and doesn't require runtime parsing.
 
+Canonical ability type labels to use in JSON:
+- "On Play", "Activate Main", "On Attack", "On Block", "Counter", "On KO", "End of Turn", "Trigger", "Opponents Turn", "Continuous"
+
+Use exactly these labels. Aliases are not supported.
+
 ## Core Principles
 
 ### ✅ DO: Use Explicit Fields
@@ -316,7 +321,7 @@ Opponent Turn power reduction with Once Per Turn frequency.
   "name": "Shanks",
   "abilities": [
     {
-      "type": "Opponent Turn",
+      "type": "Opponents Turn",
       "frequency": "Once Per Turn",
       "condition": {
         "opponentTurn": true

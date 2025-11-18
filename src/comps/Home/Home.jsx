@@ -1325,6 +1325,79 @@ export default function Home() {
         setDeckSearchOpen(true);
     }, [library, oppLibrary, getAssetForId, appendLog, createCardBacks]);
 
+    const returnCardToDeck = useCallback((side, section, keyName, index, location = 'bottom') => {
+        setAreas((prev) => {
+            const next = structuredClone(prev);
+            const isPlayer = side === 'player';
+            
+            // Determine where the card array lives
+            // Sections 'top', 'middle', 'bottom' are nested objects keyed by keyName
+            // Sections like 'char' or 'life' are arrays directly on the side root
+            const sideRoot = isPlayer ? next.player : next.opponent;
+            let sourceArray;
+            if (section === 'top' || section === 'middle' || section === 'bottom') {
+                const container = sideRoot[section];
+                sourceArray = container?.[keyName];
+            } else {
+                // For direct arrays, prefer section; fallback to keyName if needed
+                sourceArray = sideRoot[section] || sideRoot[keyName];
+            }
+            if (!sourceArray || index >= sourceArray.length) {
+                console.error('[returnCardToDeck] Invalid source:', {side, section, keyName, index});
+                return prev;
+            }
+            
+            const card = sourceArray[index];
+            
+            // Remove from source
+            if (section === 'top' || section === 'middle' || section === 'bottom') {
+                sideRoot[section][keyName] = sourceArray.filter((_, i) => i !== index);
+            } else {
+                sideRoot[section] = sourceArray.filter((_, i) => i !== index);
+            }
+            
+            // Update library state based on location
+            if (location === 'top') {
+                // Add to top of deck (end of array since deck is drawn from end)
+                if (isPlayer) {
+                    setLibrary(prev => [...prev, card.id]);
+                } else {
+                    setOppLibrary(prev => [...prev, card.id]);
+                }
+            } else if (location === 'bottom') {
+                // Add to bottom of deck (start of array)
+                if (isPlayer) {
+                    setLibrary(prev => [card.id, ...prev]);
+                } else {
+                    setOppLibrary(prev => [card.id, ...prev]);
+                }
+            } else if (location === 'shuffle') {
+                // Add and shuffle
+                const currentLib = isPlayer ? library : oppLibrary;
+                const newLib = [...currentLib, card.id];
+                // Simple shuffle
+                for (let i = newLib.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [newLib[i], newLib[j]] = [newLib[j], newLib[i]];
+                }
+                if (isPlayer) {
+                    setLibrary(newLib);
+                } else {
+                    setOppLibrary(newLib);
+                }
+            }
+            
+            // Update deck visual (add one card back)
+            const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
+            const currentDeckSize = (deckLoc.deck || []).length;
+            deckLoc.deck = createCardBacks(currentDeckSize + 1);
+            
+            appendLog(`[Ability Cost] Returned ${card.id} to ${location} of ${side}'s deck.`);
+            
+            return next;
+        });
+    }, [library, oppLibrary, createCardBacks, appendLog]);
+
     const donPhaseGain = useCallback((side, count) => {
         if (openingShown) return 0; // Cannot gain DON until opening hand is finalized
         let actualMoved = 0;
@@ -1637,6 +1710,7 @@ export default function Home() {
                             registerUntilNextTurnEffect={registerUntilNextTurnEffect}
                             giveDonToCard={giveDonToCard}
                             startDeckSearch={startDeckSearch}
+                            returnCardToDeck={returnCardToDeck}
                             battle={battle}
                             battleApplyBlocker={applyBlocker}
                             battleSkipBlock={skipBlock}

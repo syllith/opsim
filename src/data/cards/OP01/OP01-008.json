@@ -24,33 +24,19 @@
     }
   },
   "keywords": [
-    "On Play",
     "Rush"
   ],
   "trigger": null,
   "text": "[On Play] You may add 1 card from your Life area to your hand: This Character gains [Rush] during this turn. (This card can attack on the turn in which it is played.)",
   "abilities": [
     {
-      "timing": "On Play",
+      "type": "On Play",
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
-        "text": "You may add 1 card from your Life area to your hand: This Character gains [Rush] during this turn. (This card can attack on the turn in which it is played.)",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "targets": [
-          "life",
-          "hand",
-          "self"
-        ],
-        "conditions": [
-          "mayAddLifeToHand"
-        ]
+        "text": "You may add 1 card from your Life area to your hand: This Character gains Rush during this turn.",
+        "actions": []
       }
     }
   ],
