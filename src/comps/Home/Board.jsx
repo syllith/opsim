@@ -135,6 +135,14 @@ export default function Board({
     // Render cards based on mode
     const renderCards = (cardsArr, mode, config) => {
         if (!cardsArr.length) return null;
+        const isLifeArea = /life/i.test(config.label || '');
+        const isDonPile = /\bdon\b/i.test(config.label || '') && !/cost/i.test(config.label || '');
+        const onHover = (c) => {
+            if (!c) return;
+            if (isLifeArea) { setHovered(null); return; }
+            if (c.id === 'DON' || c.id === 'DON_BACK') { return; }
+            setHovered(c);
+        };
         switch (mode) {
             case 'single': {
                 const c = cardsArr[cardsArr.length - 1];
@@ -144,7 +152,7 @@ export default function Board({
                         src={c.thumb}
                         alt={c.id}
                         style={{ width: CARD_W, height: 'auto' }}
-                        onMouseEnter={() => setHovered(c)}
+                        onMouseEnter={() => onHover(c)}
                         onMouseLeave={() => setHovered(null)}
                     />
                 );
@@ -181,7 +189,7 @@ export default function Board({
                         src={c.thumb}
                         alt={c.id}
                         style={{ width: CARD_W, height: 'auto' }}
-                        onMouseEnter={() => setHovered(c)}
+                        onMouseEnter={() => (isDonPile ? setHovered(null) : onHover(c))}
                         onMouseLeave={() => setHovered(null)}
                     />
                 );
@@ -195,7 +203,7 @@ export default function Board({
                                 src={c.thumb}
                                 alt={c.id}
                                 style={{ width: CARD_W, height: 'auto' }}
-                                onMouseEnter={() => setHovered(c)}
+                                onMouseEnter={() => onHover(c)}
                                 onMouseLeave={() => setHovered(null)}
                             />
                         ))}
@@ -211,7 +219,7 @@ export default function Board({
                                 src={c.thumb}
                                 alt={c.id}
                                 style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W }}
-                                onMouseEnter={() => setHovered(c)}
+                                onMouseEnter={() => onHover(c)}
                                 onMouseLeave={() => setHovered(null)}
                             />
                         ))}
@@ -224,10 +232,10 @@ export default function Board({
                         {cardsArr.map((c, i) => (
                             <img
                                 key={c.id + i}
-                                src={/life/i.test(config.label || '') ? CARD_BACK_URL : c.thumb}
+                                src={isLifeArea ? CARD_BACK_URL : c.thumb}
                                 alt={c.id}
                                 style={{ position: 'absolute', top: i * OVERLAP_OFFSET, left: 0, width: CARD_W }}
-                                onMouseEnter={() => setHovered(c)}
+                                onMouseEnter={() => onHover(c)}
                                 onMouseLeave={() => setHovered(null)}
                             />
                         ))}
@@ -321,7 +329,7 @@ export default function Board({
                                                     startDonGiving(side, i);
                                                 }
                                             }}
-                                            onMouseEnter={() => setHovered(c)}
+                                            onMouseEnter={() => { if (c.id !== 'DON' && c.id !== 'DON_BACK') setHovered(c); }}
                                             onMouseLeave={() => setHovered(null)}
                                         />
                                     );

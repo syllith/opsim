@@ -21,7 +21,10 @@ export default function CardViewer({
     }, [log]);
 
     // Display hovered card if hovering, otherwise show selected card if one exists
-    const displayCard = hovered || selectedCard;
+    // But ignore DON and DON_BACK entirely in the viewer
+    const rawCard = hovered || selectedCard;
+    const isIgnoredDon = rawCard && (rawCard.id === 'DON' || rawCard.id === 'DON_BACK');
+    const displayCard = isIgnoredDon ? null : rawCard;
 
     return (
         <Box

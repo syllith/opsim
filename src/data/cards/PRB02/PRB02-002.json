@@ -25,39 +25,38 @@
     }
   },
   "keywords": [
-    "Once Per Turn",
-    "When Attacking"
+    
   ],
   "trigger": null,
   "text": "[Once Per Turn] If this Character would be removed from the field by your opponent's effect, you may give this Character -2000 power during this turn instead.\n[When Attacking] Give up to 1 of your opponent's Characters -2000 power during this turn.",
   "abilities": [
     {
-      "timing": "Once Per Turn",
+      "type": "Continuous",
       "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
-        "text": "If this Character would be removed from the field by your opponent's effect, you may give this Character -2000 power during this turn instead.",
-        "powerMod": null,
-        "giveDon": null
+        "text": "If this Character would be removed from the field by your opponent's effect, you may give this Character -2000 power during this turn instead."
       }
     },
     {
-      "timing": "When Attacking",
+      "type": "On Attack",
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
         "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
+        "actions": [
+          {
+            "type": "powerMod",
+            "amount": -2000,
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "duration": "thisTurn"
+          }
+        ]
       }
     }
   ],

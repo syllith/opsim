@@ -784,6 +784,105 @@ export default function Home() {
         return metaById.get(id)?.keywords || [];
     }, [metaById]);
 
+        // Replacement effect: If this card would be removed by opponent's effect, give it -2000 instead (Once Per Turn)
+        const maybeApplyRemovalReplacement = useCallback((targetSide, section, keyName, index, sourceSide) => {
+            try {
+                // Only applies when the source is the opponent of the target controller
+                if (!targetSide || !sourceSide || targetSide === sourceSide) return false;
+                // Only applies to fielded Leader/Character
+                if (!((section === 'char' && keyName === 'char') || (section === 'middle' && keyName === 'leader'))) return false;
+                const sideLoc = targetSide === 'player' ? areas.player : areas.opponent;
+                const inst = section === 'char' ? (sideLoc?.char?.[index]) : (sideLoc?.middle?.leader?.[0]);
+                if (!inst || !inst.id) return false;
+                const meta = metaById.get(inst.id);
+                if (!meta) return false;
+                const abilities = meta.abilities || [];
+                // Heuristic: find a Continuous, Once Per Turn ability whose text mentions removal by opponent's effect
+                const hasReplacement = abilities.some((ab) => {
+                    if ((ab?.type !== 'Continuous') || (String(ab?.frequency || '').toLowerCase() !== 'once per turn')) return false;
+                    const t = (typeof ab.effect === 'string' ? ab.effect : (ab.effect?.text || '')).toLowerCase();
+                    return t.includes('would be removed from the field') && t.includes("opponent") && t.includes('-2000');
+                });
+                if (!hasReplacement) return false;
+                // Once per turn usage check; mark on instance
+                const usedTurnProp = '__replacementUsedTurn';
+                if (inst[usedTurnProp] === turnNumber) return false;
+                // Apply -2000 this turn to self and mark used
+                const expireOnSide = (turnSide === 'player') ? 'opponent' : 'player';
+                const instIndex = section === 'char' ? index : 0;
+                applyPowerMod(targetSide, section, keyName, instIndex, -2000, expireOnSide);
+                if (registerUntilNextTurnEffect) {
+                    registerUntilNextTurnEffect(expireOnSide, `${meta.name || inst.id}: replacement -2000 applied instead of removal`);
+                }
+                // Persist the flag on areas
+                setAreas((prev) => {
+                    const next = structuredClone(prev);
+                    const loc = targetSide === 'player' ? next.player : next.opponent;
+                    if (section === 'char' && loc?.char?.[instIndex]) {
+                        loc.char[instIndex][usedTurnProp] = turnNumber;
+                    } else if (section === 'middle' && loc?.middle?.leader?.[0]) {
+                        loc.middle.leader[0][usedTurnProp] = turnNumber;
+                    }
+                    return next;
+                });
+                appendLog(`[Replacement] ${meta.name || inst.id}: Prevented removal by opponent's effect; -2000 this turn.`);
+                return true;
+            } catch (e) {
+                console.warn('[maybeApplyRemovalReplacement] error', e);
+                return false;
+            }
+        }, [areas, metaById, applyPowerMod, registerUntilNextTurnEffect, setAreas, appendLog, turnSide, turnNumber]);
+
+        // Generic effect-based removal (e.g., KO by effect). Supports replacement interception.
+        const removeCardByEffect = useCallback((targetSide, section, keyName, index, sourceSide) => {
+            // Check replacement first; if applied, skip removal
+            const replaced = maybeApplyRemovalReplacement(targetSide, section, keyName, index, sourceSide);
+            if (replaced) return false;
+
+            // Proceed to remove the card from the field and move to trash; return given DON!!
+            setAreas((prev) => {
+                const next = structuredClone(prev);
+                const sideLoc = targetSide === 'player' ? next.player : next.opponent;
+                const trashLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
+
+                if (section === 'char' && keyName === 'char') {
+                    const charArr = sideLoc?.char || [];
+                    if (!charArr[index]) return prev;
+                    const removed = charArr.splice(index, 1)[0];
+                    // Return any given DON!! to cost area (rested)
+                    const donUnderArr = (sideLoc?.charDon?.[index] || []);
+                    if (donUnderArr.length) {
+                        const costLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
+                        costLoc.cost = [...(costLoc.cost || []), ...donUnderArr];
+                        appendLog(`[Effect KO] Returned ${donUnderArr.length} DON!! to cost area.`);
+                    }
+                    if (Array.isArray(sideLoc.charDon)) {
+                        sideLoc.charDon.splice(index, 1);
+                    }
+                    // Move removed to trash
+                    trashLoc.trash = [...(trashLoc.trash || []), removed];
+                    appendLog(`[Effect KO] ${removed.id} was removed by effect.`);
+                } else if (section === 'middle' && keyName === 'leader') {
+                    // Leaders are rarely removed by effects; handle generically -> move to trash
+                    const leaderArr = sideLoc?.middle?.leader || [];
+                    if (!leaderArr[0]) return prev;
+                    const removed = leaderArr.splice(0, 1)[0];
+                    trashLoc.trash = [...(trashLoc.trash || []), removed];
+                    // Return leader DON!! to cost area
+                    const leaderDon = sideLoc?.middle?.leaderDon || [];
+                    if (leaderDon.length) {
+                        const costLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
+                        costLoc.cost = [...(costLoc.cost || []), ...leaderDon];
+                        sideLoc.middle.leaderDon = [];
+                        appendLog(`[Effect KO] Returned ${leaderDon.length} DON!! from leader to cost area.`);
+                    }
+                    appendLog(`[Effect KO] Leader ${removed.id} was removed by effect.`);
+                }
+                return next;
+            });
+            return true;
+        }, [maybeApplyRemovalReplacement, setAreas, appendLog]);
+
     const canCharacterAttack = useCallback((card, side, index) => {
         if (!card || !card.id) return false;
         // RULE ENFORCEMENT: Can only attack during your own turn (7-1)
@@ -967,12 +1066,11 @@ export default function Home() {
         });
     }, [battle, canCharacterAttack, getTotalPower, startTargeting, setAreas, appendLog, areas, cancelDonGiving, modKey, setBattle, setCurrentAttack, openingShown]);
 
-    // Advance battle step automatically from attack -> block
+    // Auto-advance from Attack Step to Block Step (original flow)
     useEffect(() => {
         if (!battle) return;
         if (battle.step === 'attack') {
-            // Placeholder for [When Attacking] triggers
-            appendLog(`[battle] Attack Step complete. Proceed to Block Step.`);
+            appendLog('[battle] Attack Step complete. Proceed to Block Step.');
             setBattle((b) => ({ ...b, step: 'block' }));
         }
     }, [battle, appendLog]);
@@ -1641,7 +1739,7 @@ export default function Home() {
                                 variant="contained" 
                                 color={phaseLower === 'main' && endTurnConfirming ? 'error' : 'primary'}
                                 onClick={onNextAction} 
-                                disabled={openingShown}
+                                disabled={openingShown || !!battle}
                             >
                                 {nextActionLabel}
                             </Button>
@@ -1754,6 +1852,7 @@ export default function Home() {
                             battlePlayCounterEvent={playCounterEventFromHand}
                             battleEndCounterStep={endCounterStep}
                             battleGetDefPower={() => getDefenderPower(battle)}
+                            removeCardByEffect={removeCardByEffect}
                         >
                             {/* Additional action controls (play from hand, attack, etc.) */}
                             {actionSource && ((actionSource.side === 'player' && actionSource.section === 'bottom' && actionSource.keyName === 'hand') || (actionSource.side === 'opponent' && actionSource.section === 'top' && actionSource.keyName === 'hand')) ? (

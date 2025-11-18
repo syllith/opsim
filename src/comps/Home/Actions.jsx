@@ -38,6 +38,7 @@ export default function Actions({
   battlePlayCounterEvent,
   battleEndCounterStep,
   battleGetDefPower,
+  removeCardByEffect,
   children,
   width = 420,
   height,
@@ -140,8 +141,8 @@ export default function Actions({
           break;
 
         case 'On Attack':
-          // Triggers when this card attacks
-          canActivate = battle && battle.attacker?.id === cardId && battle.step === 'attack';
+          // Allow activation during Attack Step OR early Block Step before blocker chosen
+          canActivate = battle && battle.attacker?.id === cardId && (battle.step === 'attack' || (battle.step === 'block' && !battle.blockerUsed));
           reason = canActivate ? '' : 'Only when this card attacks';
           break;
 
@@ -457,8 +458,11 @@ export default function Actions({
               }
             }, (targets) => {
               targets.forEach(t => {
-                console.log(`[Ability] KO target: ${t.card?.id}`);
-                // TODO: Implement KO in game state
+                if (removeCardByEffect) {
+                  removeCardByEffect(t.side, t.section, t.keyName, t.index, actionSource?.side || 'player');
+                } else {
+                  console.log(`[Ability] KO target (no handler): ${t.card?.id}`);
+                }
               });
               
               // Mark ability as used and pay costs AFTER effect is successfully applied

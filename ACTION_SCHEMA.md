@@ -469,3 +469,31 @@ Card with multiple actions in sequence.
 - Adding new cards is straightforward
 - No need to update parsing logic
 - System scales easily
+
+## Additional Notes
+
+### Extra duration value
+- `untilOpponentsNextTurn` is also supported for effects that persist through your opponent's next turn (used by some OP09 cards).
+
+## Future: Replacement Effects
+
+Some cards use "instead" style replacement effects (e.g., "If this card would be removed by an opponent's effect, instead …"). Represent these today as a `Continuous` ability with clear `effect.text`. Engines can optionally support a structured form later:
+
+```json
+{
+  "type": "Continuous",
+  "frequency": "Once Per Turn",
+  "effect": {
+    "text": "If this Character would be removed from the field by your opponent's effect, you may give this Character -2000 power during this turn instead.",
+    "replacement": {
+      "event": "wouldRemoveByOpponentEffect",
+      "appliesTo": "self",
+      "instead": [
+        { "type": "powerMod", "amount": -2000, "targetSide": "player", "targetType": "character", "minTargets": 0, "maxTargets": 0, "duration": "thisTurn" }
+      ]
+    }
+  }
+}
+```
+
+Note: `replacement` is not yet consumed by the current engine; it serves as forward-compatible metadata.
