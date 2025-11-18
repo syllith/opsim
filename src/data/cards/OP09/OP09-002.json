@@ -36,12 +36,13 @@
         "actions": [
           {
             "type": "search",
-            "quantity": 5,
-            "source": "your deck",
-            "target": "Red Hair Pirates",
-            "filter": "up to 1",
-            "action": "add to hand",
-            "remainder": "bottom of deck in any order"
+            "lookCount": 5,
+            "filterType": "Red Hair Pirates",
+            "minSelect": 0,
+            "maxSelect": 1,
+            "destination": "hand",
+            "remainderLocation": "bottom",
+            "remainderOrder": "any"
           }
         ]
       }

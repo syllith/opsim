@@ -29,23 +29,23 @@
   "text": "[On Play] Give up to 1 of your opponent's Characters -2000 power during this turn.",
   "abilities": [
     {
-      "timing": "On Play",
+      "type": "On Play",
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
         "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
-        "grants": [],
-        "powerMod": {
-          "amount": -2000,
-          "duration": "duringThisTurn"
-        },
-        "targets": [
-          "upTo1:opponent:Character"
-        ],
-        "conditions": []
+        "actions": [
+          {
+            "type": "powerMod",
+            "amount": -2000,
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "duration": "thisTurn"
+          }
+        ]
       }
     }
   ],

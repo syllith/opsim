@@ -73,7 +73,7 @@ export default function Activity({
                             width: '100vw',
                             height: '100vh',
                             pointerEvents: 'none',
-                            zIndex: 9999
+                            zIndex: 1300
                         }}
                     >
                         <defs>
@@ -84,8 +84,8 @@ export default function Activity({
                         <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke={stroke} strokeWidth="5" markerEnd={`url(#${id})`} />
                         {label ? (
                             <g>
-                                <rect x={mid.x - 28} y={mid.y - 12} width="56" height="18" rx="4" ry="4" fill="rgba(0,0,0,0.6)" />
-                                <text x={mid.x} y={mid.y} fill="#fff" fontSize="12" textAnchor="middle" dominantBaseline="middle">{label}</text>
+                                <rect x={mid.x - 68} y={mid.y - 12} width="136" height="20" rx="4" ry="4" fill="rgba(0,0,0,0.8)" />
+                                <text x={mid.x} y={mid.y} fill="#fff" fontSize="13" fontWeight="600" textAnchor="middle" dominantBaseline="middle">{label}</text>
                             </g>
                         ) : null}
                     </svg>

@@ -869,6 +869,11 @@ export default function Home() {
             const targetArr = (t.section === 'char') ? (areas?.[defendingSide]?.char || []) : (areas?.[defendingSide]?.middle?.leader || []);
             const targetCard = targetArr[t.index];
             if (!targetCard) { appendLog('[attack] Target not found.'); setCurrentAttack(null); return; }
+            // Close action window when attack is initiated
+            setActionOpen(false);
+            setActionCardIndex(-1);
+            setActionSource(null);
+            setSelectedCard(null);
             // Initialize battle state
             setBattle({
                 attacker: { side: attackingSide, section: 'middle', keyName: 'leader', index: 0, id: leaderCard.id, power: attackerPower },
@@ -918,6 +923,11 @@ export default function Home() {
             const targetArr = (t.section === 'char') ? (areas?.[defendingSide]?.char || []) : (areas?.[defendingSide]?.middle?.leader || []);
             const targetCard = targetArr[t.index];
             if (!targetCard) { appendLog('[attack] Target not found.'); setCurrentAttack(null); return; }
+            // Close action window when attack is initiated
+            setActionOpen(false);
+            setActionCardIndex(-1);
+            setActionSource(null);
+            setSelectedCard(null);
             // Initialize battle state
             setBattle({
                 attacker: { side: attackingSide, section: 'char', keyName: 'char', index: attackerIndex, id: attackerCard.id, power: attackerPower },
@@ -1140,12 +1150,17 @@ export default function Home() {
 
     // Maintain arrow during battle (attacker -> current target)
     useEffect(() => {
-        if (!battle) return;
+        if (!battle) {
+            setBattleArrow(null);
+            return;
+        }
         const fromKey = modKey(battle.attacker.side, battle.attacker.section, battle.attacker.keyName, battle.attacker.index);
         const toKey = modKey(battle.target.side, battle.target.section, battle.target.keyName, battle.target.index);
-        const label = `${getAttackerPower(battle)} ▶ ${getDefenderPower(battle)}`;
+        const attackerLabel = battle.attacker.side === 'player' ? 'You' : 'Opp';
+        const defenderLabel = battle.target.side === 'player' ? 'You' : 'Opp';
+        const label = `${getAttackerPower(battle)} (${attackerLabel}) ▶ ${getDefenderPower(battle)} (${defenderLabel})`;
         setBattleArrow({ fromKey, toKey, label });
-    }, [battle, getDefenderPower, getAttackerPower]);
+    }, [battle, getDefenderPower, getAttackerPower, modKey]);
 
     // --- Opening Hand Modal ---
     const finalizeKeep = () => {

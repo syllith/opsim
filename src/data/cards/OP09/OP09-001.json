@@ -39,10 +39,12 @@
         "actions": [
           {
             "type": "powerMod",
-            "quantity": -1000,
-            "target": "opponent leader or character",
-            "filter": "up to 1",
-            "duration": "this turn"
+            "amount": -1000,
+            "targetSide": "opponent",
+            "targetType": "any",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "duration": "thisTurn"
           }
         ]
       }
