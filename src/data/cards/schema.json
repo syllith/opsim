@@ -41,49 +41,98 @@
     "text": { "type": ["string", "null"] },
     "abilities": {
       "type": "array",
+      "description": "Array of card abilities that can be activated or are continuous effects",
       "items": {
         "type": "object",
         "properties": {
-          "timing": { "type": "string" },
-          "frequency": { "type": ["string", "null"] },
-          "donReq": { "type": ["integer", "null"] },
-          "cost": {
-            "type": "object",
+          "type": { 
+            "type": "string",
+            "enum": ["On Play", "Activate Main", "On Attack", "On Block", "Blocker", "Rush", "Double Attack", "Critical", "Counter", "When KO", "End of Turn", "Trigger", "Opponent Turn", "Continuous"],
+            "description": "Type of ability: On Play (when played), Activate Main (manual activation), On Attack (when attacking), On Block (when blocking), Blocker (keyword), Rush (keyword), Double Attack (keyword), Critical (keyword), Counter (during counter step), When KO (when KO'd), End of Turn (at end of turn), Trigger (when drawn as life), Opponent Turn (during opponent's turn), Continuous (always active)"
+          },
+          "frequency": { 
+            "type": ["string", "null"],
+            "enum": ["Once Per Turn", null],
+            "description": "Frequency restriction: 'Once Per Turn' or null for unlimited"
+          },
+          "condition": {
+            "type": ["object", "null"],
+            "description": "Conditions that must be met for ability to activate",
             "properties": {
-              "restDonFromCostArea": { "type": "integer" }
-            },
-            "required": ["restDonFromCostArea"]
+              "don": {
+                "type": ["integer", "null"],
+                "description": "Number of DON!! that must be attached to this card (e.g., 1 for 'DON!! x1')"
+              },
+              "yourTurn": {
+                "type": ["boolean", "null"],
+                "description": "Must be during your turn"
+              },
+              "opponentTurn": {
+                "type": ["boolean", "null"],
+                "description": "Must be during opponent's turn"
+              }
+            }
+          },
+          "cost": {
+            "type": ["object", "null"],
+            "description": "Cost to activate the ability (for manual activation abilities)",
+            "properties": {
+              "restThis": {
+                "type": ["boolean", "null"],
+                "description": "Must rest this card to activate"
+              },
+              "restDon": {
+                "type": ["integer", "null"],
+                "description": "Number of DON!! from cost area that must be rested"
+              },
+              "trash": {
+                "type": ["integer", "null"],
+                "description": "Number of cards to trash from hand"
+              }
+            }
           },
           "effect": {
-            "type": "object",
+            "type": ["string", "object"],
+            "description": "The effect that occurs. Can be a simple string description or structured object for complex effects",
             "properties": {
-              "text": { "type": "string" },
-              "grants": { "type": "array", "items": { "type": "string" } },
-              "powerMod": {
-                "type": ["object", "null"],
-                "properties": {
-                  "amount": { "type": "integer" },
-                  "duration": { "type": "string" }
-                },
-                "required": ["amount", "duration"]
+              "text": {
+                "type": "string",
+                "description": "Human-readable description of the effect"
               },
-              "targets": { "type": "array", "items": { "type": "string" } },
-              "conditions": { "type": "array", "items": { "type": "string" } },
-              "giveDon": {
-                "type": ["object", "null"],
-                "properties": {
-                  "quantity": { "type": "integer" },
-                  "state": { "enum": ["active", "rested"] },
-                  "from": { "enum": ["costArea"] },
-                  "to": { "type": "array", "items": { "type": "string" } }
-                },
-                "required": ["quantity", "state", "from", "to"]
+              "actions": {
+                "type": ["array", "null"],
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["draw", "ko", "powerMod", "search", "addDon", "giveDon", "play", "return", "rest", "active"],
+                      "description": "Type of action: draw (cards), ko (destroy), powerMod (modify power), search (deck/trash), addDon (from deck), giveDon (to cards), play (from hand/trash), return (to hand/deck), rest (tap), active (untap)"
+                    },
+                    "quantity": {
+                      "type": ["integer", "null"],
+                      "description": "Number of cards/Don/power affected"
+                    },
+                    "target": {
+                      "type": ["string", "null"],
+                      "description": "What can be targeted (e.g., 'opponent characters', 'your leader', 'this card')"
+                    },
+                    "filter": {
+                      "type": ["string", "null"],
+                      "description": "Filter criteria (e.g., '3000 power or less', 'Red Haired Pirates', 'cost 2 or less')"
+                    },
+                    "duration": {
+                      "type": ["string", "null"],
+                      "description": "How long effect lasts (e.g., 'this turn', 'until end of turn', 'permanent')"
+                    }
+                  },
+                  "required": ["type"]
+                }
               }
-            },
-            "required": ["text"]
+            }
           }
         },
-        "required": ["timing", "cost", "effect"]
+        "required": ["type", "effect"]
       }
     },
     "meta": {

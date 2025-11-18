@@ -62,20 +62,26 @@ export default function Activity({
                 const label = battleArrow.label || '';
                 const mid = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
                 const id = 'arrowHead';
-                // Color arrow by current safety: green safe, orange within 1000, red otherwise
-                let stroke = '#f44336';
-                const s = getBattleStatus();
-                if (s) {
-                    stroke = s.safe ? '#43a047' : (s.needed <= 1000 ? '#fb8c00' : '#f44336');
-                }
+                // Always use red for attack arrow to match requested UX
+                const stroke = '#e53935';
                 return (
-                    <svg style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 1600 }}>
+                    <svg
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            width: '100vw',
+                            height: '100vh',
+                            pointerEvents: 'none',
+                            zIndex: 9999
+                        }}
+                    >
                         <defs>
                             <marker id={id} markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
                                 <path d="M0,0 L0,6 L9,3 z" fill={stroke} />
                             </marker>
                         </defs>
-                        <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke={stroke} strokeWidth="4" markerEnd={`url(#${id})`} />
+                        <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke={stroke} strokeWidth="5" markerEnd={`url(#${id})`} />
                         {label ? (
                             <g>
                                 <rect x={mid.x - 28} y={mid.y - 12} width="56" height="18" rx="4" ry="4" fill="rgba(0,0,0,0.6)" />

@@ -3,6 +3,8 @@
 
 import React, { useMemo, useRef, useEffect, useState } from 'react';
 import { Box, Paper, Typography, Button, Chip, Stack } from '@mui/material';
+import OpeningHand from './OpeningHand';
+import DeckSearch from './DeckSearch';
 
 export default function Board({
     areas,
@@ -32,7 +34,18 @@ export default function Board({
     startDonGiving,
     cancelDonGiving,
     donGivingMode,
-    phase
+    phase,
+    // Opening Hand props
+    openingShown,
+    openingHand,
+    allowMulligan,
+    onMulligan,
+    onKeep,
+    // Deck Search props
+    deckSearchOpen,
+    deckSearchConfig,
+    setDeckSearchOpen,
+    getCardMeta
 }) {
     // Sizing constants (match Fyne layout intent)
     const CARD_W = 120;
@@ -154,7 +167,7 @@ export default function Board({
                                         key={idx}
                                         src={c?.thumb || CARD_BACK_URL}
                                         alt={c?.id || 'BACK'}
-                                        style={{ position: 'absolute', top: i * -offset, left: i * -offset, width: CARD_W, height: 'auto', borderRadius: 4, boxShadow: '0 1px 2px rgba(0,0,0,0.35)' }}
+                                        style={{ position: 'absolute', top: i * -offset, left: i * -offset, width: CARD_W, height: 'auto', borderRadius: '2px', boxShadow: '0 1px 2px rgba(0,0,0,0.35)' }}
                                     />
                                 );
                             })}
@@ -241,7 +254,7 @@ export default function Board({
                 onContextMenu={(e) => { if (gameStarted) { e.preventDefault(); return; } e.preventDefault(); removeCardFromArea(side, section, keyName); }}
                 sx={{ p: 0, bgcolor: '#3c3c3c', color: 'white', width: config.width, height: config.height, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', cursor: gameStarted ? 'default' : 'pointer', userSelect: 'none', borderWidth: isActiveLeader ? 2 : 1, borderColor: isActiveLeader ? '#ffc107' : 'divider' }}
             >
-                <Box flexGrow={1} display="flex" alignItems={mode === 'side-by-side' ? 'center' : 'flex-start'} justifyContent="flex-start" position="relative">
+                <Box flexGrow={1} display="flex" alignItems={mode === 'side-by-side' ? 'center' : 'flex-start'} justifyContent="flex-start" position="relative" sx={{ pt: 4 }}>
                     {/* Overlay label on top of cards */}
                     <Box sx={{ position: 'absolute', top: 4, left: 6, right: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 2, pointerEvents: 'none' }}>
                         <Typography variant="caption" fontWeight={700} sx={{ fontSize: compactMode ? 13 : 15, lineHeight: 1.1, textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>{config.label}</Typography>
@@ -251,19 +264,23 @@ export default function Board({
                         <Box position="relative" width={CARD_W + (cardsArr.length - 1) * OVERLAP_OFFSET} height={CARD_H}>
                             {cardsArr.map((c, i) => {
                                 // RULE ENFORCEMENT: Only allow interaction with cards when it's that side's turn
+                                // Rule 6-5-3: Only the turn player can play cards during their Main Phase
                                 const isThisSideTurn = side === turnSide;
-                                const cursor = isThisSideTurn ? 'pointer' : 'not-allowed';
-                                const opacity = isThisSideTurn ? 1 : 0.6;
+                                // Allow interaction during Main Phase on your turn, OR during Counter Step if you're defending
+                                const isDefendingInCounter = battle && battle.step === 'counter' && battle.target.side === side;
+                                const canInteract = (isThisSideTurn && phase?.toLowerCase() === 'main') || isDefendingInCounter;
+                                const cursor = canInteract ? 'pointer' : 'not-allowed';
+                                const opacity = canInteract ? 1 : 0.6;
                                 return (
                                     <img
                                         key={c.id + i}
                                         src={c.thumb}
                                         alt={c.id}
                                         data-cardkey={modKey(side, section, keyName, i)}
-                                        style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W, cursor, opacity, outline: actionOpen && actionCardIndex === i ? '3px solid #90caf9' : 'none', borderRadius: 4 }}
+                                        style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W, cursor, opacity, outline: actionOpen && actionCardIndex === i && canInteract ? '3px solid #90caf9' : 'none', borderRadius: '2px' }}
                                         onClick={(e) => { 
                                             e.stopPropagation(); 
-                                            if (isThisSideTurn) {
+                                            if (canInteract) {
                                                 openCardAction(c, i, { side, section, keyName, index: i }); 
                                             }
                                         }}
@@ -291,7 +308,7 @@ export default function Board({
                                                 top: 0, 
                                                 left: i * OVERLAP_OFFSET, 
                                                 width: CARD_W, 
-                                                borderRadius: 4, 
+                                                borderRadius: '2px',
                                                 transform: c.id === 'DON' && c.rested ? 'rotate(90deg)' : 'none', 
                                                 transformOrigin: 'center center',
                                                 cursor: canSelect ? 'pointer' : 'default',
@@ -342,7 +359,7 @@ export default function Board({
                                                                     left: -(baseOffsetX + (originalIndex * offsetX)),
                                                                     width: CARD_W, 
                                                                     height: 'auto',
-                                                                    borderRadius: 4,
+                                                                    borderRadius: '2px',
                                                                     boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
                                                                     border: '1px solid #ffc107',
                                                                     zIndex: di
@@ -358,7 +375,7 @@ export default function Board({
                                             alt={c.id}
                                             data-cardkey={modKey('player', 'char', 'char', i)}
                                             style={{
-                                                width: CARD_W, height: 'auto', cursor: (targeting.active && targeting.side === 'player' && ((targeting.section === 'char' && targeting.keyName === 'char') || targeting.multi)) ? 'crosshair' : (isValidDonTarget ? 'pointer' : 'pointer'), borderRadius: 4, transform: c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: (() => {
+                                                width: CARD_W, height: 'auto', cursor: (targeting.active && targeting.side === 'player' && ((targeting.section === 'char' && targeting.keyName === 'char') || targeting.multi)) ? 'crosshair' : (isValidDonTarget ? 'pointer' : 'pointer'), borderRadius: '2px', transform: c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: (() => {
                                                     const selected = targeting.multi ? targeting.selected.some(s => s.side === 'player' && s.section === 'char' && s.keyName === 'char' && s.index === i) : (targeting.active && targeting.side === 'player' && targeting.section === 'char' && targeting.keyName === 'char' && targeting.selectedIdx.includes(i));
                                                     if (selected) return '3px solid #ff9800';
                                                     if (isValidDonTarget) return '3px solid #66bb6a';
@@ -385,10 +402,6 @@ export default function Board({
                                                             const has = prev.selected.some(s => s.side === 'player' && s.section === 'char' && s.keyName === 'char' && s.index === i);
                                                             let selected = has ? prev.selected.filter((s) => !(s.side === 'player' && s.section === 'char' && s.keyName === 'char' && s.index === i)) : [...prev.selected, ctx];
                                                             if (selected.length > prev.max) selected = selected.slice(-prev.max);
-                                                            // Update arrow preview (from attacker to chosen target)
-                                                            if (selected.length && currentAttack) {
-                                                                setBattleArrow({ fromKey: currentAttack.key, toKey: modKey('player', 'char', 'char', selected[selected.length - 1].index).replace('player', 'opponent'), label: `${currentAttack.power || ''}` });
-                                                            }
                                                             return { ...prev, selected };
                                                         } else {
                                                             const has = prev.selectedIdx.includes(i);
@@ -409,9 +422,9 @@ export default function Board({
                                             const delta = getPowerMod('player', 'char', 'char', i);
                                             if (delta === 0) return null;
                                             return (
-                                                <Box sx={{ position: 'absolute', top: 4, left: 4, zIndex: 2 }}>
-                                                    <Box sx={{ px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.7)' }}>
-                                                        <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
+                                                    <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
+                                                        <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
                                                     </Box>
                                                 </Box>
                                             );
@@ -455,7 +468,7 @@ export default function Board({
                                                                         left: -(baseOffsetX + (originalIndex * offsetX)),
                                                                         width: CARD_W, 
                                                                         height: 'auto',
-                                                                        borderRadius: 4,
+                                                                        borderRadius: '2px',
                                                                         boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
                                                                         border: '1px solid #ffc107',
                                                                         zIndex: di
@@ -470,7 +483,7 @@ export default function Board({
                                                 src={c.thumb}
                                                 alt={c.id}
                                                 style={{
-                                                    width: CARD_W, height: 'auto', cursor: isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : 'pointer', borderRadius: 4, filter: isTargetingHere && !valid ? 'grayscale(0.9) brightness(0.6)' : 'none', transform: c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: (() => {
+                                                    width: CARD_W, height: 'auto', cursor: isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : 'pointer', borderRadius: '2px', filter: isTargetingHere && !valid ? 'grayscale(0.9) brightness(0.6)' : 'none', transform: c.rested ? 'rotate(90deg)' : 'none', transformOrigin: 'center center', outline: (() => {
                                                         // Highlight eligible blockers during Block Step
                                                         if (battle && battle.step === 'block' && battle.target && battle.target.section !== 'char') {
                                                             const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
@@ -530,32 +543,15 @@ export default function Board({
                                                     </Box>
                                                 );
                                             })()}
-                                            {battle && battle.target && battle.target.section === 'char' && battle.target.index === i && (
-                                                <Box sx={{ position: 'absolute', top: 6, left: 6, display: 'flex', gap: 0.5, alignItems: 'center' }}>
-                                                    {(() => {
-                                                        const s = getBattleStatus();
-                                                        if (!s) return null;
-                                                        return (
-                                                            <>
-                                                                <Chip size="small" label={`DEF ${s.def}`} color={s.safe ? 'success' : 'default'} variant={s.safe ? 'filled' : 'outlined'} />
-                                                                {s.safe ? (
-                                                                    <Chip size="small" label="Safe" color="success" />
-                                                                ) : (
-                                                                    <Chip size="small" label={`Need +${s.needed}`} color="warning" />
-                                                                )}
-                                                            </>
-                                                        );
-                                                    })()}
-                                                </Box>
-                                            )}
+                                            
                                             {/* Power modifier badge */}
                                             {(() => {
                                                 const delta = getPowerMod('opponent', 'char', 'char', i);
                                                 if (delta === 0) return null;
                                                 return (
-                                                    <Box sx={{ position: 'absolute', top: 4, left: 4, zIndex: 2 }}>
-                                                        <Box sx={{ px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.7)' }}>
-                                                            <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                    <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
+                                                        <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
+                                                            <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
                                                         </Box>
                                                     </Box>
                                                 );
@@ -632,7 +628,7 @@ export default function Board({
                                                                         left: -(baseOffsetX + (originalIndex * offsetX)),
                                                                         width: CARD_W, 
                                                                         height: 'auto',
-                                                                        borderRadius: 4,
+                                                                        borderRadius: '2px',
                                                                         boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
                                                                         border: '1px solid #ffc107',
                                                                         zIndex: di
@@ -650,7 +646,7 @@ export default function Board({
                                                 style={{ 
                                                     width: CARD_W, 
                                                     height: 'auto', 
-                                                    borderRadius: 4, 
+                                                    borderRadius: '2px', 
                                                     transform: c?.rested ? 'rotate(90deg)' : 'none', 
                                                     transformOrigin: 'center center', 
                                                     outline: (() => {
@@ -672,32 +668,15 @@ export default function Board({
                                                     <Typography variant="caption" sx={{ color: '#000', fontWeight: 700 }}>Target</Typography>
                                                 </Box>
                                             )}
-                                            {battle && battle.target && battle.target.section === 'middle' && side === battle.target.side && keyName === 'leader' && (
-                                                <Box sx={{ position: 'absolute', top: 6, left: 6, display: 'flex', gap: 0.5, alignItems: 'center' }}>
-                                                    {(() => {
-                                                        const s = getBattleStatus();
-                                                        if (!s) return null;
-                                                        return (
-                                                            <>
-                                                                <Chip size="small" label={`DEF ${s.def}`} color={s.safe ? 'success' : 'default'} variant={s.safe ? 'filled' : 'outlined'} />
-                                                                {s.safe ? (
-                                                                    <Chip size="small" label="Safe" color="success" />
-                                                                ) : (
-                                                                    <Chip size="small" label={`Need +${s.needed}`} color="warning" />
-                                                                )}
-                                                            </>
-                                                        );
-                                                    })()}
-                                                </Box>
-                                            )}
+                                            
                                             {/* Power modifier badge */}
                                             {(() => {
                                                 const delta = getPowerMod(side, 'middle', 'leader', idx);
                                                 if (delta === 0) return null;
                                                 return (
-                                                    <Box sx={{ position: 'absolute', top: 4, left: 4, zIndex: 2 }}>
-                                                        <Box sx={{ px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(0,0,0,0.7)' }}>
-                                                            <Typography variant="caption" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                    <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
+                                                        <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
+                                                            <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
                                                         </Box>
                                                     </Box>
                                                 );
@@ -772,12 +751,59 @@ export default function Board({
                             <AreaBox side="player" section="middle" keyName="deck" config={areaConfigs.player.middle.deck} />
                         </Box>
                     </Stack>
-                    <Stack direction="row" spacing={compactMode ? 0.5 : 1}>
-                        <AreaBox side="player" section="bottom" keyName="hand" config={areaConfigs.player.bottom.hand} />
-                        <AreaBox side="player" section="bottom" keyName="don" config={areaConfigs.player.bottom.don} />
-                        <AreaBox side="player" section="bottom" keyName="cost" config={areaConfigs.player.bottom.cost} />
-                        <AreaBox side="player" section="bottom" keyName="trash" config={areaConfigs.player.bottom.trash} />
-                    </Stack>
+                    
+                    {/* Player bottom row - Hand, DON, Cost, Trash - with relative positioning for overlays */}
+                    <Box sx={{ position: 'relative' }}>
+                        {/* Opening Hand and Deck Search slots - positioned absolutely above the hand */}
+                        {(openingShown || deckSearchOpen) && (
+                            <Box sx={{ 
+                                position: 'absolute',
+                                bottom: '100%',
+                                left: 0,
+                                mb: compactMode ? 0.5 : 1,
+                                zIndex: 10
+                            }}>
+                                {openingShown && (
+                                    <Box sx={{ mb: compactMode ? 0.5 : 1 }}>
+                                        <OpeningHand
+                                            open={openingShown}
+                                            hand={openingHand}
+                                            allowMulligan={allowMulligan}
+                                            onMulligan={onMulligan}
+                                            onKeep={onKeep}
+                                            setHovered={setHovered}
+                                            CARD_W={CARD_W}
+                                        />
+                                    </Box>
+                                )}
+                                {deckSearchOpen && (
+                                    <DeckSearch
+                                        open={deckSearchOpen}
+                                        cards={deckSearchConfig.cards}
+                                        quantity={deckSearchConfig.quantity}
+                                        filter={deckSearchConfig.filter}
+                                        minSelect={deckSearchConfig.minSelect}
+                                        maxSelect={deckSearchConfig.maxSelect}
+                                        returnLocation={deckSearchConfig.returnLocation}
+                                        canReorder={deckSearchConfig.canReorder}
+                                        effectDescription={deckSearchConfig.effectDescription}
+                                        onConfirm={deckSearchConfig.onComplete}
+                                        onCancel={() => setDeckSearchOpen(false)}
+                                        getCardMeta={getCardMeta}
+                                        setHovered={setHovered}
+                                        CARD_W={CARD_W}
+                                    />
+                                )}
+                            </Box>
+                        )}
+                        
+                        <Stack direction="row" spacing={compactMode ? 0.5 : 1}>
+                            <AreaBox side="player" section="bottom" keyName="hand" config={areaConfigs.player.bottom.hand} />
+                            <AreaBox side="player" section="bottom" keyName="don" config={areaConfigs.player.bottom.don} />
+                            <AreaBox side="player" section="bottom" keyName="cost" config={areaConfigs.player.bottom.cost} />
+                            <AreaBox side="player" section="bottom" keyName="trash" config={areaConfigs.player.bottom.trash} />
+                        </Stack>
+                    </Box>
                 </Box>
             </Box>
         </Box>

@@ -8,10 +8,8 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 // Auth form now extracted to its own component
 import LoginRegister from '../LoginRegister/LoginRegister';
 import Actions from './Actions';
-import OP01004Action from '../Cards/OP01/OP01-004';
 import DeckBuilder from '../DeckBuilder/DeckBuilder';
 import { loadAllCards as loadCardJson } from '../../data/cards/loader';
-import OpeningHand from './OpeningHand';
 import Board from './Board';
 import CardViewer from './CardViewer';
 import Activity from './Activity';
@@ -106,6 +104,21 @@ export default function Home() {
     const [library, setLibrary] = useState([]); // array of card IDs for player's deck order (top at end)
     const [leaderId, setLeaderId] = useState('');
     const [oppLibrary, setOppLibrary] = useState([]);
+
+    // --- Deck Search State ---
+    const [deckSearchOpen, setDeckSearchOpen] = useState(false);
+    const [deckSearchConfig, setDeckSearchConfig] = useState({
+        side: 'player',
+        cards: [],
+        quantity: 5,
+        filter: {},
+        minSelect: 0,
+        maxSelect: 1,
+        returnLocation: 'bottom',
+        canReorder: true,
+        effectDescription: '',
+        onComplete: null
+    });
 
     // Memoize constant card objects to prevent recreation on every render
     const CARD_BACK_URL = useMemo(() => '/api/cards/assets/Card%20Backs/CardBackRegular.png', []);
@@ -204,9 +217,9 @@ export default function Home() {
 
                     setAreas((prev) => {
                         const next = structuredClone(prev);
-                        // Place leaders
-                        next.player.middle.leader = [leaderAsset];
-                        next.opponent.middle.leader = [leaderAsset];
+                        // Place leaders - create separate copies to avoid shared references
+                        next.player.middle.leader = [{ ...leaderAsset, rested: false }];
+                        next.opponent.middle.leader = [{ ...leaderAsset, rested: false }];
                         // Deck stacks visuals
                         next.player.middle.deck = createCardBacks(libP.length);
                         next.opponent.middle.deck = createCardBacks(libO.length);
@@ -374,8 +387,6 @@ export default function Home() {
     const [actionCard, setActionCard] = useState(null);
     const [actionCardIndex, setActionCardIndex] = useState(-1);
     const [actionSource, setActionSource] = useState(null); // { side, section, keyName, index }
-    const [ActionComp, setActionComp] = useState(null);
-    const actionModules = useMemo(() => import.meta.glob('../Cards/**/[A-Z0-9-]*.jsx'), []);
 
     // Check if a specific side can play cards now (must be Main Phase AND their turn)
     const canPlayNow = useCallback((side) => {
@@ -418,6 +429,8 @@ export default function Home() {
 
     const [currentAttack, setCurrentAttack] = useState(null); // { key, cardId, index, power }
     const [battleArrow, setBattleArrow] = useState(null); // { fromKey, toKey, label }
+    // [Trigger] state for damage processing (Rules 4-6-3, 10-1-5)
+    const [triggerPending, setTriggerPending] = useState(null); // { side: 'player'|'opponent', card: asset, hasTrigger: boolean }
     // Battle state lifecycle implementing steps per rules 7-1
     // battle: {
     //   attacker: { side, section, keyName, index, id, power }
@@ -425,6 +438,7 @@ export default function Home() {
     //   step: 'attack' | 'block' | 'counter' | 'damage' | 'end'
     //   blockerUsed: boolean
     //   counterPower: number (temporary during battle only)
+    //   counterTarget: { side, section, keyName, index } | null (which card receives counter power)
     // }
     const [battle, setBattle] = useState(null);
 
@@ -457,6 +471,20 @@ export default function Home() {
         if (typeof onComplete === 'function') onComplete(arr);
     }, [targeting, areas, cancelTargeting]);
 
+    // Auto-confirm single-selection targeting when a valid choice is made
+    useEffect(() => {
+        if (!targeting.active) return;
+        const count = targeting.multi ? (targeting.selected || []).length : (targeting.selectedIdx || []).length;
+        const min = typeof targeting.min === 'number' ? targeting.min : 1;
+        if (count >= min && min > 0) {
+            // Defer to next tick to allow UI to update selection outline
+            const t = setTimeout(() => {
+                try { confirmTargeting(); } catch {}
+            }, 0);
+            return () => clearTimeout(t);
+        }
+    }, [targeting, confirmTargeting]);
+
     const getCardMeta = useCallback((id) => metaById.get(id) || null, [metaById]);
 
     // --- Power Mod Overlays ---
@@ -487,19 +515,9 @@ export default function Home() {
         setActionCard(card);
         setActionCardIndex(index);
         setActionSource(source);
-        setActionComp(null);
         setActionOpen(true);
         setSelectedCard(card); // Set the selected card in the viewer
-        try {
-            const id = card?.id;
-            if (!id) return;
-            const match = Object.keys(actionModules).find((k) => k.endsWith(`/${id}.jsx`));
-            if (match) {
-                const mod = await actionModules[match]();
-                setActionComp(() => mod.default || null);
-            }
-        } catch { }
-    }, [actionModules]);
+    }, []);
 
     const playSelectedCard = useCallback(() => {
         if (!actionCard || !canPlayNow) return;
@@ -545,10 +563,20 @@ export default function Home() {
         });
         appendLog(`[${side}] Played ${actionCard.id}${cost ? ` by resting ${cost} DON` : ''}.`);
         // Open Actions for the played card to allow On Play resolution
+        // Mark with special flag to indicate this was just played (for auto On Play triggering)
         setTimeout(() => {
-            openCardAction(actionCard, fieldIndex, { side, section: 'char', keyName: 'char', index: fieldIndex });
+            // Get the placed card from the updated areas state to ensure it has enteredTurn
+            setAreas((currentAreas) => {
+                const isPlayer = side === 'player';
+                const chars = isPlayer ? (currentAreas.player.char || []) : (currentAreas.opponent.char || []);
+                const placedCard = chars[fieldIndex];
+                if (placedCard) {
+                    openCardAction(placedCard, fieldIndex, { side, section: 'char', keyName: 'char', index: fieldIndex, justPlayed: true });
+                }
+                return currentAreas; // Don't modify areas, just read from it
+            });
         }, 0);
-    }, [actionCard, canPlayNow, actionCardIndex, getCardCost, hasEnoughDonFor, appendLog, openCardAction, actionSource]);
+    }, [actionCard, canPlayNow, actionCardIndex, getCardCost, hasEnoughDonFor, appendLog, openCardAction, actionSource, turnNumber]);
 
     // Start DON!! giving mode - select a DON!! card from cost area
     const startDonGiving = useCallback((side, donIndex) => {
@@ -643,19 +671,72 @@ export default function Home() {
         return success;
     }, [donGivingMode, appendLog]);
 
+    // Rule 4-6-3 & 10-1-5: [Trigger] can be activated instead of adding Life card to hand
     const dealOneDamageToLeader = useCallback((defender) => {
+        let cardWithTrigger = null;
         setAreas((prev) => {
             const next = structuredClone(prev);
             const side = defender === 'player' ? next.player : next.opponent;
             const life = side.life || [];
-            if (!life.length) return next;
+            if (!life.length) {
+                // Rule 1-2-1-1-1: Taking damage with 0 Life = defeat condition
+                appendLog(`[DEFEAT] ${defender} has 0 Life and took damage!`);
+                return next;
+            }
             const card = life[life.length - 1];
             side.life = life.slice(0, -1);
-            const handLoc = defender === 'player' ? next.player.bottom : next.opponent.top;
+            
+            // Check if card has [Trigger] keyword
+            const keywords = metaById.get(card.id)?.keywords || [];
+            const hasTrigger = keywords.some(k => /trigger/i.test(k));
+            
+            if (hasTrigger) {
+                // Pause and show trigger choice modal
+                cardWithTrigger = { side: defender, card, hasTrigger: true };
+            } else {
+                // No trigger: add to hand as normal
+                const handLoc = defender === 'player' ? next.player.bottom : next.opponent.top;
+                handLoc.hand = [...(handLoc.hand || []), card];
+                appendLog(`[Damage] ${defender} takes 1 damage, adds ${card.id} to hand.`);
+            }
+            return next;
+        });
+        
+        // If trigger detected, pause for player choice
+        if (cardWithTrigger) {
+            setTriggerPending(cardWithTrigger);
+        }
+    }, [metaById, appendLog]);
+
+    // Handle player's choice to activate [Trigger] or add to hand
+    const onTriggerActivate = useCallback(() => {
+        if (!triggerPending) return;
+        const { side, card } = triggerPending;
+        appendLog(`[Trigger] ${side} activates [Trigger] on ${card.id}!`);
+        // TODO: Actually resolve the trigger effect (needs effect activation system)
+        // For now, trash the card as per Rule 10-1-5-3
+        setAreas((prev) => {
+            const next = structuredClone(prev);
+            const trashLoc = side === 'player' ? next.player.bottom : next.opponent.top;
+            trashLoc.trash = [...(trashLoc.trash || []), card];
+            return next;
+        });
+        setTriggerPending(null);
+    }, [triggerPending, appendLog]);
+    
+    const onTriggerDecline = useCallback(() => {
+        if (!triggerPending) return;
+        const { side, card } = triggerPending;
+        appendLog(`[Damage] ${side} takes 1 damage, adds ${card.id} to hand (declined trigger).`);
+        // Add to hand instead
+        setAreas((prev) => {
+            const next = structuredClone(prev);
+            const handLoc = side === 'player' ? next.player.bottom : next.opponent.top;
             handLoc.hand = [...(handLoc.hand || []), card];
             return next;
         });
-    }, []);
+        setTriggerPending(null);
+    }, [triggerPending, appendLog]);
 
     const getKeywordsFor = useCallback((id) => {
         return metaById.get(id)?.keywords || [];
@@ -666,19 +747,47 @@ export default function Home() {
         // RULE ENFORCEMENT: Can only attack during your own turn (7-1)
         if (side !== turnSide) return false;
         if (phaseLower !== 'main') return false;
-        // First turn of game: no battles
-        if (turnNumber === 1 && turnSide === 'player') return false;
+        
         // Must be active (not rested)
         // Use field instance (may contain enteredTurn) rather than transient actionCard copy
         const fieldArr = areas?.player?.char || [];
         const fieldInst = fieldArr[index];
         const rested = fieldInst ? fieldInst.rested : card.rested;
         if (rested) return false;
+        
+        // Check for [Rush] keyword (Rule 10-1-1)
         const rush = getKeywordsFor(card.id).some((k) => /rush/i.test(k));
+        
+        // RULE 6-5-6-1: Neither player can battle on their first turn
+        // Turn 1 = first player's first turn, Turn 2 = second player's first turn
+        // EXCEPTION: [Rush] keyword allows attacking on Turn 1/2 (Rule 10-1-1-1)
+        if (turnNumber <= 2 && !rush) return false;
+        
+        // Rule 3-7-4: Cards cannot attack on the turn they are played (unless [Rush])
         const enteredTurnVal = fieldInst ? fieldInst.enteredTurn : card.enteredTurn;
         if (typeof enteredTurnVal === 'number' && enteredTurnVal === turnNumber && !rush) return false;
+        
         return true;
     }, [turnSide, phaseLower, turnNumber, getKeywordsFor, areas]);
+
+    const canLeaderAttack = useCallback((card, side) => {
+        if (!card || !card.id) return false;
+        // RULE ENFORCEMENT: Can only attack during your own turn (7-1)
+        if (side !== turnSide) return false;
+        if (phaseLower !== 'main') return false;
+        
+        // Must be active (not rested)
+        const leaderArr = side === 'player' ? (areas?.player?.middle?.leader || []) : (areas?.opponent?.middle?.leader || []);
+        const leaderCard = leaderArr[0];
+        if (!leaderCard) return false;
+        const rested = leaderCard.rested || false;
+        if (rested) return false;
+        
+        // RULE 6-5-6-1: Neither player can battle on their first turn
+        if (turnNumber <= 2) return false;
+        
+        return true;
+    }, [turnSide, phaseLower, turnNumber, areas]);
 
     const getBasePower = useCallback((id) => {
         return metaById.get(id)?.stats?.power || 0;
@@ -708,20 +817,69 @@ export default function Home() {
         return base + mod + donBonus;
     }, [getBasePower, getPowerMod, turnSide, areas]);
 
-    const beginAttackForCard = useCallback((attackerCard, attackerIndex) => {
+    const beginAttackForLeader = useCallback((leaderCard, attackingSide = 'player') => {
         if (battle) return; // Only one battle at a time
-        if (!canCharacterAttack(attackerCard, 'player', attackerIndex)) return;
+        if (!canLeaderAttack(leaderCard, attackingSide)) return;
         
         // Cancel any active DON giving mode
         cancelDonGiving();
         
-        const attackerKey = modKey('player', 'char', 'char', attackerIndex);
-        const attackerPower = getTotalPower('player', 'char', 'char', attackerIndex, attackerCard.id);
-        setCurrentAttack({ key: attackerKey, cardId: attackerCard.id, index: attackerIndex, power: attackerPower });
-        appendLog(`[attack] Declare attack with ${attackerCard.id} (power ${attackerPower}). Choose opponent Leader or a rested Character.`);
+        const defendingSide = attackingSide === 'player' ? 'opponent' : 'player';
+        const attackerKey = modKey(attackingSide, 'middle', 'leader', 0);
+        const attackerPower = getTotalPower(attackingSide, 'middle', 'leader', 0, leaderCard.id);
+        setCurrentAttack({ key: attackerKey, cardId: leaderCard.id, index: 0, power: attackerPower, isLeader: true });
+        appendLog(`[attack] ${attackingSide === 'player' ? 'Your' : "Opponent's"} Leader declares attack (power ${attackerPower}). Choose ${defendingSide === 'opponent' ? 'opponent' : 'player'} Leader or a rested Character.`);
         // Target selection phase (Attack Step target declaration)
         startTargeting({
-            side: 'opponent',
+            side: defendingSide,
+            multi: true,
+            min: 1,
+            max: 1,
+            validator: (card, ctx) => {
+                if (!ctx) return false;
+                if (ctx.section === 'middle' && ctx.keyName === 'leader') return true;
+                if (ctx.section === 'char' && ctx.keyName === 'char') return !!card?.rested;
+                return false;
+            }
+        }, (targets) => {
+            const t = (targets || [])[0];
+            if (!t) { setCurrentAttack(null); return; }
+            // Rest leader immediately when attack declared (7-1-1-1)
+            setAreas((prev) => {
+                const next = structuredClone(prev);
+                if (next[attackingSide]?.middle?.leader?.[0]) next[attackingSide].middle.leader[0].rested = true;
+                return next;
+            });
+            const targetArr = (t.section === 'char') ? (areas?.[defendingSide]?.char || []) : (areas?.[defendingSide]?.middle?.leader || []);
+            const targetCard = targetArr[t.index];
+            if (!targetCard) { appendLog('[attack] Target not found.'); setCurrentAttack(null); return; }
+            // Initialize battle state
+            setBattle({
+                attacker: { side: attackingSide, section: 'middle', keyName: 'leader', index: 0, id: leaderCard.id, power: attackerPower },
+                target: { side: defendingSide, section: t.section, keyName: t.keyName, index: t.index, id: targetCard.id },
+                step: 'attack',
+                blockerUsed: false,
+                counterPower: 0,
+                counterTarget: null
+            });
+        });
+    }, [battle, canLeaderAttack, getTotalPower, startTargeting, setAreas, appendLog, areas, cancelDonGiving, modKey, setBattle, setCurrentAttack]);
+
+    const beginAttackForCard = useCallback((attackerCard, attackerIndex, attackingSide = 'player') => {
+        if (battle) return; // Only one battle at a time
+        if (!canCharacterAttack(attackerCard, attackingSide, attackerIndex)) return;
+        
+        // Cancel any active DON giving mode
+        cancelDonGiving();
+        
+        const defendingSide = attackingSide === 'player' ? 'opponent' : 'player';
+        const attackerKey = modKey(attackingSide, 'char', 'char', attackerIndex);
+        const attackerPower = getTotalPower(attackingSide, 'char', 'char', attackerIndex, attackerCard.id);
+        setCurrentAttack({ key: attackerKey, cardId: attackerCard.id, index: attackerIndex, power: attackerPower });
+        appendLog(`[attack] ${attackingSide === 'player' ? 'Your' : "Opponent's"} ${attackerCard.id} declares attack (power ${attackerPower}). Choose ${defendingSide === 'opponent' ? 'opponent' : 'player'} Leader or a rested Character.`);
+        // Target selection phase (Attack Step target declaration)
+        startTargeting({
+            side: defendingSide,
             multi: true,
             min: 1,
             max: 1,
@@ -737,22 +895,23 @@ export default function Home() {
             // Rest attacker immediately when attack declared (7-1-1-1)
             setAreas((prev) => {
                 const next = structuredClone(prev);
-                if (next.player?.char?.[attackerIndex]) next.player.char[attackerIndex].rested = true;
+                if (next[attackingSide]?.char?.[attackerIndex]) next[attackingSide].char[attackerIndex].rested = true;
                 return next;
             });
-            const targetArr = (t.section === 'char') ? (areas?.opponent?.char || []) : (areas?.opponent?.middle?.leader || []);
+            const targetArr = (t.section === 'char') ? (areas?.[defendingSide]?.char || []) : (areas?.[defendingSide]?.middle?.leader || []);
             const targetCard = targetArr[t.index];
             if (!targetCard) { appendLog('[attack] Target not found.'); setCurrentAttack(null); return; }
             // Initialize battle state
             setBattle({
-                attacker: { side: 'player', section: 'char', keyName: 'char', index: attackerIndex, id: attackerCard.id, power: attackerPower },
-                target: { side: 'opponent', section: t.section, keyName: t.keyName, index: t.index, id: targetCard.id },
+                attacker: { side: attackingSide, section: 'char', keyName: 'char', index: attackerIndex, id: attackerCard.id, power: attackerPower },
+                target: { side: defendingSide, section: t.section, keyName: t.keyName, index: t.index, id: targetCard.id },
                 step: 'attack',
                 blockerUsed: false,
-                counterPower: 0
+                counterPower: 0,
+                counterTarget: null
             });
         });
-    }, [battle, canCharacterAttack, getTotalPower, startTargeting, setAreas, appendLog, areas]);
+    }, [battle, canCharacterAttack, getTotalPower, startTargeting, setAreas, appendLog, areas, cancelDonGiving, modKey, setBattle, setCurrentAttack]);
 
     // Advance battle step automatically from attack -> block
     useEffect(() => {
@@ -766,7 +925,14 @@ export default function Home() {
 
     const getDefenderPower = useCallback((b) => {
         if (!b) return 0;
-        return getTotalPower(b.target.side, b.target.section, b.target.keyName, b.target.index, b.target.id) + (b.counterPower || 0);
+        const basePower = getTotalPower(b.target.side, b.target.section, b.target.keyName, b.target.index, b.target.id);
+        // Rule 7-1-3-2-1: Counter power applies only if this card is the counterTarget
+        const isCounterTarget = b.counterTarget && 
+            b.counterTarget.side === b.target.side &&
+            b.counterTarget.section === b.target.section &&
+            b.counterTarget.keyName === b.target.keyName &&
+            b.counterTarget.index === b.target.index;
+        return basePower + (isCounterTarget ? (b.counterPower || 0) : 0);
     }, [getTotalPower]);
 
     // Use live attacker power at calculation time (accounts for buffs/debuffs applied after declaration)
@@ -779,8 +945,10 @@ export default function Home() {
         if (!battle) return null;
         const atk = getAttackerPower(battle);
         const def = getDefenderPower(battle);
-        const needed = Math.max(0, atk - def);
-        return { atk, def, needed, safe: needed === 0 };
+        // Rule 7-1-4-1: Attacker wins if atk >= def, so defender needs def > atk to survive
+        // This means defender needs at least (atk - def + 1000) more power
+        const needed = Math.max(0, atk - def + 1000);
+        return { atk, def, needed, safe: def > atk };
     }, [battle, getDefenderPower, getAttackerPower]);
 
     const applyBlocker = useCallback((blockerIndex) => {
@@ -810,33 +978,58 @@ export default function Home() {
 
     const addCounterFromHand = useCallback((handIndex) => {
         if (!battle || battle.step !== 'counter') return;
-        // Defender is opponent in current demo (only player attacks)
+        // Get card from defending side's hand
+        const defendingSide = battle.target.side;
+        const handLoc = defendingSide === 'player' ? areas?.player?.bottom : areas?.opponent?.top;
+        const card = handLoc?.hand?.[handIndex];
+        if (!card) return;
+        const meta = metaById.get(card.id);
+        const counterVal = meta?.stats?.counter?.present ? (meta.stats.counter.value || 0) : 0;
+        if (!counterVal) return;
+        
+        // Counter automatically applies to the card being attacked (battle.target)
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const hand = next.opponent?.top?.hand || [];
-            const card = hand[handIndex];
-            if (!card) return prev;
-            const meta = metaById.get(card.id);
-            const counterVal = meta?.stats?.counter?.present ? (meta.stats.counter.value || 0) : 0;
-            if (!counterVal) return prev;
+            const handLoc = defendingSide === 'player' ? next.player?.bottom : next.opponent?.top;
+            const hand = handLoc?.hand || [];
             // Move card to trash (cost of counter)
             hand.splice(handIndex, 1);
-            next.opponent.top.hand = hand;
-            const trashArr = next.opponent.top.trash || [];
-            next.opponent.top.trash = [...trashArr, card];
-            // Apply temporary counter power
-            setBattle((b) => ({ ...b, counterPower: (b.counterPower || 0) + counterVal }));
-            appendLog(`[battle] Counter applied: ${card.id} +${counterVal} to defender.`);
+            handLoc.hand = hand;
+            const trashArr = handLoc?.trash || [];
+            handLoc.trash = [...trashArr, card];
             return next;
         });
-    }, [battle, metaById, appendLog, setAreas]);
+        
+        // Apply temporary counter power to the defender (battle.target)
+        setBattle((b) => ({
+            ...b,
+            counterPower: (b.counterPower || 0) + counterVal,
+            counterTarget: { 
+                side: battle.target.side, 
+                section: battle.target.section, 
+                keyName: battle.target.keyName, 
+                index: battle.target.index 
+            }
+        }));
+        
+        const targetName = battle.target.section === 'middle' ? 'Leader' : areas?.[battle.target.side]?.char?.[battle.target.index]?.id || 'Character';
+        appendLog(`[battle] Counter applied: ${card.id} +${counterVal} to ${targetName}.`);
+        
+        // Close action panel after counter is applied
+        setActionOpen(false);
+        setActionCardIndex(-1);
+        setActionSource(null);
+        setSelectedCard(null);
+    }, [battle, metaById, appendLog, setAreas, areas, setActionOpen, setActionCardIndex, setActionSource, setSelectedCard]);
 
-    // Play an Event Counter card from opponent hand during Counter Step
+    // Play an Event Counter card from defending side's hand during Counter Step
     const playCounterEventFromHand = useCallback((handIndex) => {
         if (!battle || battle.step !== 'counter') return;
+        const defendingSide = battle.target.side;
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const hand = next.opponent?.top?.hand || [];
+            const handLoc = defendingSide === 'player' ? next.player?.bottom : next.opponent?.top;
+            const hand = handLoc?.hand || [];
             const card = hand[handIndex];
             if (!card) return prev;
             const meta = metaById.get(card.id);
@@ -845,7 +1038,7 @@ export default function Home() {
             const hasCounterKeyword = (meta.keywords || []).some(k => /counter/i.test(k));
             if (!isEvent || !hasCounterKeyword) return prev;
             const cost = meta?.stats?.cost || 0;
-            const costArr = next.opponent.top.cost || [];
+            const costArr = handLoc?.cost || [];
             const activeDon = costArr.filter(d => d.id === 'DON' && !d.rested);
             if (activeDon.length < cost) return prev; // cannot pay
             let toRest = cost;
@@ -855,9 +1048,9 @@ export default function Home() {
             }
             // Trash the event card
             hand.splice(handIndex, 1);
-            next.opponent.top.hand = hand;
-            const trashArr = next.opponent.top.trash || [];
-            next.opponent.top.trash = [...trashArr, card];
+            handLoc.hand = hand;
+            const trashArr = handLoc?.trash || [];
+            handLoc.trash = [...trashArr, card];
             appendLog(`[battle] Event Counter activated: ${card.id} (cost ${cost}).`);
             return next;
         });
@@ -878,30 +1071,33 @@ export default function Home() {
         if (atkPower >= defPower) {
             if (targetIsLeader) {
                 appendLog('[result] Leader takes 1 damage.');
-                dealOneDamageToLeader('opponent');
+                dealOneDamageToLeader(battle.target.side);
             } else {
                 // KO character - Rule 6-5-5-4: Return given DON!! to cost area when card moves
+                const defendingSide = battle.target.side;
                 setAreas((prev) => {
                     const next = structuredClone(prev);
-                    const charArr = next.opponent.char || [];
-                    const charDonArr = next.opponent.charDon || [];
+                    const sideLoc = defendingSide === 'player' ? next.player : next.opponent;
+                    const charArr = sideLoc.char || [];
+                    const charDonArr = sideLoc.charDon || [];
                     const removed = charArr.splice(battle.target.index, 1)[0];
                     
                     // Return given DON!! to cost area as rested (they're already rested)
                     const donUnder = charDonArr[battle.target.index] || [];
                     if (donUnder.length > 0) {
-                        const costLoc = next.opponent.top;
+                        const costLoc = defendingSide === 'player' ? next.player.bottom : next.opponent.top;
                         costLoc.cost = [...(costLoc.cost || []), ...donUnder];
                         appendLog(`[K.O.] Returned ${donUnder.length} DON!! to cost area.`);
                     }
                     
                     // Remove character and its DON
                     charDonArr.splice(battle.target.index, 1);
-                    next.opponent.char = charArr;
-                    next.opponent.charDon = charDonArr;
+                    sideLoc.char = charArr;
+                    sideLoc.charDon = charDonArr;
                     
-                    const trashArr = next.opponent.top?.trash || [];
-                    if (next.opponent.top) next.opponent.top.trash = [...trashArr, removed];
+                    const trashLoc = defendingSide === 'player' ? next.player.bottom : next.opponent.top;
+                    const trashArr = trashLoc?.trash || [];
+                    trashLoc.trash = [...trashArr, removed];
                     return next;
                 });
                 appendLog(`[result] Defender Character ${battle.target.id} K.O.'d.`);
@@ -942,11 +1138,13 @@ export default function Home() {
             // Player hand gets opening 5
             next.player.bottom.hand = openingHand.slice(0, 5);
             // Compute top 5 (life) for each side from current libraries
+            // Rule 5-2-1-7: "the card at the top of their deck is at the bottom in their Life area"
             // Opening hand are the last 5; life should be the next 5 below that
             const pLifeIds = library.slice(-10, -5);
             const oLifeIds = oppLibrary.slice(-5);
-            const pLife = pLifeIds.map((id) => getAssetForId(id)).filter(Boolean);
-            const oLife = oLifeIds.map((id) => getAssetForId(id)).filter(Boolean);
+            // Reverse the order so top of deck (last element) becomes bottom of life area (first element)
+            const pLife = pLifeIds.map((id) => getAssetForId(id)).filter(Boolean).reverse();
+            const oLife = oLifeIds.map((id) => getAssetForId(id)).filter(Boolean).reverse();
             next.player.life = pLife;
             next.opponent.life = oLife;
             // Shrink deck visuals: player's deck -10 (5 hand, 5 life); opponent deck already -5 (hand), so -5 more (life)
@@ -1003,16 +1201,121 @@ export default function Home() {
         (isPlayer ? setLibrary : setOppLibrary)((prev) => prev.slice(0, -1));
     }, [library, oppLibrary, getAssetForId, createCardBacks]);
 
+    // Start deck search modal (for card abilities like "Look at top 5 cards...")
+    const startDeckSearch = useCallback((config) => {
+        const { side, quantity, filter, minSelect, maxSelect, returnLocation, effectDescription, onComplete } = config;
+        const isPlayer = side === 'player';
+        const lib = isPlayer ? library : oppLibrary;
+        
+        // Close action window when opening deck search
+        setActionOpen(false);
+        setActionCardIndex(-1);
+        setActionSource(null);
+        setSelectedCard(null);
+        
+        if (!lib.length) {
+            appendLog(`[Deck Search] No cards in deck!`);
+            return;
+        }
+        
+        // Get top X cards from library (top of deck is at end of array)
+        const lookCount = Math.min(quantity, lib.length);
+        const topCards = lib.slice(-lookCount);
+        const cardAssets = topCards.map(id => getAssetForId(id)).filter(Boolean);
+        
+        setDeckSearchConfig({
+            side,
+            cards: cardAssets,
+            quantity: lookCount,
+            filter: filter || {},
+            minSelect: minSelect || 0,
+            maxSelect: maxSelect || 1,
+            returnLocation: returnLocation || 'bottom',
+            canReorder: true,
+            effectDescription: effectDescription || '',
+            onComplete: (selectedCards, remainder) => {
+                // Handle the selection
+                const selectedIds = selectedCards.map(c => c.id);
+                const remainderIds = remainder.map(c => c.id);
+                
+                setAreas((prev) => {
+                    const next = structuredClone(prev);
+                    const handLoc = isPlayer ? next.player.bottom : next.opponent.top;
+                    const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
+                    
+                    // Add selected cards to hand
+                    selectedCards.forEach(card => {
+                        handLoc.hand = [...(handLoc.hand || []), card];
+                    });
+                    
+                    return next;
+                });
+                
+                // Update library: remove looked cards, add remainder back based on returnLocation
+                (isPlayer ? setLibrary : setOppLibrary)((prev) => {
+                    // Remove all looked cards from top of deck
+                    const newLib = prev.slice(0, -lookCount);
+                    
+                    if (returnLocation === 'bottom') {
+                        // Add remainder to bottom of deck (start of array)
+                        return [...remainderIds, ...newLib];
+                    } else if (returnLocation === 'top') {
+                        // Add remainder to top of deck (end of array)
+                        return [...newLib, ...remainderIds];
+                    } else if (returnLocation === 'shuffle') {
+                        // Shuffle remainder back in
+                        const combined = [...newLib, ...remainderIds];
+                        return shuffle(combined);
+                    }
+                    return newLib;
+                });
+                
+                // Update deck visual
+                setAreas((prev) => {
+                    const next = structuredClone(prev);
+                    const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
+                    const newDeckSize = (isPlayer ? library : oppLibrary).length - lookCount + remainderIds.length;
+                    deckLoc.deck = createCardBacks(Math.max(0, newDeckSize));
+                    return next;
+                });
+                
+                appendLog(`[Deck Search] Added ${selectedIds.length} card(s) to hand, returned ${remainderIds.length} to ${returnLocation} of deck.`);
+                
+                // Call custom completion handler if provided
+                if (onComplete) onComplete(selectedCards, remainder);
+                
+                // Close modal
+                setDeckSearchOpen(false);
+            }
+        });
+        
+        setDeckSearchOpen(true);
+    }, [library, oppLibrary, getAssetForId, appendLog, createCardBacks]);
+
     const donPhaseGain = useCallback((side, count) => {
+        let actualMoved = 0;
         setAreas((prev) => {
             const next = structuredClone(prev);
             const loc = side === 'player' ? next.player.bottom : next.opponent.top;
-            const toMove = Math.min(count, (loc.don || []).length);
+            const available = (loc.don || []).length;
+            
+            // Rules 6-4-1, 6-4-2, 6-4-3: Handle DON!! deck depletion
+            if (available === 0) {
+                // Rule 6-4-3: If there are 0 cards in DON!! deck, do not place any
+                actualMoved = 0;
+                return next;
+            }
+            
+            // Rule 6-4-2: If only 1 card in DON!! deck, place only 1
+            const toMove = Math.min(count, available);
+            actualMoved = toMove;
+            
             const moved = Array.from({ length: toMove }, () => ({ ...DON_FRONT, rested: false }));
             loc.don = (loc.don || []).slice(0, -toMove);
             loc.cost = [...(loc.cost || []), ...moved];
             return next;
         });
+        return actualMoved;
     }, [DON_FRONT]);
 
     // Execute Refresh Phase according to rule 6-2
@@ -1065,10 +1368,13 @@ export default function Home() {
                 }
             }
             
-            // 6-2-4: Set all cards to active
+            // 6-2-4: Set all rested cards placed in Leader area, Character area, Stage area, and cost area as active
             costLoc.cost = (costLoc.cost || []).map((c) => (c.id === 'DON' ? { ...c, rested: false } : c));
             if (sideLoc?.middle?.leader?.[0]) {
                 sideLoc.middle.leader[0].rested = false;
+            }
+            if (sideLoc?.middle?.stage?.[0]) {
+                sideLoc.middle.stage[0].rested = false;
             }
             if (Array.isArray(sideLoc?.char)) {
                 sideLoc.char = sideLoc.char.map((c) => ({ ...c, rested: false }));
@@ -1098,8 +1404,14 @@ export default function Home() {
 
         if (phaseLower === 'don') {
             const amt = isFirst ? 1 : 2;
-            donPhaseGain(turnSide, amt);
-            appendLog(`DON!! +${amt}.`);
+            const actualGained = donPhaseGain(turnSide, amt);
+            if (actualGained === 0) {
+                appendLog('DON!! deck empty: gained 0 DON!!');
+            } else if (actualGained < amt) {
+                appendLog(`DON!! deck low: gained ${actualGained} DON!! (requested ${amt})`);
+            } else {
+                appendLog(`DON!! +${actualGained}.`);
+            }
             return setPhase('Main');
         }
         // End Turn from Main
@@ -1195,6 +1507,15 @@ export default function Home() {
                                 cancelDonGiving={cancelDonGiving}
                                 donGivingMode={donGivingMode}
                                 phase={phase}
+                                openingShown={openingShown}
+                                openingHand={openingHand}
+                                allowMulligan={allowMulligan}
+                                onMulligan={onMulligan}
+                                onKeep={finalizeKeep}
+                                deckSearchOpen={deckSearchOpen}
+                                deckSearchConfig={deckSearchConfig}
+                                setDeckSearchOpen={setDeckSearchOpen}
+                                getCardMeta={(id) => metaById.get(id) || null}
                             />
 
                             {/* Viewer Column */}
@@ -1211,152 +1532,158 @@ export default function Home() {
                 )}
             </Box>
             {isLoggedIn && <DeckBuilder open={deckOpen} onClose={() => setDeckOpen(false)} />}
-            {/* Disable test Actions in game mode */}
-            {isLoggedIn && !gameStarted && (
-                <Actions title="Actions">
-                    <OP01004Action />
-                </Actions>
-            )}
-
-            <OpeningHand open={openingShown} hand={openingHand} allowMulligan={allowMulligan} onMulligan={onMulligan} onKeep={finalizeKeep} />
 
             {/* Anchored Actions Panel (bottom-right) */}
             {actionOpen && (
                 <ClickAwayListener onClickAway={() => { setActionOpen(false); setActionCardIndex(-1); setActionSource(null); setSelectedCard(null); }}>
                     <div>
-                        {(() => {
-                            const id = actionCard?.id;
-                            const meta = id ? metaById.get(id) : null;
-                            const title = id ? `${id}${meta?.name ? ` — ${meta.name}` : ''}` : 'Actions';
-                            return (
-                                <Actions title={title} onClose={() => { setActionOpen(false); setActionCardIndex(-1); setActionSource(null); setSelectedCard(null); }}>
-                                    <Box sx={{ width: '100%' }}>
-                                        {ActionComp ? (
-                                            <ActionComp
-                                                phase={phase}
-                                                turnSide={turnSide}
-                                                isYourTurn={turnSide === 'player'}
-                                                canActivateMain={canPlayNow(actionSource?.side || 'player')}
-                                                areas={areas}
-                                                startTargeting={startTargeting}
-                                                cancelTargeting={cancelTargeting}
-                                                confirmTargeting={confirmTargeting}
-                                                targeting={targeting}
-                                                getCardMeta={(id) => metaById.get(id) || null}
-                                                actionSource={actionSource}
-                                                applyPowerMod={applyPowerMod}
-                                                registerUntilNextTurnEffect={registerUntilNextTurnEffect}
-                                                giveDonToCard={giveDonToCard}
-                                                battle={battle}
-                                                battleApplyBlocker={applyBlocker}
-                                                battleSkipBlock={skipBlock}
-                                                battleAddCounterFromHand={addCounterFromHand}
-                                                battlePlayCounterEvent={playCounterEventFromHand}
-                                                battleEndCounterStep={endCounterStep}
-                                                battleGetDefPower={() => getDefenderPower(battle)}
-                                            />
-                                        ) : (
-                                            <Typography variant="body2" color="text.secondary">No specific actions available for this card.</Typography>
-                                        )}
-                                        {actionSource && ((actionSource.side === 'player' && actionSource.section === 'bottom' && actionSource.keyName === 'hand') || (actionSource.side === 'opponent' && actionSource.section === 'top' && actionSource.keyName === 'hand')) ? (
-                                            <>
-                                                <Divider sx={{ my: 1 }} />
-                                                <Typography variant="caption" display="block" sx={{ mb: 1 }}>
-                                                    {(() => {
-                                                        if (battle && battle.step === 'counter' && actionSource.side === 'opponent') return 'Counter Step: use counters or counter events.';
-                                                        if (!canPlayNow) return 'Cannot play now (must be Main Phase).';
-                                                        const cost = actionCard ? getCardCost(actionCard.id) : 0;
-                                                        const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
-                                                        const ok = hasEnoughDonFor(side, cost);
-                                                        return ok ? `Playable now (${side}). Cost: ${cost} DON.` : `Need ${cost} active DON (${side}).`;
-                                                    })()}
-                                                </Typography>
-                                                {(() => {
-                                                    if (battle && battle.step === 'counter' && actionSource.side === 'opponent') {
-                                                        const meta = metaById.get(actionCard?.id);
-                                                        if (!meta) return null;
-                                                        const elements = [];
-                                                        const counterVal = meta?.stats?.counter?.present ? (meta.stats.counter.value || 0) : 0;
-                                                        if (counterVal) {
-                                                            elements.push(
-                                                                <Button key="counterDiscard" size="small" variant="contained" color="error" onClick={() => { addCounterFromHand(actionCardIndex); setActionOpen(false); }}>
-                                                                    Discard for Counter +{counterVal}
-                                                                </Button>
-                                                            );
-                                                        }
-                                                        const isEvent = meta.category === 'Event';
-                                                        const hasCounterKeyword = (meta.keywords || []).some(k => /counter/i.test(k));
-                                                        if (isEvent && hasCounterKeyword) {
-                                                            const cost = meta?.stats?.cost || 0;
-                                                            const canPay = hasEnoughDonFor('opponent', cost);
-                                                            elements.push(
-                                                                <Button key="counterEvent" size="small" variant="outlined" disabled={!canPay} onClick={() => { playCounterEventFromHand(actionCardIndex); setActionOpen(false); }}>
-                                                                    Play Counter Event (Cost {cost})
-                                                                </Button>
-                                                            );
-                                                        }
-                                                        if (!elements.length) return <Typography variant="caption">No counter on this card.</Typography>;
-                                                        return <Stack direction="row" spacing={1}>{elements}</Stack>;
-                                                    }
-                                                    const cost = actionCard ? getCardCost(actionCard.id) : 0;
-                                                    const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
-                                                    const ok = canPlayNow(side) && hasEnoughDonFor(side, cost);
-                                                    return (
-                                                        <Button variant="contained" disabled={!ok} onClick={playSelectedCard}>Play to Character Area</Button>
-                                                    );
-                                                })()}
-                                            </>
-                                        ) : (
-                                            <Typography variant="caption" display="block" sx={{ mb: 1 }}>
-                                                {phaseLower === 'main' && actionSource?.side === turnSide ? 'Select an action for this card.' : 'Actions are limited outside the Main Phase or when it\'s not your turn.'}
-                                            </Typography>
-                                        )}
+                        <Actions 
+                            onClose={() => { setActionOpen(false); setActionCardIndex(-1); setActionSource(null); setSelectedCard(null); }}
+                            card={actionCard}
+                            cardMeta={metaById.get(actionCard?.id)}
+                            cardIndex={actionCardIndex}
+                            actionSource={actionSource}
+                            phase={phase}
+                            turnSide={turnSide}
+                            turnNumber={turnNumber}
+                            isYourTurn={turnSide === (actionSource?.side || 'player')}
+                            canActivateMain={canPlayNow(actionSource?.side || 'player')}
+                            areas={areas}
+                            startTargeting={startTargeting}
+                            cancelTargeting={cancelTargeting}
+                            confirmTargeting={confirmTargeting}
+                            targeting={targeting}
+                            getCardMeta={(id) => metaById.get(id) || null}
+                            applyPowerMod={applyPowerMod}
+                            registerUntilNextTurnEffect={registerUntilNextTurnEffect}
+                            giveDonToCard={giveDonToCard}
+                            startDeckSearch={startDeckSearch}
+                            battle={battle}
+                            battleApplyBlocker={applyBlocker}
+                            battleSkipBlock={skipBlock}
+                            battleAddCounterFromHand={addCounterFromHand}
+                            battlePlayCounterEvent={playCounterEventFromHand}
+                            battleEndCounterStep={endCounterStep}
+                            battleGetDefPower={() => getDefenderPower(battle)}
+                        >
+                            {/* Additional action controls (play from hand, attack, etc.) */}
+                            {actionSource && ((actionSource.side === 'player' && actionSource.section === 'bottom' && actionSource.keyName === 'hand') || (actionSource.side === 'opponent' && actionSource.section === 'top' && actionSource.keyName === 'hand')) ? (
+                                <>
+                                    <Divider sx={{ my: 1 }} />
+                                    <Typography variant="caption" display="block" sx={{ mb: 1 }}>
                                         {(() => {
-                                            const isOnFieldChar = actionSource && actionSource.side === 'player' && actionSource.section === 'char' && actionSource.keyName === 'char';
-                                            if (!isOnFieldChar) return null;
-                                            const cardObj = actionCard;
-                                            const idx = actionCardIndex;
-                                            if (battle && battle.attacker.index === idx) {
-                                                // During Block/Counter steps, attacker has no actionable controls here
-                                                return null;
-                                            }
-                                            const canAtk = canCharacterAttack(cardObj, 'player', idx);
-                                            if (!canAtk || battle) return null;
-                                            const selecting = targeting.active && currentAttack && currentAttack.index === idx && !battle;
-                                            if (selecting) {
-                                                return (
-                                                    <Stack direction="row" spacing={1} sx={{ mt: 1, alignItems: 'center' }}>
-                                                        {(() => {
-                                                            // Derive a concise target label for clarity during confirmation
-                                                            let label = '';
-                                                            if (Array.isArray(targeting.selected) && targeting.selected.length) {
-                                                                const t = targeting.selected[targeting.selected.length - 1];
-                                                                if (t.section === 'middle' && t.keyName === 'leader') label = 'Opponent Leader';
-                                                                if (t.section === 'char' && t.keyName === 'char') {
-                                                                    const arr = areas?.opponent?.char || [];
-                                                                    const tc = arr[t.index];
-                                                                    label = tc?.id || 'Opponent Character';
-                                                                }
-                                                            }
-                                                            return (
-                                                                <Chip size="small" color="warning" label={label ? `Target: ${label}` : 'Select a target'} />
-                                                            );
-                                                        })()}
-                                                        <Button size="small" variant="contained" disabled={(targeting.selected?.length || 0) < 1} onClick={confirmTargeting}>Confirm Attack</Button>
-                                                        <Button size="small" variant="outlined" onClick={cancelTargeting}>Cancel Attack</Button>
-                                                    </Stack>
+                                            if (battle && battle.step === 'counter' && actionSource.side === 'opponent') return 'Counter Step: use counters or counter events.';
+                                            if (!canPlayNow) return 'Cannot play now (must be Main Phase).';
+                                            const cost = actionCard ? getCardCost(actionCard.id) : 0;
+                                            const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
+                                            const ok = hasEnoughDonFor(side, cost);
+                                            return ok ? `Playable now (${side}). Cost: ${cost} DON.` : `Need ${cost} active DON (${side}).`;
+                                        })()}
+                                    </Typography>
+                                    {(() => {
+                                        if (battle && battle.step === 'counter' && actionSource.side === battle.target.side) {
+                                            const meta = metaById.get(actionCard?.id);
+                                            if (!meta) return null;
+                                            const elements = [];
+                                            const counterVal = meta?.stats?.counter?.present ? (meta.stats.counter.value || 0) : 0;
+                                            if (counterVal) {
+                                                elements.push(
+                                                    <Button key="counterDiscard" size="small" variant="contained" color="error" onClick={() => { addCounterFromHand(actionCardIndex); }}>
+                                                        Discard for Counter +{counterVal}
+                                                    </Button>
                                                 );
                                             }
-                                            return (
-                                                <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-                                                    <Button size="small" variant="contained" onClick={() => beginAttackForCard(cardObj, idx)}>Attack</Button>
-                                                </Stack>
-                                            );
-                                        })()}
-                                    </Box>
-                                </Actions>
-                            );
-                        })()}
+                                            const isEvent = meta.category === 'Event';
+                                            const hasCounterKeyword = (meta.keywords || []).some(k => /counter/i.test(k));
+                                            if (isEvent && hasCounterKeyword) {
+                                                const cost = meta?.stats?.cost || 0;
+                                                const canPay = hasEnoughDonFor(battle.target.side, cost);
+                                                elements.push(
+                                                    <Button key="counterEvent" size="small" variant="outlined" disabled={!canPay} onClick={() => { playCounterEventFromHand(actionCardIndex); setActionOpen(false); }}>
+                                                        Play Counter Event (Cost {cost})
+                                                    </Button>
+                                                );
+                                            }
+                                            if (!elements.length) return <Typography variant="caption">No counter on this card.</Typography>;
+                                            return <Stack direction="row" spacing={1}>{elements}</Stack>;
+                                        }
+                                        const cost = actionCard ? getCardCost(actionCard.id) : 0;
+                                        const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
+                                        const ok = canPlayNow(side) && hasEnoughDonFor(side, cost);
+                                        return (
+                                            <Button variant="contained" disabled={!ok} onClick={playSelectedCard}>Play to Character Area</Button>
+                                        );
+                                    })()}
+                                </>
+                            ) : (
+                                <Typography variant="caption" display="block" sx={{ mb: 1 }}>
+                                    {phaseLower === 'main' && actionSource?.side === turnSide ? 'Select an action for this card.' : 'Actions are limited outside the Main Phase or when it\'s not your turn.'}
+                                </Typography>
+                            )}
+                            {(() => {
+                                // Attack controls for Characters
+                                const isOnFieldChar = actionSource && actionSource.side === turnSide && actionSource.section === 'char' && actionSource.keyName === 'char';
+                                // Attack controls for Leaders
+                                const isLeader = actionSource && actionSource.side === turnSide && actionSource.section === 'middle' && actionSource.keyName === 'leader';
+                                
+                                if (!isOnFieldChar && !isLeader) return null;
+                                
+                                const cardObj = actionCard;
+                                const idx = actionCardIndex;
+                                const attackingSide = actionSource?.side || 'player';
+                                
+                                // Check if this card is currently attacking
+                                const isAttacking = battle && (
+                                    (battle.attacker.section === 'char' && battle.attacker.index === idx && battle.attacker.side === attackingSide) ||
+                                    (battle.attacker.section === 'middle' && isLeader && battle.attacker.side === attackingSide)
+                                );
+                                
+                                if (isAttacking) {
+                                    // During Block/Counter steps, attacker has no actionable controls here
+                                    return null;
+                                }
+                                
+                                // Determine if this card can attack
+                                const canAtk = isLeader ? canLeaderAttack(cardObj, attackingSide) : canCharacterAttack(cardObj, attackingSide, idx);
+                                if (!canAtk || battle) return null;
+                                
+                                // Check if we're selecting a target for this card
+                                const selecting = targeting.active && currentAttack && (
+                                    (currentAttack.isLeader && isLeader) ||
+                                    (currentAttack.index === idx && !currentAttack.isLeader)
+                                ) && !battle;
+                                
+                                if (selecting) {
+                                    return (
+                                        <Stack direction="row" spacing={1} sx={{ mt: 1, alignItems: 'center' }}>
+                                            {(() => {
+                                                // Derive a concise target label for clarity during confirmation
+                                                let label = '';
+                                                if (Array.isArray(targeting.selected) && targeting.selected.length) {
+                                                    const t = targeting.selected[targeting.selected.length - 1];
+                                                    if (t.section === 'middle' && t.keyName === 'leader') label = 'Opponent Leader';
+                                                    if (t.section === 'char' && t.keyName === 'char') {
+                                                        const arr = areas?.opponent?.char || [];
+                                                        const tc = arr[t.index];
+                                                        label = tc?.id || 'Opponent Character';
+                                                    }
+                                                }
+                                                return (
+                                                    <Chip size="small" color="warning" label={label ? `Target: ${label}` : 'Select a target'} />
+                                                );
+                                            })()}
+                                            <Button size="small" variant="contained" disabled={(targeting.selected?.length || 0) < 1} onClick={confirmTargeting}>Confirm Attack</Button>
+                                            <Button size="small" variant="outlined" onClick={cancelTargeting}>Cancel Attack</Button>
+                                        </Stack>
+                                    );
+                                }
+                                return (
+                                    <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+                                        <Button size="small" variant="contained" onClick={() => isLeader ? beginAttackForLeader(cardObj, attackingSide) : beginAttackForCard(cardObj, idx, attackingSide)}>Attack</Button>
+                                    </Stack>
+                                );
+                            })()}
+                        </Actions>
                     </div>
                 </ClickAwayListener>
             )}
@@ -1368,6 +1695,61 @@ export default function Home() {
                 skipBlock={skipBlock}
                 endCounterStep={endCounterStep}
             />
+
+            {/* [Trigger] Activation Modal (Rules 4-6-3, 10-1-5) */}
+            {triggerPending && (
+                <Paper
+                    elevation={8}
+                    sx={{
+                        position: 'fixed',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        zIndex: 1500,
+                        p: 3,
+                        minWidth: 400,
+                        bgcolor: 'background.paper',
+                        border: '3px solid',
+                        borderColor: 'warning.main'
+                    }}
+                >
+                    <Stack spacing={2}>
+                        <Typography variant="h6" fontWeight={700} color="warning.main">
+                            [Trigger] Card Revealed!
+                        </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <img
+                                src={triggerPending.card.full || triggerPending.card.thumb}
+                                alt={triggerPending.card.id}
+                                style={{ width: 200, height: 'auto', borderRadius: 8 }}
+                            />
+                        </Box>
+                        <Typography variant="body1">
+                            <strong>{triggerPending.side === 'player' ? 'You' : 'Opponent'}</strong> revealed <strong>{triggerPending.card.id}</strong> from Life.
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Choose to activate its [Trigger] effect, or add it to hand.
+                        </Typography>
+                        <Stack direction="row" spacing={2}>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="warning"
+                                onClick={onTriggerActivate}
+                            >
+                                Activate [Trigger]
+                            </Button>
+                            <Button
+                                fullWidth
+                                variant="outlined"
+                                onClick={onTriggerDecline}
+                            >
+                                Add to Hand
+                            </Button>
+                        </Stack>
+                    </Stack>
+                </Paper>
+            )}
         </Container>
     );
 }

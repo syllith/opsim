@@ -19,8 +19,8 @@
     "power": 5000,
     "life": 5,
     "counter": {
-      "present": true,
-      "value": 5000
+      "present": false,
+      "value": 0
     }
   },
   "keywords": [],
@@ -28,20 +28,27 @@
   "text": "Once Per Turn: You may activate this effect when your opponent attacks. Give up to 1 of your opponent's leader or characters Power -1000 for the turn.",
   "abilities": [
     {
-      "timing": "Once Per Turn",
+      "type": "Opponent Turn",
       "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "opponentTurn": true
       },
+      "cost": null,
       "effect": {
-        "text": "You may activate this effect when your opponent attacks. Give up to 1 of your opponent's leader or characters Power -1000 for the turn.",
-        "powerMod": null,
-        "giveDon": null
+        "text": "You may activate this effect when your opponent attacks. Give up to 1 of your opponent's leader or characters -1000 power for the turn.",
+        "actions": [
+          {
+            "type": "powerMod",
+            "quantity": -1000,
+            "target": "opponent leader or character",
+            "filter": "up to 1",
+            "duration": "this turn"
+          }
+        ]
       }
     }
   ],
   "meta": {
-    "notes": null
+    "notes": "Leader ability. Activates during opponent's Attack Step (rule 7-1-1-3 [On Your Opponent's Attack]). Once per turn restriction applies per rule 8-3-2. Power modification lasts until end of turn."
   }
 }

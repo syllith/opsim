@@ -22,28 +22,32 @@
       "value": 1000
     }
   },
-  "keywords": [
-    "On Play"
-  ],
+  "keywords": [],
   "trigger": null,
   "text": "On Play: Look at the top 5 cards of your deck, reveal up to 1 \"Red Haired Pirates\" card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "abilities": [
     {
-      "timing": "On Play",
+      "type": "On Play",
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
         "text": "Look at the top 5 cards of your deck, reveal up to 1 \"Red Haired Pirates\" card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
+        "actions": [
+          {
+            "type": "search",
+            "quantity": 5,
+            "source": "your deck",
+            "target": "Red Hair Pirates",
+            "filter": "up to 1",
+            "action": "add to hand",
+            "remainder": "bottom of deck in any order"
+          }
+        ]
       }
     }
   ],
   "meta": {
-    "notes": null
-  },
-  "verified": true
+    "notes": "Character ability. [On Play] triggers when card is played to Character area (rule 10-2-6). Effect allows looking at top 5 cards of deck (rule 11-3 Viewing Secret Areas), revealing up to 1 card with type 'Red Haired Pirates' (rule 2-4 Type) per 4-8 (up to X cards), and adding to hand (rule 11-2-1 Revealing Cards). Remaining cards placed at bottom of deck in any order chosen by player."
+  }
 }
