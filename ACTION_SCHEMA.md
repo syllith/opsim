@@ -66,6 +66,29 @@ Modifies the power of cards for a specified duration.
 }
 ```
 
+#### Aura Mode (Passive Continuous Modifiers)
+
+Use `"mode": "aura"` on a `powerMod` action inside a `Continuous` ability to indicate a dynamic field-wide modifier that automatically applies to every matching target while the source card remains on the field.
+
+```json
+{
+  "type": "powerMod",
+  "mode": "aura",
+  "amount": -1000,
+  "targetSide": "opponent",
+  "targetType": "character",
+  "duration": "permanent"
+}
+```
+
+Guidelines:
+- Omit `minTargets` and `maxTargets`; they are ignored for aura.
+- Aura effects are not activated or targeted; the engine recomputes them during power calculation.
+- Removing or moving the source card off the field immediately removes the aura contribution.
+- Multiple aura sources stack additively with each other and with temporary (turn-based) modifiers.
+- Use `duration: "permanent"` to signal no inherent expiry (exists only while source is present).
+- If future cards require conditional aura, add a `condition` at the ability level (e.g., DON requirement) and engine will include aura only if satisfied.
+
 ### 2. KO/Destroy (`ko`)
 
 Destroys/KOs cards from the field.

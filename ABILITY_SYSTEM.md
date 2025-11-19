@@ -165,6 +165,36 @@ For more complex effects, use the structured format:
 ### Effect Action Types (explicit fields)
 
 - `powerMod`: `amount`, `targetSide`, `targetType`, `minTargets`, `maxTargets`, `duration`, (`powerLimit` optional)
+#### Aura Power Modifiers
+
+For Continuous abilities that globally modify all matching cards (e.g., "All of your opponent's Characters have -1000 power"), define a `powerMod` action with `"mode": "aura"` and omit target counts:
+
+```json
+{
+  "type": "Continuous",
+  "effect": {
+    "text": "All of your opponent's Characters have -1000 power.",
+    "actions": [
+      {
+        "type": "powerMod",
+        "mode": "aura",
+        "amount": -1000,
+        "targetSide": "opponent",
+        "targetType": "character",
+        "duration": "permanent"
+      }
+    ]
+  }
+}
+```
+
+Engine behavior:
+- No activation button (Continuous abilities are passive).
+- Aura applied dynamically each time total power is computed; stacks with temporary buffs/debuffs.
+- Leaving the field instantly removes the modifier.
+- Supports multiple simultaneous aura sources.
+
+Optional future extensions can add conditions (e.g., DON requirements) on the ability level; aura is then included only if condition passes.
 - `ko`: `targetSide`, `targetType`, `minTargets`, `maxTargets`, (`powerLimit`, `costLimit` optional)
 - `draw`: `quantity`
 - `search`: `lookCount`, `minSelect`, `maxSelect`, `destination`, `remainderLocation`, (`remainderOrder`, `filterType`, `filterColor`, `filterAttribute` optional)

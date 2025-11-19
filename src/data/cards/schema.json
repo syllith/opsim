@@ -149,6 +149,7 @@
                       "enum": ["draw", "ko", "powerMod", "search", "addDon", "giveDon", "play", "return", "rest", "active", "grantKeyword"],
                       "description": "Action type"
                     },
+                          "mode": { "type": ["string", "null"], "enum": ["normal", "aura", null], "description": "Execution mode: 'aura' for passive continuous effects applied dynamically while source remains on field" },
                     "targetSide": { "type": ["string", "null"], "enum": ["player", "opponent", "both", null] },
                     "targetType": { "type": ["string", "null"], "enum": ["leader", "character", "don", "any", null] },
                     "minTargets": { "type": ["integer", "null"] },

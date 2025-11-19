@@ -27,6 +27,7 @@ export default function Board({
     getKeywordsFor,
     applyBlocker,
     getPowerMod,
+    getAuraPowerMod,
     turnSide,
     CARD_BACK_URL,
     compact = false,
@@ -446,8 +447,10 @@ export default function Board({
                                         />
                                         {/* Power modifier badge */}
                                         {(() => {
-                                            const delta = getPowerMod('player', 'char', 'char', i);
-                                            if (delta === 0) return null;
+                                            const temp = typeof getPowerMod === 'function' ? getPowerMod('player', 'char', 'char', i) : 0;
+                                            const aura = typeof getAuraPowerMod === 'function' ? getAuraPowerMod('player', 'char', 'char', i) : 0;
+                                            const delta = (temp || 0) + (aura || 0);
+                                            if (!delta) return null;
                                             return (
                                                 <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
                                                     <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
@@ -589,8 +592,10 @@ export default function Board({
                                             
                                             {/* Power modifier badge */}
                                             {(() => {
-                                                const delta = getPowerMod('opponent', 'char', 'char', i);
-                                                if (delta === 0) return null;
+                                                const temp = typeof getPowerMod === 'function' ? getPowerMod('opponent', 'char', 'char', i) : 0;
+                                                const aura = typeof getAuraPowerMod === 'function' ? getAuraPowerMod('opponent', 'char', 'char', i) : 0;
+                                                const delta = (temp || 0) + (aura || 0);
+                                                if (!delta) return null;
                                                 return (
                                                     <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
                                                         <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
@@ -718,8 +723,10 @@ export default function Board({
                                             
                                             {/* Power modifier badge */}
                                             {(() => {
-                                                const delta = getPowerMod(side, 'middle', 'leader', idx);
-                                                if (delta === 0) return null;
+                                                const temp = typeof getPowerMod === 'function' ? getPowerMod(side, 'middle', 'leader', idx) : 0;
+                                                const aura = typeof getAuraPowerMod === 'function' ? getAuraPowerMod(side, 'middle', 'leader', idx) : 0;
+                                                const delta = (temp || 0) + (aura || 0);
+                                                if (!delta) return null;
                                                 return (
                                                     <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
                                                         <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>

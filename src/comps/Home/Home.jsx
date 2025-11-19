@@ -1014,9 +1014,87 @@ export default function Home() {
         return metaById.get(id)?.stats?.power || 0;
     }, [metaById]);
 
+    // Compute static "aura" modifiers from Continuous abilities that grant powerMod to matching targets.
+    const getAuraPowerMod = useCallback((targetSide, section, keyName, index) => {
+        try {
+            const appliesToLeader = (section === 'middle' && keyName === 'leader');
+            const appliesToChar = (section === 'char' && keyName === 'char');
+            if (!appliesToLeader && !appliesToChar) return 0;
+
+            // Resolve relative targetSide from a source controller perspective
+            const resolveFrom = (controllerSide, relative) => {
+                if (relative === 'both') return 'both';
+                if (relative === 'opponent') return controllerSide === 'player' ? 'opponent' : 'player';
+                return controllerSide; // 'player'
+            };
+
+            let sum = 0;
+            const sides = ['player', 'opponent'];
+            for (const srcSide of sides) {
+                const srcLoc = srcSide === 'player' ? areas.player : areas.opponent;
+                if (!srcLoc) continue;
+
+                // Leaders as sources
+                const leaderInst = srcLoc?.middle?.leader?.[0];
+                if (leaderInst && leaderInst.id) {
+                    const meta = metaById.get(leaderInst.id);
+                    const abilities = meta?.abilities || [];
+                    for (const ab of abilities) {
+                        if (ab?.type !== 'Continuous') continue;
+                        const actions = (ab.effect && typeof ab.effect === 'object') ? (ab.effect.actions || []) : [];
+                        for (const action of actions) {
+                            if (action?.type !== 'powerMod') continue;
+                            // Require explicit aura mode if present; backward-compatible: treat missing mode as aura only if Continuous with target info and no min/max
+                            if (action.mode && action.mode !== 'aura') continue;
+                            const actualSide = resolveFrom(srcSide, action.targetSide || 'player');
+                            if (!(actualSide === 'both' || actualSide === targetSide)) continue;
+                            const tType = action.targetType || 'any';
+                            const leaderOk = (tType === 'leader' || tType === 'any');
+                            const charOk = (tType === 'character' || tType === 'any');
+                            if ((appliesToLeader && leaderOk) || (appliesToChar && charOk)) {
+                                sum += action.amount || 0;
+                            }
+                        }
+                    }
+                }
+
+                // Characters as sources
+                const chars = srcLoc?.char || [];
+                for (let i = 0; i < chars.length; i++) {
+                    const inst = chars[i];
+                    if (!inst || !inst.id) continue;
+                    const meta = metaById.get(inst.id);
+                    const abilities = meta?.abilities || [];
+                    for (const ab of abilities) {
+                        if (ab?.type !== 'Continuous') continue;
+                        const actions = (ab.effect && typeof ab.effect === 'object') ? (ab.effect.actions || []) : [];
+                        for (const action of actions) {
+                            if (action?.type !== 'powerMod') continue;
+                            if (action.mode && action.mode !== 'aura') continue;
+                            const actualSide = resolveFrom(srcSide, action.targetSide || 'player');
+                            if (!(actualSide === 'both' || actualSide === targetSide)) continue;
+                            const tType = action.targetType || 'any';
+                            const leaderOk = (tType === 'leader' || tType === 'any');
+                            const charOk = (tType === 'character' || tType === 'any');
+                            if ((appliesToLeader && leaderOk) || (appliesToChar && charOk)) {
+                                sum += action.amount || 0;
+                            }
+                        }
+                    }
+                }
+            }
+            return sum;
+        } catch {
+            return 0;
+        }
+    }, [areas, metaById]);
+
     const getTotalPower = useCallback((side, section, keyName, index, id) => {
         const base = getBasePower(id);
         const mod = getPowerMod(side, section, keyName, index) || 0;
+
+        // Continuous aura modifiers from on-field Continuous abilities (e.g., OP09-004 Shanks)
+        const aura = getAuraPowerMod(side, section, keyName, index) || 0;
 
         // Rule 6-5-5-2: Leaders and Characters gain +1000 power per given DON during your turn
         let donBonus = 0;
@@ -1035,8 +1113,8 @@ export default function Home() {
             }
         }
 
-        return base + mod + donBonus;
-    }, [getBasePower, getPowerMod, turnSide, areas]);
+        return base + mod + aura + donBonus;
+    }, [getBasePower, getPowerMod, getAuraPowerMod, turnSide, areas]);
 
     const beginAttackForLeader = useCallback((leaderCard, attackingSide = 'player') => {
         if (openingShown) return; // Cannot attack until opening hand is finalized
@@ -1953,6 +2031,7 @@ export default function Home() {
                                 getKeywordsFor={getKeywordsFor}
                                 applyBlocker={applyBlocker}
                                 getPowerMod={getPowerMod}
+                                getAuraPowerMod={getAuraPowerMod}
                                 turnSide={turnSide}
                                 CARD_BACK_URL={CARD_BACK_URL}
                                 compact={compact}

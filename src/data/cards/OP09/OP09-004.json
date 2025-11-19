@@ -27,37 +27,30 @@
     "Rush"
   ],
   "trigger": null,
-  "text": "All of your opponents characters have -1000 power.\n[Rush] (This card can attack on the turn in which it is played)",
+  "text": "All of your opponent's Characters have -1000 power.\n[Rush] (This card can attack on the turn in which it is played)",
   "abilities": [
     {
-      "timing": "On Play",
+      "type": "Continuous",
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
-        "text": "All of your opponents characters have -1000 power.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "(This card can attack on the turn in which it is played)",
-        "powerMod": null,
-        "giveDon": null
+        "text": "All of your opponent's Characters have -1000 power.",
+        "actions": [
+          {
+            "type": "powerMod",
+            "amount": -1000,
+            "targetSide": "opponent",
+            "targetType": "character",
+            "mode": "aura",
+            "duration": "permanent"
+          }
+        ]
       }
     }
   ],
   "meta": {
-    "notes": null
+    "notes": "Continuous aura: while Shanks is on your field, all opponent Characters get -1000 power. Rush is handled via keywords."
   },
   "verified": true
 }
