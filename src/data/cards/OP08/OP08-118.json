@@ -1,0 +1,66 @@
+{
+  "id": "OP08-118",
+  "set": "OP08",
+  "number": 118,
+  "name": "Silvers Rayleigh",
+  "category": "Character",
+  "colors": ["Red"],
+  "attribute": "Slash",
+  "types": ["Former Roger Pirates"],
+  "rarity": "SEC",
+  "art": "/cards/OP08/OP08-118.png",
+  "stats": {
+    "cost": 8,
+    "power": 8000,
+    "life": null,
+    "counter": { "present": false, "value": 0 }
+  },
+  "keywords": ["On Play"],
+  "trigger": null,
+  "text": "[On Play] Choose up to two of your opponent's Characters. Until the end of your opponent's next turn, give one Character -3000 power and the other -2000 power. After this, K.O. up to 1 of your opponent's Characters with a power of 3000 or lower.",
+  "abilities": [
+    {
+      "type": "On Play",
+      "autoResolve": true,
+      "frequency": null,
+      "condition": null,
+      "cost": null,
+      "effect": {
+        "text": "Choose up to two of your opponent's Characters. Until the end of your opponent's next turn, give one Character -3000 power and the other -2000 power. After this, K.O. up to 1 of your opponent's Characters with a power of 3000 or lower.",
+        "actions": [
+          {
+            "type": "powerMod",
+            "amount": -3000,
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "uniqueAcrossSequence": true,
+            "duration": "untilOpponentsNextTurn"
+          },
+          {
+            "type": "powerMod",
+            "amount": -2000,
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "uniqueAcrossSequence": true,
+            "duration": "untilOpponentsNextTurn"
+          },
+          {
+            "type": "ko",
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "powerLimit": 3000,
+            "uniqueAcrossSequence": false
+          }
+        ]
+      }
+    }
+  ],
+  "meta": { "notes": "Implements sequential On Play: two debuffs lasting until opponent's next turn, then optional KO of a 3000 power or less Character." },
+  "verified": false
+}

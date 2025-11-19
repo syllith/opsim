@@ -274,9 +274,9 @@ export default function Board({
                                 // RULE ENFORCEMENT: Only allow interaction with cards when it's that side's turn
                                 // Rule 6-5-3: Only the turn player can play cards during their Main Phase
                                 const isThisSideTurn = side === turnSide;
-                                // Allow interaction during Main Phase on your turn, OR during Counter Step if you're defending
+                                // Allow interaction during Main Phase on your turn (no active battle), OR during Counter Step if you're defending
                                 const isDefendingInCounter = battle && battle.step === 'counter' && battle.target.side === side;
-                                const canInteract = (isThisSideTurn && phase?.toLowerCase() === 'main') || isDefendingInCounter;
+                                const canInteract = (isThisSideTurn && phase?.toLowerCase() === 'main' && !battle) || isDefendingInCounter;
                                 const cursor = canInteract ? 'pointer' : 'not-allowed';
                                 const opacity = canInteract ? 1 : 0.6;
                                 return (

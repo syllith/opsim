@@ -401,10 +401,7 @@ export default function Home() {
     const [actionCardIndex, setActionCardIndex] = useState(-1);
     const [actionSource, setActionSource] = useState(null); // { side, section, keyName, index }
 
-    // Check if a specific side can play cards now (must be Main Phase AND their turn)
-    const canPlayNow = useCallback((side) => {
-        return phaseLower === 'main' && side === turnSide;
-    }, [phaseLower, turnSide]);
+    
 
     const hasEnoughDonFor = useCallback((side, cost) => {
         if (!cost || cost <= 0) return true;
@@ -454,13 +451,41 @@ export default function Home() {
     //   counterTarget: { side, section, keyName, index } | null (which card receives counter power)
     // }
     const [battle, setBattle] = useState(null);
+    const [resolvingEffect, setResolvingEffect] = useState(false);
+
+    // Check if a specific side can play cards now
+    // Must be Main Phase, that side's turn, and NOT currently in battle (CR 7-1 flow, 10-2-2/10-2-3)
+    const canPlayNow = useCallback((side) => {
+        return phaseLower === 'main' && side === turnSide && !battle;
+    }, [phaseLower, turnSide, battle]);
 
     const cancelTargeting = useCallback(() => {
-        // Cancel selection (before battle is created). Does not cancel an ongoing battle.
-        setTargeting({ active: false, side: null, section: null, keyName: null, min: 1, max: 1, validator: null, selectedIdx: [], multi: false, selected: [], onComplete: null });
-        setBattleArrow(null);
-        // If battle not yet established, clear currentAttack
-        if (!battle) setCurrentAttack(null);
+        // Cancel current selection flow
+        setTargeting({
+            active: false,
+            side: null,
+            section: null,
+            keyName: null,
+            min: 1,
+            max: 1,
+            validator: null,
+            selectedIdx: [],
+            multi: false,
+            selected: [],
+            onComplete: null
+        });
+
+        if (battle) {
+            // Preserve the battle arrow when a battle is in progress
+            const fromKey = `${battle.attacker.side}:${battle.attacker.section}:${battle.attacker.keyName}:${battle.attacker.index}`;
+            const toKey = `${battle.target.side}:${battle.target.section}:${battle.target.keyName}:${battle.target.index}`;
+            // Keep existing label if any; label is optional for visibility
+            setBattleArrow((prev) => ({ fromKey, toKey, label: prev?.label || '' }));
+        } else {
+            // No battle: clear any attack preview and arrow
+            setBattleArrow(null);
+            setCurrentAttack(null);
+        }
     }, [battle]);
 
     const confirmTargeting = useCallback(() => {
@@ -541,8 +566,10 @@ export default function Home() {
 
     const playSelectedCard = useCallback(() => {
         if (openingShown) return; // Cannot play cards until opening hand is finalized
-        if (!actionCard || !canPlayNow) return;
+        if (!actionCard) return;
         const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
+        // Enforce timing: only during your Main and no battle
+        if (!canPlayNow(side)) return;
         
         // RULE ENFORCEMENT: Only the turn player can play cards (6-5-3)
         if (side !== turnSide) {
@@ -1645,6 +1672,11 @@ export default function Home() {
     }, [phaseLower, turnNumber, turnSide, areas, endTurnConfirming]);
 
     const onNextAction = useCallback(() => {
+        // Block advancing while resolving mandatory effects, selections, deck search, triggers, or battle
+        if (battle || resolvingEffect || targeting.active || deckSearchOpen || triggerPending) {
+            appendLog('Cannot end turn while resolving effects or selections.');
+            return;
+        }
         if (openingShown) return; // Cannot advance phases until opening hand is finalized
         const isFirst = turnNumber === 1 && turnSide === 'player';
 
@@ -1739,7 +1771,7 @@ export default function Home() {
                                 variant="contained" 
                                 color={phaseLower === 'main' && endTurnConfirming ? 'error' : 'primary'}
                                 onClick={onNextAction} 
-                                disabled={openingShown || !!battle}
+                                disabled={openingShown || !!battle || resolvingEffect || targeting.active || deckSearchOpen || !!triggerPending}
                             >
                                 {nextActionLabel}
                             </Button>
@@ -1821,10 +1853,25 @@ export default function Home() {
 
             {/* Anchored Actions Panel (bottom-right) */}
             {actionOpen && (
-                <ClickAwayListener onClickAway={() => { setActionOpen(false); setActionCardIndex(-1); setActionSource(null); setSelectedCard(null); }}>
+                <ClickAwayListener onClickAway={() => { 
+                    // Close Actions and ensure any pending targeting/effect resolution is cancelled
+                    if (targeting?.active) cancelTargeting();
+                    setResolvingEffect(false);
+                    setActionOpen(false); 
+                    setActionCardIndex(-1); 
+                    setActionSource(null); 
+                    setSelectedCard(null); 
+                }}>
                     <div>
                         <Actions 
-                            onClose={() => { setActionOpen(false); setActionCardIndex(-1); setActionSource(null); setSelectedCard(null); }}
+                            onClose={() => { 
+                                if (targeting?.active) cancelTargeting();
+                                setResolvingEffect(false);
+                                setActionOpen(false); 
+                                setActionCardIndex(-1); 
+                                setActionSource(null); 
+                                setSelectedCard(null); 
+                            }}
                             card={actionCard}
                             cardMeta={metaById.get(actionCard?.id)}
                             cardIndex={actionCardIndex}
@@ -1853,6 +1900,8 @@ export default function Home() {
                             battleEndCounterStep={endCounterStep}
                             battleGetDefPower={() => getDefenderPower(battle)}
                             removeCardByEffect={removeCardByEffect}
+                            setResolvingEffect={setResolvingEffect}
+                            getTotalPower={getTotalPower}
                         >
                             {/* Additional action controls (play from hand, attack, etc.) */}
                             {actionSource && ((actionSource.side === 'player' && actionSource.section === 'bottom' && actionSource.keyName === 'hand') || (actionSource.side === 'opponent' && actionSource.section === 'top' && actionSource.keyName === 'hand')) ? (
@@ -1860,10 +1909,14 @@ export default function Home() {
                                     <Divider sx={{ my: 1 }} />
                                     <Typography variant="caption" display="block" sx={{ mb: 1 }}>
                                         {(() => {
-                                            if (battle && battle.step === 'counter' && actionSource.side === 'opponent') return 'Counter Step: use counters or counter events.';
-                                            if (!canPlayNow) return 'Cannot play now (must be Main Phase).';
-                                            const cost = actionCard ? getCardCost(actionCard.id) : 0;
+                                            // Defending side during Counter Step may only use counters/counter events
+                                            if (battle && battle.step === 'counter' && actionSource.side === battle?.target?.side) {
+                                                return 'Counter Step: use counters or counter events.';
+                                            }
                                             const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
+                                            if (battle) return 'Cannot play during battle.';
+                                            if (!canPlayNow(side)) return 'Cannot play now (must be your Main Phase).';
+                                            const cost = actionCard ? getCardCost(actionCard.id) : 0;
                                             const ok = hasEnoughDonFor(side, cost);
                                             return ok ? `Playable now (${side}). Cost: ${cost} DON.` : `Need ${cost} active DON (${side}).`;
                                         })()}
