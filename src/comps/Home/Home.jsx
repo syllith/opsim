@@ -1671,6 +1671,20 @@ export default function Home() {
         return 'End Turn';
     }, [phaseLower, turnNumber, turnSide, areas, endTurnConfirming]);
 
+    // Auto-skip DON phase if no DON can be gained (no button press required)
+    useEffect(() => {
+        if (openingShown) return;
+        if (phaseLower !== 'don') return;
+        const requestedAmount = turnNumber === 1 && turnSide === 'player' ? 1 : 2;
+        const donDeck = turnSide === 'player' ? (areas?.player?.bottom?.don || []) : (areas?.opponent?.top?.don || []);
+        const availableDon = donDeck.length;
+        const actualAmount = Math.min(requestedAmount, availableDon);
+        if (actualAmount === 0) {
+            appendLog('DON!! deck empty: skipping DON phase.');
+            setPhase('Main');
+        }
+    }, [phaseLower, openingShown, turnNumber, turnSide, areas, appendLog]);
+
     const onNextAction = useCallback(() => {
         // Block advancing while resolving mandatory effects, selections, deck search, triggers, or battle
         if (battle || resolvingEffect || targeting.active || deckSearchOpen || triggerPending) {
