@@ -196,15 +196,19 @@ Give DON!! from cost area to a card.
 - `minTargets`: `number`
 - `maxTargets`: `number`
 
-**Example:**
+**Optional Fields:**
+- `onlyRested`: `boolean` - Whether to only use rested DON!! (default: true)
+
+**Example - Give 1 rested DON!! to leader or character:**
 ```json
 {
   "type": "giveDon",
   "quantity": 1,
   "targetSide": "player",
-  "targetType": "character",
-  "minTargets": 1,
-  "maxTargets": 1
+  "targetType": "any",
+  "minTargets": 0,
+  "maxTargets": 1,
+  "onlyRested": true
 }
 ```
 

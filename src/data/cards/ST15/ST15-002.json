@@ -31,39 +31,44 @@
   "text": "[On Play] Give your leader or one of your characters up to one rested Don!!.\n[Activate: Main] You may rest this character: KO up to one of your opponent's characters with 5000 or less power.",
   "abilities": [
     {
-      "timing": "On Play",
+      "type": "On Play",
+      "autoResolve": false,
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
         "text": "Give your leader or one of your characters up to one rested Don!!.",
-        "powerMod": null,
-        "targets": [
-          "ally:Leader",
-          "oneAllyCharacter"
-        ],
-        "conditions": [
-          "giveDon:rested:1"
+        "actions": [
+          {
+            "type": "giveDon",
+            "quantity": 1,
+            "targetSide": "player",
+            "targetType": "any",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "onlyRested": true
+          }
         ]
       }
     },
     {
-      "timing": "Main",
+      "type": "Activate Main",
       "frequency": null,
-      "donReq": null,
+      "condition": null,
       "cost": {
-        "restDonFromCostArea": 0
+        "restThis": true
       },
       "effect": {
         "text": "You may rest this character: KO up to one of your opponent's characters with 5000 or less power.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=5000"
-        ],
-        "conditions": [
-          "restThisCard"
+        "actions": [
+          {
+            "type": "ko",
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "powerLimit": 5000
+          }
         ]
       }
     }

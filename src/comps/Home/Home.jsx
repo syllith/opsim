@@ -810,6 +810,50 @@ export default function Home() {
         return success;
     }, [donGivingMode, appendLog]);
 
+    // Move DON!! from cost area to a card (for ability effects, bypasses donGivingMode)
+    const moveDonFromCostToCard = useCallback((controllerSide, targetSide, targetSection, targetKeyName, targetIndex, quantity = 1, onlyRested = true) => {
+        let success = false;
+        setAreas((prev) => {
+            const next = structuredClone(prev);
+            const costLoc = controllerSide === 'player' ? next.player.bottom : next.opponent.top;
+            const sourceCostArr = costLoc.cost || [];
+            
+            // Find and remove DON!! from cost area
+            const donToMove = [];
+            for (let i = 0; i < quantity && donToMove.length < quantity; i++) {
+                const donIndex = sourceCostArr.findIndex(d => d.id === 'DON' && (onlyRested ? d.rested : true));
+                if (donIndex >= 0) {
+                    const [don] = sourceCostArr.splice(donIndex, 1);
+                    donToMove.push(don);
+                }
+            }
+            
+            if (donToMove.length === 0) {
+                appendLog('[giveDon] No DON!! found to move');
+                return prev;
+            }
+            
+            // Add DON!! to target location
+            const targetSideLoc = targetSide === 'player' ? next.player : next.opponent;
+            if (targetSection === 'middle' && targetKeyName === 'leader') {
+                targetSideLoc.middle.leaderDon = [...(targetSideLoc.middle.leaderDon || []), ...donToMove];
+                appendLog(`[giveDon] Moved ${donToMove.length} DON!! to ${targetSide} leader`);
+                success = true;
+            } else if (targetSection === 'char' && targetKeyName === 'char') {
+                if (!targetSideLoc.charDon[targetIndex]) {
+                    targetSideLoc.charDon[targetIndex] = [];
+                }
+                targetSideLoc.charDon[targetIndex] = [...targetSideLoc.charDon[targetIndex], ...donToMove];
+                appendLog(`[giveDon] Moved ${donToMove.length} DON!! to ${targetSide} character at index ${targetIndex}`);
+                success = true;
+            }
+            
+            return next;
+        });
+        
+        return success;
+    }, [appendLog]);
+
     // Rule 4-6-3 & 10-1-5: [Trigger] can be activated instead of adding Life card to hand
     const dealOneDamageToLeader = useCallback((defender) => {
         let cardWithTrigger = null;
@@ -2079,6 +2123,7 @@ export default function Home() {
                                 CARD_BACK_URL={CARD_BACK_URL}
                                 compact={compact}
                                 giveDonToCard={giveDonToCard}
+                                moveDonFromCostToCard={moveDonFromCostToCard}
                                 startDonGiving={startDonGiving}
                                 cancelDonGiving={cancelDonGiving}
                                 donGivingMode={donGivingMode}
@@ -2157,6 +2202,7 @@ export default function Home() {
                             grantTempKeyword={addTempKeyword}
                             disableKeyword={addDisabledKeyword}
                             giveDonToCard={giveDonToCard}
+                            moveDonFromCostToCard={moveDonFromCostToCard}
                             startDeckSearch={startDeckSearch}
                             returnCardToDeck={returnCardToDeck}
                             restCard={restCard}

@@ -352,6 +352,103 @@ This example demonstrates an Activate Main ability with a `returnThisToDeck` cos
 **Variations:**
 Other cards might use `"trashThis": true` instead of `returnThisToDeck` to trash the card after activation rather than returning to deck. The system supports both variations seamlessly.
 
+### Example 8: ST15-002 Edward Newgate
+Multiple abilities: On Play giveDon and Activate Main KO with rest cost.
+
+This card demonstrates:
+- **giveDon action**: Giving rested DON!! from cost area to a target
+- **Optional On Play** (autoResolve: false): Allows player to choose targets
+- **restThis cost**: Card must be rested to activate the second ability
+
+```json
+{
+  "id": "ST15-002",
+  "name": "Edward Newgate",
+  "abilities": [
+    {
+      "type": "On Play",
+      "autoResolve": false,
+      "frequency": null,
+      "condition": null,
+      "cost": null,
+      "effect": {
+        "text": "Give your leader or one of your characters up to one rested Don!!.",
+        "actions": [
+          {
+            "type": "giveDon",
+            "quantity": 1,
+            "targetSide": "player",
+            "targetType": "any",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "onlyRested": true
+          }
+        ]
+      }
+    },
+    {
+      "type": "Activate Main",
+      "frequency": null,
+      "condition": null,
+      "cost": {
+        "restThis": true
+      },
+      "effect": {
+        "text": "You may rest this character: KO up to one of your opponent's characters with 5000 or less power.",
+        "actions": [
+          {
+            "type": "ko",
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "powerLimit": 5000
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+1. User clicks "Activate" button
+2. User selects a target character (or clicks "Cancel" to skip)
+3. If target selected: Apply -3000 power, then return card to bottom of deck
+4. If cancelled: Card stays on field, ability can be used again
+
+```json
+{
+  "id": "OP09-008",
+  "name": "Building Snake",
+  "abilities": [
+    {
+      "type": "Activate Main",
+      "frequency": null,
+      "condition": null,
+      "cost": {
+        "returnThisToDeck": "bottom"
+      },
+      "effect": {
+        "text": "Give up to one of your opponent's characters -3000 power for this turn.",
+        "actions": [
+          {
+            "type": "powerMod",
+            "amount": -3000,
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "duration": "thisTurn"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+**Variations:**
+Other cards might use `"trashThis": true` instead of `returnThisToDeck` to trash the card after activation rather than returning to deck. The system supports both variations seamlessly.
+
 ## Keywords
 
 Keywords are stored in the `keywords` array and are handled automatically:

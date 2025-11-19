@@ -32,6 +32,7 @@ export default function Actions({
   grantTempKeyword,
   disableKeyword,
   giveDonToCard,
+  moveDonFromCostToCard,
   startDeckSearch,
   returnCardToDeck,
   restCard,
@@ -75,7 +76,16 @@ export default function Actions({
         setSelectedAbilityIndex(targeting.abilityIndex);
       }
     }
-  }, [targeting?.active, targeting?.suspended, targeting?.origin, targeting?.abilityIndex, actionSource]);
+    
+    // If targeting was cancelled (became inactive) while we had an ability selected, clean up
+    if (!targeting?.active && selectedAbilityIndex !== null) {
+      console.log('[Actions] Targeting cancelled, cleaning up selected ability');
+      setSelectedAbilityIndex(null);
+      if (typeof setResolvingEffect === 'function') {
+        setResolvingEffect(false);
+      }
+    }
+  }, [targeting?.active, targeting?.suspended, targeting?.origin, targeting?.abilityIndex, actionSource, selectedAbilityIndex, setResolvingEffect]);
 
   // Extract card information
   const cardId = card?.id;
@@ -396,9 +406,9 @@ export default function Actions({
           // Only when your opponent is actively attacking you
           // Require a battle in progress where this card's controller is the target side
           if (battle && actionSource?.side && battle.target?.side === actionSource.side) {
-            // Allow during the initial attack declaration and block step windows
+            // Allow during attack declaration, block step, and counter step
             const step = battle.step;
-            canActivate = step === 'attack' || step === 'block';
+            canActivate = step === 'attack' || step === 'block' || step === 'counter';
           } else {
             canActivate = false;
           }
@@ -834,6 +844,140 @@ export default function Actions({
             break;
           }
 
+          case 'giveDon': {
+            // Give DON!! from cost area to a target card (leader or character)
+            const quantity = action.quantity || 1;
+            const targetSideRelative = action.targetSide || 'player';
+            const targetType = action.targetType || 'any';
+            const minTargets = action.minTargets !== undefined ? action.minTargets : 1;
+            const maxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
+            const onlyRested = action.onlyRested !== undefined ? action.onlyRested : true; // Default to rested DON only
+            const actualSide = resolveActionTargetSide(targetSideRelative);
+            
+            // Check if there are enough DON!! in cost area
+            // Player's cost area is in areas.player.bottom.cost
+            // Opponent's cost area is in areas.opponent.top.cost
+            const controllerSide = actionSource?.side || 'player';
+            const costLoc = controllerSide === 'player' ? areas?.player?.bottom : areas?.opponent?.top;
+            const costArr = costLoc?.cost || [];
+            
+            // Filter for DON!! cards (id === 'DON') that match the rested requirement
+            const availableDon = costArr.filter(d => d.id === 'DON' && (onlyRested ? d.rested : true));
+            
+            console.log(`[giveDon] Checking DON!! availability:`, {
+              controllerSide,
+              costArrLength: costArr.length,
+              totalDonInCost: costArr.filter(d => d.id === 'DON').length,
+              availableDon: availableDon.length,
+              onlyRested,
+              quantity,
+              costArr
+            });
+            
+            if (availableDon.length < quantity) {
+              console.log(`[giveDon] Not enough ${onlyRested ? 'rested ' : ''}DON!! available (need ${quantity}, have ${availableDon.length})`);
+              processNext();
+              break;
+            }
+            
+            const preCandidates = listValidTargets(actualSide, targetType, { 
+              uniqueAcrossSequence: action.uniqueAcrossSequence, 
+              cumulative: cumulativeTargets 
+            });
+            
+            console.log(`[giveDon] Valid targets check:`, {
+              actualSide,
+              targetType,
+              preCandidates: preCandidates.length,
+              minTargets,
+              maxTargets
+            });
+            
+            // If minTargets is 0 and there are no candidates, skip
+            if (minTargets === 0 && preCandidates.length === 0) {
+              console.log('[giveDon] No valid targets available, skipping optional action');
+              processNext();
+              break;
+            }
+            
+            // If minTargets > 0 and no candidates, this is an error condition but still need to process
+            if (minTargets > 0 && preCandidates.length === 0) {
+              console.log('[giveDon] Required targets not available, skipping');
+              processNext();
+              break;
+            }
+            
+            console.log('[giveDon] Starting targeting UI...');
+            setSelectedAbilityIndex(abilityIndex);
+            startTargeting({
+              side: actualSide,
+              multi: true,
+              min: minTargets,
+              max: maxTargets,
+              validator: (card, ctx) => {
+                if (targetType === 'leader') return ctx?.section === 'middle' && ctx?.keyName === 'leader';
+                if (targetType === 'character') {
+                  if (ctx?.section !== 'char' || ctx?.keyName !== 'char') return false;
+                  if (action.uniqueAcrossSequence && cumulativeTargets.some(t => t.side === ctx.side && t.section === ctx.section && t.keyName === ctx.keyName && t.index === ctx.index)) return false;
+                  return true;
+                }
+                if (targetType === 'any') {
+                  const ok = (ctx?.section === 'middle' && ctx?.keyName === 'leader') || (ctx?.section === 'char' && ctx?.keyName === 'char');
+                  if (!ok) return false;
+                  if (action.uniqueAcrossSequence && cumulativeTargets.some(t => t.side === ctx.side && t.section === ctx.section && t.keyName === ctx.keyName && t.index === ctx.index)) return false;
+                  return true;
+                }
+                return false;
+              },
+              origin: actionSource,
+              abilityIndex,
+              type: 'ability'
+            }, (targets) => {
+              console.log('[giveDon] Targeting completed, targets:', targets);
+              
+              // Handle case where user cancels (targets array is empty for optional)
+              if (targets.length === 0 && minTargets === 0) {
+                console.log('[giveDon] User cancelled optional targeting');
+                processNext();
+                return;
+              }
+              
+              // Move DON!! by directly manipulating the areas state
+              // We need to use a callback approach since setAreas is not available here
+              // For now, we'll need to add this functionality to Home.jsx and pass it down
+              
+              targets.forEach(t => {
+                console.log(`[giveDon] Processing target:`, t);
+                
+                // Use the moveDonFromCostToCard callback to move DON!!
+                if (typeof moveDonFromCostToCard === 'function') {
+                  const success = moveDonFromCostToCard(
+                    controllerSide,
+                    t.side,
+                    t.section,
+                    t.keyName,
+                    t.index,
+                    quantity,
+                    onlyRested
+                  );
+                  
+                  if (success) {
+                    console.log(`[giveDon] Successfully moved ${quantity} DON!! to target`);
+                  } else {
+                    console.error('[giveDon] Failed to move DON!!');
+                  }
+                } else {
+                  console.error('[giveDon] ERROR: moveDonFromCostToCard callback not available');
+                }
+                
+                cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
+              });
+              
+              processNext();
+            });
+            break;
+          }
+
           case 'draw':
             // Draw cards action
             const drawQuantity = action.quantity || 1;
@@ -1260,6 +1404,8 @@ export default function Actions({
     
     if (abilityIndex === -1) {
       console.log('[Auto-Trigger] No On Play abilities found');
+      // Mark as triggered even if no ability found to prevent re-checking
+      setAutoTriggeredOnPlay(true);
       return;
     }
     

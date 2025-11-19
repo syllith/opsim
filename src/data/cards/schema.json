@@ -172,7 +172,8 @@
                     "filterColor": { "type": ["string", "null"] },
                     "filterAttribute": { "type": ["string", "null"] },
                     "keyword": { "type": ["string", "null"], "description": "Keyword to grant (e.g., 'Rush', 'Blocker')" },
-                    "targetSelf": { "type": ["boolean", "null"], "description": "If true, apply to the action source card instead of selecting targets" }
+                    "targetSelf": { "type": ["boolean", "null"], "description": "If true, apply to the action source card instead of selecting targets" },
+                    "onlyRested": { "type": ["boolean", "null"], "description": "For giveDon: whether to only use rested DON!! from cost area (default: true)" }
                   },
                   "required": ["type"]
                 }
