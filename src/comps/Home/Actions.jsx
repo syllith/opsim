@@ -324,13 +324,13 @@ export default function Actions({
             reason = 'Resolves only when this card is played';
           } else if (!wasJustPlayed) {
             canActivate = false;
-            reason = 'Already resolved!';
+            reason = 'Already resolved when this card was played';
           } else {
             const autoResolve = ability.autoResolve !== false; // default true
             // If optional but there are no valid targets, auto-resolve and skip showing Activate
             const hasTargets = abilityHasAnySelectableTargets(ability);
             canActivate = !autoResolve && hasTargets;
-            reason = (autoResolve || !hasTargets) ? 'Resolving!' : '';
+            reason = (autoResolve || !hasTargets) ? 'Resolving…' : '';
           }
           break;
 
@@ -423,8 +423,10 @@ export default function Actions({
             }
           }
         } else {
-          // For optional On Play with autoResolve === false: suppress Activate if no targets
-          if (availability.hasTargetRequiringActions && !availability.anyTargets) {
+          // For On Play: only surface 'No valid targets' when it's optional (autoResolve === false)
+          // Auto-resolving On Play should show 'Resolving…' and then the standard 'Already resolved' after completion
+          const isOptionalOnPlay = ability.autoResolve === false;
+          if (isOptionalOnPlay && availability.hasTargetRequiringActions && !availability.anyTargets) {
             canActivate = false;
             reason = 'No valid targets';
           }

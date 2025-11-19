@@ -29,16 +29,23 @@
   "text": "[On Play] Trash up to 1 of your opponent's Characters with a power of 6000 or less.",
   "abilities": [
     {
-      "timing": "On Play",
+      "type": "On Play",
+      "autoResolve": true,
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
         "text": "Trash up to 1 of your opponent's Characters with a power of 6000 or less.",
-        "powerMod": null,
-        "giveDon": null
+        "actions": [
+          {
+            "type": "ko",
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "powerLimit": 6000
+          }
+        ]
       }
     }
   ],
