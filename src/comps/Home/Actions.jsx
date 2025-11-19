@@ -30,6 +30,7 @@ export default function Actions({
   applyPowerMod,
   registerUntilNextTurnEffect,
   grantTempKeyword,
+  disableKeyword,
   giveDonToCard,
   startDeckSearch,
   returnCardToDeck,
@@ -262,6 +263,10 @@ export default function Actions({
           const pre = listValidTargets(side, action.targetType || 'any', { powerLimit: action.powerLimit });
           if (pre.length > 0) return true;
         } else if (action?.type === 'ko') {
+          const side = resolveActionTargetSide(action.targetSide || 'opponent');
+          const pre = listValidTargets(side, action.targetType || 'character', { powerLimit: action.powerLimit });
+          if (pre.length > 0) return true;
+        } else if (action?.type === 'disableKeyword') {
           const side = resolveActionTargetSide(action.targetSide || 'opponent');
           const pre = listValidTargets(side, action.targetType || 'character', { powerLimit: action.powerLimit });
           if (pre.length > 0) return true;
@@ -753,6 +758,70 @@ export default function Actions({
               targets.forEach(t => {
                 if (typeof grantTempKeyword === 'function') {
                   grantTempKeyword(t.side, t.section, t.keyName, t.index, keyword, expireOnSide);
+                }
+                cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
+              });
+              if (registerUntilNextTurnEffect && duration !== 'permanent') {
+                const label = `${cardName}: ${typeof effect === 'object' ? effect.text : String(effect || '')}`;
+                registerUntilNextTurnEffect(expireOnSide || (turnSide === 'player' ? 'opponent' : 'player'), label);
+              }
+              processNext();
+            });
+            break;
+          }
+
+          case 'disableKeyword': {
+            const keyword = action.keyword || '';
+            const duration = action.duration || 'thisTurn';
+            // Determine expiry side
+            let expireOnSide = null;
+            if (duration === 'thisTurn') {
+              expireOnSide = (turnSide === 'player') ? 'opponent' : 'player';
+            } else if (duration === 'untilOpponentsNextTurn') {
+              expireOnSide = (turnSide === 'player') ? 'player' : 'opponent';
+            }
+            // Targeting: disable keyword on selected targets
+            const targetSideRelative = action.targetSide || 'opponent';
+            const targetType = action.targetType || 'any';
+            const minTargets = action.minTargets !== undefined ? action.minTargets : 1;
+            const maxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
+            const actualSide = resolveActionTargetSide(targetSideRelative);
+            const preCandidates = listValidTargets(actualSide, targetType, { 
+              powerLimit: action.powerLimit, 
+              uniqueAcrossSequence: action.uniqueAcrossSequence, 
+              cumulative: cumulativeTargets 
+            });
+            if ((preCandidates.length === 0) || (minTargets === 0 && preCandidates.length === 0)) {
+              processNext();
+              break;
+            }
+            setSelectedAbilityIndex(abilityIndex);
+            startTargeting({
+              side: actualSide,
+              multi: true,
+              min: minTargets,
+              max: maxTargets,
+              validator: (card, ctx) => {
+                if (targetType === 'leader') return ctx?.section === 'middle' && ctx?.keyName === 'leader';
+                if (targetType === 'character') {
+                  if (ctx?.section !== 'char' || ctx?.keyName !== 'char') return false;
+                  // Apply power limit if specified
+                  if (action.powerLimit !== null && action.powerLimit !== undefined) {
+                    const totalPower = getTotalPower(ctx.side, ctx.section, ctx.keyName, ctx.index, card.id);
+                    if (totalPower > action.powerLimit) return false;
+                  }
+                  return true;
+                }
+                if (targetType === 'any') return (ctx?.section === 'middle' && ctx?.keyName === 'leader') || (ctx?.section === 'char' && ctx?.keyName === 'char');
+                return false;
+              },
+              origin: actionSource,
+              abilityIndex,
+              type: 'ability'
+            }, (targets) => {
+              targets.forEach(t => {
+                if (typeof disableKeyword === 'function') {
+                  disableKeyword(t.side, t.section, t.keyName, t.index, keyword, expireOnSide);
                 }
                 cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
               });

@@ -25,6 +25,7 @@ export default function Board({
     battle,
     getBattleStatus,
     getKeywordsFor,
+    hasDisabledKeyword,
     applyBlocker,
     getPowerMod,
     getAuraPowerMod,
@@ -409,13 +410,34 @@ export default function Board({
                                                 transform: c.rested ? 'rotate(90deg)' : 'none',
                                                 transformOrigin: 'center center',
                                                 filter: isTargetingHere && !valid ? 'grayscale(0.9) brightness(0.6)' : 'none',
-                                                outline: selected ? '3px solid #ff9800' : (isValidDonTarget ? '3px solid #66bb6a' : 'none'),
+                                                outline: (() => {
+                                                    // Highlight eligible blockers during Block Step when player is defending (mirror opponent logic)
+                                                    if (battle && battle.step === 'block' && battle.target && battle.target.side === 'player' && battle.target.section !== 'char') {
+                                                        const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
+                                                        const active = !c.rested;
+                                                        const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('player', 'char', 'char', i, 'Blocker');
+                                                        if (hasBlocker && active && !blockerDisabled) return '3px solid #66bb6a';
+                                                    }
+                                                    if (selected) return '3px solid #ff9800';
+                                                    if (isValidDonTarget) return '3px solid #66bb6a';
+                                                    return 'none';
+                                                })(),
                                                 boxShadow: isValidDonTarget ? '0 0 12px rgba(102,187,106,0.6)' : 'none',
                                                 position: 'relative',
                                                 zIndex: 1
                                             }}
                                             onClick={(e) => {
                                                 e.stopPropagation();
+                                                // Quick block via clicking the card (player defending)
+                                                if (battle && battle.step === 'block' && battle.target && battle.target.side === 'player' && battle.target.section !== 'char') {
+                                                    const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
+                                                    const active = !c.rested;
+                                                    const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('player', 'char', 'char', i, 'Blocker');
+                                                    if (hasBlocker && active && !blockerDisabled) {
+                                                        applyBlocker(i);
+                                                        return;
+                                                    }
+                                                }
                                                 // Handle DON!! giving
                                                 if (isValidDonTarget && giveDonToCard) {
                                                     giveDonToCard('player', 'char', 'char', i);
@@ -445,17 +467,42 @@ export default function Board({
                                             onMouseEnter={() => setHovered(c)}
                                             onMouseLeave={() => setHovered(null)}
                                         />
-                                        {/* Power modifier badge */}
+                                        {battle && battle.step === 'block' && battle.target && battle.target.side === 'player' && battle.target.section !== 'char' && (() => {
+                                            const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
+                                            const active = !c.rested;
+                                            const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('player', 'char', 'char', i, 'Blocker');
+                                            if (!hasBlocker || !active || blockerDisabled) return null;
+                                            return (
+                                                <Box sx={{ position: 'absolute', bottom: 4, left: 4, right: 4 }}>
+                                                    <Button size="small" fullWidth variant="contained" color="error" onClick={(e) => { e.stopPropagation(); applyBlocker(i); }}>
+                                                        Use Blocker
+                                                    </Button>
+                                                </Box>
+                                            );
+                                        })()}
+                                        {/* Power modifier and disabled keyword badges */}
                                         {(() => {
                                             const temp = typeof getPowerMod === 'function' ? getPowerMod('player', 'char', 'char', i) : 0;
                                             const aura = typeof getAuraPowerMod === 'function' ? getAuraPowerMod('player', 'char', 'char', i) : 0;
                                             const delta = (temp || 0) + (aura || 0);
-                                            if (!delta) return null;
+                                            const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
+                                            const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('player', 'char', 'char', i, 'Blocker');
+                                            const showBlockerDisabled = hasBlocker && blockerDisabled;
+                                            
+                                            if (!delta && !showBlockerDisabled) return null;
+                                            
                                             return (
-                                                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
-                                                    <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
-                                                        <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
-                                                    </Box>
+                                                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
+                                                    {delta !== 0 && (
+                                                        <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
+                                                            <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                        </Box>
+                                                    )}
+                                                    {showBlockerDisabled && (
+                                                        <Box sx={{ px: 1, py: 0.5, borderRadius: 1, bgcolor: 'rgba(239, 83, 80, 0.95)', border: '1px solid #d32f2f' }}>
+                                                            <Typography variant="caption" sx={{ color: '#fff', fontWeight: 700, fontSize: '0.7rem', whiteSpace: 'nowrap' }}>Can't Block</Typography>
+                                                        </Box>
+                                                    )}
                                                 </Box>
                                             );
                                         })()}
@@ -526,7 +573,8 @@ export default function Board({
                                                         if (battle && battle.step === 'block' && battle.target && battle.target.section !== 'char') {
                                                             const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
                                                             const active = !c.rested;
-                                                            if (hasBlocker && active) return '3px solid #66bb6a';
+                                                            const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('opponent', 'char', 'char', i, 'Blocker');
+                                                            if (hasBlocker && active && !blockerDisabled) return '3px solid #66bb6a';
                                                         }
                                                         if (selected) return '3px solid #ff9800';
                                                         if (isValidDonTarget) return '3px solid #66bb6a';
@@ -538,6 +586,16 @@ export default function Board({
                                                 data-cardkey={modKey('opponent', 'char', 'char', i)}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
+                                                    // Quick block via clicking the card (opponent defending)
+                                                    if (battle && battle.step === 'block' && battle.target && battle.target.side === 'opponent' && battle.target.section !== 'char') {
+                                                        const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
+                                                        const active = !c.rested;
+                                                        const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('opponent', 'char', 'char', i, 'Blocker');
+                                                        if (hasBlocker && active && !blockerDisabled) {
+                                                            applyBlocker(i);
+                                                            return;
+                                                        }
+                                                    }
                                                     // Handle DON!! giving for opponent side
                                                     if (isValidDonTarget && giveDonToCard) {
                                                         giveDonToCard('opponent', 'char', 'char', i);
@@ -580,7 +638,8 @@ export default function Board({
                                             {battle && battle.step === 'block' && battle.target && battle.target.section !== 'char' && (() => {
                                                 const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
                                                 const active = !c.rested;
-                                                if (!hasBlocker || !active) return null;
+                                                const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('opponent', 'char', 'char', i, 'Blocker');
+                                                if (!hasBlocker || !active || blockerDisabled) return null;
                                                 return (
                                                     <Box sx={{ position: 'absolute', bottom: 4, left: 4, right: 4 }}>
                                                         <Button size="small" fullWidth variant="contained" color="error" onClick={(e) => { e.stopPropagation(); applyBlocker(i); }}>
@@ -590,17 +649,29 @@ export default function Board({
                                                 );
                                             })()}
                                             
-                                            {/* Power modifier badge */}
+                                            {/* Power modifier and disabled keyword badges */}
                                             {(() => {
                                                 const temp = typeof getPowerMod === 'function' ? getPowerMod('opponent', 'char', 'char', i) : 0;
                                                 const aura = typeof getAuraPowerMod === 'function' ? getAuraPowerMod('opponent', 'char', 'char', i) : 0;
                                                 const delta = (temp || 0) + (aura || 0);
-                                                if (!delta) return null;
+                                                const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
+                                                const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('opponent', 'char', 'char', i, 'Blocker');
+                                                const showBlockerDisabled = hasBlocker && blockerDisabled;
+                                                
+                                                if (!delta && !showBlockerDisabled) return null;
+                                                
                                                 return (
-                                                    <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
-                                                        <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
-                                                            <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
-                                                        </Box>
+                                                    <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
+                                                        {delta !== 0 && (
+                                                            <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
+                                                                <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
+                                                            </Box>
+                                                        )}
+                                                        {showBlockerDisabled && (
+                                                            <Box sx={{ px: 1, py: 0.5, borderRadius: 1, bgcolor: 'rgba(239, 83, 80, 0.95)', border: '1px solid #d32f2f' }}>
+                                                                <Typography variant="caption" sx={{ color: '#fff', fontWeight: 700, fontSize: '0.7rem', whiteSpace: 'nowrap' }}>Can't Block</Typography>
+                                                            </Box>
+                                                        )}
                                                     </Box>
                                                 );
                                             })()}

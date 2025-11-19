@@ -601,6 +601,25 @@ export default function Home() {
         return Array.isArray(arr) && arr.some((e) => String(e?.keyword || '').toLowerCase() === String(keyword || '').toLowerCase());
     }, [tempKeywords, modKey]);
 
+    // --- Disabled Keywords (e.g., prevent Blocker activation this turn) ---
+    // Structure: { [key]: Array<{ keyword: string, expireOnSide: 'player'|'opponent'|null }> }
+    const [disabledKeywords, setDisabledKeywords] = useState({});
+    const addDisabledKeyword = useCallback((side, section, keyName, index, keyword, expireOnSide = null) => {
+        setDisabledKeywords((prev) => {
+            const k = modKey(side, section, keyName, index);
+            const next = { ...prev };
+            const list = Array.isArray(next[k]) ? [...next[k]] : [];
+            list.push({ keyword, expireOnSide: expireOnSide || null });
+            next[k] = list;
+            return next;
+        });
+    }, [modKey]);
+    const hasDisabledKeyword = useCallback((side, section, keyName, index, keyword) => {
+        const k = modKey(side, section, keyName, index);
+        const arr = disabledKeywords[k] || [];
+        return Array.isArray(arr) && arr.some((e) => String(e?.keyword || '').toLowerCase() === String(keyword || '').toLowerCase());
+    }, [disabledKeywords, modKey]);
+
     const openCardAction = useCallback(async (card, index, source = null) => {
         const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
         // Block opening other action windows while a targeting session is active.
@@ -1269,22 +1288,36 @@ export default function Home() {
 
     const applyBlocker = useCallback((blockerIndex) => {
         if (!battle || battle.step !== 'block') return;
-        // Blocker must be active & have keyword Blocker
-        const oppChars = areas?.opponent?.char || [];
-        const card = oppChars[blockerIndex];
+        // Determine defending side from current target
+        const defendingSide = battle.target?.side || 'opponent';
+        const chars = defendingSide === 'player' ? (areas?.player?.char || []) : (areas?.opponent?.char || []);
+        const card = chars[blockerIndex];
         if (!card) return;
+        // Must have [Blocker] and be active
         const hasBlocker = getKeywordsFor(card.id).some((k) => /blocker/i.test(k));
         if (!hasBlocker) return;
         if (card.rested) return; // must be active
+        // Check if Blocker keyword is disabled on this card
+        const blockerDisabled = hasDisabledKeyword(defendingSide, 'char', 'char', blockerIndex, 'Blocker');
+        if (blockerDisabled) {
+            appendLog(`[battle] ${card.id} cannot activate [Blocker] (disabled by effect).`);
+            return;
+        }
         // Rest blocker and make it new target
         setAreas((prev) => {
             const next = structuredClone(prev);
-            if (next.opponent?.char?.[blockerIndex]) next.opponent.char[blockerIndex].rested = true;
+            const loc = defendingSide === 'player' ? next.player : next.opponent;
+            if (loc?.char?.[blockerIndex]) loc.char[blockerIndex].rested = true;
             return next;
         });
         appendLog(`[battle] Blocker ${card.id} rests to block.`);
-        setBattle((b) => ({ ...b, target: { side: 'opponent', section: 'char', keyName: 'char', index: blockerIndex, id: card.id }, blockerUsed: true, step: 'counter' }));
-    }, [battle, areas, getKeywordsFor, appendLog, setAreas]);
+        setBattle((b) => ({
+            ...b,
+            target: { side: defendingSide, section: 'char', keyName: 'char', index: blockerIndex, id: card.id },
+            blockerUsed: true,
+            step: 'counter'
+        }));
+    }, [battle, areas, getKeywordsFor, hasDisabledKeyword, appendLog, setAreas]);
 
     const skipBlock = useCallback(() => {
         if (!battle || battle.step !== 'block') return;
@@ -1775,6 +1808,15 @@ export default function Home() {
             }
             return next;
         });
+        // Clear any disabled keywords that expire on this side's Refresh Phase
+        setDisabledKeywords((prev) => {
+            const next = {};
+            for (const [k, v] of Object.entries(prev || {})) {
+                const arr = Array.isArray(v) ? v.filter((m) => (m && m.expireOnSide !== side)) : [];
+                if (arr.length) next[k] = arr;
+            }
+            return next;
+        });
 
         // 6-2-2: Activate "at the start of your/opponent's turn" effects
         // TODO: Implement auto effect activation system
@@ -2029,6 +2071,7 @@ export default function Home() {
                                 battle={battle}
                                 getBattleStatus={getBattleStatus}
                                 getKeywordsFor={getKeywordsFor}
+                                hasDisabledKeyword={hasDisabledKeyword}
                                 applyBlocker={applyBlocker}
                                 getPowerMod={getPowerMod}
                                 getAuraPowerMod={getAuraPowerMod}
@@ -2112,6 +2155,7 @@ export default function Home() {
                             applyPowerMod={applyPowerMod}
                             registerUntilNextTurnEffect={registerUntilNextTurnEffect}
                             grantTempKeyword={addTempKeyword}
+                            disableKeyword={addDisabledKeyword}
                             giveDonToCard={giveDonToCard}
                             startDeckSearch={startDeckSearch}
                             returnCardToDeck={returnCardToDeck}

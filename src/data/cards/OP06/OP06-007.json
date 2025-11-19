@@ -25,25 +25,28 @@
     }
   },
   "keywords": [
-    "On Play"
+    
   ],
   "trigger": null,
-  "text": "[On Play] K.O. up to 1 of your opponent's characters with 10000 power or less.",
+  "text": "[On Play] K.O. up to 1 of your opponent's Characters with 10000 power or less.",
   "abilities": [
     {
-      "timing": "On Play",
+      "type": "On Play",
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
-        "text": "K.O. up to 1 of your opponent's characters with 10000 power or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=power10000"
-        ],
-        "giveDon": null
+        "text": "K.O. up to 1 of your opponent's Characters with 10000 power or less.",
+        "actions": [
+          {
+            "type": "ko",
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "powerLimit": 10000
+          }
+        ]
       }
     }
   ],

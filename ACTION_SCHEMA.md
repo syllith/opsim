@@ -329,6 +329,36 @@ Temporarily grants a keyword (e.g., Rush, Blocker) for a duration. Can target sp
 }
 ```
 
+### 12. Disable Keyword (`disableKeyword`)
+
+Prevents a keyword (e.g., Blocker) from being activated for a duration. Used for effects like "cannot activate [Blocker]".
+
+**Required Fields:**
+- `type`: `"disableKeyword"`
+- `keyword`: `string` - The keyword to disable (e.g., `"Blocker"`)
+- `targetSide`: `"player" | "opponent" | "both"`
+- `targetType`: `"leader" | "character" | "any"`
+- `minTargets`: `number` - Minimum number of targets (0 for "up to X")
+- `maxTargets`: `number` - Maximum number of targets
+
+**Optional Fields:**
+- `powerLimit`: `number` - Only target cards with power at or below this value
+- `duration`: `"thisTurn" | "untilOpponentsNextTurn" | "permanent"` (default `"thisTurn"`)
+
+**Example – Prevent Blocker on one opponent character with 4000 power or less:**
+```json
+{
+  "type": "disableKeyword",
+  "keyword": "Blocker",
+  "targetSide": "opponent",
+  "targetType": "character",
+  "minTargets": 0,
+  "maxTargets": 1,
+  "powerLimit": 4000,
+  "duration": "thisTurn"
+}
+```
+
 ## Complete Card Examples
 
 ### Example 1: OP01-006 Otama
@@ -457,6 +487,39 @@ Card with multiple actions in sequence.
           {
             "type": "draw",
             "quantity": 1
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+### Example 5: OP09-014 Limejuice
+Disable Blocker on opponent character with power limit.
+
+```json
+{
+  "id": "OP09-014",
+  "name": "Limejuice",
+  "abilities": [
+    {
+      "type": "On Play",
+      "frequency": null,
+      "condition": null,
+      "cost": null,
+      "effect": {
+        "text": "Up to one of your opponents characters with power 4000 or less cannot activate Blocker the rest of this turn.",
+        "actions": [
+          {
+            "type": "disableKeyword",
+            "keyword": "Blocker",
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "powerLimit": 4000,
+            "duration": "thisTurn"
           }
         ]
       }

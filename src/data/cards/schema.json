@@ -146,7 +146,7 @@
                   "properties": {
                     "type": {
                       "type": "string",
-                      "enum": ["draw", "ko", "powerMod", "search", "addDon", "giveDon", "play", "return", "rest", "active", "grantKeyword"],
+                      "enum": ["draw", "ko", "powerMod", "search", "addDon", "giveDon", "play", "return", "rest", "active", "grantKeyword", "disableKeyword"],
                       "description": "Action type"
                     },
                           "mode": { "type": ["string", "null"], "enum": ["normal", "aura", null], "description": "Execution mode: 'aura' for passive continuous effects applied dynamically while source remains on field" },

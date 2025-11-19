@@ -34,7 +34,7 @@ export default function Activity({
                     <Paper elevation={3} sx={{ px: 1.5, py: 0.5, borderRadius: 6, bgcolor: 'rgba(30,30,30,0.9)', color: '#fff', display: 'flex', alignItems: 'center', gap: 1, pointerEvents: 'auto' }}>
                         {battle.step === 'block' && (
                             <>
-                                <Typography variant="caption">Opponent's Block Step: click a Blocker or choose no block.</Typography>
+                                <Typography variant="caption">{battle?.target?.side === 'player' ? "Your Block Step: click a Blocker or choose no block." : "Opponent's Block Step: click a Blocker or choose no block."}</Typography>
                                 <Divider orientation="vertical" flexItem sx={{ mx: 1, borderColor: 'rgba(255,255,255,0.2)' }} />
                                 <Button size="small" variant="outlined" color="warning" onClick={skipBlock}>No Block</Button>
                             </>
