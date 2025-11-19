@@ -408,6 +408,7 @@ export default function Board({
                                                 }
                                                 // Handle targeting for other purposes
                                                 if (isTargetingHere) {
+                                                    if (targeting.suspended) return;
                                                     if (!valid) return;
                                                     setTargeting((prev) => {
                                                         if (prev.multi) {
@@ -526,6 +527,7 @@ export default function Board({
                                                         return;
                                                     }
                                                     if (isTargetingHere) {
+                                                        if (targeting.suspended) return;
                                                         if (!valid) return;
                                                         setTargeting((prev) => {
                                                             if (prev.multi) {
@@ -606,6 +608,7 @@ export default function Board({
                                         }
                                         // Handle targeting
                                         if (isTargetingHere) {
+                                            if (targeting.suspended) return;
                                             if (!valid) return;
                                             setTargeting((prev) => {
                                                 if (prev.multi) {

@@ -89,6 +89,10 @@
               "opponentTurn": {
                 "type": ["boolean", "null"],
                 "description": "Must be during opponent's turn"
+              },
+              "leaderHasType": {
+                "type": ["string", "null"],
+                "description": "Controller's Leader must include this type (e.g., 'Red Hair Pirates')"
               }
             }
           },

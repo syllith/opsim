@@ -430,11 +430,32 @@ export default function Home() {
         multi: false, // allow clicks across multiple sections
         selected: [], // [{ side, section, keyName, index }]
         onComplete: null,
+        // suspension + provenance metadata
+        suspended: false,
+        sessionId: null,
+        origin: null, // { side, section, keyName, index }
+        abilityIndex: null, // number | null (for ability-driven targeting)
+        type: null // 'ability' | 'attack' | null
     });
 
     const startTargeting = useCallback((descriptor, onComplete) => {
-        const { side, section, keyName, min = 1, max = 1, validator = null, multi = false } = descriptor || {};
-        setTargeting({ active: true, side, section: section || null, keyName: keyName || null, min, max, validator, selectedIdx: [], multi, selected: [], onComplete });
+        const { side, section, keyName, min = 1, max = 1, validator = null, multi = false, origin = null, abilityIndex = null, type = 'ability' } = descriptor || {};
+        const sessionId = Date.now() + Math.random();
+        setTargeting({ 
+            active: true, side, section: section || null, keyName: keyName || null, min, max, validator, 
+            selectedIdx: [], multi, selected: [], onComplete,
+            suspended: false, sessionId, origin: origin || null, 
+            abilityIndex: (typeof abilityIndex === 'number' ? abilityIndex : null),
+            type: type || 'ability'
+        });
+    }, []);
+
+    const suspendTargeting = useCallback(() => {
+        setTargeting((prev) => {
+            if (!prev?.active) return prev;
+            if (prev.suspended) return prev;
+            return { ...prev, suspended: true };
+        });
     }, []);
 
     const [currentAttack, setCurrentAttack] = useState(null); // { key, cardId, index, power }
@@ -472,7 +493,12 @@ export default function Home() {
             selectedIdx: [],
             multi: false,
             selected: [],
-            onComplete: null
+            onComplete: null,
+            suspended: false,
+            sessionId: null,
+            origin: null,
+            abilityIndex: null,
+            type: null
         });
 
         if (battle) {
@@ -557,12 +583,18 @@ export default function Home() {
     }, []);
 
     const openCardAction = useCallback(async (card, index, source = null) => {
+        const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
+        // Block opening other action windows while a targeting session is active.
+        if (targeting.active) {
+            // Allow opening only for the origin card (to resume), regardless of suspended state
+            if (!sameOrigin(source, targeting.origin)) return;
+        }
         setActionCard(card);
         setActionCardIndex(index);
         setActionSource(source);
         setActionOpen(true);
         setSelectedCard(card); // Set the selected card in the viewer
-    }, []);
+    }, [targeting.active, targeting.origin]);
 
     const playSelectedCard = useCallback(() => {
         if (openingShown) return; // Cannot play cards until opening hand is finalized
@@ -918,7 +950,7 @@ export default function Home() {
         
         // Must be active (not rested)
         // Use field instance (may contain enteredTurn) rather than transient actionCard copy
-        const fieldArr = areas?.player?.char || [];
+        const fieldArr = side === 'player' ? (areas?.player?.char || []) : (areas?.opponent?.char || []);
         const fieldInst = fieldArr[index];
         const rested = fieldInst ? fieldInst.rested : card.rested;
         if (rested) return false;
@@ -1009,7 +1041,10 @@ export default function Home() {
                 if (ctx.section === 'middle' && ctx.keyName === 'leader') return true;
                 if (ctx.section === 'char' && ctx.keyName === 'char') return !!card?.rested;
                 return false;
-            }
+            },
+            origin: { side: attackingSide, section: 'middle', keyName: 'leader', index: 0 },
+            abilityIndex: null,
+            type: 'attack'
         }, (targets) => {
             const t = (targets || [])[0];
             if (!t) { setCurrentAttack(null); return; }
@@ -1063,7 +1098,10 @@ export default function Home() {
                 if (ctx.section === 'middle' && ctx.keyName === 'leader') return true;
                 if (ctx.section === 'char' && ctx.keyName === 'char') return !!card?.rested;
                 return false;
-            }
+            },
+            origin: { side: attackingSide, section: 'char', keyName: 'char', index: attackerIndex },
+            abilityIndex: null,
+            type: 'attack'
         }, (targets) => {
             const t = (targets || [])[0];
             if (!t) { setCurrentAttack(null); return; }
@@ -1550,6 +1588,36 @@ export default function Home() {
         });
     }, [library, oppLibrary, createCardBacks, appendLog]);
 
+    // Rest (tap) a field card by location; used for ability costs like cost.restThis
+    const restCard = useCallback((side, section, keyName, index) => {
+        setAreas((prev) => {
+            const next = structuredClone(prev);
+            const sideLoc = side === 'player' ? next.player : next.opponent;
+            try {
+                if (section === 'char' && keyName === 'char') {
+                    if (sideLoc?.char?.[index]) {
+                        sideLoc.char[index].rested = true;
+                        appendLog(`[Ability Cost] Rested Character ${sideLoc.char[index].id}.`);
+                    }
+                } else if (section === 'middle' && keyName === 'leader') {
+                    if (sideLoc?.middle?.leader?.[0]) {
+                        sideLoc.middle.leader[0].rested = true;
+                        appendLog(`[Ability Cost] Rested Leader ${sideLoc.middle.leader[0].id}.`);
+                    }
+                } else if (section === 'middle' && keyName === 'stage') {
+                    if (sideLoc?.middle?.stage?.[0]) {
+                        sideLoc.middle.stage[0].rested = true;
+                        appendLog(`[Ability Cost] Rested Stage ${sideLoc.middle.stage[0].id}.`);
+                    }
+                }
+            } catch (e) {
+                console.warn('[restCard] Failed to rest', { side, section, keyName, index }, e);
+                return prev;
+            }
+            return next;
+        });
+    }, [setAreas, appendLog]);
+
     const donPhaseGain = useCallback((side, count) => {
         if (openingShown) return 0; // Cannot gain DON until opening hand is finalized
         let actualMoved = 0;
@@ -1868,8 +1936,11 @@ export default function Home() {
             {/* Anchored Actions Panel (bottom-right) */}
             {actionOpen && (
                 <ClickAwayListener onClickAway={() => { 
-                    // Close Actions and ensure any pending targeting/effect resolution is cancelled
-                    if (targeting?.active) cancelTargeting();
+                    // Close Actions; if this window initiated targeting, suspend that session
+                    const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
+                    if (targeting?.active && sameOrigin(targeting.origin, actionSource)) {
+                        suspendTargeting();
+                    }
                     setResolvingEffect(false);
                     setActionOpen(false); 
                     setActionCardIndex(-1); 
@@ -1879,7 +1950,10 @@ export default function Home() {
                     <div>
                         <Actions 
                             onClose={() => { 
-                                if (targeting?.active) cancelTargeting();
+                                const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
+                                if (targeting?.active && sameOrigin(targeting.origin, actionSource)) {
+                                    suspendTargeting();
+                                }
                                 setResolvingEffect(false);
                                 setActionOpen(false); 
                                 setActionCardIndex(-1); 
@@ -1898,6 +1972,7 @@ export default function Home() {
                             areas={areas}
                             startTargeting={startTargeting}
                             cancelTargeting={cancelTargeting}
+                            suspendTargeting={suspendTargeting}
                             confirmTargeting={confirmTargeting}
                             targeting={targeting}
                             getCardMeta={(id) => metaById.get(id) || null}
@@ -1906,6 +1981,7 @@ export default function Home() {
                             giveDonToCard={giveDonToCard}
                             startDeckSearch={startDeckSearch}
                             returnCardToDeck={returnCardToDeck}
+                            restCard={restCard}
                             battle={battle}
                             battleApplyBlocker={applyBlocker}
                             battleSkipBlock={skipBlock}
