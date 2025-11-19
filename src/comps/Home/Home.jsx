@@ -401,14 +401,32 @@ export default function Home() {
     const [actionCardIndex, setActionCardIndex] = useState(-1);
     const [actionSource, setActionSource] = useState(null); // { side, section, keyName, index }
 
+    // Helper to close the action panel
+    const closeActionPanel = useCallback(() => {
+        setActionOpen(false);
+        setActionCardIndex(-1);
+        setActionSource(null);
+        setSelectedCard(null);
+    }, []);
 
+    // Helpers to get side location from areas state
+    const getSideLocation = useCallback((side) => side === 'player' ? areas.player : areas.opponent, [areas]);
+    const getSideLocationFromNext = (next, side) => side === 'player' ? next.player : next.opponent;
+    // Helper to get the hand/cost/trash/don container (bottom for player, top for opponent)
+    const getHandCostLocation = useCallback((side) => side === 'player' ? areas?.player?.bottom : areas?.opponent?.top, [areas]);
+    const getHandCostLocationFromNext = (next, side) => side === 'player' ? next.player.bottom : next.opponent.top;
+    // Helpers to get specific arrays from areas with default empty array
+    const getCharArray = useCallback((side) => side === 'player' ? (areas?.player?.char || []) : (areas?.opponent?.char || []), [areas]);
+    const getLeaderArray = useCallback((side) => side === 'player' ? (areas?.player?.middle?.leader || []) : (areas?.opponent?.middle?.leader || []), [areas]);
+    const getCostArray = useCallback((side) => side === 'player' ? (areas?.player?.bottom?.cost || []) : (areas?.opponent?.top?.cost || []), [areas]);
+    const getDonDeckArray = useCallback((side) => side === 'player' ? (areas?.player?.bottom?.don || []) : (areas?.opponent?.top?.don || []), [areas]);
 
     const hasEnoughDonFor = useCallback((side, cost) => {
         if (!cost || cost <= 0) return true;
-        const arr = side === 'player' ? (areas?.player?.bottom?.cost || []) : (areas?.opponent?.top?.cost || []);
+        const arr = getCostArray(side);
         const active = arr.filter((c) => c.id === 'DON' && !c.rested).length;
         return active >= cost;
-    }, [areas]);
+    }, [getCostArray]);
 
     // --- DON!! Giving Selection System ---
     const [donGivingMode, setDonGivingMode] = useState({
@@ -551,6 +569,20 @@ export default function Home() {
 
     const getCardMeta = useCallback((id) => metaById.get(id) || null, [metaById]);
 
+    // Helper to check if a keyword array contains a specific keyword (case-insensitive)
+    const hasKeyword = useCallback((keywords, keyword) => {
+        return (keywords || []).some(k => new RegExp(keyword, 'i').test(k));
+    }, []);
+
+    // Helper to check if battle is in a specific step
+    const isBattleStep = useCallback((step) => battle && battle.step === step, [battle]);
+
+    // Helper to check if game actions are allowed (opening hand must be finalized)
+    const canPerformGameAction = useCallback(() => !openingShown, [openingShown]);
+
+    // Helper to get the opposing side
+    const getOpposingSide = useCallback((side) => side === 'player' ? 'opponent' : 'player', []);
+
     // --- Power Mod Overlays ---
     // Track power modifiers with explicit expiry side so we can clear correctly at Refresh Phase.
     // Structure: { [key]: Array<{ delta: number, expireOnSide: 'player'|'opponent'|null }> }
@@ -620,8 +652,10 @@ export default function Home() {
         return Array.isArray(arr) && arr.some((e) => String(e?.keyword || '').toLowerCase() === String(keyword || '').toLowerCase());
     }, [disabledKeywords, modKey]);
 
+    // Helper to check if two source objects represent the same card
+    const sameOrigin = useCallback((a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index), []);
+
     const openCardAction = useCallback(async (card, index, source = null) => {
-        const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
         // Block opening other action windows while a targeting session is active.
         if (targeting.active) {
             // Allow opening only for the origin card (to resume), regardless of suspended state
@@ -632,10 +666,10 @@ export default function Home() {
         setActionSource(source);
         setActionOpen(true);
         setSelectedCard(card); // Set the selected card in the viewer
-    }, [targeting.active, targeting.origin]);
+    }, [targeting.active, targeting.origin, sameOrigin]);
 
     const playSelectedCard = useCallback(() => {
-        if (openingShown) return; // Cannot play cards until opening hand is finalized
+        if (!canPerformGameAction()) return; // Cannot play cards until opening hand is finalized
         if (!actionCard) return;
         const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
         // Enforce timing: only during your Main and no battle
@@ -698,7 +732,7 @@ export default function Home() {
 
     // Start DON!! giving mode - select a DON!! card from cost area
     const startDonGiving = useCallback((side, donIndex) => {
-        if (openingShown) return; // Cannot give DON until opening hand is finalized
+        if (!canPerformGameAction()) return; // Cannot give DON until opening hand is finalized
         if (side !== turnSide) {
             appendLog(`Cannot give DON: not ${side}'s turn.`);
             return;
@@ -720,7 +754,7 @@ export default function Home() {
             selectedDonIndex: donIndex
         });
         appendLog(`[DON Select] Click a Leader or Character to give DON!!.`);
-    }, [turnSide, phaseLower, battle, appendLog, openingShown]);
+    }, [canPerformGameAction, turnSide, phaseLower, battle, appendLog]);
 
     // Cancel DON!! giving mode
     const cancelDonGiving = useCallback(() => {
@@ -744,7 +778,7 @@ export default function Home() {
         let success = false;
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const costLoc = side === 'player' ? next.player.bottom : next.opponent.top;
+            const costLoc = getHandCostLocationFromNext(next, side);
             const costArr = costLoc.cost || [];
 
             // Get the selected DON card
@@ -772,7 +806,7 @@ export default function Home() {
             const restedDon = { ...removedDon, rested: true };
 
             // Place DON underneath target card
-            const sideLoc = side === 'player' ? next.player : next.opponent;
+            const sideLoc = getSideLocationFromNext(next, side);
             if (targetSection === 'middle' && targetKeyName === 'leader') {
                 if (sideLoc.middle.leader[targetIndex]) {
                     if (!sideLoc.middle.leaderDon) sideLoc.middle.leaderDon = [];
@@ -815,7 +849,7 @@ export default function Home() {
         let success = false;
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const costLoc = controllerSide === 'player' ? next.player.bottom : next.opponent.top;
+            const costLoc = getHandCostLocationFromNext(next, controllerSide);
             const sourceCostArr = costLoc.cost || [];
             
             // Find and remove DON!! from cost area
@@ -834,7 +868,7 @@ export default function Home() {
             }
             
             // Add DON!! to target location
-            const targetSideLoc = targetSide === 'player' ? next.player : next.opponent;
+            const targetSideLoc = getSideLocationFromNext(next, targetSide);
             if (targetSection === 'middle' && targetKeyName === 'leader') {
                 targetSideLoc.middle.leaderDon = [...(targetSideLoc.middle.leaderDon || []), ...donToMove];
                 appendLog(`[giveDon] Moved ${donToMove.length} DON!! to ${targetSide} leader`);
@@ -859,7 +893,7 @@ export default function Home() {
         let cardWithTrigger = null;
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const side = defender === 'player' ? next.player : next.opponent;
+            const side = getSideLocationFromNext(next, defender);
             const life = side.life || [];
             if (!life.length) {
                 // Rule 1-2-1-1-1: Taking damage with 0 Life = defeat condition
@@ -871,14 +905,14 @@ export default function Home() {
 
             // Check if card has [Trigger] keyword
             const keywords = metaById.get(card.id)?.keywords || [];
-            const hasTrigger = keywords.some(k => /trigger/i.test(k));
+            const hasTrigger = hasKeyword(keywords, 'trigger');
 
             if (hasTrigger) {
                 // Pause and show trigger choice modal
                 cardWithTrigger = { side: defender, card, hasTrigger: true };
             } else {
                 // No trigger: add to hand as normal
-                const handLoc = defender === 'player' ? next.player.bottom : next.opponent.top;
+                const handLoc = getHandCostLocationFromNext(next, defender);
                 handLoc.hand = [...(handLoc.hand || []), card];
                 appendLog(`[Damage] ${defender} takes 1 damage, adds ${card.id} to hand.`);
             }
@@ -889,7 +923,7 @@ export default function Home() {
         if (cardWithTrigger) {
             setTriggerPending(cardWithTrigger);
         }
-    }, [metaById, appendLog]);
+    }, [metaById, appendLog, hasKeyword]);
 
     // Handle player's choice to activate [Trigger] or add to hand
     const onTriggerActivate = useCallback(() => {
@@ -900,7 +934,7 @@ export default function Home() {
         // For now, trash the card as per Rule 10-1-5-3
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const trashLoc = side === 'player' ? next.player.bottom : next.opponent.top;
+            const trashLoc = getHandCostLocationFromNext(next, side);
             trashLoc.trash = [...(trashLoc.trash || []), card];
             return next;
         });
@@ -914,7 +948,7 @@ export default function Home() {
         // Add to hand instead
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const handLoc = side === 'player' ? next.player.bottom : next.opponent.top;
+            const handLoc = getHandCostLocationFromNext(next, side);
             handLoc.hand = [...(handLoc.hand || []), card];
             return next;
         });
@@ -932,7 +966,7 @@ export default function Home() {
             if (!targetSide || !sourceSide || targetSide === sourceSide) return false;
             // Only applies to fielded Leader/Character
             if (!((section === 'char' && keyName === 'char') || (section === 'middle' && keyName === 'leader'))) return false;
-            const sideLoc = targetSide === 'player' ? areas.player : areas.opponent;
+            const sideLoc = getSideLocation(targetSide);
             const inst = section === 'char' ? (sideLoc?.char?.[index]) : (sideLoc?.middle?.leader?.[0]);
             if (!inst || !inst.id) return false;
             const meta = metaById.get(inst.id);
@@ -958,7 +992,7 @@ export default function Home() {
             // Persist the flag on areas
             setAreas((prev) => {
                 const next = structuredClone(prev);
-                const loc = targetSide === 'player' ? next.player : next.opponent;
+                const loc = getSideLocationFromNext(next, targetSide);
                 if (section === 'char' && loc?.char?.[instIndex]) {
                     loc.char[instIndex][usedTurnProp] = turnNumber;
                 } else if (section === 'middle' && loc?.middle?.leader?.[0]) {
@@ -983,8 +1017,8 @@ export default function Home() {
         // Proceed to remove the card from the field and move to trash; return given DON!!
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const sideLoc = targetSide === 'player' ? next.player : next.opponent;
-            const trashLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
+            const sideLoc = getSideLocationFromNext(next, targetSide);
+            const trashLoc = getHandCostLocationFromNext(next, targetSide);
 
             if (section === 'char' && keyName === 'char') {
                 const charArr = sideLoc?.char || [];
@@ -993,7 +1027,7 @@ export default function Home() {
                 // Return any given DON!! to cost area (rested)
                 const donUnderArr = (sideLoc?.charDon?.[index] || []);
                 if (donUnderArr.length) {
-                    const costLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
+                    const costLoc = getHandCostLocationFromNext(next, targetSide);
                     costLoc.cost = [...(costLoc.cost || []), ...donUnderArr];
                     appendLog(`[Effect KO] Returned ${donUnderArr.length} DON!! to cost area.`);
                 }
@@ -1012,7 +1046,7 @@ export default function Home() {
                 // Return leader DON!! to cost area
                 const leaderDon = sideLoc?.middle?.leaderDon || [];
                 if (leaderDon.length) {
-                    const costLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
+                    const costLoc = getHandCostLocationFromNext(next, targetSide);
                     costLoc.cost = [...(costLoc.cost || []), ...leaderDon];
                     sideLoc.middle.leaderDon = [];
                     appendLog(`[Effect KO] Returned ${leaderDon.length} DON!! from leader to cost area.`);
@@ -1032,13 +1066,13 @@ export default function Home() {
 
         // Must be active (not rested)
         // Use field instance (may contain enteredTurn) rather than transient actionCard copy
-        const fieldArr = side === 'player' ? (areas?.player?.char || []) : (areas?.opponent?.char || []);
+        const fieldArr = getCharArray(side);
         const fieldInst = fieldArr[index];
         const rested = fieldInst ? fieldInst.rested : card.rested;
         if (rested) return false;
 
         // Check for [Rush] keyword (Rule 10-1-1) including temporary grants
-        const rushStatic = getKeywordsFor(card.id).some((k) => /rush/i.test(k));
+        const rushStatic = hasKeyword(getKeywordsFor(card.id), 'rush');
         const rushTemp = hasTempKeyword(side, 'char', 'char', index, 'Rush');
         const rush = rushStatic || rushTemp;
 
@@ -1052,7 +1086,7 @@ export default function Home() {
         if (typeof enteredTurnVal === 'number' && enteredTurnVal === turnNumber && !rush) return false;
 
         return true;
-    }, [turnSide, phaseLower, turnNumber, getKeywordsFor, areas, hasTempKeyword]);
+    }, [turnSide, phaseLower, turnNumber, hasKeyword, getKeywordsFor, getCharArray, hasTempKeyword]);
 
     const canLeaderAttack = useCallback((card, side) => {
         if (!card || !card.id) return false;
@@ -1061,7 +1095,7 @@ export default function Home() {
         if (phaseLower !== 'main') return false;
 
         // Must be active (not rested)
-        const leaderArr = side === 'player' ? (areas?.player?.middle?.leader || []) : (areas?.opponent?.middle?.leader || []);
+        const leaderArr = getLeaderArray(side);
         const leaderCard = leaderArr[0];
         if (!leaderCard) return false;
         const rested = leaderCard.rested || false;
@@ -1071,7 +1105,7 @@ export default function Home() {
         if (turnNumber <= 2) return false;
 
         return true;
-    }, [turnSide, phaseLower, turnNumber, areas]);
+    }, [turnSide, phaseLower, turnNumber, getLeaderArray]);
 
     const getBasePower = useCallback((id) => {
         return metaById.get(id)?.stats?.power || 0;
@@ -1094,7 +1128,7 @@ export default function Home() {
             let sum = 0;
             const sides = ['player', 'opponent'];
             for (const srcSide of sides) {
-                const srcLoc = srcSide === 'player' ? areas.player : areas.opponent;
+                const srcLoc = getSideLocation(srcSide);
                 if (!srcLoc) continue;
 
                 // Leaders as sources
@@ -1163,7 +1197,7 @@ export default function Home() {
         let donBonus = 0;
         if (side === turnSide) {
             try {
-                const sideLoc = side === 'player' ? areas.player : areas.opponent;
+                const sideLoc = getSideLocation(side);
                 if (section === 'middle' && keyName === 'leader') {
                     const leaderDonArr = sideLoc?.middle?.leaderDon || [];
                     donBonus = leaderDonArr.length * 1000;
@@ -1180,18 +1214,18 @@ export default function Home() {
     }, [getBasePower, getPowerMod, getAuraPowerMod, turnSide, areas]);
 
     const beginAttackForLeader = useCallback((leaderCard, attackingSide = 'player') => {
-        if (openingShown) return; // Cannot attack until opening hand is finalized
+        if (!canPerformGameAction()) return; // Cannot attack until opening hand is finalized
         if (battle) return; // Only one battle at a time
         if (!canLeaderAttack(leaderCard, attackingSide)) return;
 
         // Cancel any active DON giving mode
         cancelDonGiving();
 
-        const defendingSide = attackingSide === 'player' ? 'opponent' : 'player';
+        const defendingSide = getOpposingSide(attackingSide);
         const attackerKey = modKey(attackingSide, 'middle', 'leader', 0);
         const attackerPower = getTotalPower(attackingSide, 'middle', 'leader', 0, leaderCard.id);
         setCurrentAttack({ key: attackerKey, cardId: leaderCard.id, index: 0, power: attackerPower, isLeader: true });
-        appendLog(`[attack] ${attackingSide === 'player' ? 'Your' : "Opponent's"} Leader declares attack (power ${attackerPower}). Choose ${defendingSide === 'opponent' ? 'opponent' : 'player'} Leader or a rested Character.`);
+        appendLog(`[attack] ${attackingSide === 'player' ? 'Your' : "Opponent's"} Leader declares attack (power ${attackerPower}). Choose ${getOpposingSide(defendingSide)} Leader or a rested Character.`);
         // Target selection phase (Attack Step target declaration)
         startTargeting({
             side: defendingSide,
@@ -1220,10 +1254,7 @@ export default function Home() {
             const targetCard = targetArr[t.index];
             if (!targetCard) { appendLog('[attack] Target not found.'); setCurrentAttack(null); return; }
             // Close action window when attack is initiated
-            setActionOpen(false);
-            setActionCardIndex(-1);
-            setActionSource(null);
-            setSelectedCard(null);
+            closeActionPanel();
             // Initialize battle state
             setBattle({
                 attacker: { side: attackingSide, section: 'middle', keyName: 'leader', index: 0, id: leaderCard.id, power: attackerPower },
@@ -1237,18 +1268,18 @@ export default function Home() {
     }, [battle, canLeaderAttack, getTotalPower, startTargeting, setAreas, appendLog, areas, cancelDonGiving, modKey, setBattle, setCurrentAttack, openingShown]);
 
     const beginAttackForCard = useCallback((attackerCard, attackerIndex, attackingSide = 'player') => {
-        if (openingShown) return; // Cannot attack until opening hand is finalized
+        if (!canPerformGameAction()) return; // Cannot attack until opening hand is finalized
         if (battle) return; // Only one battle at a time
         if (!canCharacterAttack(attackerCard, attackingSide, attackerIndex)) return;
 
         // Cancel any active DON giving mode
         cancelDonGiving();
 
-        const defendingSide = attackingSide === 'player' ? 'opponent' : 'player';
+        const defendingSide = getOpposingSide(attackingSide);
         const attackerKey = modKey(attackingSide, 'char', 'char', attackerIndex);
         const attackerPower = getTotalPower(attackingSide, 'char', 'char', attackerIndex, attackerCard.id);
         setCurrentAttack({ key: attackerKey, cardId: attackerCard.id, index: attackerIndex, power: attackerPower });
-        appendLog(`[attack] ${attackingSide === 'player' ? 'Your' : "Opponent's"} ${attackerCard.id} declares attack (power ${attackerPower}). Choose ${defendingSide === 'opponent' ? 'opponent' : 'player'} Leader or a rested Character.`);
+        appendLog(`[attack] ${attackingSide === 'player' ? 'Your' : "Opponent's"} ${attackerCard.id} declares attack (power ${attackerPower}). Choose ${getOpposingSide(defendingSide)} Leader or a rested Character.`);
         // Target selection phase (Attack Step target declaration)
         startTargeting({
             side: defendingSide,
@@ -1277,10 +1308,7 @@ export default function Home() {
             const targetCard = targetArr[t.index];
             if (!targetCard) { appendLog('[attack] Target not found.'); setCurrentAttack(null); return; }
             // Close action window when attack is initiated
-            setActionOpen(false);
-            setActionCardIndex(-1);
-            setActionSource(null);
-            setSelectedCard(null);
+            closeActionPanel();
             // Initialize battle state
             setBattle({
                 attacker: { side: attackingSide, section: 'char', keyName: 'char', index: attackerIndex, id: attackerCard.id, power: attackerPower },
@@ -1331,14 +1359,14 @@ export default function Home() {
     }, [battle, getDefenderPower, getAttackerPower]);
 
     const applyBlocker = useCallback((blockerIndex) => {
-        if (!battle || battle.step !== 'block') return;
+        if (!isBattleStep('block')) return;
         // Determine defending side from current target
         const defendingSide = battle.target?.side || 'opponent';
-        const chars = defendingSide === 'player' ? (areas?.player?.char || []) : (areas?.opponent?.char || []);
+        const chars = getCharArray(defendingSide);
         const card = chars[blockerIndex];
         if (!card) return;
         // Must have [Blocker] and be active
-        const hasBlocker = getKeywordsFor(card.id).some((k) => /blocker/i.test(k));
+        const hasBlocker = hasKeyword(getKeywordsFor(card.id), 'blocker');
         if (!hasBlocker) return;
         if (card.rested) return; // must be active
         // Check if Blocker keyword is disabled on this card
@@ -1350,7 +1378,7 @@ export default function Home() {
         // Rest blocker and make it new target
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const loc = defendingSide === 'player' ? next.player : next.opponent;
+            const loc = getSideLocationFromNext(next, defendingSide);
             if (loc?.char?.[blockerIndex]) loc.char[blockerIndex].rested = true;
             return next;
         });
@@ -1361,19 +1389,19 @@ export default function Home() {
             blockerUsed: true,
             step: 'counter'
         }));
-    }, [battle, areas, getKeywordsFor, hasDisabledKeyword, appendLog, setAreas]);
+    }, [isBattleStep, battle, hasKeyword, getCharArray, getKeywordsFor, hasDisabledKeyword, appendLog, setAreas]);
 
     const skipBlock = useCallback(() => {
-        if (!battle || battle.step !== 'block') return;
+        if (!isBattleStep('block')) return;
         appendLog('[battle] No blocker used. Proceed to Counter Step.');
         setBattle((b) => ({ ...b, step: 'counter' }));
-    }, [battle, appendLog]);
+    }, [isBattleStep, appendLog]);
 
     const addCounterFromHand = useCallback((handIndex) => {
-        if (!battle || battle.step !== 'counter') return;
+        if (!isBattleStep('counter')) return;
         // Get card from defending side's hand
         const defendingSide = battle.target.side;
-        const handLoc = defendingSide === 'player' ? areas?.player?.bottom : areas?.opponent?.top;
+        const handLoc = getHandCostLocation(defendingSide);
         const card = handLoc?.hand?.[handIndex];
         if (!card) return;
         const meta = metaById.get(card.id);
@@ -1409,15 +1437,12 @@ export default function Home() {
         appendLog(`[battle] Counter applied: ${card.id} +${counterVal} to ${targetName}.`);
 
         // Close action panel after counter is applied
-        setActionOpen(false);
-        setActionCardIndex(-1);
-        setActionSource(null);
-        setSelectedCard(null);
-    }, [battle, metaById, appendLog, setAreas, areas, setActionOpen, setActionCardIndex, setActionSource, setSelectedCard]);
+        closeActionPanel();
+    }, [isBattleStep, battle, metaById, appendLog, setAreas, areas, closeActionPanel]);
 
     // Play an Event Counter card from defending side's hand during Counter Step
     const playCounterEventFromHand = useCallback((handIndex) => {
-        if (!battle || battle.step !== 'counter') return;
+        if (!isBattleStep('counter')) return;
         const defendingSide = battle.target.side;
         setAreas((prev) => {
             const next = structuredClone(prev);
@@ -1428,7 +1453,7 @@ export default function Home() {
             const meta = metaById.get(card.id);
             if (!meta) return prev;
             const isEvent = meta.category === 'Event';
-            const hasCounterKeyword = (meta.keywords || []).some(k => /counter/i.test(k));
+            const hasCounterKeyword = hasKeyword(meta.keywords, 'counter');
             if (!isEvent || !hasCounterKeyword) return prev;
             const cost = meta?.stats?.cost || 0;
             const costArr = handLoc?.cost || [];
@@ -1447,16 +1472,16 @@ export default function Home() {
             appendLog(`[battle] Event Counter activated: ${card.id} (cost ${cost}).`);
             return next;
         });
-    }, [battle, metaById, appendLog, setAreas]);
+    }, [isBattleStep, battle, hasKeyword, metaById, appendLog, setAreas]);
 
     const endCounterStep = useCallback(() => {
-        if (!battle || battle.step !== 'counter') return;
+        if (!isBattleStep('counter')) return;
         appendLog('[battle] Counter Step complete. Proceed to Damage Step.');
         setBattle((b) => ({ ...b, step: 'damage' }));
-    }, [battle, appendLog]);
+    }, [isBattleStep, appendLog]);
 
     const resolveDamage = useCallback(() => {
-        if (!battle || battle.step !== 'damage') return;
+        if (!isBattleStep('damage')) return;
         const atkPower = getAttackerPower(battle);
         const defPower = getDefenderPower(battle);
         const targetIsLeader = battle.target.section === 'middle' && battle.target.keyName === 'leader';
@@ -1470,7 +1495,7 @@ export default function Home() {
                 const defendingSide = battle.target.side;
                 setAreas((prev) => {
                     const next = structuredClone(prev);
-                    const sideLoc = defendingSide === 'player' ? next.player : next.opponent;
+                    const sideLoc = getSideLocationFromNext(next, defendingSide);
                     const charArr = sideLoc.char || [];
                     const charDonArr = sideLoc.charDon || [];
                     const removed = charArr.splice(battle.target.index, 1)[0];
@@ -1478,7 +1503,7 @@ export default function Home() {
                     // Return given DON!! to cost area as rested (they're already rested)
                     const donUnder = charDonArr[battle.target.index] || [];
                     if (donUnder.length > 0) {
-                        const costLoc = defendingSide === 'player' ? next.player.bottom : next.opponent.top;
+                        const costLoc = getHandCostLocationFromNext(next, defendingSide);
                         costLoc.cost = [...(costLoc.cost || []), ...donUnder];
                         appendLog(`[K.O.] Returned ${donUnder.length} DON!! to cost area.`);
                     }
@@ -1488,7 +1513,7 @@ export default function Home() {
                     sideLoc.char = charArr;
                     sideLoc.charDon = charDonArr;
 
-                    const trashLoc = defendingSide === 'player' ? next.player.bottom : next.opponent.top;
+                    const trashLoc = getHandCostLocationFromNext(next, defendingSide);
                     const trashArr = trashLoc?.trash || [];
                     trashLoc.trash = [...trashArr, removed];
                     return next;
@@ -1499,7 +1524,7 @@ export default function Home() {
             appendLog('[result] Attacker loses battle; no damage.');
         }
         setBattle((b) => ({ ...b, step: 'end' }));
-    }, [battle, getAttackerPower, getDefenderPower, appendLog, dealOneDamageToLeader, setAreas]);
+    }, [isBattleStep, battle, getAttackerPower, getDefenderPower, appendLog, dealOneDamageToLeader, setAreas]);
 
     // Transition from damage to end & cleanup
     useEffect(() => {
@@ -1583,7 +1608,7 @@ export default function Home() {
 
     // --- Self-Play Engine Helpers ---
     const drawCard = useCallback((side) => {
-        if (openingShown) return; // Cannot draw cards until opening hand is finalized
+        if (!canPerformGameAction()) return; // Cannot draw cards until opening hand is finalized
         const isPlayer = side === 'player';
         const lib = isPlayer ? library : oppLibrary;
         if (!lib.length) return;
@@ -1598,7 +1623,7 @@ export default function Home() {
             return next;
         });
         (isPlayer ? setLibrary : setOppLibrary)((prev) => prev.slice(0, -1));
-    }, [library, oppLibrary, getAssetForId, createCardBacks, openingShown]);
+    }, [canPerformGameAction, library, oppLibrary, getAssetForId, createCardBacks]);
 
     // Start deck search modal (for card abilities like "Look at top 5 cards...")
     const startDeckSearch = useCallback((config) => {
@@ -1607,10 +1632,7 @@ export default function Home() {
         const lib = isPlayer ? library : oppLibrary;
 
         // Close action window when opening deck search
-        setActionOpen(false);
-        setActionCardIndex(-1);
-        setActionSource(null);
-        setSelectedCard(null);
+        closeActionPanel();
 
         if (!lib.length) {
             appendLog(`[Deck Search] No cards in deck!`);
@@ -1699,7 +1721,7 @@ export default function Home() {
             // Determine where the card array lives
             // Sections 'top', 'middle', 'bottom' are nested objects keyed by keyName
             // Sections like 'char' or 'life' are arrays directly on the side root
-            const sideRoot = isPlayer ? next.player : next.opponent;
+            const sideRoot = getSideLocationFromNext(next, side);
             let sourceArray;
             if (section === 'top' || section === 'middle' || section === 'bottom') {
                 const container = sideRoot[section];
@@ -1768,7 +1790,7 @@ export default function Home() {
     const restCard = useCallback((side, section, keyName, index) => {
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const sideLoc = side === 'player' ? next.player : next.opponent;
+            const sideLoc = getSideLocationFromNext(next, side);
             try {
                 if (section === 'char' && keyName === 'char') {
                     if (sideLoc?.char?.[index]) {
@@ -1795,11 +1817,11 @@ export default function Home() {
     }, [setAreas, appendLog]);
 
     const donPhaseGain = useCallback((side, count) => {
-        if (openingShown) return 0; // Cannot gain DON until opening hand is finalized
+        if (!canPerformGameAction()) return 0; // Cannot gain DON until opening hand is finalized
         let actualMoved = 0;
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const loc = side === 'player' ? next.player.bottom : next.opponent.top;
+            const loc = getHandCostLocationFromNext(next, side);
             const available = (loc.don || []).length;
 
             // Rules 6-4-1, 6-4-2, 6-4-3: Handle DON!! deck depletion
@@ -1819,7 +1841,7 @@ export default function Home() {
             return next;
         });
         return actualMoved;
-    }, [DON_FRONT, openingShown]);
+    }, [canPerformGameAction, DON_FRONT]);
 
     // Execute Refresh Phase according to rule 6-2
     const executeRefreshPhase = useCallback((side) => {
@@ -1869,8 +1891,8 @@ export default function Home() {
         // 6-2-4: Set all rested cards to active
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const sideLoc = side === 'player' ? next.player : next.opponent;
-            const costLoc = side === 'player' ? next.player.bottom : next.opponent.top;
+            const sideLoc = getSideLocationFromNext(next, side);
+            const costLoc = getHandCostLocationFromNext(next, side);
 
             // 6-2-3: Return given DON!! from Leader
             if (sideLoc?.middle?.leaderDon && sideLoc.middle.leaderDon.length > 0) {
@@ -1923,8 +1945,8 @@ export default function Home() {
         let paid = 0;
         setAreas((prev) => {
             const next = structuredClone(prev);
-            const sideLoc = side === 'player' ? next.player : next.opponent;
-            const handLoc = side === 'player' ? next.player.bottom : next.opponent.top;
+            const sideLoc = getSideLocationFromNext(next, side);
+            const handLoc = getHandCostLocationFromNext(next, side);
             const lifeArr = sideLoc.life || [];
             const toPay = Math.min(amount, lifeArr.length);
             if (toPay <= 0) return prev;
@@ -1947,7 +1969,7 @@ export default function Home() {
         if (phaseLower === 'don') {
             const requestedAmount = turnNumber === 1 && turnSide === 'player' ? 1 : 2;
             // Calculate actual DON!! available in the DON!! deck
-            const donDeck = turnSide === 'player' ? (areas?.player?.bottom?.don || []) : (areas?.opponent?.top?.don || []);
+            const donDeck = getDonDeckArray(turnSide);
             const availableDon = donDeck.length;
             const actualAmount = Math.min(requestedAmount, availableDon);
             return `Gain ${actualAmount} DON!!`;
@@ -1955,21 +1977,21 @@ export default function Home() {
         // Show confirmation text if in confirming state
         if (endTurnConfirming) return 'Are you sure?';
         return 'End Turn';
-    }, [phaseLower, turnNumber, turnSide, areas, endTurnConfirming]);
+    }, [phaseLower, turnNumber, turnSide, getDonDeckArray, endTurnConfirming]);
 
     // Auto-skip DON phase if no DON can be gained (no button press required)
     useEffect(() => {
-        if (openingShown) return;
+        if (!canPerformGameAction()) return;
         if (phaseLower !== 'don') return;
         const requestedAmount = turnNumber === 1 && turnSide === 'player' ? 1 : 2;
-        const donDeck = turnSide === 'player' ? (areas?.player?.bottom?.don || []) : (areas?.opponent?.top?.don || []);
+        const donDeck = getDonDeckArray(turnSide);
         const availableDon = donDeck.length;
         const actualAmount = Math.min(requestedAmount, availableDon);
         if (actualAmount === 0) {
             appendLog('DON!! deck empty: skipping DON phase.');
             setPhase('Main');
         }
-    }, [phaseLower, openingShown, turnNumber, turnSide, areas, appendLog]);
+    }, [canPerformGameAction, phaseLower, turnNumber, turnSide, getDonDeckArray, appendLog]);
 
     const onNextAction = useCallback(() => {
         // Block advancing while resolving mandatory effects, selections, deck search, triggers, or battle
@@ -1977,7 +1999,7 @@ export default function Home() {
             appendLog('Cannot end turn while resolving effects or selections.');
             return;
         }
-        if (openingShown) return; // Cannot advance phases until opening hand is finalized
+        if (!canPerformGameAction()) return; // Cannot advance phases until opening hand is finalized
         const isFirst = turnNumber === 1 && turnSide === 'player';
 
         if (phaseLower === 'draw') {
@@ -2027,7 +2049,7 @@ export default function Home() {
         setEndTurnConfirming(false);
 
         appendLog('[End Phase] End turn.');
-        const nextSide = turnSide === 'player' ? 'opponent' : 'player';
+        const nextSide = getOpposingSide(turnSide);
 
         // Cancel any active DON giving mode
         cancelDonGiving();
@@ -2042,7 +2064,7 @@ export default function Home() {
         executeRefreshPhase(nextSide);
 
         setPhase('Draw');
-    }, [phaseLower, turnNumber, turnSide, drawCard, appendLog, donPhaseGain, executeRefreshPhase, cancelDonGiving, openingShown, endTurnConfirming]);
+    }, [canPerformGameAction, phaseLower, turnNumber, turnSide, getOpposingSide, drawCard, appendLog, donPhaseGain, executeRefreshPhase, cancelDonGiving, endTurnConfirming]);
 
     // Render main UI: show loading, user info, or login/register form plus card viewer
     const [deckOpen, setDeckOpen] = useState(false);
@@ -2158,28 +2180,20 @@ export default function Home() {
             {actionOpen && (
                 <ClickAwayListener onClickAway={() => {
                     // Close Actions; if this window initiated targeting, suspend that session
-                    const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
                     if (targeting?.active && sameOrigin(targeting.origin, actionSource)) {
                         suspendTargeting();
                     }
                     setResolvingEffect(false);
-                    setActionOpen(false);
-                    setActionCardIndex(-1);
-                    setActionSource(null);
-                    setSelectedCard(null);
+                    closeActionPanel();
                 }}>
                     <div>
                         <Actions
                             onClose={() => {
-                                const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
                                 if (targeting?.active && sameOrigin(targeting.origin, actionSource)) {
                                     suspendTargeting();
                                 }
                                 setResolvingEffect(false);
-                                setActionOpen(false);
-                                setActionCardIndex(-1);
-                                setActionSource(null);
-                                setSelectedCard(null);
+                                closeActionPanel();
                             }}
                             card={actionCard}
                             cardMeta={metaById.get(actionCard?.id)}
@@ -2250,7 +2264,7 @@ export default function Home() {
                                                 );
                                             }
                                             const isEvent = meta.category === 'Event';
-                                            const hasCounterKeyword = (meta.keywords || []).some(k => /counter/i.test(k));
+                                            const hasCounterKeyword = hasKeyword(meta.keywords, 'counter');
                                             if (isEvent && hasCounterKeyword) {
                                                 const cost = meta?.stats?.cost || 0;
                                                 const canPay = hasEnoughDonFor(battle.target.side, cost);
