@@ -1,6 +1,6 @@
 // Activity.jsx
 // Battle control panel and battle arrow overlay for One Piece TCG Sim
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Paper, Typography, Button, Stack, Chip, Divider } from '@mui/material';
 
 export default function Activity({
@@ -10,6 +10,20 @@ export default function Activity({
     skipBlock,
     endCounterStep
 }) {
+    // Force re-render on window resize to update arrow positions
+    const [, setResizeTick] = useState(0);
+    
+    useEffect(() => {
+        if (!battleArrow) return;
+        
+        const handleResize = () => {
+            setResizeTick(t => t + 1);
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [battleArrow]);
+    
     if (!battle && !battleArrow) return null;
 
     return (
@@ -62,8 +76,10 @@ export default function Activity({
                 const label = battleArrow.label || '';
                 const mid = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
                 const id = 'arrowHead';
-                // Always use red for attack arrow to match requested UX
-                const stroke = '#e53935';
+                // Use a lighter red for the attack arrow
+                const stroke = '#ff6b6b';
+                const strokeWidth = 4;
+                
                 return (
                     <svg
                         style={{
@@ -77,15 +93,41 @@ export default function Activity({
                         }}
                     >
                         <defs>
-                            <marker id={id} markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <marker id={id} markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
                                 <path d="M0,0 L0,6 L9,3 z" fill={stroke} />
                             </marker>
                         </defs>
-                        <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke={stroke} strokeWidth="5" markerEnd={`url(#${id})`} />
+                        <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" markerEnd={`url(#${id})`} />
                         {label ? (
                             <g>
-                                <rect x={mid.x - 68} y={mid.y - 12} width="136" height="20" rx="4" ry="4" fill="rgba(0,0,0,0.8)" />
-                                <text x={mid.x} y={mid.y} fill="#fff" fontSize="13" fontWeight="600" textAnchor="middle" dominantBaseline="middle">{label}</text>
+                                <text x={mid.x} y={mid.y} fill="#fff" fontSize="13" fontWeight="600" textAnchor="middle" dominantBaseline="middle" style={{ visibility: 'hidden' }}>{label}</text>
+                                <rect x={mid.x} y={mid.y} width="1" height="1" rx="4" ry="4" fill="rgba(0,0,0,0.8)" style={{ transform: 'translate(-50%, -50%)' }}>
+                                    <animate attributeName="width" from="1" to="auto" dur="0.01s" fill="freeze" />
+                                    <animate attributeName="height" from="1" to="24" dur="0.01s" fill="freeze" />
+                                </rect>
+                                {(() => {
+                                    // Measure text width dynamically
+                                    const textEl = typeof document !== 'undefined' ? document.createElementNS('http://www.w3.org/2000/svg', 'text') : null;
+                                    let textWidth = 136; // default
+                                    if (textEl) {
+                                        textEl.setAttribute('font-size', '13');
+                                        textEl.setAttribute('font-weight', '600');
+                                        textEl.textContent = label;
+                                        const svg = document.querySelector('svg');
+                                        if (svg) {
+                                            svg.appendChild(textEl);
+                                            const bbox = textEl.getBBox();
+                                            textWidth = bbox.width + 16; // padding
+                                            svg.removeChild(textEl);
+                                        }
+                                    }
+                                    return (
+                                        <>
+                                            <rect x={mid.x - textWidth/2} y={mid.y - 12} width={textWidth} height="24" rx="4" ry="4" fill="rgba(0,0,0,0.8)" />
+                                            <text x={mid.x} y={mid.y} fill="#fff" fontSize="13" fontWeight="600" textAnchor="middle" dominantBaseline="middle">{label}</text>
+                                        </>
+                                    );
+                                })()}
                             </g>
                         ) : null}
                     </svg>

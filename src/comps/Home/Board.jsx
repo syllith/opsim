@@ -254,11 +254,25 @@ export default function Board({
         const isPlayerHand = side === 'player' && section === 'bottom' && keyName === 'hand';
         const isOppHand = side === 'opponent' && section === 'top' && keyName === 'hand';
         const isActiveLeader = side === turnSide && section === 'middle' && keyName === 'leader';
+        
+        // Check if this area can receive DON (leader or character areas)
+        const canReceiveDon = (section === 'middle' && keyName === 'leader') || (section === 'char' && keyName === 'char');
 
         return (
             <Paper
                 variant="outlined"
-                onClick={!gameStarted ? () => addCardToArea(side, section, keyName) : undefined}
+                data-area-box="true"
+                onClick={(e) => {
+                    if (donGivingMode?.active && !canReceiveDon) {
+                        // Cancel DON giving if clicking on areas that can't receive DON
+                        e.stopPropagation();
+                        cancelDonGiving();
+                        return;
+                    }
+                    if (!gameStarted) {
+                        addCardToArea(side, section, keyName);
+                    }
+                }}
                 onContextMenu={(e) => { if (gameStarted) { e.preventDefault(); return; } e.preventDefault(); removeCardFromArea(side, section, keyName); }}
                 sx={{ p: 0, bgcolor: '#3c3c3c', color: 'white', width: config.width, height: config.height, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', cursor: gameStarted ? 'default' : 'pointer', userSelect: 'none', borderWidth: isActiveLeader ? 2 : 1, borderColor: isActiveLeader ? '#ffc107' : 'divider' }}
             >
@@ -728,7 +742,16 @@ export default function Board({
     };
 
     return (
-        <Box ref={boardOuterRef} sx={{ width: '100%', maxWidth: '100%', height: '100%', overflow: 'hidden', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+        <Box 
+            ref={boardOuterRef} 
+            sx={{ width: '100%', maxWidth: '100%', height: '100%', overflow: 'hidden', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}
+            onClick={(e) => {
+                // Cancel DON giving mode when clicking on the board background
+                if (donGivingMode?.active && e.target === e.currentTarget) {
+                    cancelDonGiving();
+                }
+            }}
+        >
             {/* Scaled Playmat Content */}
             <Box
                 ref={contentRef}
@@ -737,6 +760,20 @@ export default function Board({
                     transform: `scale(${boardScale})`,
                     transformOrigin: 'top center',
                     transition: 'transform 80ms linear',
+                }}
+                onClick={(e) => {
+                    // Cancel DON giving mode when clicking anywhere in the play area (except DON cards and valid targets)
+                    if (donGivingMode?.active) {
+                        // Check if clicked element is a card image or area box
+                        const target = e.target;
+                        const clickedCard = target.tagName === 'IMG';
+                        const clickedInsideAreaBox = target.closest('[data-area-box]');
+                        
+                        // If not clicking a card or clicking an area that's not a valid target, cancel
+                        if (!clickedCard && !clickedInsideAreaBox) {
+                            cancelDonGiving();
+                        }
+                    }
                 }}
             >
                 {/* Opponent Side */}

@@ -278,6 +278,34 @@ Make rested cards active (untap).
 }
 ```
 
+### 11. Grant Keyword (`grantKeyword`)
+
+Temporarily grants a keyword (e.g., Rush, Blocker) for a duration. Can target specific cards or apply to the action source itself.
+
+**Required Fields:**
+- `type`: `"grantKeyword"`
+- `keyword`: `string` - The keyword to grant (e.g., `"Rush"`)
+
+**Targeting Options:**
+- `targetSelf`: `boolean` - If `true`, applies to the source card (no targeting UI)
+- Or use standard targeting fields to select targets:
+  - `targetSide`: `"player" | "opponent" | "both"`
+  - `targetType`: `"leader" | "character" | "any"`
+  - `minTargets`, `maxTargets`
+
+**Duration:**
+- `duration`: `"thisTurn" | "untilOpponentsNextTurn" | "permanent"` (default `"thisTurn"`)
+
+**Example – Self Rush this turn:**
+```json
+{
+  "type": "grantKeyword",
+  "keyword": "Rush",
+  "targetSelf": true,
+  "duration": "thisTurn"
+}
+```
+
 ## Complete Card Examples
 
 ### Example 1: OP01-006 Otama

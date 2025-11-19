@@ -23,41 +23,46 @@
     }
   },
   "keywords": [
-    "On Play",
-    "Activate: Main",
-    "Once Per Turn",
-    "Rush"
+    
   ],
   "trigger": null,
   "text": "On Play: Give up to one of your opponent's characters -1000 Power for the turn. DON!! x1 Activate: Main Once Per Turn: You may take the top card of your life and add it to your hand: This character gains Rush for the turn. (This card can attack on the turn in which it is played.)",
   "abilities": [
     {
-      "timing": "On Play",
+      "type": "On Play",
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": null,
+      "cost": null,
       "effect": {
-        "text": "Give up to one of your opponent's characters -1000 Power for the turn.",
-        "powerMod": null,
-        "giveDon": null
+        "text": "Give up to 1 of your opponent's Characters -1000 power during this turn.",
+        "actions": [
+          {
+            "type": "powerMod",
+            "amount": -1000,
+            "targetSide": "opponent",
+            "targetType": "character",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "duration": "thisTurn"
+          }
+        ]
       }
     },
     {
-      "timing": "Activate: Main",
+      "type": "Activate Main",
       "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
+      "condition": { "don": 1 },
+      "cost": { "payLife": 1 },
       "effect": {
-        "text": "You may take the top card of your life and add it to your hand: This character gains Rush for the turn.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
+        "text": "You may take the top card of your Life and add it to your hand: This Character gains Rush during this turn.",
+        "actions": [
+          {
+            "type": "grantKeyword",
+            "keyword": "Rush",
+            "targetSelf": true,
+            "duration": "thisTurn"
+          }
+        ]
       }
     }
   ],

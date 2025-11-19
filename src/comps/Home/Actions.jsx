@@ -29,10 +29,12 @@ export default function Actions({
   getCardMeta,
   applyPowerMod,
   registerUntilNextTurnEffect,
+  grantTempKeyword,
   giveDonToCard,
   startDeckSearch,
   returnCardToDeck,
   restCard,
+  payLife,
   battle,
   battleApplyBlocker,
   battleSkipBlock,
@@ -435,6 +437,19 @@ export default function Actions({
         // Fail-safe: do not block if evaluation throws
       }
 
+      // Check cost availability: payLife requires at least that much life available on controller
+      if (canActivate && costCfg?.payLife && typeof costCfg.payLife === 'number' && costCfg.payLife > 0) {
+        try {
+          const controllerSide = actionSource?.side === 'opponent' ? 'opponent' : 'player';
+          const sideLoc = controllerSide === 'opponent' ? areas?.opponent : areas?.player;
+          const lifeCount = (sideLoc?.life || []).length;
+          if (lifeCount < costCfg.payLife) {
+            canActivate = false;
+            reason = 'Not enough Life to pay';
+          }
+        } catch {}
+      }
+
       // Check DON!! requirement (condition.don) using live board state
       if (condition.don && condition.don > 0 && isOnField) {
         let donCount = 0;
@@ -568,11 +583,13 @@ export default function Actions({
           // startLifeSelection(actionSource.side, cost.discardFromLife, (selectedCards) => { discardFromLife(selectedCards); });
         }
         
-        // Handle payLifeCost (take damage as a cost)
+        // Handle payLife cost (move top Life to hand without Trigger)
         if (cost.payLife && typeof cost.payLife === 'number') {
-          console.log(`[Ability] Paying cost: Pay ${cost.payLife} life`);
-          // TODO: Implement life payment
-          // payLife(actionSource.side, cost.payLife);
+          try {
+            const side = actionSource?.side || 'player';
+            console.log(`[Ability] Paying cost: Pay ${cost.payLife} life for ${side}`);
+            if (typeof payLife === 'function') payLife(side, cost.payLife);
+          } catch {}
         }
       }
     };
@@ -683,6 +700,70 @@ export default function Actions({
               processNext();
             });
             break;
+          case 'grantKeyword': {
+            const keyword = action.keyword || '';
+            const duration = action.duration || 'thisTurn';
+            // Determine expiry side
+            let expireOnSide = null;
+            if (duration === 'thisTurn') {
+              expireOnSide = (turnSide === 'player') ? 'opponent' : 'player';
+            } else if (duration === 'untilOpponentsNextTurn') {
+              expireOnSide = (turnSide === 'player') ? 'player' : 'opponent';
+            }
+            if (action.targetSelf) {
+              // Apply to the source card instance
+              if (typeof grantTempKeyword === 'function') {
+                const s = actionSource?.side || 'player';
+                grantTempKeyword(s, actionSource.section, actionSource.keyName, actionSource.index || 0, keyword, expireOnSide);
+              }
+              if (registerUntilNextTurnEffect && duration !== 'permanent') {
+                const label = `${cardName}: ${typeof effect === 'object' ? effect.text : String(effect || '')}`;
+                registerUntilNextTurnEffect(expireOnSide || (turnSide === 'player' ? 'opponent' : 'player'), label);
+              }
+              processNext();
+              break;
+            }
+            // Targeting variant: grant keyword to selected targets
+            const targetSideRelative = action.targetSide || 'player';
+            const targetType = action.targetType || 'any';
+            const minTargets = action.minTargets !== undefined ? action.minTargets : 1;
+            const maxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
+            const actualSide = resolveActionTargetSide(targetSideRelative);
+            const preCandidates = listValidTargets(actualSide, targetType, { uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
+            if ((preCandidates.length === 0) || (minTargets === 0 && preCandidates.length === 0)) {
+              processNext();
+              break;
+            }
+            setSelectedAbilityIndex(abilityIndex);
+            startTargeting({
+              side: actualSide,
+              multi: true,
+              min: minTargets,
+              max: maxTargets,
+              validator: (card, ctx) => {
+                if (targetType === 'leader') return ctx?.section === 'middle' && ctx?.keyName === 'leader';
+                if (targetType === 'character') return ctx?.section === 'char' && ctx?.keyName === 'char';
+                if (targetType === 'any') return (ctx?.section === 'middle' && ctx?.keyName === 'leader') || (ctx?.section === 'char' && ctx?.keyName === 'char');
+                return false;
+              },
+              origin: actionSource,
+              abilityIndex,
+              type: 'ability'
+            }, (targets) => {
+              targets.forEach(t => {
+                if (typeof grantTempKeyword === 'function') {
+                  grantTempKeyword(t.side, t.section, t.keyName, t.index, keyword, expireOnSide);
+                }
+                cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
+              });
+              if (registerUntilNextTurnEffect && duration !== 'permanent') {
+                const label = `${cardName}: ${typeof effect === 'object' ? effect.text : String(effect || '')}`;
+                registerUntilNextTurnEffect(expireOnSide || (turnSide === 'player' ? 'opponent' : 'player'), label);
+              }
+              processNext();
+            });
+            break;
+          }
 
           case 'draw':
             // Draw cards action

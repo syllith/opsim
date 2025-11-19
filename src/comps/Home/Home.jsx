@@ -143,7 +143,7 @@ export default function Home() {
     // End Turn confirmation state
     const [endTurnConfirming, setEndTurnConfirming] = useState(false);
     const endTurnTimeoutRef = useRef(null);
-    
+
     // Clear end turn confirmation timeout on unmount
     useEffect(() => {
         return () => {
@@ -401,7 +401,7 @@ export default function Home() {
     const [actionCardIndex, setActionCardIndex] = useState(-1);
     const [actionSource, setActionSource] = useState(null); // { side, section, keyName, index }
 
-    
+
 
     const hasEnoughDonFor = useCallback((side, cost) => {
         if (!cost || cost <= 0) return true;
@@ -441,10 +441,10 @@ export default function Home() {
     const startTargeting = useCallback((descriptor, onComplete) => {
         const { side, section, keyName, min = 1, max = 1, validator = null, multi = false, origin = null, abilityIndex = null, type = 'ability' } = descriptor || {};
         const sessionId = Date.now() + Math.random();
-        setTargeting({ 
-            active: true, side, section: section || null, keyName: keyName || null, min, max, validator, 
+        setTargeting({
+            active: true, side, section: section || null, keyName: keyName || null, min, max, validator,
             selectedIdx: [], multi, selected: [], onComplete,
-            suspended: false, sessionId, origin: origin || null, 
+            suspended: false, sessionId, origin: origin || null,
             abilityIndex: (typeof abilityIndex === 'number' ? abilityIndex : null),
             type: type || 'ability'
         });
@@ -543,7 +543,7 @@ export default function Home() {
         if (count >= min && min > 0) {
             // Defer to next tick to allow UI to update selection outline
             const t = setTimeout(() => {
-                try { confirmTargeting(); } catch {}
+                try { confirmTargeting(); } catch { }
             }, 0);
             return () => clearTimeout(t);
         }
@@ -556,7 +556,7 @@ export default function Home() {
     // Structure: { [key]: Array<{ delta: number, expireOnSide: 'player'|'opponent'|null }> }
     const [powerMods, setPowerMods] = useState({});
     const modKey = useCallback((side, section, keyName, index) => `${side}:${section}:${keyName}:${index}`, []);
-    
+
     // Track continuous effects that last "until start of your next turn" (for Refresh Phase cleanup)
     const [untilNextTurnEffects, setUntilNextTurnEffects] = useState({ player: [], opponent: [] });
     const getPowerMod = useCallback((side, section, keyName, index) => {
@@ -573,7 +573,7 @@ export default function Home() {
             return next;
         });
     }, [modKey]);
-    
+
     // Helper to register effects that last "until the start of your next turn" (rule 6-2-1)
     const registerUntilNextTurnEffect = useCallback((side, effectDescription) => {
         setUntilNextTurnEffects((prev) => ({
@@ -581,6 +581,25 @@ export default function Home() {
             [side]: [...(prev[side] || []), { description: effectDescription, timestamp: Date.now() }]
         }));
     }, []);
+
+    // --- Temporary Keywords (e.g., grant Rush this turn) ---
+    // Structure: { [key]: Array<{ keyword: string, expireOnSide: 'player'|'opponent'|null }> }
+    const [tempKeywords, setTempKeywords] = useState({});
+    const addTempKeyword = useCallback((side, section, keyName, index, keyword, expireOnSide = null) => {
+        setTempKeywords((prev) => {
+            const k = modKey(side, section, keyName, index);
+            const next = { ...prev };
+            const list = Array.isArray(next[k]) ? [...next[k]] : [];
+            list.push({ keyword, expireOnSide: expireOnSide || null });
+            next[k] = list;
+            return next;
+        });
+    }, [modKey]);
+    const hasTempKeyword = useCallback((side, section, keyName, index, keyword) => {
+        const k = modKey(side, section, keyName, index);
+        const arr = tempKeywords[k] || [];
+        return Array.isArray(arr) && arr.some((e) => String(e?.keyword || '').toLowerCase() === String(keyword || '').toLowerCase());
+    }, [tempKeywords, modKey]);
 
     const openCardAction = useCallback(async (card, index, source = null) => {
         const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
@@ -602,13 +621,13 @@ export default function Home() {
         const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
         // Enforce timing: only during your Main and no battle
         if (!canPlayNow(side)) return;
-        
+
         // RULE ENFORCEMENT: Only the turn player can play cards (6-5-3)
         if (side !== turnSide) {
             appendLog(`Cannot play ${actionCard.id}: not ${side}'s turn.`);
             return;
         }
-        
+
         const cost = getCardCost(actionCard.id);
         if (!hasEnoughDonFor(side, cost)) {
             appendLog(`Cannot play ${actionCard.id}: need ${cost} DON (${side}).`);
@@ -665,17 +684,17 @@ export default function Home() {
             appendLog(`Cannot give DON: not ${side}'s turn.`);
             return;
         }
-        
+
         if (phaseLower !== 'main') {
             appendLog('Cannot give DON: must be Main Phase.');
             return;
         }
-        
+
         if (battle) {
             appendLog('Cannot give DON during battle.');
             return;
         }
-        
+
         setDonGivingMode({
             active: true,
             side,
@@ -702,19 +721,19 @@ export default function Home() {
             appendLog(`[DON Select] Wrong side for giving (expected ${donGivingMode.side}, got ${side}).`);
             return false;
         }
-        
+
         let success = false;
         setAreas((prev) => {
             const next = structuredClone(prev);
             const costLoc = side === 'player' ? next.player.bottom : next.opponent.top;
             const costArr = costLoc.cost || [];
-            
+
             // Get the selected DON card
             if (donGivingMode.selectedDonIndex >= costArr.length) {
                 appendLog('[DON Select] Selected DON index out of range.');
                 return prev;
             }
-            
+
             const donCard = costArr[donGivingMode.selectedDonIndex];
             if (!donCard) {
                 appendLog('[DON Select] Selected DON not found.');
@@ -728,11 +747,11 @@ export default function Home() {
                 appendLog('[DON Select] Selected DON is already rested.');
                 return prev;
             }
-            
+
             // Remove DON from cost area and mark as rested
             const [removedDon] = costArr.splice(donGivingMode.selectedDonIndex, 1);
             const restedDon = { ...removedDon, rested: true };
-            
+
             // Place DON underneath target card
             const sideLoc = side === 'player' ? next.player : next.opponent;
             if (targetSection === 'middle' && targetKeyName === 'leader') {
@@ -757,18 +776,18 @@ export default function Home() {
             } else {
                 appendLog('[DON Select] Invalid target area.');
             }
-            
+
             return next;
         });
-        
+
         if (success) {
             const targetName = targetSection === 'middle' ? 'Leader' : `Character #${targetIndex + 1}`;
             appendLog(`[${side}] Gave 1 DON!! to ${targetName}.`);
         }
-        
+
         // Reset DON giving mode
         setDonGivingMode({ active: false, side: null, selectedDonIndex: null });
-        
+
         return success;
     }, [donGivingMode, appendLog]);
 
@@ -786,11 +805,11 @@ export default function Home() {
             }
             const card = life[life.length - 1];
             side.life = life.slice(0, -1);
-            
+
             // Check if card has [Trigger] keyword
             const keywords = metaById.get(card.id)?.keywords || [];
             const hasTrigger = keywords.some(k => /trigger/i.test(k));
-            
+
             if (hasTrigger) {
                 // Pause and show trigger choice modal
                 cardWithTrigger = { side: defender, card, hasTrigger: true };
@@ -802,7 +821,7 @@ export default function Home() {
             }
             return next;
         });
-        
+
         // If trigger detected, pause for player choice
         if (cardWithTrigger) {
             setTriggerPending(cardWithTrigger);
@@ -824,7 +843,7 @@ export default function Home() {
         });
         setTriggerPending(null);
     }, [triggerPending, appendLog]);
-    
+
     const onTriggerDecline = useCallback(() => {
         if (!triggerPending) return;
         const { side, card } = triggerPending;
@@ -843,149 +862,151 @@ export default function Home() {
         return metaById.get(id)?.keywords || [];
     }, [metaById]);
 
-        // Replacement effect: If this card would be removed by opponent's effect, give it -2000 instead (Once Per Turn)
-        const maybeApplyRemovalReplacement = useCallback((targetSide, section, keyName, index, sourceSide) => {
-            try {
-                // Only applies when the source is the opponent of the target controller
-                if (!targetSide || !sourceSide || targetSide === sourceSide) return false;
-                // Only applies to fielded Leader/Character
-                if (!((section === 'char' && keyName === 'char') || (section === 'middle' && keyName === 'leader'))) return false;
-                const sideLoc = targetSide === 'player' ? areas.player : areas.opponent;
-                const inst = section === 'char' ? (sideLoc?.char?.[index]) : (sideLoc?.middle?.leader?.[0]);
-                if (!inst || !inst.id) return false;
-                const meta = metaById.get(inst.id);
-                if (!meta) return false;
-                const abilities = meta.abilities || [];
-                // Heuristic: find a Continuous, Once Per Turn ability whose text mentions removal by opponent's effect
-                const hasReplacement = abilities.some((ab) => {
-                    if ((ab?.type !== 'Continuous') || (String(ab?.frequency || '').toLowerCase() !== 'once per turn')) return false;
-                    const t = (typeof ab.effect === 'string' ? ab.effect : (ab.effect?.text || '')).toLowerCase();
-                    return t.includes('would be removed from the field') && t.includes("opponent") && t.includes('-2000');
-                });
-                if (!hasReplacement) return false;
-                // Once per turn usage check; mark on instance
-                const usedTurnProp = '__replacementUsedTurn';
-                if (inst[usedTurnProp] === turnNumber) return false;
-                // Apply -2000 this turn to self and mark used
-                const expireOnSide = (turnSide === 'player') ? 'opponent' : 'player';
-                const instIndex = section === 'char' ? index : 0;
-                applyPowerMod(targetSide, section, keyName, instIndex, -2000, expireOnSide);
-                if (registerUntilNextTurnEffect) {
-                    registerUntilNextTurnEffect(expireOnSide, `${meta.name || inst.id}: replacement -2000 applied instead of removal`);
-                }
-                // Persist the flag on areas
-                setAreas((prev) => {
-                    const next = structuredClone(prev);
-                    const loc = targetSide === 'player' ? next.player : next.opponent;
-                    if (section === 'char' && loc?.char?.[instIndex]) {
-                        loc.char[instIndex][usedTurnProp] = turnNumber;
-                    } else if (section === 'middle' && loc?.middle?.leader?.[0]) {
-                        loc.middle.leader[0][usedTurnProp] = turnNumber;
-                    }
-                    return next;
-                });
-                appendLog(`[Replacement] ${meta.name || inst.id}: Prevented removal by opponent's effect; -2000 this turn.`);
-                return true;
-            } catch (e) {
-                console.warn('[maybeApplyRemovalReplacement] error', e);
-                return false;
+    // Replacement effect: If this card would be removed by opponent's effect, give it -2000 instead (Once Per Turn)
+    const maybeApplyRemovalReplacement = useCallback((targetSide, section, keyName, index, sourceSide) => {
+        try {
+            // Only applies when the source is the opponent of the target controller
+            if (!targetSide || !sourceSide || targetSide === sourceSide) return false;
+            // Only applies to fielded Leader/Character
+            if (!((section === 'char' && keyName === 'char') || (section === 'middle' && keyName === 'leader'))) return false;
+            const sideLoc = targetSide === 'player' ? areas.player : areas.opponent;
+            const inst = section === 'char' ? (sideLoc?.char?.[index]) : (sideLoc?.middle?.leader?.[0]);
+            if (!inst || !inst.id) return false;
+            const meta = metaById.get(inst.id);
+            if (!meta) return false;
+            const abilities = meta.abilities || [];
+            // Heuristic: find a Continuous, Once Per Turn ability whose text mentions removal by opponent's effect
+            const hasReplacement = abilities.some((ab) => {
+                if ((ab?.type !== 'Continuous') || (String(ab?.frequency || '').toLowerCase() !== 'once per turn')) return false;
+                const t = (typeof ab.effect === 'string' ? ab.effect : (ab.effect?.text || '')).toLowerCase();
+                return t.includes('would be removed from the field') && t.includes("opponent") && t.includes('-2000');
+            });
+            if (!hasReplacement) return false;
+            // Once per turn usage check; mark on instance
+            const usedTurnProp = '__replacementUsedTurn';
+            if (inst[usedTurnProp] === turnNumber) return false;
+            // Apply -2000 this turn to self and mark used
+            const expireOnSide = (turnSide === 'player') ? 'opponent' : 'player';
+            const instIndex = section === 'char' ? index : 0;
+            applyPowerMod(targetSide, section, keyName, instIndex, -2000, expireOnSide);
+            if (registerUntilNextTurnEffect) {
+                registerUntilNextTurnEffect(expireOnSide, `${meta.name || inst.id}: replacement -2000 applied instead of removal`);
             }
-        }, [areas, metaById, applyPowerMod, registerUntilNextTurnEffect, setAreas, appendLog, turnSide, turnNumber]);
-
-        // Generic effect-based removal (e.g., KO by effect). Supports replacement interception.
-        const removeCardByEffect = useCallback((targetSide, section, keyName, index, sourceSide) => {
-            // Check replacement first; if applied, skip removal
-            const replaced = maybeApplyRemovalReplacement(targetSide, section, keyName, index, sourceSide);
-            if (replaced) return false;
-
-            // Proceed to remove the card from the field and move to trash; return given DON!!
+            // Persist the flag on areas
             setAreas((prev) => {
                 const next = structuredClone(prev);
-                const sideLoc = targetSide === 'player' ? next.player : next.opponent;
-                const trashLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
-
-                if (section === 'char' && keyName === 'char') {
-                    const charArr = sideLoc?.char || [];
-                    if (!charArr[index]) return prev;
-                    const removed = charArr.splice(index, 1)[0];
-                    // Return any given DON!! to cost area (rested)
-                    const donUnderArr = (sideLoc?.charDon?.[index] || []);
-                    if (donUnderArr.length) {
-                        const costLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
-                        costLoc.cost = [...(costLoc.cost || []), ...donUnderArr];
-                        appendLog(`[Effect KO] Returned ${donUnderArr.length} DON!! to cost area.`);
-                    }
-                    if (Array.isArray(sideLoc.charDon)) {
-                        sideLoc.charDon.splice(index, 1);
-                    }
-                    // Move removed to trash
-                    trashLoc.trash = [...(trashLoc.trash || []), removed];
-                    appendLog(`[Effect KO] ${removed.id} was removed by effect.`);
-                } else if (section === 'middle' && keyName === 'leader') {
-                    // Leaders are rarely removed by effects; handle generically -> move to trash
-                    const leaderArr = sideLoc?.middle?.leader || [];
-                    if (!leaderArr[0]) return prev;
-                    const removed = leaderArr.splice(0, 1)[0];
-                    trashLoc.trash = [...(trashLoc.trash || []), removed];
-                    // Return leader DON!! to cost area
-                    const leaderDon = sideLoc?.middle?.leaderDon || [];
-                    if (leaderDon.length) {
-                        const costLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
-                        costLoc.cost = [...(costLoc.cost || []), ...leaderDon];
-                        sideLoc.middle.leaderDon = [];
-                        appendLog(`[Effect KO] Returned ${leaderDon.length} DON!! from leader to cost area.`);
-                    }
-                    appendLog(`[Effect KO] Leader ${removed.id} was removed by effect.`);
+                const loc = targetSide === 'player' ? next.player : next.opponent;
+                if (section === 'char' && loc?.char?.[instIndex]) {
+                    loc.char[instIndex][usedTurnProp] = turnNumber;
+                } else if (section === 'middle' && loc?.middle?.leader?.[0]) {
+                    loc.middle.leader[0][usedTurnProp] = turnNumber;
                 }
                 return next;
             });
+            appendLog(`[Replacement] ${meta.name || inst.id}: Prevented removal by opponent's effect; -2000 this turn.`);
             return true;
-        }, [maybeApplyRemovalReplacement, setAreas, appendLog]);
+        } catch (e) {
+            console.warn('[maybeApplyRemovalReplacement] error', e);
+            return false;
+        }
+    }, [areas, metaById, applyPowerMod, registerUntilNextTurnEffect, setAreas, appendLog, turnSide, turnNumber]);
+
+    // Generic effect-based removal (e.g., KO by effect). Supports replacement interception.
+    const removeCardByEffect = useCallback((targetSide, section, keyName, index, sourceSide) => {
+        // Check replacement first; if applied, skip removal
+        const replaced = maybeApplyRemovalReplacement(targetSide, section, keyName, index, sourceSide);
+        if (replaced) return false;
+
+        // Proceed to remove the card from the field and move to trash; return given DON!!
+        setAreas((prev) => {
+            const next = structuredClone(prev);
+            const sideLoc = targetSide === 'player' ? next.player : next.opponent;
+            const trashLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
+
+            if (section === 'char' && keyName === 'char') {
+                const charArr = sideLoc?.char || [];
+                if (!charArr[index]) return prev;
+                const removed = charArr.splice(index, 1)[0];
+                // Return any given DON!! to cost area (rested)
+                const donUnderArr = (sideLoc?.charDon?.[index] || []);
+                if (donUnderArr.length) {
+                    const costLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
+                    costLoc.cost = [...(costLoc.cost || []), ...donUnderArr];
+                    appendLog(`[Effect KO] Returned ${donUnderArr.length} DON!! to cost area.`);
+                }
+                if (Array.isArray(sideLoc.charDon)) {
+                    sideLoc.charDon.splice(index, 1);
+                }
+                // Move removed to trash
+                trashLoc.trash = [...(trashLoc.trash || []), removed];
+                appendLog(`[Effect KO] ${removed.id} was removed by effect.`);
+            } else if (section === 'middle' && keyName === 'leader') {
+                // Leaders are rarely removed by effects; handle generically -> move to trash
+                const leaderArr = sideLoc?.middle?.leader || [];
+                if (!leaderArr[0]) return prev;
+                const removed = leaderArr.splice(0, 1)[0];
+                trashLoc.trash = [...(trashLoc.trash || []), removed];
+                // Return leader DON!! to cost area
+                const leaderDon = sideLoc?.middle?.leaderDon || [];
+                if (leaderDon.length) {
+                    const costLoc = targetSide === 'player' ? next.player.bottom : next.opponent.top;
+                    costLoc.cost = [...(costLoc.cost || []), ...leaderDon];
+                    sideLoc.middle.leaderDon = [];
+                    appendLog(`[Effect KO] Returned ${leaderDon.length} DON!! from leader to cost area.`);
+                }
+                appendLog(`[Effect KO] Leader ${removed.id} was removed by effect.`);
+            }
+            return next;
+        });
+        return true;
+    }, [maybeApplyRemovalReplacement, setAreas, appendLog]);
 
     const canCharacterAttack = useCallback((card, side, index) => {
         if (!card || !card.id) return false;
         // RULE ENFORCEMENT: Can only attack during your own turn (7-1)
         if (side !== turnSide) return false;
         if (phaseLower !== 'main') return false;
-        
+
         // Must be active (not rested)
         // Use field instance (may contain enteredTurn) rather than transient actionCard copy
         const fieldArr = side === 'player' ? (areas?.player?.char || []) : (areas?.opponent?.char || []);
         const fieldInst = fieldArr[index];
         const rested = fieldInst ? fieldInst.rested : card.rested;
         if (rested) return false;
-        
-        // Check for [Rush] keyword (Rule 10-1-1)
-        const rush = getKeywordsFor(card.id).some((k) => /rush/i.test(k));
-        
+
+        // Check for [Rush] keyword (Rule 10-1-1) including temporary grants
+        const rushStatic = getKeywordsFor(card.id).some((k) => /rush/i.test(k));
+        const rushTemp = hasTempKeyword(side, 'char', 'char', index, 'Rush');
+        const rush = rushStatic || rushTemp;
+
         // RULE 6-5-6-1: Neither player can battle on their first turn
         // Turn 1 = first player's first turn, Turn 2 = second player's first turn
         // EXCEPTION: [Rush] keyword allows attacking on Turn 1/2 (Rule 10-1-1-1)
         if (turnNumber <= 2 && !rush) return false;
-        
+
         // Rule 3-7-4: Cards cannot attack on the turn they are played (unless [Rush])
         const enteredTurnVal = fieldInst ? fieldInst.enteredTurn : card.enteredTurn;
         if (typeof enteredTurnVal === 'number' && enteredTurnVal === turnNumber && !rush) return false;
-        
+
         return true;
-    }, [turnSide, phaseLower, turnNumber, getKeywordsFor, areas]);
+    }, [turnSide, phaseLower, turnNumber, getKeywordsFor, areas, hasTempKeyword]);
 
     const canLeaderAttack = useCallback((card, side) => {
         if (!card || !card.id) return false;
         // RULE ENFORCEMENT: Can only attack during your own turn (7-1)
         if (side !== turnSide) return false;
         if (phaseLower !== 'main') return false;
-        
+
         // Must be active (not rested)
         const leaderArr = side === 'player' ? (areas?.player?.middle?.leader || []) : (areas?.opponent?.middle?.leader || []);
         const leaderCard = leaderArr[0];
         if (!leaderCard) return false;
         const rested = leaderCard.rested || false;
         if (rested) return false;
-        
+
         // RULE 6-5-6-1: Neither player can battle on their first turn
         if (turnNumber <= 2) return false;
-        
+
         return true;
     }, [turnSide, phaseLower, turnNumber, areas]);
 
@@ -996,7 +1017,7 @@ export default function Home() {
     const getTotalPower = useCallback((side, section, keyName, index, id) => {
         const base = getBasePower(id);
         const mod = getPowerMod(side, section, keyName, index) || 0;
-        
+
         // Rule 6-5-5-2: Leaders and Characters gain +1000 power per given DON during your turn
         let donBonus = 0;
         if (side === turnSide) {
@@ -1013,7 +1034,7 @@ export default function Home() {
                 // Ignore errors during power calculation
             }
         }
-        
+
         return base + mod + donBonus;
     }, [getBasePower, getPowerMod, turnSide, areas]);
 
@@ -1021,10 +1042,10 @@ export default function Home() {
         if (openingShown) return; // Cannot attack until opening hand is finalized
         if (battle) return; // Only one battle at a time
         if (!canLeaderAttack(leaderCard, attackingSide)) return;
-        
+
         // Cancel any active DON giving mode
         cancelDonGiving();
-        
+
         const defendingSide = attackingSide === 'player' ? 'opponent' : 'player';
         const attackerKey = modKey(attackingSide, 'middle', 'leader', 0);
         const attackerPower = getTotalPower(attackingSide, 'middle', 'leader', 0, leaderCard.id);
@@ -1078,10 +1099,10 @@ export default function Home() {
         if (openingShown) return; // Cannot attack until opening hand is finalized
         if (battle) return; // Only one battle at a time
         if (!canCharacterAttack(attackerCard, attackingSide, attackerIndex)) return;
-        
+
         // Cancel any active DON giving mode
         cancelDonGiving();
-        
+
         const defendingSide = attackingSide === 'player' ? 'opponent' : 'player';
         const attackerKey = modKey(attackingSide, 'char', 'char', attackerIndex);
         const attackerPower = getTotalPower(attackingSide, 'char', 'char', attackerIndex, attackerCard.id);
@@ -1144,7 +1165,7 @@ export default function Home() {
         if (!b) return 0;
         const basePower = getTotalPower(b.target.side, b.target.section, b.target.keyName, b.target.index, b.target.id);
         // Rule 7-1-3-2-1: Counter power applies only if this card is the counterTarget
-        const isCounterTarget = b.counterTarget && 
+        const isCounterTarget = b.counterTarget &&
             b.counterTarget.side === b.target.side &&
             b.counterTarget.section === b.target.section &&
             b.counterTarget.keyName === b.target.keyName &&
@@ -1203,7 +1224,7 @@ export default function Home() {
         const meta = metaById.get(card.id);
         const counterVal = meta?.stats?.counter?.present ? (meta.stats.counter.value || 0) : 0;
         if (!counterVal) return;
-        
+
         // Counter automatically applies to the card being attacked (battle.target)
         setAreas((prev) => {
             const next = structuredClone(prev);
@@ -1216,22 +1237,22 @@ export default function Home() {
             handLoc.trash = [...trashArr, card];
             return next;
         });
-        
+
         // Apply temporary counter power to the defender (battle.target)
         setBattle((b) => ({
             ...b,
             counterPower: (b.counterPower || 0) + counterVal,
-            counterTarget: { 
-                side: battle.target.side, 
-                section: battle.target.section, 
-                keyName: battle.target.keyName, 
-                index: battle.target.index 
+            counterTarget: {
+                side: battle.target.side,
+                section: battle.target.section,
+                keyName: battle.target.keyName,
+                index: battle.target.index
             }
         }));
-        
+
         const targetName = battle.target.section === 'middle' ? 'Leader' : areas?.[battle.target.side]?.char?.[battle.target.index]?.id || 'Character';
         appendLog(`[battle] Counter applied: ${card.id} +${counterVal} to ${targetName}.`);
-        
+
         // Close action panel after counter is applied
         setActionOpen(false);
         setActionCardIndex(-1);
@@ -1298,7 +1319,7 @@ export default function Home() {
                     const charArr = sideLoc.char || [];
                     const charDonArr = sideLoc.charDon || [];
                     const removed = charArr.splice(battle.target.index, 1)[0];
-                    
+
                     // Return given DON!! to cost area as rested (they're already rested)
                     const donUnder = charDonArr[battle.target.index] || [];
                     if (donUnder.length > 0) {
@@ -1306,12 +1327,12 @@ export default function Home() {
                         costLoc.cost = [...(costLoc.cost || []), ...donUnder];
                         appendLog(`[K.O.] Returned ${donUnder.length} DON!! to cost area.`);
                     }
-                    
+
                     // Remove character and its DON
                     charDonArr.splice(battle.target.index, 1);
                     sideLoc.char = charArr;
                     sideLoc.charDon = charDonArr;
-                    
+
                     const trashLoc = defendingSide === 'player' ? next.player.bottom : next.opponent.top;
                     const trashArr = trashLoc?.trash || [];
                     trashLoc.trash = [...trashArr, removed];
@@ -1346,9 +1367,9 @@ export default function Home() {
         }
         const fromKey = modKey(battle.attacker.side, battle.attacker.section, battle.attacker.keyName, battle.attacker.index);
         const toKey = modKey(battle.target.side, battle.target.section, battle.target.keyName, battle.target.index);
-        const attackerLabel = battle.attacker.side === 'player' ? 'You' : 'Opp';
-        const defenderLabel = battle.target.side === 'player' ? 'You' : 'Opp';
-        const label = `${getAttackerPower(battle)} (${attackerLabel}) ▶ ${getDefenderPower(battle)} (${defenderLabel})`;
+        const attackerLabel = battle.attacker.side === 'player' ? '' : ' (Opp)';
+        const defenderLabel = battle.target.side === 'player' ? '' : ' (Opp)';
+        const label = `${getAttackerPower(battle)}${attackerLabel} ▶ ${getDefenderPower(battle)}${defenderLabel}`;
         setBattleArrow({ fromKey, toKey, label });
     }, [battle, getDefenderPower, getAttackerPower, modKey]);
 
@@ -1383,10 +1404,10 @@ export default function Home() {
         // Initialize turn state
         setTurnSide('player');
         setTurnNumber(1);
-        
+
         // Execute Refresh Phase for first turn (rule 6-2)
         executeRefreshPhase('player');
-        
+
         setPhase('Draw');
     };
 
@@ -1429,23 +1450,23 @@ export default function Home() {
         const { side, quantity, filter, minSelect, maxSelect, returnLocation, effectDescription, onComplete } = config;
         const isPlayer = side === 'player';
         const lib = isPlayer ? library : oppLibrary;
-        
+
         // Close action window when opening deck search
         setActionOpen(false);
         setActionCardIndex(-1);
         setActionSource(null);
         setSelectedCard(null);
-        
+
         if (!lib.length) {
             appendLog(`[Deck Search] No cards in deck!`);
             return;
         }
-        
+
         // Get top X cards from library (top of deck is at end of array)
         const lookCount = Math.min(quantity, lib.length);
         const topCards = lib.slice(-lookCount);
         const cardAssets = topCards.map(id => getAssetForId(id)).filter(Boolean);
-        
+
         setDeckSearchConfig({
             side,
             cards: cardAssets,
@@ -1460,25 +1481,25 @@ export default function Home() {
                 // Handle the selection
                 const selectedIds = selectedCards.map(c => c.id);
                 const remainderIds = remainder.map(c => c.id);
-                
+
                 setAreas((prev) => {
                     const next = structuredClone(prev);
                     const handLoc = isPlayer ? next.player.bottom : next.opponent.top;
                     const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
-                    
+
                     // Add selected cards to hand
                     selectedCards.forEach(card => {
                         handLoc.hand = [...(handLoc.hand || []), card];
                     });
-                    
+
                     return next;
                 });
-                
+
                 // Update library: remove looked cards, add remainder back based on returnLocation
                 (isPlayer ? setLibrary : setOppLibrary)((prev) => {
                     // Remove all looked cards from top of deck
                     const newLib = prev.slice(0, -lookCount);
-                    
+
                     if (returnLocation === 'bottom') {
                         // Add remainder to bottom of deck (start of array)
                         return [...remainderIds, ...newLib];
@@ -1492,7 +1513,7 @@ export default function Home() {
                     }
                     return newLib;
                 });
-                
+
                 // Update deck visual
                 setAreas((prev) => {
                     const next = structuredClone(prev);
@@ -1501,17 +1522,17 @@ export default function Home() {
                     deckLoc.deck = createCardBacks(Math.max(0, newDeckSize));
                     return next;
                 });
-                
+
                 appendLog(`[Deck Search] Added ${selectedIds.length} card(s) to hand, returned ${remainderIds.length} to ${returnLocation} of deck.`);
-                
+
                 // Call custom completion handler if provided
                 if (onComplete) onComplete(selectedCards, remainder);
-                
+
                 // Close modal
                 setDeckSearchOpen(false);
             }
         });
-        
+
         setDeckSearchOpen(true);
     }, [library, oppLibrary, getAssetForId, appendLog, createCardBacks]);
 
@@ -1519,7 +1540,7 @@ export default function Home() {
         setAreas((prev) => {
             const next = structuredClone(prev);
             const isPlayer = side === 'player';
-            
+
             // Determine where the card array lives
             // Sections 'top', 'middle', 'bottom' are nested objects keyed by keyName
             // Sections like 'char' or 'life' are arrays directly on the side root
@@ -1533,19 +1554,19 @@ export default function Home() {
                 sourceArray = sideRoot[section] || sideRoot[keyName];
             }
             if (!sourceArray || index >= sourceArray.length) {
-                console.error('[returnCardToDeck] Invalid source:', {side, section, keyName, index});
+                console.error('[returnCardToDeck] Invalid source:', { side, section, keyName, index });
                 return prev;
             }
-            
+
             const card = sourceArray[index];
-            
+
             // Remove from source
             if (section === 'top' || section === 'middle' || section === 'bottom') {
                 sideRoot[section][keyName] = sourceArray.filter((_, i) => i !== index);
             } else {
                 sideRoot[section] = sourceArray.filter((_, i) => i !== index);
             }
-            
+
             // Update library state based on location
             if (location === 'top') {
                 // Add to top of deck (end of array since deck is drawn from end)
@@ -1576,14 +1597,14 @@ export default function Home() {
                     setOppLibrary(newLib);
                 }
             }
-            
+
             // Update deck visual (add one card back)
             const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
             const currentDeckSize = (deckLoc.deck || []).length;
             deckLoc.deck = createCardBacks(currentDeckSize + 1);
-            
+
             appendLog(`[Ability Cost] Returned ${card.id} to ${location} of ${side}'s deck.`);
-            
+
             return next;
         });
     }, [library, oppLibrary, createCardBacks, appendLog]);
@@ -1625,18 +1646,18 @@ export default function Home() {
             const next = structuredClone(prev);
             const loc = side === 'player' ? next.player.bottom : next.opponent.top;
             const available = (loc.don || []).length;
-            
+
             // Rules 6-4-1, 6-4-2, 6-4-3: Handle DON!! deck depletion
             if (available === 0) {
                 // Rule 6-4-3: If there are 0 cards in DON!! deck, do not place any
                 actualMoved = 0;
                 return next;
             }
-            
+
             // Rule 6-4-2: If only 1 card in DON!! deck, place only 1
             const toMove = Math.min(count, available);
             actualMoved = toMove;
-            
+
             const moved = Array.from({ length: toMove }, () => ({ ...DON_FRONT, rested: false }));
             loc.don = (loc.don || []).slice(0, -toMove);
             loc.cost = [...(loc.cost || []), ...moved];
@@ -1648,7 +1669,7 @@ export default function Home() {
     // Execute Refresh Phase according to rule 6-2
     const executeRefreshPhase = useCallback((side) => {
         appendLog(`[Refresh Phase] Start ${side}'s turn.`);
-        
+
         // 6-2-1: End effects that last "until the start of your next turn"
         setUntilNextTurnEffects((prev) => {
             const effects = prev[side] || [];
@@ -1667,17 +1688,26 @@ export default function Home() {
             }
             return next;
         });
-        
+        // Clear any temporary keywords that expire on this side's Refresh Phase
+        setTempKeywords((prev) => {
+            const next = {};
+            for (const [k, v] of Object.entries(prev || {})) {
+                const arr = Array.isArray(v) ? v.filter((m) => (m && m.expireOnSide !== side)) : [];
+                if (arr.length) next[k] = arr;
+            }
+            return next;
+        });
+
         // 6-2-2: Activate "at the start of your/opponent's turn" effects
         // TODO: Implement auto effect activation system
-        
+
         // 6-2-3: Return all DON!! cards given to Leaders/Characters to cost area and rest them
         // 6-2-4: Set all rested cards to active
         setAreas((prev) => {
             const next = structuredClone(prev);
             const sideLoc = side === 'player' ? next.player : next.opponent;
             const costLoc = side === 'player' ? next.player.bottom : next.opponent.top;
-            
+
             // 6-2-3: Return given DON!! from Leader
             if (sideLoc?.middle?.leaderDon && sideLoc.middle.leaderDon.length > 0) {
                 const count = sideLoc.middle.leaderDon.length;
@@ -1686,7 +1716,7 @@ export default function Home() {
                 costLoc.cost = [...(costLoc.cost || []), ...sideLoc.middle.leaderDon];
                 sideLoc.middle.leaderDon = [];
             }
-            
+
             // 6-2-3: Return given DON!! from Characters
             if (Array.isArray(sideLoc?.charDon)) {
                 let totalReturned = 0;
@@ -1704,7 +1734,7 @@ export default function Home() {
                     sideLoc.charDon = sideLoc.charDon.map(() => []);
                 }
             }
-            
+
             // 6-2-4: Set all rested cards placed in Leader area, Character area, Stage area, and cost area as active
             costLoc.cost = (costLoc.cost || []).map((c) => (c.id === 'DON' ? { ...c, rested: false } : c));
             if (sideLoc?.middle?.leader?.[0]) {
@@ -1716,12 +1746,36 @@ export default function Home() {
             if (Array.isArray(sideLoc?.char)) {
                 sideLoc.char = sideLoc.char.map((c) => ({ ...c, rested: false }));
             }
-            
+
             return next;
         });
-        
+
         appendLog('[Refresh Phase] Complete.');
     }, [appendLog, DON_FRONT]);
+
+    // Pay Life as a cost (move top life to hand without Trigger)
+    const payLife = useCallback((side, amount) => {
+        if (!amount || amount <= 0) return 0;
+        let paid = 0;
+        setAreas((prev) => {
+            const next = structuredClone(prev);
+            const sideLoc = side === 'player' ? next.player : next.opponent;
+            const handLoc = side === 'player' ? next.player.bottom : next.opponent.top;
+            const lifeArr = sideLoc.life || [];
+            const toPay = Math.min(amount, lifeArr.length);
+            if (toPay <= 0) return prev;
+            for (let i = 0; i < toPay; i++) {
+                const card = sideLoc.life.pop();
+                if (card) {
+                    handLoc.hand = [...(handLoc.hand || []), card];
+                    paid++;
+                }
+            }
+            return next;
+        });
+        if (paid > 0) appendLog(`[Ability Cost] ${side} paid ${paid} life (added to hand).`);
+        return paid;
+    }, [setAreas, appendLog]);
 
     // Next Action button handler based on current phase
     const nextActionLabel = useMemo(() => {
@@ -1780,26 +1834,26 @@ export default function Home() {
             }
             return setPhase('Main');
         }
-        
+
         // End Turn from Main - requires double-click confirmation
         if (!endTurnConfirming) {
             // First click: enter confirmation state
             setEndTurnConfirming(true);
-            
+
             // Clear any existing timeout
             if (endTurnTimeoutRef.current) {
                 clearTimeout(endTurnTimeoutRef.current);
             }
-            
+
             // Set timeout to reset after 3 seconds
             endTurnTimeoutRef.current = setTimeout(() => {
                 setEndTurnConfirming(false);
                 endTurnTimeoutRef.current = null;
             }, 3000);
-            
+
             return;
         }
-        
+
         // Second click: actually end turn
         // Clear the timeout
         if (endTurnTimeoutRef.current) {
@@ -1807,22 +1861,22 @@ export default function Home() {
             endTurnTimeoutRef.current = null;
         }
         setEndTurnConfirming(false);
-        
+
         appendLog('[End Phase] End turn.');
         const nextSide = turnSide === 'player' ? 'opponent' : 'player';
-        
+
         // Cancel any active DON giving mode
         cancelDonGiving();
-        
+
         // No blanket clear of power modifiers here; modifiers are cleared in executeRefreshPhase
-        
+
         // Advance to next turn
         setTurnNumber((n) => n + 1);
         setTurnSide(nextSide);
-        
+
         // Execute Refresh Phase for the new turn player (rule 6-2)
         executeRefreshPhase(nextSide);
-        
+
         setPhase('Draw');
     }, [phaseLower, turnNumber, turnSide, drawCard, appendLog, donPhaseGain, executeRefreshPhase, cancelDonGiving, openingShown, endTurnConfirming]);
 
@@ -1841,18 +1895,18 @@ export default function Home() {
                             <Chip color={turnSide === 'player' ? 'success' : 'warning'} label={`${turnSide === 'player' ? 'Your' : "Opponent's"} Turn`} />
                             <Chip variant="outlined" label={`Phase: ${phase}`} />
                             {donGivingMode.active && (
-                                <Chip 
-                                    color="warning" 
-                                    label="Select Leader/Character" 
+                                <Chip
+                                    color="warning"
+                                    label="Select Leader/Character"
                                     onDelete={cancelDonGiving}
                                     sx={{ animation: 'pulse 1.5s ease-in-out infinite', '@keyframes pulse': { '0%, 100%': { opacity: 1 }, '50%': { opacity: 0.7 } } }}
                                 />
                             )}
-                            <Button 
-                                size="small" 
-                                variant="contained" 
+                            <Button
+                                size="small"
+                                variant="contained"
                                 color={phaseLower === 'main' && endTurnConfirming ? 'error' : 'primary'}
-                                onClick={onNextAction} 
+                                onClick={onNextAction}
                                 disabled={openingShown || !!battle || resolvingEffect || targeting.active || deckSearchOpen || !!triggerPending}
                             >
                                 {nextActionLabel}
@@ -1935,30 +1989,30 @@ export default function Home() {
 
             {/* Anchored Actions Panel (bottom-right) */}
             {actionOpen && (
-                <ClickAwayListener onClickAway={() => { 
+                <ClickAwayListener onClickAway={() => {
                     // Close Actions; if this window initiated targeting, suspend that session
                     const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
                     if (targeting?.active && sameOrigin(targeting.origin, actionSource)) {
                         suspendTargeting();
                     }
                     setResolvingEffect(false);
-                    setActionOpen(false); 
-                    setActionCardIndex(-1); 
-                    setActionSource(null); 
-                    setSelectedCard(null); 
+                    setActionOpen(false);
+                    setActionCardIndex(-1);
+                    setActionSource(null);
+                    setSelectedCard(null);
                 }}>
                     <div>
-                        <Actions 
-                            onClose={() => { 
+                        <Actions
+                            onClose={() => {
                                 const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
                                 if (targeting?.active && sameOrigin(targeting.origin, actionSource)) {
                                     suspendTargeting();
                                 }
                                 setResolvingEffect(false);
-                                setActionOpen(false); 
-                                setActionCardIndex(-1); 
-                                setActionSource(null); 
-                                setSelectedCard(null); 
+                                setActionOpen(false);
+                                setActionCardIndex(-1);
+                                setActionSource(null);
+                                setSelectedCard(null);
                             }}
                             card={actionCard}
                             cardMeta={metaById.get(actionCard?.id)}
@@ -1978,10 +2032,12 @@ export default function Home() {
                             getCardMeta={(id) => metaById.get(id) || null}
                             applyPowerMod={applyPowerMod}
                             registerUntilNextTurnEffect={registerUntilNextTurnEffect}
+                            grantTempKeyword={addTempKeyword}
                             giveDonToCard={giveDonToCard}
                             startDeckSearch={startDeckSearch}
                             returnCardToDeck={returnCardToDeck}
                             restCard={restCard}
+                            payLife={payLife}
                             battle={battle}
                             battleApplyBlocker={applyBlocker}
                             battleSkipBlock={skipBlock}
@@ -2056,34 +2112,34 @@ export default function Home() {
                                 const isOnFieldChar = actionSource && actionSource.side === turnSide && actionSource.section === 'char' && actionSource.keyName === 'char';
                                 // Attack controls for Leaders
                                 const isLeader = actionSource && actionSource.side === turnSide && actionSource.section === 'middle' && actionSource.keyName === 'leader';
-                                
+
                                 if (!isOnFieldChar && !isLeader) return null;
-                                
+
                                 const cardObj = actionCard;
                                 const idx = actionCardIndex;
                                 const attackingSide = actionSource?.side || 'player';
-                                
+
                                 // Check if this card is currently attacking
                                 const isAttacking = battle && (
                                     (battle.attacker.section === 'char' && battle.attacker.index === idx && battle.attacker.side === attackingSide) ||
                                     (battle.attacker.section === 'middle' && isLeader && battle.attacker.side === attackingSide)
                                 );
-                                
+
                                 if (isAttacking) {
                                     // During Block/Counter steps, attacker has no actionable controls here
                                     return null;
                                 }
-                                
+
                                 // Determine if this card can attack
                                 const canAtk = isLeader ? canLeaderAttack(cardObj, attackingSide) : canCharacterAttack(cardObj, attackingSide, idx);
                                 if (!canAtk || battle) return null;
-                                
+
                                 // Check if we're selecting a target for this card
                                 const selecting = targeting.active && currentAttack && (
                                     (currentAttack.isLeader && isLeader) ||
                                     (currentAttack.index === idx && !currentAttack.isLeader)
                                 ) && !battle;
-                                
+
                                 if (selecting) {
                                     return (
                                         <Stack direction="row" spacing={1} sx={{ mt: 1, alignItems: 'center' }}>
