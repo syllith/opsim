@@ -287,25 +287,25 @@ function CardEditorDialog({ open, card, onClose, onSave }) {
                 <CategoryIcon fontSize="small" /> Basic Information
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <FormControlLabel
                     control={<Checkbox checked={!!editedData.verified} onChange={(e) => updateField('verified', e.target.checked)} />}
                     label="Verified"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <TextField fullWidth size="small" label="ID" value={editedData.id || ''} onChange={(e) => updateField('id', e.target.value)} />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <TextField fullWidth size="small" label="Set" value={editedData.set || ''} onChange={(e) => updateField('set', e.target.value)} />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <TextField fullWidth size="small" label="Number" type="number" value={editedData.number || ''} onChange={(e) => updateField('number', parseInt(e.target.value) || 0)} />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <TextField fullWidth size="small" label="Name" value={editedData.name || ''} onChange={(e) => updateField('name', e.target.value)} />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <TextField fullWidth size="small" label="Category" select value={editedData.category || ''} onChange={(e) => updateField('category', e.target.value)}>
                     <MenuItem value="Leader">Leader</MenuItem>
                     <MenuItem value="Character">Character</MenuItem>
@@ -314,13 +314,13 @@ function CardEditorDialog({ open, card, onClose, onSave }) {
                     <MenuItem value="Don">Don</MenuItem>
                   </TextField>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <TextField fullWidth size="small" label="Attribute" value={editedData.attribute || ''} onChange={(e) => updateField('attribute', e.target.value || null)} />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <TextField fullWidth size="small" label="Rarity" value={editedData.rarity || ''} onChange={(e) => updateField('rarity', e.target.value || null)} />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <TextField fullWidth size="small" label="Art Path" value={editedData.art || ''} onChange={(e) => updateField('art', e.target.value || null)} />
                 </Grid>
               </Grid>
@@ -371,19 +371,19 @@ function CardEditorDialog({ open, card, onClose, onSave }) {
                 <FitnessCenterIcon fontSize="small" /> Stats
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={6} sm={3}>
+                <Grid size={{ xs: 6, sm: 3 }}>
                   <TextField fullWidth size="small" label="Cost" type="number" value={editedData.stats?.cost ?? ''} onChange={(e) => updateField('stats.cost', e.target.value ? parseInt(e.target.value) : null)} />
                 </Grid>
-                <Grid item xs={6} sm={3}>
+                <Grid size={{ xs: 6, sm: 3 }}>
                   <TextField fullWidth size="small" label="Power" type="number" value={editedData.stats?.power ?? ''} onChange={(e) => updateField('stats.power', e.target.value ? parseInt(e.target.value) : null)} />
                 </Grid>
-                <Grid item xs={6} sm={3}>
+                <Grid size={{ xs: 6, sm: 3 }}>
                   <TextField fullWidth size="small" label="Life" type="number" value={editedData.stats?.life ?? ''} onChange={(e) => updateField('stats.life', e.target.value ? parseInt(e.target.value) : null)} />
                 </Grid>
-                <Grid item xs={6} sm={3}>
+                <Grid size={{ xs: 6, sm: 3 }}>
                   <TextField fullWidth size="small" label="Counter Value" type="number" value={editedData.stats?.counter?.value ?? 0} onChange={(e) => updateField('stats.counter.value', parseInt(e.target.value) || 0)} />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <FormControlLabel
                     control={<Switch checked={editedData.stats?.counter?.present || false} onChange={(e) => updateField('stats.counter.present', e.target.checked)} />}
                     label="Has Counter"
@@ -842,7 +842,7 @@ export default function DeckBuilder({ open, onClose }) {
         {/* Middle area: Card selector and Build column split 50/50 */}
         <Box ref={middleRef} sx={{ flex: 1, display: 'flex', minWidth: 0, overflow: 'hidden', position: 'relative' }}>
           {/* Cards grid with top pagination */}
-          <Box ref={midLeftRef} sx={{ flex: midLeftW ? `0 0 ${midLeftW}px` : 1, p: 2, overflow: 'auto', minWidth: 0 }}>
+          <Box ref={midLeftRef} sx={{ flex: midLeftW ? `0 0 ${midLeftW}px` : 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
             {/* Top pagination / status (sticky) */}
             <Box sx={{
               position: 'sticky',
@@ -851,14 +851,15 @@ export default function DeckBuilder({ open, onClose }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              mb: 1.5,
-              pt: 0.5,
-              pb: 0.5,
+              px: 2,
+              py: 1.5,
               bgcolor: 'background.paper',
-              borderBottom: '1px solid',
-              borderColor: 'divider'
+              borderBottom: '2px solid',
+              borderColor: 'divider',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              flexShrink: 0
             }}>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                 {listed.length > 0
                   ? `Showing ${(page - 1) * PAGE_SIZE + 1}–${Math.min(page * PAGE_SIZE, listed.length)} of ${listed.length}`
                   : 'No results'}
@@ -875,15 +876,25 @@ export default function DeckBuilder({ open, onClose }) {
                 />
               )}
             </Box>
+            <Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
             {listed.length === 0 ? (
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 300, gap: 2 }}>
                 <Typography variant="h6" color="text.secondary">No cards in set matching filters</Typography>
                 <Button variant="contained" color="primary" onClick={clearFilters}>Clear Filters</Button>
               </Box>
             ) : (
-              <Grid container spacing={1.5}>
+              <Grid container spacing={1.5} wrap="wrap">
                 {paged.map((c) => (
-                  <Grid item key={c.id} xs={6} sm={4} md={3} lg={2} xl={2}>
+                  <Grid 
+                    key={c.id} 
+                    sx={{ 
+                      minWidth: 140, 
+                      maxWidth: 200,
+                      flex: '1 1 auto',
+                      display: 'flex',
+                      justifyContent: 'center'
+                    }}
+                  >
                     <CardTile 
                       card={c} 
                       onAdd={addCard} 
@@ -902,6 +913,7 @@ export default function DeckBuilder({ open, onClose }) {
                 ))}
               </Grid>
             )}
+            </Box>
           </Box>
 
           {/* Build column: Leader + Deck + Import/Export */}
@@ -927,9 +939,18 @@ export default function DeckBuilder({ open, onClose }) {
 
             <Typography variant="subtitle2" gutterBottom>Deck ({items.reduce((a,b)=>a+b.count,0)}/50)</Typography>
             <Box sx={{ overflow: 'auto', flex: 1, minHeight: 0 }}>
-              <Grid container spacing={1.25} sx={{ p: 0.5 }}>
+              <Grid container spacing={1.25} wrap="wrap" sx={{ p: 0.5 }}>
                 {rightList.map((row) => (
-                  <Grid key={row.id} item xs={6} sm={4} md={3} lg={2} xl={2}>
+                  <Grid 
+                    key={row.id} 
+                    sx={{ 
+                      minWidth: 140, 
+                      maxWidth: 200,
+                      flex: '1 1 auto',
+                      display: 'flex',
+                      justifyContent: 'center'
+                    }}
+                  >
                     <DeckGridItem
                       card={row.card}
                       count={row.count}

@@ -193,13 +193,6 @@ export default function Home() {
         };
     }, [allById]);
 
-    const getCardCost = useCallback((id) => {
-        if (!id) return 0;
-        const meta = metaById.get(id);
-        const cost = meta?.stats?.cost;
-        return typeof cost === 'number' && cost > 0 ? cost : 0;
-    }, [metaById]);
-
     // Helper: shuffle array in-place (Fisher-Yates)
     const shuffle = (arr) => {
         for (let i = arr.length - 1; i > 0; i--) {
@@ -601,6 +594,12 @@ export default function Home() {
     // Track power modifiers with explicit expiry side so we can clear correctly at Refresh Phase.
     // Structure: { [key]: Array<{ delta: number, expireOnSide: 'player'|'opponent'|null }> }
     const [powerMods, setPowerMods] = useState({});
+    
+    // --- Cost Mod Overlays ---
+    // Track cost modifiers similarly to power mods (for cards like Uta ST23-001 that reduce their own cost)
+    // Structure: { [key]: Array<{ delta: number, expireOnSide: 'player'|'opponent'|null }> }
+    const [costMods, setCostMods] = useState({});
+    
     const modKey = useCallback((side, section, keyName, index) => `${side}:${section}:${keyName}:${index}`, []);
 
     // Track continuous effects that last "until start of your next turn" (for Refresh Phase cleanup)
@@ -611,6 +610,22 @@ export default function Home() {
     }, [powerMods, modKey]);
     const applyPowerMod = useCallback((side, section, keyName, index, delta, expireOnSide = null) => {
         setPowerMods((prev) => {
+            const k = modKey(side, section, keyName, index);
+            const next = { ...prev };
+            const list = Array.isArray(next[k]) ? [...next[k]] : [];
+            list.push({ delta, expireOnSide: expireOnSide || null });
+            next[k] = list;
+            return next;
+        });
+    }, [modKey]);
+
+    const getCostMod = useCallback((side, section, keyName, index) => {
+        const arr = costMods[modKey(side, section, keyName, index)] || [];
+        return Array.isArray(arr) ? arr.reduce((sum, m) => sum + (m?.delta || 0), 0) : (typeof arr === 'number' ? arr : 0);
+    }, [costMods, modKey]);
+    
+    const applyCostMod = useCallback((side, section, keyName, index, delta, expireOnSide = null) => {
+        setCostMods((prev) => {
             const k = modKey(side, section, keyName, index);
             const next = { ...prev };
             const list = Array.isArray(next[k]) ? [...next[k]] : [];
@@ -703,68 +718,6 @@ export default function Home() {
         setActionOpen(true);
         setSelectedCard(card); // Set the selected card in the viewer
     }, [targeting.active, targeting.origin, sameOrigin]);
-
-    const playSelectedCard = useCallback(() => {
-        if (!canPerformGameAction()) return; // Cannot play cards until opening hand is finalized
-        if (!actionCard) return;
-        const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
-        // Enforce timing: only during your Main and no battle
-        if (!canPlayNow(side)) return;
-
-        // RULE ENFORCEMENT: Only the turn player can play cards (6-5-3)
-        if (side !== turnSide) {
-            appendLog(`Cannot play ${actionCard.id}: not ${side}'s turn.`);
-            return;
-        }
-
-        const cost = getCardCost(actionCard.id);
-        if (!hasEnoughDonFor(side, cost)) {
-            appendLog(`Cannot play ${actionCard.id}: need ${cost} DON (${side}).`);
-            return;
-        }
-        let fieldIndex = -1;
-        setAreas((prev) => {
-            const next = structuredClone(prev);
-            const isPlayer = side === 'player';
-            const hand = isPlayer ? (next.player.bottom.hand || []) : (next.opponent.top.hand || []);
-            const idx = actionCardIndex >= 0 ? actionCardIndex : hand.findIndex((h) => h.id === actionCard.id);
-            const chars = isPlayer ? (next.player.char || []) : (next.opponent.char || []);
-            if (idx !== -1 && chars.length < 5) {
-                if (cost && cost > 0) {
-                    const pool = isPlayer ? (next.player.bottom.cost || []) : (next.opponent.top.cost || []);
-                    let toRest = cost;
-                    for (let i = 0; i < pool.length && toRest > 0; i++) {
-                        const d = pool[i];
-                        if (d.id === 'DON' && !d.rested) {
-                            d.rested = true;
-                            toRest--;
-                        }
-                    }
-                }
-                const [card] = hand.splice(idx, 1);
-                if (isPlayer) next.player.bottom.hand = hand; else next.opponent.top.hand = hand;
-                fieldIndex = chars.length;
-                const placed = { ...card, rested: false, enteredTurn: turnNumber };
-                if (isPlayer) next.player.char = [...chars, placed]; else next.opponent.char = [...chars, placed];
-            }
-            return next;
-        });
-        appendLog(`[${side}] Played ${actionCard.id}${cost ? ` by resting ${cost} DON` : ''}.`);
-        // Open Actions for the played card to allow On Play resolution
-        // Mark with special flag to indicate this was just played (for auto On Play triggering)
-        setTimeout(() => {
-            // Get the placed card from the updated areas state to ensure it has enteredTurn
-            setAreas((currentAreas) => {
-                const isPlayer = side === 'player';
-                const chars = isPlayer ? (currentAreas.player.char || []) : (currentAreas.opponent.char || []);
-                const placedCard = chars[fieldIndex];
-                if (placedCard) {
-                    openCardAction(placedCard, fieldIndex, { side, section: 'char', keyName: 'char', index: fieldIndex, justPlayed: true });
-                }
-                return currentAreas; // Don't modify areas, just read from it
-            });
-        }, 0);
-    }, [actionCard, canPlayNow, actionCardIndex, getCardCost, hasEnoughDonFor, appendLog, openCardAction, actionSource, turnNumber, openingShown]);
 
     // Start DON!! giving mode - select a DON!! card from cost area
     const startDonGiving = useCallback((side, donIndex) => {
@@ -1256,6 +1209,156 @@ export default function Home() {
 
         return base + mod + aura + donBonus;
     }, [getBasePower, getPowerMod, getAuraPowerMod, turnSide, areas]);
+
+    // Compute cost modifications from Continuous abilities that apply to cards in hand
+    const getAuraCostMod = useCallback((cardId, side, section, keyName, index) => {
+        try {
+            // Only apply to cards in hand
+            const isInHand = (section === 'bottom' || section === 'top') && keyName === 'hand';
+            if (!isInHand) return 0;
+
+            const meta = metaById.get(cardId);
+            if (!meta) {
+                console.debug('[getAuraCostMod] no meta for', cardId);
+                return 0;
+            }
+            const abilities = meta?.abilities || [];
+
+            let sum = 0;
+            console.debug('[getAuraCostMod] evaluating', { cardId, side, section, keyName, index, abilities: abilities.length });
+            for (const ab of abilities) {
+                if (ab?.type !== 'Continuous') continue;
+                const actions = (ab.effect && typeof ab.effect === 'object') ? (ab.effect.actions || []) : [];
+                if (!actions.length) continue;
+                console.debug('[getAuraCostMod] found Continuous ability with actions', { cardId, actionsCount: actions.length });
+
+                for (const action of actions) {
+                    if (action?.type !== 'costMod') continue;
+                    if (!action.appliesToHand) continue; // Must explicitly apply to hand
+                    if (!action.targetSelf) continue; // Must target self
+                    console.debug('[getAuraCostMod] considering action', { cardId, action });
+
+                    // Check condition if present
+                    const condition = ab.condition || {};
+                    let conditionMet = true;
+                    if (condition.allyCharacterPower) {
+                        // Check if you have a Character with >= specified power
+                        const sideLoc = getSideLocation(side);
+                        const chars = sideLoc?.char || [];
+                        let hasPowerfulChar = false;
+                        for (let i = 0; i < chars.length; i++) {
+                            const c = chars[i];
+                            if (!c || !c.id) continue;
+                            const totalPower = getTotalPower(side, 'char', 'char', i, c.id);
+                            if (totalPower >= condition.allyCharacterPower) {
+                                hasPowerfulChar = true;
+                                break;
+                            }
+                        }
+                        console.debug('[getAuraCostMod] condition allyCharacterPower', { cardId, required: condition.allyCharacterPower, found: hasPowerfulChar });
+                        if (!hasPowerfulChar) conditionMet = false;
+                    }
+
+                    if (conditionMet) {
+                        sum += action.amount || 0;
+                        console.debug('[getAuraCostMod] applied amount', { cardId, amount: action.amount, runningSum: sum });
+                    }
+                }
+            }
+
+            console.debug('[getAuraCostMod] final sum for', cardId, sum);
+            return sum;
+        } catch {
+            return 0;
+        }
+    }, [metaById, areas, getTotalPower]);
+
+    const getCardCost = useCallback((id, side = null, section = null, keyName = null, index = null) => {
+        if (!id) return 0;
+        const meta = metaById.get(id);
+        const baseCost = meta?.stats?.cost;
+        const cost = typeof baseCost === 'number' && baseCost > 0 ? baseCost : 0;
+        
+        // Apply cost modifications if location is provided
+        if (side !== null && section !== null && keyName !== null && index !== null) {
+            const arr = costMods[modKey(side, section, keyName, index)] || [];
+            const mod = Array.isArray(arr) ? arr.reduce((sum, m) => sum + (m?.delta || 0), 0) : 0;
+            
+            // Also check for continuous cost mod abilities (e.g., Uta ST23-001)
+            const auraMod = getAuraCostMod(id, side, section, keyName, index);
+            
+            return Math.max(0, cost + mod + auraMod); // Cost can't go below 0
+        }
+        
+        return cost;
+    }, [metaById, costMods, modKey, getAuraCostMod]);
+
+    const playSelectedCard = useCallback(() => {
+        if (!canPerformGameAction()) return; // Cannot play cards until opening hand is finalized
+        if (!actionCard) return;
+        const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
+        // Enforce timing: only during your Main and no battle
+        if (!canPlayNow(side)) return;
+
+        // RULE ENFORCEMENT: Only the turn player can play cards (6-5-3)
+        if (side !== turnSide) {
+            appendLog(`Cannot play ${actionCard.id}: not ${side}'s turn.`);
+            return;
+        }
+
+        // Calculate cost with modifications (cards in hand can have cost reductions)
+        const section = actionSource?.section || 'bottom';
+        const keyName = actionSource?.keyName || 'hand';
+        const index = actionCardIndex >= 0 ? actionCardIndex : 0;
+        const cost = getCardCost(actionCard.id, side, section, keyName, index);
+        
+        if (!hasEnoughDonFor(side, cost)) {
+            appendLog(`Cannot play ${actionCard.id}: need ${cost} DON (${side}).`);
+            return;
+        }
+        let fieldIndex = -1;
+        setAreas((prev) => {
+            const next = structuredClone(prev);
+            const isPlayer = side === 'player';
+            const hand = isPlayer ? (next.player.bottom.hand || []) : (next.opponent.top.hand || []);
+            const idx = actionCardIndex >= 0 ? actionCardIndex : hand.findIndex((h) => h.id === actionCard.id);
+            const chars = isPlayer ? (next.player.char || []) : (next.opponent.char || []);
+            if (idx !== -1 && chars.length < 5) {
+                if (cost && cost > 0) {
+                    const pool = isPlayer ? (next.player.bottom.cost || []) : (next.opponent.top.cost || []);
+                    let toRest = cost;
+                    for (let i = 0; i < pool.length && toRest > 0; i++) {
+                        const d = pool[i];
+                        if (d.id === 'DON' && !d.rested) {
+                            d.rested = true;
+                            toRest--;
+                        }
+                    }
+                }
+                const [card] = hand.splice(idx, 1);
+                if (isPlayer) next.player.bottom.hand = hand; else next.opponent.top.hand = hand;
+                fieldIndex = chars.length;
+                const placed = { ...card, rested: false, enteredTurn: turnNumber };
+                if (isPlayer) next.player.char = [...chars, placed]; else next.opponent.char = [...chars, placed];
+            }
+            return next;
+        });
+        appendLog(`[${side}] Played ${actionCard.id}${cost ? ` by resting ${cost} DON` : ''}.`);
+        // Open Actions for the played card to allow On Play resolution
+        // Mark with special flag to indicate this was just played (for auto On Play triggering)
+        setTimeout(() => {
+            // Get the placed card from the updated areas state to ensure it has enteredTurn
+            setAreas((currentAreas) => {
+                const isPlayer = side === 'player';
+                const chars = isPlayer ? (currentAreas.player.char || []) : (currentAreas.opponent.char || []);
+                const placedCard = chars[fieldIndex];
+                if (placedCard) {
+                    openCardAction(placedCard, fieldIndex, { side, section: 'char', keyName: 'char', index: fieldIndex, justPlayed: true });
+                }
+                return currentAreas; // Don't modify areas, just read from it
+            });
+        }, 0);
+    }, [actionCard, canPlayNow, actionCardIndex, getCardCost, hasEnoughDonFor, appendLog, openCardAction, actionSource, turnNumber, openingShown, canPerformGameAction, turnSide, setAreas]);
 
     const beginAttackForLeader = useCallback((leaderCard, attackingSide = 'player') => {
         if (!canPerformGameAction()) return; // Cannot attack until opening hand is finalized
@@ -1919,6 +2022,17 @@ export default function Home() {
             }
             return next;
         });
+        
+        // Clear any cost modifiers that expire on this side's Refresh Phase
+        setCostMods((prev) => {
+            const next = {};
+            for (const [k, v] of Object.entries(prev || {})) {
+                const arr = Array.isArray(v) ? v.filter((m) => (m && m.expireOnSide !== side)) : [];
+                if (arr.length) next[k] = arr;
+            }
+            return next;
+        });
+        
         // Clear any temporary keywords that expire on this side's Refresh Phase
         setTempKeywords((prev) => {
             const next = {};
@@ -2195,6 +2309,8 @@ export default function Home() {
                                 applyBlocker={applyBlocker}
                                 getPowerMod={getPowerMod}
                                 getAuraPowerMod={getAuraPowerMod}
+                                getCardCost={(id, side, section, keyName, index) => getCardCost(id, side, section, keyName, index)}
+                                getAuraCostMod={getAuraCostMod}
                                 turnSide={turnSide}
                                 CARD_BACK_URL={CARD_BACK_URL}
                                 compact={compact}
@@ -2301,7 +2417,10 @@ export default function Home() {
                                             const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
                                             if (battle) return 'Cannot play during battle.';
                                             if (!canPlayNow(side)) return 'Cannot play now (must be your Main Phase).';
-                                            const cost = actionCard ? getCardCost(actionCard.id) : 0;
+                                            const section = actionSource?.section || 'bottom';
+                                            const keyName = actionSource?.keyName || 'hand';
+                                            const index = actionCardIndex >= 0 ? actionCardIndex : 0;
+                                            const cost = actionCard ? getCardCost(actionCard.id, side, section, keyName, index) : 0;
                                             const ok = hasEnoughDonFor(side, cost);
                                             return ok ? `Playable now (${side}). Cost: ${cost} DON.` : `Need ${cost} active DON (${side}).`;
                                         })()}
@@ -2333,8 +2452,11 @@ export default function Home() {
                                             if (!elements.length) return <Typography variant="caption">No counter on this card.</Typography>;
                                             return <Stack direction="row" spacing={1}>{elements}</Stack>;
                                         }
-                                        const cost = actionCard ? getCardCost(actionCard.id) : 0;
                                         const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
+                                        const section = actionSource?.section || 'bottom';
+                                        const keyName = actionSource?.keyName || 'hand';
+                                        const index = actionCardIndex >= 0 ? actionCardIndex : 0;
+                                        const cost = actionCard ? getCardCost(actionCard.id, side, section, keyName, index) : 0;
                                         const ok = canPlayNow(side) && hasEnoughDonFor(side, cost);
                                         return (
                                             <Button variant="contained" disabled={!ok} onClick={playSelectedCard}>Play to Character Area</Button>

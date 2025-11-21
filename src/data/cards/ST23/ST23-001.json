@@ -29,27 +29,29 @@
   "text": "If you have a Character with 10000 power or more, give this card in your hand −4 cost.\n[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "abilities": [
     {
-      "timing": "Static",
+      "type": "Continuous",
       "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "allyCharacterPower": 10000
       },
+      "cost": null,
       "effect": {
         "text": "If you have a Character with 10000 power or more, give this card in your hand −4 cost.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "allyCharacterPower>=10000"
+        "actions": [
+          {
+            "type": "costMod",
+            "mode": "aura",
+            "targetSelf": true,
+            "amount": -4,
+            "duration": "permanent",
+            "appliesToHand": true
+          }
         ]
       }
     }
   ],
   "meta": {
-    "notes": null
+    "notes": "Cost reduction applies while in hand if you control a Character with 10000+ power"
   },
   "verified": true
 }

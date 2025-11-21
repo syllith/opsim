@@ -93,6 +93,10 @@
               "leaderHasType": {
                 "type": ["string", "null"],
                 "description": "Controller's Leader must include this type (e.g., 'Red Hair Pirates')"
+              },
+              "allyCharacterPower": {
+                "type": ["integer", "null"],
+                "description": "Requires you to control a Character with power >= this value (e.g., 10000 for 'If you have a Character with 10000 power or more')"
               }
             }
           },
@@ -146,7 +150,7 @@
                   "properties": {
                     "type": {
                       "type": "string",
-                      "enum": ["draw", "ko", "powerMod", "search", "addDon", "giveDon", "play", "return", "rest", "active", "grantKeyword", "disableKeyword"],
+                      "enum": ["draw", "ko", "powerMod", "costMod", "search", "addDon", "giveDon", "play", "return", "rest", "active", "grantKeyword", "disableKeyword"],
                       "description": "Action type"
                     },
                           "mode": { "type": ["string", "null"], "enum": ["normal", "aura", null], "description": "Execution mode: 'aura' for passive continuous effects applied dynamically while source remains on field" },
@@ -173,7 +177,8 @@
                     "filterAttribute": { "type": ["string", "null"] },
                     "keyword": { "type": ["string", "null"], "description": "Keyword to grant (e.g., 'Rush', 'Blocker')" },
                     "targetSelf": { "type": ["boolean", "null"], "description": "If true, apply to the action source card instead of selecting targets" },
-                    "onlyRested": { "type": ["boolean", "null"], "description": "For giveDon: whether to only use rested DON!! from cost area (default: true)" }
+                    "onlyRested": { "type": ["boolean", "null"], "description": "For giveDon: whether to only use rested DON!! from cost area (default: true)" },
+                    "appliesToHand": { "type": ["boolean", "null"], "description": "For costMod: whether this cost modification applies to the card while it's in hand (e.g., cost reduction effects)" }
                   },
                   "required": ["type"]
                 }

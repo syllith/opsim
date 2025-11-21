@@ -29,6 +29,8 @@ export default function Board({
     applyBlocker,
     getPowerMod,
     getAuraPowerMod,
+    getCardCost,
+    getAuraCostMod,
     turnSide,
     CARD_BACK_URL,
     compact = false,
@@ -410,27 +412,44 @@ export default function Board({
                                     }
                                 };
                                 
+                                // Calculate cost modification for cards in hand
+                                // Compute effective cost difference (base - effective)
+                                let costDiff = 0;
+                                if (typeof getCardMeta === 'function') {
+                                    const meta = getCardMeta(c.id);
+                                    const baseCost = meta?.stats?.cost || 0;
+                                    if (typeof getCardCost === 'function') {
+                                        const effective = getCardCost(c.id, side, section, keyName, i);
+                                        costDiff = effective - baseCost; // negative indicates reduction
+                                    }
+                                }
+                                
                                 return (
-                                    <img
-                                        key={c.id + i}
-                                        src={c.thumb}
-                                        alt={c.id}
-                                        data-cardkey={modKey(side, section, keyName, i)}
-                                        style={{ 
-                                            position: 'absolute', 
-                                            top: 0, 
-                                            left: i * OVERLAP_OFFSET, 
-                                            width: CARD_W, 
-                                            cursor, 
-                                            opacity, 
-                                            outline: (actionOpen && actionCardIndex === i && canInteract) ? '3px solid #90caf9' : (selected ? '3px solid #ff9800' : 'none'), 
-                                            borderRadius: '2px',
-                                            filter: (isTargetingHere && !valid) ? 'grayscale(0.9) brightness(0.6)' : 'none'
-                                        }}
-                                        onClick={onClick}
-                                        onMouseEnter={() => handleCardHover(c, config)}
-                                        onMouseLeave={handleCardLeave}
-                                    />
+                                    <Box key={c.id + i} sx={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET }}>
+                                        <img
+                                            src={c.thumb}
+                                            alt={c.id}
+                                            data-cardkey={modKey(side, section, keyName, i)}
+                                            style={{ 
+                                                width: CARD_W, 
+                                                cursor, 
+                                                opacity, 
+                                                outline: (actionOpen && actionCardIndex === i && canInteract) ? '3px solid #90caf9' : (selected ? '3px solid #ff9800' : 'none'), 
+                                                borderRadius: '2px',
+                                                filter: (isTargetingHere && !valid) ? 'grayscale(0.9) brightness(0.6)' : 'none'
+                                            }}
+                                            onClick={onClick}
+                                            onMouseEnter={() => handleCardHover(c, config)}
+                                            onMouseLeave={handleCardLeave}
+                                        />
+                                        {costDiff !== 0 && (
+                                            <Box sx={{ position: 'absolute', top: 8, right: 8, px: 1, py: 0.5, borderRadius: 1, bgcolor: costDiff < 0 ? 'rgba(76,175,80,0.95)' : 'rgba(239,83,80,0.95)', border: costDiff < 0 ? '1px solid #4caf50' : '1px solid #ef5350', boxShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+                                                <Typography variant="caption" sx={{ color: '#fff', fontWeight: 700, fontSize: '0.72rem', whiteSpace: 'nowrap' }}>
+                                                    {costDiff < 0 ? `${costDiff}` : `+${costDiff}`} cost
+                                                </Typography>
+                                            </Box>
+                                        )}
+                                    </Box>
                                 );
                             })}
                         </Box>
