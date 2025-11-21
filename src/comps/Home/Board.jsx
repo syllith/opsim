@@ -1,7 +1,7 @@
 // Board.jsx
 // Board layout and rendering for One Piece TCG Sim play area
 
-import React, { useMemo, useRef, useEffect, useState } from 'react';
+import React, { useMemo, useRef, useEffect, useState, useCallback } from 'react';
 import { Box, Paper, Typography, Button, Chip, Stack } from '@mui/material';
 import OpeningHand from './OpeningHand';
 import DeckSearch from './DeckSearch';
@@ -132,19 +132,96 @@ export default function Board({
         }
     }), []);
 
-    const modKey = (side, section, keyName, index) => `${side}:${section}:${keyName}:${index}`;
+    const modKey = useCallback((side, section, keyName, index) => `${side}:${section}:${keyName}:${index}`, []);
+
+    // Memoized helper functions
+    const isLifeArea = useCallback((label) => /life/i.test(label || ''), []);
+    const isDonPile = useCallback((label) => /\bdon\b/i.test(label || '') && !/cost/i.test(label || ''), []);
+    const isDeckArea = useCallback((label) => /deck/i.test(label || ''), []);
+
+    // Optimized hover handler
+    const handleCardHover = useCallback((card, config) => {
+        if (!card || card.id === 'DON' || card.id === 'DON_BACK') return;
+        if (isLifeArea(config?.label)) return;
+        setHovered(card);
+    }, [isLifeArea, setHovered]);
+
+    const handleCardLeave = useCallback(() => setHovered(null), [setHovered]);
+
+    // Helper component for rendering stacked DON cards
+    const DonStack = useCallback(({ donArr, cardIndex }) => {
+        if (!donArr || donArr.length === 0) return null;
+        const offsetX = 8;
+        const offsetY = 8;
+        const baseOffsetX = 15;
+        const baseOffsetY = 15;
+        const reversedDonArr = [...donArr].reverse();
+        
+        return (
+            <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
+                {reversedDonArr.map((don, di) => {
+                    const originalIndex = donArr.length - 1 - di;
+                    return (
+                        <img
+                            key={`don-${cardIndex}-${originalIndex}`}
+                            src={don.thumb}
+                            alt="DON"
+                            style={{ 
+                                position: 'absolute',
+                                top: baseOffsetY + (originalIndex * offsetY),
+                                left: -(baseOffsetX + (originalIndex * offsetX)),
+                                width: CARD_W, 
+                                height: 'auto',
+                                borderRadius: '2px',
+                                boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                                border: '1px solid #ffc107',
+                                zIndex: di
+                            }}
+                        />
+                    );
+                })}
+            </Box>
+        );
+    }, [CARD_W]);
+
+    // Helper component for rendering power modifiers and keyword badges
+    const PowerBadge = useCallback(({ side, section, keyName, index, cardId }) => {
+        const temp = typeof getPowerMod === 'function' ? getPowerMod(side, section, keyName, index) : 0;
+        const aura = typeof getAuraPowerMod === 'function' ? getAuraPowerMod(side, section, keyName, index) : 0;
+        const delta = (temp || 0) + (aura || 0);
+        const hasBlocker = getKeywordsFor(cardId).some(k => /blocker/i.test(k));
+        const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword(side, section, keyName, index, 'Blocker');
+        const showBlockerDisabled = hasBlocker && blockerDisabled;
+        
+        if (!delta && !showBlockerDisabled) return null;
+        
+        return (
+            <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
+                {delta !== 0 && (
+                    <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
+                        <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>
+                            {delta > 0 ? `+${delta}` : `${delta}`}
+                        </Typography>
+                    </Box>
+                )}
+                {showBlockerDisabled && (
+                    <Box sx={{ px: 1, py: 0.5, borderRadius: 1, bgcolor: 'rgba(239, 83, 80, 0.95)', border: '1px solid #d32f2f' }}>
+                        <Typography variant="caption" sx={{ color: '#fff', fontWeight: 700, fontSize: '0.7rem', whiteSpace: 'nowrap' }}>
+                            Can't Block
+                        </Typography>
+                    </Box>
+                )}
+            </Box>
+        );
+    }, [getPowerMod, getAuraPowerMod, getKeywordsFor, hasDisabledKeyword]);
 
     // Render cards based on mode
-    const renderCards = (cardsArr, mode, config) => {
+    const renderCards = useCallback((cardsArr, mode, config) => {
         if (!cardsArr.length) return null;
-        const isLifeArea = /life/i.test(config.label || '');
-        const isDonPile = /\bdon\b/i.test(config.label || '') && !/cost/i.test(config.label || '');
-        const onHover = (c) => {
-            if (!c) return;
-            if (isLifeArea) { setHovered(null); return; }
-            if (c.id === 'DON' || c.id === 'DON_BACK') { return; }
-            setHovered(c);
-        };
+        const isLife = isLifeArea(config.label);
+        const isDon = isDonPile(config.label);
+        const onHover = (c) => handleCardHover(c, config);
+        const onLeave = handleCardLeave;
         switch (mode) {
             case 'single': {
                 const c = cardsArr[cardsArr.length - 1];
@@ -155,13 +232,13 @@ export default function Board({
                         alt={c.id}
                         style={{ width: CARD_W, height: 'auto' }}
                         onMouseEnter={() => onHover(c)}
-                        onMouseLeave={() => setHovered(null)}
+                        onMouseLeave={onLeave}
                     />
                 );
             }
             case 'stacked': {
                 // Special handling: for Deck, render a visible stack using back image if provided
-                const isDeck = /deck/i.test(config.label || '');
+                const isDeck = isDeckArea(config.label);
                 if (isDeck) {
                     // Visual cap: render roughly half the stack, up to 30
                     const visualHalf = Math.ceil(cardsArr.length * 0.5);
@@ -191,8 +268,8 @@ export default function Board({
                         src={c.thumb}
                         alt={c.id}
                         style={{ width: CARD_W, height: 'auto' }}
-                        onMouseEnter={() => (isDonPile ? setHovered(null) : onHover(c))}
-                        onMouseLeave={() => setHovered(null)}
+                        onMouseEnter={() => (isDon ? undefined : onHover(c))}
+                        onMouseLeave={onLeave}
                     />
                 );
             }
@@ -206,7 +283,7 @@ export default function Board({
                                 alt={c.id}
                                 style={{ width: CARD_W, height: 'auto' }}
                                 onMouseEnter={() => onHover(c)}
-                                onMouseLeave={() => setHovered(null)}
+                                onMouseLeave={onLeave}
                             />
                         ))}
                     </Box>
@@ -222,7 +299,7 @@ export default function Board({
                                 alt={c.id}
                                 style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W }}
                                 onMouseEnter={() => onHover(c)}
-                                onMouseLeave={() => setHovered(null)}
+                                onMouseLeave={onLeave}
                             />
                         ))}
                     </Box>
@@ -234,11 +311,11 @@ export default function Board({
                         {cardsArr.map((c, i) => (
                             <img
                                 key={c.id + i}
-                                src={isLifeArea ? CARD_BACK_URL : c.thumb}
+                                src={isLife ? CARD_BACK_URL : c.thumb}
                                 alt={c.id}
                                 style={{ position: 'absolute', top: i * OVERLAP_OFFSET, left: 0, width: CARD_W }}
                                 onMouseEnter={() => onHover(c)}
-                                onMouseLeave={() => setHovered(null)}
+                                onMouseLeave={onLeave}
                             />
                         ))}
                     </Box>
@@ -247,7 +324,7 @@ export default function Board({
             default:
                 return null;
         }
-    };
+    }, [CARD_W, CARD_H, OVERLAP_OFFSET, CARD_BACK_URL, isLifeArea, isDonPile, isDeckArea, handleCardHover, handleCardLeave]);
 
     const AreaBox = ({ side, section, keyName, config }) => {
         const isNested = typeof areaConfigs[side][section].mode !== 'string';
@@ -292,24 +369,67 @@ export default function Board({
                                 const isThisSideTurn = side === turnSide;
                                 // Allow interaction during Main Phase on your turn (no active battle), OR during Counter Step if you're defending
                                 const isDefendingInCounter = battle && battle.step === 'counter' && battle.target.side === side;
-                                const canInteract = (isThisSideTurn && phase?.toLowerCase() === 'main' && !battle) || isDefendingInCounter;
-                                const cursor = canInteract ? 'pointer' : 'not-allowed';
-                                const opacity = canInteract ? 1 : 0.6;
+                                const isDefendingInBlock = battle && battle.step === 'block' && battle.target.side === side;
+                                const canInteract = (isThisSideTurn && phase?.toLowerCase() === 'main' && !battle) || isDefendingInCounter || isDefendingInBlock;
+                                
+                                // Check if targeting is active for this hand
+                                const isTargetingHere = targeting.active && targeting.side === side && targeting.section === section && targeting.keyName === keyName;
+                                const ctx = { side, section, keyName, index: i };
+                                const valid = isTargetingHere ? (typeof targeting.validator === 'function' ? targeting.validator(c, ctx) : true) : false;
+                                const selected = targeting.multi ? targeting.selected.some(s => s.side === side && s.section === section && s.keyName === keyName && s.index === i) : (isTargetingHere && targeting.selectedIdx.includes(i));
+                                
+                                // Override cursor and opacity for targeting mode
+                                const cursor = isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : (canInteract ? 'pointer' : 'not-allowed');
+                                const opacity = (isTargetingHere && !valid) ? 0.4 : (canInteract || isTargetingHere ? 1 : 0.6);
+                                
+                                const onClick = (e) => {
+                                    e.stopPropagation();
+                                    
+                                    // Handle targeting selection
+                                    if (isTargetingHere) {
+                                        if (targeting.suspended) return;
+                                        if (!valid) return;
+                                        setTargeting((prev) => {
+                                            if (prev.multi) {
+                                                const has = prev.selected.some(s => s.side === side && s.section === section && s.keyName === keyName && s.index === i);
+                                                let selected = has ? prev.selected.filter((s) => !(s.side === side && s.section === section && s.keyName === keyName && s.index === i)) : [...prev.selected, ctx];
+                                                if (selected.length > prev.max) selected = selected.slice(-prev.max);
+                                                return { ...prev, selected };
+                                            } else {
+                                                const has = prev.selectedIdx.includes(i);
+                                                const selectedIdx = has ? prev.selectedIdx.filter((idx) => idx !== i) : [...prev.selectedIdx, i];
+                                                return { ...prev, selectedIdx };
+                                            }
+                                        });
+                                        return;
+                                    }
+                                    
+                                    // Normal card action
+                                    if (canInteract) {
+                                        openCardAction(c, i, { side, section, keyName, index: i }); 
+                                    }
+                                };
+                                
                                 return (
                                     <img
                                         key={c.id + i}
                                         src={c.thumb}
                                         alt={c.id}
                                         data-cardkey={modKey(side, section, keyName, i)}
-                                        style={{ position: 'absolute', top: 0, left: i * OVERLAP_OFFSET, width: CARD_W, cursor, opacity, outline: actionOpen && actionCardIndex === i && canInteract ? '3px solid #90caf9' : 'none', borderRadius: '2px' }}
-                                        onClick={(e) => { 
-                                            e.stopPropagation(); 
-                                            if (canInteract) {
-                                                openCardAction(c, i, { side, section, keyName, index: i }); 
-                                            }
+                                        style={{ 
+                                            position: 'absolute', 
+                                            top: 0, 
+                                            left: i * OVERLAP_OFFSET, 
+                                            width: CARD_W, 
+                                            cursor, 
+                                            opacity, 
+                                            outline: (actionOpen && actionCardIndex === i && canInteract) ? '3px solid #90caf9' : (selected ? '3px solid #ff9800' : 'none'), 
+                                            borderRadius: '2px',
+                                            filter: (isTargetingHere && !valid) ? 'grayscale(0.9) brightness(0.6)' : 'none'
                                         }}
-                                        onMouseEnter={() => setHovered(c)}
-                                        onMouseLeave={() => setHovered(null)}
+                                        onClick={onClick}
+                                        onMouseEnter={() => handleCardHover(c, config)}
+                                        onMouseLeave={handleCardLeave}
                                     />
                                 );
                             })}
@@ -345,8 +465,8 @@ export default function Board({
                                                     startDonGiving(side, i);
                                                 }
                                             }}
-                                            onMouseEnter={() => { if (c.id !== 'DON' && c.id !== 'DON_BACK') setHovered(c); }}
-                                            onMouseLeave={() => setHovered(null)}
+                                            onMouseEnter={() => handleCardHover(c, config)}
+                                            onMouseLeave={handleCardLeave}
                                         />
                                     );
                                 })}
@@ -361,43 +481,7 @@ export default function Board({
                                     const selected = targeting.multi ? targeting.selected.some(s => s.side === 'player' && s.section === 'char' && s.keyName === 'char' && s.index === i) : (isTargetingHere && targeting.selectedIdx.includes(i));
                                     return (
                                     <Box key={c.id + '-' + i} sx={{ position: 'relative' }}>
-                                        {/* Physical DON!! cards underneath - stacked upright below and left */}
-                                        {(() => {
-                                            const donArr = areas?.player?.charDon?.[i] || [];
-                                            if (donArr.length === 0) return null;
-                                            const offsetX = 8; // Horizontal offset (left)
-                                            const offsetY = 8; // Vertical offset (down)
-                                            const baseOffsetX = 15; // Base offset for first DON!!
-                                            const baseOffsetY = 15; // Base offset for first DON!!
-                                            // Reverse the array so first DON!! renders last (on top)
-                                            const reversedDonArr = [...donArr].reverse();
-                                            return (
-                                                <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
-                                                    {reversedDonArr.map((don, di) => {
-                                                        // Use original index for positioning
-                                                        const originalIndex = donArr.length - 1 - di;
-                                                        return (
-                                                            <img
-                                                                key={`don-${i}-${originalIndex}`}
-                                                                src={don.thumb}
-                                                                alt="DON"
-                                                                style={{ 
-                                                                    position: 'absolute',
-                                                                    top: baseOffsetY + (originalIndex * offsetY),
-                                                                    left: -(baseOffsetX + (originalIndex * offsetX)),
-                                                                    width: CARD_W, 
-                                                                    height: 'auto',
-                                                                    borderRadius: '2px',
-                                                                    boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
-                                                                    border: '1px solid #ffc107',
-                                                                    zIndex: di
-                                                                }}
-                                                            />
-                                                        );
-                                                    })}
-                                                </Box>
-                                            );
-                                        })()}
+                                        <DonStack donArr={areas?.player?.charDon?.[i]} cardIndex={i} />
                                         <img
                                             src={c.thumb}
                                             alt={c.id}
@@ -428,16 +512,6 @@ export default function Board({
                                             }}
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                // Quick block via clicking the card (player defending)
-                                                if (battle && battle.step === 'block' && battle.target && battle.target.side === 'player' && battle.target.section !== 'char') {
-                                                    const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
-                                                    const active = !c.rested;
-                                                    const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('player', 'char', 'char', i, 'Blocker');
-                                                    if (hasBlocker && active && !blockerDisabled) {
-                                                        applyBlocker(i);
-                                                        return;
-                                                    }
-                                                }
                                                 // Handle DON!! giving
                                                 if (isValidDonTarget && giveDonToCard) {
                                                     giveDonToCard('player', 'char', 'char', i);
@@ -464,8 +538,8 @@ export default function Board({
                                                 }
                                                 openCardAction(c, i, { side: 'player', section: 'char', keyName: 'char', index: i });
                                             }}
-                                            onMouseEnter={() => setHovered(c)}
-                                            onMouseLeave={() => setHovered(null)}
+                                            onMouseEnter={() => handleCardHover(c, config)}
+                                            onMouseLeave={handleCardLeave}
                                         />
                                         {battle && battle.step === 'block' && battle.target && battle.target.side === 'player' && battle.target.section !== 'char' && (() => {
                                             const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
@@ -480,32 +554,13 @@ export default function Board({
                                                 </Box>
                                             );
                                         })()}
-                                        {/* Power modifier and disabled keyword badges */}
-                                        {(() => {
-                                            const temp = typeof getPowerMod === 'function' ? getPowerMod('player', 'char', 'char', i) : 0;
-                                            const aura = typeof getAuraPowerMod === 'function' ? getAuraPowerMod('player', 'char', 'char', i) : 0;
-                                            const delta = (temp || 0) + (aura || 0);
-                                            const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
-                                            const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('player', 'char', 'char', i, 'Blocker');
-                                            const showBlockerDisabled = hasBlocker && blockerDisabled;
-                                            
-                                            if (!delta && !showBlockerDisabled) return null;
-                                            
-                                            return (
-                                                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
-                                                    {delta !== 0 && (
-                                                        <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
-                                                            <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
-                                                        </Box>
-                                                    )}
-                                                    {showBlockerDisabled && (
-                                                        <Box sx={{ px: 1, py: 0.5, borderRadius: 1, bgcolor: 'rgba(239, 83, 80, 0.95)', border: '1px solid #d32f2f' }}>
-                                                            <Typography variant="caption" sx={{ color: '#fff', fontWeight: 700, fontSize: '0.7rem', whiteSpace: 'nowrap' }}>Can't Block</Typography>
-                                                        </Box>
-                                                    )}
-                                                </Box>
-                                            );
-                                        })()}
+                                        <PowerBadge 
+                                            side="player" 
+                                            section="char" 
+                                            keyName="char" 
+                                            index={i} 
+                                            cardId={c.id} 
+                                        />
                                     </Box>
                                     );
                                 })}
@@ -520,43 +575,7 @@ export default function Board({
                                     const selected = targeting.multi ? targeting.selected.some(s => s.side === 'opponent' && s.section === 'char' && s.keyName === 'char' && s.index === i) : (isTargetingHere && targeting.selectedIdx.includes(i));
                                     return (
                                         <Box key={c.id + '-' + i} sx={{ position: 'relative' }}>
-                                            {/* Physical DON!! cards underneath - stacked upright below and left */}
-                                            {(() => {
-                                                const donArr = areas?.opponent?.charDon?.[i] || [];
-                                                if (donArr.length === 0) return null;
-                                                const offsetX = 8; // Horizontal offset (left)
-                                                const offsetY = 8; // Vertical offset (down)
-                                                const baseOffsetX = 15; // Base offset for first DON!!
-                                                const baseOffsetY = 15; // Base offset for first DON!!
-                                                // Reverse the array so first DON!! renders last (on top)
-                                                const reversedDonArr = [...donArr].reverse();
-                                                return (
-                                                    <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
-                                                        {reversedDonArr.map((don, di) => {
-                                                            // Use original index for positioning
-                                                            const originalIndex = donArr.length - 1 - di;
-                                                            return (
-                                                                <img
-                                                                    key={`don-${i}-${originalIndex}`}
-                                                                    src={don.thumb}
-                                                                    alt="DON"
-                                                                    style={{ 
-                                                                        position: 'absolute',
-                                                                        top: baseOffsetY + (originalIndex * offsetY),
-                                                                        left: -(baseOffsetX + (originalIndex * offsetX)),
-                                                                        width: CARD_W, 
-                                                                        height: 'auto',
-                                                                        borderRadius: '2px',
-                                                                        boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
-                                                                        border: '1px solid #ffc107',
-                                                                        zIndex: di
-                                                                    }}
-                                                                />
-                                                            );
-                                                        })}
-                                                    </Box>
-                                                );
-                                            })()}
+                                            <DonStack donArr={areas?.opponent?.charDon?.[i]} cardIndex={i} />
                                             <img
                                                 src={c.thumb}
                                                 alt={c.id}
@@ -586,16 +605,6 @@ export default function Board({
                                                 data-cardkey={modKey('opponent', 'char', 'char', i)}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    // Quick block via clicking the card (opponent defending)
-                                                    if (battle && battle.step === 'block' && battle.target && battle.target.side === 'opponent' && battle.target.section !== 'char') {
-                                                        const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
-                                                        const active = !c.rested;
-                                                        const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('opponent', 'char', 'char', i, 'Blocker');
-                                                        if (hasBlocker && active && !blockerDisabled) {
-                                                            applyBlocker(i);
-                                                            return;
-                                                        }
-                                                    }
                                                     // Handle DON!! giving for opponent side
                                                     if (isValidDonTarget && giveDonToCard) {
                                                         giveDonToCard('opponent', 'char', 'char', i);
@@ -627,54 +636,21 @@ export default function Board({
                                                     }
                                                     openCardAction(c, i, { side: 'opponent', section: 'char', keyName: 'char', index: i });
                                                 }}
-                                                onMouseEnter={() => setHovered(c)}
-                                                onMouseLeave={() => setHovered(null)}
+                                                onMouseEnter={() => handleCardHover(c, config)}
+                                                onMouseLeave={handleCardLeave}
                                             />
                                             {selected && (
                                                 <Box sx={{ position: 'absolute', top: 6, right: 6, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(255,152,0,0.9)' }}>
                                                     <Typography variant="caption" sx={{ color: '#000', fontWeight: 700 }}>Target</Typography>
                                                 </Box>
                                             )}
-                                            {battle && battle.step === 'block' && battle.target && battle.target.section !== 'char' && (() => {
-                                                const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
-                                                const active = !c.rested;
-                                                const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('opponent', 'char', 'char', i, 'Blocker');
-                                                if (!hasBlocker || !active || blockerDisabled) return null;
-                                                return (
-                                                    <Box sx={{ position: 'absolute', bottom: 4, left: 4, right: 4 }}>
-                                                        <Button size="small" fullWidth variant="contained" color="error" onClick={(e) => { e.stopPropagation(); applyBlocker(i); }}>
-                                                            Use Blocker
-                                                        </Button>
-                                                    </Box>
-                                                );
-                                            })()}
-                                            
-                                            {/* Power modifier and disabled keyword badges */}
-                                            {(() => {
-                                                const temp = typeof getPowerMod === 'function' ? getPowerMod('opponent', 'char', 'char', i) : 0;
-                                                const aura = typeof getAuraPowerMod === 'function' ? getAuraPowerMod('opponent', 'char', 'char', i) : 0;
-                                                const delta = (temp || 0) + (aura || 0);
-                                                const hasBlocker = getKeywordsFor(c.id).some(k => /blocker/i.test(k));
-                                                const blockerDisabled = hasDisabledKeyword && hasDisabledKeyword('opponent', 'char', 'char', i, 'Blocker');
-                                                const showBlockerDisabled = hasBlocker && blockerDisabled;
-                                                
-                                                if (!delta && !showBlockerDisabled) return null;
-                                                
-                                                return (
-                                                    <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
-                                                        {delta !== 0 && (
-                                                            <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
-                                                                <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
-                                                            </Box>
-                                                        )}
-                                                        {showBlockerDisabled && (
-                                                            <Box sx={{ px: 1, py: 0.5, borderRadius: 1, bgcolor: 'rgba(239, 83, 80, 0.95)', border: '1px solid #d32f2f' }}>
-                                                                <Typography variant="caption" sx={{ color: '#fff', fontWeight: 700, fontSize: '0.7rem', whiteSpace: 'nowrap' }}>Can't Block</Typography>
-                                                            </Box>
-                                                        )}
-                                                    </Box>
-                                                );
-                                            })()}
+                                            <PowerBadge 
+                                                side="opponent" 
+                                                section="char" 
+                                                keyName="char" 
+                                                index={i} 
+                                                cardId={c.id} 
+                                            />
                                         </Box>
                                     );
                                 })}
@@ -705,6 +681,7 @@ export default function Board({
                                                     const has = prev.selected.some(s => s.side === side && s.section === 'middle' && s.keyName === 'leader' && s.index === idx);
                                                     let selected = has ? prev.selected.filter((s) => !(s.side === side && s.section === 'middle' && s.keyName === 'leader' && s.index === idx)) : [...prev.selected, ctx];
                                                     if (selected.length > prev.max) selected = selected.slice(-prev.max);
+                                                    console.log('[targeting:update] leader selection', { sessionId: prev.sessionId, selected });
                                                     if (selected.length && currentAttack) {
                                                         const defP = getTotalPower(side, 'middle', 'leader', idx, c?.id);
                                                         setBattleArrow({ fromKey: currentAttack.key, toKey: modKey(side, 'middle', 'leader', idx), label: `${currentAttack.power} ▶ ${defP}` });
@@ -714,6 +691,7 @@ export default function Board({
                                                     const has = prev.selectedIdx.includes(idx);
                                                     let selectedIdx = has ? prev.selectedIdx.filter((x) => x !== idx) : [...prev.selectedIdx, idx];
                                                     if (selectedIdx.length > prev.max) selectedIdx = selectedIdx.slice(-prev.max);
+                                                    console.log('[targeting:update] leader single-selection', { sessionId: prev.sessionId, selectedIdx });
                                                     return { ...prev, selectedIdx };
                                                 }
                                             });
@@ -723,44 +701,10 @@ export default function Board({
                                     };
                                     return (
                                         <>
-                                            {/* Physical DON!! cards underneath - stacked upright below and left */}
-                                            {(() => {
-                                                const sideLoc = side === 'player' ? areas.player : areas.opponent;
-                                                const donArr = sideLoc?.middle?.leaderDon || [];
-                                                if (donArr.length === 0) return null;
-                                                const offsetX = 8; // Horizontal offset (left)
-                                                const offsetY = 8; // Vertical offset (down)
-                                                const baseOffsetX = 15; // Base offset for first DON!!
-                                                const baseOffsetY = 15; // Base offset for first DON!!
-                                                // Reverse the array so first DON!! renders last (on top)
-                                                const reversedDonArr = [...donArr].reverse();
-                                                return (
-                                                    <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
-                                                        {reversedDonArr.map((don, di) => {
-                                                            // Use original index for positioning
-                                                            const originalIndex = donArr.length - 1 - di;
-                                                            return (
-                                                                <img
-                                                                    key={`leader-don-${originalIndex}`}
-                                                                    src={don.thumb}
-                                                                    alt="DON"
-                                                                    style={{ 
-                                                                        position: 'absolute',
-                                                                        top: baseOffsetY + (originalIndex * offsetY),
-                                                                        left: -(baseOffsetX + (originalIndex * offsetX)),
-                                                                        width: CARD_W, 
-                                                                        height: 'auto',
-                                                                        borderRadius: '2px',
-                                                                        boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
-                                                                        border: '1px solid #ffc107',
-                                                                        zIndex: di
-                                                                    }}
-                                                                />
-                                                            );
-                                                        })}
-                                                    </Box>
-                                                );
-                                            })()}
+                                            <DonStack 
+                                                donArr={(side === 'player' ? areas.player : areas.opponent)?.middle?.leaderDon} 
+                                                cardIndex="leader" 
+                                            />
                                             <img
                                                 src={c?.thumb}
                                                 alt={c?.id}
@@ -783,8 +727,8 @@ export default function Board({
                                                     zIndex: 1
                                                 }}
                                                 onClick={onClick}
-                                                onMouseEnter={() => c && setHovered(c)}
-                                                onMouseLeave={() => setHovered(null)}
+                                                onMouseEnter={() => c && handleCardHover(c, config)}
+                                                onMouseLeave={handleCardLeave}
                                             />
                                             {selected && (
                                                 <Box sx={{ position: 'absolute', top: 6, right: 6, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(255,152,0,0.9)' }}>
@@ -792,20 +736,13 @@ export default function Board({
                                                 </Box>
                                             )}
                                             
-                                            {/* Power modifier badge */}
-                                            {(() => {
-                                                const temp = typeof getPowerMod === 'function' ? getPowerMod(side, 'middle', 'leader', idx) : 0;
-                                                const aura = typeof getAuraPowerMod === 'function' ? getAuraPowerMod(side, 'middle', 'leader', idx) : 0;
-                                                const delta = (temp || 0) + (aura || 0);
-                                                if (!delta) return null;
-                                                return (
-                                                    <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
-                                                        <Box sx={{ px: 1.5, py: 0.75, borderRadius: 1, bgcolor: 'rgba(0,0,0,0.85)' }}>
-                                                            <Typography variant="h5" sx={{ color: delta > 0 ? '#4caf50' : '#ef5350', fontWeight: 700 }}>{delta > 0 ? `+${delta}` : `${delta}`}</Typography>
-                                                        </Box>
-                                                    </Box>
-                                                );
-                                            })()}
+                                            <PowerBadge 
+                                                side={side} 
+                                                section="middle" 
+                                                keyName="leader" 
+                                                index={idx} 
+                                                cardId={c?.id} 
+                                            />
                                         </>
                                     );
                                 })()}

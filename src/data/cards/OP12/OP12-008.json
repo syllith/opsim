@@ -41,6 +41,22 @@
       },
       "effect": {
         "text": "You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this turn.",
+        "actions": [
+          {
+            "type": "trashFromHand",
+            "minCards": 0,
+            "maxCards": 1
+          },
+          {
+            "type": "powerMod",
+            "amount": -2000,
+            "targetSide": "opponent",
+            "targetType": "any",
+            "minTargets": 0,
+            "maxTargets": 1,
+            "duration": "thisTurn"
+          }
+        ],
         "powerMod": null,
         "giveDon": null
       }

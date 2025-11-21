@@ -166,7 +166,34 @@ Look at cards from deck, select some, and handle remainder.
 }
 ```
 
-### 5. Add DON!! (`addDon`)
+### 5. Trash From Hand (`trashFromHand`)
+
+Allows the player to select and trash cards from their hand. This is typically used for optional costs or effects that require discarding cards.
+
+**Required Fields:**
+- `type`: `"trashFromHand"`
+- `minCards`: `number` - Minimum cards to trash (0 for "you may trash")
+- `maxCards`: `number` - Maximum cards to trash
+
+**Example - Optional trash 1 card from hand:**
+```json
+{
+  "type": "trashFromHand",
+  "minCards": 0,
+  "maxCards": 1
+}
+```
+
+**Example - Must trash 2 cards from hand:**
+```json
+{
+  "type": "trashFromHand",
+  "minCards": 2,
+  "maxCards": 2
+}
+```
+
+### 6. Add DON!! (`addDon`)
 
 Add DON!! cards from DON!! deck.
 
@@ -184,7 +211,7 @@ Add DON!! cards from DON!! deck.
 }
 ```
 
-### 6. Give DON!! to Card (`giveDon`)
+### 7. Give DON!! to Card (`giveDon`)
 
 Give DON!! from cost area to a card.
 
@@ -212,7 +239,7 @@ Give DON!! from cost area to a card.
 }
 ```
 
-### 7. Play Card (`play`)
+### 8. Play Card (`play`)
 
 Play a card from hand or other zone.
 
@@ -237,7 +264,7 @@ Play a card from hand or other zone.
 }
 ```
 
-### 8. Return Card (`return`)
+### 9. Return Card (`return`)
 
 Return cards to hand or deck.
 
@@ -261,7 +288,7 @@ Return cards to hand or deck.
 }
 ```
 
-### 9. Rest Card (`rest`)
+### 10. Rest Card (`rest`)
 
 Rest (tap) cards.
 
@@ -283,7 +310,7 @@ Rest (tap) cards.
 }
 ```
 
-### 10. Make Active (`active`)
+### 11. Make Active (`active`)
 
 Make rested cards active (untap).
 
@@ -305,7 +332,7 @@ Make rested cards active (untap).
 }
 ```
 
-### 11. Grant Keyword (`grantKeyword`)
+### 12. Grant Keyword (`grantKeyword`)
 
 Temporarily grants a keyword (e.g., Rush, Blocker) for a duration. Can target specific cards or apply to the action source itself.
 
@@ -333,7 +360,7 @@ Temporarily grants a keyword (e.g., Rush, Blocker) for a duration. Can target sp
 }
 ```
 
-### 12. Disable Keyword (`disableKeyword`)
+### 13. Disable Keyword (`disableKeyword`)
 
 Prevents a keyword (e.g., Blocker) from being activated for a duration. Used for effects like "cannot activate [Blocker]".
 
@@ -523,6 +550,43 @@ Disable Blocker on opponent character with power limit.
             "minTargets": 0,
             "maxTargets": 1,
             "powerLimit": 4000,
+            "duration": "thisTurn"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+### Example 6: OP12-008 Shanks
+Opponent Turn ability with optional trash cost and power reduction.
+
+```json
+{
+  "id": "OP12-008",
+  "name": "Shanks",
+  "abilities": [
+    {
+      "type": "Opponents Turn",
+      "frequency": "Once Per Turn",
+      "condition": null,
+      "cost": null,
+      "effect": {
+        "text": "You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this turn.",
+        "actions": [
+          {
+            "type": "trashFromHand",
+            "minCards": 0,
+            "maxCards": 1
+          },
+          {
+            "type": "powerMod",
+            "amount": -2000,
+            "targetSide": "opponent",
+            "targetType": "any",
+            "minTargets": 0,
+            "maxTargets": 1,
             "duration": "thisTurn"
           }
         ]

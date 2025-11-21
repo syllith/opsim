@@ -459,6 +459,7 @@ export default function Home() {
     const startTargeting = useCallback((descriptor, onComplete) => {
         const { side, section, keyName, min = 1, max = 1, validator = null, multi = false, origin = null, abilityIndex = null, type = 'ability' } = descriptor || {};
         const sessionId = Date.now() + Math.random();
+        console.log('[targeting:start]', { sessionId, side, section, keyName, min, max, multi, abilityIndex, type, origin });
         setTargeting({
             active: true, side, section: section || null, keyName: keyName || null, min, max, validator,
             selectedIdx: [], multi, selected: [], onComplete,
@@ -549,6 +550,7 @@ export default function Home() {
                 arr = selectedIdx.map((i) => ({ index: i, card: cardsArr[i] })).filter((x) => x.card);
             }
         } catch { }
+        console.log('[targeting:confirm]', { sessionId: targeting.sessionId, count: arr.length, targets: arr });
         cancelTargeting();
         if (typeof onComplete === 'function') onComplete(arr);
     }, [targeting, areas, cancelTargeting]);
@@ -558,7 +560,19 @@ export default function Home() {
         if (!targeting.active) return;
         const count = targeting.multi ? (targeting.selected || []).length : (targeting.selectedIdx || []).length;
         const min = typeof targeting.min === 'number' ? targeting.min : 1;
-        if (count >= min && min > 0) {
+        const max = typeof targeting.max === 'number' ? targeting.max : 1;
+
+        // Auto-confirm conditions:
+        // - Standard: min > 0 and count >= min
+        // - Optional single-target: min === 0 and count >= 1 (single-select)
+        // - Optional multi-target: min === 0 and count reaches max (for convenience)
+        const shouldAutoConfirm = (
+            (min > 0 && count >= min) ||
+            (min === 0 && !targeting.multi && count >= 1) ||
+            (min === 0 && targeting.multi && count >= max)
+        );
+
+        if (shouldAutoConfirm) {
             // Defer to next tick to allow UI to update selection outline
             const t = setTimeout(() => {
                 try { confirmTargeting(); } catch { }
@@ -651,6 +665,28 @@ export default function Home() {
         const arr = disabledKeywords[k] || [];
         return Array.isArray(arr) && arr.some((e) => String(e?.keyword || '').toLowerCase() === String(keyword || '').toLowerCase());
     }, [disabledKeywords, modKey]);
+
+    // Track Once Per Turn ability usage per card instance (rule 10-2-13)
+    const [oncePerTurnUsage, setOncePerTurnUsage] = useState({});
+    useEffect(() => {
+        setOncePerTurnUsage({});
+    }, [turnSide, turnNumber]);
+    const markOncePerTurnUsed = useCallback((source, abilityIndex) => {
+        if (!source || typeof abilityIndex !== 'number') return;
+        const side = source.side || 'player';
+        const section = source.section || 'char';
+        const keyName = source.keyName || 'char';
+        const index = typeof source.index === 'number' ? source.index : 0;
+        const key = modKey(side, section, keyName, index);
+        setOncePerTurnUsage((prev) => {
+            const existing = prev[key] || {};
+            if (existing[abilityIndex]) return prev;
+            return {
+                ...prev,
+                [key]: { ...existing, [abilityIndex]: true }
+            };
+        });
+    }, [modKey]);
 
     // Helper to check if two source objects represent the same card
     const sameOrigin = useCallback((a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index), []);
@@ -1052,6 +1088,14 @@ export default function Home() {
                     appendLog(`[Effect KO] Returned ${leaderDon.length} DON!! from leader to cost area.`);
                 }
                 appendLog(`[Effect KO] Leader ${removed.id} was removed by effect.`);
+            } else if ((section === 'bottom' || section === 'top') && keyName === 'hand') {
+                // Trash card from hand (used for trashFromHand action)
+                const handLoc = targetSide === 'player' ? next.player?.bottom : next.opponent?.top;
+                const hand = handLoc?.hand || [];
+                if (!hand[index]) return prev;
+                const removed = hand.splice(index, 1)[0];
+                trashLoc.trash = [...(trashLoc.trash || []), removed];
+                appendLog(`[Ability Cost] Trashed ${removed.id} from hand.`);
             }
             return next;
         });
@@ -1326,9 +1370,10 @@ export default function Home() {
         if (!battle) return;
         if (battle.step === 'attack') {
             appendLog('[battle] Attack Step complete. Proceed to Block Step.');
+            cancelTargeting(); // Clear any lingering targeting state
             setBattle((b) => ({ ...b, step: 'block' }));
         }
-    }, [battle, appendLog]);
+    }, [battle, appendLog, cancelTargeting]);
 
     const getDefenderPower = useCallback((b) => {
         if (!b) return 0;
@@ -1383,12 +1428,18 @@ export default function Home() {
             return next;
         });
         appendLog(`[battle] Blocker ${card.id} rests to block.`);
-        setBattle((b) => ({
-            ...b,
-            target: { side: defendingSide, section: 'char', keyName: 'char', index: blockerIndex, id: card.id },
-            blockerUsed: true,
-            step: 'counter'
-        }));
+        setBattle((b) => {
+            // If counters were already applied during Block Step, shift their target to the blocker.
+            const newTarget = { side: defendingSide, section: 'char', keyName: 'char', index: blockerIndex, id: card.id };
+            const counterTarget = (b.counterPower && b.counterPower > 0) ? newTarget : b.counterTarget;
+            return {
+                ...b,
+                target: newTarget,
+                blockerUsed: true,
+                step: 'counter',
+                counterTarget
+            };
+        });
     }, [isBattleStep, battle, hasKeyword, getCharArray, getKeywordsFor, hasDisabledKeyword, appendLog, setAreas]);
 
     const skipBlock = useCallback(() => {
@@ -1398,7 +1449,8 @@ export default function Home() {
     }, [isBattleStep, appendLog]);
 
     const addCounterFromHand = useCallback((handIndex) => {
-        if (!isBattleStep('counter')) return;
+        // Allow using counters in both Block and Counter steps (UI convenience).
+        if (!(isBattleStep('counter') || isBattleStep('block'))) return;
         // Get card from defending side's hand
         const defendingSide = battle.target.side;
         const handLoc = getHandCostLocation(defendingSide);
@@ -1421,7 +1473,7 @@ export default function Home() {
             return next;
         });
 
-        // Apply temporary counter power to the defender (battle.target)
+        // Apply temporary counter power to the current target.
         setBattle((b) => ({
             ...b,
             counterPower: (b.counterPower || 0) + counterVal,
@@ -1430,7 +1482,9 @@ export default function Home() {
                 section: battle.target.section,
                 keyName: battle.target.keyName,
                 index: battle.target.index
-            }
+            },
+            // If we are still in Block Step and no blocker chosen yet, remain in block; defender can still choose a blocker.
+            step: b.step === 'block' && !b.blockerUsed ? 'block' : b.step
         }));
 
         const targetName = battle.target.section === 'middle' ? 'Leader' : areas?.[battle.target.side]?.char?.[battle.target.index]?.id || 'Character';
@@ -2231,6 +2285,8 @@ export default function Home() {
                             removeCardByEffect={removeCardByEffect}
                             setResolvingEffect={setResolvingEffect}
                             getTotalPower={getTotalPower}
+                            markAbilityUsed={markOncePerTurnUsed}
+                            abilityUsage={actionSource ? oncePerTurnUsage[modKey(actionSource.side || 'player', actionSource.section || 'char', actionSource.keyName || 'char', typeof actionSource.index === 'number' ? actionSource.index : 0)] : undefined}
                         >
                             {/* Additional action controls (play from hand, attack, etc.) */}
                             {actionSource && ((actionSource.side === 'player' && actionSource.section === 'bottom' && actionSource.keyName === 'hand') || (actionSource.side === 'opponent' && actionSource.section === 'top' && actionSource.keyName === 'hand')) ? (
@@ -2251,7 +2307,7 @@ export default function Home() {
                                         })()}
                                     </Typography>
                                     {(() => {
-                                        if (battle && battle.step === 'counter' && actionSource.side === battle.target.side) {
+                                        if (battle && (battle.step === 'counter' || battle.step === 'block') && actionSource.side === battle.target.side) {
                                             const meta = metaById.get(actionCard?.id);
                                             if (!meta) return null;
                                             const elements = [];

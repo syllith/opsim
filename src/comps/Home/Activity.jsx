@@ -29,35 +29,29 @@ export default function Activity({
     return (
         <>
             {/* Battle Control Panel */}
-            {battle && (
+            {battle && (battle.step === 'block' || battle.step === 'counter') && (
                 <Box sx={{ position: 'fixed', top: 56, left: 0, right: 0, display: 'flex', justifyContent: 'center', zIndex: 1550, pointerEvents: 'none' }}>
                     <Paper elevation={3} sx={{ px: 1.5, py: 0.5, borderRadius: 6, bgcolor: 'rgba(30,30,30,0.9)', color: '#fff', display: 'flex', alignItems: 'center', gap: 1, pointerEvents: 'auto' }}>
+                        {(() => {
+                            const s = getBattleStatus();
+                            return (
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <Chip size="small" label={`ATK ${s?.atk ?? 0}`} color="error" />
+                                    <Chip size="small" label={`DEF ${s?.def ?? 0}`} color={s?.safe ? 'success' : 'default'} variant={s?.safe ? 'filled' : 'outlined'} />
+                                    {s && (s.safe ? (
+                                        <Chip size="small" label="Safe" color="success" />
+                                    ) : (
+                                        <Chip size="small" label={`Need +${s.needed}`} color="warning" />
+                                    ))}
+                                </Stack>
+                            );
+                        })()}
+                        <Divider orientation="vertical" flexItem sx={{ mx: 1, borderColor: 'rgba(255,255,255,0.2)' }} />
                         {battle.step === 'block' && (
-                            <>
-                                <Typography variant="caption">{battle?.target?.side === 'player' ? "Your Block Step: click a Blocker or choose no block." : "Opponent's Block Step: click a Blocker or choose no block."}</Typography>
-                                <Divider orientation="vertical" flexItem sx={{ mx: 1, borderColor: 'rgba(255,255,255,0.2)' }} />
-                                <Button size="small" variant="outlined" color="warning" onClick={skipBlock}>No Block</Button>
-                            </>
+                            <Button size="small" variant="outlined" color="warning" onClick={skipBlock}>No Block</Button>
                         )}
                         {battle.step === 'counter' && (
-                            <>
-                                {(() => {
-                                    const s = getBattleStatus();
-                                    return (
-                                        <Stack direction="row" spacing={1} alignItems="center">
-                                            <Chip size="small" label={`ATK ${s?.atk ?? 0}`} color="error" />
-                                            <Chip size="small" label={`DEF ${s?.def ?? 0}`} color={s?.safe ? 'success' : 'default'} variant={s?.safe ? 'filled' : 'outlined'} />
-                                            {s && (s.safe ? (
-                                                <Chip size="small" label="Safe" color="success" />
-                                            ) : (
-                                                <Chip size="small" label={`Need +${s.needed}`} color="warning" />
-                                            ))}
-                                        </Stack>
-                                    );
-                                })()}
-                                <Divider orientation="vertical" flexItem sx={{ mx: 1, borderColor: 'rgba(255,255,255,0.2)' }} />
-                                <Button size="small" variant="contained" color="primary" onClick={endCounterStep}>End Counter Step</Button>
-                            </>
+                            <Button size="small" variant="contained" color="primary" onClick={endCounterStep}>End Counter Step</Button>
                         )}
                     </Paper>
                 </Box>

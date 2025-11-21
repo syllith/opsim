@@ -1,535 +1,363 @@
-// Actions.jsx
-// Fixed panel anchored bottom-right to show card abilities and actions
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { Paper, Box, Typography, IconButton, Stack, Divider, Button, Chip, Alert, TextField } from '@mui/material';
+/**
+ * Actions.jsx
+ * 
+ * Universal panel for displaying and activating card abilities.
+ * Displays a fixed panel in the bottom-right corner showing card information,
+ * keywords, abilities, and activation controls based on game state.
+ * 
+ * Key Features:
+ * - Auto-triggers On Play abilities when cards enter the field
+ * - Validates ability activation based on phase, turn, and game conditions
+ * - Handles structured action sequences (powerMod, KO, search, etc.)
+ * - Manages targeting UI and multi-step ability resolution
+ * - Tracks once-per-turn ability usage
+ */
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { Paper, Box, Typography, IconButton, Stack, Divider, Button, Chip, Alert } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import {
+  listValidTargets as listValidTargetsUtil,
+  resolveActionTargetSide as resolveActionTargetSideUtil,
+  evaluateAbilityTargetAvailability as evaluateAbilityTargetAvailabilityUtil,
+  abilityHasAnySelectableTargets as abilityHasAnySelectableTargetsUtil,
+  evaluateActivatableAbilities as evaluateActivatableAbilitiesUtil,
+  completeAbilityActivation as completeAbilityActivationUtil,
+  createTargetValidator,
+  createStateValidator
+} from './actionMechanics';
 
 /**
- * Actions - Universal component for displaying and activating card abilities
- * Now integrated with ability handling from JSON data
+ * Memoized component for target selection UI
  */
-export default function Actions({ 
-  title = 'Actions', 
-  onClose, 
+const TargetSelectionUI = React.memo(({ targeting, areas, getCardMeta, confirmTargeting, cancelTargeting, onCancel }) => {
+  const selectionCount = targeting.selected?.length || 0;
+  const optionalMode = targeting.min === 0;
+  const confirmLabel = optionalMode ? (selectionCount > 0 ? 'Confirm' : 'Skip') : 'Confirm';
+  const confirmDisabled = !optionalMode && selectionCount < targeting.min;
+  const confirmVariant = optionalMode && selectionCount > 0 ? 'contained' : 'outlined';
+
+  const getTargetName = useCallback((target) => {
+    if (target.section === 'middle' && target.keyName === 'leader') {
+      return `${target.side === 'player' ? 'Your' : 'Opponent'} Leader`;
+    }
+    if (target.section === 'char' && target.keyName === 'char') {
+      const targetSide = target.side === 'player' ? areas?.player : areas?.opponent;
+      const targetCard = targetSide?.char?.[target.index];
+      const targetMeta = targetCard ? getCardMeta(targetCard.id) : null;
+      return targetMeta?.name || targetCard?.id || 'Character';
+    }
+    return 'Unknown';
+  }, [areas, getCardMeta]);
+
+  const helpText = useMemo(() => {
+    if (optionalMode) {
+      return targeting.max > 1
+        ? `Select up to ${targeting.max} targets (${selectionCount}/${targeting.max})`
+        : 'Select a target or choose Skip to pass';
+    }
+    return selectionCount > 0 ? 'Select more or confirm' : 'Select target(s) on board...';
+  }, [optionalMode, targeting.max, selectionCount]);
+
+  return (
+    <Stack spacing={1} sx={{ mt: 1 }}>
+      {targeting.selected && targeting.selected.length > 0 && (
+        <Box>
+          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
+            Selected Target{targeting.selected.length > 1 ? 's' : ''}:
+          </Typography>
+          {targeting.selected.map((target, tidx) => (
+            <Chip
+              key={tidx}
+              label={getTargetName(target)}
+              size="small"
+              color="warning"
+              sx={{ mr: 0.5, mb: 0.5 }}
+            />
+          ))}
+        </Box>
+      )}
+      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+        <Typography variant="caption" color="text.secondary" sx={{ flex: 1 }}>
+          {helpText}
+        </Typography>
+        <Button
+          size="small"
+          variant={confirmVariant}
+          onClick={confirmTargeting}
+          disabled={confirmDisabled}
+        >
+          {confirmLabel}
+        </Button>
+        {!optionalMode && (
+          <Button
+            size="small"
+            variant="text"
+            onClick={() => {
+              cancelTargeting();
+              onCancel();
+            }}
+          >
+            Cancel
+          </Button>
+        )}
+      </Stack>
+    </Stack>
+  );
+});
+
+/**
+ * Helper to determine chip color for keywords
+ */
+const getKeywordColor = (keyword) => {
+  const lower = keyword.toLowerCase();
+  if (lower.includes('rush')) return 'warning';
+  if (lower.includes('blocker')) return 'info';
+  if (lower.includes('double attack')) return 'error';
+  return 'default';
+};
+
+export default function Actions({
+  // UI Props
+  title = 'Actions',
+  onClose,
+  width = 420,
+  height,
+  maxHeight = 'calc(100vh - 32px)',
+  children,
+
+  // Card Data
   card,
   cardMeta,
   cardIndex,
   actionSource,
+
+  // Game State
   phase,
   turnSide,
   turnNumber,
   isYourTurn,
-  canActivateMain,
   areas,
+  battle,
+
+  // Targeting System
   startTargeting,
   cancelTargeting,
   suspendTargeting,
   confirmTargeting,
   targeting,
+
+  // Card Metadata
   getCardMeta,
+
+  // Effect Handlers
   applyPowerMod,
   registerUntilNextTurnEffect,
   grantTempKeyword,
   disableKeyword,
-  giveDonToCard,
   moveDonFromCostToCard,
   startDeckSearch,
   returnCardToDeck,
   restCard,
   payLife,
-  battle,
-  battleApplyBlocker,
-  battleSkipBlock,
-  battleAddCounterFromHand,
-  battlePlayCounterEvent,
-  battleEndCounterStep,
-  battleGetDefPower,
   removeCardByEffect,
   setResolvingEffect,
   getTotalPower,
-  children,
-  width = 420,
-  height,
-  maxHeight = 'calc(100vh - 32px)'
+  markAbilityUsed,
+  abilityUsage,
+
+  // Battle Handlers
+  battleApplyBlocker,
 }) {
-  // Local state for ability activation tracking
-  const [abilityUsed, setAbilityUsed] = useState({}); // Track once-per-turn abilities
+  // ============================================================================
+  // STATE MANAGEMENT
+  // ============================================================================
+
+  // Track which abilities have been used this turn (for once-per-turn abilities and On Play)
+  const [abilityUsed, setAbilityUsed] = useState({});
+
+  useEffect(() => {
+    setAbilityUsed(abilityUsage || {});
+  }, [abilityUsage]);
+
+  // Currently selected ability index (during targeting/resolution)
   const [selectedAbilityIndex, setSelectedAbilityIndex] = useState(null);
-  const [targetInputs, setTargetInputs] = useState({}); // Store user inputs
-  const [autoTriggeredOnPlay, setAutoTriggeredOnPlay] = useState(false); // Track if On Play was auto-triggered
 
-  // Cleanup on unmount: if the panel closes mid-resolution/targeting, clear global state
-  useEffect(() => {
-    return () => {
-      try {
-        if (targeting?.active && typeof suspendTargeting === 'function') suspendTargeting();
-        if (typeof setResolvingEffect === 'function') setResolvingEffect(false);
-      } catch {}
-    };
-  }, [targeting?.active, suspendTargeting, setResolvingEffect]);
+  // Tracks whether On Play ability was auto-triggered for this card instance
+  const [autoTriggeredOnPlay, setAutoTriggeredOnPlay] = useState(false);
 
-  // Restore selection UI if targeting is suspended and originated from this source
+  // Track if we're actively processing a multi-step ability (ref to avoid stale closures)
+  const processingActionsRef = useRef(false);
+
+  // Store the action queue and processNext function to persist across renders
+  const actionQueueRef = useRef(null);
+  const processNextRef = useRef(null);
+
+  // ============================================================================
+  // LIFECYCLE & CLEANUP
+  // ============================================================================
+
+  /**
+   * Helper to compare action source origins for targeting restoration
+   */
+  const isSameOrigin = useCallback((a, b) => {
+    return a && b &&
+      a.side === b.side &&
+      a.section === b.section &&
+      a.keyName === b.keyName &&
+      a.index === b.index;
+  }, []);
+
+  /**
+   * Combined effect for cleanup and targeting state management
+   * - Cleans up on unmount
+   * - Restores ability selection when targeting is suspended
+   * - Cleans up selection state when targeting is cancelled
+   */
   useEffect(() => {
-    const sameOrigin = (a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index);
-    if (targeting?.active && targeting?.suspended && sameOrigin(targeting.origin, actionSource)) {
+    // Restore UI when targeting is suspended from this card's ability
+    if (targeting?.active && targeting?.suspended && isSameOrigin(targeting.origin, actionSource)) {
       if (typeof targeting.abilityIndex === 'number') {
         setSelectedAbilityIndex(targeting.abilityIndex);
       }
     }
-    
-    // If targeting was cancelled (became inactive) while we had an ability selected, clean up
-    if (!targeting?.active && selectedAbilityIndex !== null) {
+    // Clean up when targeting is cancelled (but not during multi-step ability processing)
+    else if (!targeting?.active && selectedAbilityIndex !== null && !processingActionsRef.current) {
       console.log('[Actions] Targeting cancelled, cleaning up selected ability');
       setSelectedAbilityIndex(null);
-      if (typeof setResolvingEffect === 'function') {
-        setResolvingEffect(false);
-      }
+      setResolvingEffect?.(false);
     }
-  }, [targeting?.active, targeting?.suspended, targeting?.origin, targeting?.abilityIndex, actionSource, selectedAbilityIndex, setResolvingEffect]);
 
-  // Extract card information
-  const cardId = card?.id;
-  const abilities = cardMeta?.abilities || [];
-  const keywords = cardMeta?.keywords || [];
-  const cardName = cardMeta?.name || cardId;
-  const category = cardMeta?.category || 'Unknown';
-  const basePower = cardMeta?.stats?.power || 0;
-  const cost = cardMeta?.stats?.cost || 0;
-  const life = cardMeta?.stats?.life;
-  const counterValue = cardMeta?.stats?.counter?.present ? cardMeta?.stats?.counter?.value : null;
+    // Cleanup on unmount
+    return () => {
+      try {
+        if (targeting?.active) suspendTargeting?.();
+        setResolvingEffect?.(false);
+      } catch { }
+    };
+  }, [targeting?.active, targeting?.suspended, targeting?.origin, targeting?.abilityIndex, actionSource, selectedAbilityIndex, setResolvingEffect, isSameOrigin, suspendTargeting]);
 
-  // Deduplicate badges: hide ability-type labels from top keyword chips
-  const abilityTypeSet = useMemo(() => new Set((abilities || []).map(a => String(a?.type || '').toLowerCase())), [abilities]);
-  const displayKeywords = useMemo(
-    () => (keywords || []).filter(k => !abilityTypeSet.has(String(k || '').toLowerCase())),
-    [keywords, abilityTypeSet]
-  );
+  // ============================================================================
+  // CARD DATA EXTRACTION
+  // ============================================================================
 
-  // Check if this specific card instance is still on the field
+  const cardData = useMemo(() => ({
+    cardId: card?.id,
+    abilities: cardMeta?.abilities || [],
+    keywords: cardMeta?.keywords || [],
+    cardName: cardMeta?.name || card?.id,
+    category: cardMeta?.category || 'Unknown',
+    basePower: cardMeta?.stats?.power || 0,
+    cost: cardMeta?.stats?.cost || 0,
+    life: cardMeta?.stats?.life,
+    counterValue: cardMeta?.stats?.counter?.present ? cardMeta?.stats?.counter?.value : null
+  }), [card?.id, cardMeta]);
+
+  const { cardId, abilities, keywords, cardName, category, basePower, cost, life, counterValue } = cardData;
+
+  /**
+   * Filter out ability types from keyword display to avoid duplication.
+   * For example, don't show "On Play" as both a keyword chip and an ability type.
+   */
+  const displayKeywords = useMemo(() => {
+    const abilityTypeSet = new Set(abilities.map(a => (a?.type || '').toLowerCase()));
+    return keywords.filter(k => !abilityTypeSet.has((k || '').toLowerCase()));
+  }, [abilities, keywords]);
+
+  /**
+   * Verify this card instance is still on the field at its expected location.
+   * Used to prevent activating abilities of cards that have been removed.
+   */
   const isOnField = useMemo(() => {
     if (!actionSource || !areas || !card?.id) return false;
+
     const { side, section, keyName, index } = actionSource;
     const sideLoc = side === 'player' ? areas.player : areas.opponent;
+
     try {
+      let cardInstance = null;
+
       if (section === 'char' && keyName === 'char') {
-        const arr = sideLoc?.char || [];
-        const inst = arr[index];
-        return !!(inst && inst.id === card.id);
+        cardInstance = sideLoc?.char?.[index];
+      } else if (section === 'middle' && keyName === 'leader') {
+        cardInstance = sideLoc?.middle?.leader?.[0];
       }
-      if (section === 'middle' && keyName === 'leader') {
-        const arr = sideLoc?.middle?.leader || [];
-        const inst = arr[0];
-        return !!(inst && inst.id === card.id);
-      }
-    } catch {}
-    return false;
+
+      return cardInstance?.id === card.id;
+    } catch {
+      return false;
+    }
   }, [actionSource, areas, card?.id]);
 
-  // Check if this card was just played this turn (for On Play auto-triggering)
-  // According to Rule 8-1-3-1-3, On Play must trigger immediately when played
-  const wasJustPlayed = useMemo(() => {
-    console.log('[wasJustPlayed] Check:', { 
-      justPlayed: actionSource?.justPlayed, 
-      enteredTurn: card?.enteredTurn, 
-      turnNumber,
-      actionSource,
-      card
-    });
-    if (!actionSource?.justPlayed) return false;
-    // Also verify the card has the expected enteredTurn marker
-    if (card?.enteredTurn === turnNumber) return true;
-    return false;
-  }, [actionSource, card, turnNumber]);
+  /**
+   * Determine if this card was just played this turn.
+   * According to Rule 8-1-3-1-3, On Play effects must trigger immediately when played.
+   * Checks both the justPlayed flag and enteredTurn marker for validation.
+   */
+  const wasJustPlayed = useMemo(() =>
+    Boolean(actionSource?.justPlayed && card?.enteredTurn === turnNumber),
+    [actionSource?.justPlayed, card?.enteredTurn, turnNumber]
+  );
 
-  // Shared helper: list valid targets for a given side/type using current board state
-  const listValidTargets = useCallback((sideSpec, targetType, opts = {}) => {
-    const results = [];
-    const sides = sideSpec === 'both' ? ['player', 'opponent'] : [sideSpec];
-    for (const side of sides) {
-      const sideLoc = side === 'player' ? areas?.player : areas?.opponent;
-      if (!sideLoc) continue;
-      if (targetType === 'leader' || targetType === 'any') {
-        const leaderArr = sideLoc?.middle?.leader || [];
-        if (leaderArr[0]) {
-          const ctx = { side, section: 'middle', keyName: 'leader', index: 0, card: leaderArr[0] };
-          if (opts.requireActive && ctx.card?.rested) { /* skip rested when active required */ } else
-          if (opts.requireRested && !ctx.card?.rested) { /* skip active when rested required */ } else
-          if (!opts.uniqueAcrossSequence || !opts.cumulative?.some(t => t.side===side && t.section==='middle' && t.keyName==='leader' && t.index===0)) {
-            results.push(ctx);
-          }
-        }
-      }
-      if (targetType === 'character' || targetType === 'any') {
-        const charArr = sideLoc?.char || [];
-        for (let i = 0; i < charArr.length; i++) {
-          const c = charArr[i];
-          if (!c) continue;
-          const ctx = { side, section: 'char', keyName: 'char', index: i, card: c };
-          if (opts.uniqueAcrossSequence && opts.cumulative?.some(t => t.side===side && t.section==='char' && t.keyName==='char' && t.index===i)) continue;
-          if (opts.requireActive && c?.rested) continue;
-          if (opts.requireRested && !c?.rested) continue;
-          if (typeof opts.powerLimit === 'number') {
-            // Use live total power if provided
-            const liveP = typeof getTotalPower === 'function' ? getTotalPower(side, 'char', 'char', i, c.id) : (getCardMeta(c.id)?.stats?.power || 0);
-            if (liveP > opts.powerLimit) continue;
-          }
-          results.push(ctx);
-        }
-      }
-    }
-    return results;
-  }, [areas, getCardMeta, getTotalPower]);
+  // ============================================================================
+  // HELPER FUNCTIONS
+  // ============================================================================
 
+  /**
+   * Consolidate utility wrappers into single memoized object
+   * This reduces recreation overhead and simplifies dependencies
+   */
+  const utilityHelpers = useMemo(() => ({
+    listValidTargets: (sideSpec, targetType, opts = {}) =>
+      listValidTargetsUtil(areas, getCardMeta, getTotalPower, sideSpec, targetType, opts),
+    resolveActionTargetSide: (relativeSide) =>
+      resolveActionTargetSideUtil(actionSource, relativeSide),
+    evaluateAbilityTargetAvailability: (ability) =>
+      evaluateAbilityTargetAvailabilityUtil(ability, areas, getCardMeta, getTotalPower, actionSource),
+    abilityHasAnySelectableTargets: (ability) =>
+      abilityHasAnySelectableTargetsUtil(ability, areas, getCardMeta, getTotalPower, actionSource)
+  }), [areas, getCardMeta, getTotalPower, actionSource]);
 
-  // Helper to compute the actual target side from an action's relative side
-  const resolveActionTargetSide = useCallback((relativeSide) => {
-    const controller = actionSource?.side || 'player';
-    if (relativeSide === 'both') return 'both';
-    if (relativeSide === 'opponent') return controller === 'player' ? 'opponent' : 'player';
-    return controller; // 'player' => controller's side
-  }, [actionSource?.side]);
+  const { listValidTargets, resolveActionTargetSide, evaluateAbilityTargetAvailability, abilityHasAnySelectableTargets } = utilityHelpers;
 
-  // Helper: determine availability of targets for an ability (structured or textual)
-  const evaluateAbilityTargetAvailability = useCallback((ability) => {
-    const res = {
-      hasTargetRequiringActions: false,
-      anyTargets: false,
-      allRequiredAvailable: true
-    };
-    if (!ability) return res;
-    const effect = ability.effect;
-    const actions = (effect && typeof effect === 'object') ? (effect.actions || []) : [];
+  // ============================================================================
+  // ABILITY ACTIVATION LOGIC
+  // ============================================================================
 
-    const checkAction = (action) => {
-      let targetType = null;
-      let relativeSide = null;
-      let min = 0;
-      let powerLimit = null;
-      if (action.type === 'powerMod') {
-        targetType = action.targetType || 'any';
-        relativeSide = action.targetSide || 'opponent';
-        min = action.minTargets !== undefined ? action.minTargets : 1;
-        powerLimit = action.powerLimit;
-      } else if (action.type === 'ko') {
-        targetType = action.targetType || 'character';
-        relativeSide = action.targetSide || 'opponent';
-        min = action.minTargets !== undefined ? action.minTargets : 1;
-        powerLimit = action.powerLimit;
-      } else if (action.type === 'rest') {
-        targetType = action.targetType || 'any';
-        relativeSide = action.targetSide || 'opponent';
-        min = action.minTargets !== undefined ? action.minTargets : 1;
-        powerLimit = null;
-      } else if (action.type === 'active') {
-        targetType = action.targetType || 'any';
-        relativeSide = action.targetSide || 'player';
-        min = action.minTargets !== undefined ? action.minTargets : 1;
-        powerLimit = null;
-      } else {
-        return; // non-targeting action
-      }
-      res.hasTargetRequiringActions = true;
-      const actualSide = resolveActionTargetSide(relativeSide);
-      const candidates = listValidTargets(actualSide, targetType, { 
-        powerLimit, 
-        requireActive: action.type === 'rest',
-        requireRested: action.type === 'active'
-      });
-      if (candidates.length > 0) res.anyTargets = true;
-      if (min > 0 && candidates.length < min) res.allRequiredAvailable = false;
-    };
-
-    actions.forEach(checkAction);
-
-    if (!actions.length && typeof effect === 'string') {
-      const text = effect.toLowerCase();
-      const mentionsKO = /\bko\b|k\.o\./.test(text);
-      const mentionsPowerMod = /\bpower\b/.test(text) && /[+-]\d+/.test(text);
-      const mentionsCharacter = /character/.test(text);
-      const mentionsLeader = /leader/.test(text);
-      if (mentionsKO || mentionsPowerMod) {
-        res.hasTargetRequiringActions = true;
-        const actualSide = text.includes('opponent') ? resolveActionTargetSide('opponent') : resolveActionTargetSide('player');
-        const targetType = mentionsLeader && !mentionsCharacter ? 'leader' : (mentionsCharacter && !mentionsLeader ? 'character' : 'any');
-        const candidates = listValidTargets(actualSide, targetType, {});
-        if (candidates.length > 0) res.anyTargets = true; else res.allRequiredAvailable = false;
-      }
-    }
-    return res;
-  }, [listValidTargets, resolveActionTargetSide]);
-
-  // Determine if an ability has any selectable targets (for actions that require targeting)
-  const abilityHasAnySelectableTargets = useCallback((ability) => {
-    try {
-      const effect = ability?.effect;
-      const actions = effect && typeof effect === 'object' ? (effect.actions || []) : [];
-      if (!Array.isArray(actions) || actions.length === 0) {
-        // No structured actions: treat as not requiring board targets
-        return true;
-      }
-      for (const action of actions) {
-        if (action?.type === 'powerMod') {
-          const side = resolveActionTargetSide(action.targetSide || 'opponent');
-          const pre = listValidTargets(side, action.targetType || 'any', { powerLimit: action.powerLimit });
-          if (pre.length > 0) return true;
-        } else if (action?.type === 'ko') {
-          const side = resolveActionTargetSide(action.targetSide || 'opponent');
-          const pre = listValidTargets(side, action.targetType || 'character', { powerLimit: action.powerLimit });
-          if (pre.length > 0) return true;
-        } else if (action?.type === 'disableKeyword') {
-          const side = resolveActionTargetSide(action.targetSide || 'opponent');
-          const pre = listValidTargets(side, action.targetType || 'character', { powerLimit: action.powerLimit });
-          if (pre.length > 0) return true;
-        } else if (action?.type === 'rest') {
-          const side = resolveActionTargetSide(action.targetSide || 'opponent');
-          const pre = listValidTargets(side, action.targetType || 'any', { requireActive: true });
-          if (pre.length > 0) return true;
-        } else if (action?.type === 'active') {
-          const side = resolveActionTargetSide(action.targetSide || 'player');
-          const pre = listValidTargets(side, action.targetType || 'any', { requireRested: true });
-          if (pre.length > 0) return true;
-        } else if (action?.type === 'search') {
-          // Search does not target board objects; it always can proceed
-          return true;
-        } else {
-          // Unknown action types assumed not needing targets
-          return true;
-        }
-      }
-      // If all target-requiring actions have zero candidates
-      return false;
-    } catch {
-      return true; // Fail-open to avoid blocking activation incorrectly
-    }
-  }, [listValidTargets, resolveActionTargetSide]);
-
-  // Get abilities that can be activated based on current game state
+  /**
+   * Determine which abilities can be activated based on current game state.
+   * Evaluates timing, targeting, costs, and conditions for each ability.
+   */
   const activatableAbilities = useMemo(() => {
-    return abilities.map((ability, index) => {
-      const typeLabel = ability.type || 'Unknown';
-      const type = String(typeLabel);
-      const condition = ability.condition || {};
-      const frequency = ability.frequency?.toLowerCase() || '';
-      const costCfg = ability.cost || {};
+    const isProcessing = processingActionsRef.current && selectedAbilityIndex !== null;
+    const tempUsed = isProcessing ? { ...abilityUsed, [selectedAbilityIndex]: true } : abilityUsed;
 
-      let canActivate = false;
-      let reason = '';
-
-      // Determine if this specific field instance is currently rested
-      let fieldRested = false;
-      try {
-        const sideLoc = (actionSource?.side === 'opponent') ? areas?.opponent : areas?.player;
-        if (actionSource?.section === 'char' && actionSource?.keyName === 'char') {
-          fieldRested = !!(sideLoc?.char?.[actionSource.index || 0]?.rested);
-        } else if (actionSource?.section === 'middle' && actionSource?.keyName === 'leader') {
-          fieldRested = !!(sideLoc?.middle?.leader?.[0]?.rested);
-        } else if (actionSource?.section === 'middle' && actionSource?.keyName === 'stage') {
-          fieldRested = !!(sideLoc?.middle?.stage?.[0]?.rested);
-        }
-      } catch {}
-
-      // Core ability type checks
-      switch (type) {
-        case 'On Play':
-          // On Play abilities generally auto-trigger. If marked as optional via autoResolve === false,
-          // allow manual activation window immediately after play instead of auto-targeting.
-          if (abilityUsed[index]) {
-            canActivate = false;
-            reason = 'Already resolved when this card was played';
-          } else if (!isOnField) {
-            canActivate = false;
-            reason = 'Resolves only when this card is played';
-          } else if (!wasJustPlayed) {
-            canActivate = false;
-            reason = 'Already resolved when this card was played';
-          } else {
-            const autoResolve = ability.autoResolve !== false; // default true
-            // If optional but there are no valid targets, auto-resolve and skip showing Activate
-            const hasTargets = abilityHasAnySelectableTargets(ability);
-            canActivate = !autoResolve && hasTargets;
-            reason = (autoResolve || !hasTargets) ? 'Resolving…' : '';
-          }
-          break;
-
-        case 'Activate Main':
-          // Manual activation during Main Phase
-          // Must be on the field (Character area, Leader area, or Stage area)
-          canActivate = phase?.toLowerCase() === 'main' && isYourTurn && !battle && isOnField;
-          if (!isOnField) {
-            reason = 'Card must be on the field to activate';
-          } else if (!canActivate) {
-            reason = 'Only during your Main Phase';
-          } else if (costCfg?.restThis && fieldRested) {
-            // Cannot pay cost if already rested
-            canActivate = false;
-            reason = 'Card is rested';
-          }
-          break;
-
-        case 'On Attack':
-          // Allow activation during Attack Step OR early Block Step before blocker chosen
-          canActivate = battle && battle.attacker?.id === cardId && (battle.step === 'attack' || (battle.step === 'block' && !battle.blockerUsed));
-          reason = canActivate ? '' : 'Only when this card attacks';
-          break;
-
-        case 'On Block':
-          // Triggers when this card blocks
-          canActivate = battle && battle.step === 'block' && battle.blockerUsed;
-          reason = canActivate ? '' : 'Only when this card blocks';
-          break;
-
-        case 'Blocker':
-          // Blocker is handled separately in battle system
-          canActivate = false;
-          reason = 'Keyword ability (automatic)';
-          break;
-
-        case 'Counter':
-          // Counter abilities during Counter Step
-          canActivate = battle && battle.step === 'counter';
-          reason = canActivate ? '' : 'Only during Counter Step';
-          break;
-
-        case 'On KO':
-          // Triggers when card is KO'd (handled by game engine)
-          canActivate = false;
-          reason = 'Triggers automatically when KO\'d';
-          break;
-
-        case 'End of Turn':
-          // Would trigger at end of turn
-          canActivate = false;
-          reason = 'Triggers at end of turn';
-          break;
-
-        case 'Opponents Turn':
-          // Only when your opponent is actively attacking you
-          // Require a battle in progress where this card's controller is the target side
-          if (battle && actionSource?.side && battle.target?.side === actionSource.side) {
-            // Allow during attack declaration, block step, and counter step
-            const step = battle.step;
-            canActivate = step === 'attack' || step === 'block' || step === 'counter';
-          } else {
-            canActivate = false;
-          }
-          reason = canActivate ? '' : 'Only when you are being attacked';
-          break;
-
-        case 'Continuous':
-          // Continuous effects are always active
-          canActivate = false;
-          reason = 'Passive effect (always active)';
-          break;
-
-        default:
-          // Unknown or special abilities
-          canActivate = phase?.toLowerCase() === 'main' && isYourTurn;
-          reason = canActivate ? '' : 'Cannot activate now';
-      }
-
-      // Dynamic target availability guard (applies to all manual activation types)
-      try {
-        const availability = evaluateAbilityTargetAvailability(ability);
-        const isOnPlay = type === 'On Play';
-        if (!isOnPlay) { // On Play already gated differently; we only prevent activation, not trigger
-          if (availability.hasTargetRequiringActions) {
-            // If no targets at all or required targets missing -> block activation
-            if (!availability.anyTargets || !availability.allRequiredAvailable) {
-              canActivate = false;
-              reason = 'No valid targets';
-            }
-          }
-        } else {
-          // For On Play: only surface 'No valid targets' when it's optional (autoResolve === false)
-          // Auto-resolving On Play should show 'Resolving…' and then the standard 'Already resolved' after completion
-          const isOptionalOnPlay = ability.autoResolve === false;
-          if (isOptionalOnPlay && availability.hasTargetRequiringActions && !availability.anyTargets) {
-            canActivate = false;
-            reason = 'No valid targets';
-          }
-        }
-      } catch (e) {
-        // Fail-safe: do not block if evaluation throws
-      }
-
-      // Check cost availability: payLife requires at least that much life available on controller
-      if (canActivate && costCfg?.payLife && typeof costCfg.payLife === 'number' && costCfg.payLife > 0) {
-        try {
-          const controllerSide = actionSource?.side === 'opponent' ? 'opponent' : 'player';
-          const sideLoc = controllerSide === 'opponent' ? areas?.opponent : areas?.player;
-          const lifeCount = (sideLoc?.life || []).length;
-          if (lifeCount < costCfg.payLife) {
-            canActivate = false;
-            reason = 'Not enough Life to pay';
-          }
-        } catch {}
-      }
-
-      // Check DON!! requirement (condition.don) using live board state
-      if (condition.don && condition.don > 0 && isOnField) {
-        let donCount = 0;
-        try {
-          const sideLoc = actionSource?.side === 'opponent' ? areas?.opponent : areas?.player;
-          if (actionSource?.section === 'middle' && actionSource?.keyName === 'leader') {
-            donCount = (sideLoc?.middle?.leaderDon || []).length;
-          } else if (actionSource?.section === 'char' && actionSource?.keyName === 'char') {
-            donCount = (sideLoc?.charDon?.[actionSource.index] || []).length;
-          }
-        } catch {}
-        if (donCount < condition.don) {
-          canActivate = false;
-          reason = `Needs ${condition.don} DON!! attached`;
-        }
-      }
-
-      // Check Leader type requirement (condition.leaderHasType)
-      if (condition.leaderHasType && isOnField) {
-        try {
-          const controllerSide = actionSource?.side === 'opponent' ? 'opponent' : 'player';
-          const sideLoc = controllerSide === 'opponent' ? areas?.opponent : areas?.player;
-          const leaderInst = sideLoc?.middle?.leader?.[0];
-          const leaderMeta = leaderInst ? getCardMeta(leaderInst.id) : null;
-          const requiredType = String(condition.leaderHasType);
-          const hasType = !!(leaderMeta && Array.isArray(leaderMeta.types) && leaderMeta.types.includes(requiredType));
-          if (!hasType) {
-            canActivate = false;
-            reason = `Leader must have type ${requiredType}`;
-          }
-        } catch {
-          // If we fail to resolve leader, be conservative and block activation
-          canActivate = false;
-          reason = `Leader must have type ${condition.leaderHasType}`;
-        }
-      }
-
-      // Check Once Per Turn restriction
-      if (frequency === 'once per turn' && abilityUsed[index]) {
-        canActivate = false;
-        reason = 'Already used this turn';
-      }
-
-      return {
-        ...ability,
-        index,
-        canActivate,
-        reason,
-        // Keep type as-is for display and internal checks
-        type: typeLabel,
-        typeKey: type,
-        condition
-      };
+    return evaluateActivatableAbilitiesUtil(abilities, {
+      phase,
+      isYourTurn,
+      battle,
+      cardId,
+      abilityUsed: tempUsed,
+      isOnField,
+      wasJustPlayed,
+      areas,
+      actionSource,
+      getCardMeta,
+      getTotalPower,
+      resolvingAbilityIndex: isProcessing ? selectedAbilityIndex : null
     });
-  }, [abilities, phase, isYourTurn, battle, cardId, abilityUsed, isOnField, wasJustPlayed, abilityHasAnySelectableTargets, areas, actionSource, evaluateAbilityTargetAvailability]);
+  }, [abilities, phase, isYourTurn, battle, cardId, abilityUsed, isOnField, wasJustPlayed, areas, actionSource, getCardMeta, getTotalPower, selectedAbilityIndex]);
 
   // Handle ability activation
   const activateAbility = useCallback((abilityIndex) => {
     const ability = activatableAbilities[abilityIndex];
     if (!ability) return;
 
+    console.log('[activateAbility] source', actionSource);
+
     // Allow activation even if canActivate is false for auto-triggered On Play abilities
     const abilityType = (ability.typeKey || '');
     const isOnPlay = abilityType === 'On Play';
-    
+
     // For non-On Play abilities, require canActivate to be true
     if (!isOnPlay && !ability.canActivate) return;
 
@@ -538,98 +366,69 @@ export default function Actions({
 
     // Store cost for later payment (after effect resolves and targets are confirmed)
     const cost = ability.cost;
-    
-    // Helper function to mark ability as used and pay costs
-    // This should ONLY be called after targets are selected and effect is applied
+
+    /**
+     * Complete ability activation by marking as used and paying costs.
+     * Per Comprehensive Rules 8-3, activation costs are paid before effect resolution.
+     * Standard costs include:
+     * - ① symbols: Rest DON!! from cost area (8-3-1-5)
+     * - DON!! -X: Return DON!! to deck (8-3-1-6, 10-2-10)
+     * - Rest this card
+     * - Pay life (move Life cards to hand per 4-6-2)
+     * 
+     * This function is called AFTER effect resolution and targeting confirmation.
+     */
     const completeAbilityActivation = () => {
-      // Mark as used for Once Per Turn abilities and On Play abilities
-      if (ability.frequency?.toLowerCase() === 'once per turn' || isOnPlay) {
-        setAbilityUsed(prev => ({ ...prev, [abilityIndex]: true }));
-      }
-      
-      // Pay costs AFTER effect is applied and confirmed
-      if (cost) {
-        // Handle returnThisToDeck cost (return to top/bottom/shuffle)
-        if (cost.returnThisToDeck && returnCardToDeck && actionSource) {
-          console.log(`[Ability] Paying cost: Return this card to ${cost.returnThisToDeck} of deck`);
-          returnCardToDeck(
-            actionSource.side,
-            actionSource.section,
-            actionSource.keyName,
-            actionSource.index || cardIndex,
-            cost.returnThisToDeck
-          );
-        }
-        
-        // Handle trashThis cost (move card to trash instead of deck)
-        if (cost.trashThis && actionSource) {
-          console.log('[Ability] Paying cost: Trash this card');
-          // TODO: Implement trashCard function similar to returnCardToDeck
-          // trashCard(actionSource.side, actionSource.section, actionSource.keyName, actionSource.index || cardIndex);
-        }
-        
-        // Handle restThis cost (rest/tap this card)
-        if (cost.restThis && actionSource) {
-          console.log('[Ability] Paying cost: Rest this card');
-          if (typeof restCard === 'function') {
-            restCard(actionSource.side, actionSource.section, actionSource.keyName, actionSource.index || cardIndex);
-          }
-        }
-        
-        // Handle restDon cost (rest X DON!! cards from cost area)
-        if (cost.restDon && typeof cost.restDon === 'number') {
-          console.log(`[Ability] Paying cost: Rest ${cost.restDon} DON!!`);
-          // TODO: Implement restDon function
-          // restDon(actionSource.side, cost.restDon);
-        }
-        
-        // Handle trash cost (trash X cards from hand)
-        if (cost.trash && typeof cost.trash === 'number') {
-          console.log(`[Ability] Paying cost: Trash ${cost.trash} card(s) from hand`);
-          // TODO: Implement hand card selection and trash
-          // This would need to open a card selection UI for the player to choose which cards to trash
-          // startHandSelection(actionSource.side, cost.trash, (selectedCards) => { trashCards(selectedCards); });
-        }
-        
-        // Handle discardFromLife cost (discard X cards from life)
-        if (cost.discardFromLife && typeof cost.discardFromLife === 'number') {
-          console.log(`[Ability] Paying cost: Discard ${cost.discardFromLife} card(s) from life`);
-          // TODO: Implement life card selection and discard
-          // startLifeSelection(actionSource.side, cost.discardFromLife, (selectedCards) => { discardFromLife(selectedCards); });
-        }
-        
-        // Handle payLife cost (move top Life to hand without Trigger)
-        if (cost.payLife && typeof cost.payLife === 'number') {
-          try {
-            const side = actionSource?.side || 'player';
-            console.log(`[Ability] Paying cost: Pay ${cost.payLife} life for ${side}`);
-            if (typeof payLife === 'function') payLife(side, cost.payLife);
-          } catch {}
-        }
-      }
+      completeAbilityActivationUtil({
+        ability,
+        abilityIndex,
+        cost,
+        actionSource,
+        cardIndex,
+        setAbilityUsed,
+        returnCardToDeck,
+        removeCardByEffect,
+        restCard,
+        payLife,
+        markAbilityUsed
+      });
     };
 
     // Check if effect has structured actions array
     const hasStructuredActions = typeof effect === 'object' && effect.actions && Array.isArray(effect.actions);
-    const effectText = (typeof effect === 'string' ? effect : effect.text || '').toLowerCase();
 
-    // Handle structured actions first (preferred method)
+    // Handle structured actions
     if (hasStructuredActions) {
       // Process actions sequentially so multi-step abilities can chain
       const actionsQueue = [...effect.actions];
       const cumulativeTargets = []; // remember prior selections within this ability resolution
+      // Capture the action source at activation start to prevent side changes mid-sequence
+      const activationSource = actionSource ? { ...actionSource } : null;
+
+      // Store in refs to persist across renders
+      actionQueueRef.current = actionsQueue;
+
       if (setResolvingEffect) setResolvingEffect(true);
+      processingActionsRef.current = true; // Mark that we're processing actions
       // Use shared listValidTargets helper
 
       const processNext = () => {
-        const action = actionsQueue.shift();
-        if (!action) {
+        // Use the ref version of actionsQueue that persists across renders
+        const queue = actionQueueRef.current;
+        if (!queue || queue.length === 0) {
           // All actions complete; finalize ability
+          console.log('[processNext] All actions complete, finalizing ability');
+          processingActionsRef.current = false; // Clear processing flag
+          actionQueueRef.current = null;
+          processNextRef.current = null;
           completeAbilityActivation();
           setSelectedAbilityIndex(null);
           if (setResolvingEffect) setResolvingEffect(false);
           return;
         }
+
+        const action = queue.shift();
+        console.log('[processNext] Processing action:', action, 'Remaining:', queue.length);
 
         switch (action.type) {
           case 'powerMod':
@@ -640,11 +439,20 @@ export default function Actions({
             const minTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const maxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
             const duration = action.duration || 'thisTurn'; // "thisTurn" | "untilEndOfBattle" | "permanent"
-            
+
             // Convert relative targetSide to actual game side
             // If card controller is "opponent" and targetSide is "opponent", actual target is "player"
-            const actualTargetSide = resolveActionTargetSide(targetSideRelative);
-            
+            const actualTargetSide = activationSource ? resolveActionTargetSideUtil(activationSource, targetSideRelative) : resolveActionTargetSide(targetSideRelative);
+            console.log('[powerMod] setup', {
+              controller: activationSource?.side,
+              targetSideRelative,
+              actualTargetSide,
+              targetType,
+              minTargets,
+              maxTargets,
+              duration
+            });
+
             // Auto-skip if no valid targets exist (handles "up to" 0 cases)
             const preCandidates = listValidTargets(actualTargetSide, targetType, { uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
             if ((preCandidates.length === 0) || (minTargets === 0 && preCandidates.length === 0)) {
@@ -657,32 +465,12 @@ export default function Actions({
               multi: true,
               min: minTargets,
               max: maxTargets,
-              validator: (card, ctx) => {
-                // Validate based on targetType
-                console.log('[Validator] targetType:', targetType, 'ctx:', ctx);
-                if (targetType === 'leader') {
-                  return ctx?.section === 'middle' && ctx?.keyName === 'leader';
-                }
-                if (targetType === 'character') {
-                  const isValid = ctx?.section === 'char' && ctx?.keyName === 'char';
-                  console.log('[Validator] character check:', isValid, 'section:', ctx?.section, 'keyName:', ctx?.keyName);
-                  if (!isValid) return false;
-                  if (action.uniqueAcrossSequence && cumulativeTargets.some(t => t.side === ctx.side && t.section === ctx.section && t.keyName === ctx.keyName && t.index === ctx.index)) return false;
-                  return true;
-                }
-                if (targetType === 'any') {
-                  const ok = (ctx?.section === 'middle' && ctx?.keyName === 'leader') ||
-                             (ctx?.section === 'char' && ctx?.keyName === 'char');
-                  if (!ok) return false;
-                  if (action.uniqueAcrossSequence && cumulativeTargets.some(t => t.side === ctx.side && t.section === ctx.section && t.keyName === ctx.keyName && t.index === ctx.index)) return false;
-                  return true;
-                }
-                return false;
-              },
+              validator: createTargetValidator(targetType, action, cumulativeTargets, getTotalPower, getCardMeta),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
             }, (targets) => {
+              console.log('[powerMod] onComplete fired', { sessionTargets: targets });
               // Apply effects to targets
               let expireOnSide = null;
               if (duration === 'thisTurn') {
@@ -698,7 +486,7 @@ export default function Actions({
                 }
                 cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
               });
-              
+
               // Determine expiry side for cleanup and register for visibility
               if (registerUntilNextTurnEffect) {
                 if (duration === 'thisTurn') {
@@ -712,7 +500,7 @@ export default function Actions({
                 }
               }
               // Continue to next action in sequence
-              processNext();
+              if (processNextRef.current) processNextRef.current();
             });
             break;
           case 'grantKeyword': {
@@ -743,7 +531,7 @@ export default function Actions({
             const targetType = action.targetType || 'any';
             const minTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const maxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
-            const actualSide = resolveActionTargetSide(targetSideRelative);
+            const actualSide = activationSource ? resolveActionTargetSideUtil(activationSource, targetSideRelative) : resolveActionTargetSide(targetSideRelative);
             const preCandidates = listValidTargets(actualSide, targetType, { uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
             if ((preCandidates.length === 0) || (minTargets === 0 && preCandidates.length === 0)) {
               processNext();
@@ -755,12 +543,7 @@ export default function Actions({
               multi: true,
               min: minTargets,
               max: maxTargets,
-              validator: (card, ctx) => {
-                if (targetType === 'leader') return ctx?.section === 'middle' && ctx?.keyName === 'leader';
-                if (targetType === 'character') return ctx?.section === 'char' && ctx?.keyName === 'char';
-                if (targetType === 'any') return (ctx?.section === 'middle' && ctx?.keyName === 'leader') || (ctx?.section === 'char' && ctx?.keyName === 'char');
-                return false;
-              },
+              validator: createTargetValidator(targetType, action, cumulativeTargets, getTotalPower, getCardMeta),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -775,7 +558,7 @@ export default function Actions({
                 const label = `${cardName}: ${typeof effect === 'object' ? effect.text : String(effect || '')}`;
                 registerUntilNextTurnEffect(expireOnSide || (turnSide === 'player' ? 'opponent' : 'player'), label);
               }
-              processNext();
+              if (processNextRef.current) processNextRef.current();
             });
             break;
           }
@@ -795,11 +578,11 @@ export default function Actions({
             const targetType = action.targetType || 'any';
             const minTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const maxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
-            const actualSide = resolveActionTargetSide(targetSideRelative);
-            const preCandidates = listValidTargets(actualSide, targetType, { 
-              powerLimit: action.powerLimit, 
-              uniqueAcrossSequence: action.uniqueAcrossSequence, 
-              cumulative: cumulativeTargets 
+            const actualSide = activationSource ? resolveActionTargetSideUtil(activationSource, targetSideRelative) : resolveActionTargetSide(targetSideRelative);
+            const preCandidates = listValidTargets(actualSide, targetType, {
+              powerLimit: action.powerLimit,
+              uniqueAcrossSequence: action.uniqueAcrossSequence,
+              cumulative: cumulativeTargets
             });
             if ((preCandidates.length === 0) || (minTargets === 0 && preCandidates.length === 0)) {
               processNext();
@@ -811,20 +594,7 @@ export default function Actions({
               multi: true,
               min: minTargets,
               max: maxTargets,
-              validator: (card, ctx) => {
-                if (targetType === 'leader') return ctx?.section === 'middle' && ctx?.keyName === 'leader';
-                if (targetType === 'character') {
-                  if (ctx?.section !== 'char' || ctx?.keyName !== 'char') return false;
-                  // Apply power limit if specified
-                  if (action.powerLimit !== null && action.powerLimit !== undefined) {
-                    const totalPower = getTotalPower(ctx.side, ctx.section, ctx.keyName, ctx.index, card.id);
-                    if (totalPower > action.powerLimit) return false;
-                  }
-                  return true;
-                }
-                if (targetType === 'any') return (ctx?.section === 'middle' && ctx?.keyName === 'leader') || (ctx?.section === 'char' && ctx?.keyName === 'char');
-                return false;
-              },
+              validator: createTargetValidator(targetType, { ...action, powerLimit: action.powerLimit }, cumulativeTargets, getTotalPower, getCardMeta),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -839,7 +609,7 @@ export default function Actions({
                 const label = `${cardName}: ${typeof effect === 'object' ? effect.text : String(effect || '')}`;
                 registerUntilNextTurnEffect(expireOnSide || (turnSide === 'player' ? 'opponent' : 'player'), label);
               }
-              processNext();
+              if (processNextRef.current) processNextRef.current();
             });
             break;
           }
@@ -852,18 +622,18 @@ export default function Actions({
             const minTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const maxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
             const onlyRested = action.onlyRested !== undefined ? action.onlyRested : true; // Default to rested DON only
-            const actualSide = resolveActionTargetSide(targetSideRelative);
-            
+            const actualSide = activationSource ? resolveActionTargetSideUtil(activationSource, targetSideRelative) : resolveActionTargetSide(targetSideRelative);
+
             // Check if there are enough DON!! in cost area
             // Player's cost area is in areas.player.bottom.cost
             // Opponent's cost area is in areas.opponent.top.cost
             const controllerSide = actionSource?.side || 'player';
             const costLoc = controllerSide === 'player' ? areas?.player?.bottom : areas?.opponent?.top;
             const costArr = costLoc?.cost || [];
-            
+
             // Filter for DON!! cards (id === 'DON') that match the rested requirement
             const availableDon = costArr.filter(d => d.id === 'DON' && (onlyRested ? d.rested : true));
-            
+
             console.log(`[giveDon] Checking DON!! availability:`, {
               controllerSide,
               costArrLength: costArr.length,
@@ -873,18 +643,18 @@ export default function Actions({
               quantity,
               costArr
             });
-            
+
             if (availableDon.length < quantity) {
               console.log(`[giveDon] Not enough ${onlyRested ? 'rested ' : ''}DON!! available (need ${quantity}, have ${availableDon.length})`);
               processNext();
               break;
             }
-            
-            const preCandidates = listValidTargets(actualSide, targetType, { 
-              uniqueAcrossSequence: action.uniqueAcrossSequence, 
-              cumulative: cumulativeTargets 
+
+            const preCandidates = listValidTargets(actualSide, targetType, {
+              uniqueAcrossSequence: action.uniqueAcrossSequence,
+              cumulative: cumulativeTargets
             });
-            
+
             console.log(`[giveDon] Valid targets check:`, {
               actualSide,
               targetType,
@@ -892,21 +662,21 @@ export default function Actions({
               minTargets,
               maxTargets
             });
-            
+
             // If minTargets is 0 and there are no candidates, skip
             if (minTargets === 0 && preCandidates.length === 0) {
               console.log('[giveDon] No valid targets available, skipping optional action');
               processNext();
               break;
             }
-            
+
             // If minTargets > 0 and no candidates, this is an error condition but still need to process
             if (minTargets > 0 && preCandidates.length === 0) {
               console.log('[giveDon] Required targets not available, skipping');
               processNext();
               break;
             }
-            
+
             console.log('[giveDon] Starting targeting UI...');
             setSelectedAbilityIndex(abilityIndex);
             startTargeting({
@@ -934,21 +704,21 @@ export default function Actions({
               type: 'ability'
             }, (targets) => {
               console.log('[giveDon] Targeting completed, targets:', targets);
-              
+
               // Handle case where user cancels (targets array is empty for optional)
               if (targets.length === 0 && minTargets === 0) {
                 console.log('[giveDon] User cancelled optional targeting');
-                processNext();
+                if (processNextRef.current) processNextRef.current();
                 return;
               }
-              
+
               // Move DON!! by directly manipulating the areas state
               // We need to use a callback approach since setAreas is not available here
               // For now, we'll need to add this functionality to Home.jsx and pass it down
-              
+
               targets.forEach(t => {
                 console.log(`[giveDon] Processing target:`, t);
-                
+
                 // Use the moveDonFromCostToCard callback to move DON!!
                 if (typeof moveDonFromCostToCard === 'function') {
                   const success = moveDonFromCostToCard(
@@ -960,7 +730,7 @@ export default function Actions({
                     quantity,
                     onlyRested
                   );
-                  
+
                   if (success) {
                     console.log(`[giveDon] Successfully moved ${quantity} DON!! to target`);
                   } else {
@@ -969,21 +739,80 @@ export default function Actions({
                 } else {
                   console.error('[giveDon] ERROR: moveDonFromCostToCard callback not available');
                 }
-                
+
                 cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
               });
-              
-              processNext();
+
+              if (processNextRef.current) processNextRef.current();
             });
             break;
           }
 
           case 'draw':
-            // Draw cards action
+            // Draw cards action (handled by game state via Home.jsx)
             const drawQuantity = action.quantity || 1;
-            console.log(`[Ability] Draw ${drawQuantity} card(s)`);
-            // TODO: Implement draw in game state
+            console.log(`[Ability] Draw ${drawQuantity} card(s) - handled by parent`);
+            processNext();
             break;
+
+          case 'trashFromHand': {
+            // Trash cards from hand - use targeting to select cards
+            const minCards = action.minCards !== undefined ? action.minCards : 1;
+            const maxCards = action.maxCards !== undefined ? action.maxCards : 1;
+            const controllerSide = actionSource?.side || 'player';
+
+            // Get hand for validation
+            const handLoc = controllerSide === 'player' ? areas?.player?.bottom : areas?.opponent?.top;
+            const hand = handLoc?.hand || [];
+
+            if (hand.length === 0 || (minCards === 0 && hand.length === 0)) {
+              // No cards to trash or optional with empty hand
+              console.log('[trashFromHand] No cards in hand or optional action skipped');
+              processNext();
+              break;
+            }
+
+            setSelectedAbilityIndex(abilityIndex);
+            // Use targeting system to let player select from hand
+            // Use multi: true even for single selection to enable the Resolve button for optional skipping
+            startTargeting({
+              side: controllerSide,
+              section: controllerSide === 'player' ? 'bottom' : 'top',
+              keyName: 'hand',
+              multi: true, // Always use multi mode to support optional selection with Resolve button
+              min: minCards,
+              max: maxCards,
+              validator: (card, ctx) => {
+                // Can select any card from hand
+                return ctx?.section === (controllerSide === 'player' ? 'bottom' : 'top') && ctx?.keyName === 'hand';
+              },
+              origin: actionSource,
+              abilityIndex,
+              type: 'ability'
+            }, (targets) => {
+              console.log('[trashFromHand] Selected cards to trash:', targets);
+
+              // If optional and user selected 0, continue
+              if (targets.length === 0 && minCards === 0) {
+                console.log('[trashFromHand] User declined optional trash, calling processNext from ref');
+                if (processNextRef.current) processNextRef.current();
+                return;
+              }
+
+              // Trash the selected cards from hand
+              if (typeof removeCardByEffect === 'function') {
+                // Sort indices in descending order to avoid index shifting issues
+                const sortedTargets = [...targets].sort((a, b) => b.index - a.index);
+                sortedTargets.forEach(t => {
+                  removeCardByEffect(t.side, t.section, t.keyName, t.index, t.side);
+                });
+              }
+
+              console.log('[trashFromHand] Trash complete, calling processNext from ref');
+              if (processNextRef.current) processNextRef.current();
+            });
+            break;
+          }
 
           case 'ko':
             // KO/destroy action - use explicit fields
@@ -992,10 +821,10 @@ export default function Actions({
             const koMinTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const koMaxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
             const powerLimit = action.powerLimit || null; // Numeric value or null
-            
+
             // Convert relative targetSide to actual game side
-            const koActualTargetSide = resolveActionTargetSide(koTargetSideRelative);
-            
+            const koActualTargetSide = activationSource ? resolveActionTargetSideUtil(activationSource, koTargetSideRelative) : resolveActionTargetSide(koTargetSideRelative);
+
             // Pre-check candidates for KO; if none and it's optional, auto-skip
             const preKoCandidates = listValidTargets(koActualTargetSide, koTargetType, { powerLimit, uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
             if ((preKoCandidates.length === 0) || (koMinTargets === 0 && preKoCandidates.length === 0)) {
@@ -1008,19 +837,7 @@ export default function Actions({
               multi: true,
               min: koMinTargets,
               max: koMaxTargets,
-              validator: (card, ctx) => {
-                // Validate target type
-                if (koTargetType === 'character' && ctx?.section !== 'char') return false;
-                if (koTargetType === 'leader' && (ctx?.section !== 'middle' || ctx?.keyName !== 'leader')) return false;
-                
-                // Validate power limit if specified
-                if (powerLimit !== null) {
-                  const meta = getCardMeta(card.id);
-                  return (meta?.stats?.power || 0) <= powerLimit;
-                }
-                if (action.uniqueAcrossSequence && cumulativeTargets.some(t => t.side === ctx.side && t.section === ctx.section && t.keyName === ctx.keyName && t.index === ctx.index)) return false;
-                return true;
-              },
+              validator: createTargetValidator(koTargetType, { ...action, powerLimit }, cumulativeTargets, getTotalPower, getCardMeta),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -1034,7 +851,7 @@ export default function Actions({
                 cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
               });
               // Continue to next action in sequence
-              processNext();
+              if (processNextRef.current) processNextRef.current();
             });
             break;
 
@@ -1043,7 +860,7 @@ export default function Actions({
             const restTargetType = action.targetType || 'any';
             const restMinTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const restMaxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
-            const restActualSide = resolveActionTargetSide(restTargetSideRelative);
+            const restActualSide = activationSource ? resolveActionTargetSideUtil(activationSource, restTargetSideRelative) : resolveActionTargetSide(restTargetSideRelative);
             const preRestCandidates = listValidTargets(restActualSide, restTargetType, { requireActive: true, uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
             if ((preRestCandidates.length === 0) || (restMinTargets === 0 && preRestCandidates.length === 0)) {
               processNext();
@@ -1055,25 +872,7 @@ export default function Actions({
               multi: true,
               min: restMinTargets,
               max: restMaxTargets,
-              validator: (card, ctx) => {
-                if (restTargetType === 'leader') {
-                  if (!(ctx?.section === 'middle' && ctx?.keyName === 'leader')) return false;
-                  return card && !card.rested;
-                }
-                if (restTargetType === 'character') {
-                  if (!(ctx?.section === 'char' && ctx?.keyName === 'char')) return false;
-                  if (action.uniqueAcrossSequence && cumulativeTargets.some(t => t.side === ctx.side && t.section === ctx.section && t.keyName === ctx.keyName && t.index === ctx.index)) return false;
-                  return card && !card.rested;
-                }
-                if (restTargetType === 'any') {
-                  const ok = ((ctx?.section === 'middle' && ctx?.keyName === 'leader') || (ctx?.section === 'char' && ctx?.keyName === 'char'));
-                  if (!ok) return false;
-                  if (action.uniqueAcrossSequence && cumulativeTargets.some(t => t.side === ctx.side && t.section === ctx.section && t.keyName === ctx.keyName && t.index === ctx.index)) return false;
-                  return card && !card.rested;
-                }
-                // 'don' targets not supported in current board targeting
-                return false;
-              },
+              validator: createStateValidator(restTargetType, false, action, cumulativeTargets),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -1086,7 +885,7 @@ export default function Actions({
                 }
                 cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
               });
-              processNext();
+              if (processNextRef.current) processNextRef.current();
             });
             break;
           }
@@ -1097,7 +896,7 @@ export default function Actions({
             const actTargetType = action.targetType || 'any';
             const actMinTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const actMaxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
-            const actActualSide = resolveActionTargetSide(actTargetSideRelative);
+            const actActualSide = activationSource ? resolveActionTargetSideUtil(activationSource, actTargetSideRelative) : resolveActionTargetSide(actTargetSideRelative);
             const preActCandidates = listValidTargets(actActualSide, actTargetType, { requireRested: true, uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
             if ((preActCandidates.length === 0) || (actMinTargets === 0 && preActCandidates.length === 0)) {
               processNext();
@@ -1109,24 +908,7 @@ export default function Actions({
               multi: true,
               min: actMinTargets,
               max: actMaxTargets,
-              validator: (card, ctx) => {
-                if (actTargetType === 'leader') {
-                  if (!(ctx?.section === 'middle' && ctx?.keyName === 'leader')) return false;
-                  return card && !!card.rested;
-                }
-                if (actTargetType === 'character') {
-                  if (!(ctx?.section === 'char' && ctx?.keyName === 'char')) return false;
-                  if (action.uniqueAcrossSequence && cumulativeTargets.some(t => t.side === ctx.side && t.section === ctx.section && t.keyName === ctx.keyName && t.index === ctx.index)) return false;
-                  return card && !!card.rested;
-                }
-                if (actTargetType === 'any') {
-                  const ok = ((ctx?.section === 'middle' && ctx?.keyName === 'leader') || (ctx?.section === 'char' && ctx?.keyName === 'char'));
-                  if (!ok) return false;
-                  if (action.uniqueAcrossSequence && cumulativeTargets.some(t => t.side === ctx.side && t.section === ctx.section && t.keyName === ctx.keyName && t.index === ctx.index)) return false;
-                  return card && !!card.rested;
-                }
-                return false;
-              },
+              validator: createStateValidator(actTargetType, true, action, cumulativeTargets),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -1138,7 +920,7 @@ export default function Actions({
                 console.log('[Ability] Active action selected target (no handler wired):', t);
                 cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
               });
-              processNext();
+              if (processNextRef.current) processNextRef.current();
             });
             break;
           }
@@ -1156,7 +938,7 @@ export default function Actions({
             const maxSelect = action.maxSelect !== undefined ? action.maxSelect : 1;
             const destination = action.destination || 'hand'; // "hand" | "deck" | "trash"
             const remainderLocation = action.remainderLocation || 'bottom'; // "top" | "bottom" | "shuffle"
-            
+
             if (startDeckSearch) {
               startDeckSearch({
                 side: sourceSide,
@@ -1173,223 +955,48 @@ export default function Actions({
                 onComplete: (selectedCards, remainder) => {
                   console.log(`[Ability] Deck search complete: ${selectedCards.length} selected, ${remainder.length} returned to ${remainderLocation}`);
                   // Continue after search completes
-                  processNext();
+                  if (processNextRef.current) processNextRef.current();
                 }
               });
             }
-            
+
             setSelectedAbilityIndex(null);
             break;
 
           default:
             console.log(`[Ability] Unknown action type: ${action.type}`);
             // Skip unknown and continue
-            processNext();
+            if (processNextRef.current) processNextRef.current();
+        }
+      };
+
+      // Store processNext in ref so it persists across renders
+      processNextRef.current = processNext;
+
+      // Helper function that always calls the latest processNext from ref
+      const callProcessNext = () => {
+        if (processNextRef.current) {
+          processNextRef.current();
         }
       };
 
       // Kick off sequential processing
       processNext();
-      return; // Skip text parsing if we handled structured actions
+    } else {
+      // No structured actions - card needs to be updated with action schema
+      console.warn(`[Ability] Card ${cardName} has no structured actions - needs update`);
+      completeAbilityActivation();
     }
-
-    // Fallback: Handle different effect types based on keywords in text
-    if (effectText.includes('draw')) {
-      const match = effectText.match(/draw (\d+)/);
-      const quantity = match ? parseInt(match[1]) : 1;
-      console.log(`[Ability] Draw ${quantity} card(s)`);
-      // TODO: Implement draw in game state
-    }
-
-    if (effectText.includes('ko') || effectText.includes('k.o.')) {
-      // Start targeting for KO effect
-      setSelectedAbilityIndex(abilityIndex);
-      const powerMatch = effectText.match(/(\d+)\s*power or less/);
-      const powerLimit = powerMatch ? parseInt(powerMatch[1]) : null;
-      
-      startTargeting({
-        side: 'opponent',
-        multi: true,
-        min: 0,
-        max: 1,
-        validator: (card, ctx) => {
-          if (ctx?.section !== 'char') return false;
-          if (powerLimit) {
-            const meta = getCardMeta(card.id);
-            return (meta?.stats?.power || 0) <= powerLimit;
-          }
-          return true;
-        },
-        origin: actionSource,
-        abilityIndex,
-        type: 'ability'
-      }, (targets) => {
-        targets.forEach(t => {
-          console.log(`[Ability] KO target: ${t.card?.id}`);
-          // TODO: Implement KO in game state
-        });
-        
-        // Mark ability as used and pay costs AFTER effect is successfully applied
-        completeAbilityActivation();
-        
-        setSelectedAbilityIndex(null);
-      });
-    }
-
-    if (effectText.includes('power') && (effectText.includes('+') || effectText.includes('-'))) {
-      // Power modification effect
-      const match = effectText.match(/([+-]\d+)\s*power/);
-      const amount = match ? parseInt(match[1]) : 0;
-      const textHasThisTurn = effectText.includes('this turn');
-      
-      setSelectedAbilityIndex(abilityIndex);
-      startTargeting({
-        side: effectText.includes('opponent') ? 'opponent' : 'player',
-        multi: true,
-        min: 0,
-        max: 1,
-        validator: (card, ctx) => {
-          if (effectText.includes('leader') && ctx?.section === 'middle' && ctx?.keyName === 'leader') return true;
-          if (effectText.includes('character') && ctx?.section === 'char' && ctx?.keyName === 'char') return true;
-          return false;
-        },
-        origin: actionSource,
-        abilityIndex,
-        type: 'ability'
-      }, (targets) => {
-        targets.forEach(t => {
-          if (applyPowerMod) {
-            // For text-based parsing, assume 'thisTurn' if the effect includes it
-            const expireOnSide = textHasThisTurn ? ((turnSide === 'player') ? 'opponent' : 'player') : null;
-            applyPowerMod(t.side, t.section, t.keyName, t.index, amount, expireOnSide);
-          }
-        });
-        
-        if (textHasThisTurn && registerUntilNextTurnEffect) {
-          registerUntilNextTurnEffect(turnSide, `${cardName}: ${effect}`);
-        }
-        
-        // Mark ability as used and pay costs AFTER effect is successfully applied
-        completeAbilityActivation();
-        
-        setSelectedAbilityIndex(null);
-      });
-    }
-
-    if (effectText.includes('look at') && effectText.includes('deck')) {
-      // Deck search effect - parse parameters from effect text or structured actions
-      const effect = ability.effect;
-      const actions = typeof effect === 'object' ? effect.actions : null;
-      
-      let lookCount = 5;
-      let filterCriteria = {};
-      let minSelect = 0;
-      let maxSelect = 1;
-      let returnLocation = 'bottom';
-      let effectDesc = effectText;
-      
-      // Try to parse from structured actions first
-      if (actions && actions.length > 0) {
-        const searchAction = actions.find(a => a.type === 'search');
-        if (searchAction) {
-          lookCount = searchAction.quantity || 5;
-          
-          // Parse filter from target field (e.g., "Red Haired Pirates")
-          if (searchAction.target) {
-            filterCriteria.type = searchAction.target;
-          }
-          
-          // Parse selection limits
-          const filterStr = searchAction.filter || '';
-          if (filterStr.includes('up to')) {
-            const match = filterStr.match(/up to (\d+)/);
-            maxSelect = match ? parseInt(match[1]) : 1;
-            minSelect = 0;
-          }
-          
-          // Parse return location
-          if (searchAction.remainder) {
-            if (searchAction.remainder.includes('bottom')) {
-              returnLocation = 'bottom';
-            } else if (searchAction.remainder.includes('top')) {
-              returnLocation = 'top';
-            } else if (searchAction.remainder.includes('shuffle')) {
-              returnLocation = 'shuffle';
-            }
-          }
-        }
-      } else {
-        // Fallback: parse from text
-        const lookMatch = effectText.match(/top (\d+)/);
-        if (lookMatch) lookCount = parseInt(lookMatch[1]);
-        
-        const selectMatch = effectText.match(/up to (\d+)/);
-        if (selectMatch) {
-          maxSelect = parseInt(selectMatch[1]);
-          minSelect = 0;
-        }
-        
-        // Try to extract type filter from quotes
-        const typeMatch = effectText.match(/"([^"]+)"/);
-        if (typeMatch) {
-          filterCriteria.type = typeMatch[1];
-        }
-        
-        // Determine return location
-        if (effectText.includes('bottom')) {
-          returnLocation = 'bottom';
-        } else if (effectText.includes('top')) {
-          returnLocation = 'top';
-        } else if (effectText.includes('shuffle')) {
-          returnLocation = 'shuffle';
-        }
-      }
-      
-      // Determine which side's deck to search
-      const searchSide = actionSource?.side || 'player';
-      
-      if (startDeckSearch) {
-        startDeckSearch({
-          side: searchSide,
-          quantity: lookCount,
-          filter: filterCriteria,
-          minSelect: minSelect,
-          maxSelect: maxSelect,
-          returnLocation: returnLocation,
-          effectDescription: effectDesc,
-          onComplete: (selectedCards, remainder) => {
-            console.log(`[Ability] Deck search complete: ${selectedCards.length} selected, ${remainder.length} returned to ${returnLocation}`);
-            
-            // Mark ability as used and pay costs AFTER effect is successfully applied
-            completeAbilityActivation();
-          }
-        });
-      } else {
-        console.log(`[Ability] Look at top ${lookCount} cards (startDeckSearch not available)`);
-      }
-      
-      setSelectedAbilityIndex(null);
-    }
-
-    if (effectText.includes('add') && effectText.includes('don')) {
-      // DON!! manipulation
-      const match = effectText.match(/(\d+)\s*don/i);
-      const quantity = match ? parseInt(match[1]) : 1;
-      console.log(`[Ability] Add ${quantity} DON!!`);
-      // TODO: Implement DON!! adding
-    }
-
-    console.log(`[Ability] Activated: ${cardName} - ${effect}`);
-  }, [activatableAbilities, applyPowerMod, registerUntilNextTurnEffect, turnSide, cardName, startTargeting, getCardMeta, startDeckSearch, actionSource, listValidTargets, resolveActionTargetSide]);
+  }, [activatableAbilities, applyPowerMod, registerUntilNextTurnEffect, turnSide, cardName, startTargeting, getCardMeta, startDeckSearch, actionSource, listValidTargets, resolveActionTargetSide, removeCardByEffect, grantTempKeyword, disableKeyword, moveDonFromCostToCard, restCard, setResolvingEffect, getTotalPower, abilityHasAnySelectableTargets, returnCardToDeck, cardIndex, payLife, setAbilityUsed, setSelectedAbilityIndex, confirmTargeting, cancelTargeting, cardMeta, card, markAbilityUsed]);
 
   // Auto-trigger On Play abilities when card is just played (unless autoResolve === false)
   // According to Rule 8-1-3-1-3, On Play effects are AUTO effects that must trigger immediately
   useEffect(() => {
     if (!wasJustPlayed || autoTriggeredOnPlay) return;
     if (!abilities || abilities.length === 0) return;
-    
+
     console.log('[Auto-Trigger] Checking for On Play abilities...', { wasJustPlayed, abilities });
-    
+
     // Find On Play abilities that haven't been used yet
     const abilityIndex = abilities.findIndex((ability, index) => {
       const type = ability.type || '';
@@ -1401,20 +1008,20 @@ export default function Actions({
       // Auto-trigger if autoResolve is true OR there are no valid targets to choose from
       return isOnPlay && notUsed && (autoResolve || !hasTargets);
     });
-    
+
     if (abilityIndex === -1) {
       console.log('[Auto-Trigger] No On Play abilities found');
       // Mark as triggered even if no ability found to prevent re-checking
       setAutoTriggeredOnPlay(true);
       return;
     }
-    
+
     const ability = abilities[abilityIndex];
     console.log(`[Auto-Trigger] Triggering On Play ability for ${cardName} (index ${abilityIndex})`, ability);
-    
+
     // Mark that we've seen this card's On Play trigger opportunity
     setAutoTriggeredOnPlay(true);
-    
+
     // Call the standard activateAbility function to handle all action types uniformly
     // This will handle powerMod, search, KO, draw, etc. with proper targeting UI
     // Use setTimeout to ensure the Actions panel is fully rendered before starting targeting
@@ -1423,34 +1030,9 @@ export default function Actions({
     }, 100); // Small delay to ensure UI is ready
   }, [wasJustPlayed, autoTriggeredOnPlay, abilities, abilityUsed, cardName, activateAbility, abilityHasAnySelectableTargets]);
 
-  // Auto-confirm targeting for optional targets (minTargets = 0)
-  // When user selects a target for "up to X" effects, auto-confirm immediately
-  useEffect(() => {
-    if (!targeting?.active) return;
-    if (!targeting.selected || targeting.selected.length === 0) return;
-    
-    // Only auto-confirm if minTargets is 0 (optional targeting like "up to 1")
-    // If minTargets > 0, user must manually confirm to ensure they want those specific targets
-    if (targeting.min === 0) {
-      const maxTargets = targeting.max || 1;
-      const currentSelections = targeting.selected.length;
-      
-      // If we've reached the maximum number of targets, auto-confirm and close
-      if (currentSelections >= maxTargets) {
-        console.log('[Auto-Confirm] Max targets reached, auto-confirming...');
-        setTimeout(() => {
-          if (confirmTargeting) {
-            confirmTargeting();
-            setSelectedAbilityIndex(null);
-          }
-        }, 150);
-      } else {
-        // For multi-target "up to X", don't auto-close after each selection
-        // User can continue selecting or click "Resolve" to finish
-        console.log(`[Auto-Select] Target ${currentSelections}/${maxTargets} selected, waiting for more or resolve...`);
-      }
-    }
-  }, [targeting?.active, targeting?.selected?.length, targeting?.min, targeting?.max, confirmTargeting]);
+  // NOTE: Removed duplicate auto-confirm effect.
+  // Auto-confirm timing is now handled centrally in Home.jsx targeting system.
+  // This prevents stale timers from previous action steps firing after a new step starts.
 
   // If no card provided, render as simple container
   if (!card || !cardMeta) {
@@ -1487,7 +1069,7 @@ export default function Actions({
             </IconButton>
           )}
         </Box>
-        
+
         <Box sx={{ p: 1.5, flex: 1, minHeight: 0, overflow: 'auto', bgcolor: 'background.paper' }}>
           <Stack spacing={1.25}>
             {/* Card Type Info */}
@@ -1504,16 +1086,11 @@ export default function Actions({
             {displayKeywords.length > 0 && (
               <Stack direction="row" spacing={0.5} sx={{ flexWrap: 'wrap', gap: 0.5 }}>
                 {displayKeywords.map((keyword, idx) => (
-                  <Chip 
-                    key={idx} 
-                    label={keyword} 
-                    size="small" 
-                    color={
-                      keyword.toLowerCase().includes('rush') ? 'warning' :
-                      keyword.toLowerCase().includes('blocker') ? 'info' :
-                      keyword.toLowerCase().includes('double attack') ? 'error' :
-                      'default'
-                    }
+                  <Chip
+                    key={idx}
+                    label={keyword}
+                    size="small"
+                    color={getKeywordColor(keyword)}
                   />
                 ))}
               </Stack>
@@ -1530,10 +1107,10 @@ export default function Actions({
                 <Typography variant="overline" sx={{ display: 'block', mb: 0.5 }}>Abilities</Typography>
                 <Stack spacing={1.5}>
                   {activatableAbilities.map((ability, idx) => (
-                    <Box 
+                    <Box
                       key={idx}
-                      sx={{ 
-                        p: 1.25, 
+                      sx={{
+                        p: 1.25,
                         border: '1px solid',
                         borderColor: ability.canActivate ? 'primary.main' : 'divider',
                         borderRadius: 1,
@@ -1542,9 +1119,9 @@ export default function Actions({
                     >
                       {/* Ability Type */}
                       <Stack direction="row" spacing={0.5} sx={{ mb: 0.75, flexWrap: 'wrap', gap: 0.5 }}>
-                        <Chip 
-                          label={ability.type || 'Unknown'} 
-                          size="small" 
+                        <Chip
+                          label={ability.type || 'Unknown'}
+                          size="small"
                           color="primary"
                           sx={{ textTransform: 'capitalize' }}
                         />
@@ -1572,20 +1149,20 @@ export default function Actions({
                           Activate
                         </Button>
                       ) : !ability.canActivate ? (
-                        <Alert 
+                        <Alert
                           severity={
                             (ability.reason || '').toLowerCase().includes('resolving') ? 'warning' :
-                            ability.reason?.toLowerCase().includes('already') ? 'info' :
-                            'info'
+                              ability.reason?.toLowerCase().includes('already') ? 'info' :
+                                'info'
                           }
-                          sx={{ 
-                            py: 0.5, 
+                          sx={{
+                            py: 0.5,
                             px: 1.5,
                             alignItems: 'center',
-                            '& .MuiAlert-message': { 
+                            '& .MuiAlert-message': {
                               py: 0,
                               width: '100%'
-                            } 
+                            }
                           }}
                         >
                           {ability.reason || 'Cannot activate now'}
@@ -1594,78 +1171,14 @@ export default function Actions({
 
                       {/* Target Selection UI */}
                       {selectedAbilityIndex === idx && targeting?.active && (
-                        <Stack spacing={1} sx={{ mt: 1 }}>
-                          {/* Selected targets display */}
-                          {targeting.selected && targeting.selected.length > 0 && (
-                            <Box>
-                              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-                                Selected Target{targeting.selected.length > 1 ? 's' : ''}:
-                              </Typography>
-                              {targeting.selected.map((target, tidx) => {
-                                let targetName = 'Unknown';
-                                if (target.section === 'middle' && target.keyName === 'leader') {
-                                  targetName = `${target.side === 'player' ? 'Your' : 'Opponent'} Leader`;
-                                } else if (target.section === 'char' && target.keyName === 'char') {
-                                  const targetSide = target.side === 'player' ? areas?.player : areas?.opponent;
-                                  const targetCard = targetSide?.char?.[target.index];
-                                  const targetMeta = targetCard ? getCardMeta(targetCard.id) : null;
-                                  targetName = targetMeta?.name || targetCard?.id || 'Character';
-                                }
-                                return (
-                                  <Chip 
-                                    key={tidx}
-                                    label={targetName}
-                                    size="small"
-                                    color="warning"
-                                    sx={{ mr: 0.5, mb: 0.5 }}
-                                  />
-                                );
-                              })}
-                            </Box>
-                          )}
-                          {/* Action buttons */}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            <Typography variant="caption" color="text.secondary" sx={{ flex: 1 }}>
-                              {targeting.min === 0 
-                                ? targeting.max > 1
-                                  ? `Select up to ${targeting.max} targets (${targeting.selected?.length || 0}/${targeting.max})`
-                                  : 'Click a target or cancel to skip'
-                                : targeting.selected && targeting.selected.length > 0 
-                                  ? 'Select more or confirm'
-                                  : 'Select target(s) on board...'
-                              }
-                            </Typography>
-                            {/* Only show Confirm button if minTargets > 0 (required targeting) */}
-                            {targeting.min > 0 && (
-                              <Button 
-                                size="small" 
-                                variant="outlined" 
-                                onClick={confirmTargeting}
-                                disabled={(targeting.selected?.length || 0) < targeting.min}
-                              >
-                                Confirm
-                              </Button>
-                            )}
-                            {/* Show "Resolve" for multi-target optional, "Cancel" for single or skip */}
-                            <Button 
-                              size="small" 
-                              variant={targeting.min === 0 && targeting.max > 1 && targeting.selected?.length > 0 ? "contained" : "text"}
-                              onClick={() => { 
-                                // If we have selections in multi-target mode, confirm them
-                                if (targeting.min === 0 && targeting.selected?.length > 0) {
-                                  confirmTargeting();
-                                } else {
-                                  cancelTargeting();
-                                }
-                                setSelectedAbilityIndex(null); 
-                              }}
-                            >
-                              {targeting.min === 0 && targeting.max > 1 && targeting.selected?.length > 0 
-                                ? 'Resolve' 
-                                : 'Cancel'}
-                            </Button>
-                          </Stack>
-                        </Stack>
+                        <TargetSelectionUI
+                          targeting={targeting}
+                          areas={areas}
+                          getCardMeta={getCardMeta}
+                          confirmTargeting={confirmTargeting}
+                          cancelTargeting={cancelTargeting}
+                          onCancel={() => setSelectedAbilityIndex(null)}
+                        />
                       )}
                     </Box>
                   ))}
@@ -1695,6 +1208,56 @@ export default function Actions({
                 </Typography>
               </Box>
             )}
+
+            {/* Blocker Activation Button - shown during Block Step for cards with Blocker keyword */}
+            {useMemo(() => {
+              // Check if we're in the block step
+              if (!battle || battle.step !== 'block') return null;
+
+              // Check if this card's side is defending
+              const defendingSide = battle.target?.side;
+              const cardSide = actionSource?.side;
+              if (cardSide !== defendingSide) return null;
+
+              // Check if target is not already a character (only show if leader is being attacked)
+              if (battle.target?.section === 'char') return null;
+
+              // Check if card is in the char area
+              if (actionSource?.section !== 'char' || actionSource?.keyName !== 'char') return null;
+
+              // Check if card has Blocker keyword
+              const hasBlocker = keywords.some(k => /blocker/i.test(k));
+              if (!hasBlocker) return null;
+
+              // Check if card is active (not rested)
+              if (card?.rested) return null;
+
+              // All conditions met - show the blocker button
+              return (
+                <>
+                  <Divider sx={{ my: 1 }} />
+                  <Box>
+                    <Typography variant="caption" display="block" color="text.secondary" sx={{ mb: 1 }}>
+                      This card can be used as a blocker to redirect the attack.
+                    </Typography>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="error"
+                      size="medium"
+                      onClick={() => {
+                        if (battleApplyBlocker && typeof cardIndex === 'number') {
+                          battleApplyBlocker(cardIndex);
+                          onClose?.();
+                        }
+                      }}
+                    >
+                      Use as Blocker
+                    </Button>
+                  </Box>
+                </>
+              );
+            }, [battle, actionSource, keywords, card?.rested, cardIndex, battleApplyBlocker, onClose])}
 
             {/* Additional children (play controls, attack controls, etc.) */}
             {children}
