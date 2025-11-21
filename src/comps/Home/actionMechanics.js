@@ -607,7 +607,6 @@ export function completeAbilityActivation(params) {
   if (cost) {
     // Handle returnThisToDeck cost (return to top/bottom/shuffle)
     if (cost.returnThisToDeck && returnCardToDeck && actionSource) {
-      console.log(`[Ability] Paying cost: Return this card to ${cost.returnThisToDeck} of deck`);
       returnCardToDeck(
         actionSource.side,
         actionSource.section,
@@ -619,7 +618,6 @@ export function completeAbilityActivation(params) {
 
     // Handle trashThis cost (move card to trash)
     if (cost.trashThis && actionSource && removeCardByEffect) {
-      console.log('[Ability] Paying cost: Trash this card');
       removeCardByEffect(
         actionSource.side,
         actionSource.section,
@@ -631,7 +629,6 @@ export function completeAbilityActivation(params) {
 
     // Handle restThis cost (rest/tap this card)
     if (cost.restThis && actionSource) {
-      console.log('[Ability] Paying cost: Rest this card');
       if (typeof restCard === 'function') {
         restCard(actionSource.side, actionSource.section, actionSource.keyName, actionSource.index || cardIndex);
       }
@@ -648,7 +645,6 @@ export function completeAbilityActivation(params) {
     if (cost.payLife && typeof cost.payLife === 'number') {
       try {
         const side = actionSource?.side || 'player';
-        console.log(`[Ability] Paying cost: Pay ${cost.payLife} life for ${side}`);
         if (typeof payLife === 'function') payLife(side, cost.payLife);
       } catch { }
     }

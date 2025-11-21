@@ -222,7 +222,6 @@ export default function Actions({
     }
     // Clean up when targeting is cancelled (but not during multi-step ability processing)
     else if (!targeting?.active && selectedAbilityIndex !== null && !processingActionsRef.current) {
-      console.log('[Actions] Targeting cancelled, cleaning up selected ability');
       setSelectedAbilityIndex(null);
       setResolvingEffect?.(false);
     }
@@ -352,7 +351,6 @@ export default function Actions({
     const ability = activatableAbilities[abilityIndex];
     if (!ability) return;
 
-    console.log('[activateAbility] source', actionSource);
 
     // Allow activation even if canActivate is false for auto-triggered On Play abilities
     const abilityType = (ability.typeKey || '');
@@ -417,7 +415,6 @@ export default function Actions({
         const queue = actionQueueRef.current;
         if (!queue || queue.length === 0) {
           // All actions complete; finalize ability
-          console.log('[processNext] All actions complete, finalizing ability');
           processingActionsRef.current = false; // Clear processing flag
           actionQueueRef.current = null;
           processNextRef.current = null;
@@ -428,7 +425,6 @@ export default function Actions({
         }
 
         const action = queue.shift();
-        console.log('[processNext] Processing action:', action, 'Remaining:', queue.length);
 
         switch (action.type) {
           case 'powerMod':
@@ -443,15 +439,7 @@ export default function Actions({
             // Convert relative targetSide to actual game side
             // If card controller is "opponent" and targetSide is "opponent", actual target is "player"
             const actualTargetSide = activationSource ? resolveActionTargetSideUtil(activationSource, targetSideRelative) : resolveActionTargetSide(targetSideRelative);
-            console.log('[powerMod] setup', {
-              controller: activationSource?.side,
-              targetSideRelative,
-              actualTargetSide,
-              targetType,
-              minTargets,
-              maxTargets,
-              duration
-            });
+            // ...removed orphaned object literal from previous console.log
 
             // Auto-skip if no valid targets exist (handles "up to" 0 cases)
             const preCandidates = listValidTargets(actualTargetSide, targetType, { uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
@@ -470,7 +458,6 @@ export default function Actions({
               abilityIndex,
               type: 'ability'
             }, (targets) => {
-              console.log('[powerMod] onComplete fired', { sessionTargets: targets });
               // Apply effects to targets
               let expireOnSide = null;
               if (duration === 'thisTurn') {
@@ -634,18 +621,8 @@ export default function Actions({
             // Filter for DON!! cards (id === 'DON') that match the rested requirement
             const availableDon = costArr.filter(d => d.id === 'DON' && (onlyRested ? d.rested : true));
 
-            console.log(`[giveDon] Checking DON!! availability:`, {
-              controllerSide,
-              costArrLength: costArr.length,
-              totalDonInCost: costArr.filter(d => d.id === 'DON').length,
-              availableDon: availableDon.length,
-              onlyRested,
-              quantity,
-              costArr
-            });
 
             if (availableDon.length < quantity) {
-              console.log(`[giveDon] Not enough ${onlyRested ? 'rested ' : ''}DON!! available (need ${quantity}, have ${availableDon.length})`);
               processNext();
               break;
             }
@@ -655,29 +632,19 @@ export default function Actions({
               cumulative: cumulativeTargets
             });
 
-            console.log(`[giveDon] Valid targets check:`, {
-              actualSide,
-              targetType,
-              preCandidates: preCandidates.length,
-              minTargets,
-              maxTargets
-            });
 
             // If minTargets is 0 and there are no candidates, skip
             if (minTargets === 0 && preCandidates.length === 0) {
-              console.log('[giveDon] No valid targets available, skipping optional action');
               processNext();
               break;
             }
 
             // If minTargets > 0 and no candidates, this is an error condition but still need to process
             if (minTargets > 0 && preCandidates.length === 0) {
-              console.log('[giveDon] Required targets not available, skipping');
               processNext();
               break;
             }
 
-            console.log('[giveDon] Starting targeting UI...');
             setSelectedAbilityIndex(abilityIndex);
             startTargeting({
               side: actualSide,
@@ -703,11 +670,9 @@ export default function Actions({
               abilityIndex,
               type: 'ability'
             }, (targets) => {
-              console.log('[giveDon] Targeting completed, targets:', targets);
 
               // Handle case where user cancels (targets array is empty for optional)
               if (targets.length === 0 && minTargets === 0) {
-                console.log('[giveDon] User cancelled optional targeting');
                 if (processNextRef.current) processNextRef.current();
                 return;
               }
@@ -717,7 +682,6 @@ export default function Actions({
               // For now, we'll need to add this functionality to Home.jsx and pass it down
 
               targets.forEach(t => {
-                console.log(`[giveDon] Processing target:`, t);
 
                 // Use the moveDonFromCostToCard callback to move DON!!
                 if (typeof moveDonFromCostToCard === 'function') {
@@ -732,7 +696,6 @@ export default function Actions({
                   );
 
                   if (success) {
-                    console.log(`[giveDon] Successfully moved ${quantity} DON!! to target`);
                   } else {
                     console.error('[giveDon] Failed to move DON!!');
                   }
@@ -751,7 +714,6 @@ export default function Actions({
           case 'draw':
             // Draw cards action (handled by game state via Home.jsx)
             const drawQuantity = action.quantity || 1;
-            console.log(`[Ability] Draw ${drawQuantity} card(s) - handled by parent`);
             processNext();
             break;
 
@@ -767,7 +729,6 @@ export default function Actions({
 
             if (hand.length === 0 || (minCards === 0 && hand.length === 0)) {
               // No cards to trash or optional with empty hand
-              console.log('[trashFromHand] No cards in hand or optional action skipped');
               processNext();
               break;
             }
@@ -790,11 +751,9 @@ export default function Actions({
               abilityIndex,
               type: 'ability'
             }, (targets) => {
-              console.log('[trashFromHand] Selected cards to trash:', targets);
 
               // If optional and user selected 0, continue
               if (targets.length === 0 && minCards === 0) {
-                console.log('[trashFromHand] User declined optional trash, calling processNext from ref');
                 if (processNextRef.current) processNextRef.current();
                 return;
               }
@@ -808,7 +767,6 @@ export default function Actions({
                 });
               }
 
-              console.log('[trashFromHand] Trash complete, calling processNext from ref');
               if (processNextRef.current) processNextRef.current();
             });
             break;
@@ -845,8 +803,6 @@ export default function Actions({
               targets.forEach(t => {
                 if (removeCardByEffect) {
                   removeCardByEffect(t.side, t.section, t.keyName, t.index, actionSource?.side || 'player');
-                } else {
-                  console.log(`[Ability] KO target (no handler): ${t.card?.id}`);
                 }
                 cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
               });
@@ -917,7 +873,6 @@ export default function Actions({
               // We do not have a generic setActive function; this relies on Home's state updates via callbacks being limited.
               // For now, we log and skip actual untap to avoid desync.
               targets.forEach(t => {
-                console.log('[Ability] Active action selected target (no handler wired):', t);
                 cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
               });
               if (processNextRef.current) processNextRef.current();

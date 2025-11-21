@@ -332,7 +332,6 @@ export default function Home() {
             console.warn('[addCardToArea] No cards available. allCards length:', allCards.length, 'side:', side, 'section:', section, 'key:', key);
             return;
         }
-        console.log('[addCardToArea] Adding card', card.id, 'to', side, section, key || '(direct)');
         setAreas(prev => {
             // Non-nested section (array directly)
             if (Array.isArray(prev[side][section])) {
@@ -362,7 +361,6 @@ export default function Home() {
 
     const removeCardFromArea = useCallback((side, section, key) => {
         if (gameStarted) return; // disable manual removal in game mode
-        console.log('[removeCardFromArea] Removing last card from', side, section, key || '(direct)');
         setAreas(prev => {
             if (Array.isArray(prev[side][section])) {
                 const target = prev[side][section];
@@ -452,7 +450,6 @@ export default function Home() {
     const startTargeting = useCallback((descriptor, onComplete) => {
         const { side, section, keyName, min = 1, max = 1, validator = null, multi = false, origin = null, abilityIndex = null, type = 'ability' } = descriptor || {};
         const sessionId = Date.now() + Math.random();
-        console.log('[targeting:start]', { sessionId, side, section, keyName, min, max, multi, abilityIndex, type, origin });
         setTargeting({
             active: true, side, section: section || null, keyName: keyName || null, min, max, validator,
             selectedIdx: [], multi, selected: [], onComplete,
@@ -543,7 +540,6 @@ export default function Home() {
                 arr = selectedIdx.map((i) => ({ index: i, card: cardsArr[i] })).filter((x) => x.card);
             }
         } catch { }
-        console.log('[targeting:confirm]', { sessionId: targeting.sessionId, count: arr.length, targets: arr });
         cancelTargeting();
         if (typeof onComplete === 'function') onComplete(arr);
     }, [targeting, areas, cancelTargeting]);

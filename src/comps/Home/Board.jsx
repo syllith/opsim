@@ -700,7 +700,6 @@ export default function Board({
                                                     const has = prev.selected.some(s => s.side === side && s.section === 'middle' && s.keyName === 'leader' && s.index === idx);
                                                     let selected = has ? prev.selected.filter((s) => !(s.side === side && s.section === 'middle' && s.keyName === 'leader' && s.index === idx)) : [...prev.selected, ctx];
                                                     if (selected.length > prev.max) selected = selected.slice(-prev.max);
-                                                    console.log('[targeting:update] leader selection', { sessionId: prev.sessionId, selected });
                                                     if (selected.length && currentAttack) {
                                                         const defP = getTotalPower(side, 'middle', 'leader', idx, c?.id);
                                                         setBattleArrow({ fromKey: currentAttack.key, toKey: modKey(side, 'middle', 'leader', idx), label: `${currentAttack.power} ▶ ${defP}` });
@@ -710,7 +709,6 @@ export default function Board({
                                                     const has = prev.selectedIdx.includes(idx);
                                                     let selectedIdx = has ? prev.selectedIdx.filter((x) => x !== idx) : [...prev.selectedIdx, idx];
                                                     if (selectedIdx.length > prev.max) selectedIdx = selectedIdx.slice(-prev.max);
-                                                    console.log('[targeting:update] leader single-selection', { sessionId: prev.sessionId, selectedIdx });
                                                     return { ...prev, selectedIdx };
                                                 }
                                             });
