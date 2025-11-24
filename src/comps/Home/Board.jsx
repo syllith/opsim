@@ -4,7 +4,7 @@
 import React, { useMemo, useRef, useEffect, useLayoutEffect, useState, useCallback } from 'react';
 import { Box, Paper, Typography, Button, Chip, Stack } from '@mui/material';
 import OpeningHand from './OpeningHand';
-import DeckSearch from './DeckSearch';
+import { useDeckSearch } from './DeckSearch';
 import CardViewer from './CardViewer';
 
 export default function Board({
@@ -41,25 +41,77 @@ export default function Board({
     donGivingMode,
     phase,
     // Opening Hand props
-    openingShown,
-    openingHand,
-    allowMulligan,
-    onMulligan,
-    onKeep,
+    openingHandRef,
+    openingHandShown,
+    setOpeningHandShown,
     // Deck Search props
-    deckSearchOpen,
-    deckSearchConfig,
-    setDeckSearchOpen,
+    deckSearchRef,
+    library,
+    oppLibrary,
+    setLibrary,
+    setOppLibrary,
+    getAssetForId,
+    createCardBacks,
+    appendLog,
     getCardMeta,
     // Card Viewer props
     selectedCard,
     cardError,
     loadingCards,
-    log
+    log,
+    // Turn management
+    setTurnSide,
+    setTurnNumber,
+    executeRefreshPhase,
+    setPhase
 }) {
     // Sizing constants (match Fyne layout intent)
     const CARD_W = 120;
     const CARD_H = 167;
+
+    // Initialize DeckSearch hooks for player and opponent
+    const playerDeckSearch = useDeckSearch({
+        side: 'player',
+        library,
+        setLibrary,
+        getAssetForId,
+        getCardMeta,
+        createCardBacks,
+        setAreas,
+        appendLog,
+        setHovered,
+        CARD_W
+    });
+    
+    const opponentDeckSearch = useDeckSearch({
+        side: 'opponent',
+        library: oppLibrary,
+        setLibrary: setOppLibrary,
+        getAssetForId,
+        getCardMeta,
+        createCardBacks,
+        setAreas,
+        appendLog,
+        setHovered,
+        CARD_W
+    });
+
+    // Expose the start functions via ref for Home.jsx to call
+    useEffect(() => {
+        if (deckSearchRef) {
+            deckSearchRef.current = {
+                start: (config) => {
+                    const { side } = config;
+                    if (side === 'player') {
+                        playerDeckSearch.start(config);
+                    } else {
+                        opponentDeckSearch.start(config);
+                    }
+                },
+                active: playerDeckSearch.active || opponentDeckSearch.active
+            };
+        }
+    }, [deckSearchRef, playerDeckSearch, opponentDeckSearch]);
     const OVERLAP_OFFSET = 22;
     const COST_W = 650; // width of cost area fan
     const SINGLE_W = CARD_W; // deck, trash, don, leader, stage
@@ -198,7 +250,7 @@ export default function Board({
             measureViewer();
         });
         return () => cancelAnimationFrame(raf);
-    }, [measureViewer, areas, boardScale, compactMode, deckSearchOpen, openingShown]);
+    }, [measureViewer, areas, boardScale, compactMode, deckSearchRef]);
 
     useEffect(() => {
         window.addEventListener('resize', measureViewer);
@@ -995,7 +1047,7 @@ export default function Board({
                 )}
 
                 {/* Opening Hand / Deck Search overlay (now globally above CardViewer) */}
-                {(openingShown || deckSearchOpen) && handOverlayPos && (
+                {handOverlayPos && (
                     <Box
                         sx={{
                             position: 'absolute',
@@ -1007,37 +1059,27 @@ export default function Board({
                             pointerEvents: 'auto'
                         }}
                     >
-                        {openingShown && (
-                            <Box sx={{ mb: compactMode ? 0.5 : 1 }}>
-                                <OpeningHand
-                                    open={openingShown}
-                                    hand={openingHand}
-                                    allowMulligan={allowMulligan}
-                                    onMulligan={onMulligan}
-                                    onKeep={onKeep}
-                                    setHovered={setHovered}
-                                    CARD_W={CARD_W}
-                                />
-                            </Box>
-                        )}
-                        {deckSearchOpen && (
-                            <DeckSearch
-                                open={deckSearchOpen}
-                                cards={deckSearchConfig.cards}
-                                quantity={deckSearchConfig.quantity}
-                                filter={deckSearchConfig.filter}
-                                minSelect={deckSearchConfig.minSelect}
-                                maxSelect={deckSearchConfig.maxSelect}
-                                returnLocation={deckSearchConfig.returnLocation}
-                                canReorder={deckSearchConfig.canReorder}
-                                effectDescription={deckSearchConfig.effectDescription}
-                                onConfirm={deckSearchConfig.onComplete}
-                                onCancel={() => setDeckSearchOpen(false)}
-                                getCardMeta={getCardMeta}
-                                setHovered={setHovered}
-                                CARD_W={CARD_W}
-                            />
-                        )}
+                        <OpeningHand
+                            ref={openingHandRef}
+                            library={library}
+                            setLibrary={setLibrary}
+                            oppLibrary={oppLibrary}
+                            setOppLibrary={setOppLibrary}
+                            areas={areas}
+                            setAreas={setAreas}
+                            getAssetForId={getAssetForId}
+                            createCardBacks={createCardBacks}
+                            setTurnSide={setTurnSide}
+                            setTurnNumber={setTurnNumber}
+                            executeRefreshPhase={executeRefreshPhase}
+                            setPhase={setPhase}
+                            setHovered={setHovered}
+                            openingHandShown={openingHandShown}
+                            setOpeningHandShown={setOpeningHandShown}
+                            CARD_W={CARD_W}
+                        />
+                        {playerDeckSearch.active && <playerDeckSearch.Component />}
+                        {opponentDeckSearch.active && <opponentDeckSearch.Component />}
                     </Box>
                 )}
 

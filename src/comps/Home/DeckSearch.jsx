@@ -1,42 +1,149 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Box, Paper, Stack, Typography, Button, Alert } from '@mui/material';
 
 /**
- * DeckSearch - Universal component for deck searching effects
- * Now renders as a horizontal slot above the hand area instead of a dialog
+ * useDeckSearch - Custom hook for deck searching effects
+ * Manages its own state and handles all deck search logic internally
  * 
- * Props:
- * - open: boolean - whether to display the slot
- * - cards: array - card asset objects to display
- * - quantity: number - how many cards to look at (e.g., 5)
- * - filter: object - filter criteria { type: string, color: string, cost: number, etc. }
- * - minSelect: number - minimum cards to select (usually 0 for "up to")
- * - maxSelect: number - maximum cards to select (e.g., 1 for "up to 1")
- * - returnLocation: string - where to put non-selected cards: 'bottom' | 'top' | 'shuffle'
- * - canReorder: boolean - whether player can reorder the returned cards
- * - onConfirm: function(selectedCards, orderedRemainder) - callback with selections
- * - onCancel: function - callback to cancel
- * - getCardMeta: function(cardId) - function to get card metadata for filtering
- * - setHovered: function - set hovered card for card viewer
- * - CARD_W: number - card width constant
+ * Returns an object with:
+ * - start: function to initiate a search
+ * - active: boolean indicating if search is active
+ * - Component: React component to render
  */
-export default function DeckSearch({
-  open,
-  cards = [],
-  quantity = 5,
-  filter = {},
-  minSelect = 0,
-  maxSelect = 1,
-  returnLocation = 'bottom',
-  canReorder = true,
-  onConfirm,
-  onCancel,
+export function useDeckSearch({
+  side,
+  library,
+  setLibrary,
+  getAssetForId,
   getCardMeta,
-  effectDescription = '',
+  createCardBacks,
+  setAreas,
+  appendLog,
   setHovered,
-  CARD_W = 120
+  CARD_W = 120,
+  onComplete
 }) {
+  const [active, setActive] = useState(false);
+  const [config, setConfig] = useState(null);
   const [selected, setSelected] = useState([]);
+
+  // Start a deck search with the given configuration
+  const start = useCallback((searchConfig) => {
+    const { quantity, filter, minSelect, maxSelect, returnLocation, effectDescription, onSearchComplete } = searchConfig;
+    
+    if (!library || !library.length) {
+      if (appendLog) appendLog(`[Deck Search] No cards in deck!`);
+      return;
+    }
+
+    // Get top X cards from library (top of deck is at end of array)
+    const lookCount = Math.min(quantity, library.length);
+    const topCards = library.slice(-lookCount);
+    const cardAssets = topCards.map(id => getAssetForId(id)).filter(Boolean);
+
+    setConfig({
+      cards: cardAssets,
+      quantity: lookCount,
+      filter: filter || {},
+      minSelect: minSelect || 0,
+      maxSelect: maxSelect || 1,
+      returnLocation: returnLocation || 'bottom',
+      canReorder: true,
+      effectDescription: effectDescription || '',
+      onSearchComplete
+    });
+    setActive(true);
+    setSelected([]);
+  }, [library, getAssetForId, appendLog]);
+
+  // Handle confirmation of selection
+  const handleConfirm = useCallback((selectedCards, remainder) => {
+    if (!config) return;
+
+    const selectedIds = selectedCards.map(c => c.id);
+    const remainderIds = remainder.map(c => c.id);
+
+    // Add selected cards to hand
+    setAreas((prev) => {
+      const next = structuredClone(prev);
+      const isPlayer = side === 'player';
+      const handLoc = isPlayer ? next.player.bottom : next.opponent.top;
+
+      selectedCards.forEach(card => {
+        handLoc.hand = [...(handLoc.hand || []), card];
+      });
+
+      return next;
+    });
+
+    // Update library: remove looked cards, add remainder back based on returnLocation
+    setLibrary((prev) => {
+      // Remove all looked cards from top of deck
+      const newLib = prev.slice(0, -config.quantity);
+
+      if (config.returnLocation === 'bottom') {
+        // Add remainder to bottom of deck (start of array)
+        return [...remainderIds, ...newLib];
+      } else if (config.returnLocation === 'top') {
+        // Add remainder to top of deck (end of array)
+        return [...newLib, ...remainderIds];
+      } else if (config.returnLocation === 'shuffle') {
+        // Shuffle remainder back in
+        const combined = [...newLib, ...remainderIds];
+        // Simple shuffle
+        for (let i = combined.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [combined[i], combined[j]] = [combined[j], combined[i]];
+        }
+        return combined;
+      }
+      return newLib;
+    });
+
+    // Update deck visual
+    setAreas((prev) => {
+      const next = structuredClone(prev);
+      const isPlayer = side === 'player';
+      const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
+      const newDeckSize = library.length - config.quantity + remainderIds.length;
+      deckLoc.deck = createCardBacks(Math.max(0, newDeckSize));
+      return next;
+    });
+
+    if (appendLog) {
+      appendLog(`[Deck Search] Added ${selectedIds.length} card(s) to hand, returned ${remainderIds.length} to ${config.returnLocation} of deck.`);
+    }
+
+    // Call custom completion handler if provided
+    if (config.onSearchComplete) {
+      config.onSearchComplete(selectedCards, remainder);
+    }
+
+    // Close modal
+    setActive(false);
+    setConfig(null);
+    setSelected([]);
+    
+    if (onComplete) onComplete();
+  }, [config, side, library, setAreas, setLibrary, createCardBacks, appendLog, onComplete]);
+
+  // Handle cancel
+  const handleCancel = useCallback(() => {
+    setActive(false);
+    setConfig(null);
+    setSelected([]);
+    if (onComplete) onComplete();
+  }, [onComplete]);
+
+  // Always extract config values (use defaults if not active)
+  const cards = config?.cards || [];
+  const quantity = config?.quantity || 5;
+  const filter = config?.filter || {};
+  const minSelect = config?.minSelect || 0;
+  const maxSelect = config?.maxSelect || 1;
+  const returnLocation = config?.returnLocation || 'bottom';
+  const canReorder = config?.canReorder !== false;
+  const effectDescription = config?.effectDescription || '';
 
   // Apply filter to determine which cards are selectable
   const cardSelectability = useMemo(() => {
@@ -130,7 +237,7 @@ export default function DeckSearch({
     
     setSelected(newSelected);
     
-    // Auto-confirm if we have the minimum required selections
+      // Auto-confirm if we have the minimum required selections
     if (newSelected.length >= minSelect && newSelected.length <= maxSelect && !isCurrentlySelected) {
       // Slight delay to show the selection visually
       setTimeout(() => {
@@ -138,13 +245,10 @@ export default function DeckSearch({
         const remainderIndices = cards.map((_, i) => i).filter(i => !newSelected.includes(i));
         const remainder = remainderIndices.map(i => cards[i]);
         
-        if (onConfirm) onConfirm(selectedCards, remainder);
-        setSelected([]);
+        handleConfirm(selectedCards, remainder);
       }, 150);
     }
   };
-
-  if (!open) return null;
 
   const canConfirm = selected.length >= minSelect && selected.length <= maxSelect;
   const selectableCount = cardSelectability.filter(c => c.selectable).length;
@@ -154,7 +258,10 @@ export default function DeckSearch({
   const minWidth = 340;
   const calculatedWidth = Math.max(minWidth, Math.min(cardDisplayWidth + 32, 1200)); // 32 for padding
 
-  return (
+  const Component = useMemo(() => () => {
+    if (!active || !config) return null;
+    
+    return (
       <Paper
         variant="outlined"
         sx={{
@@ -275,5 +382,11 @@ export default function DeckSearch({
         })}
       </Box>
     </Paper>
-  );
+    );
+  }, [active, config, cards, quantity, filter, minSelect, maxSelect, returnLocation, canReorder, effectDescription, cardSelectability, selected, handleConfirm, setHovered, CARD_W, selectableCount, calculatedWidth, canConfirm, handleToggleSelect]);
+
+  return { start, active, Component };
 }
+
+// Export as default for backward compatibility
+export default useDeckSearch;
