@@ -9,7 +9,11 @@ export default function CardViewer({
     cardError,
     loadingCards,
     log = [],
-    compact = false
+    compact = false,
+    showLog = true,
+    sx: sxOverride = null,
+    frame = true,
+    contentPadding = 1
 }) {
     const logRef = useRef(null);
 
@@ -26,17 +30,18 @@ export default function CardViewer({
     const isIgnoredDon = rawCard && (rawCard.id === 'DON' || rawCard.id === 'DON_BACK');
     const displayCard = isIgnoredDon ? null : rawCard;
 
+    const baseSx = {
+        width: { xs: '100%', md: compact ? 380 : 440 },
+        flexShrink: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: 0,
+        height: '100%'
+    };
+    const rootSx = sxOverride ? { ...baseSx, ...sxOverride } : baseSx;
+
     return (
-        <Box
-            sx={{
-                width: { xs: '100%', md: compact ? 380 : 440 },
-                flexShrink: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: 0,
-                height: '100%'
-            }}
-        >
+        <Box sx={rootSx}>
             <Typography
                 variant={compact ? 'h6' : 'h5'}
                 gutterBottom
@@ -56,16 +61,16 @@ export default function CardViewer({
             ) : (
                 <Box
                     sx={{
-                        border: '1px solid',
-                        borderColor: 'divider',
-                        borderRadius: 1,
-                        p: 1,
+                        border: frame ? '1px solid' : 'none',
+                        borderColor: frame ? 'divider' : 'transparent',
+                        borderRadius: frame ? 1 : 0,
+                        p: contentPadding,
                         flex: 1,
                         minHeight: 0,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        bgcolor: 'background.paper',
+                        bgcolor: frame ? 'background.paper' : 'transparent',
                         overflow: 'hidden'
                     }}
                 >
@@ -112,30 +117,33 @@ export default function CardViewer({
                 </Stack>
             )}
 
-            <Divider sx={{ my: 1 }} />
-
-            <Box
-                ref={logRef}
-                sx={{
-                    border: '1px dashed',
-                    borderColor: 'divider',
-                    p: 1,
-                    borderRadius: 1,
-                    height: 120,
-                    overflow: 'auto',
-                    bgcolor: 'background.default'
-                }}
-            >
-                {log.map((entry, i) => (
-                    <Typography
-                        key={i}
-                        variant="caption"
-                        display="block"
+            {showLog && (
+                <>
+                    <Divider sx={{ my: 1 }} />
+                    <Box
+                        ref={logRef}
+                        sx={{
+                            border: '1px dashed',
+                            borderColor: 'divider',
+                            p: 1,
+                            borderRadius: 1,
+                            height: 120,
+                            overflow: 'auto',
+                            bgcolor: 'background.default'
+                        }}
                     >
-                        {entry}
-                    </Typography>
-                ))}
-            </Box>
+                        {log.map((entry, i) => (
+                            <Typography
+                                key={i}
+                                variant="caption"
+                                display="block"
+                            >
+                                {entry}
+                            </Typography>
+                        ))}
+                    </Box>
+                </>
+            )}
         </Box>
     );
 }

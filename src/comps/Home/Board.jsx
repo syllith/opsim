@@ -1,10 +1,11 @@
 // Board.jsx
 // Board layout and rendering for One Piece TCG Sim play area
 
-import React, { useMemo, useRef, useEffect, useState, useCallback } from 'react';
+import React, { useMemo, useRef, useEffect, useLayoutEffect, useState, useCallback } from 'react';
 import { Box, Paper, Typography, Button, Chip, Stack } from '@mui/material';
 import OpeningHand from './OpeningHand';
 import DeckSearch from './DeckSearch';
+import CardViewer from './CardViewer';
 
 export default function Board({
     areas,
@@ -49,7 +50,12 @@ export default function Board({
     deckSearchOpen,
     deckSearchConfig,
     setDeckSearchOpen,
-    getCardMeta
+    getCardMeta,
+    // Card Viewer props
+    selectedCard,
+    cardError,
+    loadingCards,
+    log
 }) {
     // Sizing constants (match Fyne layout intent)
     const CARD_W = 120;
@@ -70,35 +76,134 @@ export default function Board({
     const boardOuterRef = useRef(null);
     const [boardScale, setBoardScale] = useState(1);
     const compactMode = boardScale < 0.9 || compact;
+    const topHandRef = useRef(null);
+    const bottomHandRef = useRef(null);
+    const [viewerBounds, setViewerBounds] = useState(null);
+    const [handOverlayPos, setHandOverlayPos] = useState(null);
 
-    // Recompute scale on resize and when layout mounts
-    useEffect(() => {
-        let raf = 0;
-        const measure = () => {
-            const el = boardOuterRef.current;
-            const content = contentRef.current;
-            if (!el || !content) return;
-            const availableWidth = el.clientWidth || BASE_BOARD_WIDTH;
-            const rect = el.getBoundingClientRect();
-            const availableHeight = Math.max(200, window.innerHeight - rect.top - 12); // keep a small bottom margin
-            const baseW = content.scrollWidth || BASE_BOARD_WIDTH;
-            const baseH = content.scrollHeight || (CARD_H * 4 + 200);
-            const sW = availableWidth / baseW;
-            const sH = availableHeight / baseH;
-            const next = Math.max(0.2, Math.min(1.4, Math.min(sW, sH)));
-            setBoardScale(next);
-        };
+    // Viewer / overlay measurement (must be defined before callbacks that reference it)
+    const measureViewer = useCallback(() => {
+        const topEl = topHandRef.current;
+        const bottomEl = bottomHandRef.current;
+        const containerEl = contentRef.current;
+        const scale = boardScale || 1;
+        if (!topEl || !bottomEl || !containerEl || !scale) {
+            setViewerBounds(null);
+            setHandOverlayPos(null);
+            return;
+        }
+        const topRect = topEl.getBoundingClientRect();
+        const bottomRect = bottomEl.getBoundingClientRect();
+        const containerRect = containerEl.getBoundingClientRect();
+        const rawLeft = topRect.left - containerRect.left;
+        const rawTop = topRect.bottom - containerRect.top;
+        const rawBottom = bottomRect.top - containerRect.top;
+        // Add spacing around viewer so it doesn't touch slots
+        const vPad = compactMode ? 24 : 32;
+        const hPad = compactMode ? 16 : 24;
+        const heightRaw = rawBottom - rawTop;
+        if (heightRaw <= 0 || topRect.width <= 0) {
+            setViewerBounds(null);
+            setHandOverlayPos(null);
+            return;
+        }
+        setViewerBounds({
+            left: (rawLeft + hPad) / scale,
+            top: (rawTop + vPad) / scale,
+            width: Math.max(0, (topRect.width - hPad * 2) / scale),
+            height: Math.max(0, (heightRaw - vPad * 2) / scale)
+        });
+        // Position OpeningHand / DeckSearch overlay above player's hand
+        const handLeft = bottomRect.left - containerRect.left;
+        const handTop = bottomRect.top - containerRect.top;
+        setHandOverlayPos({
+            left: handLeft / scale,
+            top: handTop / scale,
+            width: bottomRect.width / scale
+        });
+    }, [boardScale, compactMode]);
+
+    // Unified measurement utilities (scale + overlay bounds) to better handle maximize/fullscreen/orientation
+    const performScaleMeasure = useCallback(() => {
+        const el = boardOuterRef.current;
+        const content = contentRef.current;
+        if (!el || !content) return;
+        const availableWidth = el.clientWidth || BASE_BOARD_WIDTH;
+        const rect = el.getBoundingClientRect();
+        // Use visual viewport height if available (accounts for browser UI changes)
+        const viewportH = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+        const availableHeight = Math.max(200, viewportH - rect.top - 12);
+        const baseW = content.scrollWidth || BASE_BOARD_WIDTH;
+        const baseH = content.scrollHeight || (CARD_H * 4 + 200);
+        const sW = availableWidth / baseW;
+        const sH = availableHeight / baseH;
+        const next = Math.max(0.2, Math.min(1.4, Math.min(sW, sH)));
+        setBoardScale(next);
+    }, [BASE_BOARD_WIDTH, CARD_H]);
+
+    const triggerAllMeasures = useCallback(() => {
+        // Run scale measure then viewer measure in successive frames to allow layout stabilization
+        performScaleMeasure();
+        requestAnimationFrame(() => {
+            performScaleMeasure(); // second pass for cases like maximize where scroll dims change after repaint
+            measureViewer();
+            requestAnimationFrame(measureViewer); // third pass ensures accurate after transform scale change
+        });
+    }, [performScaleMeasure, measureViewer]);
+
+    // Initial mount & window resize/orientation/fullscreen listeners
+    useLayoutEffect(() => {
+        let resizeRaf = 0;
         const onResize = () => {
-            if (raf) cancelAnimationFrame(raf);
-            raf = requestAnimationFrame(measure);
+            if (resizeRaf) cancelAnimationFrame(resizeRaf);
+            resizeRaf = requestAnimationFrame(triggerAllMeasures);
         };
         onResize();
         window.addEventListener('resize', onResize);
+        window.addEventListener('orientationchange', onResize);
+        document.addEventListener('fullscreenchange', onResize);
         return () => {
-            if (raf) cancelAnimationFrame(raf);
+            if (resizeRaf) cancelAnimationFrame(resizeRaf);
             window.removeEventListener('resize', onResize);
+            window.removeEventListener('orientationchange', onResize);
+            document.removeEventListener('fullscreenchange', onResize);
         };
-    }, [BASE_BOARD_WIDTH]);
+    }, [triggerAllMeasures]);
+
+    // Observe element size changes (e.g., dynamic content) using ResizeObserver
+    useEffect(() => {
+        if (typeof ResizeObserver === 'undefined') return;
+        const observers = [];
+        const createObserver = (target) => {
+            if (!target) return;
+            const ro = new ResizeObserver(() => triggerAllMeasures());
+            ro.observe(target);
+            observers.push(ro);
+        };
+        createObserver(boardOuterRef.current);
+        createObserver(contentRef.current);
+        return () => observers.forEach(o => o.disconnect());
+    }, [triggerAllMeasures]);
+
+    // Recalculate after fonts load (affects intrinsic scrollWidth/scrollHeight)
+    useEffect(() => {
+        if (document?.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => triggerAllMeasures());
+        }
+    }, [triggerAllMeasures]);
+
+
+    useEffect(() => {
+        const raf = requestAnimationFrame(() => {
+            measureViewer();
+        });
+        return () => cancelAnimationFrame(raf);
+    }, [measureViewer, areas, boardScale, compactMode, deckSearchOpen, openingShown]);
+
+    useEffect(() => {
+        window.addEventListener('resize', measureViewer);
+        return () => window.removeEventListener('resize', measureViewer);
+    }, [measureViewer]);
 
     // Each area keeps an array of cards; config carries layout + fixed pixel width/height
     const areaConfigs = useMemo(() => ({
@@ -158,11 +263,14 @@ export default function Board({
         const baseOffsetX = 15;
         const baseOffsetY = 15;
         const reversedDonArr = [...donArr].reverse();
-        
+        // If cardIndex is 'leader', set zIndex to 0.5 so DONs appear above cost area but below leader card
+        const leaderZ = cardIndex === 'leader' ? 0.5 : 0;
         return (
-            <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
+            <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: leaderZ }}>
                 {reversedDonArr.map((don, di) => {
                     const originalIndex = donArr.length - 1 - di;
+                    // Only show yellow border if don.selected is true
+                    const borderStyle = don.selected ? '1px solid #ffc107' : 'none';
                     return (
                         <img
                             key={`don-${cardIndex}-${originalIndex}`}
@@ -176,7 +284,7 @@ export default function Board({
                                 height: 'auto',
                                 borderRadius: '2px',
                                 boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
-                                border: '1px solid #ffc107',
+                                border: borderStyle,
                                 zIndex: di
                             }}
                         />
@@ -328,7 +436,7 @@ export default function Board({
         }
     }, [CARD_W, CARD_H, OVERLAP_OFFSET, CARD_BACK_URL, isLifeArea, isDonPile, isDeckArea, handleCardHover, handleCardLeave]);
 
-    const AreaBox = ({ side, section, keyName, config }) => {
+    const AreaBox = ({ side, section, keyName, config, areaRef }) => {
         const isNested = typeof areaConfigs[side][section].mode !== 'string';
         const cardsArr = isNested ? areas[side][section][keyName] : areas[side][section];
         const mode = config.mode;
@@ -339,10 +447,14 @@ export default function Board({
         // Check if this area can receive DON (leader or character areas)
         const canReceiveDon = (section === 'middle' && keyName === 'leader') || (section === 'char' && keyName === 'char');
 
+        // Set background color based on side
+        // Background colors (base vs active turn) for visual turn indication
+        const areaBgColor = side === 'player' ? '#455a64' : '#8d4343'; // keep base; fade handled by parent filter
         return (
             <Paper
                 variant="outlined"
                 data-area-box="true"
+                ref={areaRef}
                 onClick={(e) => {
                     if (donGivingMode?.active && !canReceiveDon) {
                         // Cancel DON giving if clicking on areas that can't receive DON
@@ -355,7 +467,7 @@ export default function Board({
                     }
                 }}
                 onContextMenu={(e) => { if (gameStarted) { e.preventDefault(); return; } e.preventDefault(); removeCardFromArea(side, section, keyName); }}
-                sx={{ p: 0, bgcolor: '#3c3c3c', color: 'white', width: config.width, height: config.height, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', cursor: gameStarted ? 'default' : 'pointer', userSelect: 'none', borderWidth: isActiveLeader ? 2 : 1, borderColor: isActiveLeader ? '#ffc107' : 'divider' }}
+                sx={{ p: 0, bgcolor: areaBgColor, transition: 'filter 600ms ease, background-color 600ms ease', color: 'white', width: config.width, height: config.height, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', cursor: gameStarted ? 'default' : 'pointer', userSelect: 'none', borderWidth: isActiveLeader ? 2 : 1, borderColor: isActiveLeader ? '#ffc107' : 'divider' }}
             >
                 <Box flexGrow={1} display="flex" alignItems={mode === 'side-by-side' ? 'center' : 'flex-start'} justifyContent="flex-start" position="relative" sx={{ pt: 4 }}>
                     {/* Overlay label on top of cards */}
@@ -378,7 +490,7 @@ export default function Board({
                                 const isTargetingHere = targeting.active && targeting.side === side && targeting.section === section && targeting.keyName === keyName;
                                 const ctx = { side, section, keyName, index: i };
                                 const valid = isTargetingHere ? (typeof targeting.validator === 'function' ? targeting.validator(c, ctx) : true) : false;
-                                const selected = targeting.multi ? targeting.selected.some(s => s.side === side && s.section === section && s.keyName === keyName && s.index === i) : (isTargetingHere && targeting.selectedIdx.includes(i));
+                                const selected = targeting.multi ? targeting.selected.some(s => s.side === side && s.section === section && s.keyName === 'hand' && s.index === i) : (isTargetingHere && targeting.selectedIdx.includes(i));
                                 
                                 // Override cursor and opacity for targeting mode
                                 const cursor = isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : (canInteract ? 'pointer' : 'not-allowed');
@@ -386,15 +498,18 @@ export default function Board({
                                 
                                 const onClick = (e) => {
                                     e.stopPropagation();
-                                    
+                                    // If a DON is selected from cost area, deselect it when selecting a card in hand
+                                    if (donGivingMode?.active && donGivingMode.side === 'player' && donGivingMode.selectedDonIndex != null) {
+                                        cancelDonGiving();
+                                    }
                                     // Handle targeting selection
                                     if (isTargetingHere) {
                                         if (targeting.suspended) return;
                                         if (!valid) return;
                                         setTargeting((prev) => {
                                             if (prev.multi) {
-                                                const has = prev.selected.some(s => s.side === side && s.section === section && s.keyName === keyName && s.index === i);
-                                                let selected = has ? prev.selected.filter((s) => !(s.side === side && s.section === section && s.keyName === keyName && s.index === i)) : [...prev.selected, ctx];
+                                                const has = prev.selected.some(s => s.side === side && s.section === section && s.keyName === 'hand' && s.index === i);
+                                                let selected = has ? prev.selected.filter((s) => !(s.side === side && s.section === section && s.keyName === 'hand' && s.index === i)) : [...prev.selected, ctx];
                                                 if (selected.length > prev.max) selected = selected.slice(-prev.max);
                                                 return { ...prev, selected };
                                             } else {
@@ -405,7 +520,6 @@ export default function Board({
                                         });
                                         return;
                                     }
-                                    
                                     // Normal card action
                                     if (canInteract) {
                                         openCardAction(c, i, { side, section, keyName, index: i }); 
@@ -475,8 +589,8 @@ export default function Board({
                                                 transform: c.id === 'DON' && c.rested ? 'rotate(90deg)' : 'none', 
                                                 transformOrigin: 'center center',
                                                 cursor: canSelect ? 'pointer' : 'default',
-                                                outline: isSelected ? '3px solid #ffc107' : 'none',
-                                                boxShadow: canSelect ? '0 0 8px rgba(255,193,7,0.5)' : 'none'
+                                                outline: isSelected ? '3px solid #ffc107' : 'none'
+                                                // Removed orange glow boxShadow from cost area DONs
                                             }}
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -675,7 +789,7 @@ export default function Board({
                                 })}
                             </Box>
                         ) : (section === 'middle' && keyName === 'leader') ? (
-                            <Box position="relative" sx={{ width: CARD_W }}>
+                            <Box position="relative" sx={{ width: CARD_W, height: CARD_H }}>
                                 {(() => {
                                     const c = cardsArr[cardsArr.length - 1];
                                     const idx = 0;
@@ -718,48 +832,49 @@ export default function Board({
                                     };
                                     return (
                                         <>
-                                            <DonStack 
-                                                donArr={(side === 'player' ? areas.player : areas.opponent)?.middle?.leaderDon} 
-                                                cardIndex="leader" 
-                                            />
-                                            <img
-                                                src={c?.thumb}
-                                                alt={c?.id}
-                                                data-cardkey={modKey(side, 'middle', 'leader', idx)}
-                                                style={{ 
-                                                    width: CARD_W, 
-                                                    height: 'auto', 
-                                                    borderRadius: '2px', 
-                                                    transform: c?.rested ? 'rotate(90deg)' : 'none', 
-                                                    transformOrigin: 'center center', 
-                                                    filter: isTargetingHere && !valid ? 'grayscale(0.9) brightness(0.6)' : 'none',
-                                                    outline: (() => {
-                                                        if (selected) return '3px solid #ff9800';
-                                                        if (isValidDonTarget) return '3px solid #66bb6a';
-                                                        return 'none';
-                                                    })(), 
-                                                    cursor: isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : (isValidDonTarget ? 'pointer' : 'pointer'),
-                                                    boxShadow: isValidDonTarget ? '0 0 12px rgba(102,187,106,0.6)' : 'none',
-                                                    position: 'relative',
-                                                    zIndex: 1
-                                                }}
-                                                onClick={onClick}
-                                                onMouseEnter={() => c && handleCardHover(c, config)}
-                                                onMouseLeave={handleCardLeave}
-                                            />
-                                            {selected && (
-                                                <Box sx={{ position: 'absolute', top: 6, right: 6, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(255,152,0,0.9)' }}>
-                                                    <Typography variant="caption" sx={{ color: '#000', fontWeight: 700 }}>Target</Typography>
-                                                </Box>
-                                            )}
-                                            
-                                            <PowerBadge 
-                                                side={side} 
-                                                section="middle" 
-                                                keyName="leader" 
-                                                index={idx} 
-                                                cardId={c?.id} 
-                                            />
+                                            <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 1, width: CARD_W, height: CARD_H }}>
+                                                <DonStack 
+                                                    donArr={(side === 'player' ? areas.player : areas.opponent)?.middle?.leaderDon} 
+                                                    cardIndex="leader" 
+                                                />
+                                            </Box>
+                                            <Box sx={{ position: 'absolute', top: 0, left: 0, zIndex: 2, width: CARD_W, height: CARD_H }}>
+                                                <img
+                                                    src={c?.thumb}
+                                                    alt={c?.id}
+                                                    data-cardkey={modKey(side, 'middle', 'leader', idx)}
+                                                    style={{ 
+                                                        width: CARD_W, 
+                                                        height: 'auto', 
+                                                        borderRadius: '2px', 
+                                                        transform: c?.rested ? 'rotate(90deg)' : 'none', 
+                                                        transformOrigin: 'center center', 
+                                                        filter: isTargetingHere && !valid ? 'grayscale(0.9) brightness(0.6)' : 'none',
+                                                        outline: (() => {
+                                                            if (selected) return '3px solid #ff9800';
+                                                            if (isValidDonTarget) return '3px solid #66bb6a';
+                                                            return 'none';
+                                                        })(), 
+                                                        cursor: isTargetingHere ? (valid ? 'crosshair' : 'not-allowed') : (isValidDonTarget ? 'pointer' : 'pointer'),
+                                                        boxShadow: isValidDonTarget ? '0 0 12px rgba(102,187,106,0.6)' : 'none',
+                                                    }}
+                                                    onClick={onClick}
+                                                    onMouseEnter={() => c && handleCardHover(c, config)}
+                                                    onMouseLeave={handleCardLeave}
+                                                />
+                                                {selected && (
+                                                    <Box sx={{ position: 'absolute', top: 6, right: 6, px: 0.5, borderRadius: 0.5, bgcolor: 'rgba(255,152,0,0.9)' }}>
+                                                        <Typography variant="caption" sx={{ color: '#000', fontWeight: 700 }}>Target</Typography>
+                                                    </Box>
+                                                )}
+                                                <PowerBadge 
+                                                    side={side} 
+                                                    section="middle" 
+                                                    keyName="leader" 
+                                                    index={idx} 
+                                                    cardId={c?.id} 
+                                                />
+                                            </Box>
                                         </>
                                     );
                                 })()}
@@ -789,6 +904,7 @@ export default function Board({
                 ref={contentRef}
                 sx={{
                     width: 'fit-content',
+                    position: 'relative',
                     transform: `scale(${boardScale})`,
                     transformOrigin: 'top center',
                     transition: 'transform 80ms linear',
@@ -809,9 +925,9 @@ export default function Board({
                 }}
             >
                 {/* Opponent Side */}
-                <Box>
+                <Box sx={{ position: 'relative', filter: turnSide === 'opponent' ? 'brightness(1.10)' : 'brightness(1.0)', transition: 'filter 600ms ease' }}>
                     <Stack direction="row" spacing={compactMode ? 0.5 : 1} sx={{ mb: compactMode ? 0.5 : 1 }}>
-                        <AreaBox side="opponent" section="top" keyName="hand" config={areaConfigs.opponent.top.hand} />
+                        <AreaBox side="opponent" section="top" keyName="hand" config={areaConfigs.opponent.top.hand} areaRef={topHandRef} />
                         <AreaBox side="opponent" section="top" keyName="trash" config={areaConfigs.opponent.top.trash} />
                         <AreaBox side="opponent" section="top" keyName="cost" config={areaConfigs.opponent.top.cost} />
                         <AreaBox side="opponent" section="top" keyName="don" config={areaConfigs.opponent.top.don} />
@@ -822,14 +938,111 @@ export default function Board({
                         <AreaBox side="opponent" section="middle" keyName="stage" config={areaConfigs.opponent.middle.stage} />
                         <AreaBox side="opponent" section="middle" keyName="leader" config={areaConfigs.opponent.middle.leader} />
                     </Stack>
-                    <Stack direction="row" spacing={compactMode ? 0.5 : 1} sx={{ mb: compactMode ? 0.5 : 1 }}>
-                        <Box sx={{ width: COST_W }} />
-                        <AreaBox side="opponent" section="char" keyName="char" config={areaConfigs.opponent.char} />
-                        <AreaBox side="opponent" section="life" keyName="life" config={areaConfigs.opponent.life} />
-                    </Stack>
+                    {/* Opponent bottom row: constrain row height to character area while letting life overflow upward over middle row */}
+                    <Box sx={{ display: 'flex', position: 'relative', height: areaConfigs.opponent.char.height, mb: compactMode ? 0.5 : 1 }}>
+                        <Box sx={{ width: COST_W, flexShrink: 0 }} />
+                        <Box>
+                            <AreaBox side="opponent" section="char" keyName="char" config={areaConfigs.opponent.char} />
+                        </Box>
+                        <Box sx={{ width: LIFE_W, flexShrink: 0, overflow: 'visible', ml: compactMode ? 0.5 : 1, mt: `-${(LIFE_MAX_VISIBLE - 1) * OVERLAP_OFFSET}px` }}>
+                            <AreaBox side="opponent" section="life" keyName="life" config={areaConfigs.opponent.life} />
+                        </Box>
+                    </Box>
                 </Box>
+                {viewerBounds && viewerBounds.width > 0 && viewerBounds.height > 0 && (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            left: viewerBounds.left,
+                            top: viewerBounds.top,
+                            width: viewerBounds.width,
+                            height: viewerBounds.height,
+                            pointerEvents: 'none',
+                            zIndex: 5,
+                            display: 'flex',
+                            alignItems: 'stretch',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                width: '100%',
+                                height: '100%',
+                                pointerEvents: 'auto',
+                                borderRadius: 2,
+                                border: '1px solid rgba(255,255,255,0.25)',
+                                bgcolor: 'rgba(15, 15, 15, 0.82)',
+                                boxShadow: '0 6px 18px rgba(0,0,0,0.55)',
+                                p: 0.5,
+                                display: 'flex',
+                                flexDirection: 'column'
+                            }}
+                        >
+                            <CardViewer
+                                hovered={hovered}
+                                selectedCard={selectedCard}
+                                cardError={cardError}
+                                loadingCards={loadingCards}
+                                log={[]}
+                                compact={compactMode}
+                                showLog={false}
+                                frame={false}
+                                contentPadding={0.5}
+                                sx={{ width: '100%', height: '100%' }}
+                            />
+                        </Box>
+                    </Box>
+                )}
+
+                {/* Opening Hand / Deck Search overlay (now globally above CardViewer) */}
+                {(openingShown || deckSearchOpen) && handOverlayPos && (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            left: handOverlayPos.left,
+                            top: handOverlayPos.top,
+                            width: handOverlayPos.width,
+                            transform: 'translateY(-100%)',
+                            zIndex: 50,
+                            pointerEvents: 'auto'
+                        }}
+                    >
+                        {openingShown && (
+                            <Box sx={{ mb: compactMode ? 0.5 : 1 }}>
+                                <OpeningHand
+                                    open={openingShown}
+                                    hand={openingHand}
+                                    allowMulligan={allowMulligan}
+                                    onMulligan={onMulligan}
+                                    onKeep={onKeep}
+                                    setHovered={setHovered}
+                                    CARD_W={CARD_W}
+                                />
+                            </Box>
+                        )}
+                        {deckSearchOpen && (
+                            <DeckSearch
+                                open={deckSearchOpen}
+                                cards={deckSearchConfig.cards}
+                                quantity={deckSearchConfig.quantity}
+                                filter={deckSearchConfig.filter}
+                                minSelect={deckSearchConfig.minSelect}
+                                maxSelect={deckSearchConfig.maxSelect}
+                                returnLocation={deckSearchConfig.returnLocation}
+                                canReorder={deckSearchConfig.canReorder}
+                                effectDescription={deckSearchConfig.effectDescription}
+                                onConfirm={deckSearchConfig.onComplete}
+                                onCancel={() => setDeckSearchOpen(false)}
+                                getCardMeta={getCardMeta}
+                                setHovered={setHovered}
+                                CARD_W={CARD_W}
+                            />
+                        )}
+                    </Box>
+                )}
+
                 {/* Player Side */}
-                <Box>
+                <Box sx={{ position: 'relative', filter: turnSide === 'player' ? 'brightness(1.10)' : 'brightness(1.0)', transition: 'filter 600ms ease' }}>
                     {/* Player top row: constrain row height to character area while letting life overflow without shifting horizontally */}
                     <Box sx={{ display: 'flex', position: 'relative', height: areaConfigs.player.char.height, mb: compactMode ? 0.5 : 1 }}>
                         <Box sx={{ width: COST_W, flexShrink: 0 }} />
@@ -856,51 +1069,9 @@ export default function Board({
                     
                     {/* Player bottom row - Hand, DON, Cost, Trash - with relative positioning for overlays */}
                     <Box sx={{ position: 'relative' }}>
-                        {/* Opening Hand and Deck Search slots - positioned absolutely above the hand */}
-                        {(openingShown || deckSearchOpen) && (
-                            <Box sx={{ 
-                                position: 'absolute',
-                                bottom: '100%',
-                                left: 0,
-                                mb: compactMode ? 0.5 : 1,
-                                zIndex: 10
-                            }}>
-                                {openingShown && (
-                                    <Box sx={{ mb: compactMode ? 0.5 : 1 }}>
-                                        <OpeningHand
-                                            open={openingShown}
-                                            hand={openingHand}
-                                            allowMulligan={allowMulligan}
-                                            onMulligan={onMulligan}
-                                            onKeep={onKeep}
-                                            setHovered={setHovered}
-                                            CARD_W={CARD_W}
-                                        />
-                                    </Box>
-                                )}
-                                {deckSearchOpen && (
-                                    <DeckSearch
-                                        open={deckSearchOpen}
-                                        cards={deckSearchConfig.cards}
-                                        quantity={deckSearchConfig.quantity}
-                                        filter={deckSearchConfig.filter}
-                                        minSelect={deckSearchConfig.minSelect}
-                                        maxSelect={deckSearchConfig.maxSelect}
-                                        returnLocation={deckSearchConfig.returnLocation}
-                                        canReorder={deckSearchConfig.canReorder}
-                                        effectDescription={deckSearchConfig.effectDescription}
-                                        onConfirm={deckSearchConfig.onComplete}
-                                        onCancel={() => setDeckSearchOpen(false)}
-                                        getCardMeta={getCardMeta}
-                                        setHovered={setHovered}
-                                        CARD_W={CARD_W}
-                                    />
-                                )}
-                            </Box>
-                        )}
                         
                         <Stack direction="row" spacing={compactMode ? 0.5 : 1}>
-                            <AreaBox side="player" section="bottom" keyName="hand" config={areaConfigs.player.bottom.hand} />
+                            <AreaBox side="player" section="bottom" keyName="hand" config={areaConfigs.player.bottom.hand} areaRef={bottomHandRef} />
                             <AreaBox side="player" section="bottom" keyName="don" config={areaConfigs.player.bottom.don} />
                             <AreaBox side="player" section="bottom" keyName="cost" config={areaConfigs.player.bottom.cost} />
                             <AreaBox side="player" section="bottom" keyName="trash" config={areaConfigs.player.bottom.trash} />

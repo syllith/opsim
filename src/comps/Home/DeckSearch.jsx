@@ -159,7 +159,7 @@ export default function DeckSearch({
         variant="outlined"
         sx={{
           p: 1,
-          bgcolor: '#3c3c3c',
+          bgcolor: 'rgba(44,44,44,0.85)',
           color: 'white',
           width: calculatedWidth,
           maxWidth: '100%',

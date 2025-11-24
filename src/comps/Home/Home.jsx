@@ -2281,7 +2281,7 @@ export default function Home() {
                     <Box sx={{ mt: 0 }}>
                         <Divider sx={{ mt: -0.5, mb: 0 }} />
                         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={compact ? 2 : 3} sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
-                            {/* Play Area Board */}
+                            {/* Play Area Board (CardViewer overlay inside) */}
                             <Board
                                 areas={areas}
                                 setAreas={setAreas}
@@ -2325,17 +2325,22 @@ export default function Home() {
                                 deckSearchConfig={deckSearchConfig}
                                 setDeckSearchOpen={setDeckSearchOpen}
                                 getCardMeta={(id) => metaById.get(id) || null}
-                            />
-
-                            {/* Viewer Column */}
-                            <CardViewer
-                                hovered={hovered}
                                 selectedCard={selectedCard}
                                 cardError={cardError}
                                 loadingCards={loadingCards}
                                 log={log}
-                                compact={compact}
                             />
+                            {/* Activity Log Panel */}
+                            <Box sx={{ width: { xs: '100%', md: compact ? 380 : 440 }, flexShrink: 0, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+                                <Typography variant={compact ? 'h6' : 'h5'} gutterBottom sx={{ mb: compact ? 1 : 2, flexShrink: 0 }}>
+                                    Activity Log
+                                </Typography>
+                                <Box sx={{ border: '1px dashed', borderColor: 'divider', p: 1, borderRadius: 1, flex: 1, minHeight: 0, height: 200, overflow: 'auto', bgcolor: 'background.default' }}>
+                                    {log.map((entry, i) => (
+                                        <Typography key={i} variant="caption" display="block">{entry}</Typography>
+                                    ))}
+                                </Box>
+                            </Box>
                         </Box>
                     </Box>
                 )}

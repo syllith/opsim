@@ -191,6 +191,7 @@ export default function Actions({
   // Store the action queue and processNext function to persist across renders
   const actionQueueRef = useRef(null);
   const processNextRef = useRef(null);
+  const cancelProcessingRef = useRef(false);
 
   // ============================================================================
   // LIFECYCLE & CLEANUP
@@ -213,6 +214,27 @@ export default function Actions({
    * - Restores ability selection when targeting is suspended
    * - Cleans up selection state when targeting is cancelled
    */
+  const abortAbilityProcessing = useCallback(() => {
+    cancelProcessingRef.current = true;
+    processingActionsRef.current = false;
+    actionQueueRef.current = null;
+    processNextRef.current = null;
+    setSelectedAbilityIndex(null);
+    setResolvingEffect?.(false);
+  }, [setResolvingEffect]);
+
+  const handlePanelClose = useCallback(() => {
+    try {
+      if (targeting?.active && isSameOrigin(targeting.origin, actionSource)) {
+        cancelTargeting?.();
+      } else if (targeting?.active) {
+        suspendTargeting?.();
+      }
+    } catch { }
+    abortAbilityProcessing();
+    onClose?.();
+  }, [targeting?.active, targeting?.origin, actionSource, cancelTargeting, suspendTargeting, isSameOrigin, abortAbilityProcessing, onClose]);
+
   useEffect(() => {
     // Restore UI when targeting is suspended from this card's ability
     if (targeting?.active && targeting?.suspended && isSameOrigin(targeting.origin, actionSource)) {
@@ -225,15 +247,31 @@ export default function Actions({
       setSelectedAbilityIndex(null);
       setResolvingEffect?.(false);
     }
+  }, [targeting?.active, targeting?.suspended, targeting?.origin, targeting?.abilityIndex, actionSource, selectedAbilityIndex, setResolvingEffect, isSameOrigin]);
 
-    // Cleanup on unmount
+  const latestTargetingRef = useRef(targeting);
+  const latestActionSourceRef = useRef(actionSource);
+  useEffect(() => {
+    latestTargetingRef.current = targeting;
+  }, [targeting]);
+  useEffect(() => {
+    latestActionSourceRef.current = actionSource;
+  }, [actionSource]);
+
+  useEffect(() => {
     return () => {
       try {
-        if (targeting?.active) suspendTargeting?.();
-        setResolvingEffect?.(false);
+        const currentTargeting = latestTargetingRef.current;
+        const currentSource = latestActionSourceRef.current;
+        if (currentTargeting?.active && isSameOrigin(currentTargeting.origin, currentSource)) {
+          cancelTargeting?.();
+        } else if (currentTargeting?.active) {
+          suspendTargeting?.();
+        }
+        abortAbilityProcessing();
       } catch { }
     };
-  }, [targeting?.active, targeting?.suspended, targeting?.origin, targeting?.abilityIndex, actionSource, selectedAbilityIndex, setResolvingEffect, isSameOrigin, suspendTargeting]);
+  }, [abortAbilityProcessing, cancelTargeting, suspendTargeting, isSameOrigin]);
 
   // ============================================================================
   // CARD DATA EXTRACTION
@@ -397,11 +435,43 @@ export default function Actions({
 
     // Handle structured actions
     if (hasStructuredActions) {
+      cancelProcessingRef.current = false;
       // Process actions sequentially so multi-step abilities can chain
       const actionsQueue = [...effect.actions];
       const cumulativeTargets = []; // remember prior selections within this ability resolution
+      const pendingPowerDeltas = []; // track power changes applied earlier in the sequence
       // Capture the action source at activation start to prevent side changes mid-sequence
       const activationSource = actionSource ? { ...actionSource } : null;
+
+      const selectCandidates = (sideSpec, targetType, extraOpts = {}) =>
+        listValidTargets(sideSpec, targetType, { ...extraOpts, pendingPowerDeltas });
+
+      const addPendingPowerDelta = (targetCtx, delta) => {
+        if (!targetCtx) return;
+        if (typeof delta !== 'number' || delta === 0) return;
+        pendingPowerDeltas.push({
+          side: targetCtx.side,
+          section: targetCtx.section,
+          keyName: targetCtx.keyName,
+          index: targetCtx.index,
+          delta
+        });
+      };
+
+      const clearPendingForTarget = (targetCtx) => {
+        if (!targetCtx || pendingPowerDeltas.length === 0) return;
+        for (let i = pendingPowerDeltas.length - 1; i >= 0; i--) {
+          const entry = pendingPowerDeltas[i];
+          if (
+            entry.side === targetCtx.side &&
+            entry.section === targetCtx.section &&
+            entry.keyName === targetCtx.keyName &&
+            entry.index === targetCtx.index
+          ) {
+            pendingPowerDeltas.splice(i, 1);
+          }
+        }
+      };
 
       // Store in refs to persist across renders
       actionQueueRef.current = actionsQueue;
@@ -411,6 +481,15 @@ export default function Actions({
       // Use shared listValidTargets helper
 
       const processNext = () => {
+        if (cancelProcessingRef.current) {
+          cancelProcessingRef.current = false;
+          processingActionsRef.current = false;
+          actionQueueRef.current = null;
+          processNextRef.current = null;
+          setSelectedAbilityIndex(null);
+          if (setResolvingEffect) setResolvingEffect(false);
+          return;
+        }
         // Use the ref version of actionsQueue that persists across renders
         const queue = actionQueueRef.current;
         if (!queue || queue.length === 0) {
@@ -418,6 +497,7 @@ export default function Actions({
           processingActionsRef.current = false; // Clear processing flag
           actionQueueRef.current = null;
           processNextRef.current = null;
+          cancelProcessingRef.current = false;
           completeAbilityActivation();
           setSelectedAbilityIndex(null);
           if (setResolvingEffect) setResolvingEffect(false);
@@ -442,8 +522,8 @@ export default function Actions({
             // ...removed orphaned object literal from previous console.log
 
             // Auto-skip if no valid targets exist (handles "up to" 0 cases)
-            const preCandidates = listValidTargets(actualTargetSide, targetType, { uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
-            if ((preCandidates.length === 0) || (minTargets === 0 && preCandidates.length === 0)) {
+            const preCandidates = selectCandidates(actualTargetSide, targetType, { uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
+            if (preCandidates.length === 0) {
               processNext();
               break;
             }
@@ -453,7 +533,7 @@ export default function Actions({
               multi: true,
               min: minTargets,
               max: maxTargets,
-              validator: createTargetValidator(targetType, action, cumulativeTargets, getTotalPower, getCardMeta),
+              validator: createTargetValidator(targetType, action, cumulativeTargets, getTotalPower, getCardMeta, pendingPowerDeltas),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -471,6 +551,7 @@ export default function Actions({
                 if (applyPowerMod) {
                   applyPowerMod(t.side, t.section, t.keyName, t.index, amount, expireOnSide);
                 }
+                addPendingPowerDelta(t, amount);
                 cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
               });
 
@@ -519,8 +600,8 @@ export default function Actions({
             const minTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const maxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
             const actualSide = activationSource ? resolveActionTargetSideUtil(activationSource, targetSideRelative) : resolveActionTargetSide(targetSideRelative);
-            const preCandidates = listValidTargets(actualSide, targetType, { uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
-            if ((preCandidates.length === 0) || (minTargets === 0 && preCandidates.length === 0)) {
+            const preCandidates = selectCandidates(actualSide, targetType, { uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
+            if (preCandidates.length === 0) {
               processNext();
               break;
             }
@@ -530,7 +611,7 @@ export default function Actions({
               multi: true,
               min: minTargets,
               max: maxTargets,
-              validator: createTargetValidator(targetType, action, cumulativeTargets, getTotalPower, getCardMeta),
+              validator: createTargetValidator(targetType, action, cumulativeTargets, getTotalPower, getCardMeta, pendingPowerDeltas),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -566,12 +647,12 @@ export default function Actions({
             const minTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const maxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
             const actualSide = activationSource ? resolveActionTargetSideUtil(activationSource, targetSideRelative) : resolveActionTargetSide(targetSideRelative);
-            const preCandidates = listValidTargets(actualSide, targetType, {
+            const preCandidates = selectCandidates(actualSide, targetType, {
               powerLimit: action.powerLimit,
               uniqueAcrossSequence: action.uniqueAcrossSequence,
               cumulative: cumulativeTargets
             });
-            if ((preCandidates.length === 0) || (minTargets === 0 && preCandidates.length === 0)) {
+            if (preCandidates.length === 0) {
               processNext();
               break;
             }
@@ -581,7 +662,7 @@ export default function Actions({
               multi: true,
               min: minTargets,
               max: maxTargets,
-              validator: createTargetValidator(targetType, { ...action, powerLimit: action.powerLimit }, cumulativeTargets, getTotalPower, getCardMeta),
+              validator: createTargetValidator(targetType, { ...action, powerLimit: action.powerLimit }, cumulativeTargets, getTotalPower, getCardMeta, pendingPowerDeltas),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -627,25 +708,16 @@ export default function Actions({
               break;
             }
 
-            const preCandidates = listValidTargets(actualSide, targetType, {
+            const preCandidates = selectCandidates(actualSide, targetType, {
               uniqueAcrossSequence: action.uniqueAcrossSequence,
               cumulative: cumulativeTargets
             });
 
-
-            // If minTargets is 0 and there are no candidates, skip
-            if (minTargets === 0 && preCandidates.length === 0) {
+            if (preCandidates.length === 0) {
               processNext();
               break;
             }
 
-            // If minTargets > 0 and no candidates, this is an error condition but still need to process
-            if (minTargets > 0 && preCandidates.length === 0) {
-              processNext();
-              break;
-            }
-
-            setSelectedAbilityIndex(abilityIndex);
             startTargeting({
               side: actualSide,
               multi: true,
@@ -784,18 +856,19 @@ export default function Actions({
             const koActualTargetSide = activationSource ? resolveActionTargetSideUtil(activationSource, koTargetSideRelative) : resolveActionTargetSide(koTargetSideRelative);
 
             // Pre-check candidates for KO; if none and it's optional, auto-skip
-            const preKoCandidates = listValidTargets(koActualTargetSide, koTargetType, { powerLimit, uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
-            if ((preKoCandidates.length === 0) || (koMinTargets === 0 && preKoCandidates.length === 0)) {
+            const preKoCandidates = selectCandidates(koActualTargetSide, koTargetType, { powerLimit, uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
+            if (preKoCandidates.length === 0) {
               processNext();
               break;
             }
+            setSelectedAbilityIndex(abilityIndex);
             setSelectedAbilityIndex(abilityIndex);
             startTargeting({
               side: koActualTargetSide,
               multi: true,
               min: koMinTargets,
               max: koMaxTargets,
-              validator: createTargetValidator(koTargetType, { ...action, powerLimit }, cumulativeTargets, getTotalPower, getCardMeta),
+              validator: createTargetValidator(koTargetType, { ...action, powerLimit }, cumulativeTargets, getTotalPower, getCardMeta, pendingPowerDeltas),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -804,6 +877,7 @@ export default function Actions({
                 if (removeCardByEffect) {
                   removeCardByEffect(t.side, t.section, t.keyName, t.index, actionSource?.side || 'player');
                 }
+                clearPendingForTarget(t);
                 cumulativeTargets.push({ side: t.side, section: t.section, keyName: t.keyName, index: t.index });
               });
               // Continue to next action in sequence
@@ -817,8 +891,8 @@ export default function Actions({
             const restMinTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const restMaxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
             const restActualSide = activationSource ? resolveActionTargetSideUtil(activationSource, restTargetSideRelative) : resolveActionTargetSide(restTargetSideRelative);
-            const preRestCandidates = listValidTargets(restActualSide, restTargetType, { requireActive: true, uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
-            if ((preRestCandidates.length === 0) || (restMinTargets === 0 && preRestCandidates.length === 0)) {
+            const preRestCandidates = selectCandidates(restActualSide, restTargetType, { requireActive: true, uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
+            if (preRestCandidates.length === 0) {
               processNext();
               break;
             }
@@ -828,7 +902,7 @@ export default function Actions({
               multi: true,
               min: restMinTargets,
               max: restMaxTargets,
-              validator: createStateValidator(restTargetType, false, action, cumulativeTargets),
+              validator: createStateValidator(restTargetType, false, action, cumulativeTargets, getTotalPower, getCardMeta, pendingPowerDeltas),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -853,8 +927,8 @@ export default function Actions({
             const actMinTargets = action.minTargets !== undefined ? action.minTargets : 1;
             const actMaxTargets = action.maxTargets !== undefined ? action.maxTargets : 1;
             const actActualSide = activationSource ? resolveActionTargetSideUtil(activationSource, actTargetSideRelative) : resolveActionTargetSide(actTargetSideRelative);
-            const preActCandidates = listValidTargets(actActualSide, actTargetType, { requireRested: true, uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
-            if ((preActCandidates.length === 0) || (actMinTargets === 0 && preActCandidates.length === 0)) {
+            const preActCandidates = selectCandidates(actActualSide, actTargetType, { requireRested: true, uniqueAcrossSequence: action.uniqueAcrossSequence, cumulative: cumulativeTargets });
+            if (preActCandidates.length === 0) {
               processNext();
               break;
             }
@@ -864,7 +938,7 @@ export default function Actions({
               multi: true,
               min: actMinTargets,
               max: actMaxTargets,
-              validator: createStateValidator(actTargetType, true, action, cumulativeTargets),
+              validator: createStateValidator(actTargetType, true, action, cumulativeTargets, getTotalPower, getCardMeta, pendingPowerDeltas),
               origin: actionSource,
               abilityIndex,
               type: 'ability'
@@ -997,7 +1071,7 @@ export default function Actions({
           <Box sx={{ px: 1.25, py: 0.75, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid', borderColor: 'divider' }}>
             <Typography variant="subtitle2" fontWeight={700}>{title}</Typography>
             {onClose && (
-              <IconButton size="small" onClick={onClose} aria-label="close actions">
+              <IconButton size="small" onClick={handlePanelClose} aria-label="close actions">
                 <CloseIcon fontSize="small" />
               </IconButton>
             )}
@@ -1019,7 +1093,7 @@ export default function Actions({
             {cardId}{cardName && cardName !== cardId ? ` — ${cardName}` : ''}
           </Typography>
           {onClose && (
-            <IconButton size="small" onClick={onClose} aria-label="close actions">
+            <IconButton size="small" onClick={handlePanelClose} aria-label="close actions">
               <CloseIcon fontSize="small" />
             </IconButton>
           )}

@@ -28,6 +28,31 @@ export function listValidTargets(areas, getCardMeta, getTotalPower, sideSpec, ta
   const results = [];
   const sides = sideSpec === 'both' ? ['player', 'opponent'] : [sideSpec];
 
+  const uniqueAcrossSequence = !!opts.uniqueAcrossSequence;
+  const cumulative = Array.isArray(opts.cumulative) ? opts.cumulative : [];
+  const requireActive = !!opts.requireActive;
+  const requireRested = !!opts.requireRested;
+  const powerLimit = typeof opts.powerLimit === 'number' ? opts.powerLimit : null;
+  const pendingPowerDeltas = Array.isArray(opts.pendingPowerDeltas) ? opts.pendingPowerDeltas : [];
+
+  const getPendingDelta = (ctx) => {
+    if (!pendingPowerDeltas.length || !ctx) return 0;
+    let sum = 0;
+    for (let i = 0; i < pendingPowerDeltas.length; i++) {
+      const entry = pendingPowerDeltas[i];
+      if (
+        entry &&
+        entry.side === ctx.side &&
+        entry.section === ctx.section &&
+        entry.keyName === ctx.keyName &&
+        entry.index === ctx.index
+      ) {
+        sum += entry.delta || 0;
+      }
+    }
+    return sum;
+  };
+
   for (const side of sides) {
     const sideLoc = side === 'player' ? areas?.player : areas?.opponent;
     if (!sideLoc) continue;
@@ -39,12 +64,24 @@ export function listValidTargets(areas, getCardMeta, getTotalPower, sideSpec, ta
         const ctx = { side, section: 'middle', keyName: 'leader', index: 0, card: leader };
 
         // Apply filters
-        const skipRested = opts.requireActive && ctx.card.rested;
-        const skipActive = opts.requireRested && !ctx.card.rested;
-        const isDuplicate = opts.uniqueAcrossSequence &&
-          opts.cumulative?.some(t => t.side === side && t.section === 'middle' && t.keyName === 'leader' && t.index === 0);
+        const skipRested = requireActive && ctx.card.rested;
+        const skipActive = requireRested && !ctx.card.rested;
+        const isDuplicate = uniqueAcrossSequence &&
+          cumulative.some(t => t.side === side && t.section === 'middle' && t.keyName === 'leader' && t.index === 0);
 
         if (!skipRested && !skipActive && !isDuplicate) {
+          if (powerLimit !== null) {
+            let livePower = 0;
+            if (typeof getTotalPower === 'function') {
+              livePower = getTotalPower(side, 'middle', 'leader', 0, leader.id);
+            } else {
+              livePower = getCardMeta(leader.id)?.stats?.power || 0;
+            }
+            const effectivePower = livePower + getPendingDelta(ctx);
+            if (effectivePower > powerLimit) {
+              continue;
+            }
+          }
           results.push(ctx);
         }
       }
@@ -60,18 +97,19 @@ export function listValidTargets(areas, getCardMeta, getTotalPower, sideSpec, ta
         const ctx = { side, section: 'char', keyName: 'char', index: i, card: c };
 
         // Apply filters
-        if (opts.uniqueAcrossSequence && opts.cumulative?.some(t =>
+        if (uniqueAcrossSequence && cumulative.some(t =>
           t.side === side && t.section === 'char' && t.keyName === 'char' && t.index === i
         )) continue;
 
-        if (opts.requireActive && c.rested) continue;
-        if (opts.requireRested && !c.rested) continue;
+        if (requireActive && c.rested) continue;
+        if (requireRested && !c.rested) continue;
 
-        if (typeof opts.powerLimit === 'number') {
+        if (powerLimit !== null) {
           const livePower = getTotalPower ?
             getTotalPower(side, 'char', 'char', i, c.id) :
             (getCardMeta(c.id)?.stats?.power || 0);
-          if (livePower > opts.powerLimit) continue;
+          const effectivePower = livePower + getPendingDelta(ctx);
+          if (effectivePower > powerLimit) continue;
         }
 
         results.push(ctx);
@@ -350,14 +388,22 @@ export function evaluateActivatableAbilities(abilities, params) {
         break;
 
       case 'Opponents Turn':
-        // Activates when you are being attacked during opponent's turn
-        if (battle && actionSource?.side && battle.target?.side === actionSource.side) {
-          const step = battle.step;
-          canActivate = step === 'attack' || step === 'block' || step === 'counter';
+        // Activates when opponent is attacking during their turn
+        if (battle && actionSource?.side) {
+          const controllerSide = actionSource.side;
+          const opponentSide = controllerSide === 'player' ? 'opponent' : 'player';
+          const opponentIsAttacking = battle.attacker?.side === opponentSide;
+          const youAreTargeted = battle.target ? battle.target.side === controllerSide : true;
+          if (opponentIsAttacking && youAreTargeted) {
+            const step = battle.step;
+            canActivate = step === 'attack' || step === 'block' || step === 'counter';
+          } else {
+            canActivate = false;
+          }
         } else {
           canActivate = false;
         }
-        reason = canActivate ? '' : 'Only when you are being attacked';
+        reason = canActivate ? '' : 'Only when your opponent attacks';
         break;
 
       case 'Continuous':
@@ -493,7 +539,7 @@ export function evaluateActivatableAbilities(abilities, params) {
  * @param {function} getCardMeta - Function to get card metadata (needed for powerLimit with base power)
  * @returns {function} Validator function for targeting system
  */
-export function createTargetValidator(targetType, action = {}, cumulativeTargets = [], getTotalPower = null, getCardMeta = null) {
+export function createTargetValidator(targetType, action = {}, cumulativeTargets = [], getTotalPower = null, getCardMeta = null, pendingPowerDeltas = []) {
   return (card, ctx) => {
     // Validate target type
     if (targetType === 'leader') {
@@ -522,15 +568,29 @@ export function createTargetValidator(targetType, action = {}, cumulativeTargets
     
     // Apply power limit if specified
     if (action.powerLimit !== null && action.powerLimit !== undefined) {
+      const pendingDelta = Array.isArray(pendingPowerDeltas)
+        ? pendingPowerDeltas.reduce((sum, entry) => {
+            if (
+              entry &&
+              entry.side === ctx.side &&
+              entry.section === ctx.section &&
+              entry.keyName === ctx.keyName &&
+              entry.index === ctx.index
+            ) {
+              return sum + (entry.delta || 0);
+            }
+            return sum;
+          }, 0)
+        : 0;
       if (getTotalPower) {
         // Use live power calculation
         const totalPower = getTotalPower(ctx.side, ctx.section, ctx.keyName, ctx.index, card.id);
-        if (totalPower > action.powerLimit) return false;
+        if (totalPower + pendingDelta > action.powerLimit) return false;
       } else if (getCardMeta) {
         // Fallback to base power from metadata
         const meta = getCardMeta(card.id);
         const basePower = meta?.stats?.power || 0;
-        if (basePower > action.powerLimit) return false;
+        if (basePower + pendingDelta > action.powerLimit) return false;
       }
     }
     
@@ -547,9 +607,9 @@ export function createTargetValidator(targetType, action = {}, cumulativeTargets
  * @param {Array} cumulativeTargets - Previously selected targets
  * @returns {function} Validator function
  */
-export function createStateValidator(targetType, requireRested, action = {}, cumulativeTargets = []) {
+export function createStateValidator(targetType, requireRested, action = {}, cumulativeTargets = [], getTotalPower = null, getCardMeta = null, pendingPowerDeltas = []) {
   return (card, ctx) => {
-    const baseValidator = createTargetValidator(targetType, action, cumulativeTargets);
+    const baseValidator = createTargetValidator(targetType, action, cumulativeTargets, getTotalPower, getCardMeta, pendingPowerDeltas);
     if (!baseValidator(card, ctx)) return false;
     
     // Check rested state

@@ -17,6 +17,13 @@ import LabelIcon from '@mui/icons-material/Label';
 import StyleIcon from '@mui/icons-material/Style';
 import BoltIcon from '@mui/icons-material/Bolt';
 import ArticleIcon from '@mui/icons-material/Article';
+import BuildCircleIcon from '@mui/icons-material/BuildCircle';
+import TimelineIcon from '@mui/icons-material/Timeline';
+import LinkIcon from '@mui/icons-material/Link';
+import AdjustIcon from '@mui/icons-material/Adjust';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import { loadAllCards, cardImageUrl, parseDeckText, formatDeckText, validateDeck } from '../../data/cards/loader';
 import { listDecks, saveDeck, getDeck, deleteDeck } from '../../utils/deckApi';
 
@@ -178,7 +185,13 @@ function CardEditorDialog({ open, card, onClose, onSave }) {
       const keys = path.split('.');
       let current = updated;
       for (let i = 0; i < keys.length - 1; i++) {
-        current = current[keys[i]];
+        const key = keys[i];
+        if (current[key] === undefined || current[key] === null) {
+          const nextKey = keys[i + 1];
+          const shouldBeArray = Number.isInteger(Number(nextKey));
+          current[key] = shouldBeArray ? [] : {};
+        }
+        current = current[key];
       }
       current[keys[keys.length - 1]] = value;
       return updated;
@@ -236,6 +249,99 @@ function CardEditorDialog({ open, card, onClose, onSave }) {
       setSaving(false);
     }
   };
+
+  const addAbility = () => {
+    setEditedData(prev => {
+      const updated = JSON.parse(JSON.stringify(prev));
+      if (!Array.isArray(updated.abilities)) updated.abilities = [];
+      updated.abilities.push({
+        timing: 'On Play',
+        frequency: null,
+        donReq: null,
+        cost: { restDonFromCostArea: 0 },
+        effect: {
+          text: '',
+          grants: [],
+          powerMod: null,
+          targets: [],
+          conditions: []
+        }
+      });
+      return updated;
+    });
+  };
+
+  const removeAbility = (index) => {
+    setEditedData(prev => {
+      const updated = JSON.parse(JSON.stringify(prev));
+      if (Array.isArray(updated.abilities)) updated.abilities.splice(index, 1);
+      return updated;
+    });
+  };
+
+  const togglePowerMod = (index, enabled) => {
+    setEditedData(prev => {
+      const updated = JSON.parse(JSON.stringify(prev));
+      if (!Array.isArray(updated.abilities)) return updated;
+      const ability = updated.abilities[index];
+      if (!ability) return updated;
+      ability.effect.powerMod = enabled ? { amount: 0, duration: 'untilEndOfTurn' } : null;
+      return updated;
+    });
+  };
+
+  const addAction = (abilityIdx, template) => {
+    setEditedData(prev => {
+      const updated = JSON.parse(JSON.stringify(prev));
+      const ability = updated.abilities[abilityIdx];
+      if (!ability.effect) ability.effect = { text: '', actions: [] };
+      if (!Array.isArray(ability.effect.actions)) ability.effect.actions = [];
+      ability.effect.actions.push(template);
+      return updated;
+    });
+  };
+
+  const removeAction = (abilityIdx, actionIdx) => {
+    setEditedData(prev => {
+      const updated = JSON.parse(JSON.stringify(prev));
+      const ability = updated.abilities[abilityIdx];
+      if (ability?.effect?.actions) ability.effect.actions.splice(actionIdx, 1);
+      return updated;
+    });
+  };
+
+  const updateActionField = (abilityIdx, actionIdx, field, value) => {
+    setEditedData(prev => {
+      const updated = JSON.parse(JSON.stringify(prev));
+      const ability = updated.abilities[abilityIdx];
+      if (ability?.effect?.actions && ability.effect.actions[actionIdx]) {
+        ability.effect.actions[actionIdx][field] = value;
+      }
+      return updated;
+    });
+  };
+
+  const ABILITY_TYPES = ['On Play', 'Activate Main', 'Activate:Main', 'On Attack', 'When Attacking', 'On Block', 'Counter', 'On KO', 'End of Turn', 'Trigger', 'Opponents Turn', 'Continuous', 'Blocker', 'Rush', 'Double Attack', 'Critical', 'Static'];
+  const FREQUENCY_OPTIONS = ['', 'Once Per Turn'];
+  const ACTION_TYPES = ['powerMod', 'ko', 'draw', 'search', 'addDon', 'giveDon', 'play', 'return', 'rest', 'active', 'grantKeyword', 'disableKeyword', 'trashFromHand', 'costMod'];
+
+  const actionTemplateButtons = [
+    { key: 'powerMod', label: 'Power Mod -1000', factory: () => ({ type: 'powerMod', amount: -1000, targetSide: 'opponent', targetType: 'character', minTargets: 0, maxTargets: 1, duration: 'thisTurn' }) },
+    { key: 'powerAura', label: 'Aura +1000 Allies', factory: () => ({ type: 'powerMod', mode: 'aura', amount: 1000, targetSide: 'player', targetType: 'character', duration: 'permanent' }) },
+    { key: 'ko', label: 'KO ≤4000', factory: () => ({ type: 'ko', targetSide: 'opponent', targetType: 'character', minTargets: 1, maxTargets: 1, powerLimit: 4000 }) },
+    { key: 'draw', label: 'Draw 1', factory: () => ({ type: 'draw', quantity: 1 }) },
+    { key: 'search', label: 'Search Top 5', factory: () => ({ type: 'search', lookCount: 5, minSelect: 0, maxSelect: 1, destination: 'hand', remainderLocation: 'bottom', remainderOrder: 'any' }) },
+    { key: 'addDon', label: 'Add 2 DON!!', factory: () => ({ type: 'addDon', quantity: 2, targetSide: 'player' }) },
+    { key: 'giveDon', label: 'Give DON!!', factory: () => ({ type: 'giveDon', quantity: 1, targetSide: 'player', targetType: 'any', minTargets: 0, maxTargets: 1, onlyRested: true }) },
+    { key: 'rest', label: 'Rest Opponent', factory: () => ({ type: 'rest', targetSide: 'opponent', targetType: 'character', minTargets: 1, maxTargets: 1 }) },
+    { key: 'active', label: 'Active Ally', factory: () => ({ type: 'active', targetSide: 'player', targetType: 'character', minTargets: 1, maxTargets: 1 }) },
+    { key: 'grantKeyword', label: 'Grant Rush', factory: () => ({ type: 'grantKeyword', keyword: 'Rush', targetSelf: true, duration: 'thisTurn' }) },
+    { key: 'disableKeyword', label: 'Disable Blocker', factory: () => ({ type: 'disableKeyword', keyword: 'Blocker', targetSide: 'opponent', targetType: 'character', minTargets: 0, maxTargets: 1, duration: 'thisTurn' }) },
+    { key: 'trashFromHand', label: 'Trash 1 From Hand', factory: () => ({ type: 'trashFromHand', minCards: 0, maxCards: 1 }) },
+    { key: 'play', label: 'Play From Trash', factory: () => ({ type: 'play', source: 'trash', cardType: 'Character', costReduction: 2 }) },
+    { key: 'return', label: 'Return to Hand', factory: () => ({ type: 'return', targetSide: 'opponent', targetType: 'character', minTargets: 1, maxTargets: 1, destination: 'hand' }) },
+    { key: 'costMod', label: 'Cost -2 (Hand)', factory: () => ({ type: 'costMod', amount: -2, appliesToHand: true }) }
+  ];
 
   if (!card) return null;
 
@@ -429,6 +535,426 @@ function CardEditorDialog({ open, card, onClose, onSave }) {
                   onChange={(e) => updateField('trigger.text', e.target.value)} 
                 />
               )}
+            </Paper>
+
+            {/* Abilities */}
+            <Paper variant="outlined" sx={{ p: 2 }}>
+              <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: 1 }}>
+                <BuildCircleIcon fontSize="small" /> Abilities
+              </Typography>
+              <Stack spacing={1.5}>
+                {(editedData.abilities || []).map((ab, idx) => {
+                  // Bridge schema abilities (type/effect.actions) and legacy (timing/effect.powerMod)
+                  const timingValue = ab.type || ab.timing || '';
+                  // Find powerMod action inside actions array if present
+                  let actionPowerMod = null;
+                  if (ab.effect && Array.isArray(ab.effect.actions)) {
+                    actionPowerMod = ab.effect.actions.find(a => a.type === 'powerMod');
+                  }
+                  const hasActionsPowerMod = !!actionPowerMod;
+                  // Unified powerMod object (legacy effect.powerMod or action)
+                  const unifiedPowerMod = hasActionsPowerMod ? actionPowerMod : (ab.effect ? ab.effect.powerMod : null);
+                  const setTiming = (val) => {
+                    updateField(`abilities.${idx}.type`, val);
+                    // keep legacy timing in sync if it existed
+                    if (ab.timing !== undefined) updateField(`abilities.${idx}.timing`, val);
+                  };
+                  const toggleUnifiedPowerMod = (enabled) => {
+                    if (hasActionsPowerMod) {
+                      // mutate actions array entry
+                      setEditedData(prev => {
+                        const updated = JSON.parse(JSON.stringify(prev));
+                        const ability = updated.abilities[idx];
+                        if (!ability.effect.actions) ability.effect.actions = [];
+                        const pmIndex = ability.effect.actions.findIndex(a => a.type === 'powerMod');
+                        if (enabled) {
+                          if (pmIndex === -1) ability.effect.actions.push({ type: 'powerMod', amount: 0, targetSide: 'opponent', targetType: 'character', minTargets: 0, maxTargets: 1, duration: 'thisTurn' });
+                        } else if (pmIndex !== -1) {
+                          ability.effect.actions.splice(pmIndex, 1);
+                        }
+                        return updated;
+                      });
+                    } else {
+                      togglePowerMod(idx, enabled); // legacy path
+                    }
+                  };
+                  const updateUnifiedPowerField = (field, value) => {
+                    setEditedData(prev => {
+                      const updated = JSON.parse(JSON.stringify(prev));
+                      const ability = updated.abilities[idx];
+                      if (hasActionsPowerMod) {
+                        const pmIndex = ability.effect.actions.findIndex(a => a.type === 'powerMod');
+                        if (pmIndex !== -1) ability.effect.actions[pmIndex][field] = value;
+                      } else if (ability.effect.powerMod) {
+                        ability.effect.powerMod[field] = value;
+                      }
+                      return updated;
+                    });
+                  };
+                  return (
+                  <Paper key={idx} variant="outlined" sx={{ p: 1.5 }}>
+                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                      <Typography variant="subtitle2">Ability {idx + 1}</Typography>
+                      <Chip size="small" label={timingValue || 'Timing'} color="info" />
+                      {ab.donReq !== null && ab.donReq !== undefined ? (
+                        <Chip size="small" label={`DON!! x${ab.donReq}`} color="warning" />
+                      ) : null}
+                      <Box sx={{ flex: 1 }} />
+                      <IconButton size="small" color="error" onClick={() => removeAbility(idx)}><DeleteIcon fontSize="small" /></IconButton>
+                    </Stack>
+                    <Grid container spacing={1.5}>
+                      <Grid size={{ xs: 12, sm: 4 }}>
+                        <TextField size="small" label="Timing" value={timingValue} select fullWidth onChange={(e) => setTiming(e.target.value)}>
+                          {ABILITY_TYPES.map(opt => <MenuItem key={opt} value={opt}>{opt}</MenuItem>)}
+                        </TextField>
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 4 }}>
+                        <TextField size="small" label="Frequency" select fullWidth value={ab.frequency ?? ''} onChange={(e) => updateField(`abilities.${idx}.frequency`, e.target.value || null)}>
+                          {FREQUENCY_OPTIONS.map(opt => <MenuItem key={opt || 'none'} value={opt || ''}>{opt || 'Unlimited'}</MenuItem>)}
+                        </TextField>
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 4 }}>
+                        <FormControlLabel control={<Switch checked={ab.autoResolve !== false} onChange={(e)=>updateField(`abilities.${idx}.autoResolve`, e.target.checked ? true : false)} />} label="Auto Resolve" />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 4 }}>
+                        <TextField size="small" label="DON Required (legacy)" type="number" value={ab.donReq ?? ''} fullWidth onChange={(e) => updateField(`abilities.${idx}.donReq`, e.target.value === '' ? null : parseInt(e.target.value))} />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <Divider textAlign="left"><Typography variant="caption" sx={{ fontWeight: 600, display:'flex', alignItems:'center', gap:0.5 }}><LinkIcon fontSize="inherit" /> Conditions</Typography></Divider>
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 4 }}>
+                        <TextField size="small" label="Leader Has Type" value={ab.condition?.leaderHasType || ''} onChange={(e) => updateField(`abilities.${idx}.condition.leaderHasType`, e.target.value || null)} fullWidth />
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 4 }}>
+                        <TextField size="small" label="DON Attached" type="number" value={ab.condition?.don ?? ''} onChange={(e) => updateField(`abilities.${idx}.condition.don`, e.target.value === '' ? null : parseInt(e.target.value))} fullWidth />
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 4 }}>
+                        <TextField size="small" label="Ally Character ≥ Power" type="number" value={ab.condition?.allyCharacterPower ?? ''} onChange={(e)=>updateField(`abilities.${idx}.condition.allyCharacterPower`, e.target.value === '' ? null : parseInt(e.target.value))} fullWidth />
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 3 }}>
+                        <FormControlLabel control={<Switch checked={!!ab.condition?.yourTurn} onChange={(e) => updateField(`abilities.${idx}.condition.yourTurn`, e.target.checked ? true : null)} />} label="Your Turn" />
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 3 }}>
+                        <FormControlLabel control={<Switch checked={!!ab.condition?.opponentTurn} onChange={(e) => updateField(`abilities.${idx}.condition.opponentTurn`, e.target.checked ? true : null)} />} label="Opponent Turn" />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <Divider textAlign="left"><Typography variant="caption" sx={{ fontWeight: 600, display:'flex', alignItems:'center', gap:0.5 }}><AdjustIcon fontSize="inherit" /> Cost</Typography></Divider>
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 3 }}>
+                        <FormControlLabel control={<Switch checked={!!ab.cost?.restThis} onChange={(e) => updateField(`abilities.${idx}.cost.restThis`, e.target.checked ? true : null)} />} label="Rest This" />
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 3 }}>
+                        <TextField size="small" label="Rest DON" type="number" value={ab.cost?.restDon ?? ab.cost?.restDonFromCostArea ?? ''} onChange={(e) => {
+                          const val = e.target.value === '' ? null : parseInt(e.target.value);
+                          updateField(`abilities.${idx}.cost.restDon`, val);
+                          updateField(`abilities.${idx}.cost.restDonFromCostArea`, val ?? 0);
+                        }} fullWidth />
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 3 }}>
+                        <TextField size="small" label="Trash From Hand" type="number" value={ab.cost?.trash ?? ''} onChange={(e) => updateField(`abilities.${idx}.cost.trash`, e.target.value === '' ? null : parseInt(e.target.value))} fullWidth />
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 3 }}>
+                        <TextField size="small" label="Discard From Life" type="number" value={ab.cost?.discardFromLife ?? ''} onChange={(e) => updateField(`abilities.${idx}.cost.discardFromLife`, e.target.value === '' ? null : parseInt(e.target.value))} fullWidth />
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 3 }}>
+                        <TextField size="small" label="Pay Life" type="number" value={ab.cost?.payLife ?? ''} onChange={(e) => updateField(`abilities.${idx}.cost.payLife`, e.target.value === '' ? null : parseInt(e.target.value))} fullWidth />
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 3 }}>
+                        <TextField size="small" label="Return This To Deck" select value={ab.cost?.returnThisToDeck ?? ''} onChange={(e) => updateField(`abilities.${idx}.cost.returnThisToDeck`, e.target.value || null)} fullWidth>
+                          {['','top','bottom','shuffle'].map(v => <MenuItem key={v || 'none'} value={v}>{v || 'None'}</MenuItem>)}
+                        </TextField>
+                      </Grid>
+                      <Grid size={{ xs: 6, sm: 3 }}>
+                        <FormControlLabel control={<Switch checked={!!ab.cost?.trashThis} onChange={(e) => updateField(`abilities.${idx}.cost.trashThis`, e.target.checked ? true : null)} />} label="Trash This Card" />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField size="small" label="Effect Text" multiline rows={2} fullWidth value={ab.effect?.text || ''} onChange={(e) => updateField(`abilities.${idx}.effect.text`, e.target.value)} />
+                      </Grid>
+                      {/* Actions Editor */}
+                      <Grid size={{ xs: 12 }}>
+                        <Divider textAlign="left"><Typography variant="caption" sx={{ fontWeight: 600, display:'flex', alignItems:'center', gap:0.5 }}><ExtensionIcon fontSize="inherit" /> Actions</Typography></Divider>
+                        <Stack spacing={1} sx={{ mt: 1 }}>
+                          {(ab.effect?.actions || []).map((act, aIdx) => {
+                            const type = act.type;
+                            return (
+                              <Paper key={aIdx} variant="outlined" sx={{ p: 1 }}>
+                                <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                                  <TextField size="small" label="Type" select value={type} onChange={(e)=>updateActionField(idx,aIdx,'type',e.target.value)} sx={{ minWidth: 140 }}>
+                                    {ACTION_TYPES.map(opt => <MenuItem key={opt} value={opt}>{opt}</MenuItem>)}
+                                  </TextField>
+                                  {type === 'powerMod' && act.mode === 'aura' && <Chip size="small" label="Aura" color="success" />}
+                                  <Box sx={{ flex:1 }} />
+                                  <IconButton size="small" color="error" onClick={()=>removeAction(idx,aIdx)}><DeleteSweepIcon fontSize="small" /></IconButton>
+                                </Stack>
+                                <Grid container spacing={1.25}>
+                                  {/* Shared targeting fields */}
+                                  {['powerMod','ko','giveDon','return','rest','active','disableKeyword','grantKeyword','costMod'].includes(type) && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Target Side" select value={act.targetSide||''} onChange={(e)=>updateActionField(idx,aIdx,'targetSide',e.target.value)} fullWidth>
+                                          {['','player','opponent','both'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Target Type" select value={act.targetType||''} onChange={(e)=>updateActionField(idx,aIdx,'targetType',e.target.value)} fullWidth>
+                                          {['','leader','character','don','any'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Min Targets" type="number" value={act.minTargets ?? ''} onChange={(e)=>updateActionField(idx,aIdx,'minTargets', e.target.value===''? null: parseInt(e.target.value))} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Max Targets" type="number" value={act.maxTargets ?? ''} onChange={(e)=>updateActionField(idx,aIdx,'maxTargets', e.target.value===''? null: parseInt(e.target.value))} fullWidth />
+                                      </Grid>
+                                    </>
+                                  )}
+                                  {type === 'powerMod' && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Amount" type="number" value={act.amount ?? 0} onChange={(e)=>updateActionField(idx,aIdx,'amount', parseInt(e.target.value) || 0)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:5 }}>
+                                        <TextField size="small" label="Duration" select value={act.duration||''} onChange={(e)=>updateActionField(idx,aIdx,'duration', e.target.value||null)} fullWidth>
+                                          {['','thisTurn','untilEndOfBattle','untilOpponentsNextTurn','permanent'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:4 }}>
+                                        <TextField size="small" label="Power Limit" type="number" value={act.powerLimit ?? ''} onChange={(e)=>updateActionField(idx,aIdx,'powerLimit', e.target.value===''? null: parseInt(e.target.value))} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:4 }}>
+                                        <TextField size="small" label="Mode" select value={act.mode||'normal'} onChange={(e)=>updateActionField(idx,aIdx,'mode', e.target.value)} fullWidth>
+                                          {['normal','aura'].map(v=> <MenuItem key={v} value={v}>{v}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                    </>
+                                  )}
+                                  {type === 'ko' && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:4 }}>
+                                        <TextField size="small" label="Power Limit" type="number" value={act.powerLimit ?? ''} onChange={(e)=>updateActionField(idx,aIdx,'powerLimit', e.target.value===''? null: parseInt(e.target.value))} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:4 }}>
+                                        <TextField size="small" label="Cost Limit" type="number" value={act.costLimit ?? ''} onChange={(e)=>updateActionField(idx,aIdx,'costLimit', e.target.value===''? null: parseInt(e.target.value))} fullWidth />
+                                      </Grid>
+                                    </>
+                                  )}
+                                  {type === 'draw' && (
+                                    <Grid size={{ xs:6, sm:3 }}>
+                                      <TextField size="small" label="Quantity" type="number" value={act.quantity ?? 1} onChange={(e)=>updateActionField(idx,aIdx,'quantity', parseInt(e.target.value)||1)} fullWidth />
+                                    </Grid>
+                                  )}
+                                  {type === 'search' && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Look Count" type="number" value={act.lookCount ?? 0} onChange={(e)=>updateActionField(idx,aIdx,'lookCount', parseInt(e.target.value)||0)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Min Select" type="number" value={act.minSelect ?? 0} onChange={(e)=>updateActionField(idx,aIdx,'minSelect', parseInt(e.target.value)||0)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Max Select" type="number" value={act.maxSelect ?? 0} onChange={(e)=>updateActionField(idx,aIdx,'maxSelect', parseInt(e.target.value)||0)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Destination" select value={act.destination||''} onChange={(e)=>updateActionField(idx,aIdx,'destination', e.target.value||null)} fullWidth>
+                                          {['','hand','deck','trash','field'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Remainder Location" select value={act.remainderLocation||''} onChange={(e)=>updateActionField(idx,aIdx,'remainderLocation', e.target.value||null)} fullWidth>
+                                          {['','top','bottom','shuffle'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Remainder Order" select value={act.remainderOrder||''} onChange={(e)=>updateActionField(idx,aIdx,'remainderOrder', e.target.value||null)} fullWidth>
+                                          {['','any','same'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Filter Type" value={act.filterType||''} onChange={(e)=>updateActionField(idx,aIdx,'filterType', e.target.value||null)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Filter Color" value={act.filterColor||''} onChange={(e)=>updateActionField(idx,aIdx,'filterColor', e.target.value||null)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Filter Attribute" value={act.filterAttribute||''} onChange={(e)=>updateActionField(idx,aIdx,'filterAttribute', e.target.value||null)} fullWidth />
+                                      </Grid>
+                                    </>
+                                  )}
+                                  {type === 'addDon' && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Quantity" type="number" value={act.quantity ?? 0} onChange={(e)=>updateActionField(idx,aIdx,'quantity', parseInt(e.target.value)||0)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Target Side" select value={act.targetSide||''} onChange={(e)=>updateActionField(idx,aIdx,'targetSide', e.target.value||null)} fullWidth>
+                                          {['','player','opponent'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                    </>
+                                  )}
+                                  {type === 'giveDon' && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Quantity" type="number" value={act.quantity ?? 0} onChange={(e)=>updateActionField(idx,aIdx,'quantity', parseInt(e.target.value)||0)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <FormControlLabel control={<Switch checked={!!act.onlyRested} onChange={(e)=>updateActionField(idx,aIdx,'onlyRested', e.target.checked)} />} label="Only Rested" />
+                                      </Grid>
+                                    </>
+                                  )}
+                                  {type === 'grantKeyword' && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Keyword" value={act.keyword||''} onChange={(e)=>updateActionField(idx,aIdx,'keyword', e.target.value||null)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <FormControlLabel control={<Switch checked={!!act.targetSelf} onChange={(e)=>updateActionField(idx,aIdx,'targetSelf', e.target.checked)} />} label="Target Self" />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Duration" select value={act.duration||''} onChange={(e)=>updateActionField(idx,aIdx,'duration', e.target.value||null)} fullWidth>
+                                          {['','thisTurn','untilOpponentsNextTurn','permanent'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                    </>
+                                  )}
+                                  {type === 'disableKeyword' && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Keyword" value={act.keyword||''} onChange={(e)=>updateActionField(idx,aIdx,'keyword', e.target.value||null)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Duration" select value={act.duration||''} onChange={(e)=>updateActionField(idx,aIdx,'duration', e.target.value||null)} fullWidth>
+                                          {['','thisTurn','untilOpponentsNextTurn','permanent'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Power Limit" type="number" value={act.powerLimit ?? ''} onChange={(e)=>updateActionField(idx,aIdx,'powerLimit', e.target.value===''? null: parseInt(e.target.value))} fullWidth />
+                                      </Grid>
+                                    </>
+                                  )}
+                                  {type === 'trashFromHand' && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Min Cards" type="number" value={act.minCards ?? 0} onChange={(e)=>updateActionField(idx,aIdx,'minCards', parseInt(e.target.value)||0)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Max Cards" type="number" value={act.maxCards ?? 0} onChange={(e)=>updateActionField(idx,aIdx,'maxCards', parseInt(e.target.value)||0)} fullWidth />
+                                      </Grid>
+                                    </>
+                                  )}
+                                  {type === 'play' && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Source" select value={act.source||''} onChange={(e)=>updateActionField(idx,aIdx,'source', e.target.value||null)} fullWidth>
+                                          {['','hand','trash','deck'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Card Type" select value={act.cardType||''} onChange={(e)=>updateActionField(idx,aIdx,'cardType', e.target.value||null)} fullWidth>
+                                          {['','Character','Event','Stage'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                        </TextField>
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Filter Type" value={act.filterType||''} onChange={(e)=>updateActionField(idx,aIdx,'filterType', e.target.value||null)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Filter Color" value={act.filterColor||''} onChange={(e)=>updateActionField(idx,aIdx,'filterColor', e.target.value||null)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Cost Reduction" type="number" value={act.costReduction ?? ''} onChange={(e)=>updateActionField(idx,aIdx,'costReduction', e.target.value===''? null: parseInt(e.target.value))} fullWidth />
+                                      </Grid>
+                                    </>
+                                  )}
+                                  {type === 'return' && (
+                                    <Grid size={{ xs:6, sm:3 }}>
+                                      <TextField size="small" label="Destination" select value={act.destination||''} onChange={(e)=>updateActionField(idx,aIdx,'destination', e.target.value||null)} fullWidth>
+                                        {['','hand','deckTop','deckBottom'].map(v=> <MenuItem key={v||'none'} value={v}>{v||'None'}</MenuItem>)}
+                                      </TextField>
+                                    </Grid>
+                                  )}
+                                  {type === 'costMod' && (
+                                    <>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <TextField size="small" label="Amount" type="number" value={act.amount ?? 0} onChange={(e)=>updateActionField(idx,aIdx,'amount', parseInt(e.target.value)||0)} fullWidth />
+                                      </Grid>
+                                      <Grid size={{ xs:6, sm:3 }}>
+                                        <FormControlLabel control={<Switch checked={!!act.appliesToHand} onChange={(e)=>updateActionField(idx,aIdx,'appliesToHand', e.target.checked)} />} label="Applies To Hand" />
+                                      </Grid>
+                                    </>
+                                  )}
+                                </Grid>
+                              </Paper>
+                            );
+                          })}
+                          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                            {actionTemplateButtons.map(btn => (
+                              <Button key={btn.key} size="small" variant="outlined" startIcon={<PlaylistAddIcon />} onClick={()=>addAction(idx, btn.factory())}>{btn.label}</Button>
+                            ))}
+                          </Stack>
+                        </Stack>
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <FormControlLabel
+                          control={<Switch checked={!!unifiedPowerMod} onChange={(e) => toggleUnifiedPowerMod(e.target.checked)} />}
+                          label="Has Power Modifier"
+                        />
+                      </Grid>
+                      {unifiedPowerMod && (
+                        <>
+                          <Grid size={{ xs: 6, sm: 3 }}>
+                            <TextField size="small" label="Power ±" type="number" value={unifiedPowerMod.amount ?? 0} fullWidth onChange={(e) => updateUnifiedPowerField('amount', parseInt(e.target.value) || 0)} />
+                          </Grid>
+                          <Grid size={{ xs: 6, sm: 5 }}>
+                            <TextField size="small" label="Duration" value={unifiedPowerMod.duration || ''} fullWidth onChange={(e) => updateUnifiedPowerField('duration', e.target.value || null)} />
+                          </Grid>
+                          {hasActionsPowerMod && (
+                            <Grid size={{ xs: 12 }}>
+                              <Chip size="small" label={`Actions Mode: ${unifiedPowerMod.mode || 'normal'}`} color={unifiedPowerMod.mode === 'aura' ? 'success' : 'default'} />
+                            </Grid>
+                          )}
+                        </>
+                      )}
+                      <Grid size={{ xs: 12 }}>
+                        <Typography variant="caption" sx={{ fontWeight: 600 }}>Targets</Typography>
+                        <Stack spacing={0.75} sx={{ mt: 0.5 }}>
+                          {(ab.effect?.targets || []).map((t, i) => (
+                            <Box key={i} sx={{ display: 'flex', gap: 1 }}>
+                              <TextField size="small" fullWidth value={t} onChange={(e) => updateArrayField(`abilities.${idx}.effect.targets`, i, e.target.value)} />
+                              <IconButton size="small" color="error" onClick={() => removeArrayItem(`abilities.${idx}.effect.targets`, i)}><DeleteIcon fontSize="small" /></IconButton>
+                            </Box>
+                          ))}
+                          <Button size="small" variant="outlined" onClick={() => addArrayItem(`abilities.${idx}.effect.targets`, '')}>+ Add Target</Button>
+                        </Stack>
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <Typography variant="caption" sx={{ fontWeight: 600 }}>Conditions</Typography>
+                        <Stack spacing={0.75} sx={{ mt: 0.5 }}>
+                          {(ab.effect?.conditions || []).map((c, i) => (
+                            <Box key={i} sx={{ display: 'flex', gap: 1 }}>
+                              <TextField size="small" fullWidth value={c} onChange={(e) => updateArrayField(`abilities.${idx}.effect.conditions`, i, e.target.value)} />
+                              <IconButton size="small" color="error" onClick={() => removeArrayItem(`abilities.${idx}.effect.conditions`, i)}><DeleteIcon fontSize="small" /></IconButton>
+                            </Box>
+                          ))}
+                          <Button size="small" variant="outlined" onClick={() => addArrayItem(`abilities.${idx}.effect.conditions`, '')}>+ Add Condition</Button>
+                        </Stack>
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <Typography variant="caption" sx={{ fontWeight: 600 }}>Grants</Typography>
+                        <Stack spacing={0.75} sx={{ mt: 0.5 }}>
+                          {(ab.effect?.grants || []).map((g, i) => (
+                            <Box key={i} sx={{ display: 'flex', gap: 1 }}>
+                              <TextField size="small" fullWidth value={g} onChange={(e) => updateArrayField(`abilities.${idx}.effect.grants`, i, e.target.value)} />
+                              <IconButton size="small" color="error" onClick={() => removeArrayItem(`abilities.${idx}.effect.grants`, i)}><DeleteIcon fontSize="small" /></IconButton>
+                            </Box>
+                          ))}
+                          <Button size="small" variant="outlined" onClick={() => addArrayItem(`abilities.${idx}.effect.grants`, '')}>+ Add Grant</Button>
+                        </Stack>
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                );})}
+                <Button size="small" variant="contained" color="secondary" onClick={addAbility}>Add Ability</Button>
+              </Stack>
             </Paper>
 
             {/* Card Text */}
