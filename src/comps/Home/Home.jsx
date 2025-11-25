@@ -2,7 +2,7 @@
 // Home.jsx - Main game component for One Piece TCG Sim
 import React, { useState, useContext, useEffect, useMemo, useCallback, useRef } from 'react';
 import { AuthContext } from '../../AuthContext';
-import { Box, Container, Typography, Paper, Button, Stack, Chip, Divider } from '@mui/material';
+import { Box, Container, Typography, Paper, Button, Stack, Chip, Divider, Alert } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import LoginRegister from '../LoginRegister/LoginRegister';
 import Actions from './Actions';
@@ -252,7 +252,7 @@ export default function Home() {
     const [currentAttack, setCurrentAttack] = useState(null);
     const [battleArrow, setBattleArrow] = useState(null);
     const [battle, setBattle] = useState(null); // Battle lifecycle: attack > block > counter > damage > end (CR 7-1)
-    const { targeting, setTargeting, startTargeting, suspendTargeting, cancelTargeting, confirmTargeting } = useTargeting({
+    const { targeting, setTargeting, startTargeting, suspendTargeting, cancelTargeting, confirmTargeting, resumeTargeting } = useTargeting({
         areas,
         battle,
         setBattleArrow,
@@ -1263,6 +1263,7 @@ export default function Home() {
                             startTargeting={startTargeting}
                             cancelTargeting={cancelTargeting}
                             suspendTargeting={suspendTargeting}
+                            resumeTargeting={resumeTargeting}
                             confirmTargeting={confirmTargeting}
                             targeting={targeting}
                             getCardMeta={(id) => metaById.get(id) || null}
@@ -1309,7 +1310,7 @@ export default function Home() {
                                         })()}
                                     </Typography>
                                     {(() => {
-                                        if (battle && (battle.step === 'counter' || battle.step === 'block') && actionSource.side === battle.target.side) {
+                                        if (battle && battle.target && (battle.step === 'counter' || battle.step === 'block') && actionSource.side === battle.target.side) {
                                             const meta = metaById.get(actionCard?.id);
                                             if (!meta) return null;
                                             const elements = [];
@@ -1365,16 +1366,16 @@ export default function Home() {
                                     (battle.attacker.section === 'middle' && isLeader && battle.attacker.side === attackingSide)
                                 );
 
-                                if (isAttacking) return null; // Attacker has no controls during block/counter
+                                if (isAttacking) return null; // Attacker has no controls during battle steps
 
                                 // Determine if card can attack
                                 const canAtk = isLeader ? canLeaderAttack(cardObj, attackingSide) : canCharacterAttack(cardObj, attackingSide, idx);
-                                if (!canAtk || battle) return null;
+                                if (!canAtk || (battle && battle.step !== 'declaring')) return null;
 
                                 const selecting = targeting.active && currentAttack && ( // Check if selecting target
                                     (currentAttack.isLeader && isLeader) ||
                                     (currentAttack.index === idx && !currentAttack.isLeader)
-                                ) && !battle;
+                                );
 
                                 if (selecting) {
                                     return (

@@ -143,6 +143,7 @@ export default function Actions({
   startTargeting,
   cancelTargeting,
   suspendTargeting,
+  resumeTargeting,
   confirmTargeting,
   targeting,
 
@@ -182,6 +183,9 @@ export default function Actions({
   // Currently selected ability index (during targeting/resolution)
   const [selectedAbilityIndex, setSelectedAbilityIndex] = useState(null);
 
+  // Track current action being processed for multi-action abilities
+  const [currentActionStep, setCurrentActionStep] = useState(null);
+
   // Tracks whether On Play ability was auto-triggered for this card instance
   const [autoTriggeredOnPlay, setAutoTriggeredOnPlay] = useState(false);
 
@@ -220,6 +224,7 @@ export default function Actions({
     actionQueueRef.current = null;
     processNextRef.current = null;
     setSelectedAbilityIndex(null);
+    setCurrentActionStep(null);
     setResolvingEffect?.(false);
   }, [setResolvingEffect]);
 
@@ -272,6 +277,14 @@ export default function Actions({
       } catch { }
     };
   }, [abortAbilityProcessing, cancelTargeting, suspendTargeting, isSameOrigin]);
+
+  // Cleanup effect to ensure resolving flag is cleared if ability selection changes unexpectedly
+  useEffect(() => {
+    // If no ability is selected and we're not processing, ensure resolving effect is cleared
+    if (selectedAbilityIndex === null && !processingActionsRef.current && setResolvingEffect) {
+      setResolvingEffect(false);
+    }
+  }, [selectedAbilityIndex, setResolvingEffect]);
 
   // ============================================================================
   // CARD DATA EXTRACTION
@@ -476,6 +489,14 @@ export default function Actions({
       // Store in refs to persist across renders
       actionQueueRef.current = actionsQueue;
 
+      // Check if we're activating an On Attack ability during attack targeting
+      const isOnAttackDuringTargeting = abilityType === 'On Attack' && targeting?.active && targeting?.type === 'attack' && !targeting?.suspended;
+      
+      // If so, suspend the attack targeting so ability targeting can proceed
+      if (isOnAttackDuringTargeting && typeof suspendTargeting === 'function') {
+        suspendTargeting();
+      }
+
       if (setResolvingEffect) setResolvingEffect(true);
       processingActionsRef.current = true; // Mark that we're processing actions
       // Use shared listValidTargets helper
@@ -500,11 +521,88 @@ export default function Actions({
           cancelProcessingRef.current = false;
           completeAbilityActivation();
           setSelectedAbilityIndex(null);
+          setCurrentActionStep(null);
           if (setResolvingEffect) setResolvingEffect(false);
+          
+          // If we suspended attack targeting for this On Attack ability, resume it now
+          if (abilityType === 'On Attack' && targeting?.suspended && targeting?.type === 'attack' && typeof resumeTargeting === 'function') {
+            resumeTargeting();
+          }
+          
           return;
         }
 
         const action = queue.shift();
+
+        // Helper to get readable action description
+        const getActionDescription = (action) => {
+          switch (action.type) {
+            case 'powerMod': {
+              const amount = action.amount || 0;
+              const sign = amount >= 0 ? '+' : '';
+              const targetType = action.targetType === 'leader' ? 'Leader' : 
+                               action.targetType === 'character' ? 'Character' : 'card';
+              const min = action.minTargets !== undefined ? action.minTargets : 1;
+              const max = action.maxTargets !== undefined ? action.maxTargets : 1;
+              if (min === 0) {
+                return `Give up to ${max} ${targetType}${max > 1 ? 's' : ''} ${sign}${amount} power`;
+              }
+              return `Give ${max} ${targetType}${max > 1 ? 's' : ''} ${sign}${amount} power`;
+            }
+            case 'ko': {
+              const targetType = action.targetType === 'character' ? 'Character' : 'card';
+              const max = action.maxTargets !== undefined ? action.maxTargets : 1;
+              const powerLimit = action.powerLimit ? ` with ${action.powerLimit} power or less` : '';
+              return `K.O. ${max} ${targetType}${max > 1 ? 's' : ''}${powerLimit}`;
+            }
+            case 'rest': {
+              const max = action.maxTargets !== undefined ? action.maxTargets : 1;
+              return `Rest ${max} card${max > 1 ? 's' : ''}`;
+            }
+            case 'active': {
+              const max = action.maxTargets !== undefined ? action.maxTargets : 1;
+              return `Set ${max} card${max > 1 ? 's' : ''} active`;
+            }
+            case 'grantKeyword': {
+              const keyword = action.keyword || 'keyword';
+              return `Grant [${keyword}]`;
+            }
+            case 'disableKeyword': {
+              const keyword = action.keyword || 'keyword';
+              return `Disable [${keyword}]`;
+            }
+            case 'giveDon': {
+              const qty = action.quantity || 1;
+              return `Give ${qty} DON!!`;
+            }
+            case 'draw': {
+              const qty = action.quantity || 1;
+              return `Draw ${qty} card${qty > 1 ? 's' : ''}`;
+            }
+            case 'trashFromHand': {
+              const min = action.minCards !== undefined ? action.minCards : 1;
+              const max = action.maxCards !== undefined ? action.maxCards : 1;
+              if (min === 0) {
+                return `Trash up to ${max} card${max > 1 ? 's' : ''} from hand`;
+              }
+              return `Trash ${max} card${max > 1 ? 's' : ''} from hand`;
+            }
+            case 'search': {
+              return `Search deck`;
+            }
+            default:
+              return `Process ${action.type}`;
+          }
+        };
+
+        // Update current action step for display
+        const totalActions = effect.actions.length;
+        const currentStep = totalActions - queue.length;
+        setCurrentActionStep({
+          step: currentStep,
+          total: totalActions,
+          description: getActionDescription(action)
+        });
 
         switch (action.type) {
           case 'powerMod':
@@ -1015,8 +1113,9 @@ export default function Actions({
       // No structured actions - card needs to be updated with action schema
       console.warn(`[Ability] Card ${cardName} has no structured actions - needs update`);
       completeAbilityActivation();
+      if (setResolvingEffect) setResolvingEffect(false);
     }
-  }, [activatableAbilities, applyPowerMod, registerUntilNextTurnEffect, turnSide, cardName, startTargeting, getCardMeta, startDeckSearch, actionSource, listValidTargets, resolveActionTargetSide, removeCardByEffect, grantTempKeyword, disableKeyword, moveDonFromCostToCard, restCard, setResolvingEffect, getTotalPower, abilityHasAnySelectableTargets, returnCardToDeck, cardIndex, payLife, setAbilityUsed, setSelectedAbilityIndex, confirmTargeting, cancelTargeting, cardMeta, card, markAbilityUsed]);
+  }, [activatableAbilities, applyPowerMod, registerUntilNextTurnEffect, turnSide, cardName, startTargeting, getCardMeta, startDeckSearch, actionSource, listValidTargets, resolveActionTargetSide, removeCardByEffect, grantTempKeyword, disableKeyword, moveDonFromCostToCard, restCard, setResolvingEffect, getTotalPower, abilityHasAnySelectableTargets, returnCardToDeck, cardIndex, payLife, setAbilityUsed, setSelectedAbilityIndex, confirmTargeting, cancelTargeting, cardMeta, card, markAbilityUsed, resumeTargeting, suspendTargeting]);
 
   // Auto-trigger On Play abilities when card is just played (unless autoResolve === false)
   // According to Rule 8-1-3-1-3, On Play effects are AUTO effects that must trigger immediately
@@ -1200,14 +1299,45 @@ export default function Actions({
 
                       {/* Target Selection UI */}
                       {selectedAbilityIndex === idx && targeting?.active && (
-                        <TargetSelectionUI
-                          targeting={targeting}
-                          areas={areas}
-                          getCardMeta={getCardMeta}
-                          confirmTargeting={confirmTargeting}
-                          cancelTargeting={cancelTargeting}
-                          onCancel={() => setSelectedAbilityIndex(null)}
-                        />
+                        <>
+                          {currentActionStep && (
+                            <Alert 
+                              severity="info" 
+                              sx={{ 
+                                mb: 1,
+                                py: 0.5, 
+                                px: 1.5,
+                                display: 'flex',
+                                alignItems: 'center',
+                                '& .MuiAlert-message': { 
+                                  py: 0, 
+                                  width: '100%',
+                                  display: 'flex',
+                                  alignItems: 'center'
+                                }
+                              }}
+                            >
+                              <Stack direction="row" spacing={1} alignItems="center" sx={{ width: '100%' }}>
+                                <Chip 
+                                  label={`Step ${currentActionStep.step}/${currentActionStep.total}`} 
+                                  size="small" 
+                                  color="info"
+                                />
+                                <Typography variant="caption" sx={{ flex: 1, lineHeight: 1.4 }}>
+                                  {currentActionStep.description}
+                                </Typography>
+                              </Stack>
+                            </Alert>
+                          )}
+                          <TargetSelectionUI
+                            targeting={targeting}
+                            areas={areas}
+                            getCardMeta={getCardMeta}
+                            confirmTargeting={confirmTargeting}
+                            cancelTargeting={cancelTargeting}
+                            onCancel={() => setSelectedAbilityIndex(null)}
+                          />
+                        </>
                       )}
                     </Box>
                   ))}

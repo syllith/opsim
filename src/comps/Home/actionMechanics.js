@@ -350,10 +350,10 @@ export function evaluateActivatableAbilities(abilities, params) {
         break;
 
       case 'On Attack':
-        // Activates during Attack Step or early Block Step (before blocker declared)
+        // Activates during Attack Declaration or Attack Step (before blocker declared)
         canActivate = battle &&
           battle.attacker?.id === cardId &&
-          (battle.step === 'attack' || (battle.step === 'block' && !battle.blockerUsed));
+          (battle.step === 'declaring' || battle.step === 'attack' || (battle.step === 'block' && !battle.blockerUsed));
         reason = canActivate ? '' : 'Only when this card attacks';
         break;
 

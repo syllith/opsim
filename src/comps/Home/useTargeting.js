@@ -64,9 +64,16 @@ export function useTargeting({ areas, battle, setBattleArrow, setCurrentAttack }
     });
   }, []);
 
+  const resumeTargeting = useCallback(() => {
+    setTargeting(prev => {
+      if (!prev.active || !prev.suspended) return prev;
+      return { ...prev, suspended: false };
+    });
+  }, []);
+
   const cancelTargeting = useCallback(() => {
-    // Preserve battle arrow if a battle exists; else clear attack preview arrow
-    if (battle) {
+    // Preserve battle arrow if a battle exists with a target; else clear attack preview arrow
+    if (battle && battle.target) {
       const fromKey = `${battle.attacker.side}:${battle.attacker.section}:${battle.attacker.keyName}:${battle.attacker.index}`;
       const toKey = `${battle.target.side}:${battle.target.section}:${battle.target.keyName}:${battle.target.index}`;
       setBattleArrow(prev => ({ fromKey, toKey, label: prev?.label || '' }));
@@ -128,6 +135,7 @@ export function useTargeting({ areas, battle, setBattleArrow, setCurrentAttack }
     setTargeting,
     startTargeting,
     suspendTargeting,
+    resumeTargeting,
     cancelTargeting,
     confirmTargeting
   };

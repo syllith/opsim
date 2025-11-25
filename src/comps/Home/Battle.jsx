@@ -82,13 +82,24 @@ export function useBattleSystem({
     const defendingSide = getOpposingSide(attackingSide);
     const attackerKey = modKey(attackingSide, 'middle', 'leader', 0);
     const attackerPower = getTotalPower(attackingSide, 'middle', 'leader', 0, leaderCard.id);
+    
     setCurrentAttack({ key: attackerKey, cardId: leaderCard.id, index: 0, power: attackerPower, isLeader: true });
-    appendLog(`[attack] ${attackingSide === 'player' ? 'Your' : "Opponent's"} Leader declares attack (power ${attackerPower}). Choose ${getOpposingSide(defendingSide)} Leader or a rested Character.`);
+    appendLog(`[attack] ${attackingSide === 'player' ? 'Your' : "Opponent's"} Leader declares attack (power ${attackerPower}). Choose target.`);
+
+    // Set battle to declaring step to enable On Attack abilities during target selection
+    setBattle({
+      attacker: { side: attackingSide, section: 'middle', keyName: 'leader', index: 0, id: leaderCard.id, power: attackerPower },
+      target: null,
+      step: 'declaring',
+      blockerUsed: false,
+      counterPower: 0,
+      counterTarget: null
+    });
 
     startTargeting({
       side: defendingSide,
       multi: true,
-      min: 1,
+      min: 0,
       max: 1,
       validator: (card, ctx) => {
         if (!ctx) return false;
@@ -102,9 +113,13 @@ export function useBattleSystem({
     }, (targets) => {
       const t = (targets || [])[0];
       if (!t) {
+        // Attack cancelled - clear battle state
         setCurrentAttack(null);
+        setBattle(null);
+        appendLog('[attack] Attack cancelled.');
         return;
       }
+      
       setAreas((prev) => {
         const next = structuredClone(prev);
         if (next[attackingSide]?.middle?.leader?.[0]) {
@@ -112,11 +127,13 @@ export function useBattleSystem({
         }
         return next;
       });
+      
       const targetArr = (t.section === 'char') ? (areas?.[defendingSide]?.char || []) : (areas?.[defendingSide]?.middle?.leader || []);
       const targetCard = targetArr[t.index];
       if (!targetCard) {
         appendLog('[attack] Target not found.');
         setCurrentAttack(null);
+        setBattle(null);
         return;
       }
       closeActionPanel();
@@ -141,13 +158,24 @@ export function useBattleSystem({
     const defendingSide = getOpposingSide(attackingSide);
     const attackerKey = modKey(attackingSide, 'char', 'char', attackerIndex);
     const attackerPower = getTotalPower(attackingSide, 'char', 'char', attackerIndex, attackerCard.id);
+    
     setCurrentAttack({ key: attackerKey, cardId: attackerCard.id, index: attackerIndex, power: attackerPower });
-    appendLog(`[attack] ${attackingSide === 'player' ? 'Your' : "Opponent's"} ${attackerCard.id} declares attack (power ${attackerPower}). Choose ${getOpposingSide(defendingSide)} Leader or a rested Character.`);
+    appendLog(`[attack] ${attackingSide === 'player' ? 'Your' : "Opponent's"} ${attackerCard.id} declares attack (power ${attackerPower}). Choose target.`);
+
+    // Set battle to declaring step to enable On Attack abilities during target selection
+    setBattle({
+      attacker: { side: attackingSide, section: 'char', keyName: 'char', index: attackerIndex, id: attackerCard.id, power: attackerPower },
+      target: null,
+      step: 'declaring',
+      blockerUsed: false,
+      counterPower: 0,
+      counterTarget: null
+    });
 
     startTargeting({
       side: defendingSide,
       multi: true,
-      min: 1,
+      min: 0,
       max: 1,
       validator: (card, ctx) => {
         if (!ctx) return false;
@@ -161,9 +189,13 @@ export function useBattleSystem({
     }, (targets) => {
       const t = (targets || [])[0];
       if (!t) {
+        // Attack cancelled - clear battle state
         setCurrentAttack(null);
+        setBattle(null);
+        appendLog('[attack] Attack cancelled.');
         return;
       }
+      
       setAreas((prev) => {
         const next = structuredClone(prev);
         if (next[attackingSide]?.char?.[attackerIndex]) {
@@ -171,11 +203,13 @@ export function useBattleSystem({
         }
         return next;
       });
+      
       const targetArr = (t.section === 'char') ? (areas?.[defendingSide]?.char || []) : (areas?.[defendingSide]?.middle?.leader || []);
       const targetCard = targetArr[t.index];
       if (!targetCard) {
         appendLog('[attack] Target not found.');
         setCurrentAttack(null);
+        setBattle(null);
         return;
       }
       closeActionPanel();
@@ -267,6 +301,7 @@ export function useBattleSystem({
 
   const addCounterFromHand = useCallback((handIndex) => {
     if (!(isBattleStep('counter') || isBattleStep('block'))) return;
+    if (!battle.target) return; // Target must be selected
     const defendingSide = battle.target.side;
     const handLoc = getHandCostLocation(defendingSide);
     const card = handLoc?.hand?.[handIndex];
@@ -305,6 +340,7 @@ export function useBattleSystem({
 
   const playCounterEventFromHand = useCallback((handIndex) => {
     if (!isBattleStep('counter')) return;
+    if (!battle.target) return; // Target must be selected
     const defendingSide = battle.target.side;
     setAreas((prev) => {
       const next = structuredClone(prev);
@@ -340,6 +376,7 @@ export function useBattleSystem({
 
   const endCounterStep = useCallback(() => {
     if (!isBattleStep('counter')) return;
+    if (!battle.target) return; // Target must be selected
     appendLog('[battle] Counter Step complete. Proceed to Damage Step.');
     setBattle((b) => ({ ...b, step: 'damage' }));
   }, [appendLog, isBattleStep, setBattle]);
@@ -393,6 +430,11 @@ export function useBattleSystem({
 
   useEffect(() => {
     if (!battle) {
+      setBattleArrow(null);
+      return;
+    }
+    // Don't show battle arrow during declaring step (target not selected yet)
+    if (battle.step === 'declaring' || !battle.target) {
       setBattleArrow(null);
       return;
     }
