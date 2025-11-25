@@ -1,8 +1,24 @@
-
 // Home.jsx - Main game component for One Piece TCG Sim
-import React, { useState, useContext, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, {
+    useState,
+    useContext,
+    useEffect,
+    useMemo,
+    useCallback,
+    useRef
+} from 'react';
+import _ from 'lodash';
 import { AuthContext } from '../../AuthContext';
-import { Box, Container, Typography, Paper, Button, Stack, Chip, Divider, Alert } from '@mui/material';
+import {
+    Box,
+    Container,
+    Typography,
+    Paper,
+    Button,
+    Stack,
+    Chip,
+    Divider,
+} from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import LoginRegister from '../LoginRegister/LoginRegister';
 import Actions from './Actions';
@@ -16,7 +32,7 @@ import { useTargeting } from './useTargeting';
 import { useModifiers } from './useModifiers';
 import { useDeckInitializer, createInitialAreas } from './useDeckInitializer';
 
-const CARD_BACK_URL = '/api/cards/assets/Card%20Backs/CardBackRegular.png'; // Performance: constants defined outside component
+const CARD_BACK_URL = '/api/cards/assets/Card%20Backs/CardBackRegular.png'; //. Performance: constants defined outside component
 const HARDCODED = true;
 const DEMO_LEADER = 'OP09-001';
 const DEMO_DECK_ITEMS = [
@@ -33,35 +49,36 @@ const DEMO_DECK_ITEMS = [
     { id: 'ST15-002', count: 3 },
     { id: 'OP08-118', count: 4 },
     { id: 'OP06-007', count: 3 },
-    { id: 'OP09-004', count: 2 },
+    { id: 'OP09-004', count: 2 }
 ];
 
-// Helper to get the side location from areas (player or opponent)
+//. Helper to get the side location from areas (player or opponent)
 const getSideLocationFromNext = (next, side) => {
     return side === 'player' ? next.player : next.opponent;
 };
 
-// Helper to get hand/cost/trash/don container from areas
+//. Helper to get hand/cost/trash/don container from areas
 const getHandCostLocationFromNext = (next, side) => {
     return side === 'player' ? next.player.bottom : next.opponent.top;
 };
 
+//. Returns deep-cloned board areas (for safe mutation)
+const cloneAreas = (prev) => _.cloneDeep(prev);
 
 export default function Home() {
-    // Auth context values and actions
+    //. Auth context values and actions
     const { isLoggedIn, user, logout, loading } = useContext(AuthContext);
 
-
-    // Card Viewer State
+    //. Card Viewer State
     const [hovered, setHovered] = useState(null);
     const [selectedCard, setSelectedCard] = useState(null);
     const [loadingCards, setLoadingCards] = useState(false);
     const [cardError, setCardError] = useState('');
     const [allCards, setAllCards] = useState([]);
-    const allById = useMemo(() => new Map(allCards.map(c => [c.id, c])), [allCards]);
+    const allById = useMemo(() => _.keyBy(allCards, 'id'), [allCards]);
     const [metaById, setMetaById] = useState(() => new Map());
 
-    // Load card JSON metadata on mount
+    //. Load card JSON metadata on mount
     useEffect(() => {
         let alive = true;
         (async () => {
@@ -75,9 +92,9 @@ export default function Home() {
         return () => { alive = false; };
     }, []);
 
-    const cardsLoadedRef = useRef(false); // Load all cards once on login
+    const cardsLoadedRef = useRef(false); //. Load all cards once on login
     useEffect(() => {
-        if (!isLoggedIn || cardsLoadedRef.current) return;
+        if (!isLoggedIn || cardsLoadedRef.current) { return; }
         cardsLoadedRef.current = true;
 
         const fetchAll = async () => {
@@ -86,14 +103,14 @@ export default function Home() {
             try {
                 const res = await fetch('/api/cardsAll');
                 const data = await res.json();
-                if (!res.ok) throw new Error(data.error || 'Failed to load cards');
+                if (!res.ok) { throw new Error(data.error || 'Failed to load cards'); }
                 setAllCards(data.cards || []);
                 setHovered(null);
             } catch (e) {
                 setCardError(e.message);
                 setAllCards([]);
                 setHovered(null);
-                cardsLoadedRef.current = false; // Allow retry on error
+                cardsLoadedRef.current = false; //. Allow retry on error
             } finally {
                 setLoadingCards(false);
             }
@@ -101,25 +118,24 @@ export default function Home() {
         fetchAll();
     }, [isLoggedIn]);
 
-    const getRandomCard = useCallback(() => { // Returns random card for demo/testing
-        if (!allCards.length) return null;
-        return allCards[Math.floor(Math.random() * allCards.length)];
+    //. Returns random card for demo/testing
+    const getRandomCard = useCallback(() => {
+        if (_.isEmpty(allCards)) { return null; }
+        return _.sample(allCards);
     }, [allCards]);
 
-    // Board / Play Area State
+    //. Board / Play Area State
     const compact = false;
     const [areas, setAreas] = useState(createInitialAreas);
 
-    // Game State
-    const gameStarted = true; // Manual board edits disabled during game
-    const [library, setLibrary] = useState([]); // Player deck card IDs (top at end)
-    const [oppLibrary, setOppLibrary] = useState([]); // Opponent deck card IDs
-    const deckSearchRef = useRef(null); // Deck search component ref
-    const openingHandRef = useRef(null); // Opening hand component ref
+    //. Game State
+    const gameStarted = true; //. Manual board edits disabled during game
+    const [library, setLibrary] = useState([]); //. Player deck card IDs (top at end)
+    const [oppLibrary, setOppLibrary] = useState([]); //. Opponent deck card IDs
+    const deckSearchRef = useRef(null); //. Deck search component ref
+    const openingHandRef = useRef(null); //. Opening hand component ref
 
-
-
-    const { // Deck initialization and card asset helpers
+    const { //. Deck initialization and card asset helpers
         createCardBacks,
         getAssetForId
     } = useDeckInitializer({
@@ -131,7 +147,7 @@ export default function Home() {
         setAreas,
         setLibrary,
         setOppLibrary,
-        initializeDonDecks: () => { }, // will be overridden after DON hook init
+        initializeDonDecks: () => { }, //. will be overridden after DON hook init
         openingHandRef,
         demoConfig: { HARDCODED, DEMO_LEADER, DEMO_DECK_ITEMS },
         cardBackUrl: CARD_BACK_URL
@@ -139,19 +155,22 @@ export default function Home() {
 
     const [openingHandShown, setOpeningHandShown] = useState(false);
 
-    // Turn and Phase State
+    //. Turn and Phase State
     const [turnSide, setTurnSide] = useState('player');
     const [turnNumber, setTurnNumber] = useState(1);
     const [phase, setPhase] = useState('Draw');
     const phaseLower = useMemo(() => phase.toLowerCase(), [phase]);
     const [log, setLog] = useState([]);
     const appendLog = useCallback((msg) => {
-        setLog((prev) => [...prev.slice(-199), `[T${turnNumber} ${turnSide} ${phase}] ${msg}`]);
+        setLog((prev) => [
+            ..._.takeRight(prev, 199),
+            `[T${turnNumber} ${turnSide} ${phase}] ${msg}`
+        ]);
     }, [turnNumber, turnSide, phase]);
-    const [endTurnConfirming, setEndTurnConfirming] = useState(false); // Double-click confirmation
+    const [endTurnConfirming, setEndTurnConfirming] = useState(false); //. Double-click confirmation
     const endTurnTimeoutRef = useRef(null);
 
-    useEffect(() => { // Clear end turn timeout on unmount
+    useEffect(() => { //. Clear end turn timeout on unmount
         return () => {
             if (endTurnTimeoutRef.current) {
                 clearTimeout(endTurnTimeoutRef.current);
@@ -160,11 +179,20 @@ export default function Home() {
     }, []);
 
     const addCardToArea = useCallback((side, section, key) => {
-        if (gameStarted) return;
+        if (gameStarted) { return; }
 
         const card = getRandomCard();
         if (!card) {
-            console.warn('[addCardToArea] No cards available. allCards length:', allCards.length, 'side:', side, 'section:', section, 'key:', key);
+            console.warn(
+                '[addCardToArea] No cards available. allCards length:',
+                allCards.length,
+                'side:',
+                side,
+                'section:',
+                section,
+                'key:',
+                key
+            );
             return;
         }
 
@@ -172,18 +200,18 @@ export default function Home() {
             const sideData = prev[side];
             const targetSection = sideData[section];
 
-            // Direct array section (e.g., char)
-            if (Array.isArray(targetSection)) {
+            //. Direct array section (e.g., char)
+            if (_.isArray(targetSection)) {
                 return {
                     ...prev,
                     [side]: {
                         ...sideData,
-                        [section]: [...targetSection, { ...card }]
+                        [section]: [...targetSection, _.clone(card)]
                     }
                 };
             }
 
-            // Nested section (e.g., middle.leader)
+            //. Nested section (e.g., middle.leader)
             const targetArray = targetSection[key];
             return {
                 ...prev,
@@ -191,30 +219,33 @@ export default function Home() {
                     ...sideData,
                     [section]: {
                         ...targetSection,
-                        [key]: [...targetArray, { ...card }]
+                        [key]: [...targetArray, _.clone(card)]
                     }
                 }
             };
         });
-    }, [getRandomCard]);
+    }, [getRandomCard, allCards.length]);
 
     const removeCardFromArea = useCallback((side, section, key) => {
-        if (gameStarted) return;
+        if (gameStarted) { return; }
 
         setAreas(prev => {
-            const targetSection = prev[side]?.[section];
-            if (!targetSection) return prev;
+            const targetSection = _.get(prev, [side, section]);
+            if (!targetSection) { return prev; }
 
-            if (Array.isArray(targetSection)) {
-                if (!targetSection.length) return prev;
+            if (_.isArray(targetSection)) {
+                if (_.isEmpty(targetSection)) { return prev; }
                 return {
                     ...prev,
-                    [side]: { ...prev[side], [section]: targetSection.slice(0, -1) }
+                    [side]: {
+                        ...prev[side],
+                        [section]: _.dropRight(targetSection)
+                    }
                 };
             }
 
             const target = targetSection[key];
-            if (!target?.length) return prev;
+            if (!target?.length) { return prev; }
 
             return {
                 ...prev,
@@ -222,7 +253,7 @@ export default function Home() {
                     ...prev[side],
                     [section]: {
                         ...targetSection,
-                        [key]: target.slice(0, -1)
+                        [key]: _.dropRight(target)
                     }
                 }
             };
@@ -234,47 +265,78 @@ export default function Home() {
     const [actionCardIndex, setActionCardIndex] = useState(-1);
     const [actionSource, setActionSource] = useState(null);
 
-    const closeActionPanel = useCallback(() => { // Closes action panel and clears selection
+    //. Closes action panel and clears selection
+    const closeActionPanel = useCallback(() => {
         setActionOpen(false);
         setActionCardIndex(-1);
         setActionSource(null);
         setSelectedCard(null);
     }, []);
 
-    const getSideLocation = useCallback((side) => side === 'player' ? areas.player : areas.opponent, [areas]); // Get side root from areas
-    const getHandCostLocation = useCallback((side) => side === 'player' ? areas?.player?.bottom : areas?.opponent?.top, [areas]); // Get hand/cost/trash/don container
-    const getCharArray = useCallback((side) => side === 'player' ? (areas?.player?.char || []) : (areas?.opponent?.char || []), [areas]); // Get character array
-    const getLeaderArray = useCallback((side) => side === 'player' ? (areas?.player?.middle?.leader || []) : (areas?.opponent?.middle?.leader || []), [areas]); // Get leader array
+    //. Get side root from areas
+    const getSideLocation = useCallback((side) => _.get(areas, side), [areas]);
 
+    //. Get hand/cost/trash/don container
+    const getHandCostLocation = useCallback(
+        (side) => _.get(areas, side === 'player' ? 'player.bottom' : 'opponent.top'),
+        [areas]
+    );
 
+    //. Get character array
+    const getCharArray = useCallback(
+        (side) => _.get(areas, side === 'player' ? 'player.char' : 'opponent.char', []),
+        [areas]
+    );
 
-    // Targeting and Battle State
+    //. Get leader array
+    const getLeaderArray = useCallback(
+        (side) => _.get(areas, side === 'player' ? 'player.middle.leader' : 'opponent.middle.leader', []),
+        [areas]
+    );
+
+    //. Targeting and Battle State
     const [currentAttack, setCurrentAttack] = useState(null);
     const [battleArrow, setBattleArrow] = useState(null);
-    const [battle, setBattle] = useState(null); // Battle lifecycle: attack > block > counter > damage > end (CR 7-1)
-    const { targeting, setTargeting, startTargeting, suspendTargeting, cancelTargeting, confirmTargeting, resumeTargeting } = useTargeting({
+    const [battle, setBattle] = useState(null); //. Battle lifecycle: attack > block > counter > damage > end (CR 7-1)
+    const {
+        targeting,
+        setTargeting,
+        startTargeting,
+        suspendTargeting,
+        cancelTargeting,
+        confirmTargeting,
+        resumeTargeting
+    } = useTargeting({
         areas,
         battle,
         setBattleArrow,
         setCurrentAttack
     });
-    const [triggerPending, setTriggerPending] = useState(null); // Trigger choice pending (CR 4-6-3, 10-1-5)
+    const [triggerPending, setTriggerPending] = useState(null); //. Trigger choice pending (CR 4-6-3, 10-1-5)
     const [resolvingEffect, setResolvingEffect] = useState(false);
 
-    const canPlayNow = useCallback((side) => { // Can play cards? (Main phase, your turn, no battle - CR 10-2-2/10-2-3)
+    //. Can play cards? (Main phase, your turn, no battle - CR 10-2-2/10-2-3)
+    const canPlayNow = useCallback((side) => {
         return phaseLower === 'main' && side === turnSide && !battle;
     }, [phaseLower, turnSide, battle]);
 
     const getCardMeta = useCallback((id) => metaById.get(id) || null, [metaById]);
-    const hasKeyword = useCallback((keywords, keyword) => { // Case-insensitive keyword check
-        return (keywords || []).some(k => new RegExp(keyword, 'i').test(k));
+
+    //. Case-insensitive keyword check
+    const hasKeyword = useCallback((keywords, keyword) => {
+        return _.some(keywords, k => new RegExp(keyword, 'i').test(k));
     }, []);
-    const canPerformGameAction = useCallback(() => { // Game actions allowed after opening hand finalized
+
+    //. Game actions allowed after opening hand finalized
+    const canPerformGameAction = useCallback(() => {
         return !openingHandShown;
     }, [openingHandShown]);
-    const getOpposingSide = useCallback((side) => side === 'player' ? 'opponent' : 'player', []);
 
-    const { // DON management (gain, give, return)
+    const getOpposingSide = useCallback((side) => {
+        return side === 'player' ? 'opponent' : 'player';
+    }, []);
+
+    const { //. DON management (gain, give, return)
         donGivingMode,
         startDonGiving,
         cancelDonGiving,
@@ -298,14 +360,17 @@ export default function Home() {
         canPerformGameAction
     });
 
-    // Initialize DON decks once when component mounts
+    //. Initialize DON decks once when component mounts
     useEffect(() => {
         initializeDonDecks();
     }, [initializeDonDecks]);
 
-    const modKey = useCallback((side, section, keyName, index) => `${side}:${section}:${keyName}:${index}`, []); // Unique key for card location
+    //. Unique key for card location
+    const modKey = useCallback((side, section, keyName, index) => {
+        return `${side}:${section}:${keyName}:${index}`;
+    }, []);
 
-    const { // Power/cost modifiers and temporary keywords
+    const { //. Power/cost modifiers and temporary keywords
         getPowerMod,
         hasTempKeyword,
         hasDisabledKeyword,
@@ -316,20 +381,23 @@ export default function Home() {
         cleanupOnRefreshPhase
     } = useModifiers({ modKey, appendLog });
 
-    const [oncePerTurnUsage, setOncePerTurnUsage] = useState({}); // Track Once Per Turn abilities (CR 10-2-13)
-    useEffect(() => { // Reset Once Per Turn usage each turn
+    const [oncePerTurnUsage, setOncePerTurnUsage] = useState({}); //. Track Once Per Turn abilities (CR 10-2-13)
+
+    //. Reset Once Per Turn usage each turn
+    useEffect(() => {
         setOncePerTurnUsage({});
     }, [turnSide, turnNumber]);
+
     const markOncePerTurnUsed = useCallback((source, abilityIndex) => {
-        if (!source || typeof abilityIndex !== 'number') return;
+        if (!source || typeof abilityIndex !== 'number') { return; }
         const side = source.side || 'player';
         const section = source.section || 'char';
         const keyName = source.keyName || 'char';
-        const index = typeof source.index === 'number' ? source.index : 0;
+        const index = _.isNumber(source.index) ? source.index : 0;
         const key = modKey(side, section, keyName, index);
         setOncePerTurnUsage((prev) => {
             const existing = prev[key] || {};
-            if (existing[abilityIndex]) return prev;
+            if (existing[abilityIndex]) { return prev; }
             return {
                 ...prev,
                 [key]: { ...existing, [abilityIndex]: true }
@@ -337,10 +405,20 @@ export default function Home() {
         });
     }, [modKey]);
 
-    const sameOrigin = useCallback((a, b) => !!(a && b && a.side === b.side && a.section === b.section && a.keyName === b.keyName && a.index === b.index), []); // Check if two sources reference same card
+    //. Check if two sources reference same card
+    const sameOrigin = useCallback((a, b) => {
+        return !!(
+            a && b &&
+            a.side === b.side &&
+            a.section === b.section &&
+            a.keyName === b.keyName &&
+            a.index === b.index
+        );
+    }, []);
 
     const openCardAction = useCallback(async (card, index, source = null) => {
-        if (targeting.active && !sameOrigin(source, targeting.origin)) return; // Block opening non-origin cards during targeting
+        //. Block opening non-origin cards during targeting
+        if (targeting.active && !sameOrigin(source, targeting.origin)) { return; }
         setActionCard(card);
         setActionCardIndex(index);
         setActionSource(source);
@@ -348,143 +426,152 @@ export default function Home() {
         setSelectedCard(card);
     }, [targeting.active, targeting.origin, sameOrigin]);
 
-    const dealOneDamageToLeader = useCallback((defender) => { // Deal 1 damage; check for Trigger (CR 4-6-3, 10-1-5)
+    //. Deal 1 damage; check for Trigger (CR 4-6-3, 10-1-5)
+    const dealOneDamageToLeader = useCallback((defender) => {
         let cardWithTrigger = null;
 
         setAreas((prev) => {
-            const next = structuredClone(prev);
+            const next = cloneAreas(prev);
             const side = getSideLocationFromNext(next, defender);
             const life = side.life || [];
 
-            // Rule 1-2-1-1-1: Taking damage with 0 Life = defeat condition
+            //. Rule 1-2-1-1-1: Taking damage with 0 Life = defeat condition
             if (!life.length) {
                 appendLog(`[DEFEAT] ${defender} has 0 Life and took damage!`);
                 return next;
             }
 
-            // Remove top card from life
+            //. Remove top card from life
             const card = life[life.length - 1];
             side.life = life.slice(0, -1);
 
-            // Check if card has [Trigger] keyword
+            //. Check if card has [Trigger] keyword
             const keywords = metaById.get(card.id)?.keywords || [];
             const cardHasTrigger = hasKeyword(keywords, 'trigger');
 
             if (cardHasTrigger) {
-                // Pause and show trigger choice modal
+                //. Pause and show trigger choice modal
                 cardWithTrigger = { side: defender, card, hasTrigger: true };
             } else {
-                // No trigger: add to hand as normal
+                //. No trigger: add to hand as normal
                 const handLoc = getHandCostLocationFromNext(next, defender);
-                handLoc.hand = [...(handLoc.hand || []), card];
+                handLoc.hand = _.concat(handLoc.hand || [], card);
                 appendLog(`[Damage] ${defender} takes 1 damage, adds ${card.id} to hand.`);
             }
 
             return next;
         });
 
-        // If trigger detected, pause for player choice
+        //. If trigger detected, pause for player choice
         if (cardWithTrigger) {
             setTriggerPending(cardWithTrigger);
         }
-    }, [metaById, appendLog, hasKeyword]);
+    }, [metaById, appendLog, hasKeyword, setAreas]);
 
     const onTriggerActivate = useCallback(() => {
-        if (!triggerPending) return;
+        if (!triggerPending) { return; }
 
         const { side, card } = triggerPending;
         appendLog(`[Trigger] ${side} activates [Trigger] on ${card.id}!`);
 
-        // TODO: Actually resolve the trigger effect (needs effect activation system)
-        // For now, trash the card as per Rule 10-1-5-3
+        //. TODO: Actually resolve the trigger effect (needs effect activation system)
+        //. For now, trash the card as per Rule 10-1-5-3
         setAreas((prev) => {
-            const next = structuredClone(prev);
+            const next = cloneAreas(prev);
             const trashLoc = getHandCostLocationFromNext(next, side);
             trashLoc.trash = [...(trashLoc.trash || []), card];
             return next;
         });
 
         setTriggerPending(null);
-    }, [triggerPending, appendLog]);
+    }, [triggerPending, appendLog, setAreas]);
 
     const onTriggerDecline = useCallback(() => {
-        if (!triggerPending) return;
+        if (!triggerPending) { return; }
 
         const { side, card } = triggerPending;
         appendLog(`[Damage] ${side} takes 1 damage, adds ${card.id} to hand (declined trigger).`);
 
-        // Add to hand instead
+        //. Add to hand instead
         setAreas((prev) => {
-            const next = structuredClone(prev);
+            const next = cloneAreas(prev);
             const handLoc = getHandCostLocationFromNext(next, side);
             handLoc.hand = [...(handLoc.hand || []), card];
             return next;
         });
 
         setTriggerPending(null);
-    }, [triggerPending, appendLog]);
+    }, [triggerPending, appendLog, setAreas]);
 
     const getKeywordsFor = useCallback((id) => {
-        return metaById.get(id)?.keywords || [];
+        return _.get(metaById.get(id), 'keywords', []);
     }, [metaById]);
 
     const maybeApplyRemovalReplacement = useCallback((targetSide, section, keyName, index, sourceSide) => {
         try {
-            // Only applies when the source is the opponent of the target controller
+            //. Only applies when the source is the opponent of the target controller
             if (!targetSide || !sourceSide || targetSide === sourceSide) {
                 return false;
             }
 
-            // Only applies to fielded Leader/Character
+            //. Only applies to fielded Leader/Character
             const isCharacter = section === 'char' && keyName === 'char';
             const isLeader = section === 'middle' && keyName === 'leader';
             if (!isCharacter && !isLeader) {
                 return false;
             }
 
-            // Get the card instance
+            //. Get the card instance
             const sideLoc = getSideLocation(targetSide);
             const cardInstance = isCharacter ? sideLoc?.char?.[index] : sideLoc?.middle?.leader?.[0];
             if (!cardInstance?.id) {
                 return false;
             }
 
-            // Check if card has replacement ability
+            //. Check if card has replacement ability
             const meta = metaById.get(cardInstance.id);
-            if (!meta) return false;
+            if (!meta) { return false; }
 
-            const abilities = meta.abilities || [];
-            const hasReplacementAbility = abilities.some((ability) => {
-                if (ability?.type !== 'Continuous') return false;
-                if (String(ability?.frequency || '').toLowerCase() !== 'once per turn') return false;
+            const abilities = _.get(meta, 'abilities', []);
+            const hasReplacementAbility = _.some(abilities, (ability) => {
+                if (_.get(ability, 'type') !== 'Continuous') { return false; }
+                if (_.toLower(_.get(ability, 'frequency', '')) !== 'once per turn') { return false; }
 
-                const effectText = (typeof ability.effect === 'string' ? ability.effect : (ability.effect?.text || '')).toLowerCase();
-                return effectText.includes('would be removed from the field') &&
-                    effectText.includes("opponent") &&
-                    effectText.includes('-2000');
+                const effectText = _.toLower(
+                    _.isString(ability.effect)
+                        ? ability.effect
+                        : _.get(ability, 'effect.text', '')
+                );
+
+                return _.includes(effectText, 'would be removed from the field') &&
+                    _.includes(effectText, 'opponent') &&
+                    _.includes(effectText, '-2000');
             });
 
-            if (!hasReplacementAbility) return false;
+            if (!hasReplacementAbility) { return false; }
 
-            // Once per turn usage check
+            //. Once per turn usage check
             const usedTurnProp = '__replacementUsedTurn';
             if (cardInstance[usedTurnProp] === turnNumber) {
                 return false;
             }
 
-            // Apply -2000 this turn to self and mark used
+            //. Apply -2000 this turn to self and mark used
             const expireOnSide = turnSide === 'player' ? 'opponent' : 'player';
             const cardIndex = isCharacter ? index : 0;
 
             applyPowerMod(targetSide, section, keyName, cardIndex, -2000, expireOnSide);
 
             if (registerUntilNextTurnEffect) {
-                registerUntilNextTurnEffect(expireOnSide, `${meta.name || cardInstance.id}: replacement -2000 applied instead of removal`);
+                registerUntilNextTurnEffect(
+                    expireOnSide,
+                    `${meta.name || cardInstance.id}: replacement -2000 applied instead of removal`
+                );
             }
 
-            // Persist the flag on areas
+            //. Persist the flag on areas
             setAreas((prev) => {
-                const next = structuredClone(prev);
+                const next = cloneAreas(prev);
                 const loc = getSideLocationFromNext(next, targetSide);
 
                 if (isCharacter && loc?.char?.[cardIndex]) {
@@ -493,30 +580,32 @@ export default function Home() {
                     loc.middle.leader[0][usedTurnProp] = turnNumber;
                 }
 
+
+
                 return next;
             });
 
-            appendLog(`[Replacement] ${meta.name || cardInstance.id}: Prevented removal by opponent's effect; -2000 this turn.`);
+            // Return any given DON!! to cost area
+            returnDonFromCard(targetSide, section, keyName, index);
             return true;
-        } catch (e) {
-            console.warn('[maybeApplyRemovalReplacement] error', e);
+        } catch {
             return false;
         }
-    }, [areas, metaById, applyPowerMod, registerUntilNextTurnEffect, setAreas, appendLog, turnSide, turnNumber]);
+    }, [setAreas, appendLog, returnDonFromCard, metaById, getSideLocation, getSideLocationFromNext, turnNumber, turnSide, applyPowerMod, registerUntilNextTurnEffect]);
 
     const removeCardByEffect = useCallback((targetSide, section, keyName, index, sourceSide) => {
-        // Check replacement effect first (e.g., -2000 power instead of removal)
+        //. Check replacement effect first (e.g., -2000 power instead of removal)
         const wasReplaced = maybeApplyRemovalReplacement(targetSide, section, keyName, index, sourceSide);
         if (wasReplaced) {
             return false;
         }
 
         setAreas((prev) => {
-            const next = structuredClone(prev);
+            const next = cloneAreas(prev);
             const sideLoc = getSideLocationFromNext(next, targetSide);
             const trashLoc = getHandCostLocationFromNext(next, targetSide);
 
-            // Handle Character removal
+            //. Handle Character removal
             if (section === 'char' && keyName === 'char') {
                 const charArr = sideLoc?.char || [];
                 if (!charArr[index]) return prev;
@@ -525,7 +614,7 @@ export default function Home() {
                 trashLoc.trash = [...(trashLoc.trash || []), removed];
                 appendLog(`[Effect KO] ${removed.id} was removed by effect.`);
             }
-            // Handle Leader removal (rare)
+            //. Handle Leader removal (rare)
             else if (section === 'middle' && keyName === 'leader') {
                 const leaderArr = sideLoc?.middle?.leader || [];
                 if (!leaderArr[0]) return prev;
@@ -534,7 +623,7 @@ export default function Home() {
                 trashLoc.trash = [...(trashLoc.trash || []), removed];
                 appendLog(`[Effect KO] Leader ${removed.id} was removed by effect.`);
             }
-            // Handle card trashed from hand
+            //. Handle card trashed from hand
             else if ((section === 'bottom' || section === 'top') && keyName === 'hand') {
                 const handLoc = targetSide === 'player' ? next.player?.bottom : next.opponent?.top;
                 const hand = handLoc?.hand || [];
@@ -548,13 +637,13 @@ export default function Home() {
             return next;
         });
 
-        // Return any given DON!! to cost area
+        //. Return any given DON!! to cost area
         returnDonFromCard(targetSide, section, keyName, index);
         return true;
-    }, [maybeApplyRemovalReplacement, setAreas, appendLog, returnDonFromCard]);
+    }, [maybeApplyRemovalReplacement, setAreas, appendLog, returnDonFromCard, cloneAreas, getSideLocationFromNext, getHandCostLocationFromNext]);
 
     const getBasePower = useCallback((id) => {
-        return metaById.get(id)?.stats?.power || 0;
+        return _.get(metaById.get(id), 'stats.power', 0);
     }, [metaById]);
 
     const getAuraPowerMod = useCallback((targetSide, section, keyName, index) => {
@@ -566,7 +655,7 @@ export default function Home() {
                 return 0;
             }
 
-            // Resolve relative targetSide from a source controller perspective
+            //. Resolve relative targetSide from a source controller perspective
             const resolveTargetSide = (controllerSide, relative) => {
                 if (relative === 'both') return 'both';
                 if (relative === 'opponent') {
@@ -575,7 +664,7 @@ export default function Home() {
                 return controllerSide;
             };
 
-            // Check if action applies to the target
+            //. Check if action applies to the target
             const actionAppliesToTarget = (action, srcSide) => {
                 if (action?.type !== 'powerMod') return false;
                 if (action.mode && action.mode !== 'aura') return false;
@@ -590,7 +679,7 @@ export default function Home() {
                 return (appliesToLeader && leaderOk) || (appliesToChar && charOk);
             };
 
-            // Process all abilities from a card
+            //. Process all abilities from a card
             const processAbilityActions = (abilities, srcSide) => {
                 let modSum = 0;
 
@@ -615,7 +704,7 @@ export default function Home() {
                 const srcLoc = getSideLocation(srcSide);
                 if (!srcLoc) continue;
 
-                // Process leader abilities
+                //. Process leader abilities
                 const leaderCard = srcLoc?.middle?.leader?.[0];
                 if (leaderCard?.id) {
                     const meta = metaById.get(leaderCard.id);
@@ -624,7 +713,7 @@ export default function Home() {
                     }
                 }
 
-                // Process character abilities
+                //. Process character abilities
                 const chars = srcLoc?.char || [];
                 for (const charCard of chars) {
                     if (!charCard?.id) continue;
@@ -640,48 +729,49 @@ export default function Home() {
         } catch {
             return 0;
         }
-    }, [areas, metaById, getSideLocation]);
+    }, [metaById, getSideLocation]);
 
     const getTotalPower = useCallback((side, section, keyName, index, id) => {
         const base = getBasePower(id);
         const mod = getPowerMod(side, section, keyName, index) || 0;
-        const aura = getAuraPowerMod(side, section, keyName, index) || 0; // Continuous abilities (e.g., OP09-004)
-        const donBonus = getDonPowerBonus(side, section, keyName, index); // +1000 per given DON during your turn (CR 6-5-5-2)
+        const aura = getAuraPowerMod(side, section, keyName, index) || 0; //. Continuous abilities (e.g., OP09-004)
+        const donBonus = getDonPowerBonus(side, section, keyName, index); //. +1000 per given DON during your turn (CR 6-5-5-2)
         return base + mod + aura + donBonus;
-    }, [getBasePower, getPowerMod, getAuraPowerMod, turnSide, areas]);
+    }, [getBasePower, getPowerMod, getAuraPowerMod, getDonPowerBonus]);
 
     const getAuraCostMod = useCallback((cardId, side, section, keyName, index) => {
         try {
-            // Only applies to cards in hand
+            //. Only applies to cards in hand
             const isInHand = (section === 'bottom' || section === 'top') && keyName === 'hand';
             if (!isInHand) return 0;
 
             const meta = metaById.get(cardId);
-            if (!meta?.abilities) return 0;
+            const abilities = _.get(meta, 'abilities', []);
+            if (_.isEmpty(abilities)) return 0;
 
             let totalMod = 0;
 
-            for (const ability of meta.abilities) {
-                if (ability?.type !== 'Continuous') continue;
+            for (const ability of abilities) {
+                if (_.get(ability, 'type') !== 'Continuous') continue;
 
-                const actions = ability.effect?.actions || [];
-                if (!actions.length) continue;
+                const actions = _.get(ability, 'effect.actions', []);
+                if (_.isEmpty(actions)) continue;
 
                 for (const action of actions) {
-                    // Must be a cost mod that applies to hand and targets self
+                    //. Must be a cost mod that applies to hand and targets self
                     if (action?.type !== 'costMod') continue;
                     if (!action.appliesToHand || !action.targetSelf) continue;
 
-                    // Check condition if present
+                    //. Check condition if present
                     const condition = ability.condition || {};
                     let conditionMet = true;
 
                     if (condition.allyCharacterPower) {
-                        // Check if you have a Character with >= specified power
+                        //. Check if you have a Character with >= specified power
                         const sideLoc = getSideLocation(side);
                         const chars = sideLoc?.char || [];
 
-                        conditionMet = chars.some((char, i) => {
+                        conditionMet = _.some(chars, (char, i) => {
                             if (!char?.id) return false;
                             const totalPower = getTotalPower(side, 'char', 'char', i, char.id);
                             return totalPower >= condition.allyCharacterPower;
@@ -703,28 +793,28 @@ export default function Home() {
     const getCardCost = useCallback((id, side = null, section = null, keyName = null, index = null) => {
         if (!id) return 0;
         const meta = metaById.get(id);
-        const baseCost = meta?.stats?.cost;
-        const cost = typeof baseCost === 'number' && baseCost > 0 ? baseCost : 0;
+        const baseCost = _.get(meta, 'stats.cost');
+        const cost = _.isNumber(baseCost) && baseCost > 0 ? baseCost : 0;
 
         if (side !== null && section !== null && keyName !== null && index !== null) {
-            const auraMod = getAuraCostMod(id, side, section, keyName, index); // Continuous abilities (e.g., Uta ST23-001)
+            const auraMod = getAuraCostMod(id, side, section, keyName, index); //. Continuous abilities (e.g., Uta ST23-001)
             return Math.max(0, cost + auraMod);
         }
 
         return cost;
-    }, [metaById, modKey, getAuraCostMod]);
+    }, [metaById, getAuraCostMod]);
 
     const playSelectedCard = useCallback(() => {
-        // Cannot play cards until opening hand is finalized
+        //. Cannot play cards until opening hand is finalized
         if (!canPerformGameAction()) return;
         if (!actionCard) return;
 
         const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
 
-        // Enforce timing: only during your Main and no battle
+        //. Enforce timing: only during your Main and no battle
         if (!canPlayNow(side)) return;
 
-        // RULE ENFORCEMENT: Only the turn player can play cards (6-5-3)
+        //. RULE ENFORCEMENT: Only the turn player can play cards (6-5-3)
         if (side !== turnSide) {
             appendLog(`Cannot play ${actionCard.id}: not ${side}'s turn.`);
             return;
@@ -743,19 +833,21 @@ export default function Home() {
         let placedFieldIndex = -1;
 
         setAreas((prev) => {
-            const next = structuredClone(prev);
+            const next = cloneAreas(prev);
             const isPlayer = side === 'player';
 
-            const hand = isPlayer ? (next.player.bottom.hand || []) : (next.opponent.top.hand || []);
-            const cardIndex = actionCardIndex >= 0 ? actionCardIndex : hand.findIndex((h) => h.id === actionCard.id);
-            const chars = isPlayer ? (next.player.char || []) : (next.opponent.char || []);
+            const hand = _.get(next, isPlayer ? 'player.bottom.hand' : 'opponent.top.hand', []);
+            const cardIndex = actionCardIndex >= 0
+                ? actionCardIndex
+                : _.findIndex(hand, ['id', actionCard.id]);
+            const chars = _.get(next, isPlayer ? 'player.char' : 'opponent.char', []);
 
-            // Can only play if we found the card and have room
+            //. Can only play if we found the card and have room
             if (cardIndex === -1 || chars.length >= 5) {
                 return next;
             }
 
-            // Pay DON cost
+            //. Pay DON cost
             if (cost > 0) {
                 const pool = isPlayer ? (next.player.bottom.cost || []) : (next.opponent.top.cost || []);
                 let remainingCost = cost;
@@ -769,7 +861,7 @@ export default function Home() {
                 }
             }
 
-            // Remove from hand and place on field
+            //. Remove from hand and place on field
             const [cardToPlay] = hand.splice(cardIndex, 1);
             if (isPlayer) {
                 next.player.bottom.hand = hand;
@@ -791,7 +883,7 @@ export default function Home() {
 
         appendLog(`[${side}] Played ${actionCard.id}${cost ? ` by resting ${cost} DON` : ''}.`);
 
-        // Open Actions to allow On Play resolution
+        //. Open Actions to allow On Play resolution
         setTimeout(() => {
             setAreas((currentAreas) => {
                 const isPlayer = side === 'player';
@@ -808,10 +900,23 @@ export default function Home() {
                     });
                 }
 
-                return currentAreas; // Don't modify areas, just read from it
+                return currentAreas; //. Don't modify areas, just read from it
             });
         }, 0);
-    }, [actionCard, canPlayNow, actionCardIndex, getCardCost, hasEnoughDonFor, appendLog, openCardAction, actionSource, turnNumber, canPerformGameAction, turnSide, setAreas]);
+    }, [
+        actionCard,
+        actionCardIndex,
+        actionSource,
+        canPerformGameAction,
+        canPlayNow,
+        turnSide,
+        appendLog,
+        getCardCost,
+        hasEnoughDonFor,
+        setAreas,
+        openCardAction,
+        turnNumber
+    ]);
 
     const {
         canCharacterAttack,
@@ -859,7 +964,7 @@ export default function Home() {
         getCardMeta
     });
 
-    // Game Action Helpers
+    //. Game Action Helpers
     const drawCard = useCallback((side) => {
         if (!canPerformGameAction()) return;
         const isPlayer = side === 'player';
@@ -870,7 +975,7 @@ export default function Home() {
         const asset = getAssetForId(cardId);
 
         setAreas((prevAreas) => {
-            const next = structuredClone(prevAreas);
+            const next = cloneAreas(prevAreas);
             const handLoc = isPlayer ? next.player.bottom : next.opponent.top;
             const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
             handLoc.hand = [...(handLoc.hand || []), asset];
@@ -882,9 +987,9 @@ export default function Home() {
         });
 
         (isPlayer ? setLibrary : setOppLibrary)((prev) => prev.slice(0, -1));
-    }, [canPerformGameAction, library, oppLibrary, getAssetForId, createCardBacks]);
+    }, [canPerformGameAction, library, oppLibrary, getAssetForId, createCardBacks, setAreas, setLibrary, setOppLibrary]);
 
-    const startDeckSearch = useCallback((config) => { // Delegate to DeckSearch component
+    const startDeckSearch = useCallback((config) => { //. Delegate to DeckSearch component
         closeActionPanel();
 
         if (deckSearchRef.current) {
@@ -894,17 +999,19 @@ export default function Home() {
 
     const returnCardToDeck = useCallback((side, section, keyName, index, location = 'bottom') => {
         setAreas((prev) => {
-            const next = structuredClone(prev);
+            const next = cloneAreas(prev);
             const isPlayer = side === 'player';
             const sideRoot = getSideLocationFromNext(next, side);
+
             let sourceArray;
             if (section === 'top' || section === 'middle' || section === 'bottom') {
                 const container = sideRoot[section];
                 sourceArray = container?.[keyName];
             } else {
-                // For direct arrays, prefer section; fallback to keyName if needed
+                //. For direct arrays, prefer section; fallback to keyName if needed
                 sourceArray = sideRoot[section] || sideRoot[keyName];
             }
+
             if (!sourceArray || index >= sourceArray.length) {
                 console.error('[returnCardToDeck] Invalid source:', { side, section, keyName, index });
                 return prev;
@@ -918,25 +1025,21 @@ export default function Home() {
                 sideRoot[section] = sourceArray.filter((_, i) => i !== index);
             }
 
-            if (location === 'top') { // Top of deck (end of array)
+            if (location === 'top') { //. Top of deck (end of array)
                 if (isPlayer) {
-                    setLibrary(prev => [...prev, card.id]);
+                    setLibrary(prevLib => [...prevLib, card.id]);
                 } else {
-                    setOppLibrary(prev => [...prev, card.id]);
+                    setOppLibrary(prevLib => [...prevLib, card.id]);
                 }
-            } else if (location === 'bottom') { // Bottom of deck (start of array)
+            } else if (location === 'bottom') { //. Bottom of deck (start of array)
                 if (isPlayer) {
-                    setLibrary(prev => [card.id, ...prev]);
+                    setLibrary(prevLib => [card.id, ...prevLib]);
                 } else {
-                    setOppLibrary(prev => [card.id, ...prev]);
+                    setOppLibrary(prevLib => [card.id, ...prevLib]);
                 }
-            } else if (location === 'shuffle') { // Add and shuffle
+            } else if (location === 'shuffle') { //. Add and shuffle
                 const currentLib = isPlayer ? library : oppLibrary;
-                const newLib = [...currentLib, card.id];
-                for (let i = newLib.length - 1; i > 0; i--) { // Fisher-Yates shuffle
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [newLib[i], newLib[j]] = [newLib[j], newLib[i]];
-                }
+                const newLib = _.shuffle([...currentLib, card.id]);
                 if (isPlayer) {
                     setLibrary(newLib);
                 } else {
@@ -944,7 +1047,7 @@ export default function Home() {
                 }
             }
 
-            // Update deck visual (add one card back)
+            //. Update deck visual (add one card back)
             const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
             const currentDeckSize = (deckLoc.deck || []).length;
             deckLoc.deck = createCardBacks(currentDeckSize + 1);
@@ -953,11 +1056,12 @@ export default function Home() {
 
             return next;
         });
-    }, [library, oppLibrary, createCardBacks, appendLog]);
+    }, [library, oppLibrary, createCardBacks, appendLog, setAreas, setLibrary, setOppLibrary]);
 
-    const restCard = useCallback((side, section, keyName, index) => { // Rest (tap) card; used for ability costs
+    //. Rest (tap) card; used for ability costs
+    const restCard = useCallback((side, section, keyName, index) => {
         setAreas((prev) => {
-            const next = structuredClone(prev);
+            const next = cloneAreas(prev);
             const sideLoc = getSideLocationFromNext(next, side);
             try {
                 if (section === 'char' && keyName === 'char') {
@@ -984,36 +1088,54 @@ export default function Home() {
         });
     }, [setAreas, appendLog]);
 
-    const executeRefreshPhase = useCallback((side) => { // Execute Refresh Phase (CR 6-2)
+    //. Execute Refresh Phase (CR 6-2)
+    const executeRefreshPhase = useCallback((side) => {
         appendLog(`[Refresh Phase] Start ${side}'s turn.`);
-        cleanupOnRefreshPhase(side); // Cleanup modifiers and until-next-turn effects
-        // TODO: 6-2-2 - Activate "at the start of your/opponent's turn" effects
-        returnAllGivenDon(side); // 6-2-3: Return DON from leaders/characters
-        // 6-2-4: Set all rested cards to active
+        cleanupOnRefreshPhase(side); //. Cleanup modifiers and until-next-turn effects
+        //. TODO: 6-2-2 - Activate "at the start of your/opponent's turn" effects
+        returnAllGivenDon(side); //. 6-2-3: Return DON from leaders/characters
+
+        //. 6-2-4: Set all rested cards to active
         setAreas((prev) => {
-            const next = structuredClone(prev);
+            const next = cloneAreas(prev);
             const sideLoc = getSideLocationFromNext(next, side);
             const costLoc = getHandCostLocationFromNext(next, side);
-            costLoc.cost = (costLoc.cost || []).map((c) => (c.id === 'DON' ? { ...c, rested: false } : c));
-            if (sideLoc?.middle?.leader?.[0]) sideLoc.middle.leader[0].rested = false;
-            if (sideLoc?.middle?.stage?.[0]) sideLoc.middle.stage[0].rested = false;
-            if (Array.isArray(sideLoc?.char)) sideLoc.char = sideLoc.char.map((c) => ({ ...c, rested: false }));
+
+            costLoc.cost = _.map(costLoc.cost || [], (c) =>
+                c.id === 'DON' ? { ...c, rested: false } : c
+            );
+
+            if (sideLoc?.middle?.leader?.[0]) {
+                sideLoc.middle.leader[0].rested = false;
+            }
+
+            if (sideLoc?.middle?.stage?.[0]) {
+                sideLoc.middle.stage[0].rested = false;
+            }
+
+            if (_.isArray(sideLoc?.char)) {
+                sideLoc.char = _.map(sideLoc.char, (c) => ({ ...c, rested: false }));
+            }
+
             return next;
         });
 
         appendLog('[Refresh Phase] Complete.');
-    }, [appendLog, cleanupOnRefreshPhase, returnAllGivenDon, getSideLocationFromNext, getHandCostLocationFromNext, setAreas]);
+    }, [appendLog, cleanupOnRefreshPhase, returnAllGivenDon, setAreas]);
 
-    const payLife = useCallback((side, amount) => { // Pay life as cost (no Trigger check)
+    //. Pay life as cost (no Trigger check)
+    const payLife = useCallback((side, amount) => {
         if (!amount || amount <= 0) return 0;
         let paid = 0;
+
         setAreas((prev) => {
-            const next = structuredClone(prev);
+            const next = cloneAreas(prev);
             const sideLoc = getSideLocationFromNext(next, side);
             const handLoc = getHandCostLocationFromNext(next, side);
             const lifeArr = sideLoc.life || [];
             const toPay = Math.min(amount, lifeArr.length);
             if (toPay <= 0) return prev;
+
             for (let i = 0; i < toPay; i++) {
                 const card = sideLoc.life.pop();
                 if (card) {
@@ -1023,23 +1145,28 @@ export default function Home() {
             }
             return next;
         });
-        if (paid > 0) appendLog(`[Ability Cost] ${side} paid ${paid} life (added to hand).`);
+
+        if (paid > 0) {
+            appendLog(`[Ability Cost] ${side} paid ${paid} life (added to hand).`);
+        }
         return paid;
     }, [setAreas, appendLog]);
 
-    const nextActionLabel = useMemo(() => { // Label for Next Action button based on phase
+    //. Label for Next Action button based on phase
+    const nextActionLabel = useMemo(() => {
         if (phaseLower === 'draw') return 'Draw Card';
         if (phaseLower === 'don') {
             const requestedAmount = turnNumber === 1 && turnSide === 'player' ? 1 : 2;
             const donDeck = getDonDeckArray(turnSide);
-            const availableDon = donDeck?.length || 0;
+            const availableDon = _.size(donDeck);
             const actualAmount = Math.min(requestedAmount, availableDon);
             return `Gain ${actualAmount} DON!!`;
         }
         return endTurnConfirming ? 'Are you sure?' : 'End Turn';
-    }, [phaseLower, turnNumber, turnSide, endTurnConfirming, areas]);
+    }, [phaseLower, turnNumber, turnSide, endTurnConfirming, getDonDeckArray]);
 
-    useEffect(() => { // Auto-skip DON phase if deck empty
+    //. Auto-skip DON phase if deck empty
+    useEffect(() => {
         if (!canPerformGameAction() || phaseLower !== 'don') return;
 
         const requestedAmount = turnNumber === 1 && turnSide === 'player' ? 1 : 2;
@@ -1053,12 +1180,20 @@ export default function Home() {
         }
     }, [phaseLower, turnNumber, turnSide, canPerformGameAction, getDonDeckArray, appendLog]);
 
-    const onNextAction = useCallback(() => { // Handle Draw/DON/End Turn button
-        if (battle || resolvingEffect || targeting.active || (deckSearchRef.current?.active) || triggerPending) {
+    //. Handle Draw/DON/End Turn button
+    const onNextAction = useCallback(() => {
+        if (
+            battle ||
+            resolvingEffect ||
+            targeting.active ||
+            (deckSearchRef.current?.active) ||
+            triggerPending
+        ) {
             appendLog('Cannot end turn while resolving effects or selections.');
             return;
         }
         if (!canPerformGameAction()) return;
+
         const isFirst = turnNumber === 1 && turnSide === 'player';
 
         if (phaseLower === 'draw') {
@@ -1080,7 +1215,7 @@ export default function Home() {
             return setPhase('Main');
         }
 
-        if (!endTurnConfirming) { // First click: enter confirmation state
+        if (!endTurnConfirming) { //. First click: enter confirmation state
             setEndTurnConfirming(true);
             if (endTurnTimeoutRef.current) {
                 clearTimeout(endTurnTimeoutRef.current);
@@ -1093,7 +1228,7 @@ export default function Home() {
             return;
         }
 
-        if (endTurnTimeoutRef.current) { // Second click: end turn
+        if (endTurnTimeoutRef.current) { //. Second click: end turn
             clearTimeout(endTurnTimeoutRef.current);
             endTurnTimeoutRef.current = null;
         }
@@ -1104,51 +1239,134 @@ export default function Home() {
         setTurnNumber((n) => n + 1);
         setTurnSide(nextSide);
 
-        // Execute Refresh Phase for the new turn player (rule 6-2)
+        //. Execute Refresh Phase for the new turn player (rule 6-2)
         executeRefreshPhase(nextSide);
 
         setPhase('Draw');
-    }, [canPerformGameAction, phaseLower, turnNumber, turnSide, getOpposingSide, drawCard, appendLog, donPhaseGain, executeRefreshPhase, cancelDonGiving, endTurnConfirming]);
+    }, [
+        battle,
+        resolvingEffect,
+        targeting.active,
+        triggerPending,
+        canPerformGameAction,
+        turnNumber,
+        turnSide,
+        phaseLower,
+        drawCard,
+        appendLog,
+        donPhaseGain,
+        getOpposingSide,
+        cancelDonGiving,
+        executeRefreshPhase,
+        endTurnConfirming
+    ]);
 
     const [deckOpen, setDeckOpen] = useState(false);
+
     return (
-        <Container maxWidth={false} disableGutters sx={{ py: 0, px: compact ? 1 : 2, height: '100vh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <Container
+            maxWidth={false}
+            disableGutters
+            sx={{
+                py: 0,
+                px: compact ? 1 : 2,
+                height: '100vh',
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexDirection: 'column',
+                overflow: 'hidden'
+            }}
+        >
             <Box sx={{ p: 0 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', m: 0, py: 0, minHeight: 48 }}>
-                    <Typography variant={'h6'} fontWeight={700} sx={{ mb: 0, lineHeight: 1 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        m: 0,
+                        py: 0,
+                        minHeight: 48
+                    }}
+                >
+                    <Typography
+                        variant='h6'
+                        fontWeight={700}
+                        sx={{ mb: 0, lineHeight: 1 }}
+                    >
                         One Piece TCG Sim
                     </Typography>
                     {isLoggedIn && (
-                        <Stack direction="row" spacing={1} alignItems="center">
-                            <Chip color="primary" label={`Turn ${turnNumber}`} />
-                            <Chip color={turnSide === 'player' ? 'success' : 'warning'} label={`${turnSide === 'player' ? 'Your' : "Opponent's"} Turn`} />
-                            <Chip variant="outlined" label={`Phase: ${phase}`} />
+                        <Stack direction='row' spacing={1} alignItems='center'>
+                            <Chip color='primary' label={`Turn ${turnNumber}`} />
+                            <Chip
+                                color={turnSide === 'player' ? 'success' : 'warning'}
+                                label={`${turnSide === 'player' ? 'Your' : "Opponent's"} Turn`}
+                            />
+                            <Chip variant='outlined' label={`Phase: ${phase}`} />
                             {donGivingMode.active && (
                                 <Chip
-                                    color="warning"
-                                    label="Select Leader/Character"
+                                    color='warning'
+                                    label='Select Leader/Character'
                                     onDelete={cancelDonGiving}
-                                    sx={{ animation: 'pulse 1.5s ease-in-out infinite', '@keyframes pulse': { '0%, 100%': { opacity: 1 }, '50%': { opacity: 0.7 } } }}
+                                    sx={{
+                                        animation: 'pulse 1.5s ease-in-out infinite',
+                                        '@keyframes pulse': {
+                                            '0%, 100%': { opacity: 1 },
+                                            '50%': { opacity: 0.7 }
+                                        }
+                                    }}
                                 />
                             )}
                             <Button
-                                size="small"
-                                variant="contained"
-                                color={phaseLower === 'main' && endTurnConfirming ? 'error' : 'primary'}
+                                size='small'
+                                variant='contained'
+                                color={
+                                    phaseLower === 'main' && endTurnConfirming
+                                        ? 'error'
+                                        : 'primary'
+                                }
                                 onClick={onNextAction}
-                                disabled={!canPerformGameAction() || !!battle || resolvingEffect || targeting.active || (deckSearchRef.current?.active) || !!triggerPending}
+                                disabled={
+                                    !canPerformGameAction() ||
+                                    !!battle ||
+                                    resolvingEffect ||
+                                    targeting.active ||
+                                    (deckSearchRef.current?.active) ||
+                                    !!triggerPending
+                                }
                             >
                                 {nextActionLabel}
                             </Button>
                         </Stack>
                     )}
                     {isLoggedIn && (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <Button size="small" variant="contained" onClick={() => setDeckOpen(true)}>Deck Builder</Button>
-                            <Typography variant="body2" sx={{ opacity: 0.9, lineHeight: 1.2 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1
+                            }}
+                        >
+                            <Button
+                                size='small'
+                                variant='contained'
+                                onClick={() => setDeckOpen(true)}
+                            >
+                                Deck Builder
+                            </Button>
+                            <Typography
+                                variant='body2'
+                                sx={{ opacity: 0.9, lineHeight: 1.2 }}
+                            >
                                 Signed in as: <strong>{user}</strong>
                             </Typography>
-                            <Button size="small" variant="outlined" onClick={logout}>Sign out</Button>
+                            <Button
+                                size='small'
+                                variant='outlined'
+                                onClick={logout}
+                            >
+                                Sign out
+                            </Button>
                         </Box>
                     )}
                 </Box>
@@ -1159,7 +1377,16 @@ export default function Home() {
                 ) : (
                     <Box sx={{ mt: 0 }}>
                         <Divider sx={{ mt: -0.5, mb: 0 }} />
-                        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={compact ? 2 : 3} sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+                        <Box
+                            display='flex'
+                            flexDirection={{ xs: 'column', md: 'row' }}
+                            gap={compact ? 2 : 3}
+                            sx={{
+                                flex: 1,
+                                minHeight: 0,
+                                overflow: 'hidden'
+                            }}
+                        >
                             {/* Play Area Board (CardViewer overlay inside) */}
                             <Board
                                 areas={areas}
@@ -1184,7 +1411,9 @@ export default function Home() {
                                 applyBlocker={applyBlocker}
                                 getPowerMod={getPowerMod}
                                 getAuraPowerMod={getAuraPowerMod}
-                                getCardCost={(id, side, section, keyName, index) => getCardCost(id, side, section, keyName, index)}
+                                getCardCost={(id, side, section, keyName, index) =>
+                                    getCardCost(id, side, section, keyName, index)
+                                }
                                 getAuraCostMod={getAuraCostMod}
                                 turnSide={turnSide}
                                 CARD_BACK_URL={CARD_BACK_URL}
@@ -1217,13 +1446,46 @@ export default function Home() {
                                 setPhase={setPhase}
                             />
                             {/* Activity Log Panel */}
-                            <Box sx={{ width: { xs: '100%', md: compact ? 380 : 440 }, flexShrink: 0, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-                                <Typography variant={compact ? 'h6' : 'h5'} gutterBottom sx={{ mb: compact ? 1 : 2, flexShrink: 0 }}>
+                            <Box
+                                sx={{
+                                    width: {
+                                        xs: '100%',
+                                        md: compact ? 380 : 440
+                                    },
+                                    flexShrink: 0,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    minHeight: 0
+                                }}
+                            >
+                                <Typography
+                                    variant={compact ? 'h6' : 'h5'}
+                                    gutterBottom
+                                    sx={{ mb: compact ? 1 : 2, flexShrink: 0 }}
+                                >
                                     Activity Log
                                 </Typography>
-                                <Box sx={{ border: '1px dashed', borderColor: 'divider', p: 1, borderRadius: 1, flex: 1, minHeight: 0, height: 200, overflow: 'auto', bgcolor: 'background.default' }}>
+                                <Box
+                                    sx={{
+                                        border: '1px dashed',
+                                        borderColor: 'divider',
+                                        p: 1,
+                                        borderRadius: 1,
+                                        flex: 1,
+                                        minHeight: 0,
+                                        height: 200,
+                                        overflow: 'auto',
+                                        bgcolor: 'background.default'
+                                    }}
+                                >
                                     {log.map((entry, i) => (
-                                        <Typography key={i} variant="caption" display="block">{entry}</Typography>
+                                        <Typography
+                                            key={i}
+                                            variant='caption'
+                                            display='block'
+                                        >
+                                            {entry}
+                                        </Typography>
                                     ))}
                                 </Box>
                             </Box>
@@ -1231,16 +1493,24 @@ export default function Home() {
                     </Box>
                 )}
             </Box>
-            {isLoggedIn && <DeckBuilder open={deckOpen} onClose={() => setDeckOpen(false)} />}
+
+            {isLoggedIn && (
+                <DeckBuilder
+                    open={deckOpen}
+                    onClose={() => setDeckOpen(false)}
+                />
+            )}
 
             {actionOpen && ( /* Actions Panel */
-                <ClickAwayListener onClickAway={() => {
-                    if (targeting?.active && sameOrigin(targeting.origin, actionSource)) { // Suspend targeting if active
-                        suspendTargeting();
-                    }
-                    setResolvingEffect(false);
-                    closeActionPanel();
-                }}>
+                <ClickAwayListener
+                    onClickAway={() => {
+                        if (targeting?.active && sameOrigin(targeting.origin, actionSource)) { //. Suspend targeting if active
+                            suspendTargeting();
+                        }
+                        setResolvingEffect(false);
+                        closeActionPanel();
+                    }}
+                >
                     <div>
                         <Actions
                             onClose={() => {
@@ -1288,103 +1558,221 @@ export default function Home() {
                             setResolvingEffect={setResolvingEffect}
                             getTotalPower={getTotalPower}
                             markAbilityUsed={markOncePerTurnUsed}
-                            abilityUsage={actionSource ? oncePerTurnUsage[modKey(actionSource.side || 'player', actionSource.section || 'char', actionSource.keyName || 'char', typeof actionSource.index === 'number' ? actionSource.index : 0)] : undefined}
+                            abilityUsage={
+                                actionSource
+                                    ? oncePerTurnUsage[
+                                    modKey(
+                                        actionSource.side || 'player',
+                                        actionSource.section || 'char',
+                                        actionSource.keyName || 'char',
+                                        _.isNumber(actionSource.index) ? actionSource.index : 0
+                                    )
+                                    ]
+                                    : undefined
+                            }
                         >
-                            {actionSource && ((actionSource.side === 'player' && actionSource.section === 'bottom' && actionSource.keyName === 'hand') || (actionSource.side === 'opponent' && actionSource.section === 'top' && actionSource.keyName === 'hand')) ? ( /* Hand Card Actions */
+                            {actionSource && (
+                                (actionSource.side === 'player' &&
+                                    actionSource.section === 'bottom' &&
+                                    actionSource.keyName === 'hand') ||
+                                (actionSource.side === 'opponent' &&
+                                    actionSource.section === 'top' &&
+                                    actionSource.keyName === 'hand')
+                            ) ? ( /* Hand Card Actions */
                                 <>
                                     <Divider sx={{ my: 1 }} />
-                                    <Typography variant="caption" display="block" sx={{ mb: 1 }}>
+                                    <Typography
+                                        variant='caption'
+                                        display='block'
+                                        sx={{ mb: 1 }}
+                                    >
                                         {(() => {
-                                            if (battle && battle.step === 'counter' && actionSource.side === battle?.target?.side) { // Counter Step: defending side
+                                            if (
+                                                battle &&
+                                                battle.step === 'counter' &&
+                                                actionSource.side === battle?.target?.side
+                                            ) { //. Counter Step: defending side
                                                 return 'Counter Step: use counters or counter events.';
                                             }
-                                            const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
+                                            const side = actionSource?.side === 'opponent'
+                                                ? 'opponent'
+                                                : 'player';
                                             if (battle) return 'Cannot play during battle.';
                                             if (!canPlayNow(side)) return 'Cannot play now (must be your Main Phase).';
+
                                             const section = actionSource?.section || 'bottom';
                                             const keyName = actionSource?.keyName || 'hand';
                                             const index = actionCardIndex >= 0 ? actionCardIndex : 0;
-                                            const cost = actionCard ? getCardCost(actionCard.id, side, section, keyName, index) : 0;
+                                            const cost = actionCard
+                                                ? getCardCost(actionCard.id, side, section, keyName, index)
+                                                : 0;
                                             const ok = hasEnoughDonFor(side, cost);
-                                            return ok ? `Playable now (${side}). Cost: ${cost} DON.` : `Need ${cost} active DON (${side}).`;
+
+                                            return ok
+                                                ? `Playable now (${side}). Cost: ${cost} DON.`
+                                                : `Need ${cost} active DON (${side}).`;
                                         })()}
                                     </Typography>
                                     {(() => {
-                                        if (battle && battle.target && (battle.step === 'counter' || battle.step === 'block') && actionSource.side === battle.target.side) {
+                                        if (
+                                            battle &&
+                                            battle.target &&
+                                            (battle.step === 'counter' || battle.step === 'block') &&
+                                            actionSource.side === battle.target.side
+                                        ) {
                                             const meta = metaById.get(actionCard?.id);
                                             if (!meta) return null;
+
                                             const elements = [];
-                                            const counterVal = meta?.stats?.counter?.present ? (meta.stats.counter.value || 0) : 0;
+                                            const counterVal = meta?.stats?.counter?.present
+                                                ? (meta.stats.counter.value || 0)
+                                                : 0;
+
                                             if (counterVal) {
                                                 elements.push(
-                                                    <Button key="counterDiscard" size="small" variant="contained" color="error" onClick={() => { addCounterFromHand(actionCardIndex); }}>
+                                                    <Button
+                                                        key='counterDiscard'
+                                                        size='small'
+                                                        variant='contained'
+                                                        color='error'
+                                                        onClick={() => { addCounterFromHand(actionCardIndex); }}
+                                                    >
                                                         Discard for Counter +{counterVal}
                                                     </Button>
                                                 );
                                             }
+
                                             const isEvent = meta.category === 'Event';
                                             const hasCounterKeyword = hasKeyword(meta.keywords, 'counter');
+
                                             if (isEvent && hasCounterKeyword) {
                                                 const cost = meta?.stats?.cost || 0;
                                                 const canPay = hasEnoughDonFor(battle.target.side, cost);
                                                 elements.push(
-                                                    <Button key="counterEvent" size="small" variant="outlined" disabled={!canPay} onClick={() => { playCounterEventFromHand(actionCardIndex); closeActionPanel(); }}>
+                                                    <Button
+                                                        key='counterEvent'
+                                                        size='small'
+                                                        variant='outlined'
+                                                        disabled={!canPay}
+                                                        onClick={() => {
+                                                            playCounterEventFromHand(actionCardIndex);
+                                                            closeActionPanel();
+                                                        }}
+                                                    >
                                                         Play Counter Event (Cost {cost})
                                                     </Button>
                                                 );
                                             }
-                                            if (!elements.length) return <Typography variant="caption">No counter on this card.</Typography>;
-                                            return <Stack direction="row" spacing={1}>{elements}</Stack>;
+
+                                            if (!elements.length) {
+                                                return (
+                                                    <Typography variant='caption'>
+                                                        No counter on this card.
+                                                    </Typography>
+                                                );
+                                            }
+
+                                            return (
+                                                <Stack direction='row' spacing={1}>
+                                                    {elements}
+                                                </Stack>
+                                            );
                                         }
-                                        const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
+
+                                        const side = actionSource?.side === 'opponent'
+                                            ? 'opponent'
+                                            : 'player';
                                         const section = actionSource?.section || 'bottom';
                                         const keyName = actionSource?.keyName || 'hand';
                                         const index = actionCardIndex >= 0 ? actionCardIndex : 0;
-                                        const cost = actionCard ? getCardCost(actionCard.id, side, section, keyName, index) : 0;
+                                        const cost = actionCard
+                                            ? getCardCost(actionCard.id, side, section, keyName, index)
+                                            : 0;
                                         const ok = canPlayNow(side) && hasEnoughDonFor(side, cost);
+
                                         return (
-                                            <Button variant="contained" disabled={!ok} onClick={playSelectedCard}>Play to Character Area</Button>
+                                            <Button
+                                                variant='contained'
+                                                disabled={!ok}
+                                                onClick={playSelectedCard}
+                                            >
+                                                Play to Character Area
+                                            </Button>
                                         );
                                     })()}
                                 </>
                             ) : (
-                                <Typography variant="caption" display="block" sx={{ mb: 1 }}>
-                                    {phaseLower === 'main' && actionSource?.side === turnSide ? 'Select an action for this card.' : 'Actions are limited outside the Main Phase or when it\'s not your turn.'}
+                                <Typography
+                                    variant='caption'
+                                    display='block'
+                                    sx={{ mb: 1 }}
+                                >
+                                    {phaseLower === 'main' && actionSource?.side === turnSide
+                                        ? 'Select an action for this card.'
+                                        : 'Actions are limited outside the Main Phase or when it\'s not your turn.'}
                                 </Typography>
                             )}
                             {(() => { /* Attack Controls */
-                                const isOnFieldChar = actionSource && actionSource.side === turnSide && actionSource.section === 'char' && actionSource.keyName === 'char';
-                                const isLeader = actionSource && actionSource.side === turnSide && actionSource.section === 'middle' && actionSource.keyName === 'leader';
+                                const isOnFieldChar =
+                                    actionSource &&
+                                    actionSource.side === turnSide &&
+                                    actionSource.section === 'char' &&
+                                    actionSource.keyName === 'char';
+                                const isLeader =
+                                    actionSource &&
+                                    actionSource.side === turnSide &&
+                                    actionSource.section === 'middle' &&
+                                    actionSource.keyName === 'leader';
 
                                 if (!isOnFieldChar && !isLeader) return null;
 
                                 const cardObj = actionCard;
                                 const idx = actionCardIndex;
                                 const attackingSide = actionSource?.side || 'player';
-                                const isAttacking = battle && ( // Check if this card is attacking
-                                    (battle.attacker.section === 'char' && battle.attacker.index === idx && battle.attacker.side === attackingSide) ||
-                                    (battle.attacker.section === 'middle' && isLeader && battle.attacker.side === attackingSide)
+                                const isAttacking = battle && (
+                                    (battle.attacker.section === 'char' &&
+                                        battle.attacker.index === idx &&
+                                        battle.attacker.side === attackingSide) ||
+                                    (battle.attacker.section === 'middle' &&
+                                        isLeader &&
+                                        battle.attacker.side === attackingSide)
                                 );
 
-                                if (isAttacking) return null; // Attacker has no controls during battle steps
+                                if (isAttacking) return null; //. Attacker has no controls during battle steps
 
-                                // Determine if card can attack
-                                const canAtk = isLeader ? canLeaderAttack(cardObj, attackingSide) : canCharacterAttack(cardObj, attackingSide, idx);
+                                //. Determine if card can attack
+                                const canAtk = isLeader
+                                    ? canLeaderAttack(cardObj, attackingSide)
+                                    : canCharacterAttack(cardObj, attackingSide, idx);
                                 if (!canAtk || (battle && battle.step !== 'declaring')) return null;
 
-                                const selecting = targeting.active && currentAttack && ( // Check if selecting target
-                                    (currentAttack.isLeader && isLeader) ||
-                                    (currentAttack.index === idx && !currentAttack.isLeader)
-                                );
+                                const selecting =
+                                    targeting.active &&
+                                    currentAttack && ( //. Check if selecting target
+                                        (currentAttack.isLeader && isLeader) ||
+                                        (currentAttack.index === idx && !currentAttack.isLeader)
+                                    );
 
                                 if (selecting) {
                                     return (
-                                        <Stack direction="row" spacing={1} sx={{ mt: 1, alignItems: 'center' }}>
-                                            {(() => { // Derive target label
+                                        <Stack
+                                            direction='row'
+                                            spacing={1}
+                                            sx={{
+                                                mt: 1,
+                                                alignItems: 'center'
+                                            }}
+                                        >
+                                            {(() => { //. Derive target label
                                                 let label = '';
-                                                if (Array.isArray(targeting.selected) && targeting.selected.length) {
+                                                if (
+                                                    Array.isArray(targeting.selected) &&
+                                                    targeting.selected.length
+                                                ) {
                                                     const t = targeting.selected[targeting.selected.length - 1];
-                                                    if (t.section === 'middle' && t.keyName === 'leader') label = 'Opponent Leader';
+                                                    if (t.section === 'middle' && t.keyName === 'leader') {
+                                                        label = 'Opponent Leader';
+                                                    }
                                                     if (t.section === 'char' && t.keyName === 'char') {
                                                         const arr = areas?.opponent?.char || [];
                                                         const tc = arr[t.index];
@@ -1392,17 +1780,51 @@ export default function Home() {
                                                     }
                                                 }
                                                 return (
-                                                    <Chip size="small" color="warning" label={label ? `Target: ${label}` : 'Select a target'} />
+                                                    <Chip
+                                                        size='small'
+                                                        color='warning'
+                                                        label={
+                                                            label ? `Target: ${label}` : 'Select a target'
+                                                        }
+                                                    />
                                                 );
                                             })()}
-                                            <Button size="small" variant="contained" disabled={(targeting.selected?.length || 0) < 1} onClick={confirmTargeting}>Confirm Attack</Button>
-                                            <Button size="small" variant="outlined" onClick={cancelTargeting}>Cancel Attack</Button>
+                                            <Button
+                                                size='small'
+                                                variant='contained'
+                                                disabled={(targeting.selected?.length || 0) < 1}
+                                                onClick={confirmTargeting}
+                                            >
+                                                Confirm Attack
+                                            </Button>
+                                            <Button
+                                                size='small'
+                                                variant='outlined'
+                                                onClick={cancelTargeting}
+                                            >
+                                                Cancel Attack
+                                            </Button>
                                         </Stack>
                                     );
                                 }
+
                                 return (
-                                    <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-                                        <Button size="small" variant="contained" onClick={() => isLeader ? beginAttackForLeader(cardObj, attackingSide) : beginAttackForCard(cardObj, idx, attackingSide)}>Attack</Button>
+                                    <Stack
+                                        direction='row'
+                                        spacing={1}
+                                        sx={{ mt: 1 }}
+                                    >
+                                        <Button
+                                            size='small'
+                                            variant='contained'
+                                            onClick={() =>
+                                                isLeader
+                                                    ? beginAttackForLeader(cardObj, attackingSide)
+                                                    : beginAttackForCard(cardObj, idx, attackingSide)
+                                            }
+                                        >
+                                            Attack
+                                        </Button>
                                     </Stack>
                                 );
                             })()}
@@ -1436,34 +1858,50 @@ export default function Home() {
                     }}
                 >
                     <Stack spacing={2}>
-                        <Typography variant="h6" fontWeight={700} color="warning.main">
+                        <Typography
+                            variant='h6'
+                            fontWeight={700}
+                            color='warning.main'
+                        >
                             [Trigger] Card Revealed!
                         </Typography>
                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                             <img
                                 src={triggerPending.card.full || triggerPending.card.thumb}
                                 alt={triggerPending.card.id}
-                                style={{ width: 200, height: 'auto', borderRadius: 8 }}
+                                style={{
+                                    width: 200,
+                                    height: 'auto',
+                                    borderRadius: 8
+                                }}
                             />
                         </Box>
-                        <Typography variant="body1">
-                            <strong>{triggerPending.side === 'player' ? 'You' : 'Opponent'}</strong> revealed <strong>{triggerPending.card.id}</strong> from Life.
+                        <Typography variant='body1'>
+                            <strong>
+                                {triggerPending.side === 'player' ? 'You' : 'Opponent'}
+                            </strong>{' '}
+                            revealed <strong>{triggerPending.card.id}</strong> from
+                            Life.
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Choose to activate its [Trigger] effect, or add it to hand.
+                        <Typography
+                            variant='body2'
+                            color='text.secondary'
+                        >
+                            Choose to activate its [Trigger] effect, or add it to
+                            hand.
                         </Typography>
-                        <Stack direction="row" spacing={2}>
+                        <Stack direction='row' spacing={2}>
                             <Button
                                 fullWidth
-                                variant="contained"
-                                color="warning"
+                                variant='contained'
+                                color='warning'
                                 onClick={onTriggerActivate}
                             >
                                 Activate [Trigger]
                             </Button>
                             <Button
                                 fullWidth
-                                variant="outlined"
+                                variant='outlined'
                                 onClick={onTriggerDecline}
                             >
                                 Add to Hand
@@ -1475,4 +1913,3 @@ export default function Home() {
         </Container>
     );
 }
-

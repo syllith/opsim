@@ -1,126 +1,227 @@
 import { useState, useCallback } from 'react';
+import _ from 'lodash';
 
-// Hook to manage modifiers & temporary effect bookkeeping.
-// Exposes read/apply helpers and a cleanup routine for Refresh Phase.
+//. Sums numeric field over an array of modifier objects
+const sumField = (list, field = 'delta') =>
+  _.sumBy(list || [], entry => entry?.[field] || 0);
+
+//. Appends entry to keyed array map immutably
+const appendToMap = (prev, key, entry) => {
+  const list = _.get(prev, key, []);
+  return { ...prev, [key]: [...list, entry] };
+};
+
+//. Removes entries whose expireOnSide matches the given side
+const filterExpiredBySide = (prev, side) =>
+  _.transform(
+    prev || {},
+    (result, list, key) => {
+      const kept = _.filter(list, entry => entry && entry.expireOnSide !== side);
+      if (kept.length) {
+        result[key] = kept;
+      }
+    },
+    {}
+  );
+
+//. Checks if a keyword exists on a given key within a keyword map
+const hasKeywordEntry = (map, key, keyword) => {
+  const arr = _.get(map, key, []);
+  const target = _.toLower(String(keyword || ''));
+  return _.some(
+    arr,
+    entry => _.toLower(String(entry?.keyword || '')) === target
+  );
+};
+
+//. Adds a keyword entry to the appropriate keyword map
+const addKeywordEntry = (
+  setMap,
+  modKeyFn,
+  side,
+  section,
+  keyName,
+  index,
+  keyword,
+  expireOnSide
+) => {
+  const k = modKeyFn(side, section, keyName, index);
+  setMap(prev =>
+    appendToMap(prev, k, {
+      keyword,
+      expireOnSide: expireOnSide || null
+    })
+  );
+};
+
+//. Hook to manage modifiers & temporary effect bookkeeping.
+//. Exposes read/apply helpers and a cleanup routine for Refresh Phase.
 export function useModifiers({ modKey, appendLog }) {
-  const [powerMods, setPowerMods] = useState({}); // { key: [{ delta, expireOnSide }] }
-  const [costMods, setCostMods] = useState({});  // { key: [{ delta, expireOnSide }] }
-  const [tempKeywords, setTempKeywords] = useState({}); // { key: [{ keyword, expireOnSide }] }
-  const [disabledKeywords, setDisabledKeywords] = useState({}); // { key: [{ keyword, expireOnSide }] }
-  const [untilNextTurnEffects, setUntilNextTurnEffects] = useState({ player: [], opponent: [] });
+  const [powerMods, setPowerMods] = useState({});               //. { key: [{ delta, expireOnSide }] }
+  const [costMods, setCostMods] = useState({});                 //. { key: [{ delta, expireOnSide }] }
+  const [tempKeywords, setTempKeywords] = useState({});         //. { key: [{ keyword, expireOnSide }] }
+  const [disabledKeywords, setDisabledKeywords] = useState({}); //. { key: [{ keyword, expireOnSide }] }
+  const [untilNextTurnEffects, setUntilNextTurnEffects] = useState({
+    player: [],
+    opponent: []
+  });
 
-  // Generic accumulator reducer for arrays of modifier objects.
-  const reduceList = (list, field = 'delta') => Array.isArray(list) ? list.reduce((s, m) => s + (m?.[field] || 0), 0) : 0;
-
-  const getPowerMod = useCallback((side, section, keyName, index) => {
-    const arr = powerMods[modKey(side, section, keyName, index)] || [];
-    return reduceList(arr, 'delta');
-  }, [powerMods, modKey]);
-
-  const applyPowerMod = useCallback((side, section, keyName, index, delta, expireOnSide = null) => {
-    setPowerMods(prev => {
+  //. Returns total power modifier for the given card
+  const getPowerMod = useCallback(
+    (side, section, keyName, index) => {
       const k = modKey(side, section, keyName, index);
-      const list = Array.isArray(prev[k]) ? [...prev[k]] : [];
-      list.push({ delta, expireOnSide: expireOnSide || null });
-      return { ...prev, [k]: list };
-    });
-  }, [modKey]);
+      const arr = powerMods[k] || [];
+      return sumField(arr, 'delta');
+    },
+    [powerMods, modKey]
+  );
 
-  const getCostMod = useCallback((side, section, keyName, index) => {
-    const arr = costMods[modKey(side, section, keyName, index)] || [];
-    return reduceList(arr, 'delta');
-  }, [costMods, modKey]);
-
-  const applyCostMod = useCallback((side, section, keyName, index, delta, expireOnSide = null) => {
-    setCostMods(prev => {
+  //. Applies a new power modifier entry
+  const applyPowerMod = useCallback(
+    (side, section, keyName, index, delta, expireOnSide = null) => {
       const k = modKey(side, section, keyName, index);
-      const list = Array.isArray(prev[k]) ? [...prev[k]] : [];
-      list.push({ delta, expireOnSide: expireOnSide || null });
-      return { ...prev, [k]: list };
-    });
-  }, [modKey]);
+      setPowerMods(prev =>
+        appendToMap(prev, k, {
+          delta,
+          expireOnSide: expireOnSide || null
+        })
+      );
+    },
+    [modKey]
+  );
 
+  //. Returns total cost modifier for the given card
+  const getCostMod = useCallback(
+    (side, section, keyName, index) => {
+      const k = modKey(side, section, keyName, index);
+      const arr = costMods[k] || [];
+      return sumField(arr, 'delta');
+    },
+    [costMods, modKey]
+  );
+
+  //. Applies a new cost modifier entry
+  const applyCostMod = useCallback(
+    (side, section, keyName, index, delta, expireOnSide = null) => {
+      const k = modKey(side, section, keyName, index);
+      setCostMods(prev =>
+        appendToMap(prev, k, {
+          delta,
+          expireOnSide: expireOnSide || null
+        })
+      );
+    },
+    [modKey]
+  );
+
+  //. Registers an "until next turn" effect for the given side
   const registerUntilNextTurnEffect = useCallback((side, description) => {
     setUntilNextTurnEffects(prev => ({
       ...prev,
-      [side]: [...(prev[side] || []), { description, timestamp: Date.now() }]
+      [side]: [
+        ...(_.get(prev, side, [])),
+        { description, timestamp: _.now() }
+      ]
     }));
   }, []);
 
-  const addTempKeyword = useCallback((side, section, keyName, index, keyword, expireOnSide = null) => {
-    setTempKeywords(prev => {
+  //. Adds a temporary keyword to the given card
+  const addTempKeyword = useCallback(
+    (side, section, keyName, index, keyword, expireOnSide = null) => {
+      addKeywordEntry(
+        setTempKeywords,
+        modKey,
+        side,
+        section,
+        keyName,
+        index,
+        keyword,
+        expireOnSide
+      );
+    },
+    [modKey]
+  );
+
+  //. Checks if a temporary keyword is present on the given card
+  const hasTempKeyword = useCallback(
+    (side, section, keyName, index, keyword) => {
       const k = modKey(side, section, keyName, index);
-      const list = Array.isArray(prev[k]) ? [...prev[k]] : [];
-      list.push({ keyword, expireOnSide: expireOnSide || null });
-      return { ...prev, [k]: list };
-    });
-  }, [modKey]);
+      return hasKeywordEntry(tempKeywords, k, keyword);
+    },
+    [tempKeywords, modKey]
+  );
 
-  const hasTempKeyword = useCallback((side, section, keyName, index, keyword) => {
-    const k = modKey(side, section, keyName, index);
-    const arr = tempKeywords[k] || [];
-    const target = String(keyword || '').toLowerCase();
-    return Array.isArray(arr) && arr.some(e => String(e?.keyword || '').toLowerCase() === target);
-  }, [tempKeywords, modKey]);
+  //. Adds a disabled keyword entry to the given card
+  const addDisabledKeyword = useCallback(
+    (side, section, keyName, index, keyword, expireOnSide = null) => {
+      addKeywordEntry(
+        setDisabledKeywords,
+        modKey,
+        side,
+        section,
+        keyName,
+        index,
+        keyword,
+        expireOnSide
+      );
+    },
+    [modKey]
+  );
 
-  const addDisabledKeyword = useCallback((side, section, keyName, index, keyword, expireOnSide = null) => {
-    setDisabledKeywords(prev => {
+  //. Checks if a keyword is disabled on the given card
+  const hasDisabledKeyword = useCallback(
+    (side, section, keyName, index, keyword) => {
       const k = modKey(side, section, keyName, index);
-      const list = Array.isArray(prev[k]) ? [...prev[k]] : [];
-      list.push({ keyword, expireOnSide: expireOnSide || null });
-      return { ...prev, [k]: list };
-    });
-  }, [modKey]);
+      return hasKeywordEntry(disabledKeywords, k, keyword);
+    },
+    [disabledKeywords, modKey]
+  );
 
-  const hasDisabledKeyword = useCallback((side, section, keyName, index, keyword) => {
-    const k = modKey(side, section, keyName, index);
-    const arr = disabledKeywords[k] || [];
-    const target = String(keyword || '').toLowerCase();
-    return Array.isArray(arr) && arr.some(e => String(e?.keyword || '').toLowerCase() === target);
-  }, [disabledKeywords, modKey]);
+  //. Cleanup at Refresh Phase for the given side.
+  const cleanupOnRefreshPhase = useCallback(
+    (side) => {
+      //. Expire until-next-turn effects
+      setUntilNextTurnEffects(prev => {
+        const effects = _.get(prev, side, []);
+        if (effects.length && appendLog) {
+          appendLog(
+            `[Refresh] ${effects.length} "until next turn" effect(s) expired.`
+          );
+        }
+        return { ...prev, [side]: [] };
+      });
 
-  // Cleanup at Refresh Phase for the given side.
-  const cleanupOnRefreshPhase = useCallback((side) => {
-    // Expire until-next-turn effects
-    setUntilNextTurnEffects(prev => {
-      const effects = prev[side] || [];
-      if (effects.length && appendLog) appendLog(`[Refresh] ${effects.length} \"until next turn\" effect(s) expired.`);
-      return { ...prev, [side]: [] };
-    });
-
-    const filterMap = (prev) => {
-      const next = {};
-      for (const [k, v] of Object.entries(prev || {})) {
-        const kept = Array.isArray(v) ? v.filter(m => m && m.expireOnSide !== side) : [];
-        if (kept.length) next[k] = kept;
-      }
-      return next;
-    };
-
-    setPowerMods(filterMap);
-    setCostMods(filterMap);
-    setTempKeywords(filterMap);
-    setDisabledKeywords(filterMap);
-  }, [appendLog]);
+      //. Remove expired modifier / keyword entries
+      setPowerMods(prev => filterExpiredBySide(prev, side));
+      setCostMods(prev => filterExpiredBySide(prev, side));
+      setTempKeywords(prev => filterExpiredBySide(prev, side));
+      setDisabledKeywords(prev => filterExpiredBySide(prev, side));
+    },
+    [appendLog]
+  );
 
   return {
-    // State (exposed if needed by consumers)
+    //. State (exposed if needed)
     powerMods,
     costMods,
     tempKeywords,
     disabledKeywords,
     untilNextTurnEffects,
-    // Read helpers
+
+    //. Read helpers
     getPowerMod,
     getCostMod,
     hasTempKeyword,
     hasDisabledKeyword,
-    // Apply helpers
+
+    //. Apply helpers
     applyPowerMod,
     applyCostMod,
     addTempKeyword,
     addDisabledKeyword,
     registerUntilNextTurnEffect,
+
+    //. Cleanup
     cleanupOnRefreshPhase
   };
 }
