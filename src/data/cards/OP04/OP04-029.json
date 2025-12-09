@@ -1,51 +1,48 @@
 {
-  "id": "OP04-029",
-  "set": "OP04",
-  "number": 29,
-  "name": "Dellinger",
-  "category": "Character",
+  "cardName": "Dellinger",
+  "cardId": "OP04-029",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Donquixote Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-029.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "End of Your Turn: Set up to 1 of your DON!! as active.",
+  "setId": "OP04",
+  "cardNumber": "029",
+  "printedText": "[End of Your Turn] Set up to 1 of your DON!! as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Set up to 1 of your DON!! as active.",
-        "powerMod": null,
-        "targets": [
-          "activeDon"
-        ],
-        "giveDon": null
-      }
+      "timing": "endOfYourTurn",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "don",
+            "zones": [
+              "costArea"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

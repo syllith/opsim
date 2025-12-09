@@ -1,49 +1,54 @@
 {
-  "id": "OP13-069",
-  "set": "OP13",
-  "number": 69,
-  "name": "Tom",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Fish-Man",
-    "Water Seven"
-  ],
+  "cardName": "Tom",
+  "cardId": "OP13-069",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Fish-Man", "Water Seven"],
+  "traits": ["fishMan", "waterSeven"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-069.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play DON-1: Add up to 1 Stage card with a cost of 3 or less from your trash to your hand.",
+  "setId": "OP13",
+  "cardNumber": "069",
+  "printedText": "[On Play] DON!!-1: Add up to 1 Stage card with a cost of 3 or less from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "Add up to 1 Stage card with a cost of 3 or less from your trash to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "upToOneCheapStageInTrash": {
+          "side": "self",
+          "type": "stage",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "upToOneCheapStageInTrash",
+          "reveal": false,
+          "addTo": "hand",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

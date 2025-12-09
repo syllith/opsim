@@ -1,70 +1,53 @@
 {
-  "id": "OP03-120",
-  "set": "OP03",
-  "number": 120,
-  "name": "Tropical Torment",
-  "category": "Event",
+  "cardName": "Tropical Torment",
+  "cardId": "OP03-120",
+  "cardType": "event",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 3,
   "types": [
     "Big Mom Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-120.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "120",
+  "printedText": "Main If your opponent has 4 or more Life cards, place up to 1 card from the top of your opponent's Life area in the trash.\nTrigger Activate this card's Main effect.",
   "keywords": [
     "Main",
     "Trigger"
   ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main If your opponent has 4 or more Life cards, place up to 1 card from the top of your opponent's Life area in the trash.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "condition": {
+        "field": "opponentLife",
+        "op": ">=",
+        "value": 4
       },
-      "effect": {
-        "text": "If your opponent has 4 or more Life cards, place up to 1 card from the top of your opponent's Life area in the trash.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "opponentHasLife4OrMore"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "trash",
+          "may": true,
+          "target": "opponentTopLifeCard"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "may": true,
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card. The card is an Event with no power or life values. The cost is 3, as shown in the top left corner."
-  }
+  "traits": [
+    "bigMomPirates"
+  ]
 }

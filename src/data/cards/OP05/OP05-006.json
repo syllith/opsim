@@ -1,52 +1,60 @@
 {
-  "id": "OP05-006",
-  "set": "OP05",
-  "number": 6,
-  "name": "Koala",
-  "category": "Character",
+  "cardName": "Koala",
+  "cardId": "OP05-006",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "C",
-  "art": "/cards/OP05/OP05-006.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your leader has the type <Revolutionary Army>, give up to one opponent's character Power -3000 for this turn.",
+  "rarity": "SR",
+  "setId": "OP05",
+  "cardNumber": "006",
+  "printedText": "[On Play] If your Leader has the type {Revolutionary Army}, give up to 1 of your opponent's Characters -3000 Power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderHasType",
+        "op": "=",
+        "value": "Revolutionary Army"
       },
-      "effect": {
-        "text": "If your leader has the type <Revolutionary Army>, give up to one opponent's character Power -3000 for this turn.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Revolutionary Army"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "debuffTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -3000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "revolutionaryArmy"
+  ]
 }

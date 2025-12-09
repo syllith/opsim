@@ -1,49 +1,82 @@
 {
-  "id": "OP11-092",
-  "set": "OP11",
-  "number": 92,
-  "name": "Helmeppo",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Navy",
-    "SWORD"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-092.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may trash 1 card from your hand: Draw 1 card and play up to 1 [SWORD] type Character with a cost of 8 or less from your trash other then [Helmeppo]. Then, at the end of this turn, place 1 Character played out by this effect to the bottom of its owner's deck.",
+  "cardName": "Helmeppo",
+  "cardId": "OP11-092",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Navy", "SWORD"],
+  "traits": ["navy", "sword"],
+  "rarity": "SR",
+  "setId": "OP11",
+  "cardNumber": "092",
+  "printedText": "[On Play] You may trash 1 card from your hand: Draw 1 card and play up to 1 [SWORD] type Character card with a cost of 8 or less from your trash other than [Helmeppo]. Then, at the end of this turn, place 1 Character played out by this effect at the bottom of its owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Draw 1 card and play up to 1 [SWORD] type Character with a cost of 8 or less from your trash other then [Helmeppo]. Then, at the end of this turn, place 1 Character played out by this effect to the bottom of its owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "swordFromTrashCost8OrLessNotHelmeppo": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "sword"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 8
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Helmeppo"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "swordFromTrashCost8OrLessNotHelmeppo"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "endOfYourTurn",
+          "target": "helmeppoPlayedCharacter",
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "helmeppoPlayedCharacter",
+              "destination": "bottomOfDeck",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

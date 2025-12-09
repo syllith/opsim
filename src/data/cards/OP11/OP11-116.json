@@ -1,65 +1,76 @@
 {
-  "id": "OP11-116",
-  "set": "OP11",
-  "number": 116,
-  "name": "Merman Combat Ultramarine",
-  "category": "Event",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Merfolk",
-    "Fishmen Island"
-  ],
+  "cardName": "Merman Combat Ultramarine",
+  "cardId": "OP11-116",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 6,
+  "types": ["Merfolk", "Fish-Man Island"],
+  "traits": ["merfolk", "fishManIsland"],
   "rarity": "C",
-  "art": "/cards/OP11/OP11-116.png",
-  "stats": {
-    "cost": 6,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Add up to 1 of your opponent's Characters with a cost of 4 or less to either the top or bottom of their Life area face up."
-  },
-  "text": "Main: Add up to 1 Character with a cost of 6 or less face up to the top or the bottom of owner's Life area. Trigger: Add up to 1 of your opponent's Characters with a cost of 4 or less to either the top or bottom of their Life area face up.",
+  "setId": "OP11",
+  "cardNumber": "116",
+  "printedText": "[Main] Add up to 1 Character with a cost of 6 or less to the top or bottom of the owner's Life area face-up.\n[Trigger] Add up to 1 of your opponent's Characters with a cost of 4 or less to the top or bottom of its owner's Life area face-up.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "anyCharacterCost6OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Add up to 1 Character with a cost of 6 or less face up to the top or the bottom of owner's Life area.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "anyCharacterCost6OrLess",
+          "destination": "topOrBottomOfLife",
+          "ordering": "chosen",
+          "faceUp": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponentCharacterCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Add up to 1 of your opponent's Characters with a cost of 4 or less to either the top or bottom of their Life area face up.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentCharacterCost4OrLess",
+          "destination": "topOrBottomOfLife",
+          "ordering": "chosen",
+          "faceUp": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

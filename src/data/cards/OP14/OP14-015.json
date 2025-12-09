@@ -1,66 +1,43 @@
 {
-  "id": "OP14-015",
-  "set": "OP14",
-  "number": 15,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP14-015",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 7,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Supernovas", "Straw Hat Crew"],
+  "traits": ["supernovas", "strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-015.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Rush",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "Rush (This card can attack on the turn in which it is played.)\nWhen Attacking: Give up to 1 of your opponent's Characters -1000 power during this turn.",
+  "setId": "OP14",
+  "cardNumber": "015",
+  "printedText": "[Rush]\n(This card can attack on the turn in which it is played.)\n[When Attacking] Give up to 1 of your opponent's Characters -1000 power during this turn.",
+  "keywords": ["Rush"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "opponentCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "This card can attack on the turn in which it is played.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -1000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": "opponentCharacterUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,23 +1,26 @@
 {
-  "id": "OP02-007",
-  "set": "OP02",
-  "number": 7,
-  "name": "Thatch",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Wisdom",
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Thatch",
+  "cardId": "OP02-007",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-007.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": null,
+  "setId": "OP02",
+  "cardNumber": "007",
+  "printedText": "",
+  "keywords": [],
   "abilities": [],
-  "meta": { "notes": null }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

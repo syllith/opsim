@@ -1,65 +1,79 @@
 {
-  "id": "OP08-091",
-  "set": "OP08",
-  "number": 91,
-  "name": "Who's Who",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Animal Kingdom Pirates",
-    "Former CP9"
-  ],
+  "cardName": "Who's Who",
+  "cardId": "OP08-091",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Animal Kingdom Pirates", "Former CP9"],
+  "traits": ["animalKingdomPirates", "formerCp9"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-091.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "KO up to 1 of your opponent's cost 3 or lower characters."
-  },
-  "text": "On Play: You may discard one card from your hand: KO up to 1 of your opponent's cost 3 or lower characters.\nTrigger: KO up to 1 of your opponent's cost 3 or lower characters.",
+  "setId": "OP08",
+  "cardNumber": "091",
+  "printedText": "[On Play] You may trash 1 card from your hand: K.O. up to 1 of your opponent's Characters with a cost of 3 or less. [Trigger] K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard one card from your hand: KO up to 1 of your opponent's cost 3 or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost3OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "oppCost3OrLessTrig": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "KO up to 1 of your opponent's cost 3 or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost3OrLessTrig"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark. Rarity is 'R' as printed. Power is 5000 as printed. Counter value is 2000 as printed."
-  }
+  ]
 }

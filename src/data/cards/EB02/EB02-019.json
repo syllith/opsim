@@ -1,50 +1,82 @@
 {
-  "id": "EB02-019",
-  "set": "EB02",
-  "number": 19,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["East Blue", "Straw Hat Crew"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-019.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "If your opponent has 2 or more characters on the field, this character can attack characters on the turn it is played.\n[On Play] If your leader has the type {Strawhat Crew}, rest up to one of your opponent's characters with a cost of 4 or less.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB02-019",
+  "printedText": "If your opponent has 2 or more characters on the field, this character can attack characters on the turn it is played.\nOn Play If your leader has the type {Strawhat Crew}, rest up to one of your opponent's characters with a cost of 4 or less.",
+  "cardNumber": "019",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your opponent has 2 or more characters on the field, this character can attack characters on the turn it is played.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponent2OrMoreCharacters"]
-      }
+      "condition": {
+        "value": 2,
+        "field": "board.opponent.characterCount",
+        "op": ">="
+      },
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "keyword": "Rush-CharactersOnly",
+          "target": {
+            "whoChooses": "system",
+            "min": 1,
+            "side": "self",
+            "type": "character",
+            "max": 1
+          },
+          "type": "keywordEffect",
+          "operation": "grant",
+          "duration": "permanent"
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your leader has the type {Strawhat Crew}, rest up to one of your opponent's characters with a cost of 4 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:opponent:Character:cost<=4"],
-        "conditions": ["leaderHasStrawhatCrew"]
-      }
+      "condition": {
+        "value": "Straw Hat Crew",
+        "field": "leader.self.types",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "setState",
+          "target": {
+            "filters": [
+              {
+                "value": 4,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "side": "opponent",
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "whoChooses": "self"
+          },
+          "state": "rested"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "R",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Roronoa Zoro",
+  "types": [
+    "East Blue",
+    "Straw Hat Crew"
+  ],
+  "cost": 4,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "eastBlue",
+    "strawHatCrew"
+  ]
 }

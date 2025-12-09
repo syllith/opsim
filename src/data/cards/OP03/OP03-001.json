@@ -1,39 +1,147 @@
 {
-  "id": "OP03-001",
-  "set": "OP03",
-  "number": 1,
-  "name": "Portgaz. D. Ace",
-  "category": "Leader",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Portgaz. D. Ace",
+  "cardId": "OP03-001",
+  "cardType": "leader",
+  "colors": [
+    "red"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "L",
-  "art": "/cards/OP03/OP03-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": { "present": false, "value": 0 }
-  },
+  "setId": "OP03",
+  "cardNumber": "001",
+  "printedText": "When this Leader attacks or is being attacked, you may trash any number of Event or Stage cards from your hand. For each card you trashed, this Leader gains +1000 Power during this battle.",
   "keywords": [],
-  "trigger": null,
-  "text": "When this Leader attacks or is being attacked, you may trash any number of Event or Stage cards from your hand. For each card you trashed, this Leader gains +1000 Power during this battle.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash any number of Event or Stage cards from your hand. For each card you trashed, this Leader gains +1000 Power during this battle.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this battle"
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "selectors": {
+        "eventOrStageFromHand": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "event"
+                },
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "stage"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 99,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "trashedCards"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "eventOrStageFromHand",
+          "destination": "trash",
+          "ordering": "keep",
+          "may": true
         },
-        "targets": ["self:Leader"],
-        "conditions": ["trashEventOrStageFromHand"]
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 1,
+          "perAmount": 1000,
+          "countSelector": "eventOrStageFromHand",
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onOpponentsAttack",
+      "frequency": "none",
+      "condition": {
+        "field": "attackTarget",
+        "op": "=",
+        "value": "thisCard"
+      },
+      "selectors": {
+        "eventOrStageFromHand": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "event"
+                },
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "stage"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 99,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "trashedCards"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "eventOrStageFromHand",
+          "destination": "trash",
+          "ordering": "keep",
+          "may": true
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 1,
+          "perAmount": 1000,
+          "countSelector": "eventOrStageFromHand",
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

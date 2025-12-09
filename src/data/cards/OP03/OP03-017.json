@@ -1,48 +1,93 @@
 {
-  "id": "OP03-017",
-  "set": "OP03",
-  "number": 17,
-  "name": "Cross Fire",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Cross Fire",
+  "cardId": "OP03-017",
+  "cardType": "event",
+  "colors": [
+    "red"
+  ],
+  "cost": 2,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP03/OP03-017.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": null
-  },
-  "keywords": ["Main", "Counter"],
-  "trigger": "Activate this card's [Main] effect.",
-  "text": "[Main]/[Counter] If your Leader has {Whitebeard Pirates} in its types, give up to 1 of your opponent's Characters -4000 power during this turn.",
+  "setId": "OP03",
+  "cardNumber": "017",
+  "printedText": "[Main] / [Counter] If your Leader's type includes \"Whitebeard Pirates\", give up to 1 of your opponent's Characters -4000 power during this turn.\n[Trigger] Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has {Whitebeard Pirates} in its types, give up to 1 of your opponent's Characters -4000 power during this turn.",
-        "powerMod": { "amount": -4000 },
-        "targets": ["opponentCharacter"],
-        "conditions": ["leaderHasWhitebeardPirates"]
-      }
+      "timing": "main",
+      "condition": {
+        "field": "leaderHasTypeWhitebeardPirates",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -4000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has {Whitebeard Pirates} in its types, give up to 1 of your opponent's Characters -4000 power during this turn.",
-        "powerMod": { "amount": -4000 },
-        "targets": ["opponentCharacter"],
-        "conditions": ["leaderHasWhitebeardPirates"]
-      }
+      "timing": "counter",
+      "condition": {
+        "field": "leaderHasTypeWhitebeardPirates",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -4000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

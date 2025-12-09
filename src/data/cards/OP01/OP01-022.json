@@ -1,57 +1,60 @@
 {
-  "id": "OP01-022",
-  "set": "OP01",
-  "number": 22,
-  "name": "Brook",
-  "category": "Character",
+  "cardName": "Brook",
+  "cardId": "OP01-022",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Straw Hat Crew"
   ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-022.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "[DON!! x1] [When Attacking] Give up to 2 of your opponent's Characters -2000 power during this turn.",
+  "setId": "OP01",
+  "cardNumber": "022",
+  "printedText": "[DON!! x1] When Attacking Give up to 2 of your opponent's Characters -2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Give up to 2 of your opponent's Characters -2000 power during this turn.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {
+        "debuffTargets": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "debuffTargets"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": -2000,
-          "duration": "duringThisTurn"
-        },
-        "targets": [
-          "upTo2:opponent:Character"
-        ],
-        "conditions": []
-      }
+          "duration": "thisTurn",
+          "target": "debuffTargets"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

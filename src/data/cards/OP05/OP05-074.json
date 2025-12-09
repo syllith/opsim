@@ -1,49 +1,59 @@
 {
-  "id": "OP05-074",
-  "set": "OP05",
-  "number": 74,
-  "name": "Eustass'Captain'Kid",
-  "category": "Character",
+  "cardName": "Eustass 'Captain' Kid",
+  "cardId": "OP05-074",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Kid Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-074.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "SR",
+  "setId": "OP05",
+  "cardNumber": "074",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Your Turn] [Once Per Turn] When a DON!! card from your field is returned to your DON!! deck, add 1 DON!! from your DON!! deck as active.",
   "keywords": [
-    "Blocker",
-    "Once Per Turn"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "When a DON!! card from your field is returned to your DON!! deck, add 1 DON!! from your DON!! deck as active.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenDonReturned",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "turnPlayer",
+        "op": "=",
+        "value": "self"
       },
-      "effect": {
-        "text": "When a DON!! card from your field is returned to your DON!! deck, add 1 DON!! from your DON!! deck as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "donCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 0,
+          "whoChooses": "system",
+          "bindAs": "donCostArea"
+        }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "target": "donCostArea"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "kidPirates"
+  ]
 }

@@ -1,47 +1,37 @@
 {
-  "id": "OP12-093",
-  "set": "OP12",
-  "number": 93,
-  "name": "Morley",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Giant",
-    "Revolutionary Army"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP12/OP12-093.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "cardName": "Morley",
+  "cardId": "OP12-093",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Giant", "Revolutionary Army"],
+  "traits": ["giant", "revolutionaryArmy"],
+  "rarity": "UC",
+  "setId": "OP12",
+  "cardNumber": "093",
+  "printedText": "If your Leader includes \"Revolutionary Army\" in its types, this Character gains +4 cost.",
   "keywords": [],
-  "trigger": null,
-  "text": "If your Leader includes \"Revolutionary Army\" in its types, this Character gains +4 cost.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "revolutionaryArmy"
       },
-      "effect": {
-        "text": "If your Leader includes \"Revolutionary Army\" in its types, this Character gains +4 cost.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 4,
+          "duration": "permanent",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

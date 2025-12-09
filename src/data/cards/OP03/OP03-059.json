@@ -1,56 +1,58 @@
 {
-  "id": "OP03-059",
-  "set": "OP03",
-  "number": 59,
-  "name": "Kaku",
-  "category": "Character",
+  "cardName": "Kaku",
+  "cardId": "OP03-059",
+  "cardType": "character",
   "colors": [
-    "Water"
+    "purple"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Water 7",
     "Galley-La Company"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-059.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "When Attacking DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): This Character gains Banish during this turn. (When a character deals damage, the target card is trashed without activating its Trigger.)",
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "059",
+  "printedText": "[When Attacking] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): This Character gains [Banish] during this turn. (When a Character deals damage, the target card is trashed without activating its Trigger.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "whenAttacking",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "This Character gains Banish during this turn. (When a character deals damage, the target card is trashed without activating its Trigger.)",
-        "grants": [
-          "Banish"
-        ],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Banish",
+          "duration": "thisTurn",
+          "target": "thisCardSelector"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "waterSeven",
+    "galleyLaCompany"
+  ]
 }

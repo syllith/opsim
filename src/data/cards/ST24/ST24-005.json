@@ -1,37 +1,91 @@
 {
-  "id": "ST24-005",
-  "set": "ST24",
-  "number": 5,
-  "name": "X.Drake",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": null,
+  "cardName": "X.Drake",
+  "cardId": "ST24-005",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["slash"],
   "types": ["Supernovas", "Navy", "Drake Pirates"],
-  "rarity": "SR",
-  "art": "/cards/ST24/ST24-005.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If your Leader has the {Supernovas} type, rest up to 1 of your opponent's Characters with a cost of 5 or less. Then, set up to 1 of your DON!! cards as active at the end of this turn.",
+  "traits": ["supernovas", "navy", "drakePirates"],
+  "rarity": "C",
+  "setId": "ST24",
+  "cardNumber": "005",
+  "printedText": "[On Play] If your Leader has the {Supernovas} type, rest up to 1 of your opponent's Characters with a cost of 5 or less. Then, set up to 1 of your DON!! cards as active at the end of this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Supernovas} type, rest up to 1 of your opponent's Characters with a cost of 5 or less. Then, set up to 1 of your DON!! cards as active at the end of this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["leaderHasSupernovasType", "characterCost<=5"]
-      }
+      "timing": "onPlay",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "supernovasLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "supernovasLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernovas"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "targetCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        },
+        "donToReady": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "targetCharacter"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "endOfYourTurn",
+          "target": "supernovasLeader",
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "setState",
+              "state": "active",
+              "target": "donToReady"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

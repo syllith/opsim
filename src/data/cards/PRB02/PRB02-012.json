@@ -1,64 +1,75 @@
 {
-  "id": "PRB02-012",
-  "set": "PRB02",
-  "number": 12,
-  "name": "Nami",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Nami",
+  "cardId": "PRB02-012",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/PRB02/PRB02-012.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "On Play: Look at 5 cards from the top of your deck; reveal up to 1 (Straw Hat Crew) type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "PRB02",
+  "cardNumber": "012",
+  "printedText": "On Play Look at 5 cards from the top of your deck; reveal up to 1 {Straw Hat Crew} type card other than {Nami} and add it to your hand. Then, place the rest at the bottom of your deck in any order.\nTrigger Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "namiSearch": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "strawHatCrew"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Nami"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 (Straw Hat Crew) type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "namiSearch",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

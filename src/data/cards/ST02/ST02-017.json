@@ -1,37 +1,92 @@
 {
-  "id": "ST02-017",
-  "set": "ST02",
-  "number": 17,
-  "name": "Straw Sword",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
+  "cardName": "Straw Sword",
+  "cardId": "ST02-017",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
+  "attributes": ["unknown"],
   "types": ["Supernovas", "Hawkins Pirates"],
-  "rarity": null,
-  "art": "/cards/ST02/ST02-017.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main"],
-  "trigger": { "text": "Play up to 1 {Supernovas} type Character or Stage card with a cost of 2 or less from your hand." },
-  "text": "Main: Rest up to 1 of your opponent's Characters.",
+  "traits": ["supernovas", "hawkinsPirates"],
+  "rarity": "common",
+  "setId": "ST02",
+  "cardNumber": "017",
+  "printedText": "[Main] Rest up to 1 of your opponent's Characters.\n[Trigger] Play up to 1 {Supernovas} type Character or Stage card with a cost of 2 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 2 },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:character"],
-        "conditions": []
-      }
+      "timing": "main",
+      "selectors": {
+        "opponentCharacterToRest": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCharacterToRest",
+          "may": true
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "supernovaCharOrStageCost2OrLessFromHand": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernovas"
+            },
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "character"
+                },
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "stage"
+                }
+              ]
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "supernovaCharOrStageCost2OrLessFromHand",
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

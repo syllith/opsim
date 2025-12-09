@@ -1,36 +1,53 @@
 {
-  "id": "ST22-006",
-  "set": "ST22",
-  "number": 6,
-  "name": "Jozu",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
+  "cardName": "Jozu",
+  "cardId": "ST22-006",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 7,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Whitebeard Pirates"],
-  "rarity": "C",
-  "art": "/cards/ST22/ST22-006.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play Reveal the top card of your deck, if it has 'Whitebeard Pirates' in its types, draw 2 cards and discard 1 card from your hand.",
+  "traits": ["whitebeardPirates"],
+  "rarity": "starter",
+  "setId": "ST22",
+  "cardNumber": "006",
+  "printedText": "[On Play] Reveal the top card of your deck, if it has \"Whitebeard Pirates\" in its types, draw 2 cards and discard 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Reveal the top card of your deck, if it has 'Whitebeard Pirates' in its types, draw 2 cards and discard 1 card from your hand.",
-        "powerMod": null,
-        "targets": ["deckTop1"],
-        "conditions": ["ifWhitebeardPiratesDraw2Discard1"]
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "selfTopDeckCard",
+            "filters": [
+              {
+                "field": "types",
+                "op": "=",
+                "value": "Whitebeard Pirates"
+              }
+            ],
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 2,
+              "side": "self"
+            },
+            {
+              "type": "trashFromHand",
+              "minCards": 1,
+              "maxCards": 1,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

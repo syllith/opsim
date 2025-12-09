@@ -1,55 +1,89 @@
 {
-  "id": "OP08-006",
-  "set": "OP08",
-  "number": 6,
-  "name": "Chessmarimo",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Drum Kingdom"
-  ],
+  "cardName": "Chessmarimo",
+  "cardId": "OP08-006",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Drum Kingdom"],
+  "traits": ["drumKingdom"],
   "rarity": "UC",
-  "art": "/cards/OP08/OP08-006.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Your Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn: If you have a [Kuromarimo] and a [Chess] in your trash, this Character gains +2000 power.",
+  "setId": "OP08",
+  "cardNumber": "006",
+  "printedText": "[Your Turn] If you have a [Kuromarimo] and a [Chess] in your trash, this Character gains +2000 power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "selectorCount",
+            "selector": "kuromarimoInTrash",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCount",
+            "selector": "chessInTrash",
+            "op": ">=",
+            "value": 1
+          }
+        ]
       },
-      "effect": {
-        "text": "If you have a [Kuromarimo] and a [Chess] in your trash, this Character gains +2000 power.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
+      "selectors": {
+        "kuromarimoInTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Kuromarimo"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
         },
-        "conditions": [
-          "have a [Kuromarimo] in trash",
-          "have a [Chess] in trash"
-        ],
-        "giveDon": null
-      }
+        "chessInTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Chess"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

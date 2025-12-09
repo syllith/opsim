@@ -1,37 +1,123 @@
 {
-  "id": "OP02-036",
-  "set": "OP02",
-  "number": 36,
-  "name": "Nami",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Special",
-  "types": ["FILM", "Straw Hat Crew"],
+  "cardName": "Nami",
+  "cardId": "OP02-036",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP02/OP02-036.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "When Attacking"],
-  "trigger": null,
-  "text": "On Play | When Attacking 1 (You may rest the specified number of DON!! cards in your Cost Area): Look at 3 cards from the top of your deck; reveal up to 1 {FILM} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP02",
+  "cardNumber": "036",
+  "printedText": "[On Play]/[When Attacking] (1) (You may rest the specified number of DON!! cards in your cost area.): Look at 3 cards from the top of your deck; reveal up to 1 {FILM} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play | When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "Look at 3 cards from the top of your deck; reveal up to 1 {FILM} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["FILM type card"],
-        "conditions": ["other than Nami"]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 1
+      },
+      "selectors": {
+        "topFilmExceptNami": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "FILM"
+            },
+            {
+              "field": "name",
+              "op": "!=",
+              "value": "Nami"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "chosenCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "topFilmExceptNami",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
+    },
+    {
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 1
+      },
+      "selectors": {
+        "topFilmExceptNami": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "FILM"
+            },
+            {
+              "field": "name",
+              "op": "!=",
+              "value": "Nami"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "chosenCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "topFilmExceptNami",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "film",
+    "strawHatCrew"
+  ]
 }

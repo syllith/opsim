@@ -1,35 +1,76 @@
 {
-  "id": "OP02-092",
-  "set": "OP02",
-  "number": 92,
-  "name": "Impel Down",
-  "category": "Stage",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Impel Down"],
-  "rarity": "UC",
-  "art": "/cards/OP02/OP02-092.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may trash 1 card from your hand and rest this Stage: Look at 3 cards from the top of your deck; reveal up to 1 {Impel Down} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "cardName": "Impel Down",
+  "cardId": "OP02-092",
+  "cardType": "stage",
+  "colors": [
+    "purple"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Impel Down"
+  ],
+  "rarity": "C",
+  "setId": "OP02",
+  "cardNumber": "092",
+  "printedText": "[Activate: Main] You may trash 1 card from your hand and rest this Stage: Look at 3 cards from the top of your deck; reveal up to 1 {Impel Down} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand and rest this Stage: Look at 3 cards from the top of your deck; reveal up to 1 {Impel Down} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "targets": ["deck"],
-        "conditions": ["typeImpelDown"]
-      }
+      "timing": "activateMain",
+      "frequency": "none",
+      "cost": {
+        "type": "multiCost",
+        "may": true,
+        "costs": [
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ]
+      },
+      "selectors": {
+        "top3ImpelDownChoice": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Impel Down"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "chosenCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top3ImpelDownChoice",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "impelDown"
+  ]
 }

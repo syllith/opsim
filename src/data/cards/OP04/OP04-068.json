@@ -1,75 +1,66 @@
 {
-  "id": "OP04-068",
-  "set": "OP04",
-  "number": 68,
-  "name": "Yokozuna",
-  "category": "Character",
+  "cardName": "Yokozuna",
+  "cardId": "OP04-068",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Animal",
-    "Water"
+    "Water 7"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-068.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "068",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n\nWhen Opponent Attacks DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Return up to 1 of your opponent's Characters with a cost of 2 or less to its owner's hand.",
   "keywords": [
-    "Blocker",
-    "When Attacking"
+    "Blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nWhen Attacking DON!!:1: Return up to 1 of your opponent's Characters with a cost of 2 or less to its owner's hand.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onOpponentsAttack",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "thisCard"
-        ],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Return up to 1 of your opponent's Characters with a cost of 2 or less to its owner's hand.",
-        "grants": [
-          "DON!!"
-        ],
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost2"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 2
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animal",
+    "waterSeven"
+  ]
 }

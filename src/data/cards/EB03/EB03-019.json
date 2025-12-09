@@ -1,23 +1,27 @@
 {
-  "id": "EB03-019",
-  "set": "EB03",
-  "number": 19,
-  "name": "Wanda",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Minks"],
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB03-019",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "cardNumber": "019",
+  "keywords": [
+    "blocker"
+  ],
   "rarity": "C",
-  "art": "/cards/EB03/EB03-019.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker"],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [],
-  "meta": { "notes": "Vanilla Blocker with reminder text" }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Wanda",
+  "types": [
+    "Minks"
+  ],
+  "cost": 6,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "minks"
+  ]
 }

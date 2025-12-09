@@ -1,56 +1,30 @@
 {
-  "id": "OP01-025",
-  "set": "OP01",
-  "number": 25,
-  "name": "Roronoa Zoro",
-  "category": "Character",
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP01-025",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 5000,
+  "counter": 0,
   "types": [
     "Supernovas",
     "Straw Hat Crew"
   ],
   "rarity": "SR",
-  "art": "/cards/OP01/OP01-025.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "025",
+  "printedText": "Rush (This card can attack on the turn in which it is played.)",
   "keywords": [
-    "Rush"
+    "rush"
   ],
-  "trigger": null,
-  "text": "[Rush] (This card can attack on the turn in which it is played.)",
-  "abilities": [
-    {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "[Rush] (This card can attack on the turn in which it is played.)",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": []
-      }
-    }
+  "abilities": [],
+  "attributes": [
+    "slash"
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "traits": [
+    "supernovas",
+    "strawHatCrew"
+  ]
 }

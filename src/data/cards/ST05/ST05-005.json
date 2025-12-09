@@ -1,20 +1,84 @@
 {
-  "id": "ST05-005",
-  "set": "ST05",
-  "number": 5,
-  "name": "Carina",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Wisdom",
-  "types": ["FILM", "Gran Tesoro"],
-  "rarity": null,
-  "art": "/cards/ST05/ST05-005.png",
-  "stats": { "cost": 2, "power": 3000, "life": null, "counter": { "present": true, "value": 1000 } },
-  "keywords": ["Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "Activate: Main — Once Per Turn: Rest this Character, you may trash 1 FILM type card from your hand: If your opponent has more DON!! cards on their field than you, add 2 DON!! cards from your DON!! deck and rest them.",
-  "abilities": [
-    {"timing": "Activate: Main", "frequency": "Once Per Turn", "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Rest this Character, trash 1 FILM card from hand: If opponent has more DON!!, add 2 DON!! from DON deck and rest them.", "grants": [], "powerMod": null, "targets": ["donDeck"], "conditions": ["restSelf", "trashFilmCard", "opponentMoreDon"]}}
+  "cardName": "Carina",
+  "cardId": "ST05-005",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": [
+    "FILM",
+    "Gran Tesoro"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "film",
+    "granTesoro"
+  ],
+  "rarity": "",
+  "setId": "ST05",
+  "cardNumber": "005",
+  "printedText": "[Activate: Main] [Once Per Turn] Rest this Character, you may trash 1 {FILM} type card from your hand: If your opponent has more DON!! cards on their field than you, add 2 DON!! cards from your DON!! deck and rest them.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "trashFromHand",
+            "minCards": 0,
+            "maxCards": 1,
+            "filters": ["filmTypeCard"],
+            "may": true
+          }
+        ]
+      },
+      "selectors": {
+        "selfDonsOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "opponentDonsOnField": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 2,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCountCompare",
+            "selectorA": "opponentDonsOnField",
+            "selectorB": "selfDonsOnField",
+            "op": ">"
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "donFromDeck",
+              "destination": "costArea",
+              "ordering": "keep",
+              "enterRested": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -1,37 +1,66 @@
 {
-  "id": "EB02-017",
-  "set": "EB02",
-  "number": 17,
-  "name": "Nami",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Wisdom",
-  "types": ["East Blue", "Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/EB02/EB02-017.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Look at the top 5 cards of your library and reveal up to one {Strawhat Crew} type card other than \"Nami\" then put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "power": 2000,
+  "cardType": "character",
+  "cardId": "EB02-017",
+  "printedText": "On Play Look at the top 5 cards of your library and reveal up to one {Strawhat Crew} type card other than \"Nami\" then put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "cardNumber": "017",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top 5 cards of your library and reveal up to one {Strawhat Crew} type card other than \"Nami\" then put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "selector": {
+            "filters": [
+              {
+                "value": "Straw Hat Crew",
+                "field": "types",
+                "op": "="
+              },
+              {
+                "value": "Nami",
+                "field": "name",
+                "op": "!="
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "any",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 5,
+          "addTo": "hand",
+          "reveal": true,
+          "sourceZone": "deck",
+          "type": "search",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "R",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Nami",
+  "types": [
+    "East Blue",
+    "Straw Hat Crew"
+  ],
+  "cost": 1,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue",
+    "strawHatCrew"
+  ]
 }

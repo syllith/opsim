@@ -1,57 +1,63 @@
 {
-  "id": "OP05-080",
-  "set": "OP05",
-  "number": 80,
-  "name": "Elizabello II",
-  "category": "Character",
+  "cardName": "Elizabello II",
+  "cardId": "OP05-080",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Prodence Kingdom",
     "Dressrosa"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-080.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "080",
+  "printedText": "[When Attacking] [Once Per Turn] You may return 20 cards from your trash to your deck and shuffle: During this battle, this Character gains [Double Attack] and +10000 power. (This card deals 2 damage.)",
   "keywords": [
-    "When Attacking",
-    "Once Per Turn",
-    "Double Attack"
+    "doubleAttack"
   ],
-  "trigger": null,
-  "text": "When Attacking Once Per Turn: You may return 20 cards from your trash to your deck and shuffle. During this battle, this Character gains Double Attack and +1000 power. (This card deals 2 damage.)",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "shuffleFromTrashToDeck",
+        "count": 20,
+        "may": true
       },
-      "effect": {
-        "text": "You may return 20 cards from your trash to your deck and shuffle. During this battle, this Character gains Double Attack and +1000 power.",
-        "grants": [
-          "Double Attack"
-        ],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this battle"
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "doubleAttack",
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
         },
-        "giveDon": null
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 10000,
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "prodenceKingdom",
+    "dressrosa"
+  ]
 }

@@ -1,55 +1,65 @@
 {
-  "id": "OP12-001",
-  "set": "OP12",
-  "number": 1,
-  "name": "Silvers Rayleigh",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Former Roger Pirates"
-  ],
+  "cardName": "Silvers Rayleigh",
+  "cardId": "OP12-001",
+  "cardType": "leader",
+  "colors": ["red"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["Former Roger Pirates"],
+  "traits": ["formerRogerPirates"],
   "rarity": "L",
-  "art": "/cards/OP12/OP12-001.png",
-  "stats": {
-    "cost": 5,
-    "power": null,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "You cannot have cards with a cost of 5 or greater in your deck, according to the rules.\nActivate: Main Once Per Turn You may reveal 2 Event cards from your hand: Give up to 1 of your Character with a base power of 4000 or less +2000 power during this turn.",
+  "setId": "OP12",
+  "cardNumber": "001",
+  "printedText": "You cannot have cards with a cost of 5 or greater in your deck, according to the rules.\n[Activate: Main] [Once Per Turn] You may reveal 2 Event cards from your hand: Give up to 1 of your Characters with a base power of 4000 or less +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "revealFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "filters": [
+          {
+            "field": "cardType",
+            "op": "=",
+            "value": "event"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may reveal 2 Event cards from your hand: Give up to 1 of your Character with a base power of 4000 or less +2000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "Character with a base power of 4000 or less"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "buffCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 4000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "buffCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

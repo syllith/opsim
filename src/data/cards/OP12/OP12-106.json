@@ -1,50 +1,32 @@
 {
-  "id": "OP12-106",
-  "set": "OP12",
-  "number": 106,
-  "name": "Traffagar Law",
-  "category": "Character",
+  "cardName": "Trafalgar Law",
+  "cardId": "OP12-106",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Dressrosa",
     "Supernovas",
     "Heart Pirates"
   ],
+  "traits": [
+    "dressrosa",
+    "supernovas",
+    "heartPirates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP12/OP12-106.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "106",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "keywords": [
     "Blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [
-    {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "abilities": []
 }

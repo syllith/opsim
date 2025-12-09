@@ -1,51 +1,72 @@
 {
-  "id": "OP09-017",
-  "set": "OP09",
-  "number": 17,
-  "name": "Wire",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Kid Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP09/OP09-017.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "DON!! x1: If your leader has Power 7000 or higher and the \"Kid Pirates\" type, this character gains Rush.",
+  "cardName": "Wire",
+  "cardId": "OP09-017",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Kid Pirates"],
+  "traits": ["kidPirates"],
+  "rarity": "UC",
+  "setId": "OP09",
+  "cardNumber": "017",
+  "printedText": "[DON!! x1] If your Leader has 7000 or more power and the {Kid Pirates} type, this Character gains [Rush].",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "DON!!",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "attachedDonToThis": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "attachedTo",
+              "op": "=",
+              "value": "thisCard"
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your leader has Power 7000 or higher and the \"Kid Pirates\" type, this character gains Rush.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "permanent",
+          "target": "thisCard",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "selectorCount",
+                "selector": "attachedDonToThis",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "leaderPower",
+                "op": ">=",
+                "value": 7000
+              },
+              {
+                "field": "leaderTraits",
+                "op": "=",
+                "value": "kidPirates"
+              }
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

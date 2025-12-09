@@ -1,55 +1,63 @@
 {
-  "id": "OP10-021",
-  "set": "OP10",
-  "number": 21,
-  "name": "Punk Hazard",
-  "category": "Stage",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Punk Hazard"
-  ],
+  "cardName": "Punk Hazard",
+  "cardId": "OP10-021",
+  "cardType": "stage",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": ["Punk Hazard"],
+  "traits": ["punkHazard"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-021.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Rest this Stage: If your leader is <Caesar Clown>, Attach a rested don!! on one of your leader or character.",
+  "setId": "OP10",
+  "cardNumber": "021",
+  "printedText": "[Activate: Main] Rest this Stage: If your Leader is \"Caesar Clown\", attach 1 rested DON!! card to 1 of your Leader or Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis"
       },
-      "effect": {
-        "text": "Rest this Stage: If your leader is <Caesar Clown>, Attach a rested don!! on one of your leader or character.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter",
-          "self"
-        ],
-        "conditions": [
-          "your leader is <Caesar Clown>"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "leaderCaesarClown": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Caesar Clown"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "leaderOrCharacterTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderCaesarClown",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "target": "leaderOrCharacterTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

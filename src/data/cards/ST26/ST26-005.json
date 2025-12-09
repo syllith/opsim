@@ -1,50 +1,131 @@
 {
-  "id": "ST26-005",
-  "set": "ST26",
-  "number": 5,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": null,
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "ST26-005",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 0,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "SR",
-  "art": "/cards/ST26/ST26-005.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "When Attacking"],
-  "trigger": null,
-  "text": "[On Play]/[When Attacking] DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): If your Leader is multicolored and your opponent has 5 or more DON!! cards attached, your {Straw Hat Crew} type Leader's base power becomes 7000 until the end of your opponent's next End Phase.",
+  "setId": "ST26",
+  "cardNumber": "005",
+  "printedText": "[On Play] / [When Attacking] DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): If your Leader is multicolored and your opponent has 5 or more DON!! cards on their field, your \"Straw Hat Crew\" type Leader's base power becomes 7000 until the end of your opponent's next End Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): If your Leader is multicolored and your opponent has 5 or more DON!! cards attached, your {Straw Hat Crew} type Leader's base power becomes 7000 until the end of your opponent's next End Phase.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self:Leader"],
-        "conditions": ["leaderIsMulticolored", "opponentAttachedDon>=5"]
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "donMinus",
+        "count": 2
+      },
+      "selectors": {
+        "strawHatLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "opponentDonInCostArea": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "setBase",
+          "amount": 7000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "strawHatLeader",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "leaderColorsCount",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "field": "selectorCount",
+                "selector": "opponentDonInCostArea",
+                "op": ">=",
+                "value": 5
+              }
+            ]
+          }
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): If your Leader is multicolored and your opponent has 5 or more DON!! cards attached, your {Straw Hat Crew} type Leader's base power becomes 7000 until the end of your opponent's next End Phase.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self:Leader"],
-        "conditions": ["leaderIsMulticolored", "opponentAttachedDon>=5"]
-      }
+      "timing": "whenAttacking",
+      "cost": {
+        "type": "donMinus",
+        "count": 2
+      },
+      "selectors": {
+        "strawHatLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "opponentDonInCostArea": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "setBase",
+          "amount": 7000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "strawHatLeader",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "leaderColorsCount",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "field": "selectorCount",
+                "selector": "opponentDonInCostArea",
+                "op": ">=",
+                "value": 5
+              }
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

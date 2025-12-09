@@ -1,50 +1,61 @@
 {
-  "id": "OP13-042",
-  "set": "OP13",
-  "number": 42,
-  "name": "Edward.Newgate",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "The Four Emperors",
-    "Whitebeard Pirates"
-  ],
+  "cardName": "Edward.Newgate",
+  "cardId": "OP13-042",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 10,
+  "power": 12000,
+  "life": 0,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": ["The Four Emperors", "Whitebeard Pirates"],
+  "traits": ["theFourEmperors", "whitebeardPirates"],
   "rarity": "SR",
-  "art": "/cards/OP13/OP13-042.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 12000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Draw 2 cards and trash 1 card from your hand. Then, give your Leader and up to 1 of your Characters up to 2 rested DON!! cards.",
+  "setId": "OP13",
+  "cardNumber": "042",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Draw 2 cards and trash 1 card from your hand. Then, give your Leader and up to 1 of your Characters up to 2 rested DON!! cards each.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "upToOneCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Draw 2 cards and trash 1 card from your hand. Then, give your Leader and up to 1 of your Characters up to 2 rested DON!! cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        },
+        {
+          "type": "giveDon",
+          "count": 2,
+          "side": "self",
+          "target": "selfLeader",
+          "may": true
+        },
+        {
+          "type": "giveDon",
+          "count": 2,
+          "side": "self",
+          "target": "upToOneCharacter",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

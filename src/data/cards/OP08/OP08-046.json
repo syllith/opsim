@@ -1,49 +1,73 @@
 {
-  "id": "OP08-046",
-  "set": "OP08",
-  "number": 46,
-  "name": "Shakuyaku",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Amazon Lily"
-  ],
+  "cardName": "Shakuyaku",
+  "cardId": "OP08-046",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Amazon Lily"],
+  "traits": ["amazonLily"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-046.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn When a character leaves play from one of your effects, if your opponent has 5 or more cards in hand, they place 1 card from their hand on the bottom of their deck. Then, rest this character.",
+  "setId": "OP08",
+  "cardNumber": "046",
+  "printedText": "[Your Turn] [Once Per Turn] When a character leaves play from one of your effects, if your opponent has 5 or more cards in hand, they place 1 card from their hand on the bottom of the deck. Then, rest this character.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenCharacterLeavesPlay",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "currentTurnSide",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "leavePlaySourceController",
+            "op": "=",
+            "value": "self"
+          }
+        ]
       },
-      "effect": {
-        "text": "When a character leaves play from one of your effects, if your opponent has 5 or more cards in hand, they place 1 card from their hand on the bottom of their deck. Then, rest this character.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppHandCard": {
+          "side": "opponent",
+          "type": "hand",
+          "zones": ["hand"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent"
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "opponentHandCount",
+            "op": ">=",
+            "value": 5
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "oppHandCard",
+              "destination": "bottomOfDeck"
+            },
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              }
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

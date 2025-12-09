@@ -1,48 +1,31 @@
 {
-  "id": "P-031",
-  "set": "P",
-  "number": 31,
-  "name": "Uta",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "FILM"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-031.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Add up to 1 DON!! card from your DON!! deck and rest it.",
+  "cardName": "Uta",
+  "cardId": "P-031",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": ["FILM"],
+  "traits": ["film"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-031",
+  "printedText": "[On Play] Add up to 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Add up to 1 DON!! card from your DON!! deck and rest it.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "enterRested": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

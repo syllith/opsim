@@ -1,50 +1,103 @@
 {
-  "id": "OP02-102",
-  "set": "OP02",
-  "number": 102,
-  "name": "Smoker",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Navy"],
-  "rarity": "SR",
-  "art": "/cards/OP02/OP02-102.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "This Character cannot be K.O'd by effects.\n[When Attacking] If there is a Character with a cost of 0 in play, this Character gains +2000 power during this battle.",
+  "cardName": "Smoker",
+  "cardId": "OP02-102",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "setId": "OP02",
+  "cardNumber": "102",
+  "printedText": "This Character cannot be K.O.'d by effects.\n[When Attacking] If there is a Character with a cost of 0 in play, this Character gains +2000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character cannot be K.O'd by effects.",
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "preventKO",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "eventType",
+                "op": "=",
+                "value": "effectKO"
+              },
+              {
+                "field": "koTarget",
+                "op": "=",
+                "value": "this"
+              }
+            ]
+          }
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If there is a Character with a cost of 0 in play, this Character gains +2000 power during this battle.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this battle"
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "selectors": {
+        "zeroCostCharacterInPlay": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "zeroCostChars"
         },
-        "targets": ["self"],
-        "conditions": ["characterCost0InPlay"]
-      }
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "thisCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "thisCharacter",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "zeroCostCharacterInPlay",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

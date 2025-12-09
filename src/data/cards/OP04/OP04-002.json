@@ -1,57 +1,93 @@
 {
-  "id": "OP04-002",
-  "set": "OP04",
-  "number": 2,
-  "name": "Igaram",
-  "category": "Character",
+  "cardName": "Igaram",
+  "cardId": "OP04-002",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Ranged",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Alabasta Kingdom"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-002.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Main"
-  ],
-  "trigger": null,
-  "text": "Main You may rest this character and give your active leader -5000 Power for the turn: Look at the top 5 cards of your deck, reveal one (Alabasta Kingdom) type card and add it to your hand. Then, place the rest on the bottom of your deck in any order.",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "002",
+  "printedText": "[Activate: Main] You may rest this Character and give your active Leader -5000 Power for the turn: Look at the top 5 cards of your deck, reveal one {Alabasta Kingdom} type card and add it to your hand. Then, place the rest on the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "powerModCost",
+            "amount": -5000,
+            "duration": "thisTurn",
+            "target": "ownActiveLeader"
+          }
+        ]
       },
-      "effect": {
-        "text": "You may rest this character and give your active leader -5000 Power for the turn: Look at the top 5 cards of your deck, reveal one (Alabasta Kingdom) type card and add it to your hand. Then, place the rest on the bottom of your deck in any order.",
-        "powerMod": {
-          "amount": -5000,
-          "duration": "this turn"
+      "selectors": {
+        "ownActiveLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            }
+          ]
         },
-        "targets": [
-          "activeLeader"
-        ],
-        "conditions": [
-          "restThisCharacter"
-        ],
-        "giveDon": null
-      }
+        "alabastaKingdomFromTop5": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Alabasta Kingdom"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "alabastaKingdomFromTop5",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is confirmed as 'C' from the bottom right corner of the card."
-  }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "alabastaKingdom"
+  ]
 }

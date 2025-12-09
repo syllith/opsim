@@ -1,37 +1,74 @@
 {
-  "id": "OP01-060",
-  "set": "OP01",
-  "number": 60,
-  "name": "Donquixote Doflamingo",
-  "category": "Leader",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["The Seven Warlords of the Sea", "Donquixote Pirates"],
+  "cardName": "Donquixote Doflamingo",
+  "cardId": "OP01-060",
+  "cardType": "leader",
+  "colors": [
+    "blue"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Donquixote Pirates"
+  ],
   "rarity": "L",
-  "art": "/cards/OP01/OP01-060.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["DON!! x2", "When Attacking"],
-  "trigger": null,
-  "text": "[DON!! x2] [When Attacking] ① (You may rest the specified number of DON!! cards in your Cost Area): Reveal the top card of your deck. If that card is a {The Seven Warlords of the Sea} type Character card with a cost of 4 or less, you may play that card rested.",
+  "setId": "OP01",
+  "cardNumber": "060",
+  "printedText": "DON!! x2 When Attacking (1 You may rest the specified number of DON!! cards in your Cost Area): Reveal the top card of your deck. If that card is a {The Seven Warlords of the Sea} type Character card with a cost of 4 or less, you may play that card rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "Reveal the top card of your deck. If that card is a {The Seven Warlords of the Sea} type Character card with a cost of 4 or less, you may play that card rested.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["sevenWarlordsOfTheSeaType", "characterCost<=4"]
-      }
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonToThis",
+        "op": ">=",
+        "value": 2
+      },
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "deck",
+          "target": "topDeckCard",
+          "enterRested": true,
+          "payCost": false,
+          "may": true,
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "topCardType",
+                "op": "=",
+                "value": "character"
+              },
+              {
+                "field": "topCardTypesContains",
+                "op": "=",
+                "value": "The Seven Warlords of the Sea"
+              },
+              {
+                "field": "topCardCost",
+                "op": "<=",
+                "value": 4
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "donquixotePirates"
+  ]
 }

@@ -1,52 +1,85 @@
 {
-  "id": "OP13-068",
-  "set": "OP13",
-  "number": 68,
-  "name": "Douglas Bullet",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Former Roger Pirates"
-  ],
+  "cardName": "Douglas Bullet",
+  "cardId": "OP13-068",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["FILM", "Former Roger Pirates"],
+  "traits": ["film", "formerRogerPirates"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-068.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "If you have 8 or more DON!! cards on your field, this Character gains +2000 power.\nOn Play: If your Leader has a type including \"Roger Pirates\", add up to 1 DON!! card from your DON!! deck and rest it.",
+  "setId": "OP13",
+  "cardNumber": "068",
+  "printedText": "If you have 8 or more DON!! cards on your field, this Character gains +2000 power.\n[On Play] If your Leader has a type including \"Roger Pirates\", add up to 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "selfDonsOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your Leader has a type including \"Roger Pirates\", add up to 1 DON!! card from your DON!! deck and rest it.",
-        "powerMod": null,
-        "conditions": [
-          "Leader",
-          "hasType:Roger Pirates"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "field": "selectorCount",
+            "selector": "selfDonsOnField",
+            "op": ">=",
+            "value": 8
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "selectors": {
+        "leaderWithRoger": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "rogerPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderWithRoger",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDonDeckCard",
+          "destination": "costArea",
+          "enterRested": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

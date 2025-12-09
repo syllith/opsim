@@ -1,20 +1,41 @@
 {
-  "id": "ST03-005",
-  "set": "ST03",
-  "number": 5,
-  "name": "Dracule Mihawk",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
+  "cardName": "Dracule Mihawk",
+  "cardId": "ST03-005",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["slash"],
   "types": ["The Seven Warlords of the Sea"],
-  "rarity": null,
-  "art": "/cards/ST03/ST03-005.png",
-  "stats": { "cost": 4, "power": 5000, "life": null, "counter": { "present": true, "value": 2000 } },
-  "keywords": ["When Attacking", "DON!! x1"],
-  "trigger": null,
-  "text": "(Placeholder) DON!! x1 When Attacking: Draw 2 then trash 2 cards from hand.",
+  "traits": ["theSevenWarlordsOfTheSea"],
+  "rarity": "superRare",
+  "setId": "ST03",
+  "cardNumber": "005",
+  "printedText": "[DON!! x1] [When Attacking] Draw 2 cards and trash 2 cards from your hand.",
+  "keywords": [],
   "abilities": [
-    {"timing": "When Attacking", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Draw 2 cards then discard 2 cards.", "grants": [], "powerMod": null, "targets": [], "conditions": ["donAttached"]}}
+    {
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "givenDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2,
+          "side": "self"
+        }
+      ]
+    }
   ],
-  "meta": {"notes": null}
+  "alsoTreatedAsNames": []
 }

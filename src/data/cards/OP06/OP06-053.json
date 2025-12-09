@@ -1,49 +1,62 @@
 {
-  "id": "OP06-053",
-  "set": "OP06",
-  "number": 53,
-  "name": "Jaguar D. Saul",
-  "category": "Character",
+  "cardName": "Jaguar D. Saul",
+  "cardId": "OP06-053",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Giants",
     "Navy"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-053.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O."
+  "traits": [
+    "giants",
+    "navy"
   ],
-  "trigger": null,
-  "text": "On K.O. Place up to one character with a cost of 2 or less at the bottom of the owner's deck.",
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "053",
+  "printedText": "On K.O. Place up to 1 character with a cost of 2 or less at the bottom of the owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "frequency": "none",
+      "selectors": {
+        "charCost2OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Place up to one character with a cost of 2 or less at the bottom of the owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "charCost2OrLess",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a '打 STRIKE' icon in top right corner, which is consistent with 'Strike' attribute."
-  }
+  ]
 }

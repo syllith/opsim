@@ -1,37 +1,44 @@
 {
-  "id": "OP02-049",
-  "set": "OP02",
-  "number": 49,
-  "name": "Emporio Ivankov",
-  "category": "Leader",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Impel Down", "Revolutionary Army"],
+  "cardName": "Emporio Ivankov",
+  "cardId": "OP02-049",
+  "cardType": "leader",
+  "colors": [
+    "blue"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "types": [
+    "Impel Down",
+    "Revolutionary Army"
+  ],
   "rarity": "L",
-  "art": "/cards/OP02/OP02-049.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["End of Your Turn"],
-  "trigger": null,
-  "text": "End of Your Turn: If you have 0 cards in your hand, draw 2 cards.",
+  "setId": "OP02",
+  "cardNumber": "049",
+  "printedText": "[End of Your Turn] If you have 0 cards in your hand, draw 2 cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 0 cards in your hand, draw 2 cards.",
-        "grants": ["draw"],
-        "powerMod": null,
-        "targets": ["Player"],
-        "conditions": ["0 cards in hand"]
-      }
+      "timing": "endOfYourTurn",
+      "condition": {
+        "field": "ownerHandCount",
+        "op": "=",
+        "value": 0
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "impelDown",
+    "revolutionaryArmy"
+  ]
 }

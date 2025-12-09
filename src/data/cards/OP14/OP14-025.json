@@ -1,52 +1,58 @@
 {
-  "id": "OP14-025",
-  "set": "OP14",
-  "number": 25,
-  "name": "Kuro",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "East Blue",
-    "Black Cat Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP14/OP14-025.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader is [Kuro], play up to 1 (East Blue) type Character card with a cost of 6 or less from your hand.",
+  "cardName": "Kuro",
+  "cardId": "OP14-025",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 7,
+  "power": 8000,
+  "attributes": ["slash"],
+  "types": ["East Blue", "Black Cat Pirates"],
+  "traits": ["eastBlue", "blackCatPirates"],
+  "rarity": "R",
+  "setId": "OP14",
+  "cardNumber": "025",
+  "printedText": "[On Play] If your Leader is [Kuro], play up to 1 {East Blue} type Character card with a cost of 6 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderCardName",
+        "op": "=",
+        "value": "Kuro"
       },
-      "effect": {
-        "text": "If your Leader is [Kuro], play up to 1 (East Blue) type Character card with a cost of 6 or less from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Kuro]"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "eastBlueCharacterCost6OrLessFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "eastBlue"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "eastBlueCharacterCost6OrLessFromHand",
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,71 +1,84 @@
 {
-  "id": "OP03-038",
-  "set": "OP03",
-  "number": 38,
-  "name": "M·H·5",
-  "category": "Event",
+  "cardName": "MH5",
+  "cardId": "OP03-038",
+  "cardType": "event",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "East Blue",
     "Krieg Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-038.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Rest up to 1 of your opponent's Characters with a cost of 5 or less."
-  },
-  "text": "Main: Rest up to 2 of your opponent's Characters with a cost of 2 or less.\nTrigger: Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "038",
+  "printedText": "[Main] Rest up to 2 of your opponent's Characters with a cost of 2 or less.\n[Trigger] Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "mainRestTargets": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Rest up to 2 of your opponent's Characters with a cost of 2 or less.",
-        "powerMod": null,
-        "targets": [
-          "upTo2:opponent:Character<=cost2"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "mainRestTargets"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "triggerRestTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
-        "powerMod": null,
-        "targets": [
-          "upTo1:opponent:Character<=cost5"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "triggerRestTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card name 'M·H·5' is derived from the text on the card. The rarity 'C' is visible in the bottom right corner. The card is an Event with a cost of 1."
-  }
+  "traits": [
+    "eastBlue",
+    "kriegPirates"
+  ]
 }

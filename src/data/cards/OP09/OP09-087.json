@@ -1,48 +1,46 @@
 {
-  "id": "OP09-087",
-  "set": "OP09",
-  "number": 87,
-  "name": "Charlotte Pudding",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Big Mom Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-087.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your opponents hand has 5 or more cards in it, your opponent trashes 1 card from their hand.",
+  "cardName": "Charlotte Pudding",
+  "cardId": "OP09-087",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 0,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
+  "rarity": "C",
+  "setId": "OP09",
+  "cardNumber": "087",
+  "printedText": "[On Play] If your opponent has 5 or more cards in their hand, your opponent trashes 1 card from their hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "opponentHand": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your opponents hand has 5 or more cards in it, your opponent trashes 1 card from their hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "opponentHand",
+        "op": ">=",
+        "value": 5
+      },
+      "actions": [
+        {
+          "type": "trashFromHand",
+          "side": "opponent",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, but rarity is clearly 'R' in the bottom right corner."
-  }
+  ]
 }

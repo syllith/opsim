@@ -1,48 +1,72 @@
 {
-  "id": "OP13-024",
-  "set": "OP13",
-  "number": 24,
-  "name": "Gordon",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Film"
-  ],
+  "cardName": "Gordon",
+  "cardId": "OP13-024",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["FILM"],
+  "traits": ["film"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-024.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may reveal 1 {Film} or {Music} type card from your hand. At the end of this turn, set up to 2 of your DON!! cards as active.",
+  "setId": "OP13",
+  "cardNumber": "024",
+  "printedText": "[On Play] You may reveal 1 {FILM} or {Music} type card from your hand: At the end of this turn, set up to 2 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "revealFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": [
+          {
+            "logic": "OR",
+            "any": [
+              {
+                "field": "types",
+                "op": "=",
+                "value": "FILM"
+              },
+              {
+                "field": "types",
+                "op": "=",
+                "value": "Music"
+              }
+            ]
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may reveal 1 {Film} or {Music} type card from your hand. At the end of this turn, set up to 2 of your DON!! cards as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "upToTwoDonAtEnd": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "endOfYourTurn",
+          "target": "upToTwoDonAtEnd",
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "setState",
+              "state": "active",
+              "target": "upToTwoDonAtEnd"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

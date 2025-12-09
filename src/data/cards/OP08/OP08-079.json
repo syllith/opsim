@@ -1,50 +1,70 @@
 {
-  "id": "OP08-079",
-  "set": "OP08",
-  "number": 79,
-  "name": "Kaido",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Former Rocks Pirate",
-    "Animal Kingdom Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-079.png",
-  "stats": {
-    "cost": 9,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 9000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may discard one card from your hand: if this character was played this turn, place up to 1 of your opponent's 7 cost or lower characters in the trash. Then, your opponent discards 1 card from their hand.",
+  "cardName": "Kaido",
+  "cardId": "OP08-079",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 9,
+  "power": 9000,
+  "attributes": ["strike"],
+  "types": ["Former Rocks Pirates", "Animal Kingdom Pirates"],
+  "traits": ["formerRocksPirates", "animalKingdomPirates"],
+  "rarity": "SR",
+  "setId": "OP08",
+  "cardNumber": "079",
+  "printedText": "[Activate: Main] [Once Per Turn] You may trash 1 card from your hand: If this Character was played on this turn, trash up to 1 of your opponent's Characters with a cost of 7 or less. Then, your opponent trashes 1 card from their hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard one card from your hand: if this character was played this turn, place up to 1 of your opponent's 7 cost or lower characters in the trash. Then, your opponent discards 1 card from their hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCost7OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "thisTurnPlayed",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "oppCost7OrLess",
+              "destination": "trash",
+              "ordering": "chosen"
+            }
+          ]
+        },
+        {
+          "type": "trashFromHand",
+          "side": "opponent",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

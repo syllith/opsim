@@ -1,23 +1,48 @@
 {
-  "id": "OP02-081",
-  "set": "OP02",
-  "number": 81,
-  "name": "Domino",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Wisdom",
-  "types": ["Impel Down"],
+  "cardName": "Domino",
+  "cardId": "OP02-081",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "types": [
+    "Impel Down"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-081.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker"],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [],
-  "meta": { "notes": null }
+  "setId": "OP02",
+  "cardNumber": "081",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": [
+    "blocker"
+  ],
+  "abilities": [
+    {
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "impelDown"
+  ]
 }

@@ -1,55 +1,62 @@
 {
-  "id": "OP11-007",
-  "set": "OP11",
-  "number": 7,
-  "name": "Tashigi",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Navy"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-007.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this Character: If your Leader has the (Navy) type, give up to 1 of your Characters with the (Navy) type +2000 power during this turn.",
+  "cardName": "Tashigi",
+  "cardId": "OP11-007",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Navy"],
+  "traits": ["navy"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "007",
+  "printedText": "[Activate: Main] You may rest this Character: If your Leader has the {Navy} type, give up to 1 of your Characters with the {Navy} type +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character: If your Leader has the (Navy) type, give up to 1 of your Characters with the (Navy) type +2000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter",
-          "self"
-        ],
-        "conditions": [
-          "yourLeaderHasType(Navy)"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "navy"
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 2000,
+              "duration": "thisTurn",
+              "target": {
+                "side": "self",
+                "type": "character",
+                "zones": ["character"],
+                "filters": [
+                  {
+                    "field": "traits",
+                    "op": "=",
+                    "value": "navy"
+                  }
+                ],
+                "min": 0,
+                "max": 1,
+                "upTo": true,
+                "whoChooses": "self",
+                "bindAs": "selfNavyChar"
+              }
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

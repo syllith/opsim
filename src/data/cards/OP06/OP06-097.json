@@ -1,64 +1,59 @@
 {
-  "id": "OP06-097",
-  "set": "OP06",
-  "number": 97,
-  "name": "Negative Hollow",
-  "category": "Event",
+  "cardName": "Negative Hollow",
+  "cardId": "OP06-097",
+  "cardType": "event",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Thriller Bark Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-097.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "thrillerBarkPirates"
   ],
-  "trigger": {
-    "text": "Activate this card's Main ability."
-  },
-  "text": "Main Trash one card from your opponent's hand. Trigger Activate this card's Main ability.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "097",
+  "printedText": "Main Trash one card from your opponent's hand.\nTrigger Activate this card's Main ability.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "oppHandCard": {
+          "side": "opponent",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent"
+        }
       },
-      "effect": {
-        "text": "Trash one card from your opponent's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppHandCard",
+          "destination": "trash",
+          "ordering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main ability.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but this is not a real card. The ID, set, number, and rarity are inferred from the printed text."
-  }
+  ]
 }

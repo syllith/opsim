@@ -1,37 +1,43 @@
 {
-  "id": "ST07-005",
-  "set": "ST07",
-  "number": 5,
-  "name": "Charlotte Daifuku",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Slash",
+  "cardName": "Charlotte Daifuku",
+  "cardId": "ST07-005",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Big Mom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST07/ST07-005.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "DON!! x1 — When Attacking: You may add 1 card from the top or bottom of your Life Area to your hand: Place up to 1 card from the top of your deck at the top of your Life Area.",
+  "traits": ["bigMomPirates"],
+  "rarity": "",
+  "setId": "ST07",
+  "cardNumber": "005",
+  "printedText": "[DON!! x1] [When Attacking] You may add 1 card from the top or bottom of your Life Area to your hand: Place up to 1 card from the top of your deck at the top of your Life Area.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may add 1 card from the top or bottom of your Life Area to your hand: Place up to 1 card from the top of your deck at the top of your Life Area.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["lifeArea","deck"],
-        "conditions": ["chooseTopOrBottom","placeTopOfDeckToTopOfLife"]
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopOrBottomLifeCard",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        },
+        {
+          "type": "moveCard",
+          "target": "selfTopDeckCard",
+          "destination": "topOfLife",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

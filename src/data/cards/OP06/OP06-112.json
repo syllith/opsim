@@ -1,65 +1,93 @@
 {
-  "id": "OP06-112",
-  "set": "OP06",
-  "number": 112,
-  "name": "Raizo",
-  "category": "Character",
+  "cardName": "Raizo",
+  "cardId": "OP06-112",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Land of Wano",
     "The Akazaya Nine"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-112.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "Trigger"
+  "traits": [
+    "landOfWano",
+    "theAkazayaNine"
   ],
-  "trigger": {
-    "text": "If your opponent has 3 life cards or less, play this card."
-  },
-  "text": "When Attacking: You may discard 1 card from your hand: Rest up to 1 of your opponent's DON!! cards.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "112",
+  "printedText": "[When Attacking] You may discard 1 card from your hand: Rest up to 1 of your opponent's DON!! cards.\n[Trigger] If your opponent has 3 life cards or less, play this card.",
+  "keywords": [
+    "whenAttacking",
+    "trigger"
+  ],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard 1 card from your hand: Rest up to 1 of your opponent's DON!! cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentDonToRest": {
+          "side": "opponent",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "donToRest"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentDonToRest"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "condition": {
+        "field": "opponentLifeCount",
+        "op": "<=",
+        "value": 3
       },
-      "effect": {
-        "text": "If your opponent has 3 life cards or less, play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCardFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardFromLife",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a '4000' power value in top right corner. The 'R' rarity is visible in the bottom right corner."
-  }
+  ]
 }

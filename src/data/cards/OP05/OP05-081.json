@@ -1,48 +1,59 @@
 {
-  "id": "OP05-081",
-  "set": "OP05",
-  "number": 81,
-  "name": "One-Legged Soldier",
-  "category": "Character",
+  "cardName": "One-Legged Soldier",
+  "cardId": "OP05-081",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 0,
+  "counter": 2000,
   "types": [
     "Dressrosa"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-081.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may send this character to the trash: give up to one of your opponent's characters cost-3.",
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "081",
+  "printedText": "[Activate: Main] You may send this Character to the trash: Give up to 1 of your opponent's Characters -3 cost during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may send this character to the trash: give up to one of your opponent's characters cost-3.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "costDownTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "costDownTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -3,
+          "duration": "thisTurn",
+          "target": "costDownTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "dressrosa"
+  ]
 }

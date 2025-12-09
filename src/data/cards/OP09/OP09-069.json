@@ -1,48 +1,70 @@
 {
-  "id": "OP09-069",
-  "set": "OP09",
-  "number": 69,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Heart Pirates"
-  ],
+  "cardName": "Trafalgar Law",
+  "cardId": "OP09-069",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Heart Pirates"],
+  "traits": ["heartPirates"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-069.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 4 cards of your deck and reveal up to one cost 2 or greater card with the (Straw Hat Crew) or (Heart Pirates) type and put it into your hand. Then place the rest of the cards on the bottom of your deck in any order.",
+  "setId": "OP09",
+  "cardNumber": "069",
+  "printedText": "[On Play] Look at the top 4 cards of your deck and reveal up to 1 cost 2 or greater card with the {Straw Hat Crew} or {Heart Pirates} type and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at the top 4 cards of your deck and reveal up to one cost 2 or greater card with the (Straw Hat Crew) or (Heart Pirates) type and put it into your hand. Then place the rest of the cards on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": ["deck"],
+            "filters": [
+              {
+                "logic": "AND",
+                "all": [
+                  {
+                    "field": "cost",
+                    "op": ">=",
+                    "value": 2
+                  },
+                  {
+                    "logic": "OR",
+                    "any": [
+                      {
+                        "field": "traits",
+                        "op": "=",
+                        "value": "strawHatCrew"
+                      },
+                      {
+                        "field": "traits",
+                        "op": "=",
+                        "value": "heartPirates"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 4,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

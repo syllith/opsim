@@ -1,57 +1,81 @@
 {
-  "id": "OP10-119",
-  "set": "OP10",
-  "number": 119,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Dressrosa",
-    "Supernova",
-    "Heart Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP10/OP10-119.png",
-  "stats": {
-    "cost": 7,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 9000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Reveal a \"Supernovas\" type character card from your hand and add it to the top of your life face down. Then, if your leader has the \"Supernovas\" type, give up to 1 rested DON!! to your leader.",
+  "cardName": "Trafalgar Law",
+  "cardId": "OP10-119",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 7,
+  "power": 9000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Dressrosa", "Supernova", "Heart Pirates"],
+  "traits": ["dressrosa", "supernova", "heartPirates"],
+  "rarity": "SEC",
+  "setId": "OP10",
+  "cardNumber": "119",
+  "printedText": "[On Play] Reveal a \"Supernova\" type Character card from your hand and add it to the top of your Life cards face-down. Then, if your Leader has the \"Supernovas\" type, give up to 1 rested DON!! to your Leader.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "supernovaCharFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernova"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "supernovaCharFromHand"
+        },
+        "restedDonFromCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "restedDonFromCostArea"
+        }
       },
-      "effect": {
-        "text": "Reveal a \"Supernovas\" type character card from your hand and add it to the top of your life face down. Then, if your leader has the \"Supernovas\" type, give up to 1 rested DON!! to your leader.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": [
-            "self"
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "supernovaCharFromHand",
+          "destination": "topOfLife",
+          "ordering": "keep"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "supernovas"
+          },
+          "actions": [
+            {
+              "type": "attachDon",
+              "target": "selfLeader",
+              "selector": "restedDonFromCostArea"
+            }
           ]
         }
-      }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

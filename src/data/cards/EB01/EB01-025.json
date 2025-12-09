@@ -1,23 +1,26 @@
 {
-  "id": "EB01-025",
-  "set": "EB01",
-  "number": 25,
-  "name": "Fortricks",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Ranged",
-  "types": ["Animal Kingdom Pirates", "SMILE"],
+  "power": 5000,
+  "cardType": "character",
+  "attributes": [
+    "slash"
+  ],
+  "cardId": "EB01-025",
+  "printedText": "[Counter +1000]",
+  "cardNumber": "025",
   "rarity": "C",
-  "art": "/cards/EB01/EB01-025.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": "Vanilla card with no abilities" }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Fortricks",
+  "types": [
+    "Animal Kingdom Pirates",
+    "SMILE"
+  ],
+  "cost": 3,
+  "colors": [
+    "blue"
+  ],
+  "traits": [
+    "animalKingdomPirates",
+    "smile"
+  ]
 }

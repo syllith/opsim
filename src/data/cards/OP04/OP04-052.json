@@ -1,70 +1,68 @@
 {
-  "id": "OP04-052",
-  "set": "OP04",
-  "number": 52,
-  "name": "Black Maria",
-  "category": "Character",
+  "cardName": "Black Maria",
+  "cardId": "OP04-052",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Animal Kingdom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-052.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "Activate: Main [2] (You may rest the specified number of DON!! cards in your Cost Area) and you may rest this Character: Draw 1 card.",
+  "rarity": "SR",
+  "setId": "OP04",
+  "cardNumber": "052",
+  "printedText": "[Activate: Main] DON!! x2 (You may rest the specified number of DON!! cards in your Cost Area) and you may rest this Character: Draw 1 card.\n[Trigger] Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 2,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 2
+          },
+          {
+            "type": "restThis",
+            "may": true
+          }
+        ]
       },
-      "effect": {
-        "text": "You may rest this Character: Draw 1 card.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "rested"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ]
+          },
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card. The card is a sample, so the 'SAMPLE' watermark is present but does not affect the data extraction."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

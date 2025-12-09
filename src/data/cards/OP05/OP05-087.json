@@ -1,53 +1,82 @@
 {
-  "id": "OP05-087",
-  "set": "OP05",
-  "number": 87,
-  "name": "Hakuba",
-  "category": "Character",
+  "cardName": "Hakuba",
+  "cardId": "OP05-087",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Dressrosa",
     "Beautiful Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-087.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!!x1",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!!x1 When Attacking: You may KO one of your characters other than this card. Give up to 1 of your opponent's characters cost -5.",
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "087",
+  "printedText": "[DON!! x1] [When Attacking] You may K.O. 1 of your Characters other than this Character: Give up to 1 of your opponent's Characters -5 cost during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "You may KO one of your characters other than this card. Give up to 1 of your opponent's characters cost -5.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "trashFromField",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "isThisCard",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "may": true
+      },
+      "selectors": {
+        "targetOpponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -5,
+          "duration": "thisTurn",
+          "target": "targetOpponentCharacter"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "dressrosa",
+    "beautifulPirates"
+  ]
 }

@@ -1,66 +1,125 @@
 {
-  "id": "OP12-102",
-  "set": "OP12",
-  "number": 102,
-  "name": "Shirahoshi",
-  "category": "Character",
+  "cardName": "Shirahoshi",
+  "cardId": "OP12-102",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 0,
+  "counter": 1000,
+  "attributes": [
+    "wisdom"
+  ],
   "types": [
     "Fish-Man Island",
     "Merfolk"
   ],
+  "traits": [
+    "fishManIsland",
+    "merfolk"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP12/OP12-102.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "102",
+  "printedText": "If 1 of your Characters with an original cost of 6 or less would be removed from the field by an opponent's effect, you may turn the top card of your Life cards face-up instead.\n[Opponent's Turn] If you have no other [Shirahoshi] Character with an original cost of 2, your {Sea King} type Characters gain +2000 power.",
   "keywords": [],
-  "trigger": null,
-  "text": "If 1 of your Characters with an original cost of 6 or less would be removed from the field by an opponent's effect, you may turn the top card of your Life cards face-up instead.\nOpponent's Turn: If you have no other [Shirahoshi] Character with an original cost of 2, your (Sea King) type Characters gain +2000 power.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If 1 of your Characters with an original cost of 6 or less would be removed from the field by an opponent's effect, you may turn the top card of your Life cards face-up instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "selfCharacterOriginalCost6OrLessWouldBeRemovedFromFieldByOpponentsEffect",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "filters": [
+              {
+                "field": "originalCost",
+                "op": "<=",
+                "value": 6
+              }
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          },
+          "may": true,
+          "cost": {
+            "type": "setTopLifeFace",
+            "side": "self",
+            "count": 1,
+            "faceUp": true,
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If you have no other [Shirahoshi] Character with an original cost of 2, your (Sea King) type Characters gain +2000 power.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
+      "timing": "duringOpponentsTurn",
+      "selectors": {
+        "seaKingCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "seaKing"
+            }
+          ],
+          "whoChooses": "self"
         },
-        "conditions": [
-          "no other [Shirahoshi] Character with an original cost of 2"
-        ],
-        "giveDon": null
-      }
+        "shirahoshiOriginal2": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Shirahoshi"
+            },
+            {
+              "field": "originalCost",
+              "op": "=",
+              "value": 2
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "shirahoshiOriginal2",
+        "op": "<=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "seaKingCharacters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

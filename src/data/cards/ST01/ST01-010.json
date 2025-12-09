@@ -1,23 +1,18 @@
 {
-  "id": "ST01-010",
-  "set": "ST01",
-  "number": 10,
-  "name": "Franky",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Franky",
+  "cardId": "ST01-010",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST01/ST01-010.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["strawHatCrew"],
+  "rarity": "common",
+  "setId": "ST01",
+  "cardNumber": "010",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": []
 }

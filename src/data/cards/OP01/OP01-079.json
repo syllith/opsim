@@ -1,52 +1,84 @@
 {
-  "id": "OP01-079",
-  "set": "OP01",
-  "number": 79,
-  "name": "Miss All Sunday",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["Baroque Works"],
+  "cardName": "Miss All Sunday",
+  "cardId": "OP01-079",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 3,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
+  "types": [
+    "Baroque Works"
+  ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-079.png",
-  "stats": {
-    "cost": 3,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On K.O."],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) | On K.O.: If your Leader has the {Baroque Works} type, return up to 1 Event card from your trash to your hand.",
+  "setId": "OP01",
+  "cardNumber": "079",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] If your Leader has the {Baroque Works} type, return up to 1 Event card from your trash to your hand.",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentAttackDeclared", "restSelf"],
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          }
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Baroque Works} type, return up to 1 Event card from your trash to your hand.",
-        "grants": ["Return Event Card"],
-        "powerMod": null,
-        "targets": ["oneEventFromTrash"],
-        "conditions": ["leaderHasBaroqueWorks"],
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderTypes",
+        "op": "=",
+        "value": "Baroque Works"
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "trash"
+            ],
+            "filters": [
+              {
+                "field": "cardType",
+                "op": "=",
+                "value": "event"
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "destination": "hand"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "baroqueWorks"
+  ]
 }

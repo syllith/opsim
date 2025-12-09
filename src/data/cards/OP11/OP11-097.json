@@ -1,46 +1,85 @@
 {
-  "id": "OP11-097",
-  "set": "OP11",
-  "number": 97,
-  "name": "I'm losing my edge......!!!",
-  "category": "Event",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Navy"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-097.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "After All These Years I'm Losing My Edge!!!",
+  "cardId": "OP11-097",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 1,
+  "types": ["Navy"],
+  "traits": ["navy"],
+  "rarity": "UC",
+  "setId": "OP11",
+  "cardNumber": "097",
+  "printedText": "[Counter] Up to 1 of your Leader or Character cards gains +1000 power during this battle. Then, if you have 10 or more cards in your trash, add up to 1 black Character card with a cost of 3 or less from your trash to your hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "#Counter Up to 1 of your Leader or Character cards gains +1000 power during this battle. Then if your trash has 10 or more cards, add up to 1 black Character card with a cost of 3 or less from your trash to your hand.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "yourLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "yourTrashAny": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        },
+        "blackCharacterCost3OrLessFromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Character cards gains +1000 power during this battle. Then if your trash has 10 or more cards, add up to 1 black Character card with a cost of 3 or less from your trash to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisBattle",
+          "target": "yourLeaderOrCharacter"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "yourTrashAny",
+            "op": ">=",
+            "value": 10
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "blackCharacterCost3OrLessFromTrash",
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

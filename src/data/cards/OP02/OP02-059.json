@@ -1,37 +1,51 @@
 {
-  "id": "OP02-059",
-  "set": "OP02",
-  "number": 59,
-  "name": "Boa Hancock",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Impel Down", "The Seven Warlords of the Sea", "Kuja Pirates"],
-  "rarity": "UG",
-  "art": "/cards/OP02/OP02-059.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "When Attacking: Draw 1 card and trash 1 card from your hand. Then, trash up to 3 cards from your hand.",
+  "cardName": "Boa Hancock",
+  "cardId": "OP02-059",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "Impel Down",
+    "The Seven Warlords of the Sea",
+    "Kuja Pirates"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "059",
+  "printedText": "[When Attacking] Draw 1 card and trash 1 card from your hand. Then, trash up to 3 cards from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw 1 card and trash 1 card from your hand. Then, trash up to 3 cards from your hand.",
-        "grants": ["draw", "trash"],
-        "powerMod": null,
-        "targets": ["Player"],
-        "conditions": []
-      }
+      "timing": "whenAttacking",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 0,
+          "maxCards": 3,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "impelDown",
+    "theSevenWarlordsOfTheSea",
+    "kujaPirates"
+  ]
 }

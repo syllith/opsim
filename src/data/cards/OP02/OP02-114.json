@@ -1,39 +1,72 @@
 {
-  "id": "OP02-114",
-  "set": "OP02",
-  "number": 114,
-  "name": "Borsalino",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Navy"],
+  "cardName": "Borsalino",
+  "cardId": "OP02-114",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "Navy"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP02/OP02-114.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Opponent's Turn", "Blocker"],
-  "trigger": null,
-  "text": "[Opponent's Turn] This Character gains +1000 Power and cannot be K.O'd by effects.\n[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "setId": "OP02",
+  "cardNumber": "114",
+  "printedText": "[Opponent's Turn] This Character gains +1000 Power and cannot be K.O.'d by effects.\nBlocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character gains +1000 Power and cannot be K.O'd by effects.",
-        "powerMod": {
+      "timing": "duringOpponentsTurn",
+      "frequency": "none",
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "thisCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "opponent's turn"
+          "duration": "thisTurn",
+          "target": "thisCharacter"
         },
-        "targets": ["self"],
-        "conditions": []
-      }
+        {
+          "type": "preventKO",
+          "target": "thisCharacter",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "eventType",
+                "op": "=",
+                "value": "effectKO"
+              },
+              {
+                "field": "koTarget",
+                "op": "=",
+                "value": "this"
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

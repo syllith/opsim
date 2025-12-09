@@ -1,65 +1,81 @@
 {
-  "id": "OP07-037",
-  "set": "OP07",
-  "number": 37,
-  "name": "More Pizza!!!",
-  "category": "Event",
+  "cardName": "More Pizza!!",
+  "cardId": "OP07-037",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "green"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
   "types": [
-    "Supernova",
+    "Supernovas",
     "Bonney Pirates"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP07/OP07-037.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "supernovas",
+    "bonneyPirates"
   ],
-  "trigger": {
-    "text": "Draw 1 card"
-  },
-  "text": "Main Look at the top 5 cards of your deck and reveal up to one card with the (Supernova) type besides \"More Pizza!!!\" and add it to your hand. Then, place the remaining cards on the bottom of your deck in any order.",
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "037",
+  "printedText": "[Main] Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card other than [More Pizza!!] and add it to your hand. Then, place the rest at the bottom of your deck in any order. [Trigger] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "searchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "supernovas"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "More Pizza!!"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck and reveal up to one card with the (Supernova) type besides \"More Pizza!!!\" and add it to your hand. Then, place the remaining cards on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

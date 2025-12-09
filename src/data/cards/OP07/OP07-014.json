@@ -1,49 +1,55 @@
 {
-  "id": "OP07-014",
-  "set": "OP07",
-  "number": 14,
-  "name": "Moda",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Lulusia Kingdom"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-014.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Your Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn On Play: Give up to one of your [Portgas D Ace] +2000 power for the turn.",
+  "cardName": "Moda",
+  "cardId": "OP07-014",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Lulusia Kingdom"],
+  "traits": ["lulusiaKingdom"],
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "014",
+  "printedText": "[Your Turn] [On Play] Give up to 1 of your [Portgas D Ace] +2000 power for the turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "isYourTurn",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "Give up to one of your [Portgas D Ace] +2000 power for the turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Portgas D Ace"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is marked as a sample. Rarity is R (Red) as printed. Power is 0, life is not printed. Counter value is 2000."
-  }
+  ]
 }

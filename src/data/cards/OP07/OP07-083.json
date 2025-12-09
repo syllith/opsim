@@ -1,55 +1,81 @@
 {
-  "id": "OP07-083",
-  "set": "OP07",
-  "number": 83,
-  "name": "Gekko Moria",
-  "category": "Character",
+  "cardName": "Gekko Moria",
+  "cardId": "OP07-083",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Seven Warlords of the Sea",
     "Thriller Bark Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP07/OP07-083.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "thrillerBarkPirates"
   ],
-  "trigger": null,
-  "text": "Activate: Main Place 4 cards from your trash with the type {Thriller Bark Pirates} on the bottom of your deck in: This character gains Banish and +1000 Power for the turn. (When a character deals damage, the target card is trashed without activating its Trigger.)",
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "083",
+  "printedText": "[Activate: Main] Place 4 cards with the {Thriller Bark Pirates} type from your trash at the bottom of your deck in any order: This Character gains [Banish] and +1000 power during this turn. (When a Character deals damage, the target card is trashed without activating its Trigger.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromTrash",
+        "selector": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "trash"
+          ],
+          "min": 4,
+          "max": 4,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "thrillerBarkPirates"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Place 4 cards from your trash with the type {Thriller Bark Pirates} on the bottom of your deck in: This character gains Banish and +1000 Power for the turn.",
-        "grants": [
-          "Banish"
-        ],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Banish",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
         },
-        "giveDon": null
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is marked as a 'SAMPLE' and has a 'SPECIAL' rarity indicator. The text includes a parenthetical note about Trigger activation."
-  }
+  ]
 }

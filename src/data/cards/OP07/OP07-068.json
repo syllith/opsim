@@ -1,58 +1,58 @@
 {
-  "id": "OP07-068",
-  "set": "OP07",
-  "number": 68,
-  "name": "Hamburg",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Foxy Pirate"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-068.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking: If your board has DON!! less than or equal to your opponent, add up to 1 DON!! from your DON!! deck rested.",
+  "cardName": "Hamburg",
+  "cardId": "OP07-068",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Foxy Pirate"],
+  "traits": ["foxyPirate"],
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "068",
+  "printedText": "DON!! x1 [When Attacking] If your board has DON!! less than or equal to your opponent, add up to 1 DON!! from your DON!! deck rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your board has DON!! less than or equal to your opponent, add up to 1 DON!! from your DON!! deck rested.",
-        "powerMod": null,
-        "conditions": [
-          "your board has DON!! less than or equal to your opponent"
-        ],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "DON!! deck",
-          "to": [
-            "self"
-          ]
+      "timing": "whenAttacking",
+      "selectors": {
+        "selfDonInCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "opponentDonInCostArea": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"]
         }
-      }
+      },
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isGivenDon",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCountCompare",
+            "selectorA": "selfDonInCostArea",
+            "selectorB": "opponentDonInCostArea",
+            "op": "<="
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

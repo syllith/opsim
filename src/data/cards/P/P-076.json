@@ -1,46 +1,52 @@
 {
-  "id": "P-076",
-  "set": "P",
-  "number": 76,
-  "name": "Sakazuki",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Navy"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-076.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "cardName": "Sakazuki",
+  "cardId": "P-076",
+  "cardType": "leader",
+  "colors": ["blue"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": ["Navy"],
+  "traits": ["navy"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-076",
+  "printedText": "[Activate: Main] [Once Per Turn] You may discard 1 card from your hand with the {Navy} type: Give up to 1 of your opponent's Characters -1 cost during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may discard one card from your hand with the (Navy) type. Give up to one of your opponents characters -1 cost for the turn.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": ["type=Navy"],
+        "may": true
       },
-      "effect": {
-        "text": "You may discard one card from your hand with the (Navy) type. Give up to one of your opponents characters -1 cost for the turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -1,
+          "duration": "thisTurn",
+          "target": "opponentCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

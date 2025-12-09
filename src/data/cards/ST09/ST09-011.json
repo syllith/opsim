@@ -1,23 +1,50 @@
 {
-  "id": "ST09-011",
-  "set": "ST09",
-  "number": 11,
-  "name": "Monkey. D. Luffy",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Monkey. D. Luffy",
+  "cardId": "ST09-011",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Land of Wano", "Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST09/ST09-011.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["landOfWano", "strawHatCrew"],
+  "rarity": "C",
+  "setId": "ST09",
+  "cardNumber": "011",
+  "printedText": "[When Attacking] You may trash 1 card from your hand: This Character gains +1000 Power during this battle for every 1 of your Life cards.",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": [
+    {
+      "timing": "whenAttacking",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "selfLifeCards": {
+          "side": "self",
+          "type": "any",
+          "zones": ["life"]
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 1,
+          "perAmount": 1000,
+          "countSelector": "selfLifeCards",
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    }
+  ]
 }

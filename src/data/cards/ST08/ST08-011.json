@@ -1,23 +1,19 @@
 {
-  "id": "ST08-011",
-  "set": "ST08",
-  "number": 11,
-  "name": "Monkey. D. Luffy",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Monkey. D. Luffy",
+  "cardId": "ST08-011",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 5000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST08/ST08-011.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["strawHatCrew"],
+  "rarity": "",
+  "setId": "ST08",
+  "cardNumber": "011",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": []
 }

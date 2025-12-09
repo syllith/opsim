@@ -1,54 +1,93 @@
 {
-  "id": "OP03-040",
-  "set": "OP03",
-  "number": 40,
-  "name": "Nami",
-  "category": "Leader",
+  "cardName": "Nami",
+  "cardId": "OP03-040",
+  "cardType": "leader",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Wisdom",
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
   "types": [
     "East Blue"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-040.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 5000,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "As an additional rule, when your deck reaches 0 cards, you win the match instead of losing it. [DON!!x1] When your opponent takes damage to their Life through the attack of this Leader, you may trash 1 card from the top of your deck.",
+  "rarity": "L",
+  "setId": "OP03",
+  "cardNumber": "040",
+  "printedText": "As an additional rule, when your deck reaches 0 cards, you win the match instead of losing it.\nDON!! x1 When your opponent takes damage to their Life through the attack of this Leader, you may trash 1 card from the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "selfLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "When your opponent takes damage to their Life through the attack of this Leader, you may trash 1 card from the top of your deck.",
-        "powerMod": null,
-        "targets": [
-          "opponent:Character"
-        ],
-        "conditions": [
-          "attacking:Leader"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "selfWouldLoseByDeckOut",
+          "target": "selfLeader",
+          "actions": [
+            {
+              "type": "winGame",
+              "side": "self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "selfLeader": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "opponentLifeDamagedByThisLeaderAttack",
+          "target": "selfLeader",
+          "actions": [
+            {
+              "type": "trashTopDeck",
+              "count": 1,
+              "may": true
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample image, indicated by the 'SAMPLE' watermark. The rarity is inferred from the 'C' in the bottom right corner. The text is fully readable."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

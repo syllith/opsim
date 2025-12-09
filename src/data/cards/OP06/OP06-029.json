@@ -1,57 +1,80 @@
 {
-  "id": "OP06-029",
-  "set": "OP06",
-  "number": 29,
-  "name": "Daruma",
-  "category": "Character",
+  "cardName": "Daruma",
+  "cardId": "OP06-029",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
-    "Fishman",
-    "New Fishman Pirates"
+    "Fish-Man",
+    "New Fish-Man Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP06/OP06-029.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "When Attacking",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking Once Per Turn: If your leader has the [New Fishman Pirates Type], set this character as active, and give it power +1000 for the turn. Then, add the top card of your life to your hand.",
+  "setId": "OP06",
+  "cardNumber": "029",
+  "printedText": "[DON!! x1] [When Attacking] [Once Per Turn] If your Leader has the [New Fish-Man Pirates] type, set this Character to active and it gains +1000 Power for this turn. Then, add the top card of your Life to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCountThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "leaderTypes",
+            "op": "=",
+            "value": "New Fish-Man Pirates"
+          }
+        ]
       },
-      "effect": {
-        "text": "If your leader has the [New Fishman Pirates Type], set this character as active, and give it power +1000 for the turn. Then, add the top card of your life to your hand.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "thisCardSelector"
         },
-        "conditions": [
-          "leader:hasType[New Fishman Pirates]"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "thisCardSelector"
+        },
+        {
+          "type": "moveCard",
+          "destination": "hand",
+          "target": "selfTopLifeCard"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card is marked as a sample. Rarity is UC as printed in the bottom right corner. Power is 4000 as printed. Life is not printed, so set to null."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "fishMan",
+    "newFishManPirates"
+  ]
 }

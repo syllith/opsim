@@ -1,65 +1,61 @@
 {
-  "id": "OP05-036",
-  "set": "OP05",
-  "number": 36,
-  "name": "Monet",
-  "category": "Character",
+  "cardName": "Monet",
+  "cardId": "OP05-036",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 3,
+  "power": 1000,
+  "counter": 1000,
   "types": [
     "Donquixote Pirates"
   ],
-  "rarity": "US",
-  "art": "/cards/OP05/OP05-036.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "036",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[When Blocking] Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
   "keywords": [
-    "Blocker",
-    "When Blocking"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) When Blocking rest up to 1 of your opponent's characters with a cost of 4 or less.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onBlock",
+      "frequency": "none",
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "restTarget"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Blocking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "rest up to 1 of your opponent's characters with a cost of 4 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

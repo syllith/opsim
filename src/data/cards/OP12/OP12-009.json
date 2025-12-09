@@ -1,56 +1,58 @@
 {
-  "id": "OP12-009",
-  "set": "OP12",
-  "number": 9,
-  "name": "Jinbe",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Fish-Man",
-    "The Sun Pirates"
-  ],
+  "cardName": "Jinbe",
+  "cardId": "OP12-009",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Fish-Man", "The Sun Pirates"],
+  "traits": ["fishMan", "theSunPirates"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-009.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "On Play: You may reveal 2 Event cards from your hand: this Character gains Rush during this turn. Then, this Character gains +1000 power until the end of your opponent's next turn.",
+  "setId": "OP12",
+  "cardNumber": "009",
+  "printedText": "[On Play] You may reveal 2 Event cards from your hand: this Character gains Rush during this turn. Then, this Character gains +1000 power until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may reveal 2 Event cards from your hand: this Character gains Rush during this turn. Then, this Character gains +1000 power until the end of your opponent's next turn.",
-        "grants": [
-          "Rush"
+        "type": "revealFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "filters": [
+          {
+            "field": "cardType",
+            "op": "=",
+            "value": "event"
+          }
         ],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "until the end of your opponent's next turn"
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
         },
-        "giveDon": null
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

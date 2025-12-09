@@ -1,50 +1,128 @@
 {
-  "id": "EB03-018",
-  "set": "EB03",
-  "number": 18,
-  "name": "Tashigi",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Navy"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-018.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Opponent's Turn", "Blocker", "End of Your Turn"],
-  "trigger": null,
-  "text": "[Opponent's Turn] This Character cannot be K.O'd by your opponent's effects and gains [Blocker].\n[End of Your Turn] You may rest 1 of your DON!! cards and trash 1 card from your hand: Set this Character as active.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB03-018",
+  "printedText": "Opponent's Turn This Character cannot be K.O.'d by your opponent's effects and gains Blocker.\nEnd of Your Turn You may rest 1 of your DON!! cards and trash 1 card from your hand: Set this Character as active.",
+  "types": [
+    "Navy"
+  ],
+  "cardNumber": "018",
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character cannot be K.O'd by your opponent's effects and gains [Blocker].",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentsTurn"]
-      }
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "condition": {
+            "all": [
+              {
+                "value": true,
+                "field": "opponentsTurn",
+                "op": "="
+              },
+              {
+                "value": "opponent",
+                "field": "effectController",
+                "op": "="
+              }
+            ],
+            "logic": "AND"
+          },
+          "actions": [
+            {
+              "target": {
+                "type": "character",
+                "side": "self",
+                "zones": [
+                  "character"
+                ]
+              },
+              "type": "preventKO"
+            }
+          ],
+          "event": "wouldBeKO",
+          "duration": "thisTurn",
+          "target": {
+            "type": "character",
+            "side": "self",
+            "zones": [
+              "character"
+            ]
+          }
+        },
+        {
+          "keyword": "blocker",
+          "target": {
+            "type": "character",
+            "side": "self",
+            "zones": [
+              "character"
+            ]
+          },
+          "condition": {
+            "value": true,
+            "field": "opponentsTurn",
+            "op": "="
+          },
+          "type": "keywordEffect",
+          "operation": "static"
+        }
+      ]
     },
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "You may rest 1 of your DON!! cards and trash 1 card from your hand: Set this Character as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["trash1FromHand"]
-      }
+      "selectors": {},
+      "timing": "endOfYourTurn",
+      "actions": [
+        {
+          "may": true,
+          "type": "setState",
+          "target": {
+            "zones": [
+              "costArea"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "state": "rested"
+        },
+        {
+          "may": true,
+          "type": "trashFromHand",
+          "maxCards": 1,
+          "minCards": 1
+        },
+        {
+          "type": "setState",
+          "target": {
+            "min": 1,
+            "type": "character",
+            "side": "self",
+            "max": 1,
+            "zones": [
+              "character"
+            ]
+          },
+          "state": "active"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 0,
+  "cardName": "Tashigi",
+  "rarity": "SR",
+  "cost": 4,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

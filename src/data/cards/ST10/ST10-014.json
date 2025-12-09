@@ -1,50 +1,36 @@
 {
-  "id": "ST10-014",
-  "set": "ST10",
-  "number": 14,
-  "name": "Wire",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Slash",
+  "cardName": "Wire",
+  "cardId": "ST10-014",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Kid Pirates"],
+  "traits": ["kidPirates"],
   "rarity": "C",
-  "art": "/cards/ST10/ST10-014.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "Once Per Turn"],
-  "trigger": null,
-  "text": "Blocker. Once Per Turn: If a DON!! card is returned to the DON!! deck, draw 1 card and trash 1 card from your hand.",
+  "setId": "ST10",
+  "cardNumber": "014",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, draw 1 card and trash 1 card from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
-    },
-    {
-      "timing": "When DON!! Returned",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If a DON!! card is returned to the DON!! deck, draw 1 card and trash 1 card from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [],
-        "conditions": ["donReturnedToDeck"]
-      }
+      "timing": "whenDonReturned",
+      "frequency": "oncePerTurn",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

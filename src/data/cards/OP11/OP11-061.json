@@ -1,64 +1,74 @@
 {
-  "id": "OP11-061",
-  "set": "OP11",
-  "number": 61,
-  "name": "Gum-Gum Jet Culverin",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Gum-Gum Jet Culverin",
+  "cardId": "OP11-061",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 3,
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "UC",
-  "art": "/cards/OP11/OP11-061.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Return up to 1 of your opponent's Characters with a cost of 1 or less to the bottom of their deck."
-  },
-  "text": "Main Return up to 1 of your opponent's Characters with an original cost of 4 or less to the bottom of their deck.\nTrigger Return up to 1 of your opponent's Characters with a cost of 1 or less to the bottom of their deck.",
+  "setId": "OP11",
+  "cardNumber": "061",
+  "printedText": "[Main] Return up to 1 of your opponent's Characters with an original cost of 4 or less to the bottom of their deck.\n[Trigger] Return up to 1 of your opponent's Characters with a cost of 1 or less to the bottom of their deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "mainTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Return up to 1 of your opponent's Characters with an original cost of 4 or less to the bottom of their deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "mainTarget",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "triggerTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Return up to 1 of your opponent's Characters with a cost of 1 or less to the bottom of their deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "triggerTarget",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

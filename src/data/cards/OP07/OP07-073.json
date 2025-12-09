@@ -1,50 +1,51 @@
 {
-  "id": "OP07-073",
-  "set": "OP07",
-  "number": 73,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP07-073",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP07/OP07-073.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn",
-    "DON!!-3"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn DON!!-3 : If your opponent has 3 or more characters in play, set this character as active.",
+  "setId": "OP07",
+  "cardNumber": "073",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!! -3 (You may return the specified number of DON!! cards from your field to your DON!! deck.): If your opponent has 3 or more Characters, set this Character as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 3,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 3
       },
-      "effect": {
-        "text": "If your opponent has 3 or more characters in play, set this character as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"]
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "opponentCharacters",
+        "op": ">=",
+        "value": 3
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

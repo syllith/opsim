@@ -1,47 +1,91 @@
 {
-  "id": "OP08-116",
-  "set": "OP08",
-  "number": 116,
-  "name": "Burn Bazooka",
-  "category": "Event",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Sky Island",
-    "Shandian Warrior"
-  ],
+  "cardName": "Burn Bazooka",
+  "cardId": "OP08-116",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 2,
+  "types": ["Sky Island", "Shandian Warrior"],
+  "traits": ["skyIsland", "shandianWarrior"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-116.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 4000
-    }
-  },
+  "setId": "OP08",
+  "cardNumber": "116",
+  "printedText": "[Counter] Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, you may add 1 card from the top or bottom of your Life cards to your hand. If you do, add up to 1 {Shandian Warrior} type card from your hand to the top of your Life cards face-up.",
   "keywords": [],
-  "trigger": null,
-  "text": "Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, you may add 1 card from the top or bottom of your Life cards to your hand. If you do, add up to 1 card with the (Shandian Warrior) type from your hand to the top of your Life cards face up.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "lifeCardToHand": {
+          "side": "self",
+          "type": "any",
+          "zones": ["life"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "lifeCardToHand"
+        },
+        "shandianFromHand": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "shandianWarrior"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, you may add 1 card from the top or bottom of your Life cards to your hand. If you do, add up to 1 card with the (Shandian Warrior) type from your hand to the top of your Life cards face up.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        },
+        {
+          "type": "moveCard",
+          "target": "lifeCardToHand",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "lifeCardToHand",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "shandianFromHand",
+              "destination": "topOfLife",
+              "ordering": "keep",
+              "faceUp": true
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

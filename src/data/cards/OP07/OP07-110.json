@@ -1,65 +1,109 @@
 {
-  "id": "OP07-110",
-  "set": "OP07",
-  "number": 110,
-  "name": "York",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Scientist",
-    "Egghead"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-110.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "If your leader is \"Vegapunk\", play this card."
-  },
-  "text": "On Play: You may add the top or bottom card from your life to your hand: KO up to 1 of your opponent's cost 2 or lower characters.",
+  "cardName": "York",
+  "cardId": "OP07-110",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Scientist", "Egghead"],
+  "traits": ["scientist", "egghead"],
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "110",
+  "printedText": "[On Play] You may add the top or bottom card from your Life to your hand; K.O. up to 1 of your opponent's cost 2 or lower Characters.\n[Trigger] If your Leader is [Vegapunk], play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "opponentCost2OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may add the top or bottom card from your life to your hand: KO up to 1 of your opponent's cost 2 or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "selfTopLifeCard",
+                  "destination": "hand",
+                  "ordering": "keep"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "selfBottomLifeCard",
+                  "destination": "hand",
+                  "ordering": "keep"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "ko",
+          "target": "opponentCost2OrLessCharacter"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "vegapunkLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Vegapunk"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your leader is \"Vegapunk\", play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "vegapunkLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

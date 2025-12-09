@@ -1,56 +1,77 @@
 {
-  "id": "OP03-070",
-  "set": "OP03",
-  "number": 70,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
+  "cardName": "Monkey. D. Luffy",
+  "cardId": "OP03-070",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 6,
+  "power": 7000,
+  "counter": 0,
   "types": [
     "Water 7",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-070.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "On Play DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): you may trash 1 Character card with a cost of 5 from your hand. This Character gains Rush during this turn. (This card can attack on the turn in which it is played.)",
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "070",
+  "printedText": "[On Play] DON!! -1: You may trash 1 Character card with a cost of 5 from your hand: This Character gains Rush during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "You may trash 1 Character card with a cost of 5 from your hand. This Character gains Rush during this turn.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "targets": [
-          "oneCharacterCard<=cost5"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "charCost5FromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "charToTrash"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "charCost5FromHand",
+          "destination": "trash",
+          "ordering": "chosen",
+          "may": true
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "rush",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is C, confirmed by the 'C' in the bottom right corner of the card."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "waterSeven",
+    "strawHatCrew"
+  ]
 }

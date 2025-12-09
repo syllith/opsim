@@ -1,45 +1,56 @@
 {
-  "id": "ST06-015",
-  "set": "ST06",
-  "number": 15,
-  "name": "Great Eruption",
-  "category": "Event",
-  "colors": ["Yellow"],
-  "attribute": null,
+  "cardName": "Great Eruption",
+  "cardId": "ST06-015",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 1,
   "types": ["Navy"],
-  "rarity": null,
-  "art": "/cards/ST06/ST06-015.png",
-  "stats": { "cost": 1, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Your opponent trashes 1 card from their hand." },
-  "text": "Main: Draw 1 card. Then, give up to 1 of your opponent's Characters -2 to their cost during this turn. Trigger: Your opponent trashes 1 card from their hand.",
+  "traits": ["navy"],
+  "rarity": "C",
+  "setId": "ST06",
+  "cardNumber": "015",
+  "printedText": "[Main] Draw 1 card. Then, give up to 1 of your opponent's Characters −2 to their cost during this turn.\n[Trigger] Your opponent trashes 1 card from their hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw 1 card. Then, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self","oneOpponentCharacter"],
-        "conditions": ["draw:1","reduceCost:-2","duration:turn"]
-      }
+      "timing": "main",
+      "selectors": {
+        "costDownTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -2,
+          "duration": "thisTurn",
+          "target": "costDownTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": null,
-      "effect": {
-        "text": "Your opponent trashes 1 card from their hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent"],
-        "conditions": ["trashFromHand:1"]
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "opponent"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

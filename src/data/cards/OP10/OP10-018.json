@@ -1,65 +1,80 @@
 {
-  "id": "OP10-018",
-  "set": "OP10",
-  "number": 18,
-  "name": "Kamakura Jussoushi",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Punk Hazard",
-    "Donquixote Pirates"
-  ],
+  "cardName": "Kamakura Jussoushi",
+  "cardId": "OP10-018",
+  "cardType": "event",
+  "colors": ["red"],
+  "cost": 2,
+  "types": ["Punk Hazard", "Donquixote Pirates"],
+  "traits": ["punkHazard", "donquixotePirates"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-018.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Choose up to 1 of your leader/character, it gets +1000 during this turn."
-  },
-  "text": "Choose up to 1 of your leader or character, it gains +3000 during this battle. Afterwards, one of your opponent's leader or character gets -2000 during this turn.",
+  "setId": "OP10",
+  "cardNumber": "018",
+  "printedText": "[Counter] Choose up to 1 of your Leader or Character; it gains +3000 power during this battle. Afterwards, 1 of your opponent's Leader or Character cards gets -2000 power during this turn.\n[Trigger] Choose up to 1 of your Leader or Character cards; it gets +1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "yourLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "opponentLeaderOrCharacter": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Choose up to 1 of your leader or character, it gains +3000 during this battle. Afterwards, one of your opponent's leader or character gets -2000 during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "yourLeaderOrCharacter"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "opponentLeaderOrCharacter"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "yourLeaderOrCharacterTrigger": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Choose up to 1 of your leader/character, it gets +1000 during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "yourLeaderOrCharacterTrigger"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

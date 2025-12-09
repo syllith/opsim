@@ -1,55 +1,71 @@
 {
-  "id": "OP03-042",
-  "set": "OP03",
-  "number": 42,
-  "name": "Usopp Pirates",
-  "category": "Character",
+  "cardName": "Usopp Pirates",
+  "cardId": "OP03-042",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "East Blue"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-042.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "[On Play] Add up to 1 blue [Usopp] from your trash to your hand.",
+  "setId": "OP03",
+  "cardNumber": "042",
+  "printedText": "[On Play] Add up to 1 blue [Usopp] from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "usoppFromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "color",
+                  "op": "=",
+                  "value": "blue"
+                },
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Usopp"
+                }
+              ]
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Add up to 1 blue [Usopp] from your trash to your hand.",
-        "powerMod": null,
-        "targets": [
-          "oneCardFromTrash"
-        ],
-        "conditions": [
-          "blue",
-          "Usopp"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "usoppFromTrash",
+          "reveal": false,
+          "addTo": "hand",
+          "ordering": "any",
+          "may": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

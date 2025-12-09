@@ -1,54 +1,76 @@
 {
-  "id": "OP05-068",
-  "set": "OP05",
-  "number": 68,
-  "name": "Chopperemon",
-  "category": "Character",
+  "cardName": "Chopperemon",
+  "cardId": "OP05-068",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Animal",
     "Straw Hat Crew"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-068.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have 8 or more DON!! on your field, set up to 1 of your purple characters with 6000 power or less and the (Straw Hat Crew) type as active.",
+  "setId": "OP05",
+  "cardNumber": "068",
+  "printedText": "[On Play] If you have 8 or more DON!! on your field, set up to 1 of your purple Characters with 6000 power or less and the {Straw Hat Crew} type as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 8,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "donCountField",
+        "op": ">=",
+        "value": 8
       },
-      "effect": {
-        "text": "If you have 8 or more DON!! on your field, set up to 1 of your purple characters with 6000 power or less and the (Straw Hat Crew) type as active.",
-        "powerMod": null,
-        "targets": [
-          "upTo1",
-          "yourPurpleCharacter<=power6000",
-          "typeStrawHatCrew"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "readyTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "color",
+              "op": "=",
+              "value": "purple"
+            },
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 6000
+            },
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Straw Hat Crew"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "readyTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "readyTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "animal",
+    "strawHatCrew"
+  ]
 }

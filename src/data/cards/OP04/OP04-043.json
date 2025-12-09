@@ -1,51 +1,85 @@
 {
-  "id": "OP04-043",
-  "set": "OP04",
-  "number": 43,
-  "name": "Ulti",
-  "category": "Character",
+  "cardName": "Ulti",
+  "cardId": "OP04-043",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Animal Kingdom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-043.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 [When Attacking] Return up to 1 cost 2 or lower character to its owner's hand or bottom of the deck.",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "043",
+  "printedText": "DON!! x1 [When Attacking] Return up to 1 cost 2 or lower Character to its owner's hand or bottom of the deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "whenAttacking",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restDonFromCostArea",
+        "count": 1
       },
-      "effect": {
-        "text": "Return up to 1 cost 2 or lower character to its owner's hand or bottom of the deck.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost2"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "bounceTarget",
+                  "destination": "hand",
+                  "ordering": "keep"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "bounceTarget",
+                  "destination": "bottomOfDeck",
+                  "ordering": "keep"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

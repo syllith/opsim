@@ -1,63 +1,96 @@
 {
-  "id": "OP14-033",
-  "set": "OP14",
-  "number": 33,
-  "name": "Perona",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Muggy Kingdom",
-    "Thriller Bark Pirates"
-  ],
+  "cardName": "Perona",
+  "cardId": "OP14-033",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Muggy Kingdom", "Thriller Bark Pirates"],
+  "traits": ["muggyKingdom", "thrillerBarkPirates"],
   "rarity": "SR",
-  "art": "/cards/OP14/OP14-033.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On Play: Up to 2 of your opponent's Characters with a cost of 5 or less cannot be rested until the end of your opponent's next turn. On K.O.: You may rest 1 of your cards: Play up to 1 green Character card with a cost of 5 or less from your hand.",
+  "setId": "OP14",
+  "cardNumber": "033",
+  "printedText": "[On Play] Up to 2 of your opponent's Characters with a cost of 5 or less cannot be rested until the end of your opponent's next turn.\n[On K.O.] You may rest 1 of your cards: Play up to 1 green Character card with a cost of 5 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "opponentCharsCost5OrLessUpToTwo": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Up to 2 of your opponent's Characters with a cost of 5 or less cannot be rested until the end of your opponent's next turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "rest",
+          "target": "opponentCharsCost5OrLessUpToTwo",
+          "duration": "untilEndOfOpponentsNextTurn"
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onKO",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restFromField",
+        "selector": "cardToRestForCost",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 1 of your cards: Play up to 1 green Character card with a cost of 5 or less from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "cardToRestForCost": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "character", "stage", "costArea"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "greenCharCost5OrLessFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "green"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "greenCharCost5OrLessFromHand",
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

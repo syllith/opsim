@@ -1,48 +1,54 @@
 {
-  "id": "OP08-064",
-  "set": "OP08",
-  "number": 64,
-  "name": "Jack",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Animal Kingdom Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-064.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "This character has +4 cost.\nActivate: Main You may rest this card: Draw one card and trash one card from your hand. Then KO up to one of your opponents cost 3 or lower characters.",
+  "cardName": "Charlotte Cracker",
+  "cardId": "OP08-064",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
+  "rarity": "C",
+  "setId": "OP08",
+  "cardNumber": "064",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!! −1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play up to 1 [Biscuit Warrior] from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "You may rest this card: Draw one card and trash one card from your hand. Then KO up to one of your opponents cost 3 or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "biscuitFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Biscuit Warrior"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "biscuitFromHand",
+          "payCost": false,
+          "enterRested": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a 'R' rarity symbol. Power value is clearly printed as 8000."
-  }
+  ]
 }

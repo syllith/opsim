@@ -1,33 +1,18 @@
 {
-  "id": "OP12-076",
-  "set": "OP12",
-  "number": 76,
-  "name": "Monet",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "Punk Hazard",
-    "Donquixote Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP12/OP12-076.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "cardName": "Monet",
+  "cardId": "OP12-076",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Punk Hazard", "Donquixote Pirates"],
+  "traits": ["punkHazard", "donquixotePirates"],
+  "rarity": "UC",
+  "setId": "OP12",
+  "cardNumber": "076",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, only stats and counter."
-  }
+  "abilities": []
 }

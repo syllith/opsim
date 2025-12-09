@@ -52,6 +52,9 @@ export default function Board({
     openingHandRef,
     openingHandShown,
     setOpeningHandShown,
+    currentHandSide,
+    onHandSelected,
+    firstPlayer,
     //. Deck Search props
     deckSearchRef,
     library,
@@ -109,10 +112,13 @@ export default function Board({
         if (deckSearchRef) {
             deckSearchRef.current = {
                 start: (config) => {
+                    console.log('[Board] deckSearchRef.start called with config:', config);
                     const { side } = config;
                     if (side === 'player') {
+                        console.log('[Board] Delegating to playerDeckSearch.start');
                         playerDeckSearch.start(config);
                     } else {
+                        console.log('[Board] Delegating to opponentDeckSearch.start');
                         opponentDeckSearch.start(config);
                     }
                 },
@@ -902,39 +908,7 @@ export default function Board({
                                             onMouseEnter={() => handleCardHover(c, config)}
                                             onMouseLeave={handleCardLeave}
                                         />
-                                        {costDiff !== 0 && (
-                                            <Box
-                                                sx={{
-                                                    position: 'absolute',
-                                                    top: 8,
-                                                    right: 8,
-                                                    px: 1,
-                                                    py: 0.5,
-                                                    borderRadius: 1,
-                                                    bgcolor: costDiff < 0
-                                                        ? 'rgba(76,175,80,0.95)'
-                                                        : 'rgba(239,83,80,0.95)',
-                                                    border: costDiff < 0
-                                                        ? '1px solid #4caf50'
-                                                        : '1px solid #ef5350',
-                                                    boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                                                }}
-                                            >
-                                                <Typography
-                                                    variant='caption'
-                                                    sx={{
-                                                        color: '#fff',
-                                                        fontWeight: 700,
-                                                        fontSize: '0.72rem',
-                                                        whiteSpace: 'nowrap'
-                                                    }}
-                                                >
-                                                    {costDiff < 0
-                                                        ? `${costDiff}`
-                                                        : `+${costDiff}`} cost
-                                                </Typography>
-                                            </Box>
-                                        )}
+                                        {/* Cost badge for hand cards removed; card art already shows cost */}
                                     </Box>
                                 );
                             })}
@@ -1855,7 +1829,7 @@ export default function Board({
                         </Box>
                     )}
 
-                {/* Opening Hand / Deck Search overlay (now globally above CardViewer) */}
+                {/* Opening Hand overlay (positioned above player's hand) */}
                 {handOverlayPos && (
                     <Box
                         sx={{
@@ -1885,12 +1859,29 @@ export default function Board({
                             setHovered={setHovered}
                             openingHandShown={openingHandShown}
                             setOpeningHandShown={setOpeningHandShown}
+                            currentHandSide={currentHandSide}
+                            onHandSelected={onHandSelected}
+                            firstPlayer={firstPlayer}
                             CARD_W={CARD_W}
                         />
-                        {playerDeckSearch.active && <playerDeckSearch.Component />}
-                        {opponentDeckSearch.active && <opponentDeckSearch.Component />}
                     </Box>
                 )}
+
+                {/* Deck Search overlay (always available; falls back to centered if handOverlayPos missing) */}
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        zIndex: 1500,
+                        pointerEvents: 'auto',
+                        left: handOverlayPos ? handOverlayPos.left : '50%',
+                        top: handOverlayPos ? handOverlayPos.top : (compactMode ? 8 : 16),
+                        width: handOverlayPos ? handOverlayPos.width : 'min(1200px, 96%)',
+                        transform: handOverlayPos ? 'translateY(-100%)' : 'translateX(-50%)'
+                    }}
+                >
+                    {playerDeckSearch.active && <playerDeckSearch.Component />}
+                    {opponentDeckSearch.active && <opponentDeckSearch.Component />}
+                </Box>
 
                 {/* Player Side */}
                 <Box

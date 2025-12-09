@@ -1,35 +1,93 @@
 {
-  "id": "OP02-101",
-  "set": "OP02",
-  "number": 101,
-  "name": "Strawberry",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Navy"],
-  "rarity": "R",
-  "art": "/cards/OP02/OP02-101.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "[When Attacking] If there is a Character with a cost of 0 in play, your opponent cannot activate a <Blocker> Character with a cost of 5 or less during this battle.",
+  "cardName": "Strawberry",
+  "cardId": "OP02-101",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "C",
+  "setId": "OP02",
+  "cardNumber": "101",
+  "printedText": "[When Attacking] If there is a Character with a cost of 0 in play, your opponent cannot activate a Blocker Character with a cost of 5 or less during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If there is a Character with a cost of 0 in play, your opponent cannot activate a <Blocker> Character with a cost of 5 or less during this battle.",
-        "targets": ["opponent:Character<=5"],
-        "conditions": ["characterCost0InPlay", "hasBlocker"]
-      }
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "selectors": {
+        "zeroCostCharacterInPlay": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "zeroCostChars"
+        },
+        "opponentBlockerCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "keywords",
+                  "op": "=",
+                  "value": "blocker"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 5
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "blockerTargets"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "target": "opponentBlockerCost5OrLess",
+          "duration": "thisBattle",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "zeroCostCharacterInPlay",
+            "op": ">=",
+            "value": 1
+          },
+          "restrictionKind": "blocker"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

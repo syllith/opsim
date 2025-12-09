@@ -1,49 +1,53 @@
 {
-  "id": "OP11-085",
-  "set": "OP11",
-  "number": 85,
-  "name": "Kurozumi Orochi",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Wano Country",
-    "Kurozumi Family"
-  ],
+  "cardName": "Kurozumi Orochi",
+  "cardId": "OP11-085",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Wano Country", "Kurozumi Family"],
+  "traits": ["wanoCountry", "kurozumiFamily"],
   "rarity": "C",
-  "art": "/cards/OP11/OP11-085.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Add up to 1 {SMILE} type card with a cost of 5 or less from your trash to your hand.",
+  "setId": "OP11",
+  "cardNumber": "085",
+  "printedText": "[On Play] Add up to 1 {SMILE} type card with a cost of 5 or less from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "smileFromTrashCost5OrLess": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "smile"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Add up to 1 {SMILE} type card with a cost of 5 or less from your trash to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "smileFromTrashCost5OrLess",
+          "destination": "hand",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

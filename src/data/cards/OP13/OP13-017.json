@@ -1,52 +1,60 @@
 {
-  "id": "OP13-017",
-  "set": "OP13",
-  "number": 17,
-  "name": "Monkey.D.Dragon",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Revolutionary Army"
-  ],
+  "cardName": "Monkey.D.Dragon",
+  "cardId": "OP13-017",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Revolutionary Army"],
+  "traits": ["revolutionaryArmy"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-017.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Once Per Turn: If your (Revolutionary Army) type Character would be removed from the field by your opponent's effects, you may give this Character -2000 power during this turn instead.",
+  "setId": "OP13",
+  "cardNumber": "017",
+  "printedText": "[Once Per Turn] If your {Revolutionary Army} type Character would be removed from the field by your opponent's effects, you may give this Character -2000 power during this turn instead.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "revolutionaryArmyCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "revolutionaryArmy"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your (Revolutionary Army) type Character would be removed from the field by your opponent's effects, you may give this Character -2000 power during this turn instead.",
-        "powerMod": null,
-        "conditions": [
-          "your (Revolutionary Army) type Character",
-          "would be removed from the field by your opponent's effects"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeRemovedFromFieldByOpponentsEffect",
+          "target": "revolutionaryArmyCharacters",
+          "may": true,
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": -2000,
+              "duration": "thisTurn",
+              "target": "selfThisCard"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

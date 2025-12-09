@@ -1,57 +1,56 @@
 {
-  "id": "OP01-004",
-  "set": "OP01",
-  "number": 4,
-  "name": "Usopp",
-  "category": "Character",
+  "cardName": "Usopp",
+  "cardId": "OP01-004",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Ranged",
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
   "types": [
     "Straw Hat Crew"
   ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-004.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "004",
+  "printedText": "DON!! x1 Your Turn Once Per Turn: After your opponent activates an Event, Draw 1 card.",
   "keywords": [
-    "DON!! x1",
-    "Your Turn",
-    "Once Per Turn"
+    "donX1",
+    "yourTurn",
+    "oncePerTurn"
   ],
-  "trigger": null,
-  "text": "[DON!! x1] [Your Turn] [Once Per Turn] After your opponent activates an Event, Draw 1 card.",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent activates an Event, Draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "deck"
-        ],
-        "conditions": [
-          "afterOpponentActivatesEvent"
+      "timing": "afterOpponentActivatesEvent",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "donAttachedToThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          }
         ]
-      }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

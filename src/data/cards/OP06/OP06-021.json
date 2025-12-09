@@ -1,49 +1,95 @@
 {
-  "id": "OP06-021",
-  "set": "OP06",
-  "number": 21,
-  "name": "Perona",
-  "category": "Leader",
+  "cardName": "Perona",
+  "cardId": "OP06-021",
+  "cardType": "leader",
   "colors": [
-    "Green"
+    "green",
+    "black"
   ],
-  "attribute": null,
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
   "types": [
     "Thriller Bark Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP06/OP06-021.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn Choose one of the following effects: • Rest up to 1 of your opponent's characters with a cost of 4 or less. • Up to 1 of your opponent's characters gets -1 cost during this turn",
+  "rarity": "L",
+  "setId": "OP06",
+  "cardNumber": "021",
+  "printedText": "[Activate: Main] [Once Per Turn] Choose one:\n• Rest up to 1 of your opponent's Characters with a cost of 4 or less.\n• Give up to 1 of your opponent's Characters -1 cost during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "oppCharCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "oppCharAny": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Choose one of the following effects: • Rest up to 1 of your opponent's characters with a cost of 4 or less. • Up to 1 of your opponent's characters gets -1 cost during this turn",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "setState",
+                  "state": "rested",
+                  "target": "oppCharCost4OrLess"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "stat": "cost",
+                  "mode": "add",
+                  "amount": -1,
+                  "duration": "thisTurn",
+                  "target": "oppCharAny"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "thrillerBarkPirates"
+  ]
 }

@@ -1,37 +1,74 @@
 {
-  "id": "ST02-009",
-  "set": "ST02",
-  "number": 9,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
+  "cardName": "Trafalgar Law",
+  "cardId": "ST02-009",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Supernovas", "Heart Pirates"],
-  "rarity": "SR",
-  "art": "/cards/ST02/ST02-009.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["supernovas", "heartPirates"],
+  "rarity": "superRare",
+  "setId": "ST02",
+  "cardNumber": "009",
+  "printedText": "[On Play] Set up to 1 of your {Supernovas} or {Heart Pirates} type rested Characters with a cost of 5 or less as active.",
   "keywords": [],
-  "trigger": null,
-  "text": "On Play: Set up to 1 of your {Supernovas} or {Heart Pirates} type rested Characters with a cost of 5 or less as active.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Set up to 1 of your {Supernovas} or {Heart Pirates} type rested Characters with a cost of 5 or less as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:restedCharacterType(Supernovas|Heart Pirates):cost<=5"],
-        "conditions": []
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "supernovaOrHeartPiratesRestedCost5OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "logic": "OR",
+                  "any": [
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "supernovas"
+                    },
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "heartPirates"
+                    }
+                  ]
+                },
+                {
+                  "field": "state",
+                  "op": "=",
+                  "value": "rested"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 5
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "supernovaOrHeartPiratesRestedCost5OrLess",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

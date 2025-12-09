@@ -1,46 +1,76 @@
 {
-  "id": "OP09-045",
-  "set": "OP09",
-  "number": 45,
-  "name": "Cabaji",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Cross Guild"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-045.png",
-  "stats": {
-    "cost": 5,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "cardName": "Cabaji",
+  "cardId": "OP09-045",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Cross Guild"],
+  "traits": ["crossGuild"],
+  "rarity": "UC",
+  "setId": "OP09",
+  "cardNumber": "045",
+  "printedText": "If you have a Character card named [Buggy] or [Mohji] in play, this Character can't be K.O.'d in battle.",
   "keywords": [],
-  "trigger": null,
-  "text": "If you have a character [Buggy] or [Mohji] in play this character can't be KO'd in battle.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "buggyOrMohjiInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "name",
+                  "op": "=",
+                  "value": "Buggy"
+                },
+                {
+                  "field": "name",
+                  "op": "=",
+                  "value": "Mohji"
+                }
+              ]
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If you have a character [Buggy] or [Mohji] in play this character can't be KO'd in battle.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKO",
+          "target": "thisCard",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "selectorCount",
+                "selector": "buggyOrMohjiInPlay",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "koCause",
+                "op": "=",
+                "value": "battle"
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

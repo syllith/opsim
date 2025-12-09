@@ -1,23 +1,52 @@
 {
-  "id": "ST09-009",
-  "set": "ST09",
-  "number": 9,
-  "name": "Fuugetsu Omusubi",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
+  "cardName": "Fuugestu Omusubi",
+  "cardId": "ST09-009",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Land of Wano"],
-  "rarity": null,
-  "art": "/cards/ST09/ST09-009.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["landOfWano"],
+  "rarity": "C",
+  "setId": "ST09",
+  "cardNumber": "009",
+  "printedText": "[Trigger] K.O. up to 1 of your opponent's Characters with a cost of 1 or less, and add this card to your hand.",
   "keywords": [],
-  "trigger": { "text": "K.O. up to 1 of your opponent's Characters with a cost of 1 or less, and add this card to your hand." },
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": [
+    {
+      "timing": "trigger",
+      "selectors": {
+        "oppCost1OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost1OrLessChar"
+        },
+        {
+          "type": "moveCard",
+          "target": "selfTriggerSourceCard",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
+    }
+  ]
 }

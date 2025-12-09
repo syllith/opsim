@@ -1,64 +1,85 @@
 {
-  "id": "OP07-017",
-  "set": "OP07",
-  "number": 17,
-  "name": "Dragon's Breath",
-  "category": "Event",
+  "cardName": "Dragon's Breath",
+  "cardId": "OP07-017",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP07/OP07-017.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "revolutionaryArmy"
   ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main KO up to 1 of your opponent's Power 3000 or less characters and up to 1 of your opponent's 1 cost or lower Stage cards.",
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "017",
+  "printedText": "[Main] KO up to 1 of your opponent's 3000 power or less Characters and up to 1 of your opponent's cost 1 or lower Stage cards. Trigger: Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "koCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "koStage": {
+          "side": "opponent",
+          "type": "stage",
+          "zones": [
+            "stage"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "KO up to 1 of your opponent's Power 3000 or less characters and up to 1 of your opponent's 1 cost or lower Stage cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koCharacter"
+        },
+        {
+          "type": "ko",
+          "target": "koStage"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

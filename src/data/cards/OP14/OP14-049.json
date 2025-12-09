@@ -1,69 +1,87 @@
 {
-  "id": "OP14-049",
-  "set": "OP14",
-  "number": 49,
-  "name": "Jinbe",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Fish-Man",
-    "The Seven Warlords of the Sea",
-    "The Sun Pirates"
-  ],
+  "cardName": "Jinbe",
+  "cardId": "OP14-049",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 8,
+  "power": 10000,
+  "attributes": ["strike"],
+  "types": ["Fish-Man", "The Seven Warlords of the Sea", "The Sun Pirates"],
+  "traits": ["fishMan", "theSevenWarlordsOfTheSea", "theSunPirates"],
   "rarity": "SR",
-  "art": "/cards/OP14/OP14-049.png",
-  "stats": {
-    "cost": 8,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "When a card is trashed from your hand by your effect, this Character gains Rush during this turn.\nOn Play: You may rest 2 of your DON!! cards: Draw 2 cards. Then, return up to 1 Character with a cost of 7 or less to the owner's hand.",
+  "setId": "OP14",
+  "cardNumber": "049",
+  "printedText": "When a card is trashed from your hand by an effect, this Character gains [Rush] during this turn.\n[On Play] You may rest 2 of your DON!! cards: Draw 2 cards and return up to 1 Character with a cost of 7 or less to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "When a card is trashed from your hand by your effect, this Character gains Rush during this turn.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          },
+          "condition": {
+            "field": "cardsTrashedFromHandByEffectThisTurn",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restFromField",
+        "selector": "twoDonToRestForCost",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 2 of your DON!! cards: Draw 2 cards. Then, return up to 1 Character with a cost of 7 or less to the owner's hand.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost7"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "twoDonToRestForCost": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        },
+        "characterCost7OrLessUpToOne": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "moveCard",
+          "target": "characterCost7OrLessUpToOne",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

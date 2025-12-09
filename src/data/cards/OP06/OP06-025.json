@@ -1,48 +1,84 @@
 {
-  "id": "OP06-025",
-  "set": "OP06",
-  "number": 25,
-  "name": "Camie",
-  "category": "Character",
+  "cardName": "Camie",
+  "cardId": "OP06-025",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Merfolk"
   ],
   "rarity": "R",
-  "art": "/cards/OP06/OP06-025.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 4 cards of your deck and reveal up to one (Fishman) or (Merfolk) type card other than [Camie] and reveal it, then put it in your hand. Then, put the rest on the bottom of your deck in any order.",
+  "setId": "OP06",
+  "cardNumber": "025",
+  "printedText": "[On Play] Look at the top 4 cards of your deck and reveal up to 1 (Fish-Man) or (Merfolk) type card other than [Camie] and put it into your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "searchHit": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "logic": "OR",
+                  "any": [
+                    {
+                      "field": "types",
+                      "op": "=",
+                      "value": "Fish-Man"
+                    },
+                    {
+                      "field": "types",
+                      "op": "=",
+                      "value": "Merfolk"
+                    }
+                  ]
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Camie"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 4 cards of your deck and reveal up to one (Fishman) or (Merfolk) type card other than [Camie] and reveal it, then put it in your hand. Then, put the rest on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchHit",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 4,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "merfolk"
+  ]
 }

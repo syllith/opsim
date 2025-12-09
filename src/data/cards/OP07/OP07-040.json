@@ -1,49 +1,65 @@
 {
-  "id": "OP07-040",
-  "set": "OP07",
-  "number": 40,
-  "name": "Crocodile",
-  "category": "Character",
+  "cardName": "Crocodile",
+  "cardId": "OP07-040",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Seven Warlords of the Sea",
     "Baroque Works"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP07/OP07-040.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
   ],
-  "trigger": null,
-  "text": "On Play (You may rest the specified number of DON!! cards in your Cost Area) Return up to one 2 cost or lower character to the owner's hand.",
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "040",
+  "printedText": "[On Play] ① (You may rest the specified number of DON!! cards in your Cost Area.) Return up to 1 cost 2 or lower Character to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "Return up to one 2 cost or lower character to the owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bounceTarget",
+          "destination": "hand",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

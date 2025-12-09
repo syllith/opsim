@@ -1,0 +1,69 @@
+{
+  "cardName": "Nefertari Vivi",
+  "cardId": "OP04-118",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 7,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "Alabasta Kingdom"
+  ],
+  "setId": "OP04",
+  "cardNumber": "118",
+  "printedText": "All of your red Characters with a cost of 3 or more other than this Character gain Rush. (This card can attack on the turn in which it is played.)",
+  "keywords": [
+    "rush"
+  ],
+  "abilities": [
+    {
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "rushTargets": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "color",
+              "op": "=",
+              "value": "red"
+            },
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 3
+            },
+            {
+              "field": "isThisCard",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "whoChooses": "system",
+          "bindAs": "rushTargets"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "rush",
+          "duration": "permanent",
+          "target": "rushTargets"
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "alabastaKingdom"
+  ]
+}

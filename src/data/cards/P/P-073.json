@@ -1,53 +1,46 @@
 {
-  "id": "P-073",
-  "set": "P",
-  "number": 73,
-  "name": "Sabo",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Dressrosa",
-    "Revolutionary Army"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-073.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn. You may put the top or bottom of your life cards into your hand: This turn give this character +1000 power.",
+  "cardName": "Sabo",
+  "cardId": "P-073",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Dressrosa", "Revolutionary Army"],
+  "traits": ["dressrosa", "revolutionaryArmy"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-073",
+  "printedText": "[Activate: Main] [Once Per Turn] You may put the top or bottom card of your Life into your hand. This turn, this Character gains +1000 power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
       },
-      "effect": {
-        "text": "You may put the top or bottom of your life cards into your hand: This turn give this character +1000 power.",
-        "powerMod": {
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "thisCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

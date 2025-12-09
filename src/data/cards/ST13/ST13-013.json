@@ -1,37 +1,77 @@
 {
-  "id": "ST13-013",
-  "set": "ST13",
-  "number": 13,
-  "name": "Monkey D. Garp",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
+  "cardName": "Monkey D. Garp",
+  "cardId": "ST13-013",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Navy"],
+  "traits": ["navy"],
   "rarity": "SR",
-  "art": "/cards/ST13/ST13-013.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play Look at the top 5 cards of your deck, reveal up to 1 [Sabo], [Portgas D. Ace] or [Monkey D. Luffy] card with a cost of 5 or less, then put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+  "setId": "ST13",
+  "cardNumber": "013",
+  "printedText": "[On Play] Look at the top 5 cards of your deck, reveal up to 1 [Sabo], [Portgas D. Ace] or [Monkey D. Luffy] card with a cost of 5 or less, then put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to 1 [Sabo], [Portgas D. Ace] or [Monkey D. Luffy] card with a cost of 5 or less, then put it into your hand. Then, place the rest on the bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": ["self:deckTop5", "oneAllyCharacter<=5:name=Sabo|Portgas D. Ace|Monkey D. Luffy:reveal:hand:optional", "self:deckBottom"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "searchCandidates": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 5
+                },
+                {
+                  "logic": "OR",
+                  "any": [
+                    {
+                      "field": "cardName",
+                      "op": "=",
+                      "value": "Sabo"
+                    },
+                    {
+                      "field": "cardName",
+                      "op": "=",
+                      "value": "Portgas D. Ace"
+                    },
+                    {
+                      "field": "cardName",
+                      "op": "=",
+                      "value": "Monkey D. Luffy"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "topCount": 5,
+          "selector": "searchCandidates",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

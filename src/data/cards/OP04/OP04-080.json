@@ -1,54 +1,59 @@
 {
-  "id": "OP04-080",
-  "set": "OP04",
-  "number": 80,
-  "name": "Gyats",
-  "category": "Character",
+  "cardName": "Gyats",
+  "cardId": "OP04-080",
+  "cardType": "character",
   "colors": [
-    "Wisdom"
+    "black"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 1000,
+  "counter": 2000,
   "types": [
     "Dressrosa"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-080.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Up to 1 of your Characters with the {Dressrosa} type may attack your opponent's Characters in active during this turn.",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "080",
+  "printedText": "[On Play] Up to 1 of your {Dressrosa} type Characters can also attack active Characters during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "dressrosaCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cardTypeIncludes",
+              "op": "=",
+              "value": "Dressrosa"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Characters with the {Dressrosa} type may attack your opponent's Characters in active during this turn.",
-        "powerMod": null,
-        "targets": [
-          "upTo1CharacterWithDressrosaType"
-        ],
-        "conditions": [
-          "duringThisTurn"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "canAttackActiveCharacters",
+          "duration": "thisTurn",
+          "target": "dressrosaCharacter"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "dressrosa"
+  ]
 }

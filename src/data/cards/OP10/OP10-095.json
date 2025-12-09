@@ -1,50 +1,71 @@
 {
-  "id": "OP10-095",
-  "set": "OP10",
-  "number": 95,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Dressrosa",
-    "Supernova",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP10-095",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Dressrosa", "Supernova", "Straw Hat Crew"],
+  "traits": ["dressrosa", "supernova", "strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-095.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may rest up to 1 of your \"Dressrosa\" type Leaders or Stages: KO up to 1 of your opponent's cost 4 or lower characters. Then, place the top 2 cards of your deck into your trash.",
+  "setId": "OP10",
+  "cardNumber": "095",
+  "printedText": "[On Play] You may rest up to 1 of your \"Dressrosa\" type Leaders or Stages: K.O. up to 1 of your opponent's cost 4 or lower Characters. Then, place the top 2 cards of your deck into your trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restFromField",
+        "selector": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "stage"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "dressrosa"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "dressrosaLeaderOrStage"
+        },
+        "may": true
       },
-      "effect": {
-        "text": "You may rest up to 1 of your \"Dressrosa\" type Leaders or Stages: KO up to 1 of your opponent's cost 4 or lower characters. Then, place the top 2 cards of your deck into your trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCost4OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppCost4OrLessChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost4OrLessChar"
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 2
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,51 +1,81 @@
 {
-  "id": "OP05-084",
-  "set": "OP05",
-  "number": 84,
-  "name": "St. Charlos",
-  "category": "Character",
+  "cardName": "St. Charlos",
+  "cardId": "OP05-084",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Ranged",
+  "cost": 3,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "Celestial Dragon"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-084.png",
-  "stats": {
-    "cost": 3,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Your Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn: If all your characters have the [Celestial Dragon] type, then all of your opponents characters get -4 to their cost.",
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "084",
+  "printedText": "[Your Turn] If the only Characters on your field are [Celestial Dragons] type Characters, give all of your opponent's Characters -4 cost.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "nonCelestialCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "type",
+              "op": "!=",
+              "value": "Celestial Dragon"
+            }
+          ]
+        },
+        "allOpponentCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If all your characters have the [Celestial Dragon] type, then all of your opponents characters get -4 to their cost.",
-        "powerMod": null,
-        "conditions": [
-          "all your characters have the [Celestial Dragon] type"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "selectorCount",
+            "selector": "nonCelestialCharacters",
+            "op": "=",
+            "value": 0
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -4,
+          "duration": "thisTurn",
+          "target": "allOpponentCharacters"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "celestialDragon"
+  ]
 }

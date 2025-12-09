@@ -1,72 +1,84 @@
 {
-  "id": "OP10-019",
-  "set": "OP10",
-  "number": 19,
-  "name": "Divine Departure",
-  "category": "Event",
+  "cardName": "Divine Departure",
+  "cardId": "OP10-019",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "Four Emperors",
     "Red Hair Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-019.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
+  "traits": [
+    "theFourEmperors",
+    "redHairedPirates"
   ],
-  "trigger": null,
-  "text": "Main You may rest 5 DON!!: KO up to 1 of your opponent's characters with 8000 Power or less. \n#Counter Up to 1 of your Leaders gains +3000 Power during this battle.",
+  "rarity": "R",
+  "setId": "OP10",
+  "cardNumber": "019",
+  "printedText": "[Main] You may rest 5 DON!!: K.O. up to 1 of your opponent's Characters with 8000 power or less.\n[Counter] Up to 1 of your Leaders gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 5,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 5
+        "type": "restDonFromCostArea",
+        "count": 5,
+        "may": true
       },
-      "effect": {
-        "text": "KO up to 1 of your opponent's characters with 8000 Power or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=power8000"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponent8000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 8000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponent8000OrLess"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "selfLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leaders gains +3000 Power during this battle.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "oneLeader"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "selfLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

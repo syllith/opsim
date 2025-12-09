@@ -1,37 +1,85 @@
 {
-  "id": "EB02-016",
-  "set": "EB02",
-  "number": 16,
-  "name": "Chopperman",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
-  "types": ["Animal", "Straw Hat Crew"],
-  "rarity": "R",
-  "art": "/cards/EB02/EB02-016.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "Also treat this card's name as [Tony Tony.Chopper] according to the rules.\n[On Play] Play up to 1 {Animal} type Character with the cost of 3 or lower from your hand.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB02-016",
+  "printedText": "Also treat this card's name as [Tony Tony.Chopper] according to the rules.\nOn Play Play up to 1 {Animal} type Character with a cost of 3 or lower from your hand.",
+  "cardNumber": "016",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 {Animal} type Character with the cost of 3 or lower from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand:Character:Animal:cost<=3"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "keyword": "treatedAsTonyTonyChopper",
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "type": "keywordEffect",
+          "operation": "grant",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "payCost": true,
+          "sourceZone": "hand",
+          "type": "playCard",
+          "target": {
+            "filters": [
+              {
+                "value": "Animal",
+                "field": "types",
+                "op": "="
+              },
+              {
+                "value": 3,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "enterRested": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": "Also treated as [Tony Tony.Chopper] for deck building and game rules" }
+  "rarity": "C",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Chopperman",
+  "types": [
+    "Animal",
+    "Straw Hat Crew"
+  ],
+  "cost": 5,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animal",
+    "strawHatCrew"
+  ]
 }

@@ -1,23 +1,28 @@
 {
-  "id": "OP02-053",
-  "set": "OP02",
-  "number": 53,
-  "name": "Crocodile",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Impel Down", "Former Baroque Works"],
+  "cardName": "Crocodile",
+  "cardId": "OP02-053",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "types": [
+    "Impel Down",
+    "Former Baroque Works"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-053.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "OP02",
+  "cardNumber": "053",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "impelDown",
+    "formerBaroqueWorks"
+  ]
 }

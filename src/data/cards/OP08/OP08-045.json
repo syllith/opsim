@@ -1,46 +1,49 @@
 {
-  "id": "OP08-045",
-  "set": "OP08",
-  "number": 45,
-  "name": "Thatch",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Whitebeard Pirates"
-  ],
-  "rarity": "US",
-  "art": "/cards/OP08/OP08-045.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Thatch",
+  "cardId": "OP08-045",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
+  "rarity": "UC",
+  "setId": "OP08",
+  "cardNumber": "045",
+  "printedText": "If this character were to be KO'd, or removed from play by your opponent's effect, you may instead place this character into the trash, and then draw one card.",
   "keywords": [],
-  "trigger": null,
-  "text": "If this character were to be KOD, or removed from play by your opponents effect, you may instead place this character into the trash, and then draw one card.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If this character were to be KOD, or removed from play by your opponents effect, you may instead place this character into the trash, and then draw one card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeRemovedOrKOdByOpponentEffect",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "may": true,
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              },
+              "destination": "trash"
+            },
+            {
+              "type": "draw",
+              "count": 1,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has 'US' rarity, which is not standard in One Piece TCG. Assuming 'US' is a misprint or placeholder for 'UC' or similar."
-  }
+  ]
 }

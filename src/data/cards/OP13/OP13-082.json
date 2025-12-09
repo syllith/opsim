@@ -1,49 +1,108 @@
 {
-  "id": "OP13-082",
-  "set": "OP13",
-  "number": 82,
-  "name": "Five Elders",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Five Elders",
-    "Celestial Dragons"
-  ],
+  "cardName": "Five Elders",
+  "cardId": "OP13-082",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 10,
+  "power": 12000,
+  "attributes": ["slash", "special"],
+  "types": ["Celestial Dragons", "Five Elders"],
+  "traits": ["celestialDragons", "fiveElders"],
   "rarity": "SR",
-  "art": "/cards/OP13/OP13-082.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate:Main If your Leader is [Imu], you may rest 1 of your DON!! cards and trash 1 card from your hand: Trash all of your Characters. Then, play up to 5 (Five Elders) type Characters with different card names and 5000 power from your trash.",
+  "setId": "OP13",
+  "cardNumber": "082",
+  "printedText": "[Activate: Main] If your Leader is [Imu], you may rest 1 of your DON!! cards and trash 1 card from your hand: Trash all of your Characters and play up to 5 {Five Elders} type Character cards with 5000 power and different card names from your trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "activateMain",
+      "selectors": {
+        "imuLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Imu"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "allSelfCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 999,
+          "whoChooses": "system"
+        },
+        "fiveEldersFromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "fiveElders"
+            },
+            {
+              "field": "power",
+              "op": "=",
+              "value": 5000
+            }
+          ],
+          "min": 0,
+          "max": 5,
+          "upTo": true,
+          "whoChooses": "self",
+          "distinctBy": "cardName"
+        }
       },
-      "effect": {
-        "text": "If your Leader is [Imu], you may rest 1 of your DON!! cards and trash 1 card from your hand: Trash all of your Characters. Then, play up to 5 (Five Elders) type Characters with different card names and 5000 power from your trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          }
+        ],
+        "may": true
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "imuLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "allSelfCharacters",
+          "destination": "trash",
+          "ordering": "keep"
+        },
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "fiveEldersFromTrash",
+          "reveal": false,
+          "addTo": "characterArea",
+          "ordering": "chosen",
+          "may": true,
+          "asPlay": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

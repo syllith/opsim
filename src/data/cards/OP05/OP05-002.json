@@ -1,46 +1,81 @@
 {
-  "id": "OP05-002",
-  "set": "OP05",
-  "number": 2,
-  "name": "Belo Betty",
-  "category": "Leader",
+  "cardName": "Belo Betty",
+  "cardId": "OP05-002",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "red",
+    "yellow"
   ],
-  "attribute": null,
+  "power": 5000,
+  "life": 4,
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-002.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "L",
+  "setId": "OP05",
+  "cardNumber": "002",
+  "printedText": "[Activate: Main] [Once Per Turn] You may trash 1 {Revolutionary Army} type card from your hand: Up to 3 of your {Revolutionary Army} type Characters or Characters with a [Trigger] gain +3000 power during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may discard one <Revolutionary Army> type card from your hand. Give up to 3 of your <Revolutionary Army> or Trigger type characters +3000 power for this turn.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": [
+          "type:Revolutionary Army"
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may discard one <Revolutionary Army> type card from your hand. Give up to 3 of your <Revolutionary Army> or Trigger type characters +3000 power for this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "buffTargets": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "hasType",
+                  "op": "=",
+                  "value": "Revolutionary Army"
+                },
+                {
+                  "field": "hasKeyword",
+                  "op": "=",
+                  "value": "trigger"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "buffTargets"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisTurn",
+          "target": "buffTargets"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "revolutionaryArmy"
+  ]
 }

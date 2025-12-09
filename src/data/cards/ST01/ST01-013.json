@@ -1,37 +1,48 @@
 {
-  "id": "ST01-013",
-  "set": "ST01",
-  "number": 13,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
+  "cardName": "Roronoa Zoro",
+  "cardId": "ST01-013",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 0,
+  "attributes": ["slash"],
   "types": ["Supernovas", "Straw Hat Crew"],
-  "rarity": "SR",
-  "art": "/cards/ST01/ST01-013.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
+  "traits": ["supernovas", "strawHatCrew"],
+  "rarity": "superRare",
+  "setId": "ST01",
+  "cardNumber": "013",
+  "printedText": "[DON!! x1] This Character gains +1000 power.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1: This Character gains +1000 power.",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character gains +1000 power.",
-        "grants": [],
-        "powerMod": { "amount": 1000, "duration": "while condition met" },
-        "targets": ["self"],
-        "conditions": ["donReqSatisfied"]
-      }
+      "timing": "static",
+      "condition": {
+        "field": "givenDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "permanent",
+          "target": "thisCharacter"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

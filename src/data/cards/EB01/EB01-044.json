@@ -1,40 +1,61 @@
 {
-  "id": "EB01-044",
-  "set": "EB01",
-  "number": 44,
-  "name": "Funkfreed",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Slash",
-  "types": ["CP9"],
-  "rarity": "C",
-  "art": "/cards/EB01/EB01-044.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this Character: Give up to 1 of your [Spandam] Characters +3000 Power during this turn.",
+  "power": 1000,
+  "cardType": "character",
+  "cardId": "EB01-044",
+  "printedText": "[Activate: Main] You may rest this Character: Give up to 1 of your [Spandam] Characters +3000 Power during this turn.",
+  "types": [
+    "CP9"
+  ],
+  "cardNumber": "044",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Character: Give up to 1 of your [Spandam] Characters +3000 Power during this turn.",
-        "grants": [],
-        "powerMod": {
+      "cost": {
+        "type": "restThis"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "type": "modifyStat",
           "amount": 3000,
-          "duration": "thisTurn"
-        },
-        "targets": ["ally:Character"],
-        "conditions": ["characterNameSpandam"]
-      }
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "may": true,
+          "target": {
+            "filters": [
+              {
+                "value": "Spandam",
+                "field": "name",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Funkfreed",
+  "rarity": "R",
+  "cost": 1,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "cp9"
+  ]
 }

@@ -1,64 +1,68 @@
 {
-  "id": "OP08-036",
-  "set": "OP08",
-  "number": 36,
-  "name": "Electrical Luna",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Minks"
-  ],
+  "cardName": "Electrical Luna",
+  "cardId": "OP08-036",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 3,
+  "types": ["Minks"],
+  "traits": ["minks"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-036.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Rest up to one of your opponent's characters."
-  },
-  "text": "Main All of your opponent's rested characters with a cost of 7 or less do not become active during your opponent's next refresh phase.",
+  "setId": "OP08",
+  "cardNumber": "036",
+  "printedText": "[Main] All of your opponent's rested characters with a cost of 7 or less do not become active during your opponent's next Refresh Phase.\n[Trigger] Rest up to 1 of your opponent's characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "allOppRested7OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                { "field": "state", "op": "=", "value": "rested" },
+                { "field": "cost", "op": "<=", "value": 7 }
+              ]
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "All of your opponent's rested characters with a cost of 7 or less do not become active during your opponent's next refresh phase.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "setActiveDuringOwnersRefreshPhase",
+          "target": "allOppRested7OrLess",
+          "actions": [
+            { "type": "noop" }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "restOppCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to one of your opponent's characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restOppCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

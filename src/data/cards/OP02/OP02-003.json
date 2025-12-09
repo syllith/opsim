@@ -1,23 +1,26 @@
 {
-  "id": "OP02-003",
-  "set": "OP02",
-  "number": 3,
-  "name": "Atmos",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Atmos",
+  "cardId": "OP02-003",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-003.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": null,
+  "setId": "OP02",
+  "cardNumber": "003",
+  "printedText": "",
+  "keywords": [],
   "abilities": [],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

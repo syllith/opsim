@@ -1,49 +1,76 @@
 {
-  "id": "OP09-028",
-  "set": "OP09",
-  "number": 28,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "ODYSSEY",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Sanji",
+  "cardId": "OP09-028",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["ODYSSEY", "Straw Hat Crew"],
+  "traits": ["odyssey", "strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-028.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. You may put the top or bottom card of your life into your hand: Play up to one cost 4 or lower character with the <<Odyssey>> or <<Straw Hat Crew>> type from your trash into play as rested.",
+  "setId": "OP09",
+  "cardNumber": "028",
+  "printedText": "[On K.O.] You may put the top or bottom card of your Life cards into your hand: Play up to 1 cost 4 or lower Character card with the {ODYSSEY} or {Straw Hat Crew} type from your trash. That Character enters play rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onKO",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
       },
-      "effect": {
-        "text": "You may put the top or bottom card of your life into your hand: Play up to one cost 4 or lower character with the <<Odyssey>> or <<Straw Hat Crew>> type from your trash into play as rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "odysseyOrStrawHatFromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "logic": "OR",
+                  "any": [
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "odyssey"
+                    },
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "strawHatCrew"
+                    }
+                  ]
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "odysseyOrStrawHatFromTrash",
+          "payCost": false,
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,80 +1,90 @@
 {
-  "id": "ST15-002",
-  "set": "ST15",
-  "number": 2,
-  "name": "Edward Newgate",
-  "category": "Character",
+  "cardName": "Edward Newgate",
+  "cardId": "ST15-002",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Special",
+  "cost": 7,
+  "power": 8000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "The Four Emperors",
     "Whitebeard Pirates"
   ],
-  "rarity": "SR",
-  "art": "/cards/ST15/ST15-002.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": null
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Activate: Main"
+  "traits": [
+    "theFourEmperors",
+    "whitebeardPirates"
   ],
-  "trigger": null,
-  "text": "[On Play] Give your leader or one of your characters up to one rested Don!!.\n[Activate: Main] You may rest this character: KO up to one of your opponent's characters with 5000 or less power.",
+  "rarity": "SR",
+  "setId": "ST15",
+  "cardNumber": "002",
+  "printedText": "[On Play] Give up to 1 rested DON!! card to your Leader or 1 of your Characters.\n[Activate: Main] You may rest this Character: K.O. up to 1 of your opponent's Characters with 5000 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "type": "On Play",
-      "autoResolve": false,
-      "frequency": null,
-      "condition": null,
-      "cost": null,
-      "effect": {
-        "text": "Give your leader or one of your characters up to one rested Don!!.",
-        "actions": [
-          {
-            "type": "giveDon",
-            "quantity": 1,
-            "targetSide": "player",
-            "targetType": "any",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "onlyRested": true
-          }
-        ]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "leaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "side": "self",
+          "target": "leaderOrCharacter",
+          "may": true,
+          "sourceDonState": "rested"
+        }
+      ]
     },
     {
-      "type": "Activate Main",
-      "frequency": null,
-      "condition": null,
+      "timing": "activateMain",
       "cost": {
-        "restThis": true
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this character: KO up to one of your opponent's characters with 5000 or less power.",
-        "actions": [
-          {
-            "type": "ko",
-            "targetSide": "opponent",
-            "targetType": "character",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "powerLimit": 5000
-          }
-        ]
-      }
+      "selectors": {
+        "opponentCharacter5000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 5000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacter5000OrLess",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

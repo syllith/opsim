@@ -1,53 +1,45 @@
 {
-  "id": "P-102",
-  "set": "P",
-  "number": 102,
-  "name": "Nami",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Egghead",
-    "Straw Hat Crew"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-102.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the {Straw Hat Crew} type, set up to 2 of your DON!! cards as active.",
+  "cardName": "Nami",
+  "cardId": "P-102",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Egghead", "Straw Hat Crew"],
+  "traits": ["egghead", "strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-102",
+  "printedText": "[On Play] If your Leader has the {Straw Hat Crew} type, set up to 2 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "strawHatCrew"
       },
-      "effect": {
-        "text": "If your Leader has the {Straw Hat Crew} type, set up to 2 of your DON!! cards as active.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Straw Hat Crew"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "yourDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "yourDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

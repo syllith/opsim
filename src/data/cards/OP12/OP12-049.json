@@ -1,33 +1,18 @@
 {
-  "id": "OP12-049",
-  "set": "OP12",
-  "number": 49,
-  "name": "Buggy",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "The Four Emperors",
-    "Cross Guild"
-  ],
+  "cardName": "Buggy",
+  "cardId": "OP12-049",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["The Four Emperors", "Cross Guild"],
+  "traits": ["theFourEmperors", "crossGuild"],
   "rarity": "UC",
-  "art": "/cards/OP12/OP12-049.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "049",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "abilities": []
 }

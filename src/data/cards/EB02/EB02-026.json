@@ -1,37 +1,45 @@
 {
-  "id": "EB02-026",
-  "set": "EB02",
-  "number": 26,
-  "name": "Nefeltari Vivi",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
+  "cardName": "Nefeltari Vivi",
+  "cardId": "EB02-026",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 3,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Alabasta"],
-  "rarity": "C",
-  "art": "/cards/EB02/EB02-026.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If your Leader is multi-colored and you have 5 or less cards in hand, draw 2 cards.",
+  "traits": ["alabasta"],
+  "rarity": "SR",
+  "setId": "EB02",
+  "cardNumber": "026",
+  "printedText": "On Play If your Leader is multicolored and you have 5 or less cards in your hand, draw 2 cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader is multi-colored and you have 5 or less cards in hand, draw 2 cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["leaderIsMultiColored", "5OrLessCardsInHand"]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderIsMulticolor",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "selfHandSize",
+            "op": "<=",
+            "value": 5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

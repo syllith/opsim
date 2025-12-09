@@ -1,61 +1,93 @@
 {
-  "id": "OP05-114",
-  "set": "OP05",
-  "number": 114,
-  "name": "El Thor",
-  "category": "Event",
+  "cardName": "El Thor",
+  "cardId": "OP05-114",
+  "cardType": "event",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "Sky Island"
   ],
-  "rarity": "UB",
-  "art": "/cards/OP05/OP05-114.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "114",
+  "printedText": "Counter Give up to 1 of your Leader or Characters +2000 for this battle. Then, if your opponent has 2 or less life, give that card an additional +2000 power. Trigger KO up to 1 of your opponent's characters with a cost equal or less to their life total.",
   "keywords": [],
-  "trigger": {
-    "text": "KO up to 1 of your opponents characters with a cost equal or less to their life total."
-  },
-  "text": "Counter: Give up to 1 of your Leader or Characters +2000 for this battle. Then, if your opponent has 2 or less life, give that card an additional +2000 power.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "frequency": "none",
+      "selectors": {
+        "battleTargetLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your Leader or Characters +2000 for this battle. Then, if your opponent has 2 or less life, give that card an additional +2000 power.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "battleTargetLeaderOrCharacter"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "battleTargetLeaderOrCharacter",
+          "condition": {
+            "field": "opponentLife",
+            "op": "<=",
+            "value": 2
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "oppCharacterCostLeqLife": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "fieldRef": "opponentLife"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "KO up to 1 of your opponents characters with a cost equal or less to their life total.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharacterCostLeqLife"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "skyIsland"
+  ]
 }

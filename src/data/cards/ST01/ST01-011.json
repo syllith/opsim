@@ -1,44 +1,71 @@
 {
-  "id": "ST01-011",
-  "set": "ST01",
-  "number": 11,
-  "name": "Brook",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
+  "cardName": "Brook",
+  "cardId": "ST01-011",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["slash"],
   "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST01/ST01-011.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+  "traits": ["strawHatCrew"],
+  "rarity": "common",
+  "setId": "ST01",
+  "cardNumber": "011",
+  "printedText": "[On Play] Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:Leader", "oneAllyCharacter"],
-        "conditions": [],
-        "giveDon": {
-          "quantity": 2,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["ally:Leader", "oneAllyCharacter"],
-          "optional": true
+      "timing": "onPlay",
+      "selectors": {
+        "donRecipient": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "noop"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "giveDon",
+                  "count": 1,
+                  "side": "self",
+                  "target": "donRecipient",
+                  "enterRested": true
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "giveDon",
+                  "count": 2,
+                  "side": "self",
+                  "target": "donRecipient",
+                  "enterRested": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,53 +1,79 @@
 {
-  "id": "OP05-026",
-  "set": "OP05",
-  "number": 26,
-  "name": "Sarquiss",
-  "category": "Character",
+  "cardName": "Sarquiss",
+  "cardId": "OP05-026",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Bellamy Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-026.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "When Attacking",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking Once Per Turn: You may rest one of your characters that costs 3 or more: Set this character as active.",
+  "setId": "OP05",
+  "cardNumber": "026",
+  "printedText": "[DON!! x1] [When Attacking] [Once Per Turn] You may rest 1 of your Characters that costs 3 or more: Set this Character as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "thisDonAttached",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "You may rest one of your characters that costs 3 or more: Set this character as active.",
-        "powerMod": null,
-        "targets": [
-          "oneOfYourCharacters>=cost3"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "restFromField",
+        "selector": "restCostTarget",
+        "may": true
+      },
+      "selectors": {
+        "restCostTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 3
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "restCostTarget"
+        },
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCardSelector"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "thisCardSelector"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "bellamyPirates"
+  ]
 }

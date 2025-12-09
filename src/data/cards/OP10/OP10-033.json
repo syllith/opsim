@@ -1,52 +1,84 @@
 {
-  "id": "OP10-033",
-  "set": "OP10",
-  "number": 33,
-  "name": "Nami",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "ODYSSEY",
-    "Straw Hat Pirates"
-  ],
-  "rarity": "US",
-  "art": "/cards/OP10/OP10-033.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have two or more rested {ODYSSEY} type Characters, up to one of your opponent's rested Don!! will not become active during your opponent's next Refresh Phase.",
+  "cardName": "Nami",
+  "cardId": "OP10-033",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["ODYSSEY", "Straw Hat Crew"],
+  "traits": ["odyssey", "strawHatCrew"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "033",
+  "printedText": "[On Play] If you have 2 or more rested {ODYSSEY} type Characters, up to 1 of your opponent's rested DON!! will not become active during your opponent's next Refresh Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "restedOdysseyCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "odyssey"
+                },
+                {
+                  "field": "state",
+                  "op": "=",
+                  "value": "rested"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "opponentRestedDon": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If you have two or more rested {ODYSSEY} type Characters, up to one of your opponent's rested Don!! will not become active during your opponent's next Refresh Phase.",
-        "powerMod": null,
-        "conditions": [
-          "two or more rested {ODYSSEY} type Characters"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "restedOdysseyCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "donRefreshPhaseSetActive",
+          "target": "opponentRestedDon",
+          "may": false,
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Rarity is 'US' as printed on the card. The card has a 'SAMPLE' watermark, which is not part of the official card data."
-  }
+  ]
 }

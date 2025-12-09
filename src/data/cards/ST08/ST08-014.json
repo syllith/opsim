@@ -1,45 +1,83 @@
 {
-  "id": "ST08-014",
-  "set": "ST08",
-  "number": 14,
-  "name": "Gum-Gum Bell",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
+  "cardName": "Gum-Gum Bell",
+  "cardId": "ST08-014",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST08/ST08-014.png",
-  "stats": { "cost": 2, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Add up 1 black Character card with a cost of 2 or less from your trash to your hand." },
-  "text": "Main: You may add the top card of your life to your hand: Give up to 1 of your opponent's Characters -7 cost during this turn. Trigger: Add up 1 black Character card with a cost of 2 or less from your trash to your hand.",
+  "traits": ["strawHatCrew"],
+  "rarity": "",
+  "setId": "ST08",
+  "cardNumber": "014",
+  "printedText": "[Main] You may add the top card of your Life to your hand: Give up to 1 of your opponent's Characters -7 cost during this turn.\n[Trigger] Add up to 1 black Character card with a cost of 2 or less from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may add the top card of your life to your hand: Give up to 1 of your opponent's Characters -7 cost during this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["topLifeCard", "oneOpponentCharacter"],
-        "conditions": ["reduceCost:-7", "duration:turn"]
-      }
+      "timing": "main",
+      "cost": {
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "top",
+        "may": true
+      },
+      "selectors": {
+        "costDownTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -7,
+          "duration": "thisTurn",
+          "target": "costDownTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": null,
-      "effect": {
-        "text": "Add up 1 black Character card with a cost of 2 or less from your trash to your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["trash"],
-        "conditions": ["blackCharacter", "cost<=2"]
-      }
+      "timing": "trigger",
+      "selectors": {
+        "trashPickup": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "trashPickup",
+          "destination": "hand"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,51 +1,43 @@
 {
-  "id": "OP08-088",
-  "set": "OP08",
-  "number": 88,
-  "name": "Duval",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Rosy Life Riders"
-  ],
+  "cardName": "Duval",
+  "cardId": "OP08-088",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["ranged"],
+  "types": ["Rosy Life Riders"],
+  "traits": ["rosyLifeRiders"],
   "rarity": "UC",
-  "art": "/cards/OP08/OP08-088.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Give up to 1 of your Characters +1 cost until the end of your opponent's turn.",
+  "setId": "OP08",
+  "cardNumber": "088",
+  "printedText": "[On Play] Give up to 1 of your Characters +1 cost until the end of your opponent's turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "selfChar": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your Characters +1 cost until the end of your opponent's turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOfYourCharacters"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 1,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "selfChar"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a 'U' and 'C' in the rarity box, indicating UC rarity. Power value is clearly printed as 2000."
-  }
+  ]
 }

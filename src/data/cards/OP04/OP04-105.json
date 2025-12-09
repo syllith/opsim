@@ -1,54 +1,67 @@
 {
-  "id": "OP04-105",
-  "set": "OP04",
-  "number": 105,
-  "name": "Charlotte Amande",
-  "category": "Character",
+  "cardName": "Charlotte Amande",
+  "cardId": "OP04-105",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
   "types": [
     "Big Mom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-105.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": 2000,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "From your hand: Rest up to 1 of your opponent's Characters with a cost of 2 or less."
-  },
-  "text": "Activate: Main [Once Per Turn] You may trash 1 card with a Trigger from your hand: Rest up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "105",
+  "printedText": "[Activate: Main] [Once Per Turn] You may trash 1 card with a [Trigger] from your hand: Rest up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may trash 1 card with a Trigger from your hand: Rest up to 1 of your opponent's Characters with a cost of 2 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost2"
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": [
+          "hasTrigger"
         ],
-        "giveDon": null
-      }
+        "may": true
+      },
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "bigMomPirates"
+  ]
 }

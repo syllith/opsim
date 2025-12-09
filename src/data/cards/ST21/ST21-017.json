@@ -1,60 +1,105 @@
 {
-  "id": "ST21-017",
-  "set": "ST21",
-  "number": 17,
-  "name": "Gum-Gum Mole Gun",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Four Emperors", "Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/ST21/ST21-017.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Activate this card's Main effect." },
-  "text": "Main Give up to one of your opponent's characters -5000 power during this turn. Then, if you have a character with 6000 power or more, KO up to one of your opponent's characters with a power of 2000 or less. Trigger Activate this card's Main effect.",
+  "cardName": "Gum-Gum Mole Gun",
+  "cardId": "ST21-017",
+  "cardType": "event",
+  "colors": [
+    "red"
+  ],
+  "cost": 4,
+  "types": [
+    "Four Emperors",
+    "Straw Hat Crew"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "strawHatCrew"
+  ],
+  "rarity": "starter",
+  "setId": "ST21",
+  "cardNumber": "017",
+  "printedText": "[Main] Give up to 1 of your opponent's Characters -5000 power during this turn. Then, if you have a Character with 6000 power or more, K.O. up to 1 of your opponent's Characters with a power of 2000 or less. [Trigger] Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to one of your opponent's characters -5000 power during this turn.",
-        "powerMod": { "amount": -5000, "duration": "this turn" },
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "main",
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 2000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -5000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": {
+              "side": "self",
+              "type": "character",
+              "zones": [
+                "character"
+              ],
+              "filters": [
+                {
+                  "field": "power",
+                  "op": ">=",
+                  "value": 6000
+                }
+              ]
+            },
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "ko",
+              "target": "koTarget"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have a character with 6000 power or more, KO up to one of your opponent's characters with a power of 2000 or less.",
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=2000"],
-        "conditions": ["hasAllyCharacter>=6000", "optionalTarget"]
-      }
-    },
-    {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["triggered"]
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

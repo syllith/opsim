@@ -1,54 +1,109 @@
 {
-  "id": "OP07-032",
-  "set": "OP07",
-  "number": 32,
-  "name": "Fisher Tiger",
-  "category": "Character",
+  "cardName": "Fisher Tiger",
+  "cardId": "OP07-032",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Fishman",
     "Sun Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-032.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "fishMan",
+    "sunPirates"
   ],
-  "trigger": null,
-  "text": "This character can attack your opponent's characters on the turn it's played.\nOn Play: If your leader has the <Fishman> or <Merfolk> type, rest up to 1 of your opponent's 6 cost or lower characters.",
+  "rarity": "R",
+  "setId": "OP07",
+  "cardNumber": "032",
+  "printedText": "This Character can attack your opponent's Characters on the turn it's played. [On Play] If your Leader has the {Fishman} or {Merfolk} type, rest up to 1 of your opponent's cost 6 or lower Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "If your leader has the <Fishman> or <Merfolk> type, rest up to 1 of your opponent's 6 cost or lower characters.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Fishman",
-          "hasType:Merfolk"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "canAttackOpponentsCharactersOnTurnPlayed",
+          "target": "thisCard"
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderFishOrMerfolk",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "leaderFishOrMerfolk": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "fishman"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "merfolk"
+                }
+              ]
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

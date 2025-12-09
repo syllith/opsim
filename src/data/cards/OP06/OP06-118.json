@@ -1,62 +1,76 @@
 {
-  "id": "OP06-118",
-  "set": "OP06",
-  "number": 118,
-  "name": "Roronoa Zoro",
-  "category": "Character",
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP06-118",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 9,
+  "power": 9000,
+  "life": 0,
+  "counter": 0,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Straw Hat Crew"
   ],
-  "rarity": "SEC",
-  "art": "/cards/OP06/OP06-118.png",
-  "stats": {
-    "cost": 9,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 9000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "Activate: Main"
+  "traits": [
+    "strawHatCrew"
   ],
-  "trigger": null,
-  "text": "When Attacking Once Per Turn (You may rest the specified number of DON!! cards in your Cost Area) Set this character as active. Activate: Main Once Per Turn (You may rest the specified number of DON!! cards in your Cost Area) Set this character as active.",
+  "rarity": "SEC",
+  "setId": "OP06",
+  "cardNumber": "118",
+  "printedText": "[When Attacking] [Once Per Turn] You may rest 1 of your DON!! cards: Set this Character as active.\n[Activate: Main] [Once Per Turn] You may rest 2 of your DON!! cards: Set this Character as active.",
+  "keywords": [
+    "whenAttacking",
+    "activateMain",
+    "oncePerTurn"
+  ],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "(You may rest the specified number of DON!! cards in your Cost Area) Set this character as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restDonFromCostArea",
+        "count": 2,
+        "may": true
       },
-      "effect": {
-        "text": "(You may rest the specified number of DON!! cards in your Cost Area) Set this character as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

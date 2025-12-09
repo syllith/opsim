@@ -1,69 +1,80 @@
 {
-  "id": "OP05-119",
-  "set": "OP05",
-  "number": 119,
-  "name": "Monkey D. Luffy",
-  "category": "Character",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP05-119",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 10,
+  "power": 12000,
   "types": [
     "Four Emperors",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/OP05/OP05-119.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 12000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "On Play DON!! -10: Place all your Characters other than this Character at the bottom of your deck in any order. Then, after this turn, take another turn. Activate: Main Once Per Turn ① Add one DON!! from your DON!! deck as active.",
+  "rarity": "SEC",
+  "setId": "OP05",
+  "cardNumber": "119",
+  "printedText": "On Play DON!! -10: Place all of your Characters except this Character at the bottom of your deck in any order. Then, take an extra turn after this one. Activate: Main Once Per Turn (1): Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": "Once Per Turn",
-      "donReq": 10,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 10
       },
-      "effect": {
-        "text": "Place all your Characters other than this Character at the bottom of your deck in any order. Then, after this turn, take another turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "allOtherSelfCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "isThisCard",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "allOtherSelfCharacters",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        },
+        {
+          "type": "extraTurn",
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restDonFromCostArea",
+        "count": 1
       },
-      "effect": {
-        "text": "Add one DON!! from your DON!! deck as active.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "DON!! deck",
-          "to": []
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false
         }
-      }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "strawHatCrew"
+  ]
 }

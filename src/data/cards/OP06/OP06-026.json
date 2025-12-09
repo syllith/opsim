@@ -1,48 +1,86 @@
 {
-  "id": "OP06-026",
-  "set": "OP06",
-  "number": 26,
-  "name": "Koushirou",
-  "category": "Character",
+  "cardName": "Koushirou",
+  "cardId": "OP06-026",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "Shimotsuki Village"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-026.png",
-  "stats": {
-    "cost": 3,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Set up to 1 of your cost 4 or lower [Slash] trait characters active. Then, for this turn, you may not attack your opponent's leader.",
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "026",
+  "printedText": "[On Play] Set up to 1 of your cost 4 or lower [Slash] characters to active. Then, during this turn, you may not attack your opponent's Leader.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "slashCharCost4OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                },
+                {
+                  "field": "attribute",
+                  "op": "=",
+                  "value": "slash"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to 1 of your cost 4 or lower [Slash] trait characters active. Then, for this turn, you may not attack your opponent's leader.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "slashCharCost4OrLess"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "declareAttackAgainstOpponentsLeader",
+          "target": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "leader",
+              "character"
+            ]
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "shimotsukiVillage"
+  ]
 }

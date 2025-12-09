@@ -1,35 +1,101 @@
 {
-  "id": "OP03-030",
-  "set": "OP03",
-  "number": 30,
-  "name": "Nami",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Wisdom",
-  "types": ["East Blue", "Arlong Crew"],
-  "rarity": "UC",
-  "art": "/cards/OP03/OP03-030.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": "Play this card.",
-  "text": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 green {East Blue} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "cardName": "Nami",
+  "cardId": "OP03-030",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "types": [
+    "East Blue",
+    "Arlong Crew"
+  ],
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "030",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 green {East Blue} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Trigger] Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 green {East Blue} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "targets": ["deck"],
-        "conditions": ["colorGreen", "typeEastBlue", "notNami"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "searchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "color",
+                  "op": "=",
+                  "value": "green"
+                },
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "East Blue"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Nami"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          },
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue",
+    "arlongCrew"
+  ]
 }

@@ -1,55 +1,58 @@
 {
-  "id": "OP03-064",
-  "set": "OP03",
-  "number": 64,
-  "name": "Tilestone",
-  "category": "Character",
+  "cardName": "Tilestone",
+  "cardId": "OP03-064",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Water 7",
     "Galley-La Company"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-064.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O.: If your Leader has the {Galley-La Company} type, add up to 1 DON!! card from your DON!! Deck and rest it.",
+  "setId": "OP03",
+  "cardNumber": "064",
+  "printedText": "[On K.O.] If your Leader has the {Galley-La Company} type, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "leaderHasTypeGalleyLaCompany",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your Leader has the {Galley-La Company} type, add up to 1 DON!! card from your DON!! Deck and rest it.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "leaderHasType:Galley-La Company"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "enterRested": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "waterSeven",
+    "galleyLaCompany"
+  ]
 }

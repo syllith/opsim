@@ -1,66 +1,88 @@
 {
-  "id": "OP06-013",
-  "set": "OP06",
-  "number": 13,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP06-013",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "FILM",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-013.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger",
-    "Activate: Main"
-  ],
-  "trigger": {
-    "text": "Activate this character's On Play ability."
-  },
-  "text": "On Play: Look at 3 cards from the top of your deck; reveal up to 1 {FILM} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "013",
+  "printedText": "[On Play] Look at 3 cards from the top of your deck; reveal up to 1 {FILM} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Trigger] Activate this Character's [On Play] ability.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at 3 cards from the top of your deck; reveal up to 1 {FILM} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "deck"
+            ],
+            "filters": [
+              {
+                "field": "hasType.FILM",
+                "op": "=",
+                "value": true
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "bindAs": "filmCard"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "thisCardFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCardFromLife"
+        }
       },
-      "effect": {
-        "text": "Activate this character's On Play ability.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "activateAbilityFromCard",
+          "target": "thisCardFromLife",
+          "abilityTiming": "onPlay"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and 'BANDAI MADE IN JAPAN' are watermarks and not part of the card's printed data."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "film",
+    "strawHatCrew"
+  ]
 }

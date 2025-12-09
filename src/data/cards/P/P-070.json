@@ -1,48 +1,18 @@
 {
-  "id": "P-070",
-  "set": "P",
-  "number": 70,
-  "name": "Carrot",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Minks"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-070.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [
-    {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "cardName": "Carrot",
+  "cardId": "P-070",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Minks"],
+  "traits": ["minks"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-070",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": ["Blocker"],
+  "abilities": []
 }

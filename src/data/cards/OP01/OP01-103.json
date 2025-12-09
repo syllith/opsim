@@ -1,23 +1,28 @@
 {
-  "id": "OP01-103",
-  "set": "OP01",
-  "number": 103,
-  "name": "Scratchmen Apoo",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Ranged",
-  "types": ["Animal Kingdom Pirates", "On Air Pirates"],
+  "cardName": "Scratchmen Apoo",
+  "cardId": "OP01-103",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "Animal Kingdom Pirates",
+    "On Air Pirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-103.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": null,
+  "setId": "OP01",
+  "cardNumber": "103",
+  "printedText": "",
+  "keywords": [],
   "abilities": [],
-  "meta": { "notes": null }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "animalKingdomPirates",
+    "onAirPirates"
+  ]
 }

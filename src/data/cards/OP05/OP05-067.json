@@ -1,56 +1,58 @@
 {
-  "id": "OP05-067",
-  "set": "OP05",
-  "number": 67,
-  "name": "Zorojuro",
-  "category": "Character",
+  "cardName": "Zorojuro",
+  "cardId": "OP05-067",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Straw Hat Crew"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-067.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking: If you have 3 or less Life, Add up to 1 Don!! from your Don!! deck and set it as active.",
+  "setId": "OP05",
+  "cardNumber": "067",
+  "printedText": "[When Attacking] If you have 3 or less Life, add up to 1 DON!! from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "lifeTotalSelf",
+        "op": "<=",
+        "value": 3
       },
-      "effect": {
-        "text": "If you have 3 or less Life, Add up to 1 Don!! from your Don!! deck and set it as active.",
-        "powerMod": null,
-        "conditions": [
-          "self:Life<=3"
-        ],
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "Don!! deck",
-          "to": []
+      "selectors": {
+        "donCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 0,
+          "whoChooses": "system",
+          "bindAs": "donCostArea"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "target": "donCostArea",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

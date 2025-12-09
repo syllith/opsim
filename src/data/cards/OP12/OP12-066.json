@@ -1,62 +1,51 @@
 {
-  "id": "OP12-066",
-  "set": "OP12",
-  "number": 66,
-  "name": "Carne",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "East Blue"
-  ],
+  "cardName": "Carne",
+  "cardId": "OP12-066",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["East Blue"],
+  "traits": ["eastBlue"],
   "rarity": "C",
-  "art": "/cards/OP12/OP12-066.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "066",
+  "printedText": "If you have 4 or more Event cards in your trash, this Character gains Blocker.\n(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "keywords": [],
-  "trigger": null,
-  "text": "If you have 4 or more Event cards in your trash, this Character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "selfTrashEvents": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "cardType",
+              "op": "=",
+              "value": "event"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If you have 4 or more Event cards in your trash, this Character gains Blocker.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfTrashEvents",
+        "op": ">=",
+        "value": 4
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

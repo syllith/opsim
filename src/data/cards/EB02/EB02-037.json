@@ -1,50 +1,68 @@
 {
-  "id": "EB02-037",
-  "set": "EB02",
-  "number": 37,
-  "name": "Franky",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Straw Hat Crew", "Water Seven"],
-  "rarity": "R",
-  "art": "/cards/EB02/EB02-037.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "When Attacking"],
-  "trigger": null,
-  "text": "[On Play] / [When Attacking] If your leader has the {Straw Hat Crew} type and the number of your DON!! cards on board are equal to or less than your opponent's, set up to 1 DON!! card from your DON!! deck as rested.",
+  "power": 4000,
+  "cardType": "character",
+  "cardId": "EB02-037",
+  "printedText": "[On Play] [When Attacking] If your leader has the {Straw Hat Crew} type and the number of your DON!! cards on board are equal to or less than your opponent's, set up to 1 DON!! card from your DON!! deck as rested.",
+  "types": [
+    "Straw Hat Crew",
+    "Water Seven"
+  ],
+  "cardNumber": "037",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your leader has the {Straw Hat Crew} type and the number of your DON!! cards on board are equal to or less than your opponent's, set up to 1 DON!! card from your DON!! deck as rested.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["donDeck"],
-        "conditions": ["leaderHasStrawHatCrew", "yourDonEqualOrLessThanOpponent"]
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "may": true,
+          "type": "giveDon",
+          "target": {
+            "whoChooses": "self",
+            "type": "don",
+            "side": "self",
+            "zones": [
+              "costArea"
+            ]
+          },
+          "count": 1
+        }
+      ],
+      "frequency": "none"
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your leader has the {Straw Hat Crew} type and the number of your DON!! cards on board are equal to or less than your opponent's, set up to 1 DON!! card from your DON!! deck as rested.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["donDeck"],
-        "conditions": ["leaderHasStrawHatCrew", "yourDonEqualOrLessThanOpponent"]
-      }
+      "selectors": {},
+      "timing": "whenAttacking",
+      "actions": [
+        {
+          "may": true,
+          "type": "giveDon",
+          "target": {
+            "whoChooses": "self",
+            "type": "don",
+            "side": "self",
+            "zones": [
+              "costArea"
+            ]
+          },
+          "count": 1
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Franky",
+  "rarity": "R",
+  "cost": 3,
+  "colors": [
+    "purple"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "strawHatCrew",
+    "waterSeven"
+  ]
 }

@@ -1,37 +1,69 @@
 {
-  "id": "OP01-046",
-  "set": "OP01",
-  "number": 46,
-  "name": "Denjiro",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Wano Country", "Nine Red Scabbards"],
+  "cardName": "Denjiro",
+  "cardId": "OP01-046",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "types": [
+    "Wano Country",
+    "Nine Red Scabbards"
+  ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-046.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["DON!! x1", "When Attacking"],
-  "trigger": null,
-  "text": "[DON!! x1] [When Attacking] If your Leader is [Kozuki Oden], set up to 2 of your DON!! cards as active.",
+  "setId": "OP01",
+  "cardNumber": "046",
+  "printedText": "[DON!! x1] When Attacking If your Leader is [Kozuki Oden], set up to 2 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader is [Kozuki Oden], set up to 2 of your DON!! cards as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["don"],
-        "conditions": ["leaderIsKozukiOden"]
-      }
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "leaderName",
+            "op": "=",
+            "value": "Kozuki Oden"
+          }
+        ]
+      },
+      "selectors": {
+        "donTargets": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "donTargets"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donTargets"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "wanoCountry",
+    "nineRedScabbards"
+  ]
 }

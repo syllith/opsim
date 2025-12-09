@@ -1,52 +1,87 @@
 {
-  "id": "OP10-057",
-  "set": "OP10",
-  "number": 57,
-  "name": "Leo",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Tontatta",
-    "Dressrosa"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-057.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may rest one of your leader or stage: If your leader is Usopp, look at the top 5 cards of your deck. Reveal up to 2 cards other than [Leo] that have the (Dressrosa) type, and put them into your hand. Put the rest on the bottom of your deck and trash 1 card from your hand.",
+  "cardName": "Leo",
+  "cardId": "OP10-057",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Tontatta", "Dressrosa"],
+  "traits": ["tontatta", "dressrosa"],
+  "rarity": "R",
+  "setId": "OP10",
+  "cardNumber": "057",
+  "printedText": "[On Play] You may rest one of your Leader or Stage cards: If your Leader is \"Usopp\", look at the top 5 cards of your deck. Reveal up to 2 cards other than [Leo] that have the {Dressrosa} type and put them into your hand. Put the rest on the bottom of your deck, then trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restFromField",
+        "selector": "leaderOrStageToRest",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest one of your leader or stage: If your leader is Usopp, look at the top 5 cards of your deck. Reveal up to 2 cards other than [Leo] that have the (Dressrosa) type, and put them into your hand. Put the rest on the bottom of your deck and trash 1 card from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "your leader is Usopp"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "leaderOrStageToRest": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "stage"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "dressrosaNonLeoFromTop5": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "dressrosa"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Leo"
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderCardName",
+            "op": "=",
+            "value": "Usopp"
+          },
+          "actions": [
+            {
+              "type": "search",
+              "sourceZone": "deck",
+              "selector": "dressrosaNonLeoFromTop5",
+              "reveal": true,
+              "addTo": "hand",
+              "ordering": "chosen",
+              "topCount": 5,
+              "moveRemainingTo": "bottomOfDeck",
+              "remainingOrdering": "keep"
+            },
+            {
+              "type": "trashFromHand",
+              "minCards": 1,
+              "maxCards": 1,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

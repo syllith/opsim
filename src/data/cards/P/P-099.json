@@ -1,49 +1,44 @@
 {
-  "id": "P-099",
-  "set": "P",
-  "number": 99,
-  "name": "Monley.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Special",
-  "types": [
-    "The Four Emperors",
-    "Straw Hat Crew"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-099.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking DON!! -10: Set this Character as active.",
+  "cardName": "Monley.D.Luffy",
+  "cardId": "P-099",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 10,
+  "power": 12000,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["The Four Emperors", "Straw Hat Crew"],
+  "traits": ["theFourEmperors", "strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-099",
+  "printedText": "[When Attacking] DON!!-10: Set this Character as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 10,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 10,
+        "may": true
       },
-      "effect": {
-        "text": "Set this Character as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "thisCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Special promo card with alternate spelling of name"
-  }
+  ]
 }

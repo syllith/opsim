@@ -1,53 +1,117 @@
 {
-  "id": "EB03-029",
-  "set": "EB03",
-  "number": 29,
-  "name": "Insolent Fool!! Stand Down!!",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["The Seven Warlords of the Sea", "Kuja Pirates"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-029.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Counter"],
-  "trigger": null,
-  "text": "[Main] You may rest 4 of your DON!! cards: If your Leader is [Boa Hancock], play up to 1 {Amazon Lily} or {Kuja Pirates} type Character card with a cost of 6 or less from your hand.\n[Counter] Up to 1 of your [Boa Hancock] gains +3000 power during this battle.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB03-029",
+  "printedText": "[Main] You may rest 4 of your DON!! cards: If your Leader is [Boa Hancock], play up to 1 {Amazon Lily} or {Kuja Pirates} type Character card with a cost of 6 or less from your hand.\n[Counter] Up to 1 of your [Boa Hancock] cards gains +3000 power during this battle.",
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Kuja Pirates"
+  ],
+  "cardNumber": "029",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 4 },
-      "effect": {
-        "text": "You may rest 4 of your DON!! cards: If your Leader is [Boa Hancock], play up to 1 {Amazon Lily} or {Kuja Pirates} type Character card with a cost of 6 or less from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand:Character:AmazonLilyOrKujaPirates:cost<=6"],
-        "conditions": ["leaderIsBoaHancock"]
-      }
+      "cost": {
+        "may": true,
+        "type": "restDonFromCostArea",
+        "count": 4
+      },
+      "selectors": {},
+      "timing": "main",
+      "actions": [
+        {
+          "enterRested": false,
+          "type": "playCard",
+          "payCost": true,
+          "sourceZone": "hand",
+          "condition": {
+            "value": "Boa Hancock",
+            "field": "leaderName",
+            "op": "="
+          },
+          "target": {
+            "filters": [
+              {
+                "any": [
+                  {
+                    "value": "Amazon Lily",
+                    "field": "types",
+                    "op": "="
+                  },
+                  {
+                    "value": "Kuja Pirates",
+                    "field": "types",
+                    "op": "="
+                  }
+                ],
+                "logic": "OR"
+              },
+              {
+                "value": 6,
+                "field": "cost",
+                "op": "<="
+              },
+              {
+                "value": "character",
+                "field": "cardType",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Up to 1 of your [Boa Hancock] gains +3000 power during this battle.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "counter",
+          "duration": "thisBattle",
           "amount": 3000,
-          "duration": "duringThisBattle"
-        },
-        "targets": ["upTo1:ally:BoaHancock"],
-        "conditions": []
-      }
+          "target": {
+            "filters": [
+              {
+                "value": "Boa Hancock",
+                "field": "cardName",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 0,
+  "cardName": "Insolent Fool!! Stand Down!!",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "blue"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "kujaPirates"
+  ]
 }

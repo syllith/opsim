@@ -1,64 +1,111 @@
 {
-  "id": "OP12-061",
-  "set": "OP12",
-  "number": 61,
-  "name": "Donquixote Rosinante",
-  "category": "Leader",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Navy",
-    "Donquixote Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP12/OP12-061.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "Once Per Turn",
-    "Activate: Main",
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "Once Per Turn: If your [Trafalgar Law] would be K.O'd, you may add the top card of your Life pile to your hand instead. Activate: Main: Once Per Turn: DON!! -1: During this turn, the next time you play [Trafalgar Law] from your hand with a cost of 4 or more will have its cost reduced by 2.",
+  "cardName": "Donquixote Rosinante",
+  "cardId": "OP12-061",
+  "cardType": "leader",
+  "colors": ["purple", "yellow"],
+  "power": 5000,
+  "life": 4,
+  "attributes": ["special"],
+  "types": ["Navy", "Donquixote Pirates"],
+  "traits": ["navy", "donquixotePirates"],
+  "rarity": "L",
+  "setId": "OP12",
+  "cardNumber": "061",
+  "printedText": "[Once Per Turn] If your [Trafalgar Law] would be K.O.'d, you may add the top card of your Life pile to your hand instead.\n[Activate: Main] [Once Per Turn] DON!! -1: During this turn, the next time you play [Trafalgar Law] from your hand with a cost of 4 or more, it will have its cost reduced by 2.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onWouldBeKO",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "eventType",
+            "op": "=",
+            "value": "ko"
+          },
+          {
+            "field": "eventTargetController",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "eventTargetName",
+            "op": "=",
+            "value": "Trafalgar Law"
+          }
+        ]
       },
-      "effect": {
-        "text": "If your [Trafalgar Law] would be K.O'd, you may add the top card of your Life pile to your hand instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "always",
+            "op": "=",
+            "value": true
+          },
+          "may": true,
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": "wouldBeKOTarget"
+            },
+            {
+              "type": "moveCard",
+              "target": "selfTopLifeCard",
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "During this turn, the next time you play [Trafalgar Law] from your hand with a cost of 4 or more will have its cost reduced by 2.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "playCardFromHand",
+          "target": "eventTarget",
+          "maxTriggers": 1,
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "eventTargetController",
+                "op": "=",
+                "value": "self"
+              },
+              {
+                "field": "eventTargetName",
+                "op": "=",
+                "value": "Trafalgar Law"
+              },
+              {
+                "field": "eventTargetCost",
+                "op": ">=",
+                "value": 4
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "cost",
+              "mode": "add",
+              "amount": -2,
+              "duration": "thisTurn",
+              "target": "eventTarget"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

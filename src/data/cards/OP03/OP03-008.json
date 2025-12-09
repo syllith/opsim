@@ -1,35 +1,125 @@
 {
-  "id": "OP03-008",
-  "set": "OP03",
-  "number": 8,
-  "name": "Buggy",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Wisdom",
-  "types": ["Former Prisoner of the Great Prison", "Buggy's Delivery"],
-  "rarity": "R",
-  "art": "/cards/OP03/OP03-008.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "This Character cannot be K.O.'d in battle by [Slash] attribute cards.\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Red} type Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "cardName": "Buggy",
+  "cardId": "OP03-008",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 1,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Buggy Pirates"
+  ],
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "008",
+  "printedText": "This Character cannot be K.O.'d when battling (Slash) Attribute Characters and Leaders.\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 Red Event card and add it to your hand. Then place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Red} type Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "targets": ["deck"],
-        "conditions": ["colorRed", "categoryEvent"]
-      }
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "thisWouldBeKOdInBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          },
+          "may": false,
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "battleOpponent",
+                "attribute": "slash",
+                "op": "=",
+                "value": true
+              },
+              {
+                "logic": "OR",
+                "any": [
+                  {
+                    "field": "battleOpponentCardType",
+                    "op": "=",
+                    "value": "leader"
+                  },
+                  {
+                    "field": "battleOpponentCardType",
+                    "op": "=",
+                    "value": "character"
+                  }
+                ]
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "deck"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "logic": "AND",
+                "all": [
+                  {
+                    "field": "color",
+                    "op": "=",
+                    "value": "red"
+                  },
+                  {
+                    "field": "cardType",
+                    "op": "=",
+                    "value": "event"
+                  }
+                ]
+              }
+            ]
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": "This Character cannot be K.O.'d in battle by [Slash] attribute cards." }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "buggyPirates"
+  ]
 }

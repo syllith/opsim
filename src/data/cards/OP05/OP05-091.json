@@ -1,49 +1,124 @@
 {
-  "id": "OP05-091",
-  "set": "OP05",
-  "number": 91,
-  "name": "Rebecca",
-  "category": "Character",
+  "cardName": "Rebecca",
+  "cardId": "OP05-091",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Wisdom",
+  "cost": 4,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "Dressrosa"
   ],
-  "rarity": "C",
-  "art": "/cards/OP05/OP05-091.png",
-  "stats": {
-    "cost": 4,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "SR",
+  "setId": "OP05",
+  "cardNumber": "091",
+  "printedText": "[Blocker] [On Play] Add up to 1 black Character card with a cost of 3 to 7 other than [Rebecca] from your trash to your hand. Then, play up to 1 black Character card with a cost of 3 or less from your hand rested.",
   "keywords": [
-    "Blocker",
-    "On Play"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "On Play: Return up to 1 black character other than \"Rebecca\" with a cost of 3 to 7 from the trash to your hand. Then, play 1 cost 3 or less black character from your hand to the field rested.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "rebeccaTrashTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "color",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 3
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            },
+            {
+              "field": "name",
+              "op": "!=",
+              "value": "Rebecca"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "rebeccaPlayTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "color",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Return up to 1 black character other than \"Rebecca\" with a cost of 3 to 7 from the trash to your hand. Then, play 1 cost 3 or less black character from your hand to the field rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "rebeccaTrashTarget",
+          "reveal": false,
+          "addTo": "hand",
+          "ordering": "chosen"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "rebeccaPlayTarget",
+          "enterRested": true,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "dressrosa"
+  ]
 }

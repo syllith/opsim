@@ -1,49 +1,85 @@
 {
-  "id": "OP07-051",
-  "set": "OP07",
-  "number": 51,
-  "name": "Boa Hancock",
-  "category": "Character",
+  "cardName": "Boa Hancock",
+  "cardId": "OP07-051",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 6,
+  "power": 8000,
+  "life": 0,
+  "counter": 0,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Seven Warlords of the Sea",
     "Kuja Pirates"
   ],
-  "rarity": "SR",
-  "art": "/cards/OP07/OP07-051.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "kujaPirates"
   ],
-  "trigger": null,
-  "text": "On Play: Up to one of your opponents characters other than [Monkey.D. Luffy] cannot attack until the end of their next turn. Then, place up to one cost 1 or less character on the bottom of its owner's deck.",
+  "rarity": "SR",
+  "setId": "OP07",
+  "cardNumber": "051",
+  "printedText": "[On Play] Up to 1 of your opponent's Characters other than [Monkey.D.Luffy] cannot attack until the end of your opponent's next turn. Then, place up to 1 Character with a cost of 1 or less at the bottom of the owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "hancockFreezeTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Monkey.D.Luffy"
+            }
+          ]
+        },
+        "costOneOrLessCharacter": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Up to one of your opponents characters other than [Monkey.D. Luffy] cannot attack until the end of their next turn. Then, place up to one cost 1 or less character on the bottom of its owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "attack",
+          "target": "hancockFreezeTarget",
+          "duration": "untilEndOfOpponentsNextTurn"
+        },
+        {
+          "type": "moveCard",
+          "target": "costOneOrLessCharacter",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

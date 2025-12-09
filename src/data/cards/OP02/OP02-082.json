@@ -1,39 +1,53 @@
 {
-  "id": "OP02-082",
-  "set": "OP02",
-  "number": 82,
-  "name": "Byrnndi World",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["World Pirates"],
-  "rarity": "SR",
-  "art": "/cards/OP02/OP02-082.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main", "DON!! -8"],
-  "trigger": null,
-  "text": "[Activate: Main] DON!! -8 (You may return the specified number of DON!! cards from your field to your DON!! deck): This Character gains +?2000 Power during this turn.",
+  "cardName": "Byrnndi World",
+  "cardId": "OP02-082",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 8,
+  "power": 8000,
+  "counter": 0,
+  "types": [
+    "World Pirates"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "082",
+  "printedText": "[Activate: Main] DON!! -8 (You may return the specified number of DON!! cards from your field to your DON!! deck.): This Character gains +792000 Power during this turn.",
+  "keywords": [
+    "activateMain"
+  ],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 8,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character gains +?2000 Power during this turn.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
-        },
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "activateMain",
+      "frequency": "none",
+      "cost": {
+        "type": "donMinus",
+        "count": 8
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 792000,
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": "The ? symbol appears to be a typo on the card, likely meant to be +2000" }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "worldPirates"
+  ]
 }

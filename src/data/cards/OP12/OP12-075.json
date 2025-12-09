@@ -1,64 +1,71 @@
 {
-  "id": "OP12-075",
-  "set": "OP12",
-  "number": 75,
-  "name": "Ms. All Sunday",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Baroque Works"
-  ],
-  "rarity": "L",
-  "art": "/cards/OP12/OP12-075.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "DON!!-1: Play this card."
-  },
-  "text": "On Play K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, your opponent may add up to 1 DON!! card from their DON!! deck and set it as active.",
+  "cardName": "Ms. All Sunday",
+  "cardId": "OP12-075",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Baroque Works"],
+  "traits": ["baroqueWorks"],
+  "rarity": "R",
+  "setId": "OP12",
+  "cardNumber": "075",
+  "printedText": "[On Play] K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, your opponent may add up to 1 DON!! card from their DON!! deck and set it as active.\n[Trigger] DON!! -1: Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "opponentCharacterCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, your opponent may add up to 1 DON!! card from their DON!! deck and set it as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacterCost3OrLess",
+          "may": false
+        },
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "side": "opponent",
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "trigger",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "Play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "enterRested": false,
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

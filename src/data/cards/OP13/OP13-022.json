@@ -1,51 +1,51 @@
 {
-  "id": "OP13-022",
-  "set": "OP13",
-  "number": 22,
-  "name": "Windmill Village",
-  "category": "Stage",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Windmill Village"
-  ],
+  "cardName": "Windmill Village",
+  "cardId": "OP13-022",
+  "cardType": "stage",
+  "colors": ["red"],
+  "cost": 1,
+  "types": ["Windmill Village"],
+  "traits": ["windmillVillage"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-022.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate:Main You may rest this Stage: Up to 1 of your Characters with 2000 base power or less gains +1000 power during this turn.",
+  "setId": "OP13",
+  "cardNumber": "022",
+  "printedText": "[Activate:Main] You may rest this Stage: Up to 1 of your Characters with 2000 base power or less gains +1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Stage: Up to 1 of your Characters with 2000 base power or less gains +1000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "up to 1 of your Characters with 2000 base power or less"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "upToOneSmallCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 2000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "upToOneSmallCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

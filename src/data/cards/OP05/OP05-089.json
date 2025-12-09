@@ -1,48 +1,99 @@
 {
-  "id": "OP05-089",
-  "set": "OP05",
-  "number": 89,
-  "name": "Saint Mjosgard",
-  "category": "Character",
+  "cardName": "Saint Mjosgard",
+  "cardId": "OP05-089",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Wisdom",
+  "cost": 5,
+  "power": 1000,
+  "counter": 1000,
   "types": [
     "Celestial Dragon"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-089.png",
-  "stats": {
-    "cost": 5,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main (You may rest the specified number of DON!! cards in your Cost Area) you may rest this character and 1 of your characters: Add up to 1 black character with a cost of 1 or less from your trash to your hand.",
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "089",
+  "printedText": "[Activate: Main] ➀ (You may rest the specified number of DON!! cards in your cost area.) You may rest this Character and 1 of your Characters: Add up to 1 black Character card with a cost of 1 from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "restFromField",
+            "selector": "mjosgardRestTarget"
+          }
+        ]
       },
-      "effect": {
-        "text": "You may rest this character and 1 of your characters: Add up to 1 black character with a cost of 1 or less from your trash to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "mjosgardRestTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "isThisCard",
+              "op": "=",
+              "value": false
+            }
+          ]
+        },
+        "mjosgardTrashTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "color",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "mjosgardTrashTarget",
+          "reveal": false,
+          "addTo": "hand",
+          "ordering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "celestialDragon"
+  ]
 }

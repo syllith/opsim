@@ -1,52 +1,85 @@
 {
-  "id": "OP09-033",
-  "set": "OP09",
-  "number": 33,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "ODYSSEY",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Nico Robin",
+  "cardId": "OP09-033",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["ODYSSEY", "Straw Hat Crew"],
+  "traits": ["odyssey", "strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-033.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have two or more rested characters in play, until the end of your opponent's next turn, all of your characters with the <<Odyssey>> or <<Strawhat Crew>> type can't be KOD by effects.",
+  "setId": "OP09",
+  "cardNumber": "033",
+  "printedText": "[On Play] If you have 2 or more rested Characters in play, until the end of your opponent's next turn, all of your Characters with the {ODYSSEY} or {Straw Hat Crew} type can't be K.O.'d by effects.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "protectedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "odyssey"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "strawHatCrew"
+                }
+              ]
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If you have two or more rested characters in play, until the end of your opponent's next turn, all of your characters with the <<Odyssey>> or <<Strawhat Crew>> type can't be KOD by effects.",
-        "powerMod": null,
-        "conditions": [
-          "two or more rested characters in play"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "wouldBeKO",
+          "target": "protectedCharacters",
+          "may": false,
+          "condition": {
+            "field": "koCause",
+            "op": "=",
+            "value": "effect"
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

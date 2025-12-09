@@ -1,40 +1,61 @@
 {
-  "id": "EB02-060",
-  "set": "EB02",
-  "number": 60,
-  "name": "Going Merry",
-  "category": "Stage",
-  "colors": ["Yellow"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-060.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this stage and turn the top card of your life face-up: Give up to one of your {Strawhat Crew} type characters +1000 power until the end of your opponent's next turn.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this stage and turn the top card of your life face-up: Give up to one of your {Strawhat Crew} type characters +1000 power until the end of your opponent's next turn.",
-        "grants": [],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "untilEndOfOpponentsNextTurn"
+      "cost": {
+        "type": "restThis"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "side": "self",
+          "type": "setLifeFace",
+          "faceUp": true
         },
-        "targets": ["upTo1:ally:Character:StrawhatCrew", "ally:Life"],
-        "conditions": ["restSelf", "turnTopLifeFaceUp"]
-      }
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "untilStartOfYourNextTurn",
+          "amount": 1000,
+          "target": {
+            "filters": [
+              {
+                "value": "Straw Hat Crew",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "colors": [
+    "yellow"
+  ],
+  "rarity": "C",
+  "cardName": "Going Merry 号",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "printedText": "Activate: Main You may rest this stage and turn the top card of your life face-up: Give up to 1 of your {Strawhat Crew} type characters +1000 power until the end of your opponent's next turn.",
+  "setId": "EB02",
+  "cardType": "stage",
+  "cardNumber": "060",
+  "cardId": "EB02-060",
+  "cost": 2,
+  "traits": [
+    "strawHatCrew"
+  ]
 }

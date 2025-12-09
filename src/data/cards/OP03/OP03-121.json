@@ -1,71 +1,89 @@
 {
-  "id": "OP03-121",
-  "set": "OP03",
-  "number": 121,
-  "name": "Thunder Bolt",
-  "category": "Event",
+  "cardName": "Thunder Bolt",
+  "cardId": "OP03-121",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 2,
   "types": [
     "The Four Emperors",
     "Big Mom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-121.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "121",
+  "printedText": "Main You may trash 1 card from the top of your Life area: K.O. up to 1 of your opponent's Characters with a cost of 5 or less.\nTrigger K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
   "keywords": [
     "Main",
     "Trigger"
   ],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's Characters with a cost of 5 or less."
-  },
-  "text": "Main: You may trash 1 card from the top of your Life area: K.O. up to 1 of your opponent's Characters with a cost of 5 or less.\nTrigger: K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "trash",
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from the top of your Life area: K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost5"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 5
+              }
+            ]
+          },
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost5"
-        ],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "ko",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 5
+              }
+            ]
+          },
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is clearly printed as 'C' in the bottom right corner."
-  }
+  "traits": [
+    "theFourEmperors",
+    "bigMomPirates"
+  ]
 }

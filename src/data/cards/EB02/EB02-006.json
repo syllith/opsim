@@ -1,43 +1,96 @@
 {
-  "id": "EB02-006",
-  "set": "EB02",
-  "number": 6,
-  "name": "Yamato",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
-  "types": ["Land of Wano"],
-  "rarity": "R",
-  "art": "/cards/EB02/EB02-006.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn", "Rush"],
-  "trigger": null,
-  "text": "[Activate: Main] [Once Per Turn] If your Leader has the {Land of Wano} type or is [Portgas D. Ace], give up to 1 rested DON!! card to your Leader. Then, this Character gains [Rush] during this turn.",
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB02-006",
+  "printedText": "Activate: Main Once Per Turn If your Leader has the {Land of Wano} type or is {Portgas D. Ace}, give up to 1 rested DON!! card to your Leader. Then, this Character gains Rush during this turn.",
+  "cardNumber": "006",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Land of Wano} type or is [Portgas D. Ace], give up to 1 rested DON!! card to your Leader. Then, this Character gains [Rush] during this turn.",
-        "grants": ["Rush"],
-        "powerMod": null,
-        "targets": ["self:Leader", "self"],
-        "conditions": ["leaderHasLandOfWanoOrIsPortgasDAce"],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["self:Leader"]
+      "condition": {
+        "any": [
+          {
+            "value": "Land of Wano",
+            "field": "leader.types",
+            "op": "="
+          },
+          {
+            "value": "Portgas D. Ace",
+            "field": "leader.name",
+            "op": "="
+          }
+        ],
+        "logic": "OR"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": {
+            "zones": [
+              "leader"
+            ],
+            "upTo": true,
+            "min": 1,
+            "max": 1,
+            "type": "leader",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "selector": {
+            "filters": [
+              {
+                "value": true,
+                "field": "rested",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "costArea"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        },
+        {
+          "keyword": "Rush",
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "type": "keywordEffect",
+          "operation": "grant",
+          "duration": "thisTurn"
         }
-      }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "SR",
+  "setId": "EB02",
+  "counter": 0,
+  "cardName": "Yamato",
+  "types": [
+    "Land of Wano"
+  ],
+  "cost": 6,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "landOfWano"
+  ]
 }

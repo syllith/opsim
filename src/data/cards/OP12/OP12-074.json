@@ -1,51 +1,41 @@
 {
-  "id": "OP12-074",
-  "set": "OP12",
-  "number": 74,
-  "name": "Patty",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "East Blue"
-  ],
+  "cardName": "Patty",
+  "cardId": "OP12-074",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["East Blue"],
+  "traits": ["eastBlue"],
   "rarity": "C",
-  "art": "/cards/OP12/OP12-074.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may trash 1 Event from your hand: if your Leader is [Sanji], add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "setId": "OP12",
+  "cardNumber": "074",
+  "printedText": "[On Play] You may trash 1 Event from your hand: If your Leader is [Sanji], add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": ["eventCard"],
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 Event from your hand: if your Leader is [Sanji], add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Sanji]"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Sanji"
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

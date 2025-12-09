@@ -1,63 +1,68 @@
 {
-  "id": "OP13-025",
-  "set": "OP13",
-  "number": 25,
-  "name": "Koby",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "FILM",
-    "Navy"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP13/OP13-025.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play If your Leader has the (FILM) type or <Strike> attribute, set up to 1 of your DON!! cards as active.",
+  "cardName": "Koby",
+  "cardId": "OP13-025",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["FILM", "Navy"],
+  "traits": ["film", "navy"],
+  "rarity": "R",
+  "setId": "OP13",
+  "cardNumber": "025",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If your Leader has the {FILM} type or <Strike> attribute, set up to 1 of your DON!! cards as active.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "leaderWithFilmOrStrike": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "FILM"
+                },
+                {
+                  "field": "attributes",
+                  "op": "=",
+                  "value": "strike"
+                }
+              ]
+            }
+          ]
+        },
+        "upToOneDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderWithFilmOrStrike",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "If your Leader has the (FILM) type or <Strike> attribute, set up to 1 of your DON!! cards as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "upToOneDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

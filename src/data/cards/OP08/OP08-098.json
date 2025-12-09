@@ -1,46 +1,96 @@
 {
-  "id": "OP08-098",
-  "set": "OP08",
-  "number": 98,
-  "name": "Kalgara",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Shandorian Warriors"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP08/OP08-098.png",
-  "stats": {
-    "cost": 5,
-    "power": null,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Kalgara",
+  "cardId": "OP08-098",
+  "cardType": "leader",
+  "colors": ["yellow"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["Jaya", "Sky Island", "Shandian Warrior"],
+  "traits": ["jaya", "skyIsland", "shandianWarrior"],
+  "rarity": "L",
+  "setId": "OP08",
+  "cardNumber": "098",
+  "printedText": "[DON!! x1] [When Attacking] Play up to 1 {Shandian Warrior} type Character card from your hand with a cost equal to or less than the number of DON!! cards on your field. If you do, add 1 card from the top of your Life cards to your hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!!x1 When Attacking: Put a character with the (Shandorian Warriors) type from your hand into play that has a cost equal to or less than the number of Don!! you control. Then, if you played a card, put the top card of your life into your hand.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "attachedDonToThis",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Put a character with the (Shandorian Warriors) type from your hand into play that has a cost equal to or less than the number of Don!! you control. Then, if you played a card, put the top card of your life into your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "attachedDonToThis": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "attachedTo",
+              "op": "=",
+              "value": "thisCard"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "shandianWarrior"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "fieldRef": "selfDonFieldCount"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "playTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "payCost": false
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "playTarget",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "selfTopLifeCard",
+              "destination": "hand",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

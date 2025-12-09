@@ -1,48 +1,18 @@
 {
-  "id": "OP09-071",
-  "set": "OP09",
-  "number": 71,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-071.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [
-    {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": "SAMPLE watermark present on image; no other issues."
-  }
+  "cardName": "Nico Robin",
+  "cardId": "OP09-071",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "C",
+  "setId": "OP09",
+  "cardNumber": "071",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": ["Blocker"],
+  "abilities": []
 }

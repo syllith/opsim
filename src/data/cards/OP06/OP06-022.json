@@ -1,76 +1,77 @@
 {
-  "id": "OP06-022",
-  "set": "OP06",
-  "number": 22,
-  "name": "Yamato",
-  "category": "Leader",
+  "cardName": "Yamato",
+  "cardId": "OP06-022",
+  "cardType": "leader",
   "colors": [
-    "Green"
+    "green",
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
   "types": [
-    "Land of wano"
+    "Land of Wano"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-022.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "rarity": "L",
+  "setId": "OP06",
+  "cardNumber": "022",
+  "printedText": "[Double Attack] (This card deals 2 damage.)\n[Activate: Main] [Once Per Turn] If your opponent has 3 or less Life cards, give up to 2 rested DON!! cards to 1 of your Characters.",
   "keywords": [
-    "Double Attack",
-    "Activate: Main",
-    "Once Per Turn"
+    "Double Attack"
   ],
-  "trigger": null,
-  "text": "Double Attack (This card deals 2 damage.)\nActivate: Main Once Per Turn If your opponent has 3 or less life, attach up to 2 rested DON!! to one of your characters.",
   "abilities": [
     {
-      "timing": "Double Attack",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This card deals 2 damage.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your opponent has 3 or less life, attach up to 2 rested DON!! to one of your characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOfYourCharacters"
-        ],
-        "conditions": [
-          "opponentLife <= 3"
-        ],
-        "giveDon": {
-          "quantity": 2,
-          "state": "rested",
-          "from": "costArea",
-          "to": [
-            "oneOfYourCharacters"
-          ]
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "attachTargetCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "restedDonPool": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": "attachTargetCharacter",
+          "selector": "restedDonPool",
+          "condition": {
+            "field": "opponentLife",
+            "op": "<=",
+            "value": 3
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "landOfWano"
+  ]
 }

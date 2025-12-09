@@ -1,64 +1,92 @@
 {
-  "id": "OP14-100",
-  "set": "OP14",
-  "number": 100,
-  "name": "Absalom",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Ranged",
+  "cardName": "Absalom",
+  "cardId": "OP14-100",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 5000,
+  "attributes": ["ranged"],
   "types": [
     "Thriller Bark Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP14/OP14-100.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "On K.O.",
-    "Trigger"
+  "traits": [
+    "thrillerBarkPirates"
   ],
-  "trigger": {
-    "text": "Play up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your trash rested."
-  },
-  "text": "On K.O. Look at 3 cards from the top of your deck; reveal up to 1 {Thriller Bark Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "rarity": "R",
+  "setId": "OP14",
+  "cardNumber": "100",
+  "printedText": "[On K.O.] Look at 3 cards from the top of your deck; reveal up to 1 {Thriller Bark Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Trigger] Play up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your trash rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "top3Tbp": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "thrillerBarkPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at 3 cards from the top of your deck; reveal up to 1 {Thriller Bark Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top3Tbp",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": false
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "trashTbpCharCost4OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "thrillerBarkPirates"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Play up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your trash rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "trashTbpCharCost4OrLess",
+          "enterRested": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,33 +1,26 @@
 {
-  "id": "OP01-023",
-  "set": "OP01",
-  "number": 23,
-  "name": "Marco",
-  "category": "Character",
+  "cardName": "Marco",
+  "cardId": "OP01-023",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Special",
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Former White Beard Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-023.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "023",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "",
   "abilities": [],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "formerWhiteBeardPirates"
+  ]
 }

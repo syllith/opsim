@@ -1,52 +1,43 @@
 {
-  "id": "OP08-060",
-  "set": "OP08",
-  "number": 60,
-  "name": "King",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "Animal Kingdom Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP08/OP08-060.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "On Play DON!!-1: If your opponent has 5 or more DON!! cards on their field, this Character gains Rush until the end of the turn. (This card can attack on the turn in which it is played.)",
+  "cardName": "King",
+  "cardId": "OP08-060",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 7,
+  "power": 8000,
+  "attributes": ["special"],
+  "types": ["Animal Kingdom Pirates"],
+  "traits": ["animalKingdomPirates"],
+  "rarity": "R",
+  "setId": "OP08",
+  "cardNumber": "060",
+  "printedText": "[On Play] DON!! −1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): If your opponent has 5 or more DON!! cards on their field, this Character gains [Rush] during this turn. (This card can attack on the turn in which it is played.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "If your opponent has 5 or more DON!! cards on their field, this Character gains Rush until the end of the turn.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "opponentDonOnField",
+        "op": ">=",
+        "value": 5
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

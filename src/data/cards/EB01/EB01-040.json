@@ -1,37 +1,60 @@
 {
-  "id": "EB01-040",
-  "set": "EB01",
-  "number": 40,
-  "name": "Kyros",
-  "category": "Leader",
-  "colors": ["Yellow"],
-  "attribute": null,
-  "types": ["Dressrosa"],
-  "rarity": "L",
-  "art": "/cards/EB01/EB01-040.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "[Activate: Main] [Once Per Turn] You may turn the top card of your life face up: KO up to one of your opponent's cost 0 characters.",
+  "power": 5000,
+  "cardType": "leader",
+  "cardId": "EB01-040",
+  "printedText": "[Activate:Main] [Once Per Turn] You may turn the top card of your life face up: K.O. up to 1 of your opponent's cost 0 characters.",
+  "life": 4,
+  "types": [
+    "Dressrosa"
+  ],
+  "cardNumber": "040",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may turn the top card of your life face up: KO up to one of your opponent's cost 0 characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["characterCost=0"]
-      }
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "may": true,
+          "type": "revealLife",
+          "count": 1
+        },
+        {
+          "target": {
+            "filters": [
+              {
+                "value": 0,
+                "field": "cost",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "type": "ko"
+        }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Kyros",
+  "rarity": "R",
+  "cost": 0,
+  "colors": [
+    "yellow"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "dressrosa"
+  ]
 }

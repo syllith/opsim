@@ -1,53 +1,93 @@
 {
-  "id": "OP06-006",
-  "set": "OP06",
-  "number": 6,
-  "name": "Saga",
-  "category": "Character",
+  "cardName": "Saga",
+  "cardId": "OP06-006",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
   "types": [
-    "Film",
+    "FILM",
     "Asuka Island"
   ],
   "rarity": "UC",
-  "art": "/cards/OP06/OP06-006.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking This character gains +1000 until the start of your next turn. Then, at the end of this turn, trash one of your (Film) type characters.",
+  "setId": "OP06",
+  "cardNumber": "006",
+  "printedText": "[DON!! x1] [When Attacking] This Character gains +1000 power until the start of your next turn. Then, at the end of this turn, trash 1 of your {FILM} type Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "This character gains +1000 until the start of your next turn. Then, at the end of this turn, trash one of your (Film) type characters.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCharacter"
         },
-        "giveDon": null
-      }
+        "filmCharacterToTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasType.FILM",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "filmToTrash"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "untilStartOfYourNextTurn",
+          "target": "thisCharacter"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "endOfYourTurn",
+          "target": "thisCharacter",
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "filmCharacterToTrash",
+              "destination": "trash",
+              "ordering": "chosen"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, but rarity is UC as printed."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "film",
+    "asukaIsland"
+  ]
 }

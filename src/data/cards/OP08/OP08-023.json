@@ -1,62 +1,107 @@
 {
-  "id": "OP08-023",
-  "set": "OP08",
-  "number": 23,
-  "name": "Carrot",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Minks"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP08/OP08-023.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "On Play / When Attacking: Up to one of your opponents rested cost 7 or less characters do not become active during its owner's next refresh phase.",
+  "cardName": "Carrot",
+  "cardId": "OP08-023",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Minks"],
+  "traits": ["minks"],
+  "rarity": "SR",
+  "setId": "OP08",
+  "cardNumber": "023",
+  "printedText": "[On Play] / [When Attacking] Up to 1 of your opponent's rested cost 7 or less characters do not become active during its owner's next Refresh Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "frozenOppCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "state",
+                  "op": "=",
+                  "value": "rested"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 7
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to one of your opponents rested cost 7 or less characters do not become active during its owner's next refresh phase.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "setActiveDuringOwnersRefreshPhase",
+          "target": "frozenOppCharacter",
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "frozenOppCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "state",
+                  "op": "=",
+                  "value": "rested"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 7
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to one of your opponents rested cost 7 or less characters do not become active during its owner's next refresh phase.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "setActiveDuringOwnersRefreshPhase",
+          "target": "frozenOppCharacter",
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

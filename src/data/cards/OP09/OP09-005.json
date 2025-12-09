@@ -1,66 +1,55 @@
 {
-  "id": "OP09-005",
-  "set": "OP09",
-  "number": 5,
-  "name": "Silvers Rayleigh",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Roger Pirates"
-  ],
+  "cardName": "Silvers Rayleigh",
+  "cardId": "OP09-005",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Roger Pirates"],
+  "traits": ["rogerPirates"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-005.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: If your opponent has two or more characters with an original power of 5000 or more, Draw 2 cards and discard 1 card from your hand.",
+  "setId": "OP09",
+  "cardNumber": "005",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [On Play] If your opponent has 2 or more Characters with a base power of 5000 or more, draw 2 cards and trash 1 card from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "opponentBigCharacters",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "opponentBigCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": ">=",
+              "value": 5000
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If your opponent has two or more characters with an original power of 5000 or more, Draw 2 cards and discard 1 card from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "opponent:hasTwoOrMoreCharacters",
-          "character:originalPower>=5000"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

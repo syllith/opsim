@@ -1,54 +1,56 @@
 {
-  "id": "OP13-106",
-  "set": "OP13",
-  "number": 106,
-  "name": "Conney",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Bonney Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP13/OP13-106.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Trigger",
-    "Blocker"
-  ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "Opponent's Turn: This effect can be activated when you activate Trigger. This Character gains Blocker during this turn.",
+  "cardName": "Conney",
+  "cardId": "OP13-106",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Bonney Pirates"],
+  "traits": ["bonneyPirates"],
+  "rarity": "C",
+  "setId": "OP13",
+  "cardNumber": "106",
+  "printedText": "[Opponent's Turn] When a Trigger activates, this Character gains Blocker during this turn.\n[Trigger] Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This effect can be activated when you activate Trigger. This Character gains Blocker during this turn.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "duringOpponentsTurn",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "afterYouActivateTrigger",
+          "target": "selfThisCard",
+          "may": true,
+          "condition": {
+            "field": "isOpponentsTurn",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "keywordEffect",
+              "operation": "grant",
+              "keyword": "Blocker",
+              "duration": "thisTurn",
+              "target": "selfThisCard"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

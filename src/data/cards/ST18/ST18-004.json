@@ -1,37 +1,59 @@
 {
-  "id": "ST18-004",
-  "set": "ST18",
-  "number": 4,
-  "name": "Zorojuro",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Slash",
+  "cardName": "Zorojuro",
+  "cardId": "ST18-004",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 6000,
+  "life": 0,
+  "counter": 0,
+  "attributes": ["slash"],
   "types": ["Straw Hat Crew"],
-  "rarity": "SR",
-  "art": "/cards/ST18/ST18-004.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play Look at the top 5 cards of your deck, reveal up to one purple (Straw Hat Crew) type card and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "traits": ["strawHatCrew"],
+  "rarity": "starter",
+  "setId": "ST18",
+  "cardNumber": "004",
+  "printedText": "[On Play] Look at the top 5 cards of your deck, reveal up to one purple {Straw Hat Crew} type card and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to one purple (Straw Hat Crew) type card and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": ["deckTop:5", "oneHandCard:Purple:Straw Hat Crew"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "strawHatCard": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "purple"
+            },
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Straw Hat Crew"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "strawHatCard",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

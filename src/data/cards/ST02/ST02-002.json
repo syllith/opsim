@@ -1,23 +1,19 @@
 {
-  "id": "ST02-002",
-  "set": "ST02",
-  "number": 2,
-  "name": "Vito",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Ranged",
+  "cardName": "Vito",
+  "cardId": "ST02-002",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["ranged"],
   "types": ["Firetank Pirates"],
-  "rarity": null,
-  "art": "/cards/ST02/ST02-002.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["firetankPirates"],
+  "rarity": "common",
+  "setId": "ST02",
+  "cardNumber": "002",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

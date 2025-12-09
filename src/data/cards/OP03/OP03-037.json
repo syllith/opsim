@@ -1,81 +1,97 @@
 {
-  "id": "OP03-037",
-  "set": "OP03",
-  "number": 37,
-  "name": "Tooth Attack",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Fish-Man",
-    "East Blue",
-    "Arlong Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-037.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Play up to 1 Character with a cost 4 or less with Trigger from your hand."
-  },
-  "text": "Main You may rest 1 of your {East Blue} type Characters: K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.\nTrigger Play up to 1 Character with a cost 4 or less with Trigger from your hand.",
+  "cardName": "Tooth Attack",
+  "cardId": "OP03-037",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 1,
+  "types": ["Fish-Man", "East Blue", "Arlong Crew"],
+  "traits": ["fishMan", "eastBlue", "arlongCrew"],
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "037",
+  "printedText": "[Main] You may rest 1 of your {East Blue} type Characters: K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.\n[Trigger] Play up to 1 Character with a cost 4 or less with Trigger from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restFromField",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "eastBlue"
+            }
+          ]
+        },
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 1 of your {East Blue} type Characters: K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost3"
-        ],
-        "conditions": [
-          "rested"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": ["character"],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "state",
+                "op": "=",
+                "value": "rested"
+              },
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 3
+              }
+            ]
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Play up to 1 Character with a cost 4 or less with Trigger from your hand.",
-        "grants": [
-          "Trigger"
-        ],
-        "powerMod": null,
-        "targets": [
-          "oneCharacter<=cost4"
-        ],
-        "conditions": [
-          "fromHand"
-        ],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": ["hand"],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 4
+              },
+              {
+                "field": "hasTriggerAbility",
+                "op": "=",
+                "value": true
+              }
+            ]
+          },
+          "payCost": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  ]
 }

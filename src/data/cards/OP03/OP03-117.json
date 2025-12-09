@@ -1,58 +1,83 @@
 {
-  "id": "OP03-117",
-  "set": "OP03",
-  "number": 117,
-  "name": "Napoleon",
-  "category": "Character",
+  "cardName": "Napoleon",
+  "cardId": "OP03-117",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Big Mom Pirates",
     "Homies"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-117.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "117",
+  "printedText": "Activate: Main You may rest this Character: Up to 1 of your [Charlotte Linlin] gains +1000 Power until the start of your next turn.\nTrigger Play this card.",
   "keywords": [
     "Activate: Main",
     "Trigger"
   ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "Activate: Main\nYou may rest this Character: Up to 1 of your [Charlotte Linlin] gains +1000 Power until the start of your next turn.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character: Up to 1 of your [Charlotte Linlin] gains +1000 Power until the start of your next turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "giveDon": null
-      }
+          "duration": "untilStartOfYourNextTurn",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "cardName",
+                "op": "=",
+                "value": "Charlotte Linlin"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "bigMomPirates",
+    "homies"
+  ]
 }

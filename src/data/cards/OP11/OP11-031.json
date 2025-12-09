@@ -1,75 +1,119 @@
 {
-  "id": "OP11-031",
-  "set": "OP11",
-  "number": 31,
-  "name": "Jinbe",
-  "category": "Character",
+  "cardName": "Jinbe",
+  "cardId": "OP11-031",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Fishman",
-    "Fishman Island",
+    "Fish-Man Island",
     "Sun Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-031.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Activate: Main",
-    "Once Per Turn"
+  "traits": [
+    "fishMan",
+    "fishManIsland",
+    "sunPirates"
   ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the (Fishman) or (Merfolk) type, rest up to 1 of your opponent's Characters with a cost of 5 or less. Activate: Main Once Per Turn: Up to 1 of your (Fishman) or (Merfolk) type Characters can attack Characters the same turn they are played.",
+  "rarity": "SR",
+  "setId": "OP11",
+  "cardNumber": "031",
+  "printedText": "[On Play] If your Leader has the {Fish-Man} or {Merfolk} type, rest up to 1 of your opponent's Characters with a cost of 5 or less.\n[Activate: Main] [Once Per Turn] Up to 1 of your {Fish-Man} or {Merfolk} type Characters can attack Characters on the turn in which it is played.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "logic": "OR",
+        "any": [
+          {
+            "field": "selfLeaderHasTrait",
+            "op": "=",
+            "value": "fishman"
+          },
+          {
+            "field": "selfLeaderHasTrait",
+            "op": "=",
+            "value": "merfolk"
+          }
+        ]
       },
-      "effect": {
-        "text": "If your Leader has the (Fishman) or (Merfolk) type, rest up to 1 of your opponent's Characters with a cost of 5 or less.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Fishman",
-          "hasType:Merfolk"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCharacterCost5OrLess"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "fishmanOrMerfolkCharacterUpToOne": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "fishman"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "merfolk"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your (Fishman) or (Merfolk) type Characters can attack Characters the same turn they are played.",
-        "powerMod": null,
-        "targets": [
-          "oneOfYourCharacters",
-          "hasType:Fishman",
-          "hasType:Merfolk"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "rushCharactersOnly",
+          "duration": "permanent",
+          "target": "fishmanOrMerfolkCharacterUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,52 +1,73 @@
 {
-  "id": "OP10-092",
-  "set": "OP10",
-  "number": 92,
-  "name": "Perona",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Thriller Bark Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP10/OP10-092.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may place 2 cards with the <Thriller Bark Pirates> from your trash at the bottom of your deck in any order: Up to 1 of your Characters other than [Perona] gains +2000 power during this turn.",
+  "cardName": "Perona",
+  "cardId": "OP10-092",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Thriller Bark Pirates"],
+  "traits": ["thrillerBarkPirates"],
+  "rarity": "R",
+  "setId": "OP10",
+  "cardNumber": "092",
+  "printedText": "[Activate: Main] [Once Per Turn] You may place 2 cards with the {Thriller Bark Pirates} type from your trash at the bottom of your deck in any order: Up to 1 of your Characters other than [Perona] gains +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromTrash",
+        "selector": "thrillerBarkFromTrash",
+        "may": true
       },
-      "effect": {
-        "text": "You may place 2 cards with the <Thriller Bark Pirates> from your trash at the bottom of your deck in any order: Up to 1 of your Characters other than [Perona] gains +2000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "up to 1 of your Characters other than self"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "thrillerBarkFromTrash": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "thrillerBarkPirates"
+            }
+          ],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self",
+          "bindAs": "thrillerBarkFromTrash"
+        },
+        "otherSelfCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Perona"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "otherSelfCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "otherSelfCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

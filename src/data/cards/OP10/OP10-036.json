@@ -1,50 +1,56 @@
 {
-  "id": "OP10-036",
-  "set": "OP10",
-  "number": 36,
-  "name": "Perona",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Shikkearu Kingdom",
-    "Thriller Bark Pirates"
-  ],
-  "rarity": "L",
-  "art": "/cards/OP10/OP10-036.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn When a character is rested by one of your effects, set up to 1 of your DON!! active.",
+  "cardName": "Perona",
+  "cardId": "OP10-036",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["ODYSSEY", "Shikkearu Kingdom", "Thriller Bark Pirates"],
+  "traits": ["odyssey", "shikkearuKingdom", "thrillerBarkPirates"],
+  "rarity": "SR",
+  "setId": "OP10",
+  "cardNumber": "036",
+  "printedText": "[Your Turn] [Once Per Turn] When a Character is rested by one of your effects, set up to 1 of your DON!! active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenCardRested",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "currentTurnSide",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "restedByEffectControllerSide",
+            "op": "=",
+            "value": "self"
+          }
+        ]
       },
-      "effect": {
-        "text": "When a character is rested by one of your effects, set up to 1 of your DON!! active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "yourDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "yourDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

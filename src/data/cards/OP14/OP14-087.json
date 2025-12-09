@@ -1,48 +1,76 @@
 {
-  "id": "OP14-087",
-  "set": "OP14",
-  "number": 87,
-  "name": "Miss.Valentine(Mikita)",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Baroque Works"
-  ],
+  "cardName": "Miss.Valentine(Mikita)",
+  "cardId": "OP14-087",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Baroque Works"],
+  "traits": ["baroqueWorks"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-087.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has a type including \"Baroque Works\", look at 4 cards from the top of your deck; reveal up to 1 card with a type including \"Baroque Works\" other than [Miss.Valentine(Mikita)] and add it to your hand. Then, trash the rest.",
+  "setId": "OP14",
+  "cardNumber": "087",
+  "printedText": "[On Play] If your Leader has a type including \"Baroque Works\", look at 4 cards from the top of your deck; reveal up to 1 card with a type including \"Baroque Works\" other than [Miss.Valentine(Mikita)] and add it to your hand. Then, trash the rest.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "selfLeaderBaroque": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "baroqueWorks"
+            }
+          ]
+        },
+        "topBaroqueNotValentine": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "baroqueWorks"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Miss.Valentine(Mikita)"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If your Leader has a type including \"Baroque Works\", look at 4 cards from the top of your deck; reveal up to 1 card with a type including \"Baroque Works\" other than [Miss.Valentine(Mikita)] and add it to your hand. Then, trash the rest.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfLeaderBaroque",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "topBaroqueNotValentine",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 4,
+          "moveRemainingTo": "trash",
+          "remainingOrdering": "keep",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

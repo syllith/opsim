@@ -1,50 +1,164 @@
 {
-  "id": "EB02-053",
-  "set": "EB02",
-  "number": 53,
-  "name": "Olga Myskina",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Wisdom",
-  "types": ["Alchemi"],
-  "rarity": "C",
-  "art": "/cards/EB02/EB02-053.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "On K.O"],
-  "trigger": null,
-  "text": "[On Play] / [On K.O] Look at the top card of your or your opponent's Life, move it to the top or bottom of the Life cards.",
+  "power": 4000,
+  "cardType": "character",
+  "cardId": "EB02-053",
+  "printedText": "On Play / On K.O. Look at the top card of your or your opponent's Life, move it to the top or bottom of the Life cards.",
+  "cardNumber": "053",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top card of your or your opponent's Life, move it to the top or bottom of the Life cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:Life", "opponent:Life"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "min": 1,
+          "type": "chooseMode",
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "count": 1,
+                  "type": "revealLife",
+                  "side": "self",
+                  "all": false,
+                  "ordering": "keep"
+                },
+                {
+                  "may": true,
+                  "destination": "bottomOfLife",
+                  "type": "moveCard",
+                  "target": {
+                    "zones": [
+                      "life"
+                    ],
+                    "min": 1,
+                    "max": 1,
+                    "type": "any",
+                    "side": "self",
+                    "whoChooses": "system"
+                  },
+                  "ordering": "keep"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "count": 1,
+                  "type": "revealLife",
+                  "side": "opponent",
+                  "all": false,
+                  "ordering": "keep"
+                },
+                {
+                  "may": true,
+                  "destination": "bottomOfLife",
+                  "type": "moveCard",
+                  "target": {
+                    "zones": [
+                      "life"
+                    ],
+                    "min": 1,
+                    "max": 1,
+                    "type": "any",
+                    "side": "opponent",
+                    "whoChooses": "system"
+                  },
+                  "ordering": "keep"
+                }
+              ]
+            }
+          ],
+          "max": 1
+        }
+      ],
+      "frequency": "none"
     },
     {
-      "timing": "On K.O",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top card of your or your opponent's Life, move it to the top or bottom of the Life cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:Life", "opponent:Life"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onKO",
+      "actions": [
+        {
+          "min": 1,
+          "type": "chooseMode",
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "count": 1,
+                  "type": "revealLife",
+                  "side": "self",
+                  "all": false,
+                  "ordering": "keep"
+                },
+                {
+                  "may": true,
+                  "destination": "bottomOfLife",
+                  "type": "moveCard",
+                  "target": {
+                    "zones": [
+                      "life"
+                    ],
+                    "min": 1,
+                    "max": 1,
+                    "type": "any",
+                    "side": "self",
+                    "whoChooses": "system"
+                  },
+                  "ordering": "keep"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "count": 1,
+                  "type": "revealLife",
+                  "side": "opponent",
+                  "all": false,
+                  "ordering": "keep"
+                },
+                {
+                  "may": true,
+                  "destination": "bottomOfLife",
+                  "type": "moveCard",
+                  "target": {
+                    "zones": [
+                      "life"
+                    ],
+                    "min": 1,
+                    "max": 1,
+                    "type": "any",
+                    "side": "opponent",
+                    "whoChooses": "system"
+                  },
+                  "ordering": "keep"
+                }
+              ]
+            }
+          ],
+          "max": 1
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "C",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Olga Myskina",
+  "types": [
+    "Alchemi"
+  ],
+  "cost": 3,
+  "colors": [
+    "yellow"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "alchemi"
+  ]
 }

@@ -1,50 +1,74 @@
 {
-  "id": "ST10-013",
-  "set": "ST10",
-  "number": 13,
-  "name": "Eustass\"Captain\"Kid",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
+  "cardName": "Eustass\"Captain\"Kid",
+  "cardId": "ST10-013",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 7,
+  "power": 8000,
+  "attributes": ["special"],
   "types": ["Kid Pirates"],
+  "traits": ["kidPirates"],
   "rarity": "SR",
-  "art": "/cards/ST10/ST10-013.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "When Attacking", "DON!! -1"],
-  "trigger": null,
-  "text": "On Play / When Attacking — DON!! -1: Up to 1 of your Leader gains +1000 power until the start of your next turn.",
+  "setId": "ST10",
+  "cardNumber": "013",
+  "printedText": "[On Play] / [When Attacking] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Up to 1 of your Leader gains +1000 power until the start of your next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +1000 power until the start of your next turn.",
-        "grants": [],
-        "powerMod": { "amount": 1000, "duration": "untilStartOfYourNextTurn" },
-        "targets": ["ally:Leader"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "donMinus",
+        "count": 1,
+        "may": true
+      },
+      "selectors": {
+        "selfLeaderUpTo1": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "untilStartOfYourNextTurn",
+          "target": "selfLeaderUpTo1"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +1000 power until the start of your next turn.",
-        "grants": [],
-        "powerMod": { "amount": 1000, "duration": "untilStartOfYourNextTurn" },
-        "targets": ["ally:Leader"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "whenAttacking",
+      "cost": {
+        "type": "donMinus",
+        "count": 1,
+        "may": true
+      },
+      "selectors": {
+        "selfLeaderUpTo1": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "untilStartOfYourNextTurn",
+          "target": "selfLeaderUpTo1"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

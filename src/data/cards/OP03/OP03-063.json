@@ -1,75 +1,49 @@
 {
-  "id": "OP03-063",
-  "set": "OP03",
-  "number": 63,
-  "name": "Zambai",
-  "category": "Character",
+  "cardName": "Zambai",
+  "cardId": "OP03-063",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Water 7",
     "Franky Family"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-063.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "063",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): If your Leader has the {Water 7} type, draw 1 card.",
   "keywords": [
-    "Blocker",
-    "On Play"
+    "Blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): If your leader has the (Water 7) type, draw 1 card.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "You may return the specified number of DON!! cards from your field to your DON!! deck: If your leader has the (Water 7) type, draw 1 card.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "leader:Water 7"
-        ],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "field": "leaderHasTypeWater7",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "thisCard"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample image, indicated by the 'SAMPLE' watermark. The text and numbers are legible, but the image is not a final product."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "waterSeven",
+    "frankyFamily"
+  ]
 }

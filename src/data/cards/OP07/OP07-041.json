@@ -1,48 +1,73 @@
 {
-  "id": "OP07-041",
-  "set": "OP07",
-  "number": 41,
-  "name": "Gloriosa (Elder Nyon)",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Amazon Lily"
-  ],
+  "cardName": "Gloriosa (Elder Nyon)",
+  "cardId": "OP07-041",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Amazon Lily"],
+  "traits": ["amazonLily"],
   "rarity": "UC",
-  "art": "/cards/OP07/OP07-041.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at 5 cards from the top of your deck; reveal up to 1 {Amazon Lily} or {Kuja Pirates} type card other than [Gloriosa (Elder Nyon)] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP07",
+  "cardNumber": "041",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Amazon Lily} or {Kuja Pirates} type card other than [Gloriosa (Elder Nyon)] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "searchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "logic": "OR",
+                  "any": [
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "amazonLily"
+                    },
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "kujaPirates"
+                    }
+                  ]
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Gloriosa (Elder Nyon)"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Amazon Lily} or {Kuja Pirates} type card other than [Gloriosa (Elder Nyon)] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

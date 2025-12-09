@@ -1,52 +1,38 @@
 {
-  "id": "OP11-042",
-  "set": "OP11",
-  "number": 42,
-  "name": "Vito",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Fire Tank Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-042.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "On Play: You may trash 1 (Fire Tank Pirate) type card from your hand: This Character gains Rush during this turn.",
+  "cardName": "Vito",
+  "cardId": "OP11-042",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Fire Tank Pirates"],
+  "traits": ["fireTankPirates"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "042",
+  "printedText": "[On Play] You may trash 1 {Fire Tank Pirates} type card from your hand: This Character gains Rush during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": ["fireTankPirates"],
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 (Fire Tank Pirate) type card from your hand: This Character gains Rush during this turn.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "thisTurn",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,64 +1,86 @@
 {
-  "id": "OP07-016",
-  "set": "OP07",
-  "number": 16,
-  "name": "Galaxy Wink",
-  "category": "Event",
+  "cardName": "Galaxy Wink",
+  "cardId": "OP07-016",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-016.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "revolutionaryArmy"
   ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main Give up to one of your characters with the {Revolutionary Type} +2000 Power for the turn. After this, give up to one of your opponents characters -1000 power for the turn.",
+  "rarity": "R",
+  "setId": "OP07",
+  "cardNumber": "016",
+  "printedText": "[Main] Give up to 1 of your Characters with the {Revolutionary Army} type +2000 power for the turn. After this, give up to 1 of your opponent's Characters -1000 power for the turn. Trigger: Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "boostTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "revolutionaryArmy"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to one of your characters with the {Revolutionary Type} +2000 Power for the turn. After this, give up to one of your opponents characters -1000 power for the turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "boostTarget"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

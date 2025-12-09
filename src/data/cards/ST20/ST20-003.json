@@ -1,37 +1,70 @@
 {
-  "id": "ST20-003",
-  "set": "ST20",
-  "number": 3,
-  "name": "Charlotte Brûlée",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Special",
+  "cardName": "Charlotte Brûlée",
+  "cardId": "ST20-003",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["special"],
   "types": ["Big Mom Pirates"],
-  "rarity": "C",
-  "art": "/cards/ST20/ST20-003.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["Trigger", "Counter +2000"],
-  "trigger": { "text": "Look at the top card of your or your opponent's life and put it back on the top or bottom of the life pile. Then, add this card to your hand." },
-  "text": "Trigger Look at the top card of your or your opponent's life and put it back on the top or bottom of the life pile. Then, add this card to your hand.",
+  "traits": ["bigMomPirates"],
+  "rarity": "starter",
+  "setId": "ST20",
+  "cardNumber": "003",
+  "printedText": "Trigger Look at the top card of your or your opponent's Life and put it back on the top or bottom of the Life pile. Then, add this card to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top card of your or your opponent's life and put it back on the top or bottom of the life pile. Then, add this card to your hand.",
-        "powerMod": null,
-        "targets": ["topLifeCard:playerOrOpponent"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "self",
+                  "ordering": "keep"
+                },
+                {
+                  "type": "moveCard",
+                  "target": "selfTopLifeCard",
+                  "destination": "topOrBottomOfLife",
+                  "ordering": "chosen"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "opponent",
+                  "ordering": "keep"
+                },
+                {
+                  "type": "moveCard",
+                  "target": "opponentTopLifeCard",
+                  "destination": "topOrBottomOfLife",
+                  "ordering": "chosen"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "moveCard",
+          "target": "selfTriggerSourceCard",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

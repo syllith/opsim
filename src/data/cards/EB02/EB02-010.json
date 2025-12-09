@@ -1,40 +1,72 @@
 {
-  "id": "EB02-010",
-  "set": "EB02",
-  "number": 10,
-  "name": "Monkey D. Luffy",
-  "category": "Leader",
-  "colors": ["Red"],
-  "attribute": "Strike",
-  "types": ["Straw Hat Crew"],
-  "rarity": "L",
-  "art": "/cards/EB02/EB02-010.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn", "DON!! -2"],
-  "trigger": null,
-  "text": "[Activate: Main] [Once Per Turn] [DON!! -2]: If you only have {Straw Hat Crew} type Characters in play, set up to 2 of your rested Don!! cards as active. Then, this leader gets +1000 power until the end of your opponent's next turn.",
+  "power": 5000,
+  "cardType": "leader",
+  "cardId": "EB02-010",
+  "printedText": "Activate: Main Once Per Turn DON!!−2: If you only have {Straw Hat Crew} type Characters in play, set up to 2 of your rested DON!! cards as active. Then, this leader gets +1000 power until the end of your opponent’s next turn.",
+  "life": 4,
+  "cardNumber": "010",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 2 },
-      "effect": {
-        "text": "If you only have {Straw Hat Crew} type Characters in play, set up to 2 of your rested Don!! cards as active. Then, this leader gets +1000 power until the end of your opponent's next turn.",
-        "grants": [],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "untilEndOfOpponentsNextTurn"
+      "actions": [
+        {
+          "type": "setState",
+          "target": {
+            "zones": [
+              "donDeck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 2,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "state": "active"
         },
-        "targets": ["self:Leader", "upTo2:restedDon"],
-        "conditions": ["onlyStrawHatCrewCharactersInPlay"]
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "untilStartOfYourNextTurn",
+          "amount": 1000,
+          "target": {
+            "whoChooses": "system",
+            "type": "leader",
+            "side": "self",
+            "zones": [
+              "leader"
+            ]
+          }
+        }
+      ],
+      "condition": {
+        "value": "Straw Hat Crew",
+        "field": "onlyCharactersOfType",
+        "op": "="
+      },
+      "frequency": "oncePerTurn",
+      "timing": "activateMain",
+      "selectors": {},
+      "cost": {
+        "count": 2,
+        "type": "donMinus"
       }
     }
   ],
-  "meta": { "notes": "DON!! -2 means return 2 DON!! cards from field to DON!! deck as cost" }
+  "setId": "EB02",
+  "cardName": "Monkey D. Luffy",
+  "rarity": "C",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "colors": [
+    "red",
+    "purple"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

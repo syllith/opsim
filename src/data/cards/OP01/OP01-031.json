@@ -1,58 +1,64 @@
 {
-  "id": "OP01-031",
-  "set": "OP01",
-  "number": 31,
-  "name": "Kozuki Oden",
-  "category": "Leader",
+  "cardName": "Kozuki Oden",
+  "cardId": "OP01-031",
+  "cardType": "leader",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
   "types": [
     "Wano Country",
     "Kozuki Family"
   ],
   "rarity": "L",
-  "art": "/cards/OP01/OP01-031.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "[Activate: Main] [Once Per Turn] You may trash 1 {Wano Country} type card from your hand: Set up to 2 of your DON!! cards as active.",
+  "setId": "OP01",
+  "cardNumber": "031",
+  "printedText": "Activate: Main Once Per Turn You may trash 1 {Wano Country} type card from your hand: Set up to 2 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may trash 1 {Wano Country} type card from your hand: Set up to 2 of your DON!! cards as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "hand",
-          "don"
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": [
+          "type:Wano Country"
         ],
-        "conditions": [
-          "mayTrash1WanoCountryFromHand"
-        ]
-      }
+        "may": true
+      },
+      "selectors": {
+        "donTargets": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "donTargets"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donTargets"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "wanoCountry",
+    "kozukiFamily"
+  ]
 }

@@ -1,20 +1,39 @@
 {
-  "id": "ST05-003",
-  "set": "ST05",
-  "number": 3,
-  "name": "Ann",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["FILM", "Pirate Fest"],
-  "rarity": null,
-  "art": "/cards/ST05/ST05-003.png",
-  "stats": { "cost": 2, "power": 3000, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Blocker"],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [
-    {"timing": "Block", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "After opponent declares an attack you may rest this to become new target.", "grants": [], "powerMod": null, "targets": ["self"], "conditions": ["opponentDeclaredAttack"]}}
+  "cardName": "Ann",
+  "cardId": "ST05-003",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": [
+    "FILM",
+    "Pirate Fest"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "film",
+    "pirateFest"
+  ],
+  "rarity": "C",
+  "setId": "ST05",
+  "cardNumber": "003",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": ["Blocker"],
+  "abilities": [
+    {
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    }
+  ]
 }

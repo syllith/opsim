@@ -1,65 +1,90 @@
 {
-  "id": "OP07-111",
-  "set": "OP07",
-  "number": 111,
-  "name": "Lillith",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Scientist",
-    "Egghead"
-  ],
+  "cardName": "Lillith",
+  "cardId": "OP07-111",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Scientist", "Egghead"],
+  "traits": ["scientist", "egghead"],
   "rarity": "SR",
-  "art": "/cards/OP07/OP07-111.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "If your leader is Vegapunk, play this card."
-  },
-  "text": "On Play: Look at the top 5 cards of your deck and reveal up to one card with the type (Egghead) other than [Lillith] and put it into your hand. Then, put the rest of the cards on the bottom of your deck in any order.",
+  "setId": "OP07",
+  "cardNumber": "111",
+  "printedText": "[On Play] Look at the top 5 cards of your deck and reveal up to 1 card with the {Egghead} type other than [Lillith] and put it into your hand. Then, put the rest of the cards on the bottom of your deck in any order.\n[Trigger] If your Leader is [Vegapunk], play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck and reveal up to one card with the type (Egghead) other than [Lillith] and put it into your hand. Then, put the rest of the cards on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": ["deck"],
+            "filters": [
+              {
+                "field": "types",
+                "op": "=",
+                "value": "Egghead"
+              },
+              {
+                "field": "cardName",
+                "op": "!=",
+                "value": "Lillith"
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "vegapunkLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Vegapunk"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your leader is Vegapunk, play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "vegapunkLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,36 +1,40 @@
 {
-  "id": "ST15-001",
-  "set": "ST15",
-  "number": 1,
-  "name": "Atmos",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
+  "cardName": "Atmos",
+  "cardId": "ST15-001",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/ST15/ST15-001.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking", "Counter"],
-  "trigger": null,
-  "text": "When Attacking: If your Leader is [Edward Newgate], you cannot add Life cards to your hand using your own effects during this turn.",
+  "setId": "ST15",
+  "cardNumber": "001",
+  "printedText": "[When Attacking] If your Leader is [Edward Newgate], you cannot add Life cards to your hand using your own effects during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader is [Edward Newgate], you cannot add Life cards to your hand using your own effects during this turn.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["leaderName=Edward Newgate"]
-      }
+      "timing": "whenAttacking",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "lifeCardAddedToHandByOwnEffect",
+          "target": "selfLeader",
+          "condition": {
+            "field": "leaderCardName",
+            "op": "=",
+            "value": "Edward Newgate"
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

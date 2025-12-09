@@ -1,56 +1,59 @@
 {
-  "id": "OP05-008",
-  "set": "OP05",
-  "number": 8,
-  "name": "Chaka",
-  "category": "Character",
+  "cardName": "Chaka",
+  "cardId": "OP05-008",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Alabasta Kingdom"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-008.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "DON!!x1 Activate: Main Once Per Turn Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+  "setId": "OP05",
+  "cardNumber": "008",
+  "printedText": "[DON!! x1] [Activate: Main] [Once Per Turn] Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "thisDonAttached",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
-        "powerMod": null,
-        "targets": [
-          "your Leader",
-          "1 of your Characters"
-        ],
-        "conditions": [
-          "up to 2 rested DON!! cards"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "donRecipient": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "donRecipient"
+        }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 2,
+          "enterRested": true,
+          "target": "donRecipient",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "alabastaKingdom"
+  ]
 }

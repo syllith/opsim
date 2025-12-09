@@ -1,42 +1,172 @@
 {
-  "id": "OP01-029",
-  "set": "OP01",
-  "number": 29,
-  "name": "Radical Beam!!",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
+  "cardName": "Radical Beam!!",
+  "cardId": "OP01-029",
+  "cardType": "event",
+  "colors": [
+    "red"
+  ],
+  "cost": 1,
+  "types": [
+    "Straw Hat Crew"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-029.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter"],
-  "trigger": {
-    "text": "Your Leader or up to 1 of your Characters gains +1000 power during this turn."
-  },
-  "text": "[Counter] Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, if you have 2 or less Life cards, that card gains an additional +2000 power during this battle.",
+  "setId": "OP01",
+  "cardNumber": "029",
+  "printedText": "Counter Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, if you have 2 or less Life cards, that card gains an additional +2000 power during this battle.\nTrigger Your Leader or up to 1 of your Characters gains +1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, if you have 2 or less Life cards, that card gains an additional +2000 power during this battle.",
-        "grants": [],
-        "powerMod": {
-          "amount": 2000,
-          "duration": "duringThisBattle"
+      "timing": "counter",
+      "selectors": {
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "leaderTarget"
         },
-        "targets": ["self:Leader", "upTo1:ally:Character"],
-        "conditions": ["has2OrLessLife"]
-      }
+        "characterTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "characterTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 2000,
+                  "duration": "thisBattle",
+                  "target": "leaderTarget"
+                },
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 2000,
+                  "duration": "thisBattle",
+                  "target": "leaderTarget",
+                  "condition": {
+                    "field": "selfLife",
+                    "op": "<=",
+                    "value": 2
+                  }
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 2000,
+                  "duration": "thisBattle",
+                  "target": "characterTarget"
+                },
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 2000,
+                  "duration": "thisBattle",
+                  "target": "characterTarget",
+                  "condition": {
+                    "field": "selfLife",
+                    "op": "<=",
+                    "value": 2
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "leaderTarget"
+        },
+        "characterTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "characterTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 1000,
+                  "duration": "thisTurn",
+                  "target": "leaderTarget"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 1000,
+                  "duration": "thisTurn",
+                  "target": "characterTarget"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "strawHatCrew"
+  ]
 }

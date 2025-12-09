@@ -1,65 +1,95 @@
 {
-  "id": "OP06-077",
-  "set": "OP06",
-  "number": 77,
-  "name": "Black Bug",
-  "category": "Event",
+  "cardName": "Black Bug",
+  "cardId": "OP06-077",
+  "cardType": "event",
   "colors": [
-    "Black"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 4,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Vinsmoke Family",
     "Germa 66"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-077.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "vinsmokeFamily",
+    "germa66"
   ],
-  "trigger": {
-    "text": "Place one of your opponent's cost 4 or less character's on the bottom of its owner's deck."
-  },
-  "text": "Main: If the number of Don!! on your Don!! field is equal to or less than your opponent's Don!! place up to one of your opponent's cost 5 or less characters on the bottom of its owner's deck. Trigger: Place one of your opponent's cost 4 or less character's on the bottom of its owner's deck.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "077",
+  "printedText": "Main If the number of Don!! on your Don!! field is equal to or less than your opponent's Don!!, place up to one of your opponent's cost 5 or less characters on the bottom of its owner's deck.\nTrigger Place one of your opponent's cost 4 or less characters on the bottom of its owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "condition": {
+        "field": "selfDonOnField",
+        "op": "<=",
+        "fieldRef": "opponentDonOnField"
       },
-      "effect": {
-        "text": "If the number of Don!! on your Don!! field is equal to or less than your opponent's Don!! place up to one of your opponent's cost 5 or less characters on the bottom of its owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCharCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppCharCost5OrLess",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "oppCharCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Place one of your opponent's cost 4 or less character's on the bottom of its owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppCharCost4OrLess",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but this is not a real card. The ID, set, number, rarity, and stats are based on the printed information."
-  }
+  ]
 }

@@ -1,33 +1,27 @@
 {
-  "id": "OP07-027",
-  "set": "OP07",
-  "number": 27,
-  "name": "Jinbei",
-  "category": "Character",
+  "cardName": "Jinbe",
+  "cardId": "OP07-027",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Fishman",
     "Sun Pirates"
   ],
+  "traits": [
+    "fishMan",
+    "sunPirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP07/OP07-027.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card is a sample with 'SAMPLE' watermark. Power value is clearly printed as 6000. Rarity is C (not UC)."
-  }
+  "setId": "OP07",
+  "cardNumber": "027",
+  "printedText": "",
+  "keywords": []
 }

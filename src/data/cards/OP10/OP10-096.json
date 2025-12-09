@@ -1,64 +1,92 @@
 {
-  "id": "OP10-096",
-  "set": "OP10",
-  "number": 96,
-  "name": "We don't need the Seven Warlords of the Sea anymore...!!!",
-  "category": "Event",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Navy"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-096.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "K.O. up to one of your opponent's Characters with the type \"Seven Warlords of the Sea\" with a cost of 4 or less."
-  },
-  "text": "Main K.O. up to one of your opponent's Characters with the type \"Seven Warlords of the Sea\" with a cost of 8 or less.\nTrigger K.O. up to one of your opponent's Characters with the type \"Seven Warlords of the Sea\" with a cost of 4 or less.",
+  "cardName": "We don't need the Seven Warlords of the Sea anymore...!!!",
+  "cardId": "OP10-096",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 4,
+  "types": ["Navy"],
+  "traits": ["navy"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "096",
+  "printedText": "[Main] K.O. up to one of your opponent's Characters with the type \"Seven Warlords of the Sea\" with a cost of 8 or less.\n[Trigger] K.O. up to one of your opponent's Characters with the type \"Seven Warlords of the Sea\" with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "oppWarlordCost8OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "sevenWarlordOfTheSea"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 8
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppWarlordCost8OrLess"
+        }
       },
-      "effect": {
-        "text": "K.O. up to one of your opponent's Characters with the type \"Seven Warlords of the Sea\" with a cost of 8 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppWarlordCost8OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "oppWarlordCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "sevenWarlordOfTheSea"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppWarlordCost4OrLess"
+        }
       },
-      "effect": {
-        "text": "K.O. up to one of your opponent's Characters with the type \"Seven Warlords of the Sea\" with a cost of 4 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppWarlordCost4OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

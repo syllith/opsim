@@ -1,48 +1,42 @@
 {
-  "id": "OP03-044",
-  "set": "OP03",
-  "number": 44,
-  "name": "Kaya",
-  "category": "Character",
+  "cardName": "Kaya",
+  "cardId": "OP03-044",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
   "types": [
     "East Blue"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-044.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Draw 2 cards and trash 2 cards from your hand.",
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "044",
+  "printedText": "[On Play] Draw 2 cards and trash 2 cards from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards and trash 2 cards from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2,
+          "may": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

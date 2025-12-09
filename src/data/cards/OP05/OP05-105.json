@@ -1,49 +1,56 @@
 {
-  "id": "OP05-105",
-  "set": "OP05",
-  "number": 105,
-  "name": "Satori",
-  "category": "Character",
+  "cardName": "Satori",
+  "cardId": "OP05-105",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 5000,
+  "counter": 2000,
   "types": [
     "Sky Island",
     "God's Priest"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-105.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "105",
+  "printedText": "Trigger You may trash 1 cards from your hand: Play this card.",
   "keywords": [],
-  "trigger": {
-    "text": "You may trash 1 cards from your hand: Play this card."
-  },
-  "text": null,
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 cards from your hand: Play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCardInLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardInLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "skyIsland",
+    "godSPriest"
+  ]
 }

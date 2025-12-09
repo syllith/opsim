@@ -1,46 +1,70 @@
 {
-  "id": "OP05-069",
-  "set": "OP05",
-  "number": 69,
-  "name": "Trafalgar Law",
-  "category": "Character",
+  "cardName": "Trafalgar Law",
+  "cardId": "OP05-069",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Heart Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-069.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "rarity": "SR",
+  "setId": "OP05",
+  "cardNumber": "069",
+  "printedText": "[When Attacking] If your opponent has more DON!! cards on their field than you, look at 5 cards from the top of your deck; reveal up to 1 {Heart Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: If your opponent has more DON!! cards on their field than you, look at 5 cards from the top of your deck; reveal up to 1 (Heart Pirates) type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "donCountOpponent",
+        "op": ">",
+        "fieldRef": "donCountSelf"
       },
-      "effect": {
-        "text": "If your opponent has more DON!! cards on their field than you, look at 5 cards from the top of your deck; reveal up to 1 (Heart Pirates) type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "lawSearch": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Heart Pirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "lawSearch"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "lawSearch",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "heartPirates"
+  ]
 }

@@ -1,74 +1,91 @@
 {
-  "id": "OP03-078",
-  "set": "OP03",
-  "number": 78,
-  "name": "Issho",
-  "category": "Character",
+  "cardName": "Issho",
+  "cardId": "OP03-078",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 8,
+  "power": 9000,
   "types": [
     "Navy"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-078.png",
-  "stats": {
-    "cost": 8,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "DON!!x1 Your Turn\n[On Play] All of your opponent's Characters get +3 to thier cost.\nIf your opponent has 6 or more cards in their hand, trash 2 cards from your opponent's hand.",
+  "rarity": "SR",
+  "setId": "OP03",
+  "cardNumber": "078",
+  "printedText": "[DON!! x1] [Your Turn] All of your opponent's Characters get -8 to their cost.\n[On Play] If your opponent has 6 or more cards in their hand, trash 2 cards from your opponent's hand.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          }
+        ]
       },
-      "effect": {
-        "text": "All of your opponent's Characters get +3 to thier cost.",
-        "powerMod": null,
-        "targets": [
-          "allOpponentCharacters"
-        ],
-        "conditions": [
-          "yourTurn"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppChars": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "bindAs": "oppChars"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -8,
+          "duration": "thisTurn",
+          "target": "oppChars"
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "onPlay",
+      "condition": {
+        "field": "opponent.handCount",
+        "op": ">=",
+        "value": 6
       },
-      "effect": {
-        "text": "If your opponent has 6 or more cards in their hand, trash 2 cards from your opponent's hand.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "conditions": [
-          "yourTurn",
-          "opponentHandSize>=6"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppHand2": {
+          "side": "opponent",
+          "type": "hand",
+          "zones": [
+            "hand"
+          ],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "opponent",
+          "bindAs": "oppHandToTrash"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppHandToTrash",
+          "destination": "trash"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample. The text 'SAMPLE' is overlaid on the image."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

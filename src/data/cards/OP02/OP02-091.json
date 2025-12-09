@@ -1,54 +1,77 @@
 {
-  "id": "OP02-091",
-  "set": "OP02",
-  "number": 91,
-  "name": "Venom Road",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Impel Down"],
-  "rarity": "R",
-  "art": "/cards/OP02/OP02-091.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main"],
-  "trigger": {
-    "text": "If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck."
-  },
-  "text": "[Main] Add up to 1 DON!! card from your DON!! deck and set it as active.\n[Trigger] If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck.",
+  "cardName": "Venom Road",
+  "cardId": "OP02-091",
+  "cardType": "event",
+  "colors": [
+    "purple"
+  ],
+  "cost": 3,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Impel Down"
+  ],
+  "rarity": "C",
+  "setId": "OP02",
+  "cardNumber": "091",
+  "printedText": "[Main] Add up to 1 DON!! card from your DON!! deck and set it as active. [Trigger] If your opponent has 6 or more DON!! cards on their field, your opponent returns 1 DON!! card from their field to their DON!! deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "costArea",
-          "to": ["field"]
-        },
-        "targets": ["donDeck"],
-        "conditions": []
-      }
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "selfCostAreaForDon": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "addedDon"
+        }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "target": "selfCostAreaForDon"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck.",
-        "targets": ["opponent:Don"],
-        "conditions": ["opponentHas6OrMoreDon"]
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "condition": {
+        "field": "opponentDonOnField",
+        "op": ">=",
+        "value": 6
+      },
+      "selectors": {
+        "opponentDonFieldOne": {
+          "side": "opponent",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent",
+          "bindAs": "returnedDon"
+        }
+      },
+      "actions": [
+        {
+          "type": "returnDon",
+          "count": 1,
+          "target": "opponentDonFieldOne"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "impelDown"
+  ]
 }

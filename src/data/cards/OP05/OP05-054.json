@@ -1,48 +1,56 @@
 {
-  "id": "OP05-054",
-  "set": "OP05",
-  "number": 54,
-  "name": "Monkey D. Garp",
-  "category": "Character",
+  "cardName": "Monkey D. Garp",
+  "cardId": "OP05-054",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
   "types": [
     "Navy"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-054.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Draw 2 cards, then return 2 cards from your hand to the bottom of your deck in your desired order.",
+  "setId": "OP05",
+  "cardNumber": "054",
+  "printedText": "[On Play] Draw 2 cards, then return 2 cards from your hand to the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "handToBottom": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self",
+          "bindAs": "handToBottom"
+        }
       },
-      "effect": {
-        "text": "Draw 2 cards, then return 2 cards from your hand to the bottom of your deck in your desired order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "moveCard",
+          "target": "handToBottom",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

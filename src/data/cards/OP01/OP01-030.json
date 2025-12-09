@@ -1,39 +1,71 @@
 {
-  "id": "OP01-030",
-  "set": "OP01",
-  "number": 30,
-  "name": "In Two Years!! At the Sabaody Archipelago!!",
-  "category": "Event",
-  "colors": ["Yellow"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
+  "cardName": "In Two Years!! At the Sabaody Archipelago!!",
+  "cardId": "OP01-030",
+  "cardType": "event",
+  "colors": [
+    "red"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Straw Hat Crew"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-030.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main"],
-  "trigger": {
-    "text": "Activate this card's [Main] effect."
-  },
-  "text": "[Main] Look at 5 cards from the top of your deck; reveal up to1 {Straw Hat Crew} type Character card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP01",
+  "cardNumber": "030",
+  "printedText": "Main Look at 5 cards from the top of your deck; reveal up to 1 {Straw Hat Crew} type Character card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\nTrigger Activate this card's Main effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to1 {Straw Hat Crew} type Character card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "hand"],
-        "conditions": ["strawHatCrewType"]
-      }
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "strawHatChar": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Straw Hat Crew"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "strawHatChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "strawHatChar",
+          "reveal": true,
+          "addTo": "hand",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "strawHatCrew"
+  ]
 }

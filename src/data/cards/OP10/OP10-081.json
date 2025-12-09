@@ -1,49 +1,69 @@
 {
-  "id": "OP10-081",
-  "set": "OP10",
-  "number": 81,
-  "name": "Usopp",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Dressrosa",
-    "Straw Hat Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP10/OP10-081.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Rest a stage or leader with the \"Dressrosa\" type: KO a 2 cost or lower character. After that, trash the top card of your deck.",
+  "cardName": "Usopp",
+  "cardId": "OP10-081",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Dressrosa", "Straw Hat Pirates"],
+  "traits": ["dressrosa", "strawHatPirates"],
+  "rarity": "C",
+  "setId": "OP10",
+  "cardNumber": "081",
+  "printedText": "[On Play] Rest 1 Stage or Leader with the \"Dressrosa\" type: K.O. 1 Character with a cost of 2 or less. After that, trash the top card of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restFromField",
+        "selector": {
+          "side": "self",
+          "type": "any",
+          "zones": ["stage", "leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "dressrosa"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "dressrosaStageOrLeader"
+        }
       },
-      "effect": {
-        "text": "Rest a stage or leader with the \"Dressrosa\" type: KO a 2 cost or lower character. After that, trash the top card of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "anyCost2OrLessChar": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "anyCost2OrLessChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "anyCost2OrLessChar"
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

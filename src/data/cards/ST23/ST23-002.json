@@ -1,53 +1,103 @@
 {
-  "id": "ST23-002",
-  "set": "ST23",
-  "number": 2,
-  "name": "Shanks",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": null,
+  "cardName": "Shanks",
+  "cardId": "ST23-002",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 9,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["slash"],
   "types": ["The Four Emperors", "Red-Haired Pirates"],
+  "traits": ["theFourEmperors", "redHairedPirates"],
   "rarity": "SR",
-  "art": "/cards/ST23/ST23-002.png",
-  "stats": {
-    "cost": 9,
-    "power": 10000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "If your opponent has a Character with 8000 base power or more, give this card in your hand −3 cost.\n[On Play] If your Leader has the {Red-Haired Pirates} type or is [Uta], your Leader gains +2000 power until the end of your opponent's next End Phase.",
+  "setId": "ST23",
+  "cardNumber": "002",
+  "printedText": "If your opponent has a Character with 8000 base power or more, give this card in your hand -3 cost.\n[On Play] If your Leader has the \"Red-Haired Pirates\" type or is [Uta], your Leader gains +2000 power until the end of your opponent's next End Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your opponent has a Character with 8000 base power or more, give this card in your hand −3 cost.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentCharacterBasePower>=8000"]
-      }
+      "timing": "static",
+      "selectors": {
+        "opponentCharacter8000BaseOrMore": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": ">=",
+              "value": 8000
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -3,
+          "duration": "permanent",
+          "target": "thisCard",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "selectorCount",
+                "selector": "opponentCharacter8000BaseOrMore",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "selfZone",
+                "op": "=",
+                "value": "hand"
+              }
+            ]
+          }
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Red-Haired Pirates} type or is [Uta], your Leader gains +2000 power until the end of your opponent's next End Phase.",
-        "grants": [],
-        "powerMod": {
+      "timing": "onPlay",
+      "selectors": {
+        "selfLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "untilEndOfOpponentsNextEndPhase"
-        },
-        "targets": ["self:Leader"],
-        "conditions": ["leaderHasRedHairedPiratesTypeOrIsUta"]
-      }
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "selfLeader",
+          "condition": {
+            "logic": "OR",
+            "any": [
+              {
+                "field": "leaderTraits",
+                "op": "=",
+                "value": "redHairedPirates"
+              },
+              {
+                "field": "leaderCardName",
+                "op": "=",
+                "value": "Uta"
+              }
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,56 +1,80 @@
 {
-  "id": "OP08-056",
-  "set": "OP08",
-  "number": 56,
-  "name": "Moby Dick",
-  "category": "Stage",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Whitebeard Pirates"
-  ],
+  "cardName": "Moby Dick",
+  "cardId": "OP08-056",
+  "cardType": "stage",
+  "colors": ["blue"],
+  "cost": 2,
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-056.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "Your Turn Once Per Turn When one of your characters with {Whitebeard Pirates} included in its types leaves play from an effect, Draw 1 card and place 1 card from your hand on the top or bottom of your deck.",
+  "setId": "OP08",
+  "cardNumber": "056",
+  "printedText": "[Your Turn] [Once Per Turn] When one of your characters with {Whitebeard Pirates} included in its types leaves play from an effect, Draw 1 card and place 1 card from your hand on the top or bottom of your deck.\n[Trigger] Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenCharacterLeavesPlay",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "triggeringCardController",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "triggeringCardTraits",
+            "op": "=",
+            "value": "whitebeardPirates"
+          },
+          {
+            "field": "leavePlayCause",
+            "op": "=",
+            "value": "effect"
+          }
+        ]
       },
-      "effect": {
-        "text": "When one of your characters with {Whitebeard Pirates} included in its types leaves play from an effect, Draw 1 card and place 1 card from your hand on the top or bottom of your deck.",
-        "powerMod": null,
-        "conditions": [
-          "one of your characters with {Whitebeard Pirates} included in its types",
-          "leaves play from an effect"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "handCard": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "moveCard",
+          "target": "handCard",
+          "destination": "topOrBottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

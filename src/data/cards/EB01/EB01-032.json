@@ -1,23 +1,26 @@
 {
-  "id": "EB01-032",
-  "set": "EB01",
-  "number": 32,
-  "name": "Army Wolf",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Animal", "Impel Down"],
+  "power": 7000,
+  "cardType": "character",
+  "attributes": [
+    "strike"
+  ],
+  "cardId": "EB01-032",
+  "printedText": "[Counter +1000]",
+  "cardNumber": "032",
   "rarity": "C",
-  "art": "/cards/EB01/EB01-032.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": "Vanilla card with no abilities" }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Army Wolf",
+  "types": [
+    "Animal",
+    "Impel Down"
+  ],
+  "cost": 5,
+  "colors": [
+    "purple"
+  ],
+  "traits": [
+    "animal",
+    "impelDown"
+  ]
 }

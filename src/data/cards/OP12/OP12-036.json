@@ -1,67 +1,90 @@
 {
-  "id": "OP12-036",
-  "set": "OP12",
-  "number": 36,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP12/OP12-036.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP12-036",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Supernovas", "Straw Hat Crew"],
+  "traits": ["supernovas", "strawHatCrew"],
+  "rarity": "R",
+  "setId": "OP12",
+  "cardNumber": "036",
+  "printedText": "While this card is in your hand, it cannot be played by an effect.\nIf your Leader has the <Slash> attribute, this Character cannot be K.O.'d in battle by <Slash> attribute cards and gains +1000 power.",
   "keywords": [],
-  "trigger": null,
-  "text": "While this card is in your hand, it cannot be played by an effect. If your Leader has the <Slash> attribute, this Character cannot be KO'd in battle by <Slash> attribute cards and gains +1000 power.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "thisInHand": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["hand"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "While this card is in your hand, it cannot be played by an effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "playCardFromHandByEffect",
+          "target": "thisInHand",
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "leaderAttributes",
+        "op": "=",
+        "value": "slash"
       },
-      "effect": {
-        "text": "If your Leader has the <Slash> attribute, this Character cannot be KO'd in battle by <Slash> attribute cards and gains +1000 power.",
-        "powerMod": {
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this battle"
+          "duration": "permanent",
+          "target": "thisCharacter"
         },
-        "conditions": [
-          "yourLeaderHasAttribute:Slash"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "koInBattle",
+          "target": "thisCharacter",
+          "condition": {
+            "field": "battleOpponent",
+            "attribute": "slash",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

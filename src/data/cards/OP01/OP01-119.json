@@ -1,62 +1,99 @@
 {
-  "id": "OP01-119",
-  "set": "OP01",
-  "number": 119,
-  "name": "Thunder Bagua",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Four Emperors", "Animal Kingdom Pirates"],
+  "cardName": "Thunder Bagua",
+  "cardId": "OP01-119",
+  "cardType": "event",
+  "colors": [
+    "purple"
+  ],
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Four Emperors",
+    "Animal Kingdom Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-119.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": { "text": "Add 1 DON!! card from your DON!! deck and set it as active." },
-  "text": "Counter Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, if you have 2 or less Life cards, add 1 DON!! card from your DON!! deck and rest it. Trigger Add 1 DON!! card from your DON!! deck and set it as active.",
+  "setId": "OP01",
+  "cardNumber": "119",
+  "printedText": "[Counter] Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, if you have 2 or less Life cards, add 1 DON!! card from your DON!! deck and rest it.\n\nTrigger Add 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [
+    "counter",
+    "trigger"
+  ],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, if you have 2 or less Life cards, add 1 DON!! card from your DON!! deck and rest it.",
-        "grants": [],
-        "powerMod": { "amount": 4000, "duration": "this battle" },
-        "targets": ["ally:Leader", "oneAllyCharacter"],
-        "conditions": ["optionalTarget", "lifeCards<=2"],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["field"]
+      "timing": "counter",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "donFromDonDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        },
+        {
+          "type": "moveCard",
+          "target": "donFromDonDeck",
+          "destination": "costArea",
+          "enterRested": true,
+          "condition": {
+            "field": "self.life",
+            "op": "<=",
+            "value": 2
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Add 1 DON!! card from your DON!! deck and set it as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "costArea",
-          "to": ["field"]
+      "timing": "trigger",
+      "selectors": {
+        "donFromDonDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDonDeck",
+          "destination": "costArea",
+          "enterRested": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "theFourEmperors",
+    "animalKingdomPirates"
+  ]
 }

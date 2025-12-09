@@ -1,66 +1,81 @@
 {
-  "id": "OP13-062",
-  "set": "OP13",
-  "number": 62,
-  "name": "Crocus",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Roger Pirates"
-  ],
+  "cardName": "Crocus",
+  "cardId": "OP13-062",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Roger Pirates"],
+  "traits": ["rogerPirates"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-062.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have any DON!! cards given, add up to 1 DON!! card from your DON!! deck as active. When Attacking: Return up to 1 of your opponent's Characters with a base power of 3000 or less to the owner's hand.",
+  "setId": "OP13",
+  "cardNumber": "062",
+  "printedText": "[On Play] If you have any DON!! cards given, add up to 1 DON!! card from your DON!! deck as active.\n[When Attacking] Return up to 1 of your opponent's Characters with a base power of 3000 or less to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "givenDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If you have any DON!! cards given, add up to 1 DON!! card from your DON!! deck as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "givenDon",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDonDeckCard",
+          "destination": "costArea",
+          "enterRested": false
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "upToOneOppBase3000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Return up to 1 of your opponent's Characters with a base power of 3000 or less to the owner's hand.",
-        "powerMod": null,
-        "conditions": [
-          "oneOpponentCharacter",
-          "basePower<=3000"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "upToOneOppBase3000OrLess",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

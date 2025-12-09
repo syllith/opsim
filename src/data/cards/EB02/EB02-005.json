@@ -1,56 +1,82 @@
 {
-  "id": "EB02-005",
-  "set": "EB02",
-  "number": 5,
-  "name": "Impostor Straw Hat Crew",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Ranged",
-  "types": ["Impostor Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/EB02/EB02-005.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Your Turn", "Opponent's Turn"],
-  "trigger": null,
-  "text": "[Your Turn] This Character gains +2000 power.\n[Opponent's Turn] This Character gets -2000 power.",
+  "power": 3000,
+  "cardType": "character",
+  "cardId": "EB02-005",
+  "printedText": "Your Turn This Character gains +2000 power.\nOpponent's Turn This Character gets -2000 power.",
+  "cardNumber": "005",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character gains +2000 power.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "type": "modifyStat",
           "amount": 2000,
-          "duration": "continuous"
-        },
-        "targets": ["self"],
-        "conditions": ["yourTurn"]
-      }
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "condition": {
+            "value": false,
+            "field": "isOpponentsTurn",
+            "op": "="
+          },
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "system"
+          }
+        }
+      ]
     },
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character gets -2000 power.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "type": "modifyStat",
           "amount": -2000,
-          "duration": "continuous"
-        },
-        "targets": ["self"],
-        "conditions": ["opponentsTurn"]
-      }
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "condition": {
+            "value": true,
+            "field": "isOpponentsTurn",
+            "op": "="
+          },
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "system"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "C",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Impostor Straw Hat Crew",
+  "types": [
+    "Impostor Straw Hat Crew"
+  ],
+  "cost": 2,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "impostorStrawHatCrew"
+  ]
 }

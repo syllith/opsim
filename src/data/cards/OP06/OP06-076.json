@@ -1,51 +1,77 @@
 {
-  "id": "OP06-076",
-  "set": "OP06",
-  "number": 76,
-  "name": "Hitokiri Kamazo",
-  "category": "Character",
+  "cardName": "Hitokiri Kamazo",
+  "cardId": "OP06-076",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "life": 0,
+  "counter": 2000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Supernovas",
     "Kidd Pirates",
     "SMILE"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP06/OP06-076.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn"
+  "traits": [
+    "supernovas",
+    "kiddPirates",
+    "smile"
   ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn When you return DON!! on your field to your DON!! deck, K.O. up to 1 of your opponent's characters of cost 2 or less.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "076",
+  "printedText": "Your Turn Once Per Turn When you return DON!! on your field to your DON!! deck, K.O. up to 1 of your opponent's characters of cost 2 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenDonReturned",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "returnedDonOwnerIsSelf",
+            "op": "=",
+            "value": true
+          }
+        ]
       },
-      "effect": {
-        "text": "When you return DON!! on your field to your DON!! deck, K.O. up to 1 of your opponent's characters of cost 2 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCharCost2OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharCost2OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is UC (Uncommon) as indicated by the 'U' and 'C' in the rarity box. Power is 5000 as printed. Counter is +2000."
-  }
+  ]
 }

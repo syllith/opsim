@@ -1,44 +1,122 @@
 {
-  "id": "OP13-079",
-  "set": "OP13",
-  "number": 79,
-  "name": "Imu",
-  "category": "Leader",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [],
+  "cardName": "Imu",
+  "cardId": "OP13-079",
+  "cardType": "leader",
+  "colors": ["black"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "attributes": ["unknown"],
+  "types": ["?"],
   "rarity": "L",
-  "art": "/cards/OP13/OP13-079.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "079",
+  "printedText": "Under the rules of this game, you cannot include Events with a cost of 2 or more in your deck. Also, at the start of the game, play up to 1 {Mary Geoise} type Stage from your deck.\n[Activate: Main] [Once Per Turn] You may trash 1 of your {Celestial Dragons} type Characters or 1 card from your hand: Draw 1 card.",
   "keywords": [],
-  "trigger": null,
-  "text": "Under the rules of this game, you cannot include Events with a cost of 2 or more in your deck. Also, at the start of the game, play up to 1 {Mary Geoise} type Stage from your deck.\nActivate:Main Once Per Turn You may trash 1 {Celestial Dragons} type Character from your field or 1 card from your hand: Draw 1 card.",
   "abilities": [
     {
-      "timing": "Activate:Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "startOfGame",
+      "frequency": "oncePerGame",
+      "selectors": {
+        "maryGeoiseStageFromDeck": {
+          "side": "self",
+          "type": "stage",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Mary Geoise"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may trash 1 {Celestial Dragons} type Character from your field or 1 card from your hand: Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "maryGeoiseStageFromDeck",
+          "reveal": false,
+          "addTo": "stage",
+          "ordering": "chosen",
+          "may": true,
+          "asPlay": true,
+          "payCost": false
+        }
+      ]
+    },
+    {
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "celestialDragonsCharacterOnField": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "celestialDragons"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "oneCardFromHand": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "celestialDragonsCharacterOnField",
+                  "destination": "trash",
+                  "ordering": "keep"
+                },
+                {
+                  "type": "draw",
+                  "count": 1,
+                  "side": "self"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "trashFromHand",
+                  "minCards": 1,
+                  "maxCards": 1,
+                  "side": "self"
+                },
+                {
+                  "type": "draw",
+                  "count": 1,
+                  "side": "self"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

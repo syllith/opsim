@@ -1,56 +1,76 @@
 {
-  "id": "OP06-011",
-  "set": "OP06",
-  "number": 11,
-  "name": "Tot Musica",
-  "category": "Character",
+  "cardName": "Tot Musica",
+  "cardId": "OP06-011",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
-    "Film"
+    "FILM"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP06/OP06-011.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may rest one of your (Uta): This character gains +5000 Power for this turn.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "011",
+  "printedText": "[Activate: Main] [Once Per Turn] You may rest one of your {Uta}: This Character gains +5000 power for this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may rest one of your (Uta): This character gains +5000 Power for this turn.",
-        "powerMod": {
-          "amount": 5000,
-          "duration": "this turn"
+        "type": "restFromField",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasType.Uta",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "utaToRest"
         },
-        "conditions": [
-          "oneOpponentCharacter",
-          "self"
-        ],
-        "giveDon": null
-      }
+        "may": true
+      },
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 5000,
+          "duration": "thisTurn",
+          "target": "thisCharacter"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has 'SPECIAL' rarity indicator, but rarity is confirmed as 'SP' from printed text."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "film"
+  ]
 }

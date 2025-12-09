@@ -1,37 +1,53 @@
 {
-  "id": "OP02-070",
-  "set": "OP02",
-  "number": 70,
-  "name": "New Kama Land",
-  "category": "Stage",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Impel Down"],
-  "rarity": "C",
-  "art": "/cards/OP02/OP02-070.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "Activate: Main: You may rest this Stage: If your Leader is [Emporio Ivankov], draw 1 card and trash 1 card from your hand. Then, trash up to 3 cards from your hand.",
+  "cardName": "New Kama Land",
+  "cardId": "OP02-070",
+  "cardType": "stage",
+  "colors": [
+    "blue"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Impel Down"
+  ],
+  "rarity": "R",
+  "setId": "OP02",
+  "cardNumber": "070",
+  "printedText": "[Activate: Main] You may rest this Stage: If your Leader is [Emporio Ivankov], draw 1 card and trash 1 card from your hand. Then, trash up to 3 cards from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Stage: If your Leader is [Emporio Ivankov], draw 1 card and trash 1 card from your hand. Then, trash up to 3 cards from your hand.",
-        "grants": ["draw", "trash"],
-        "powerMod": null,
-        "targets": ["Player"],
-        "conditions": ["Leader is Emporio Ivankov"]
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Emporio Ivankov"
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 0,
+          "maxCards": 3,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "impelDown"
+  ]
 }

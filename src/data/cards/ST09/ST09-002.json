@@ -1,23 +1,52 @@
 {
-  "id": "ST09-002",
-  "set": "ST09",
-  "number": 2,
-  "name": "Uzuki Tempura",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Slash",
+  "cardName": "Uzuki Tempura",
+  "cardId": "ST09-002",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "rarity": "C",
   "types": ["Land of Wano"],
-  "rarity": null,
-  "art": "/cards/ST09/ST09-002.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["landOfWano"],
+  "setId": "ST09",
+  "cardNumber": "002",
+  "printedText": "Trigger Rest up to 1 of your opponent's Characters with a cost of 2 or less, and add this card to your hand.",
   "keywords": [],
-  "trigger": { "text": "Rest up to 1 of your opponent's Characters with a cost of 2 or less, and add this card to your hand." },
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": [
+    {
+      "timing": "trigger",
+      "selectors": {
+        "oppCost2OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCost2OrLess"
+        },
+        {
+          "type": "moveCard",
+          "target": "selfTriggerSourceCard",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
+    }
+  ]
 }

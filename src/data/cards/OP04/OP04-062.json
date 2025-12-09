@@ -1,34 +1,26 @@
 {
-  "id": "OP04-062",
-  "set": "OP04",
-  "number": 62,
-  "name": "Banana Crocodile",
-  "category": "Character",
+  "cardName": "Banana Crocodile",
+  "cardId": "OP04-062",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
   "types": [
     "Animal"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-062.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Counter"
-  ],
-  "trigger": null,
-  "text": null,
+  "setId": "OP04",
+  "cardNumber": "062",
+  "printedText": "",
+  "keywords": [],
   "abilities": [],
-  "meta": {
-    "notes": "Rarity is indicated by 'C' in the bottom right corner of the card."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animal"
+  ]
 }

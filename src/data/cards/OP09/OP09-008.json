@@ -1,58 +1,54 @@
 {
-  "id": "OP09-008",
-  "set": "OP09",
-  "number": 8,
-  "name": "Building Snake",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Red Hair Pirates"
-  ],
+  "cardName": "Building Snake",
+  "cardId": "OP09-008",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Red-Haired Pirates"],
+  "traits": ["redHairedPirates"],
   "rarity": "UC",
-  "art": "/cards/OP09/OP09-008.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "[Activate: Main] You may place this character on the bottom of its owner's deck: Give up to one of your opponent's characters -3000 power for this turn.",
+  "setId": "OP09",
+  "cardNumber": "008",
+  "printedText": "[Activate: Main] You may place this Character at the bottom of the owner's deck: Give up to 1 of your opponent's Characters −3000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "type": "Activate Main",
-      "frequency": null,
-      "condition": null,
+      "timing": "activateMain",
       "cost": {
-        "returnThisToDeck": "bottom"
+        "type": "moveFromField",
+        "selector": "thisCard",
+        "destination": "bottomOfDeck",
+        "may": true
       },
-      "effect": {
-        "text": "Give up to one of your opponent's characters -3000 power for this turn.",
-        "actions": [
-          {
-            "type": "powerMod",
-            "amount": -3000,
-            "targetSide": "opponent",
-            "targetType": "character",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "duration": "thisTurn"
-          }
-        ]
-      }
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"]
+        },
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -3000,
+          "duration": "thisTurn",
+          "target": "opponentCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

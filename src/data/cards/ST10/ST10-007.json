@@ -1,37 +1,57 @@
 {
-  "id": "ST10-007",
-  "set": "ST10",
-  "number": 7,
-  "name": "Killer",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Slash",
+  "cardName": "Killer",
+  "cardId": "ST10-007",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Kid Pirates"],
+  "traits": ["kidPirates"],
   "rarity": "C",
-  "art": "/cards/ST10/ST10-007.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Your Turn", "Once Per Turn"],
-  "trigger": null,
-  "text": "Your Turn — Once Per Turn — When DON!! is returned from your field to your DON!! deck, K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+  "setId": "ST10",
+  "cardNumber": "007",
+  "printedText": "[Your Turn] [Once Per Turn] When DON!! is returned from your field to your DON!! deck, K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When DON!! is returned from your field to your DON!! deck, K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentRestedCharacter"],
-        "conditions": ["donReturned"]
-      }
+      "timing": "whenDonReturned",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "turnPlayer",
+        "op": "=",
+        "value": "self"
+      },
+      "selectors": {
+        "oppRestedCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppRestedCost3OrLess"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

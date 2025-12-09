@@ -1,35 +1,60 @@
 {
-  "id": "OP01-009",
-  "set": "OP01",
-  "number": 9,
-  "name": "Carrot",
-  "category": "Character",
+  "cardName": "Carrot",
+  "cardId": "OP01-009",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Mink Tribe"
   ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-009.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
+  "setId": "OP01",
+  "cardNumber": "009",
+  "printedText": "Trigger: Play this card.",
+  "keywords": [
+    "trigger"
+  ],
+  "abilities": [
+    {
+      "timing": "trigger",
+      "selectors": {
+        "thisCardInLife": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "cardId",
+              "op": "=",
+              "value": "OP01-009"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardInLife",
+          "payCost": false,
+          "enterRested": false
+        }
+      ]
     }
-  },
-  "keywords": [],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "",
-  "abilities": [],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "minkTribe"
+  ]
 }

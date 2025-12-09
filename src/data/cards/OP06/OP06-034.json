@@ -1,55 +1,81 @@
 {
-  "id": "OP06-034",
-  "set": "OP06",
-  "number": 34,
-  "name": "Hyouzou",
-  "category": "Character",
+  "cardName": "Hyouzou",
+  "cardId": "OP06-034",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Merfolk"
   ],
   "rarity": "UC",
-  "art": "/cards/OP06/OP06-034.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn Rest up to one of your opponent's characters with a cost of 4 or less, and this Character gains +1000 power during this turn. Then, add the top card of your life to your hand.",
+  "setId": "OP06",
+  "cardNumber": "034",
+  "printedText": "[Activate: Main] [Once Per Turn] Rest up to 1 of your opponent's Characters with a cost of 4 or less, and this Character gains +1000 Power during this turn. Then, add the top card of your Life to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Rest up to one of your opponent's characters with a cost of 4 or less, and this Character gains +1000 power during this turn. Then, add the top card of your life to your hand.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "oppCharCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         },
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "giveDon": null
-      }
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCharCost4OrLess"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "thisCardSelector"
+        },
+        {
+          "type": "moveCard",
+          "destination": "hand",
+          "target": "selfTopLifeCard"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card is a sample image; actual card may differ. Rarity is UC as printed."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "merfolk"
+  ]
 }

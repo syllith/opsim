@@ -1,50 +1,54 @@
 {
-  "id": "ST01-015",
-  "set": "ST01",
-  "number": 15,
-  "name": "Gum-Gum Jet Pistol",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
+  "cardName": "Gum-Gum Jet Pistol",
+  "cardId": "ST01-015",
+  "cardType": "event",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 0,
   "types": ["Supernovas", "Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST01/ST01-015.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
+  "traits": ["supernovas", "strawHatCrew"],
+  "rarity": "common",
+  "setId": "ST01",
+  "cardNumber": "015",
+  "printedText": "[Main] K.O. up to 1 of your opponent's Characters with 6000 power or less.\n[Trigger] Activate this card's [Main] effect.",
   "keywords": [],
-  "trigger": { "text": "Activate this card's Main effect." },
-  "text": "Main: K.O. up to 1 of your opponent's Characters with 6000 power or less.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with 6000 power or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:oneCharacter<=6000"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "main",
+      "selectors": {
+        "opponentCharacter6000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 6000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacter6000OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [],
-        "conditions": ["lifeTrigger"]
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

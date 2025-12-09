@@ -1,50 +1,77 @@
 {
-  "id": "OP10-080",
-  "set": "OP10",
-  "number": 80,
-  "name": "Little Black Bears",
-  "category": "Event",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Donquixote Pirates"
-  ],
+  "cardName": "Little Black Bears",
+  "cardId": "OP10-080",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 3,
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-080.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 4000
-    }
-  },
-  "keywords": [
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Add up to one active don from your don deck."
-  },
-  "text": "Up to one of your characters or leaders gain +4000 for this battle. Then, if you have 7 or more don on your field, and you have 5 or less cards in hand, draw one card.",
+  "setId": "OP10",
+  "cardNumber": "080",
+  "printedText": "[Counter] Up to one of your Characters or Leaders gains +4000 power for this battle. Then, if you have 7 or more DON!! cards on your field and you have 5 or fewer cards in your hand, draw 1 card.\n[Trigger] Add up to 1 active DON!! from your DON!! deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "selfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "selfLeaderOrCharacter"
+        }
       },
-      "effect": {
-        "text": "Up to one of your characters or leaders gain +4000 for this battle. Then, if you have 7 or more don on your field, and you have 5 or less cards in hand, draw one card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "selfLeaderOrCharacter"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "selfDonCount",
+                "op": ">=",
+                "value": 7
+              },
+              {
+                "field": "selfHandCount",
+                "op": "<=",
+                "value": 5
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 1,
+              "side": "self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

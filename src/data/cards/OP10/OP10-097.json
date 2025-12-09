@@ -1,72 +1,81 @@
 {
-  "id": "OP10-097",
-  "set": "OP10",
-  "number": 97,
-  "name": "Gum Gum Rhino Schneider",
-  "category": "Event",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Dressrosa",
-    "Supernova",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Gum Gum Rhino Schneider",
+  "cardId": "OP10-097",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 1,
+  "types": ["Dressrosa", "Supernova", "Straw Hat Crew"],
+  "traits": ["dressrosa", "supernova", "strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-097.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 2 cards, then discard 1 card."
-  },
-  "text": "Main: Give up to 1 of your \"Dressrosa\" type characters +2000 Power for this turn. Then, if you have 10 or more cards in your trash, that character gains [Banish] for the turn.",
+  "setId": "OP10",
+  "cardNumber": "097",
+  "printedText": "[Main] Give up to 1 of your \"Dressrosa\" type Characters +2000 power for this turn. Then, if you have 10 or more cards in your trash, that Character gains [Banish] for this turn.\n[Trigger] Draw 2 cards, then discard 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "selfDressrosaChar": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "dressrosa"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "selfDressrosaChar"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your \"Dressrosa\" type characters +2000 Power for this turn. Then, if you have 10 or more cards in your trash, that character gains [Banish] for the turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOfYourCharacters:Type=Dressrosa"
-        ],
-        "conditions": [
-          "trash>=10"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "selfDressrosaChar"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfTrashCount",
+            "op": ">=",
+            "value": 10
+          },
+          "actions": [
+            {
+              "type": "keywordEffect",
+              "operation": "grant",
+              "keyword": "Banish",
+              "duration": "thisTurn",
+              "target": "selfDressrosaChar"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards, then discard 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "side": "self",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,49 +1,18 @@
 {
-  "id": "OP13-049",
-  "set": "OP13",
-  "number": 49,
-  "name": "Blenheim",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Whitebeard Pirates"
-  ],
+  "cardName": "Blenheim",
+  "cardId": "OP13-049",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-049.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "049",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "When this card is played, you may rest 1 DON!! from your cost area. If you do, this card gains +2000 power until end of turn.",
-  "abilities": [
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "When this card is played, you may rest 1 DON!! from your cost area. If you do, this card gains +2000 power until end of turn.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "abilities": []
 }

@@ -1,40 +1,63 @@
 {
-  "id": "EB03-032",
-  "set": "EB03",
-  "number": 32,
-  "name": "Charlotte Flampe",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Ranged",
-  "types": ["Big Mom Pirates"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-032.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Your Turn", "On Play"],
-  "trigger": null,
-  "text": "[Your Turn] [On Play] Up to 1 of your [Charlotte Katakuri] cards gains +2000 power during this turn.",
+  "power": 2000,
+  "cardType": "character",
+  "cardId": "EB03-032",
+  "printedText": "[Your Turn][On Play] Up to 1 of your [Charlotte Katakuri] cards gains +2000 power during this turn.",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "cardNumber": "032",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Up to 1 of your [Charlotte Katakuri] cards gains +2000 power during this turn.",
-        "grants": [],
-        "powerMod": {
+      "condition": {
+        "value": false,
+        "field": "opponentsTurn",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
           "amount": 2000,
-          "duration": "duringThisTurn"
-        },
-        "targets": ["upTo1:ally:CharlotteKatakuri"],
-        "conditions": ["yourTurn", "onPlay"]
-      }
+          "target": {
+            "filters": [
+              {
+                "value": "Charlotte Katakuri",
+                "field": "cardName",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Charlotte Flampe",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "purple"
+  ],
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "bigMomPirates"
+  ]
 }

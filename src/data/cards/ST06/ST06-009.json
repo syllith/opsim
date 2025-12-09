@@ -1,37 +1,18 @@
 {
-  "id": "ST06-009",
-  "set": "ST06",
-  "number": 9,
-  "name": "Fullbody",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
+  "cardName": "Fullbody",
+  "cardId": "ST06-009",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Navy"],
-  "rarity": null,
-  "art": "/cards/ST06/ST06-009.png",
-  "stats": {
-    "cost": 2,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
-  "abilities": [
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["reduceCost:-4","duration:turn"]
-      }
-    }
-  ],
-  "meta": { "notes": null }
+  "traits": ["navy"],
+  "rarity": "C",
+  "setId": "ST06",
+  "cardNumber": "009",
+  "printedText": "",
+  "keywords": [],
+  "abilities": []
 }

@@ -1,50 +1,125 @@
 {
-  "id": "ST26-001",
-  "set": "ST26",
-  "number": 1,
-  "name": "Soba Mask",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": null,
+  "cardName": "Soba Mask",
+  "cardId": "ST26-001",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 7,
+  "power": 9000,
+  "counter": 0,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": "SR",
-  "art": "/cards/ST26/ST26-001.png",
-  "stats": {
-    "cost": 7,
-    "power": 9000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "If you have a [San-Gorou] or [Sanji] Character with 7000 base power or more, give this card in your hand −5 cost.\n[On Play] Return all of your [San-Gorou] and [Sanji] Characters to the owner's hand.",
+  "traits": ["strawHatCrew"],
+  "rarity": "C",
+  "setId": "ST26",
+  "cardNumber": "001",
+  "printedText": "If you have a [San-Gorou] or [Sanji] Character with 7000 base power or more, give this card in your hand -5 cost.\n[On Play] Return all of your [San-Gorou] and [Sanji] Characters to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have a [San-Gorou] or [Sanji] Character with 7000 base power or more, give this card in your hand −5 cost.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["allyCharacterNameSanGorouOrSanji", "characterBasePower>=7000"]
-      }
+      "timing": "static",
+      "selectors": {
+        "thisCardInHand": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["hand"]
+        },
+        "highPowerSanji": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "logic": "OR",
+                  "any": [
+                    {
+                      "field": "cardName",
+                      "op": "=",
+                      "value": "San-Gorou"
+                    },
+                    {
+                      "field": "cardName",
+                      "op": "=",
+                      "value": "Sanji"
+                    }
+                  ]
+                },
+                {
+                  "field": "basePower",
+                  "op": ">=",
+                  "value": 7000
+                }
+              ]
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -5,
+          "duration": "permanent",
+          "target": "thisCardInHand",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "selfZone",
+                "op": "=",
+                "value": "hand"
+              },
+              {
+                "field": "selectorCount",
+                "selector": "highPowerSanji",
+                "op": ">=",
+                "value": 1
+              }
+            ]
+          }
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Return all of your [San-Gorou] and [Sanji] Characters to the owner's hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:Character"],
-        "conditions": ["characterNameSanGorouOrSanji"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "sanjiCharactersInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "San-Gorou"
+                },
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Sanji"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "sanjiCharactersInPlay",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

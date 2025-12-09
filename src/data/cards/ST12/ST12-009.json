@@ -1,23 +1,18 @@
 {
-  "id": "ST12-009",
-  "set": "ST12",
-  "number": 9,
-  "name": "Blue-Finned Elephant Tuna",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
+  "cardName": "Blue-Finned Elephant Tuna",
+  "cardId": "ST12-009",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Animal"],
+  "traits": ["animal"],
   "rarity": "C",
-  "art": "/cards/ST12/ST12-009.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "ST12",
+  "cardNumber": "009",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "",
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": []
 }

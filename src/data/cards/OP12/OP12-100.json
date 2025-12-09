@@ -1,50 +1,77 @@
 {
-  "id": "OP12-100",
-  "set": "OP12",
-  "number": 100,
-  "name": "Sabo",
-  "category": "Character",
+  "cardName": "Sabo",
+  "cardId": "OP12-100",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Revolutionary Army",
     "Dressrosa"
   ],
-  "rarity": "R",
-  "art": "/cards/OP12/OP12-100.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
+  "traits": [
+    "revolutionaryArmy",
+    "dressrosa"
   ],
-  "trigger": null,
-  "text": "If you have 3 or less Life cards, this Character gains and +3 cost.\nOn Play: You may add the top card of your Life cards to your hand: Draw 2 cards and trash 1 card from your hand.",
+  "rarity": "R",
+  "setId": "OP12",
+  "cardNumber": "100",
+  "printedText": "If you have 3 or less Life cards, this Character gains Blocker and +3 cost.\n[On Play] You may add the top card of your Life cards to your hand: Draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "lifeTotalSelf",
+        "op": "<=",
+        "value": 3
       },
-      "effect": {
-        "text": "You may add the top card of your Life cards to your hand: Draw 2 cards and trash 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "selfThisCard"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 3,
+          "duration": "permanent",
+          "target": "selfThisCard"
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "cost": {
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "top",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

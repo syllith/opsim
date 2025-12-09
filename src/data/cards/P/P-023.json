@@ -1,33 +1,28 @@
 {
-  "id": "P-023",
-  "set": "P",
-  "number": 23,
-  "name": "Yasopp",
-  "category": "Character",
+  "cardName": "Yasopp",
+  "cardId": "P-023",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Ranged",
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": [
+    "ranged"
+  ],
   "types": [
     "FILM",
     "Red Hair Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/P/P-023.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "traits": [
+    "film",
+    "redHairedPirates"
+  ],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "023",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but rarity and other fields are readable."
-  }
+  "abilities": []
 }

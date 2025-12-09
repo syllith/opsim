@@ -1,23 +1,28 @@
 {
-  "id": "OP02-077",
-  "set": "OP02",
-  "number": 77,
-  "name": "Solitaire",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["Animal Kingdom Pirates", "SMILE"],
+  "cardName": "Solitaire",
+  "cardId": "OP02-077",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "Animal Kingdom Pirates",
+    "SMILE"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-077.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "OP02",
+  "cardNumber": "077",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "animalKingdomPirates",
+    "smile"
+  ]
 }

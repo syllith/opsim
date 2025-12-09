@@ -1,23 +1,26 @@
 {
-  "id": "EB03-002",
-  "set": "EB03",
-  "number": 2,
-  "name": "Ain",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Special",
-  "types": ["FILM", "Neo Navy"],
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB03-002",
+  "printedText": "",
+  "cardNumber": "002",
   "rarity": "C",
-  "art": "/cards/EB03/EB03-002.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": "",
-  "abilities": [],
-  "meta": { "notes": "Vanilla character with counter" }
+  "setId": "EB03",
+  "counter": 2000,
+  "cardName": "Ain",
+  "types": [
+    "FILM",
+    "Neo Navy"
+  ],
+  "cost": 5,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "film",
+    "neoNavy"
+  ]
 }

@@ -1,52 +1,78 @@
 {
-  "id": "OP06-071",
-  "set": "OP06",
-  "number": 71,
-  "name": "Gild Tesoro",
-  "category": "Character",
+  "cardName": "Gild Tesoro",
+  "cardId": "OP06-071",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "FILM",
     "Gran Tesoro"
   ],
-  "rarity": "US",
-  "art": "/cards/OP06/OP06-071.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "film",
+    "granTesoro"
   ],
-  "trigger": null,
-  "text": "On Play DON!!-1 if your leader has the [FILM] type, add 2 cost 4 or lower [FILM] type characters from your trash to your hand.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "071",
+  "printedText": "On Play DON!!-1 If your leader has the [FILM] type, add up to 2 cost 4 or lower [FILM] type characters from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "if your leader has the [FILM] type, add 2 cost 4 or lower [FILM] type characters from your trash to your hand.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the [FILM] type"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderHasTypeFilm",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "filmTrashChars4OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "hasTypeFilm",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "filmTrashChars4OrLess",
+          "reveal": false,
+          "addTo": "hand",
+          "ordering": "any"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample with 'SAMPLE' watermark. Rarity is 'US' as printed in the bottom right corner."
-  }
+  ]
 }

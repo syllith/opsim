@@ -1,66 +1,99 @@
 {
-  "id": "OP09-010",
-  "set": "OP09",
-  "number": 10,
-  "name": "Bonk Punch",
-  "category": "Character",
+  "cardName": "Bonk Punch",
+  "cardId": "OP09-010",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Red Hair Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-010.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "DON!! x1",
-    "When Attacking"
+  "traits": [
+    "redHairedPirates"
   ],
-  "trigger": null,
-  "text": "On Play: Play up to 1 \"Monster\" from your hand. DON!! x1 When Attacking: This character gains Power +2000 for the turn.",
+  "rarity": "C",
+  "setId": "OP09",
+  "cardNumber": "010",
+  "printedText": "[On Play] Play up to 1 [Monster] from your hand.\n[DON!! x1] [When Attacking] This Character gains +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "monsterFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Monster"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Play up to 1 \"Monster\" from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "monsterFromHand",
+          "payCost": true
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "attachedDonToThis": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "attachedTo",
+              "op": "=",
+              "value": "thisCard"
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "This character gains Power +2000 for the turn.",
-        "powerMod": {
+      "condition": {
+        "field": "selectorCount",
+        "selector": "attachedDonToThis",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "thisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

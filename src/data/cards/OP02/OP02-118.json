@@ -1,48 +1,92 @@
 {
-  "id": "OP02-118",
-  "set": "OP02",
-  "number": 118,
-  "name": "Yasakani Sacred Jewel",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Navy"],
-  "rarity": "UC",
-  "art": "/cards/OP02/OP02-118.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter"],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's Stage cards with a cost of 3 or less."
-  },
-  "text": "[Counter] You may trash 1 card from your hand: Choose up to 1 of your Characters, that Character cannot be K.O'd during this battle.\n[Trigger] K.O. up to 1 of your opponent's Stage cards with a cost of 3 or less.",
+  "cardName": "Yasakani Sacred Jewel",
+  "cardId": "OP02-118",
+  "cardType": "event",
+  "colors": [
+    "black"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "C",
+  "setId": "OP02",
+  "cardNumber": "118",
+  "printedText": "[Counter] You may trash 1 card from your hand: Choose up to 1 of your Characters; that Character cannot be K.O.'d during this battle.\n[Trigger] K.O. up to 1 of your opponent's Stage cards with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Choose up to 1 of your Characters, that Character cannot be K.O'd during this battle.",
-        "targets": ["upTo1:ally:Character"],
-        "conditions": ["trashFromHand"]
-      }
+      "timing": "counter",
+      "frequency": "none",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "selfCharacterUpToOne": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "protectedChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisBattle",
+          "event": "onWouldBeKO",
+          "target": "selfCharacterUpToOne",
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Stage cards with a cost of 3 or less.",
-        "targets": ["upTo1:opponent:Stage<=3"],
-        "conditions": []
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "oppStageCost3OrLessUpToOne": {
+          "side": "opponent",
+          "type": "stage",
+          "zones": [
+            "stage"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppStageCost3OrLessUpToOne"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "navy"
+  ]
 }

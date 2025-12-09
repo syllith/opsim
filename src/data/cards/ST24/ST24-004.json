@@ -1,40 +1,86 @@
 {
-  "id": "ST24-004",
-  "set": "ST24",
-  "number": 4,
-  "name": "Law & Bepo",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": null,
+  "cardName": "Law & Bepo",
+  "cardId": "ST24-004",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 10,
+  "power": 11000,
+  "counter": 0,
+  "attributes": ["slash", "strike"],
   "types": ["Minks", "Supernovas", "Heart Pirates"],
+  "traits": ["minks", "supernovas", "heartPirates"],
   "rarity": "SR",
-  "art": "/cards/ST24/ST24-004.png",
-  "stats": {
-    "cost": 10,
-    "power": 11000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Rest up to 1 of your opponent's Characters and that Character will not become active in your opponent's next Refresh Phase. Then, if your opponent has 2 or more rested Characters, your Leader gains +2000 power until the end of your opponent's next End Phase.",
+  "setId": "ST24",
+  "cardNumber": "004",
+  "printedText": "[On Play] Rest up to 1 of your opponent's Characters and that Character will not become active in your opponent's next Refresh Phase. Then, if your opponent has 2 or more rested Characters, your Leader gains +2000 power until the end of your opponent's next End Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters and that Character will not become active in your opponent's next Refresh Phase. Then, if your opponent has 2 or more rested Characters, your Leader gains +2000 power until the end of your opponent's next End Phase.",
-        "grants": [],
-        "powerMod": {
-          "amount": 2000,
-          "duration": "untilEndOfOpponentsNextEndPhase"
+      "timing": "onPlay",
+      "selectors": {
+        "targetCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         },
-        "targets": ["opponent:Character", "self:Leader"],
-        "conditions": ["opponentRestedCharacters>=2"]
-      }
+        "opponentRestedCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        },
+        "selfLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "targetCharacter"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "wouldBecomeActiveDuringOpponentsNextRefreshPhase",
+          "target": "targetCharacter",
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "selfLeader",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "opponentRestedCharacters",
+            "op": ">=",
+            "value": 2
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,61 +1,76 @@
 {
-  "id": "OP01-015",
-  "set": "OP01",
-  "number": 15,
-  "name": "Tony Tony.Chopper",
-  "category": "Character",
+  "cardName": "Tony Tony.Chopper",
+  "cardId": "OP01-015",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Wisdom",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Animal",
     "Straw Hat Crew"
   ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-015.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "[DON!! x1] [When Attacking] You may trash 1 card from your hand: Add up to 1 {Straw Hat Crew} type Character card other than [Tony Tony.Chopper] with a cost of 4 or less from your trash to your hand.",
+  "setId": "OP01",
+  "cardNumber": "015",
+  "printedText": "[DON!! x1] [When Attacking] You may trash 1 card from your hand: Add up to 1 {Straw Hat Crew} type Character card other than [Tony Tony.Chopper] with a cost of 4 or less from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Add up to 1 {Straw Hat Crew} type Character card other than [Tony Tony.Chopper] with a cost of 4 or less from your trash to your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "hand",
-          "trash"
-        ],
-        "conditions": [
-          "mayTrash1FromHand",
-          "strawHatCrewType",
-          "notTonyTonyChopper",
-          "characterCost<=4"
-        ]
-      }
+      "selectors": {
+        "chopperSearch": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Straw Hat Crew"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Tony Tony.Chopper"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "chopperSearch",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "animal",
+    "strawHatCrew"
+  ]
 }

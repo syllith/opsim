@@ -1,48 +1,28 @@
 {
-  "id": "OP05-052",
-  "set": "OP05",
-  "number": 52,
-  "name": "Maynard",
-  "category": "Character",
+  "cardName": "Maynard",
+  "cardId": "OP05-052",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Navy"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-052.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "052",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "keywords": [
-    "Blocker"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [
-    {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    }
+  "abilities": [],
+  "attributes": [
+    "wisdom"
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "navy"
+  ]
 }

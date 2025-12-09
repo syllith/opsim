@@ -1,0 +1,57 @@
+{
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "OP13-118",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 6,
+  "power": 7000,
+  "attributes": ["strike"],
+  "types": ["Fish-Man Island", "Supernovas", "Straw Hat Crew"],
+  "traits": ["fishManIsland", "supernovas", "strawHatCrew"],
+  "rarity": "SEC",
+  "setId": "OP13",
+  "cardNumber": "118",
+  "printedText": "[Double Attack]\n[On Play] If your Leader is multicolored, set up to 4 of your DON!! cards as active. Then, you cannot play Character cards with a base cost of 5 or more during this turn.",
+  "keywords": ["Double Attack"],
+  "abilities": [
+    {
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderIsMulticolored",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "selfDonUpToFour": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 4,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfDonUpToFour"
+        },
+        {
+          "type": "restrictPlay",
+          "cardTypes": ["character"],
+          "duration": "thisTurn",
+          "side": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,37 +1,67 @@
 {
-  "id": "OP01-054",
-  "set": "OP01",
-  "number": 54,
-  "name": "X.Drake",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Supernovas", "Navy", "Drake Pirates"],
+  "cardName": "X.Drake",
+  "cardId": "OP01-054",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "Supernovas",
+    "Navy",
+    "Drake Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-054.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+  "setId": "OP01",
+  "cardNumber": "054",
+  "printedText": "On Play K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:opponent:Character"],
-        "conditions": ["restedCharacter", "opponentCharacterCost<=4"]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "supernovas",
+    "navy",
+    "drakePirates"
+  ]
 }

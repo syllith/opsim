@@ -1,37 +1,67 @@
 {
-  "id": "OP02-052",
-  "set": "OP02",
-  "number": 52,
-  "name": "Cabaji",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Buggy Pirates"],
+  "cardName": "Cabaji",
+  "cardId": "OP02-052",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Buggy Pirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-052.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: If you have [Mohji] in play, draw 2 cards and trash 1 card from your hand.",
+  "setId": "OP02",
+  "cardNumber": "052",
+  "printedText": "[On Play] If you have [Mohji] in play, draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have [Mohji] in play, draw 2 cards and trash 1 card from your hand.",
-        "grants": ["draw", "trash"],
-        "powerMod": null,
-        "targets": ["Player"],
-        "conditions": ["Mohji in play"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "cabajiMohjiInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Mohji"
+            }
+          ],
+          "min": 1,
+          "max": 10,
+          "whoChooses": "system",
+          "bindAs": "cabajiMohjiInPlay"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "cabajiMohjiInPlay",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "buggyPirates"
+  ]
 }

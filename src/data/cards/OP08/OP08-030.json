@@ -1,62 +1,69 @@
 {
-  "id": "OP08-030",
-  "set": "OP08",
-  "number": 30,
-  "name": "Pedro",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Minks"
-  ],
+  "cardName": "Pedro",
+  "cardId": "OP08-030",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Minks"],
+  "traits": ["minks"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-030.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. Choose 1:\n• Rest up to one of your opponents Don!!\n• KO up to one of your opponents rested cost 6 or lower characters.",
+  "setId": "OP08",
+  "cardNumber": "030",
+  "printedText": "Blocker\n[On K.O.] Choose 1:\n• Rest up to one of your opponent's DON!!.\n• KO up to one of your opponent's rested cost 6 or lower characters.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Choose 1:\n• Rest up to one of your opponents Don!!\n• KO up to one of your opponents rested cost 6 or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "setState",
+                  "state": "rested",
+                  "target": {
+                    "side": "opponent",
+                    "type": "don",
+                    "zones": ["donDeck"],
+                    "min": 0,
+                    "max": 1,
+                    "upTo": true,
+                    "whoChooses": "self"
+                  }
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "ko",
+                  "target": {
+                    "side": "opponent",
+                    "type": "character",
+                    "zones": ["character"],
+                    "filters": [
+                      { "field": "state", "op": "=", "value": "rested" },
+                      { "field": "cost", "op": "<=", "value": 6 }
+                    ],
+                    "min": 0,
+                    "max": 1,
+                    "upTo": true,
+                    "whoChooses": "self"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample and has 'SAMPLE' watermark. Power and life are not printed on the card."
-  }
+  ]
 }

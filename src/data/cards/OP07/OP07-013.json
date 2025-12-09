@@ -1,51 +1,94 @@
 {
-  "id": "OP07-013",
-  "set": "OP07",
-  "number": 13,
-  "name": "Masked Deuce",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Spade Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-013.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader is [Portgas D. Ace], look at 5 cards from the top of your deck, reveal up to 1 [Portgas D. Ace] or Red Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "cardName": "Masked Deuce",
+  "cardId": "OP07-013",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Spade Pirates"],
+  "traits": ["spadePirates"],
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "013",
+  "printedText": "[On Play] If your Leader is [Portgas D Ace], look at 5 cards from the top of your deck; reveal up to 1 [Portgas D Ace] or red Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "portgasLeader",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "If your Leader is [Portgas D. Ace], look at 5 cards from the top of your deck, reveal up to 1 [Portgas D. Ace] or Red Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Portgas D. Ace]"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "portgasLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Portgas D Ace"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "searchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Portgas D Ace"
+                },
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "field": "colors",
+                      "op": "=",
+                      "value": "red"
+                    },
+                    {
+                      "field": "cardType",
+                      "op": "=",
+                      "value": "event"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

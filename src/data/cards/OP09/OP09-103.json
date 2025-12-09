@@ -1,49 +1,70 @@
 {
-  "id": "OP09-103",
-  "set": "OP09",
-  "number": 103,
-  "name": "Koala",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Revolutionary Army"
-  ],
+  "cardName": "Koala",
+  "cardId": "OP09-103",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 6,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Revolutionary Army"],
+  "traits": ["revolutionaryArmy"],
   "rarity": "SR",
-  "art": "/cards/OP09/OP09-103.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may add the top or bottom of your life to your hand: Play up to 1 cost 4 cost or less \"Revolutionary Army\" character from your hand and Draw 1 card.",
+  "setId": "OP09",
+  "cardNumber": "103",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] You may add the top or bottom card of your Life to your hand. Then, play up to 1 cost 4 or less \"Revolutionary Army\" type Character from your hand and draw 1 card.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "revArmyCost4OrLessFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "revolutionaryArmy"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may add the top or bottom of your life to your hand: Play up to 1 cost 4 cost or less \"Revolutionary Army\" character from your hand and Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopOrBottomLifeCard",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "revArmyCost4OrLessFromHand",
+          "payCost": false
+        },
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,46 +1,50 @@
 {
-  "id": "P-088",
-  "set": "P",
-  "number": 88,
-  "name": "Trafalgar Law",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Heart Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-088.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "cardName": "Trafalgar Law",
+  "cardId": "P-088",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Supernovas", "Heart Pirates"],
+  "traits": ["supernovas", "heartPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-088",
+  "printedText": "Trigger If your Leader has the {Supernovas} type, and your and your opponent's Life totals are 5 or less, play this card.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn DON!!-3: Send 1 of your 3000 Power or higher characters to the bottom of your deck: Play up to 1 4 cost or lower \"Heart Pirates\" type character card from your hand.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 3,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "supernovas"
+          },
+          {
+            "field": "lifeTotalSelf",
+            "op": "<=",
+            "value": 5
+          },
+          {
+            "field": "lifeTotalOpponent",
+            "op": "<=",
+            "value": 5
+          }
+        ]
       },
-      "effect": {
-        "text": "Send 1 of your 3000 Power or higher characters to the bottom of your deck: Play up to 1 4 cost or lower \"Heart Pirates\" type character card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

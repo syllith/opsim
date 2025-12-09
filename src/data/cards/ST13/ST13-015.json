@@ -1,50 +1,53 @@
 {
-  "id": "ST13-015",
-  "set": "ST13",
-  "number": 15,
-  "name": "Monkey D. Luffy",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "ST13-015",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Supernova", "Straw Hat Crew"],
+  "traits": ["supernova", "strawHatCrew"],
   "rarity": "SR",
-  "art": "/cards/ST13/ST13-015.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn This character gains +2000 until the start of your next turn. Then, if you have 1 or more life, draw 1 card and trash the top card of your life.",
+  "setId": "ST13",
+  "cardNumber": "015",
+  "printedText": "[Activate: Main] [Once Per Turn] This character gains +2000 Power until the start of your next turn. Then, if you have 1 or more life, draw 1 card and trash the top card of your life.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This character gains +2000 until the start of your next turn.",
-        "powerMod": { "amount": 2000, "duration": "startOfNextTurn" },
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 1 or more life, draw 1 card and trash the top card of your life.",
-        "powerMod": null,
-        "targets": ["self:life>=1", "self:draw", "self:lifeTop:trash"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "untilStartOfYourNextTurn",
+          "target": "thisCard"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfLife",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 1,
+              "side": "self"
+            },
+            {
+              "type": "moveCard",
+              "target": "selfTopLifeCard",
+              "destination": "trash"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

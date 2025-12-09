@@ -1,37 +1,52 @@
 {
-  "id": "EB02-012",
-  "set": "EB02",
-  "number": 12,
-  "name": "Gaimon",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Wisdom",
-  "types": ["East Blue"],
-  "rarity": "C",
-  "art": "/cards/EB02/EB02-012.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker"],
-  "trigger": null,
-  "text": "If you have a \"Sarfunkel\", this character gains [Blocker].",
+  "power": 1000,
+  "cardType": "character",
+  "cardId": "EB02-012",
+  "printedText": "If you have a \"Sarfunkel\", this character gains Blocker.",
+  "cardNumber": "012",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have a \"Sarfunkel\", this character gains [Blocker].",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["youHaveSarfunkel"]
-      }
+      "condition": {
+        "value": "Sarfunkel",
+        "field": "self.side.characters.names",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "keyword": "Blocker",
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "type": "keywordEffect",
+          "operation": "grant"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "C",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Gaimon",
+  "types": [
+    "East Blue"
+  ],
+  "cost": 1,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

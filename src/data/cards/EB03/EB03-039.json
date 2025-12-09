@@ -1,37 +1,76 @@
 {
-  "id": "EB03-039",
-  "set": "EB03",
-  "number": 39,
-  "name": "Ulti",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Strike",
-  "types": ["Animal Kingdom Pirates"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-039.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If your Leader has the {Animal Kingdom Pirates} type, draw 1 card and trash 1 card from your hand. Then, play up to 1 Character card with 6000 power or less and no base effect from your trash.",
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB03-039",
+  "printedText": "[On Play] If your Leader has the {Animal Kingdom Pirates} type, draw 1 card and trash 1 card from your hand. Then, play up to 1 Character card with 6000 power or less and no base effect from your trash.",
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Animal Kingdom Pirates} type, draw 1 card and trash 1 card from your hand. Then, play up to 1 Character card with 6000 power or less and no base effect from your trash.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "hand", "trash:Character:power<=6000:noBaseEffect"],
-        "conditions": ["leaderHasAnimalKingdomPirates"]
-      }
+      "condition": {
+        "op": "=",
+        "field": "selfLeaderHasType:Animal Kingdom Pirates",
+        "value": true
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "count": 1,
+          "type": "draw"
+        },
+        {
+          "type": "trashFromHand",
+          "maxCards": 1,
+          "minCards": 1
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "payCost": false,
+          "target": {
+            "filters": [
+              {
+                "op": "<=",
+                "field": "power",
+                "value": 6000
+              },
+              {
+                "op": "=",
+                "field": "hasBaseEffect",
+                "value": false
+              }
+            ],
+            "zones": [
+              "trash"
+            ],
+            "upTo": true,
+            "type": "character",
+            "max": 1,
+            "min": 0,
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "enterRested": false
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardNumber": "039",
+  "cardName": "Ulti",
+  "rarity": "R",
+  "cost": 6,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

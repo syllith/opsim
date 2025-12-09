@@ -1,70 +1,62 @@
 {
-  "id": "OP05-116",
-  "set": "OP05",
-  "number": 116,
-  "name": "30 Million Volt Thunderbird",
-  "category": "Event",
+  "cardName": "30 Million Volt Thunderbird",
+  "cardId": "OP05-116",
+  "cardType": "event",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 2,
   "types": [
     "Sky Island"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-116.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Activate this cards Main effect."
-  },
-  "text": "Main KO up to one of your opponent's characters with a cost equal or less than their life.",
+  "setId": "OP05",
+  "cardNumber": "116",
+  "printedText": "Main KO up to one of your opponent's characters with a cost equal or less than their life. Trigger Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "oppCharacterCostLeqLife": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "fieldRef": "opponentLife"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "KO up to one of your opponent's characters with a cost equal or less than their life.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "cost <= life"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharacterCostLeqLife"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this cards Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "skyIsland"
+  ]
 }

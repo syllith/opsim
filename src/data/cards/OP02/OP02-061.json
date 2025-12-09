@@ -1,37 +1,71 @@
 {
-  "id": "OP02-061",
-  "set": "OP02",
-  "number": 61,
-  "name": "Morley",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Giants", "Revolutionary Army"],
-  "rarity": "UG",
-  "art": "/cards/OP02/OP02-061.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "When Attacking: If you have 1 or less cards in your hand, your opponent cannot activate a Blocker Character with a cost of 5 or less during this battle.",
+  "cardName": "Morley",
+  "cardId": "OP02-061",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "Giants",
+    "Revolutionary Army"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "061",
+  "printedText": "[When Attacking] If you have 1 or less cards in your hand, your opponent cannot activate a [Blocker] Character with a cost of 5 or less during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 1 or less cards in your hand, your opponent cannot activate a Blocker Character with a cost of 5 or less during this battle.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["Opponent Character"],
-        "conditions": ["1 or less cards in hand", "Blocker", "cost 5 or less"]
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "ownerHandCount",
+        "op": "<=",
+        "value": 1
+      },
+      "selectors": {
+        "morleyBlockerLockTargets": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "keywords",
+              "op": "=",
+              "value": "Blocker"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 10,
+          "whoChooses": "system",
+          "bindAs": "morleyBlockerLockTargets"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "cannotActivateAsBlockerThisBattle",
+          "duration": "thisBattle",
+          "target": "morleyBlockerLockTargets"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "giants",
+    "revolutionaryArmy"
+  ]
 }

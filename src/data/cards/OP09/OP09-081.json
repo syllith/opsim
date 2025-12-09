@@ -1,60 +1,93 @@
 {
-  "id": "OP09-081",
-  "set": "OP09",
-  "number": 81,
-  "name": "Catarina Devon",
-  "category": "Character",
+  "cardName": "Marshall D. Teach",
+  "cardId": "OP09-081",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "attributes": [
+    "special"
+  ],
   "types": [
+    "Four Emperors",
     "Blackbeard Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP09/OP09-081.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn",
-    "Double Attack",
-    "Banish",
-    "Blocker"
+  "traits": [
+    "theFourEmperors",
+    "blackbeardPirates"
   ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn If your leader has the (Blackbeard Pirates) type, until the end of your opponent's next turn this character gains Double Attack, Banish or Blocker.",
+  "rarity": "L",
+  "setId": "OP09",
+  "cardNumber": "081",
+  "printedText": "Your [On Play] abilities don't activate.\n[Activate: Main] You may trash 1 card from your hand: Until the end of your opponent's next turn, your opponent's [On Play] abilities don't activate.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "selfCards": {
+          "side": "self",
+          "type": "any",
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your leader has the (Blackbeard Pirates) type, until the end of your opponent's next turn this character gains Double Attack, Banish or Blocker.",
-        "grants": [
-          "Double Attack",
-          "Banish",
-          "Blocker"
-        ],
-        "powerMod": null,
-        "conditions": [
-          "your leader has the (Blackbeard Pirates) type"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "beforeAbilityActivation",
+          "target": "selfCards",
+          "condition": {
+            "field": "abilityTiming",
+            "op": "=",
+            "value": "onPlay"
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "activateMain",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "opponentCards": {
+          "side": "opponent",
+          "type": "any",
+          "min": 0,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "beforeAbilityActivation",
+          "target": "opponentCards",
+          "condition": {
+            "field": "abilityTiming",
+            "op": "=",
+            "value": "onPlay"
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

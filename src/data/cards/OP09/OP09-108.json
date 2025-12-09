@@ -1,0 +1,63 @@
+{
+  "cardName": "Bartholomew Kuma",
+  "cardId": "OP09-108",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["The Seven Warlords of the Sea", "Revolutionary Army"],
+  "traits": ["theSevenWarlordsOfTheSea", "revolutionaryArmy"],
+  "rarity": "UC",
+  "setId": "OP09",
+  "cardNumber": "108",
+  "printedText": "[Trigger] If your Leader has the \"Revolutionary Army\" type and the total of your and your opponent's Life cards is 5 or less, play this card.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "trigger",
+      "selectors": {
+        "leaderRevolutionary": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "revolutionaryArmy"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": "leaderRevolutionary",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "combinedLifeTotal",
+            "op": "<=",
+            "value": 5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "payCost": false
+        }
+      ]
+    }
+  ]
+}

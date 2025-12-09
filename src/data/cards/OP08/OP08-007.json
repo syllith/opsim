@@ -1,64 +1,105 @@
 {
-  "id": "OP08-007",
-  "set": "OP08",
-  "number": 7,
-  "name": "Tony Tony .Chopper",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animals",
-    "Drum Kingdom",
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP08/OP08-007.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "Your Turn / On Play // When Attacking: Look at the top 5 cards of your deck, and from among them play up to one (Animal) type character with a power of 4000 or less as rested. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "cardName": "Tony Tony .Chopper",
+  "cardId": "OP08-007",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Animal", "Drum Kingdom", "Straw Hat Crew"],
+  "traits": ["animal", "drumKingdom", "strawHatCrew"],
+  "rarity": "SR",
+  "setId": "OP08",
+  "cardNumber": "007",
+  "printedText": "[Your Turn] [On Play] [When Attacking] Look at the top 5 cards of your deck, and from among them play up to 1 {Animal} type Character with 4000 power or less as rested. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "top5AnimalCharacter4000OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Animal"
+            },
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, and from among them play up to one (Animal) type character with a power of 4000 or less as rested. Then, place the rest of the cards on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top5AnimalCharacter4000OrLess",
+          "reveal": false,
+          "addTo": "characterArea",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": true,
+          "asPlay": true,
+          "payCost": false,
+          "enterRested": true
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "top5AnimalCharacter4000OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Animal"
+            },
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, and from among them play up to one (Animal) type character with a power of 4000 or less as rested. Then, place the rest of the cards on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top5AnimalCharacter4000OrLess",
+          "reveal": false,
+          "addTo": "characterArea",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": true,
+          "asPlay": true,
+          "payCost": false,
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

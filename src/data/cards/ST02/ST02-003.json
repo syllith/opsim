@@ -1,37 +1,65 @@
 {
-  "id": "ST02-003",
-  "set": "ST02",
-  "number": 3,
-  "name": "Urouge",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
+  "cardName": "Urouge",
+  "cardId": "ST02-003",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Supernovas", "Fallen Monk Pirates"],
-  "rarity": null,
-  "art": "/cards/ST02/ST02-003.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["supernovas", "fallenMonkPirates"],
+  "rarity": "common",
+  "setId": "ST02",
+  "cardNumber": "003",
+  "printedText": "[DON!! x1] If you have 3 or more Characters, this card gains +2000 power.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 — If you have 3 or more Characters, this card gains +2000 power.",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 3 or more Characters, this card gains +2000 power during this turn.",
-        "grants": [],
-        "powerMod": { "amount": 2000, "duration": "this turn" },
-        "targets": ["self"],
-        "conditions": ["youHave3+Characters"]
-      }
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "givenDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCount",
+            "selector": "selfCharactersInPlay",
+            "op": ">=",
+            "value": 3
+          }
+        ]
+      },
+      "selectors": {
+        "selfCharactersInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "whoChooses": "system"
+        },
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "permanent",
+          "target": "thisCharacter"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

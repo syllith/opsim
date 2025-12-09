@@ -1,50 +1,74 @@
 {
-  "id": "OP14-047",
-  "set": "OP14",
-  "number": 47,
-  "name": "Shirahoshi",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Merfolk",
-    "Fish-Man Island"
-  ],
+  "cardName": "Shirahoshi",
+  "cardId": "OP14-047",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Merfolk", "Fish-Man Island"],
+  "traits": ["merfolk", "fishManIsland"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-047.png",
-  "stats": {
-    "cost": 4,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker\nOn Play: Draw 1 card. Then, play up to 1 {Fish-Man} or {Merfolk} type Character card with a cost of 3 or less from your hand.",
+  "setId": "OP14",
+  "cardNumber": "047",
+  "printedText": "[Blocker]\n[On Play] Draw 1 card and play up to 1 {Fish-Man} or {Merfolk} type Character card with a cost of 3 or less from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "fishManOrMerfolkCharCost3OrLessFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "logic": "OR",
+                  "any": [
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "fishMan"
+                    },
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "merfolk"
+                    }
+                  ]
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 3
+                }
+              ]
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Draw 1 card. Then, play up to 1 {Fish-Man} or {Merfolk} type Character card with a cost of 3 or less from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "fishManOrMerfolkCharCost3OrLessFromHand",
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

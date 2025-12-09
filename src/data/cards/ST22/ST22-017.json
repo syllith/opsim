@@ -1,39 +1,94 @@
 {
-  "id": "ST22-017",
-  "set": "ST22",
-  "number": 17,
-  "name": "Fire Fist",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
+  "cardName": "Fire Fist",
+  "cardId": "ST22-017",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 0,
+  "counter": 0,
   "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/ST22/ST22-017.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
+  "setId": "ST22",
+  "cardNumber": "017",
+  "printedText": "[Main] You may reveal 2 cards with a type including \"Whitebeard Pirates\" from your hand: Draw 1 card. Then, place up to 1 Character with a cost of 5 or less at the bottom of the owner's deck.\n[Trigger] Return up to 1 Character with a cost of 3 or less to the owner's hand.",
   "keywords": [],
-  "trigger": {
-    "text": "Return up to 1 cost 3 or lower Character to its owner's hand."
-  },
-  "text": "[Main] You may reveal 2 cards that have \"Whitebeard Pirates\" in its types: Draw 1 card and place up to 1 Character with a cost of 5 or lower to the bottom of its owner's deck.\n[Trigger] Return up to 1 cost 3 or lower Character to its owner's hand.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may reveal 2 cards that have \"Whitebeard Pirates\" in its types: Draw 1 card and place up to 1 Character with a cost of 5 or lower to the bottom of its owner's deck.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["reveal2WhitebeardPiratesCards", "characterCost<=5"]
-      }
+      "timing": "main",
+      "cost": {
+        "type": "revealFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "filters": [
+          {
+            "field": "traits",
+            "op": "=",
+            "value": "whitebeardPirates"
+          }
+        ],
+        "may": true
+      },
+      "selectors": {
+        "charCost5OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "moveCard",
+          "target": "charCost5OrLess",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "charCost3OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "charCost3OrLess",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

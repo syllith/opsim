@@ -1,48 +1,62 @@
 {
-  "id": "OP05-056",
-  "set": "OP05",
-  "number": 56,
-  "name": "Diez Barrels",
-  "category": "Character",
+  "cardName": "Diez Barrels",
+  "cardId": "OP05-056",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Former Navy"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-056.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may place 1 of your characters other than this character on the bottom of your deck. Draw 1 card.",
+  "setId": "OP05",
+  "cardNumber": "056",
+  "printedText": "[On Play] You may place 1 of your characters other than this Character on the bottom of your deck: Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromField",
+        "selector": "barrelsSacrifice",
+        "may": true
       },
-      "effect": {
-        "text": "You may place 1 of your characters other than this character on the bottom of your deck. Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "barrelsSacrifice": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "isThisCard",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "barrelsSacrifice"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "formerNavy"
+  ]
 }

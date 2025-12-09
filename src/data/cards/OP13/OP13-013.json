@@ -1,54 +1,46 @@
 {
-  "id": "OP13-013",
-  "set": "OP13",
-  "number": 13,
-  "name": "Higuma",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Mountain Bandits"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP13/OP13-013.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: K.O. up to 1 of your opponent's Characters with 0 power or less.",
+  "cardName": "Higuma",
+  "cardId": "OP13-013",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Mountain Bandits"],
+  "traits": ["mountainBandits"],
+  "rarity": "C",
+  "setId": "OP13",
+  "cardNumber": "013",
+  "printedText": "[On Play] K.O. up to 1 of your opponent's Characters with 0 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "zeroPowerOrLessOpponent": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 0
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with 0 power or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "power<=0"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "zeroPowerOrLessOpponent"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

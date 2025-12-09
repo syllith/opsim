@@ -1,48 +1,81 @@
 {
-  "id": "ST21-015",
-  "set": "ST21",
-  "number": 15,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
+  "cardName": "Roronoa Zoro",
+  "cardId": "ST21-015",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Straw Hat Pirates"],
-  "rarity": "SR",
-  "art": "/cards/ST21/ST21-015.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Rush", "On K.O."],
-  "trigger": null,
-  "text": "DON!! x2 This character gains Rush. On K.O. You may play a Red character with 6000 base power or below other than <Roronoa Zoro> from your hand.",
+  "traits": ["strawHatPirates"],
+  "rarity": "starter",
+  "setId": "ST21",
+  "cardNumber": "015",
+  "printedText": "[DON!! x2] This Character gains Rush. [On K.O.] You may play 1 red Character with 6000 base power or less other than [Roronoa Zoro] from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "DON!!",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This character gains Rush.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["donAttached"]
-      }
+      "timing": "static",
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Rush",
+          "duration": "permanent",
+          "target": "thisCardSelector",
+          "condition": {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 2
+          }
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may play a Red character with 6000 base power or below other than <Roronoa Zoro> from your hand.",
-        "powerMod": null,
-        "targets": ["oneAllyCharacter:Red<=6000!RoronoaZoro"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "onKO",
+      "selectors": {
+        "zoroOnKOTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "red"
+            },
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 6000
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Roronoa Zoro"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "zoroOnKOTarget",
+          "payCost": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

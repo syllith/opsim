@@ -1,37 +1,67 @@
 {
-  "id": "EB01-008",
-  "set": "EB01",
-  "number": 8,
-  "name": "Little Oars Jr.",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["Giant", "Whitebeard Pirates Allies"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-008.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Once Per Turn"],
-  "trigger": null,
-  "text": "[Once Per Turn] If this character would be KO'd by an effect, instead you may trash an event or stage card from your hand.",
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB01-008",
+  "printedText": "Once Per Turn If this character would be KO'd by an effect, instead you may trash an event or stage card from your hand.",
+  "types": [
+    "Giant",
+    "Whitebeard Pirates Allies"
+  ],
+  "cardNumber": "008",
   "abilities": [
     {
-      "timing": "When would be KO'd",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If this character would be KO'd by an effect, instead you may trash an event or stage card from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["wouldBeKOdByEffect"]
+      "actions": [
+        {
+          "target": {
+            "filters": [
+              {
+                "value": "EB01-008",
+                "field": "thisCardId",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self"
+          },
+          "type": "preventKO"
+        }
+      ],
+      "condition": {
+        "value": "effect",
+        "field": "koCause",
+        "op": "="
+      },
+      "frequency": "oncePerTurn",
+      "timing": "onWouldBeKO",
+      "selectors": {},
+      "cost": {
+        "type": "trashFromHand",
+        "filters": [
+          "eventOrStageCard"
+        ],
+        "maxCards": 1,
+        "minCards": 1
       }
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Little Oars Jr.",
+  "rarity": "R",
+  "cost": 6,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "giant",
+    "whitebeardPiratesAllies"
+  ]
 }

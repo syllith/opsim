@@ -1,64 +1,103 @@
 {
-  "id": "PRB02-007",
-  "set": "PRB02",
-  "number": 7,
-  "name": "Jinbe",
-  "category": "Character",
+  "cardName": "Jinbe",
+  "cardId": "PRB02-007",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Fish-Man",
     "The Seven Warlords of the Sea",
     "The Sun Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/PRB02/PRB02-007.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "When Attacking"
+  "traits": [
+    "fishMan",
+    "theSevenWarlordsOfTheSea",
+    "theSunPirates"
   ],
-  "trigger": null,
-  "text": "On Play: Look at 5 cards from the top of your deck; reveal up to 1 {The Seven Warlords of the Sea} type card other than [Jinbe] and add it to your hand. Then, place the rest at the bottom of your deck in any order. When Attacking: Place up to 1 Character with a cost of 1 or less at the bottom of the owner's deck.",
+  "rarity": "R",
+  "setId": "PRB02",
+  "cardNumber": "007",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 [The Seven Warlords of the Sea] type card other than [Jinbe] and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[When Attacking] Place up to 1 Character with a cost of 1 or less at the bottom of the owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "warlordsSearch": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "sevenWarlordsOfTheSea"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Jinbe"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {The Seven Warlords of the Sea} type card other than [Jinbe] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "warlordsSearch",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "cost1OrLessCharacter": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Place up to 1 Character with a cost of 1 or less at the bottom of the owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "cost1OrLessCharacter",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

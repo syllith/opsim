@@ -1,37 +1,87 @@
 {
-  "id": "EB02-039",
-  "set": "EB02",
-  "number": 39,
-  "name": "GERMA 66",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Vinsmoke Family", "Germa 66"],
-  "rarity": "R",
-  "art": "/cards/EB02/EB02-039.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main"],
-  "trigger": null,
-  "text": "[Main] You may discard a character with 4000 or less power and the {Germa 66} type from your hand: If the number of DON!! cards on your board is equal to or less than your opponent's, play a character card from your trash that has 5000 to 7000 power and the same name as the discarded card.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB02-039",
+  "printedText": "Main You may discard a character with 4000 or less power and the {Germa 66} type from your hand. If the number of DON!! cards on your board is equal to or less than your opponent's, play a character card from your trash that has 5000 to 7000 power and the same name as the discarded card.",
+  "types": [
+    "Vinsmoke Family",
+    "Germa 66"
+  ],
+  "cardNumber": "039",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may discard a character with 4000 or less power and the {Germa 66} type from your hand: If the number of DON!! cards on your board is equal to or less than your opponent's, play a character card from your trash that has 5000 to 7000 power and the same name as the discarded card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand:Character:power<=4000:Germa66", "trash:Character:power5000-7000"],
-        "conditions": ["yourDonEqualOrLessThanOpponent", "sameName"]
-      }
+      "cost": {
+        "type": "trashFromHand",
+        "bindAs": "discarded",
+        "filters": [
+          "character",
+          "power<=4000",
+          "type=Germa 66"
+        ],
+        "maxCards": 1,
+        "minCards": 0
+      },
+      "selectors": {},
+      "timing": "main",
+      "actions": [
+        {
+          "may": false,
+          "enterRested": true,
+          "type": "playCard",
+          "payCost": true,
+          "sourceZone": "trash",
+          "condition": {
+            "all": [
+              {
+                "value": "donCountOpponent",
+                "field": "donCountSelf",
+                "op": "<="
+              }
+            ],
+            "logic": "AND"
+          },
+          "target": {
+            "filters": [
+              {
+                "op": "=",
+                "field": "name",
+                "fieldRef": "discarded.name"
+              },
+              {
+                "value": 5000,
+                "field": "power",
+                "op": ">="
+              },
+              {
+                "value": 7000,
+                "field": "power",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "trash"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 0,
+  "cardName": "Germa 66",
+  "rarity": "C",
+  "cost": 4,
+  "colors": [
+    "purple"
+  ],
+  "traits": [
+    "vinsmokeFamily",
+    "germa66"
+  ]
 }

@@ -1,65 +1,47 @@
 {
-  "id": "OP10-109",
-  "set": "OP10",
-  "number": 109,
-  "name": "Basil Hawkins",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Supernova",
-    "Hawkins Pirates"
-  ],
+  "cardName": "Basil Hawkins",
+  "cardId": "OP10-109",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Supernovas", "Hawkins Pirates"],
+  "traits": ["supernovas", "hawkinsPirates"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-109.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O.",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 2 cards and discard 1 card from your hand."
-  },
-  "text": "On K.O. Trash up to 1 card from the top of your opponent's Life cards.",
+  "setId": "OP10",
+  "cardNumber": "109",
+  "printedText": "[On K.O.] Trash up to 1 card from the top of your opponent's Life cards.\n[Trigger] Draw 2 cards and discard 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Trash up to 1 card from the top of your opponent's Life cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTopLifeCard",
+          "destination": "trash",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards and discard 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "side": "self",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "This is a sample card with 'SAMPLE' watermark. The printed text is accurate based on visible content."
-  }
+  ]
 }

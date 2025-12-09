@@ -1,20 +1,49 @@
 {
-  "id": "ST04-004",
-  "set": "ST04",
-  "number": 4,
-  "name": "King",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
+  "cardName": "King",
+  "cardId": "ST04-004",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 0,
+  "attributes": ["special"],
   "types": ["Animal Kingdom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST04/ST04-004.png",
-  "stats": { "cost": 6, "power": 7000, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["On Play", "DON!! -1"],
-  "trigger": null,
-  "text": "On Play — DON!! -1: K.O. 1 of your opponent's Characters with a cost of 4 or less.",
+  "traits": ["animalKingdomPirates"],
+  "rarity": "SR",
+  "setId": "ST04",
+  "cardNumber": "004",
+  "printedText": "[On Play] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): K.O. 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
-    {"timing": "On Play", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "K.O. 1 opponent Character with cost 4 or less.", "grants": [], "powerMod": null, "targets": ["oneOpponentCharacter"], "conditions": ["donAttached"]}}
-  ],
-  "meta": {"notes": null}
+    {
+      "timing": "onPlay",
+      "cost": {
+        "type": "donMinus",
+        "count": 1
+      },
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
+    }
+  ]
 }

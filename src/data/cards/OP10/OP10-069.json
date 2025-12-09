@@ -1,55 +1,56 @@
 {
-  "id": "OP10-069",
-  "set": "OP10",
-  "number": 69,
-  "name": "Fighting Fish",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animal",
-    "Dressrosa"
-  ],
+  "cardName": "Fighting Fish",
+  "cardId": "OP10-069",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Animal", "Dressrosa"],
+  "traits": ["animal", "dressrosa"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-069.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking DON!! -1: K.O. up to 1 of your opponent's Characters with a Cost of 1 or lower.",
+  "setId": "OP10",
+  "cardNumber": "069",
+  "printedText": "[DON!! x1] [When Attacking] DON!! -1: K.O. up to 1 of your opponent's Characters with a cost of 1 or lower.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "isGivenDon",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "DON!! -1: K.O. up to 1 of your opponent's Characters with a Cost of 1 or lower.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "Cost<=1"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "donMinus",
+        "count": 1
+      },
+      "selectors": {
+        "oppCost1OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppCost1OrLessChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost1OrLessChar"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has 'Nakamaru' watermark, likely a promotional or preview card. Rarity 'C' is confirmed by the box in bottom right."
-  }
+  ]
 }

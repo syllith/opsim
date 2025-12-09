@@ -1,55 +1,55 @@
 {
-  "id": "OP04-015",
-  "set": "OP04",
-  "number": 15,
-  "name": "Roronoa Zoro",
-  "category": "Character",
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP04-015",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Alabasta Kingdom",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-015.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "015",
+  "printedText": "[On Play] Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "oppCharUpTo1": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": -2000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "oppCharUpTo1"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "alabastaKingdom",
+    "strawHatCrew"
+  ]
 }

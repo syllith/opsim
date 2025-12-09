@@ -1,40 +1,94 @@
 {
-  "id": "ST22-015",
-  "set": "ST22",
-  "number": 15,
-  "name": "I Am Whitebeard!!!",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Whitebeard Pirates"],
+  "cardName": "I Am Whitebeard!!",
+  "cardId": "ST22-015",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 8,
+  "power": 0,
+  "counter": 0,
+  "types": ["The Four Emperors", "Whitebeard Pirates"],
+  "traits": ["theFourEmperors", "whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/ST22/ST22-015.png",
-  "stats": {
-    "cost": 8,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
+  "setId": "ST22",
+  "cardNumber": "015",
+  "printedText": "[Main] If your Leader's type includes \"Whitebeard Pirates\", play up to 1 [Edward.Newgate] from your hand. Then, you may add 1 card from the top or bottom of your Life cards to your hand. If you do, up to 1 of your Leader gains +2000 power until the end of your opponent's next turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "[Main] If your Leader has the {Whitebeard Pirates} type, play up to 1 [Edward.Newgate] from your hand. Then, you may add the top or bottom card of your Life cards into your hand. If you did, give up to 1 of your Leader +2000 power until the end of your opponent's next turn.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Whitebeard Pirates} type, play up to 1 [Edward.Newgate] from your hand. Then, you may add the top or bottom card of your Life cards into your hand. If you did, give up to 1 of your Leader +2000 power until the end of your opponent's next turn.",
-        "grants": [],
-        "powerMod": {
-          "amount": 2000,
-          "duration": "untilEndOfOpponentsNextTurn"
+      "timing": "main",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "whitebeardPirates"
+      },
+      "selectors": {
+        "edwardFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Edward.Newgate"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         },
-        "targets": ["self:Leader"],
-        "conditions": ["leaderHasWhitebeardPiratesType"]
-      }
+        "selfLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "edwardFromHand",
+          "payCost": true
+        },
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "noop"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "selfTopOrBottomLifeCard",
+                  "destination": "hand",
+                  "ordering": "keep"
+                },
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 2000,
+                  "duration": "untilEndOfOpponentsNextTurn",
+                  "target": "selfLeader",
+                  "may": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

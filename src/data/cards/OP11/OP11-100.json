@@ -1,52 +1,41 @@
 {
-  "id": "OP11-100",
-  "set": "OP11",
-  "number": 100,
-  "name": "Otohime",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Merfolk",
-    "Fish-Man Island"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-100.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader is [Shirahoshi], you may turn 1 card from the top of your Life cards face-down: Draw 1 card.",
+  "cardName": "Otohime",
+  "cardId": "OP11-100",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Merfolk", "Fish-Man Island"],
+  "traits": ["merfolk", "fishManIsland"],
+  "rarity": "C",
+  "setId": "OP11",
+  "cardNumber": "100",
+  "printedText": "[On Play] If your Leader is [Shirahoshi], you may turn 1 card from the top of your Life cards face-down: Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderIs_shirahoshi",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your Leader is [Shirahoshi], you may turn 1 card from the top of your Life cards face-down: Draw 1 card.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Shirahoshi]"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "setTopLifeFace",
+        "side": "self",
+        "count": 1,
+        "faceUp": false,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,48 +1,35 @@
 {
-  "id": "OP07-084",
-  "set": "OP07",
-  "number": 84,
-  "name": "Jisumonda",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "CPO"
-  ],
+  "cardName": "Jisumonda",
+  "cardId": "OP07-084",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["CP0"],
+  "traits": ["cp0"],
   "rarity": "C",
-  "art": "/cards/OP07/OP07-084.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "setId": "OP07",
+  "cardNumber": "084",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

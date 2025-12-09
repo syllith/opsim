@@ -1,51 +1,58 @@
 {
-  "id": "OP07-030",
-  "set": "OP07",
-  "number": 30,
-  "name": "Pappag",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Animal"
-  ],
-  "rarity": "L",
-  "art": "/cards/OP07/OP07-030.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "While you have a character (Camie) in play, this character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "cardName": "Pappag",
+  "cardId": "OP07-030",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Animal"],
+  "traits": ["animal"],
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "030",
+  "printedText": "While you have a Character [Camie] in play, this Character gains Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "camieInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Camie"
+            }
+          ],
+          "min": 1,
+          "max": 99,
+          "whoChooses": "system"
+        },
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "While you have a character (Camie) in play, this character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "thisCard",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "camieInPlay",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

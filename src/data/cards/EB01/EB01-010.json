@@ -1,58 +1,84 @@
 {
-  "id": "EB01-010",
-  "set": "EB01",
-  "number": 10,
-  "name": "There is no way you could defeat me!!",
-  "category": "Event",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB01-010",
+  "printedText": "Counter KO up to one of your opponent's Characters with an original power of 6000 or less.\nTrigger KO up to one of your opponent's Characters with an original power of 5000 or less.",
   "types": [
     "Water 7",
     "Straw Hat Crew"
   ],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-010.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "KO up to one of your opponents characters with an original power of 5000 or less."
-  },
-  "text": "[Counter] KO up to one of your opponents characters with an original power of 6000 or less.\n[Trigger] KO up to one of your opponents characters with an original power of 5000 or less.",
+  "cardNumber": "010",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {},
+      "timing": "onOpponentsAttack",
+      "actions": [
+        {
+          "may": true,
+          "type": "ko",
+          "target": {
+            "filters": [
+              {
+                "value": 6000,
+                "field": "originalPower",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent"
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "value": true,
+        "field": "triggeredFromLife",
+        "op": "="
       },
-      "effect": {
-        "text": "KO up to one of your opponents characters with an original power of 6000 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "opponent:Character"
-        ],
-        "conditions": [
-          "characterPower<=6000"
-        ]
-      }
+      "selectors": {},
+      "timing": "onKO",
+      "actions": [
+        {
+          "may": true,
+          "type": "ko",
+          "target": {
+            "filters": [
+              {
+                "value": 5000,
+                "field": "originalPower",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "There is no way you could defeat me!!",
+  "rarity": "R",
+  "cost": 3,
+  "colors": [
+    "red"
+  ],
+  "traits": [
+    "waterSeven",
+    "strawHatCrew"
+  ]
 }

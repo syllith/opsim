@@ -1,72 +1,79 @@
 {
-  "id": "OP08-095",
-  "set": "OP08",
-  "number": 95,
-  "name": "Iron Body: Fang Flash",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Animal Kingdom Pirates",
-    "Former CP9"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP08/OP08-095.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Up to 1 of your Leader or Characters gains +2000 power during this turn."
-  },
-  "text": "Main If you have 10 or more cards in your trash, give up to 1 of your Characters +2000 power until the end of your opponent's turn.",
+  "cardName": "Iron Body: Fang Flash",
+  "cardId": "OP08-095",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
+  "types": ["Animal Kingdom Pirates", "Former CP9"],
+  "traits": ["animalKingdomPirates", "formerCp9"],
+  "rarity": "UC",
+  "setId": "OP08",
+  "cardNumber": "095",
+  "printedText": "[Main] If you have 10 or more cards in your trash, up to 1 of your Characters gains +2000 power until the end of your opponent's next turn.\n[Trigger] Up to 1 of your Leader or Character cards gains +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "trashForCount",
+        "op": ">=",
+        "value": 10
       },
-      "effect": {
-        "text": "If you have 10 or more cards in your trash, give up to 1 of your Characters +2000 power until the end of your opponent's turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "trashForCount": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "whoChooses": "system"
+        },
+        "selfCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "selfCharacter"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "selfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Characters gains +2000 power during this turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOfYourLeader",
-          "oneOfYourCharacter"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "selfLeaderOrCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and 'BANZA MADE IN JAPAN' on the image, but these are not part of the card's official data."
-  }
+  ]
 }

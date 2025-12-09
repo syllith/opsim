@@ -1,55 +1,92 @@
 {
-  "id": "OP06-083",
-  "set": "OP06",
-  "number": 83,
-  "name": "Oars",
-  "category": "Character",
+  "cardName": "Oars",
+  "cardId": "OP06-083",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 7000,
+  "life": 0,
+  "counter": 0,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Giant",
     "Thriller Bark Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-083.png",
-  "stats": {
-    "cost": 4,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
+  "traits": [
+    "giant",
+    "thrillerBarkPirates"
   ],
-  "trigger": null,
-  "text": "This character cannot attack.\nActivate: Main You may KO up to one of your (Thriller Bark Pirates) type characters: This character loses all abilities until end of turn.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "083",
+  "printedText": "This character cannot attack.\nActivate: Main You may K.O. up to one of your {Thriller Bark Pirates} type characters: This character loses all abilities until end of turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "attack",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "timing": "activateMain",
+      "frequency": "none",
+      "selectors": {
+        "selfThrillerBarkChar": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasTraitThrillerBarkPirates",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may KO up to one of your (Thriller Bark Pirates) type characters: This character loses all abilities until end of turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "your (Thriller Bark Pirates) type characters"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "trashFromField",
+        "selector": "selfThrillerBarkChar",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "noAbilities",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but this is not a game error; it's a sample card. Rarity is 'R' as printed."
-  }
+  ]
 }

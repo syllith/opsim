@@ -1,39 +1,57 @@
 {
-  "id": "OP02-120",
-  "set": "OP02",
-  "number": 120,
-  "name": "Uta",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["FILM"],
+  "cardName": "Uta",
+  "cardId": "OP02-120",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 8,
+  "power": 8000,
+  "counter": 0,
+  "types": [
+    "FILM"
+  ],
   "rarity": "SEC",
-  "art": "/cards/OP02/OP02-120.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "DON!! -2"],
-  "trigger": null,
-  "text": "[On Play] DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck): Your Leader and all your Characters gain +1000 Power until the start of your next turn.",
+  "setId": "OP02",
+  "cardNumber": "120",
+  "printedText": "[On Play] DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Your Leader and all of your Characters gain +1000 Power until the start of your next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your Leader and all your Characters gain +1000 Power until the start of your next turn.",
-        "powerMod": {
+      "timing": "onPlay",
+      "frequency": "none",
+      "cost": {
+        "type": "donMinus",
+        "count": 2,
+        "may": true
+      },
+      "selectors": {
+        "selfLeaderAndCharacters": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "until the start of your next turn"
-        },
-        "targets": ["ally:Leader", "ally:Character"],
-        "conditions": []
-      }
+          "duration": "untilStartOfYourNextTurn",
+          "target": "selfLeaderAndCharacters"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "film"
+  ]
 }

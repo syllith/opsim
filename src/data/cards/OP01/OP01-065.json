@@ -1,23 +1,30 @@
 {
-  "id": "OP01-065",
-  "set": "OP01",
-  "number": 65,
-  "name": "Vergo",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["Navy", "Donquixote Pirates", "Punk Hazard"],
-  "rarity": "R",
-  "art": "/cards/OP01/OP01-065.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "cardName": "Vergo",
+  "cardId": "OP01-065",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "types": [
+    "Navy",
+    "Donquixote Pirates",
+    "Punk Hazard"
+  ],
+  "rarity": "C",
+  "setId": "OP01",
+  "cardNumber": "065",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "navy",
+    "donquixotePirates",
+    "punkHazard"
+  ]
 }

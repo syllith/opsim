@@ -1,26 +1,56 @@
 {
-  "id": "ST03-001",
-  "set": "ST03",
-  "number": 1,
-  "name": "Crocodile",
-  "category": "Leader",
-  "colors": ["Blue"],
-  "attribute": "Special",
+  "cardName": "Crocodile",
+  "cardId": "ST03-001",
+  "cardType": "leader",
+  "colors": ["blue"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": ["special"],
   "types": ["The Seven Warlords of the Sea", "Baroque Works"],
-  "rarity": null,
-  "art": "/cards/ST03/ST03-001.png",
-  "stats": { "cost": null, "power": 5000, "life": 5, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "(Placeholder) DON!! -4: Return up to 1 Character with cost <=5 to owner's hand.",
+  "traits": ["theSevenWarlordsOfTheSea", "baroqueWorks"],
+  "rarity": "leader",
+  "setId": "ST03",
+  "cardNumber": "001",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!! -4 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Return up to 1 Character with a cost of 5 or less to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {"restDonFromCostArea": 0},
-      "effect": {"text": "Return up to 1 Character with cost 5 or less to owner's hand.", "grants": [], "powerMod": null, "targets": ["oneCharacter"], "conditions": []}
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "donMinus",
+        "count": 4
+      },
+      "selectors": {
+        "characterCost5OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "characterCost5OrLess",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {"notes": null}
+  "alsoTreatedAsNames": []
 }

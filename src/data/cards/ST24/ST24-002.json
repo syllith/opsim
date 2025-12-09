@@ -1,50 +1,75 @@
 {
-  "id": "ST24-002",
-  "set": "ST24",
-  "number": 2,
-  "name": "Kid & Killer",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": null,
+  "cardName": "Kid & Killer",
+  "cardId": "ST24-002",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["slash", "special"],
   "types": ["Supernovas", "Kid Pirates"],
+  "traits": ["supernovas", "kidPirates"],
   "rarity": "SR",
-  "art": "/cards/ST24/ST24-002.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "On Your Opponent's Attack"],
-  "trigger": null,
-  "text": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[On Your Opponent's Attack] You may trash this Character: Set up to 1 of your DON!! cards as active.",
+  "setId": "ST24",
+  "cardNumber": "002",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[On Your Opponent's Attack] You may trash this Character: Set up to 1 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": ["deck"],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "traits",
+                "op": "=",
+                "value": "supernovas"
+              }
+            ]
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "On Your Opponent's Attack",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash this Character: Set up to 1 of your DON!! cards as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["mayTrashThisCharacter"]
-      }
+      "timing": "onOpponentsAttack",
+      "cost": {
+        "type": "trashThis",
+        "may": true
+      },
+      "selectors": {
+        "donToReady": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donToReady"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

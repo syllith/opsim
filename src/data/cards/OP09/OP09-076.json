@@ -1,48 +1,47 @@
 {
-  "id": "OP09-076",
-  "set": "OP09",
-  "number": 76,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP09-076",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-076.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may return one or more Don!! cards from play to your Don!! deck. Set up to one Don!! card from your Don!! deck into play as active.",
+  "setId": "OP09",
+  "cardNumber": "076",
+  "printedText": "[On Play] You may return 1 or more DON!! cards from your field to your DON!! deck: Set up to 1 DON!! card from your DON!! deck as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may return one or more Don!! cards from play to your Don!! deck. Set up to one Don!! card from your Don!! deck into play as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "donToSetup": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donToSetup",
+          "destination": "costArea",
+          "ordering": "keep",
+          "enterRested": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

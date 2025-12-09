@@ -1,52 +1,53 @@
 {
-  "id": "OP04-019",
-  "set": "OP04",
-  "number": 19,
-  "name": "Donquixote Doflamingo",
-  "category": "Leader",
+  "cardName": "Donquixote Doflamingo",
+  "cardId": "OP04-019",
+  "cardType": "leader",
   "colors": [
-    "Purple"
+    "green",
+    "purple"
   ],
-  "attribute": null,
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
   "types": [
     "The Seven Warlords of the Sea",
     "Donquixote Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-019.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "[On Play] Set up to 2 of your DON!! cards as active.",
+  "rarity": "L",
+  "setId": "OP04",
+  "cardNumber": "019",
+  "printedText": "[End of Your Turn] Set up to 2 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "selectors": {
+        "ownDonUpTo2": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to 2 of your DON!! cards as active.",
-        "powerMod": null,
-        "targets": [
-          "donCards"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "ownDonUpTo2"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "donquixotePirates"
+  ]
 }

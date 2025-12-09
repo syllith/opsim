@@ -1,82 +1,40 @@
 {
-  "id": "P-005",
-  "set": "P",
-  "number": 5,
-  "name": "Kaido",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
+  "cardName": "Kaido",
+  "cardId": "P-005",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 7,
+  "power": 8000,
+  "attributes": ["strike"],
   "types": [
     "The Four Emperors",
     "Animal Kingdom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/P/P-005.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Banish",
-    "Trigger"
+  "traits": [
+    "theFourEmperors",
+    "animalKingdomPirates"
   ],
-  "trigger": {
-    "text": "(When this card deals damage, the target card is trashed without activating its Trigger.)"
-  },
-  "text": "Activate: Main -2 (You may return the specified number of DON!! cards from your field to your DON!! deck.)\nThis Character gains Banish during this turn.\n(When this card deals damage, the target card is trashed without activating its Trigger.)",
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "005",
+  "printedText": "[Activate:Main] DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): This Character gains [Banish] during this turn. (When this card deals damage, the target card is trashed without activating its Trigger.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 2,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 2
       },
-      "effect": {
-        "text": "You may return the specified number of DON!! cards from your field to your DON!! deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This Character gains Banish during this turn.",
-        "grants": [
-          "Banish"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "(When this card deals damage, the target card is trashed without activating its Trigger.)",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Banish",
+          "duration": "thisTurn",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample and has 'SAMPLE' text overlaid. Power value is clearly printed as 8000. Rarity is C (plain 'C' in rarity box)."
-  }
+  ]
 }

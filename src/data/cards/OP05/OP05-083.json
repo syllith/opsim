@@ -1,32 +1,26 @@
 {
-  "id": "OP05-083",
-  "set": "OP05",
-  "number": 83,
-  "name": "Stelly",
-  "category": "Character",
+  "cardName": "Stelly",
+  "cardId": "OP05-083",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Goa Kingdom"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-083.png",
-  "stats": {
-    "cost": 2,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "083",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "goaKingdom"
+  ]
 }

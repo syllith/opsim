@@ -1,75 +1,108 @@
 {
-  "id": "OP07-109",
-  "set": "OP07",
-  "number": 109,
-  "name": "Monkey D. Luffy",
-  "category": "Character",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP07-109",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "wisdom"
+  ],
   "types": [
     "Four Emperors",
     "Egghead",
-    "Strawhat Crew"
+    "Straw Hat Crew"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "egghead",
+    "strawHatCrew"
   ],
   "rarity": "SR",
-  "art": "/cards/OP07/OP07-109.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "KO up to one of your opponents cost 4 or less characters."
-  },
-  "text": "Activate: Main You may place this character in your trash: If your life is 2 or less, KO up to one of your opponents cost 4 or less characters. Then, draw one card. Trigger KO up to one of your opponents cost 4 or less characters.",
+  "setId": "OP07",
+  "cardNumber": "109",
+  "printedText": "[Activate: Main] You may place this Character in your trash: If your Life is 2 or less, K.O. up to 1 of your opponent's cost 4 or less Characters. Then, draw 1 card.\n[Trigger] K.O. up to 1 of your opponent's cost 4 or less Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may place this character in your trash: If your life is 2 or less, KO up to one of your opponents cost 4 or less characters. Then, draw one card.",
-        "powerMod": null,
-        "conditions": [
-          "your life is 2 or less"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCost4OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfLife",
+            "op": "<=",
+            "value": 2
+          },
+          "actions": [
+            {
+              "type": "ko",
+              "target": "opponentCost4OrLessCharacter"
+            },
+            {
+              "type": "draw",
+              "side": "self",
+              "count": 1
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "triggerOpponentCost4OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "KO up to one of your opponents cost 4 or less characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "cost 4 or less"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "triggerOpponentCost4OrLessCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

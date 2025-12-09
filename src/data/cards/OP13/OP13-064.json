@@ -1,75 +1,93 @@
 {
-  "id": "OP13-064",
-  "set": "OP13",
-  "number": 64,
-  "name": "Gol.D.Roger",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "King of the Pirates",
-    "Roger Pirates"
-  ],
+  "cardName": "Gol.D.Roger",
+  "cardId": "OP13-064",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 10,
+  "power": 13000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["King of the Pirates", "Roger Pirates"],
+  "traits": ["kingOfThePirates", "rogerPirates"],
   "rarity": "SR",
-  "art": "/cards/OP13/OP13-064.png",
-  "stats": {
-    "cost": 10,
-    "power": 13000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 13000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "Your Leader's effect and effects of your Characters without a type including \"Roger Pirates\" are negated.\nOn Play DON!!: Up to 1 of your Leader gains +2000 power until the end of your opponent's next End Phase.\nThen, give all of your opponent's Characters -2000 power until the end of your opponent's next End Phase.",
+  "setId": "OP13",
+  "cardNumber": "064",
+  "printedText": "Your Leader's effect and effects of your Characters without a type including \"Roger Pirates\" are negated.\n[On Play] DON!!-3: Up to 1 of your Leader gains +2000 power until the end of your opponent's next End Phase. Then, give all of your opponent's Characters -2000 power until the end of your opponent's next End Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 3,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +2000 power until the end of your opponent's next End Phase.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
+      "timing": "static",
+      "selectors": {
+        "yourLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
         },
-        "targets": [
-          "oneLeader"
-        ],
-        "giveDon": null
-      }
+        "nonRogerCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "!=",
+              "value": "rogerPirates"
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "negateEffects",
+          "target": "yourLeader",
+          "duration": "permanent"
+        },
+        {
+          "type": "negateEffects",
+          "target": "nonRogerCharacters",
+          "duration": "permanent"
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 3,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 3
       },
-      "effect": {
-        "text": "Then, give all of your opponent's Characters -2000 power until the end of your opponent's next End Phase.",
-        "powerMod": {
-          "amount": -2000,
-          "duration": "this turn"
+      "selectors": {
+        "allOppCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "selfLeader",
+          "may": true
         },
-        "targets": [
-          "allOpponentCharacters"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "allOppCharacters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

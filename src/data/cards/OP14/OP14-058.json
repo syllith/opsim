@@ -1,67 +1,113 @@
 {
-  "id": "OP14-058",
-  "set": "OP14",
-  "number": 58,
-  "name": "Ocean Current Shoulder Throw",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Fish-Man",
-    "The Seven Warlords of the Sea",
-    "The Sun Pirates"
-  ],
+  "cardName": "Ocean Current Shoulder Throw",
+  "cardId": "OP14-058",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 2,
+  "types": ["Fish-Man", "The Seven Warlords of the Sea", "The Sun Pirates"],
+  "traits": ["fishMan", "theSevenWarlordsOfTheSea", "theSunPirates"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-058.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Main You may rest 3 of your DON!! cards: Play up to 1 {Fish-Man} type Character card with a cost of 3 or less from your hand. Then, return up to 1 of your opponent's Characters with 6000 base power to the owner's hand. \nCounted Draw 1 card. Then, up to 1 of your Leader gains +3000 power during this battle.",
+  "setId": "OP14",
+  "cardNumber": "058",
+  "printedText": "[Main] You may rest 3 of your DON!! cards: Play up to 1 {Fish-Man} type Character card with a cost of 3 or less from your hand. Then, return up to 1 of your opponent's Characters with 6000 base power or less to the owner's hand.\n[Counter] Draw 1 card. Then, up to 1 of your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 3,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 3
+        "type": "restDonFromCostArea",
+        "count": 3,
+        "may": true
       },
-      "effect": {
-        "text": "Play up to 1 {Fish-Man} type Character card with a cost of 3 or less from your hand. Then, return up to 1 of your opponent's Characters with 6000 base power to the owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "fishManCharCost3OrLessFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "fishMan"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 3
+                }
+              ]
+            }
+          ]
+        },
+        "opponentCharBase6000OrLessUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 6000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "fishManCharCost3OrLessFromHand",
+          "payCost": false,
+          "may": true
+        },
+        {
+          "type": "moveCard",
+          "target": "opponentCharBase6000OrLessUpToOne",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "selfLeaderUpToOne": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Draw 1 card. Then, up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
-          "amount": 3000,
-          "duration": "this battle"
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
         },
-        "giveDon": null
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "selfLeaderUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

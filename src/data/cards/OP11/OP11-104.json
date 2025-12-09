@@ -1,50 +1,60 @@
 {
-  "id": "OP11-104",
-  "set": "OP11",
-  "number": 104,
-  "name": "Shyarley",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Merfolk",
-    "Fishman Island"
-  ],
+  "cardName": "Shyarly",
+  "cardId": "OP11-104",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Merfolk", "Fish-Man Island"],
+  "traits": ["merfolk", "fishManIsland"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-104.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may flip the top card of your Life area face down. Look at the top 3 cards of your deck, reveal up to 1 {Fishman Island} type card and add it to your hand. Then, place the remaining cards at the top or bottom of your deck in any order.",
+  "setId": "OP11",
+  "cardNumber": "104",
+  "printedText": "[Blocker] [On Play] You may flip the top card of your Life area face-down: Look at the top 3 cards of your deck; reveal up to 1 {Fish-Man Island} type card and add it to your hand. Then, place the remaining cards at the top or bottom of your deck in any order.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "setTopLifeFace",
+        "side": "self",
+        "count": 1,
+        "faceUp": false,
+        "may": true
       },
-      "effect": {
-        "text": "You may flip the top card of your Life area face down. Look at the top 3 cards of your deck, reveal up to 1 {Fishman Island} type card and add it to your hand. Then, place the remaining cards at the top or bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "fishManIslandFromTop3": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "fishManIsland"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "fishManIslandFromTop3",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "topOrBottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

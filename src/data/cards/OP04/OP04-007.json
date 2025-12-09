@@ -1,75 +1,28 @@
 {
-  "id": "OP04-007",
-  "set": "OP04",
-  "number": 7,
-  "name": "Sanji",
-  "category": "Character",
+  "cardName": "Sanji",
+  "cardId": "OP04-007",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 1,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Alabasta Kingdom",
     "Straw Hat Crew"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-007.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Activate: Main"
+  "setId": "OP04",
+  "cardNumber": "007",
+  "printedText": "",
+  "keywords": [],
+  "abilities": [],
+  "attributes": [
+    "strike"
   ],
-  "trigger": null,
-  "text": "[On Play] You may rest 1 of your DON!! from the cost area. If you do, this card gains +1000 power until the end of the turn.\n[Activate: Main] [Rest 1 DON!! from cost area]: Choose 1 of your opponent's Characters. That Character's power becomes 0 until the end of the turn.",
-  "abilities": [
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "This card gains +1000 power until the end of the turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "Choose 1 of your opponent's Characters. That Character's power becomes 0 until the end of the turn.",
-        "powerMod": {
-          "amount": -9999,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "traits": [
+    "alabastaKingdom",
+    "strawHatCrew"
+  ]
 }

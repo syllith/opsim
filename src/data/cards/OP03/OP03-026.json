@@ -1,35 +1,80 @@
 {
-  "id": "OP03-026",
-  "set": "OP03",
-  "number": 26,
-  "name": "Kuroobi",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
-  "types": ["Fish-Man", "East Blue", "Arlong Crew"],
+  "cardName": "Kuroobi",
+  "cardId": "OP03-026",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 4,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Fish-Man",
+    "East Blue",
+    "Arlong Crew"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP03/OP03-026.png",
-  "stats": {
-    "cost": 4,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": "Play this card.",
-  "text": "[On Play] If your Leader has the {East Blue} type, rest up to 1 of your opponent's Characters.",
+  "setId": "OP03",
+  "cardNumber": "026",
+  "printedText": "[On Play] If your Leader has the {East Blue} type, rest up to 1 of your opponent's Characters.\n[Trigger] Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {East Blue} type, rest up to 1 of your opponent's Characters.",
-        "targets": ["opponentCharacter"],
-        "conditions": ["leaderHasEastBlue"]
-      }
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderHasTypeEastBlue",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          },
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "fishMan",
+    "eastBlue",
+    "arlongCrew"
+  ]
 }

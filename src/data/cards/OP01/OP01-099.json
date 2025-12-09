@@ -1,38 +1,72 @@
 {
-  "id": "OP01-099",
-  "set": "OP01",
-  "number": 99,
-  "name": "Kurozumi Semimaru",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["Wano Country", "Kurozumi Family"],
+  "cardName": "Kurozumi Semimaru",
+  "cardId": "OP01-099",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Wano Country",
+    "Kurozumi Family"
+  ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-099.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": "{Kurozumi Family} type Characters other than your [Kurozumi Semimaru] cannot be K.O.'d in battle.",
+  "setId": "OP01",
+  "cardNumber": "099",
+  "printedText": "{Kurozumi Family} type Characters other than your [Kurozumi Semimaru] cannot be K.O.'d in battle.",
+  "keywords": [
+    "static"
+  ],
   "abilities": [
     {
-      "timing": "Passive",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "{Kurozumi Family} type Characters other than your [Kurozumi Semimaru] cannot be K.O.'d in battle.",
-        "grants": ["Cannot be KO'd"],
-        "powerMod": null,
-        "targets": ["kurozumiFamilyCharactersExceptSelf"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "protectedFamily": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Kurozumi Family"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Kurozumi Semimaru"
+            }
+          ],
+          "min": 0,
+          "max": 99
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "battleKO",
+          "target": "protectedFamily",
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": "protectedFamily"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "wanoCountry",
+    "kurozumiFamily"
+  ]
 }

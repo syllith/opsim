@@ -1,37 +1,77 @@
 {
-  "id": "OP02-037",
-  "set": "OP02",
-  "number": 37,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
-  "types": ["FILM", "Straw Hat Crew"],
-  "rarity": "UG",
-  "art": "/cards/OP02/OP02-037.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Play up to 1 {FILM} or {Straw Hat Crew} type Character card with a cost of 2 or less from your hand.",
+  "cardName": "Nico Robin",
+  "cardId": "OP02-037",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "037",
+  "printedText": "[On Play] Play up to 1 {FILM} or {Straw Hat Crew} type Character card with a cost of 2 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 {FILM} or {Straw Hat Crew} type Character card with a cost of 2 or less from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["FILM or Straw Hat Crew type", "cost 2 or less"]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "FILM"
+                },
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Straw Hat Crew"
+                }
+              ]
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "playTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "film",
+    "strawHatCrew"
+  ]
 }

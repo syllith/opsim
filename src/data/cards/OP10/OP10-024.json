@@ -1,49 +1,115 @@
 {
-  "id": "OP10-024",
-  "set": "OP10",
-  "number": 24,
-  "name": "Edward Newgate",
-  "category": "Character",
+  "cardName": "Edward Newgate",
+  "cardId": "OP10-024",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
   "types": [
+    "ODYSSEY",
     "Four Emperors",
     "Whitebeard Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP10/OP10-024.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "odyssey",
+    "theFourEmperors",
+    "whitebeardPirates"
   ],
-  "trigger": null,
-  "text": "On Play: If you have 2 or more rested Characters, rest up to 1 of your opponent's Characters of 5 cost or less. Then, KO up to one of your opponents rested Character of 3 cost or less.",
+  "rarity": "C",
+  "setId": "OP10",
+  "cardNumber": "024",
+  "printedText": "[On Play] If you have 2 or more rested Characters, rest up to 1 of your opponent's Characters with a cost of 5 or less. Then, K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "opponentCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "opponentRestedCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "state",
+                  "op": "=",
+                  "value": "rested"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 3
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If you have 2 or more rested Characters, rest up to 1 of your opponent's Characters of 5 cost or less. Then, KO up to one of your opponents rested Character of 3 cost or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCost5OrLess"
+        },
+        {
+          "type": "ko",
+          "target": "opponentRestedCost3OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

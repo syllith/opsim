@@ -1,42 +1,139 @@
 {
-  "id": "OP01-026",
-  "set": "OP01",
-  "number": 26,
-  "name": "Gum Gum Red Hawk",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Supernovas", "Straw Hat Crew"],
+  "cardName": "Gum Gum Red Hawk",
+  "cardId": "OP01-026",
+  "cardType": "event",
+  "colors": [
+    "red"
+  ],
+  "cost": 2,
+  "types": [
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-026.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter"],
-  "trigger": {
-    "text": "Give up to 1 of your opponent's Leader or Characters -10000 power during this turn."
-  },
-  "text": "[Counter] Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, K.O. up to 1 of your opponent's Characters with 4000 power or less.",
+  "setId": "OP01",
+  "cardNumber": "026",
+  "printedText": "Counter Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, K.O. up to 1 of your opponent's Characters with 4000 power or less.\nTrigger Give up to 1 of your opponent's Leader or Characters -10000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, K.O. up to 1 of your opponent's Characters with 4000 power or less.",
-        "grants": [],
-        "powerMod": {
-          "amount": 4000,
-          "duration": "duringThisBattle"
+      "timing": "counter",
+      "frequency": "none",
+      "selectors": {
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "leaderTarget"
         },
-        "targets": ["self:Leader", "upTo1:ally:Character", "upTo1:opponent:Character"],
-        "conditions": ["opponentCharacterPower<=4000"]
-      }
+        "characterTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "characterTarget"
+        },
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 4000,
+                  "duration": "thisBattle",
+                  "target": "leaderTarget"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 4000,
+                  "duration": "thisBattle",
+                  "target": "characterTarget"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "triggerTarget": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "triggerTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -10000,
+          "duration": "thisTurn",
+          "target": "triggerTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "supernovas",
+    "strawHatCrew"
+  ]
 }

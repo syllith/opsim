@@ -1,48 +1,60 @@
 {
-  "id": "OP05-051",
-  "set": "OP05",
-  "number": 51,
-  "name": "Borsalino",
-  "category": "Character",
+  "cardName": "Borsalino",
+  "cardId": "OP05-051",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Special",
+  "cost": 7,
+  "power": 8000,
+  "counter": 0,
   "types": [
     "Navy"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-051.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Place up to 1 character with a cost 4 or lower to the bottom of its owner's deck.",
+  "rarity": "SR",
+  "setId": "OP05",
+  "cardNumber": "051",
+  "printedText": "[On Play] Place up to 1 Character with a cost of 4 or less at the bottom of its owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "bounceTarget"
+        }
       },
-      "effect": {
-        "text": "Place up to 1 character with a cost 4 or lower to the bottom of its owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bounceTarget",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

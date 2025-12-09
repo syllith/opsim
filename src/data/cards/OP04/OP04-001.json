@@ -1,55 +1,82 @@
 {
-  "id": "OP04-001",
-  "set": "OP04",
-  "number": 1,
-  "name": "Nefertari Vivi",
-  "category": "Leader",
+  "cardName": "Nefertari Vivi",
+  "cardId": "OP04-001",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "red",
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
   "types": [
     "Alabasta Kingdom"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "This Leader cannot attack. Activate: Main (Once Per Turn) (2) (You may rest the specified number of DON!! cards in your cost area): Draw 1 card, and up to 1 of your Characters gains <Rush> during this turn.",
+  "rarity": "L",
+  "setId": "OP04",
+  "cardNumber": "001",
+  "printedText": "This Leader cannot attack.\n[Activate: Main] [Once Per Turn] ② (You may rest the specified number of DON!! cards in your cost area): Draw 1 card, and up to 1 of your Characters gains <Rush> during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 2,
+      "timing": "static",
+      "actions": [
+        {
+          "type": "restrict",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "leader"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          },
+          "duration": "permanent",
+          "restrictionKind": "attack"
+        }
+      ]
+    },
+    {
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restDonFromCostArea",
+        "count": 2
       },
-      "effect": {
-        "text": "Draw 1 card, and up to 1 of your Characters gains <Rush> during this turn.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "targets": [
-          "upTo1OfYourCharacters"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "characterUpTo1": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "rush",
+          "duration": "thisTurn",
+          "target": "characterUpTo1"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample image, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "alabastaKingdom"
+  ]
 }

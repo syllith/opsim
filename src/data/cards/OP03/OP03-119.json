@@ -1,76 +1,92 @@
 {
-  "id": "OP03-119",
-  "set": "OP03",
-  "number": 119,
-  "name": "Buzz Cut Mochi",
-  "category": "Event",
+  "cardName": "Buzz Cut Mochi",
+  "cardId": "OP03-119",
+  "cardType": "event",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 2,
   "types": [
     "Big Mom Pirates"
   ],
   "rarity": "R",
-  "art": "/cards/OP03/OP03-119.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "119",
+  "printedText": "Main If you have less life than your opponent, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.\nTrigger Play up to 1 Character with a cost of 4 or less with Trigger from your hand.",
   "keywords": [
     "Main",
     "Trigger"
   ],
-  "trigger": {
-    "text": "Play up to 1 Character with a cost of 4 or less with Trigger from your hand."
-  },
-  "text": "Main If you have less life than your opponent, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "condition": {
+        "field": "selfLife",
+        "op": "<",
+        "fieldRef": "opponentLife"
       },
-      "effect": {
-        "text": "If you have less life than your opponent, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "conditions": [
-          "lessLifeThanOpponent"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 4
+              }
+            ]
+          },
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Play up to 1 Character with a cost of 4 or less with Trigger from your hand.",
-        "grants": [
-          "Trigger"
-        ],
-        "powerMod": null,
-        "targets": [
-          "oneCharacter<=cost4"
-        ],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "hand"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 4
+              },
+              {
+                "field": "hasTrigger",
+                "op": "=",
+                "value": true
+              }
+            ]
+          },
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'R' in the bottom right corner. The card is an Event with a cost of 2. The text is fully legible."
-  }
+  "traits": [
+    "bigMomPirates"
+  ]
 }

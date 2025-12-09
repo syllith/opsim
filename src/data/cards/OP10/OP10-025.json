@@ -1,52 +1,57 @@
 {
-  "id": "OP10-025",
-  "set": "OP10",
-  "number": 25,
-  "name": "Enel",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "ODYSSEY",
-    "Sky Island"
-  ],
+  "cardName": "Enel",
+  "cardId": "OP10-025",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["ODYSSEY", "Sky Island"],
+  "traits": ["odyssey", "skyIsland"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-025.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have 2 or more rested characters, draw 3 cards and discard 2 cards from your hand.",
+  "setId": "OP10",
+  "cardNumber": "025",
+  "printedText": "[On Play] If you have 2 or more rested Characters, draw 3 cards and discard 2 cards from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If you have 2 or more rested characters, draw 3 cards and discard 2 cards from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "have 2 or more rested characters"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 3,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

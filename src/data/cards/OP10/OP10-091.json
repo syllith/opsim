@@ -1,49 +1,79 @@
 {
-  "id": "OP10-091",
-  "set": "OP10",
-  "number": 91,
-  "name": "Brook",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Dressrosa",
-    "Straw Hat Pirates"
-  ],
+  "cardName": "Brook",
+  "cardId": "OP10-091",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Dressrosa", "Straw Hat Pirates"],
+  "traits": ["dressrosa", "strawHatPirates"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-091.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this character and one leader or stage card with the \"Dressrosa\" type: KO up to one of your opponent's characters with cost 1 or below. Then, trash two cards from the top of your deck.",
+  "setId": "OP10",
+  "cardNumber": "091",
+  "printedText": "[Activate: Main] You may rest this Character and 1 of your Leader or Stage cards with the \"Dressrosa\" type: K.O. up to 1 of your opponent's Characters with a cost of 1 or less. Then, trash the top 2 cards of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "restFromField",
+            "selector": {
+              "side": "self",
+              "type": "any",
+              "zones": ["leader", "stage"],
+              "filters": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "dressrosa"
+                }
+              ],
+              "min": 1,
+              "max": 1,
+              "whoChooses": "self",
+              "bindAs": "dressrosaLeaderOrStage"
+            }
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this character and one leader or stage card with the \"Dressrosa\" type: KO up to one of your opponent's characters with cost 1 or below. Then, trash two cards from the top of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCost1OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppCost1OrLessChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost1OrLessChar"
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 2
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. Actual card text and stats may differ."
-  }
+  ]
 }

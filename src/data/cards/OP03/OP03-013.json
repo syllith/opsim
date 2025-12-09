@@ -1,45 +1,93 @@
 {
-  "id": "OP03-013",
-  "set": "OP03",
-  "number": 13,
-  "name": "Marco",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Special",
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Marco",
+  "cardId": "OP03-013",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP03/OP03-013.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "On K.O."],
-  "trigger": null,
-  "text": "[Your Turn] [On Play] K.O. up to 1 of your opponent's Characters with 3000 Power or less.\n[On K.O.] You may trash 1 Event card from your hand: Play this Character from the trash as rested.",
+  "setId": "OP03",
+  "cardNumber": "013",
+  "printedText": "Your Turn [On Play] K.O. up to 1 of your opponent's Characters with 3000 Power or less.\n[On K.O.] You may trash 1 Event card from your hand: Play this Character from the trash as rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": "Your Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with 3000 Power or less.",
-        "targets": ["opponentCharacter"],
-        "conditions": ["powerLessOrEqual3000"]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "isYourTurn",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0, "trashEventFromHand": true },
-      "effect": {
-        "text": "Play this Character from the trash as rested.",
-        "targets": ["thisCharacter"]
-      }
+      "timing": "onKO",
+      "frequency": "none",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": [
+          "cardType=event"
+        ],
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "trash"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          },
+          "enterRested": true,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

@@ -1,49 +1,74 @@
 {
-  "id": "P-083",
-  "set": "P",
-  "number": 83,
-  "name": "Shanks",
-  "category": "Character",
+  "cardName": "Shanks",
+  "cardId": "P-083",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Four Emperors",
-    "Red hair pirates"
+    "Red Hair Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/P/P-083.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
+  "traits": [
+    "theFourEmperors",
+    "redHairedPirates"
   ],
-  "trigger": null,
-  "text": "DON!! X1 When Attacking: You may trash 1 character card from your hand. Give up to 1 of your opponent's characters Power -1000 for the turn. Then, draw a card.",
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-083",
+  "printedText": "[DON!! x1] [When Attacking] You may trash 1 Character card from your hand: Give up to 1 of your opponent's Characters -1000 power during this turn. Then, draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "isGivenDon",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "You may trash 1 character card from your hand. Give up to 1 of your opponent's characters Power -1000 for the turn. Then, draw a card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": [
+          "cardType=character"
+        ],
+        "may": true
+      },
+      "selectors": {
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": "opponentCharacter"
+        },
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,37 +1,57 @@
 {
-  "id": "ST08-006",
-  "set": "ST08",
-  "number": 6,
-  "name": "Shanks",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
-  "types": ["Red Haired Pirates"],
-  "rarity": null,
-  "art": "/cards/ST08/ST08-006.png",
-  "stats": {
-    "cost": 9,
-    "power": 10000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: You may trash 1 card from your hand: K.O. all characters with a cost of 1 or less.",
+  "cardName": "Shirahoshi",
+  "cardId": "ST08-006",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Mermaid"],
+  "traits": ["mermaid"],
+  "rarity": "",
+  "setId": "ST08",
+  "cardNumber": "006",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Give up to 1 of your opponent's Characters -4 cost during this turn.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: K.O. all characters with a cost of 1 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["allCharactersCost1OrLess"],
-        "conditions": ["trashFromHand:1"]
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "selectors": {
+        "costDownTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -4,
+          "duration": "thisTurn",
+          "target": "costDownTarget"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

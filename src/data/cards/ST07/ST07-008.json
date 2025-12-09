@@ -1,37 +1,74 @@
 {
-  "id": "ST07-008",
-  "set": "ST07",
-  "number": 8,
-  "name": "Charlotte Pudding",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Wisdom",
+  "cardName": "Charlotte Pudding",
+  "cardId": "ST07-008",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["wisdom"],
   "types": ["Big Mom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST07/ST07-008.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Look at up to 1 Life card from the top of your or your opponent's Life Area and put it either on the top or the bottom of the Life Area.",
+  "traits": ["bigMomPirates"],
+  "rarity": "",
+  "setId": "ST07",
+  "cardNumber": "008",
+  "printedText": "[On Play] Look at up to 1 Life card from the top of your or your opponent's Life Area and put it either on the top or the bottom of the Life Area.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at up to 1 Life card from the top of your or your opponent's Life Area and put it either on the top or the bottom of the Life Area.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["topLifeCardSelfOrOpponent"],
-        "conditions": ["chooseTopOrBottom"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "selfLifeCards": {
+          "side": "self",
+          "type": "any",
+          "zones": ["life"]
+        },
+        "opponentLifeCards": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["life"]
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "self"
+                },
+                {
+                  "type": "moveCard",
+                  "target": "selfTopLifeCard",
+                  "destination": "topOrBottomOfLife",
+                  "ordering": "keep"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "opponent"
+                },
+                {
+                  "type": "moveCard",
+                  "target": "opponentTopLifeCard",
+                  "destination": "topOrBottomOfLife",
+                  "ordering": "keep"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

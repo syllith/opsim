@@ -1,74 +1,86 @@
 {
-  "id": "P-113",
-  "set": "P",
-  "number": 113,
-  "name": "Jewelry Bonney",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Bonney Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-113.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "DON!! x2",
-    "Opponent's Turn",
-    "Blocker"
-  ],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less."
-  },
-  "text": "DON!! x2 Opponent's Turn This Character gains Blocker and +2000 power. Trigger K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "cardName": "Jewelry Bonney",
+  "cardId": "P-113",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Bonney Pirates"],
+  "traits": ["bonneyPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-113",
+  "printedText": "DON!! x2 [Opponent's Turn] This Character gains Blocker and +2000 power.\n[Trigger] K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "This Character gains Blocker and +2000 power.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this battle"
+          "duration": "thisTurn",
+          "target": "thisCard",
+          "condition": {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 2
+          }
         },
-        "giveDon": null
-      }
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "thisTurn",
+          "target": "thisCard",
+          "condition": {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 2
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponentCost3OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost3"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCost3OrLessCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card ID is P-113, not OP03-029. Rarity is SP (Special)."
-  }
+  ]
 }

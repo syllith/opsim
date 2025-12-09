@@ -1,37 +1,65 @@
 {
-  "id": "EB03-010",
-  "set": "EB03",
-  "number": 10,
-  "name": "Monet",
-  "category": "Character",
-  "colors": ["Red", "Green"],
-  "attribute": "Special",
-  "types": ["Punk Hazard", "Donquixote Pirates"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-010.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "[Blocker]\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 Character card with 1000 power or less or Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB03-010",
+  "printedText": "Blocker. On Play Look at 5 cards from the top of your deck; reveal up to 1 Character card with 1000 power or less or Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "types": [
+    "Punk Hazard",
+    "Donquixote Pirates"
+  ],
+  "cardNumber": "010",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 Character card with 1000 power or less or Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "selector": {
+            "filters": [
+              {
+                "value": true,
+                "field": "isMonetSearchTarget",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "any",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 5,
+          "addTo": "hand",
+          "reveal": true,
+          "sourceZone": "deck",
+          "type": "search",
+          "ordering": "chosen",
+          "remainingOrdering": "any"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Monet",
+  "rarity": "R",
+  "cost": 5,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "punkHazard",
+    "donquixotePirates"
+  ]
 }

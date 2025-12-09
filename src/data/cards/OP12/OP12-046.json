@@ -1,66 +1,63 @@
 {
-  "id": "OP12-046",
-  "set": "OP12",
-  "number": 46,
-  "name": "Zephyr",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "FILM",
-    "Navy"
-  ],
+  "cardName": "Zephyr",
+  "cardId": "OP12-046",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["FILM", "Navy"],
+  "traits": ["film", "navy"],
   "rarity": "C",
-  "art": "/cards/OP12/OP12-046.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "On Play Trash 2 cards from your hand.\nActivate: Main You may trash this Character: Return up to 1 Character with a cost of 5 or less into its owner's hand.",
+  "setId": "OP12",
+  "cardNumber": "046",
+  "printedText": "[On Play] Trash 2 cards from your hand.\n[Activate: Main] You may trash this Character: Return up to 1 Character with a cost of 5 or less to its owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Trash 2 cards from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may trash this Character: Return up to 1 Character with a cost of 5 or less into its owner's hand.",
-        "powerMod": null,
-        "conditions": [
-          "self"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bounceTarget",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

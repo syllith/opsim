@@ -1,50 +1,61 @@
 {
-  "id": "OP12-022",
-  "set": "OP12",
-  "number": 22,
-  "name": "Inuarashi",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Minks",
-    "Land of Wano",
-    "The Akazaya Nine"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP12/OP12-022.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this Character: Up to 1 of your opponent's rested Characters with a cost of 5 or less will not become active in your opponent's next Refresh Phase.",
+  "cardName": "Inuarashi",
+  "cardId": "OP12-022",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Minks", "Land of Wano", "The Akazaya Nine"],
+  "traits": ["minks", "landOfWano", "theAkazayaNine"],
+  "setId": "OP12",
+  "cardNumber": "022",
+  "printedText": "[Activate: Main] You may rest this Character: Up to 1 of your opponent's rested Characters with a cost of 5 or less will not become active in your opponent's next Refresh Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character: Up to 1 of your opponent's rested Characters with a cost of 5 or less will not become active in your opponent's next Refresh Phase.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCharacterToFreeze": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "refreshPhaseSetActive",
+          "target": "oppCharacterToFreeze",
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

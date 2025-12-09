@@ -1,37 +1,81 @@
 {
-  "id": "EB02-013",
-  "set": "EB02",
-  "number": 13,
-  "name": "Carrot",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Special",
-  "types": ["Minks"],
-  "rarity": "C",
-  "art": "/cards/EB02/EB02-013.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If you have 3 or more DON!! cards on the field, look at the top 7 cards of your deck, reveal up to 1 [Zou] and put it into your hand. Then, place the rest on the bottom of your deck in any order and play up to 1 [Zou] from your hand.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB02-013",
+  "printedText": "On Play If you have 3 or more DON!! cards on the field, look at the top 7 cards of your deck, reveal up to 1 {Zou} and put it into your hand. Then, place the rest on the bottom of your deck in any order and play up to 1 {Zou} from your hand.",
+  "cardNumber": "013",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 3 or more DON!! cards on the field, look at the top 7 cards of your deck, reveal up to 1 [Zou] and put it into your hand. Then, place the rest on the bottom of your deck in any order and play up to 1 [Zou] from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "hand"],
-        "conditions": ["3orMoreDonOnField"]
-      }
+      "condition": {
+        "value": 3,
+        "field": "donCount",
+        "op": ">="
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "selector": {
+            "filters": [
+              {
+                "value": "Zou",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "side": "self",
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "any",
+            "whoChooses": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 7,
+          "addTo": "hand",
+          "reveal": true,
+          "sourceZone": "deck",
+          "type": "search",
+          "remainingOrdering": "chosen"
+        },
+        {
+          "destination": "characterArea",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": "Zou",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "side": "self",
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "hand",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "C",
+  "setId": "EB02",
+  "counter": 2000,
+  "cardName": "Carrot",
+  "types": [
+    "Minks"
+  ],
+  "cost": 1,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "minks"
+  ]
 }

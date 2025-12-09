@@ -1,48 +1,51 @@
 {
-  "id": "OP07-085",
-  "set": "OP07",
-  "number": 85,
-  "name": "Stussy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Special"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-085.png",
-  "stats": {
-    "cost": 9,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 9000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may place one of your characters into the trash: KO up to one of your opponents character.",
+  "cardName": "Stussy",
+  "cardId": "OP07-085",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 9,
+  "power": 9000,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": ["CP0"],
+  "traits": ["cp0"],
+  "rarity": "SR",
+  "setId": "OP07",
+  "cardNumber": "085",
+  "printedText": "[On Play] You may place 1 of your Characters in the trash: KO up to 1 of your opponent's Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromField",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "may": true
       },
-      "effect": {
-        "text": "You may place one of your characters into the trash: KO up to one of your opponents character.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "stussyKoTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "stussyKoTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

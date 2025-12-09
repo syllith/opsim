@@ -1,81 +1,113 @@
 {
-  "id": "OP01-040",
-  "set": "OP01",
-  "number": 40,
-  "name": "Kin'emon",
-  "category": "Character",
+  "cardName": "Kin'emon",
+  "cardId": "OP01-040",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 6,
+  "power": 6000,
+  "counter": 0,
   "types": [
     "Wano Country",
     "Nine Red Scabbards"
   ],
   "rarity": "SR",
-  "art": "/cards/OP01/OP01-040.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "DON!! x1",
-    "When Attacking",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "[On Play] If your Leader is [Kozuki Oden], play up to 1 {Nine Red Scabbards} type Character card with a cost of 3 or less from your hand.\n[DON!! x1] [When Attacking] [Once Per Turn] Set up to 1 of your {Nine Red Scabbards} type Characters with a cost of 3 or less as active.",
+  "setId": "OP01",
+  "cardNumber": "040",
+  "printedText": "On Play If your Leader is [Kozuki Oden], play up to 1 {Nine Red Scabbards} type Character card with a cost of 3 or less from your hand.\n[DON!! x1] When Attacking Once Per Turn Set up to 1 of your {Nine Red Scabbards} type Characters with a cost of 3 or less as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Kozuki Oden"
       },
-      "effect": {
-        "text": "If your Leader is [Kozuki Oden], play up to 1 {Nine Red Scabbards} type Character card with a cost of 3 or less from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "hand"
-        ],
-        "conditions": [
-          "leaderIsKozukiOden",
-          "nineRedScabbardsType",
-          "characterCost<=3"
-        ]
-      }
+      "selectors": {
+        "scabbardsFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Nine Red Scabbards"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "scabbardsFromHand"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "scabbardsFromHand"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Set up to 1 of your {Nine Red Scabbards} type Characters with a cost of 3 or less as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "upTo1:ally:Character"
-        ],
-        "conditions": [
-          "nineRedScabbardsType",
-          "characterCost<=3"
-        ]
-      }
+      "selectors": {
+        "scabbardsOnField": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Nine Red Scabbards"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "scabbardsOnField"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "scabbardsOnField"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "wanoCountry",
+    "nineRedScabbards"
+  ]
 }

@@ -1,37 +1,78 @@
 {
-  "id": "OP02-057",
-  "set": "OP02",
-  "number": 57,
-  "name": "Bartholomew Kuma",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["The Seven Warlords of the Sea", "Revolutionary Army"],
-  "rarity": "UG",
-  "art": "/cards/OP02/OP02-057.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Look at 2 cards from the top of your deck; reveal up to 1 {The Seven Warlords of the Sea} type card and add it to your hand. Then, place the rest at the top or bottom of the deck in any order.",
+  "cardName": "Bartholomew Kuma",
+  "cardId": "OP02-057",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Revolutionary Army"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "057",
+  "printedText": "[On Play] Look at 2 cards from the top of your deck; reveal up to 1 {The Seven Warlords of the Sea} type card and add it to your hand. Then, place the rest at the top or bottom of the deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 2 cards from the top of your deck; reveal up to 1 {The Seven Warlords of the Sea} type card and add it to your hand. Then, place the rest at the top or bottom of the deck in any order.",
-        "grants": ["draw"],
-        "powerMod": null,
-        "targets": ["Player"],
-        "conditions": ["The Seven Warlords of the Sea type"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "kumaTop2": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "kumaTop2"
+        },
+        "kumaWarlordChoice": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "The Seven Warlords of the Sea"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "kumaWarlordChoice"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "kumaWarlordChoice",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 2,
+          "moveRemainingTo": "topOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "revolutionaryArmy"
+  ]
 }

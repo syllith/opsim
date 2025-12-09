@@ -1,48 +1,92 @@
 {
-  "id": "OP11-024",
-  "set": "OP11",
-  "number": 24,
-  "name": "Aladine",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Merfolk",
-    "Fish-Man Island",
-    "Sun Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-024.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Aladine",
+  "cardId": "OP11-024",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Merfolk", "Fish-Man Island", "Sun Pirates"],
+  "traits": ["merfolk", "fishManIsland", "sunPirates"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "024",
+  "printedText": "When this Character would be K.O.'d by 1 of your opponent's effects, you may trash 1 card from your hand and rest 1 DON!! card. If you do, play up to 1 {Fish-Man} or {Merfolk} type Character with a cost of 6 or less from your hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "When this Character would be K.O.'d by 1 of your opponent's effects, you may trash one hand and rest one DON!! card. If you do, play up to one (Fish-Man) or (Merfolk) type Character with a cost of 6 or less from your hand.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onWouldBeKO",
+      "selectors": {
+        "fishManOrMerfolkFromHandCost6OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "logic": "OR",
+                  "any": [
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "fishMan"
+                    },
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "merfolk"
+                    }
+                  ]
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 6
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "When this Character would be K.O.'d by 1 of your opponent's effects, you may trash one hand and rest one DON!! card. If you do, play up to one (Fish-Man) or (Merfolk) type Character with a cost of 6 or less from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "thisCardWouldBeKOdByOpponentsEffect",
+          "target": "selfThisCard",
+          "may": true,
+          "cost": {
+            "type": "multiCost",
+            "costs": [
+              {
+                "type": "trashFromHand",
+                "minCards": 1,
+                "maxCards": 1
+              },
+              {
+                "type": "restDonFromCostArea",
+                "count": 1
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "playCard",
+              "sourceZone": "hand",
+              "target": "fishManOrMerfolkFromHandCost6OrLess",
+              "payCost": false,
+              "may": true
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

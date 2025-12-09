@@ -1,74 +1,61 @@
 {
-  "id": "OP14-074",
-  "set": "OP14",
-  "number": 74,
-  "name": "Monet",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "Punk Hazard",
-    "Donquixote Pirates"
-  ],
+  "cardName": "Monet",
+  "cardId": "OP14-074",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Punk Hazard", "Donquixote Pirates"],
+  "traits": ["punkHazard", "donquixotePirates"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-074.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the (Donquixote Pirates) type, add up to 1 DON!! card from your DON!! deck and set it as active. On K.O.: Draw 2 cards and trash 1 card from your hand. Then, add up to 2 DON!! cards from your DON!! deck and rest it.",
+  "setId": "OP14",
+  "cardNumber": "074",
+  "printedText": "[On Play] If your Leader has the {Donquixote Pirates} type, add up to 1 DON!! card from your DON!! deck and set it as active.\n[On K.O.] Draw 2 cards and trash 1 card from your hand. Then, add up to 2 DON!! cards from your DON!! deck and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderHasTrait",
+        "op": "=",
+        "value": "donquixotePirates"
       },
-      "effect": {
-        "text": "If your Leader has the (Donquixote Pirates) type, add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Donquixote Pirates"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "side": "self",
+          "target": "selfCostArea",
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards and trash 1 card from your hand. Then, add up to 2 DON!! cards from your DON!! deck and rest it.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 2,
-          "state": "rested",
-          "from": "DON!! deck",
-          "to": [
-            "self"
-          ]
+      "timing": "onKO",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        },
+        {
+          "type": "giveDon",
+          "count": 2,
+          "enterRested": true,
+          "side": "self",
+          "target": "selfCostArea",
+          "may": true
         }
-      }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,37 +1,62 @@
 {
-  "id": "EB02-038",
-  "set": "EB02",
-  "number": 38,
-  "name": "Magellan",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["Impel Down"],
-  "rarity": "SR",
-  "art": "/cards/EB02/EB02-038.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Play a 2 Cost or lower {Impel Down} type Character card from your hand.",
+  "power": 4000,
+  "cardType": "character",
+  "cardId": "EB02-038",
+  "printedText": "[On Play] Play a 2 Cost or lower {Impel Down} type Character card from your hand.",
+  "types": [
+    "Impel Down"
+  ],
+  "cardNumber": "038",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play a 2 Cost or lower {Impel Down} type Character card from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand:Character:ImpelDown:cost<=2"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "enterRested": false,
+          "type": "playCard",
+          "payCost": true,
+          "sourceZone": "hand",
+          "may": false,
+          "target": {
+            "filters": [
+              {
+                "value": "Impel Down",
+                "field": "types",
+                "op": "="
+              },
+              {
+                "value": 2,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Magellan",
+  "rarity": "C",
+  "cost": 3,
+  "colors": [
+    "purple"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "impelDown"
+  ]
 }

@@ -1,64 +1,71 @@
 {
-  "id": "P-097",
-  "set": "P",
-  "number": 97,
-  "name": "Shanks",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "The Four Emperors",
-    "Red-Haired Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-097.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 12000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "When Attacking",
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "On Play / When Attacking: Your opponent cannot activate during this turn.",
+  "cardName": "Shanks",
+  "cardId": "P-097",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 10,
+  "power": 12000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["The Four Emperors", "Red-Haired Pirates"],
+  "traits": ["theFourEmperors", "redHairedPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-097",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] [When Attacking] Your opponent cannot activate Blocker during this turn.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "opponentBlockers": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "hasKeyword",
+              "op": "=",
+              "value": "Blocker"
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Your opponent cannot activate during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "blocker",
+          "target": "opponentBlockers",
+          "duration": "thisTurn"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "opponentBlockers": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "hasKeyword",
+              "op": "=",
+              "value": "Blocker"
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Your opponent cannot activate during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "blocker",
+          "target": "opponentBlockers",
+          "duration": "thisTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

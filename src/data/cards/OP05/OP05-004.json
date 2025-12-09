@@ -1,49 +1,75 @@
 {
-  "id": "OP05-004",
-  "set": "OP05",
-  "number": 4,
-  "name": "Emporio Ivankov",
-  "category": "Character",
+  "cardName": "Emporio Ivankov",
+  "cardId": "OP05-004",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Special",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-004.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn If this character has 7000 Power or more, play up to 1 <Revolutionary Army>-type character other than \"Emporio Ivankov\" with Power 5000 or less.",
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "004",
+  "printedText": "[Activate: Main] [Once Per Turn] If this Character has 7000 Power or more, play up to 1 {Revolutionary Army}-type Character card other than \"Emporio Ivankov\" with 5000 Power or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "thisCardPower",
+        "op": ">=",
+        "value": 7000
       },
-      "effect": {
-        "text": "If this character has 7000 Power or more, play up to 1 <Revolutionary Army>-type character other than \"Emporio Ivankov\" with Power 5000 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Revolutionary Army"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Emporio Ivankov"
+            },
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 5000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "playTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "payCost": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "revolutionaryArmy"
+  ]
 }

@@ -1,49 +1,73 @@
 {
-  "id": "OP08-022",
-  "set": "OP08",
-  "number": 22,
-  "name": "Inuarashi",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Minks",
-    "Akazaya Nine"
-  ],
+  "cardName": "Inuarashi",
+  "cardId": "OP08-022",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Minks", "Akazaya Nine"],
+  "traits": ["minks", "akazayaNine"],
   "rarity": "UC",
-  "art": "/cards/OP08/OP08-022.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your leader has the \"Minks\" type, up to 2 of your opponent's rested cost 5 or lower characters cannot be set active during their next Refresh Phase.",
+  "setId": "OP08",
+  "cardNumber": "022",
+  "printedText": "[On Play] If your leader has the {Minks} type, up to 2 of your opponent's rested cost 5 or lower characters cannot be set active during their next Refresh Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "restedOppCost5OrLessCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "state",
+                  "op": "=",
+                  "value": "rested"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 5
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your leader has the \"Minks\" type, up to 2 of your opponent's rested cost 5 or lower characters cannot be set active during their next Refresh Phase.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderTypes",
+            "op": "=",
+            "value": "Minks"
+          },
+          "actions": [
+            {
+              "type": "replacementEffect",
+              "duration": "untilEndOfOpponentsNextTurn",
+              "event": "setActiveDuringOwnersRefreshPhase",
+              "target": "restedOppCost5OrLessCharacters",
+              "actions": [
+                {
+                  "type": "noop"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

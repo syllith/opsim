@@ -1,49 +1,55 @@
 {
-  "id": "P-032",
-  "set": "P",
-  "number": 32,
-  "name": "Sengoku",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Navy"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-032.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "Your Turn"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 Your Turn: All of your opponent's Characters get -2 to their cost.",
+  "cardName": "Sengoku",
+  "cardId": "P-032",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 0,
+  "attributes": ["wisdom"],
+  "types": ["Navy"],
+  "traits": ["navy"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-032",
+  "printedText": "[DON!! x1] [Your Turn] Give all of your opponent's Characters -2 cost.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isGivenDon",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "isYourTurn",
+            "op": "=",
+            "value": true
+          }
+        ]
       },
-      "effect": {
-        "text": "All of your opponent's Characters get -2 to their cost.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -2,
+          "duration": "thisTurn",
+          "target": "opponentCharacters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample; 'SAMPLE' watermark present. Rarity 'C' confirmed. Power value is 6000. No life value printed. Attribute is Wisdom. Type is Navy. Cost is 5. Text is 'DON!! x1 Your Turn: All of your opponent's Characters get -2 to their cost.'"
-  }
+  ]
 }

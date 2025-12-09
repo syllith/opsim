@@ -1,55 +1,67 @@
 {
-  "id": "OP11-082",
-  "set": "OP11",
-  "number": 82,
-  "name": "Aramaki",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy"
-  ],
+  "cardName": "Aramaki",
+  "cardId": "OP11-082",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Navy"],
+  "traits": ["navy"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-082.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may trash this Character: If your Leader has the (Navy) type, choose up to 1 of your Characters with the (Navy) type. That Character can attack active Characters during this turn. Then, trash 2 cards from the top of your deck.",
+  "setId": "OP11",
+  "cardNumber": "082",
+  "printedText": "[Activate: Main] You may trash this Character: If your Leader has the \"Navy\" type, up to 1 of your \"Navy\" type Characters can also attack active Characters during this turn. Then, trash 2 cards from the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may trash this Character: If your Leader has the (Navy) type, choose up to 1 of your Characters with the (Navy) type. That Character can attack active Characters during this turn. Then, trash 2 cards from the top of your deck.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter",
-          "self"
-        ],
-        "conditions": [
-          "yourLeaderHasType(Navy)"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "navyCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "navy"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderHasType_navy",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "keywordEffect",
+              "operation": "grant",
+              "keyword": "canAttackActiveCharacters",
+              "duration": "thisTurn",
+              "target": "navyCharacter"
+            }
+          ]
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 2
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

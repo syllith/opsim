@@ -1,37 +1,46 @@
 {
-  "id": "ST26-003",
-  "set": "ST26",
-  "number": 3,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": null,
+  "cardName": "Nico Robin",
+  "cardId": "ST26-003",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/ST26/ST26-003.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "traits": ["strawHatCrew"],
+  "rarity": "SR",
+  "setId": "ST26",
+  "cardNumber": "003",
+  "printedText": "[On Play] DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "donMinus",
+        "count": 2
+      },
+      "selectors": {
+        "donFromDeckTop": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeckTop",
+          "destination": "costArea",
+          "ordering": "keep",
+          "enterRested": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

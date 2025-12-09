@@ -1,71 +1,92 @@
 {
-  "id": "OP04-060",
-  "set": "OP04",
-  "number": 60,
-  "name": "Crocodile",
-  "category": "Character",
+  "cardName": "Crocodile",
+  "cardId": "OP04-060",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 8,
+  "power": 9000,
+  "counter": 0,
   "types": [
-    "The Seven Warlords of the Sea / Baroque Works"
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-060.png",
-  "stats": {
-    "cost": 8,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "When opponent attack"
-  ],
-  "trigger": null,
-  "text": "On Play DON!! -2 If your Leader's type includes (Baroque Works), place up to 1 card from the top of your deck on top of your Life.\nWhen opponent attack Once Per Turn DON!! -1 Draw 1 Card and Trash 1 Card From Your Hand.",
+  "rarity": "SR",
+  "setId": "OP04",
+  "cardNumber": "060",
+  "printedText": "On Play DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): If your Leader's type includes {Baroque Works}, place up to 1 card from the top of your deck on top of your Life.\n\nWhen Opponent Attacks Once Per Turn DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Draw 1 card and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 2
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "baroqueLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Baroque Works"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "baroqueLeader"
+        }
       },
-      "effect": {
-        "text": "If your Leader's type includes (Baroque Works), place up to 1 card from the top of your deck on top of your Life.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "leaderTypeIncludes:Baroque Works"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "baroqueLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "cost": {
+        "type": "returnDon",
+        "count": 2,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "life",
+          "may": true,
+          "target": "selfTopDeckCard"
+        }
+      ]
     },
     {
-      "timing": "When opponent attack",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "Draw 1 Card and Trash 1 Card From Your Hand.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a Character with Strike attribute and Purple color. The text is fully extracted from the card image."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
+  ]
 }

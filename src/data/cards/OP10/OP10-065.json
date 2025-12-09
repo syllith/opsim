@@ -1,48 +1,66 @@
 {
-  "id": "OP10-065",
-  "set": "OP10",
-  "number": 65,
-  "name": "Sugar",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Donquixote Pirates"
-  ],
+  "cardName": "Sugar",
+  "cardId": "OP10-065",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-065.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest 1 of your DON!! and this character: Look at the top 5 cards of your deck, reveal up to 1 card with the (Donquixote Pirates) type and add it to your hand. Place the rest at the bottom of your deck in any order.",
+  "setId": "OP10",
+  "cardNumber": "065",
+  "printedText": "[Activate: Main] You may rest 1 of your DON!! and this character: Look at the top 5 cards of your deck, reveal up to 1 card with the {Donquixote Pirates} type and add it to your hand. Place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to 1 card with the (Donquixote Pirates) type and add it to your hand. Place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "top5DonquixoteCard": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "donquixotePirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "top5DonquixoteCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top5DonquixoteCard",
+          "reveal": true,
+          "addTo": "hand",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,57 +1,58 @@
 {
-  "id": "OP09-014",
-  "set": "OP09",
-  "number": 14,
-  "name": "Limejuice",
-  "category": "Character",
+  "cardName": "Limejuice",
+  "cardId": "OP09-014",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Special",
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Red Hair Pirates"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP09/OP09-014.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "redHairedPirates"
   ],
-  "trigger": null,
-  "text": "[On Play]: Up to one of your opponents characters with power 4000 or less cannot activate [Blocker] the rest of this turn.",
+  "rarity": "UC",
+  "setId": "OP09",
+  "cardNumber": "014",
+  "printedText": "[On Play] Up to 1 of your opponent's Characters with 4000 power or less cannot activate [Blocker] during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "type": "On Play",
-      "frequency": null,
-      "condition": null,
-      "cost": null,
-      "effect": {
-        "text": "Up to one of your opponents characters with power 4000 or less cannot activate Blocker the rest of this turn.",
-        "actions": [
-          {
-            "type": "disableKeyword",
-            "keyword": "Blocker",
-            "targetSide": "opponent",
-            "targetType": "character",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "powerLimit": 4000,
-            "duration": "thisTurn"
-          }
-        ]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "oppChar4000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "blocker",
+          "target": "oppChar4000OrLess",
+          "duration": "thisTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

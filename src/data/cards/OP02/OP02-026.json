@@ -1,37 +1,97 @@
 {
-  "id": "OP02-026",
-  "set": "OP02",
-  "number": 26,
-  "name": "Sanji",
-  "category": "Leader",
-  "colors": ["Green"],
-  "attribute": "Strike",
-  "types": ["Straw Hat Crew"],
+  "cardName": "Sanji",
+  "cardId": "OP02-026",
+  "cardType": "leader",
+  "colors": [
+    "green"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "types": [
+    "Straw Hat Crew"
+  ],
   "rarity": "L",
-  "art": "/cards/OP02/OP02-026.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Once Per Turn"],
-  "trigger": null,
-  "text": "Once Per Turn: When you play a Character without an effect from your hand, if you have 3 or less Characters in play, set up to 2 of your Don!! as active.",
+  "setId": "OP02",
+  "cardNumber": "026",
+  "printedText": "[Once Per Turn] When you play a Character without an effect from your hand, if you have 3 or less Characters in play, set up to 2 of your DON!! cards as active.",
+  "keywords": [
+    "oncePerTurn"
+  ],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When you play a Character without an effect from your hand, if you have 3 or less Characters in play, set up to 2 of your Don!! as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["Don!!"],
-        "conditions": ["Play a Character without effect", "3 or less Characters in play"]
-      }
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "selfCharactersInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "whoChooses": "system"
+        },
+        "selfDonUpTo2": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "playCharacterFromHand",
+          "target": "playedCharacterWithoutEffect",
+          "may": false,
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "eventCardType",
+                "op": "=",
+                "value": "character"
+              },
+              {
+                "field": "eventSourceZone",
+                "op": "=",
+                "value": "hand"
+              },
+              {
+                "field": "eventCardHasEffect",
+                "op": "=",
+                "value": false
+              },
+              {
+                "field": "selectorCount",
+                "selector": "selfCharactersInPlay",
+                "op": "<=",
+                "value": 3
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "setState",
+              "state": "active",
+              "target": "selfDonUpTo2"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

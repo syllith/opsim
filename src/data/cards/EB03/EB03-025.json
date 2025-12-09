@@ -1,37 +1,64 @@
 {
-  "id": "EB03-025",
-  "set": "EB03",
-  "number": 25,
-  "name": "Hina",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Navy"],
-  "rarity": "SR",
-  "art": "/cards/EB03/EB03-025.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] You may trash 1 card from your hand: Return up to 1 Character with 6000 base power to the owner's hand.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB03-025",
+  "printedText": "On Play You may trash 1 card from your hand: Return up to 1 Character with 6000 base power to the owner's hand.",
+  "types": [
+    "Navy"
+  ],
+  "cardNumber": "025",
+  "keywords": [
+    "onPlay"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Return up to 1 Character with 6000 base power to the owner's hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:Character:basePower=6000"],
-        "conditions": ["trash1FromHand"]
-      }
+      "cost": {
+        "may": true,
+        "type": "trashFromHand",
+        "maxCards": 1,
+        "minCards": 1
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 6000,
+                "field": "basePower",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "both",
+            "whoChooses": "self"
+          },
+          "destination": "hand"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Hina",
+  "rarity": "R",
+  "cost": 5,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

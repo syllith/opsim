@@ -1,50 +1,93 @@
 {
-  "id": "ST12-006",
-  "set": "ST12",
-  "number": 6,
-  "name": "Yosaku & Johnny",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
+  "cardName": "Yosaku & Johnny",
+  "cardId": "ST12-006",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["East Blue"],
+  "traits": ["eastBlue"],
   "rarity": "C",
-  "art": "/cards/ST12/ST12-006.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "ST12",
+  "cardNumber": "006",
+  "printedText": "[DON!! x1] [When Attacking] Choose up to 1 of the following effects:\n• Rest up to 1 of your opponent's cost 2 or lower Characters\n• K.O. up to 1 of your opponent's cost 2 or lower rested Characters.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking Choose up to 1 of the following effects: Rest up to 1 of your opponent's cost 2 or lower characters. KO up to 1 of your opponent's cost 2 or lower rested characters.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's cost 2 or lower characters.",
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=2"],
-        "conditions": ["donAttached", "optionalTarget"],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "KO up to 1 of your opponent's cost 2 or lower rested characters.",
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=2:rested"],
-        "conditions": ["donAttached", "optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "donCountOnThis",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "oppCost2OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ]
+        },
+        "oppRestedCost2OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "setState",
+                  "state": "rested",
+                  "target": "oppCost2OrLessChar"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "ko",
+                  "target": "oppRestedCost2OrLessChar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

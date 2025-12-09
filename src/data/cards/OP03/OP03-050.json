@@ -1,68 +1,39 @@
 {
-  "id": "OP03-050",
-  "set": "OP03",
-  "number": 50,
-  "name": "Boodle",
-  "category": "Character",
+  "cardName": "Boodle",
+  "cardId": "OP03-050",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "East Blue"
   ],
   "rarity": "UC",
-  "art": "/cards/OP03/OP03-050.png",
-  "stats": {
-    "cost": 2,
-    "power": 1000,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "050",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] You may trash the top card of your deck.",
   "keywords": [
-    "Blocker",
-    "On K.O."
+    "Blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. You may trash the top card of your deck.",
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may trash the top card of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "afterOpponentDeclaresAttack"
-        ],
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "actions": [
+        {
+          "type": "trashTopDeck",
+          "count": 1,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'UC' as printed in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

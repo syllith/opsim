@@ -1,52 +1,86 @@
 {
-  "id": "OP04-009",
-  "set": "OP04",
-  "number": 9,
-  "name": "Super Spot-Billed Duck Squad",
-  "category": "Character",
+  "cardName": "Super Spot-Billed Duck Squad",
+  "cardId": "OP04-009",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
   "types": [
     "Animal",
     "Alabasta Kingdom"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-009.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking: Give up to 1 of your active leaders -5000 during this turn. Return this card to your hand at the end of your turn.",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "009",
+  "printedText": "[When Attacking] Give up to 1 of your active leaders -5000 during this turn. Return this card to your hand at the end of your turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "ownActiveLeaderUpTo1": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            }
+          ]
+        },
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your active leaders -5000 during this turn. Return this card to your hand at the end of your turn.",
-        "powerMod": null,
-        "targets": [
-          "oneActiveLeader"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -5000,
+          "duration": "thisTurn",
+          "target": "ownActiveLeaderUpTo1"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "endOfYourTurn",
+          "target": "thisCardSelector",
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "thisCardSelector",
+              "destination": "hand",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animal",
+    "alabastaKingdom"
+  ]
 }

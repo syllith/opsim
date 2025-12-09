@@ -1,42 +1,106 @@
 {
-  "id": "EB02-021",
-  "set": "EB02",
-  "number": 21,
-  "name": "Gum Gum Giant Pistol",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["Straw Hat Crew", "W7"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-021.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": {
-    "text": "Rest up to one of your opponent's cost 4 or lower characters."
-  },
-  "text": "[Main] Give up to one of your {Straw Hat Crew} type characters +6000 power until end of turn. Then, that character does not become active during your next refresh phase.\n[Trigger] Rest up to one of your opponent's cost 4 or lower characters.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to one of your {Straw Hat Crew} type characters +6000 power until end of turn. Then, that character does not become active during your next refresh phase.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "main",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
           "amount": 6000,
-          "duration": "untilEndOfTurn"
+          "target": {
+            "filters": [
+              {
+                "value": "Straw Hat Crew",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
         },
-        "targets": ["upTo1:ally:Character:StrawHatCrew"],
-        "conditions": []
-      }
+        {
+          "keyword": "cannotActivateNextRefresh",
+          "target": {
+            "filters": [
+              {
+                "value": "Straw Hat Crew",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "type": "keywordEffect",
+          "operation": "grant",
+          "duration": "untilStartOfYourNextTurn"
+        }
+      ]
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "setState",
+          "target": {
+            "filters": [
+              {
+                "value": 4,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "state": "rested"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "colors": [
+    "green"
+  ],
+  "rarity": "C",
+  "cardName": "Gum Gum Giant Pistol",
+  "types": [
+    "Straw Hat Crew",
+    "W7"
+  ],
+  "printedText": "Main Give up to one of your {Straw Hat Crew} type characters +6000 power until end of turn. Then, that character does not become active during your next refresh phase.\nTrigger Rest up to one of your opponent's cost 4 or lower characters.",
+  "setId": "EB02",
+  "cardType": "event",
+  "cardNumber": "021",
+  "cardId": "EB02-021",
+  "cost": 3,
+  "traits": [
+    "strawHatCrew",
+    "waterSeven"
+  ]
 }

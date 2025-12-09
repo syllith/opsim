@@ -1,37 +1,95 @@
 {
-  "id": "ST13-003",
-  "set": "ST13",
-  "number": 3,
-  "name": "Monkey D. Luffy",
-  "category": "Leader",
-  "colors": ["Black", "Yellow"],
-  "attribute": "Strike",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "ST13-003",
+  "cardType": "leader",
+  "colors": ["red", "black"],
+  "power": 5000,
+  "life": 4,
+  "attributes": ["strike"],
   "types": ["Supernova", "Straw Hat Crew"],
+  "traits": ["supernova", "strawHatCrew"],
   "rarity": "L",
-  "art": "/cards/ST13/ST13-003.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": { "present": false, "value": null }
-  },
+  "setId": "ST13",
+  "cardNumber": "003",
+  "printedText": "Per the rules, your face-up Life cards will be sent to the bottom of your deck instead of your hand. DON!! x2 [Activate: Main] [Once Per Turn] You may trash 1 card from your hand: If your Life is at 0 cards, you may play up to 2 cost 5 or lower Characters with \"Supernova\" in their types from your hand or trash to your Life area as Life cards.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x2 Activate: Main Once Per Turn You may discard one card from your hand; if your life is at 0 cards, you may add up to 2 5 cost characters from your hand or trash to your life face up.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may discard one card from your hand; if your life is at 0 cards, you may add up to 2 5 cost characters from your hand or trash to your life face up.",
-        "powerMod": null,
-        "targets": ["self:discardHand:optional", "self:lifeIsZero", "oneAllyCharacter=5:handOrTrash:lifeFaceUp:max2"],
-        "conditions": ["donAttached", "optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "lifeCardWouldGoToHand",
+          "target": "selfTriggerSourceCard",
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "selfTriggerSourceCard",
+              "destination": "bottomOfDeck",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 2
+          },
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1,
+            "may": true
+          }
+        ],
+        "may": true
+      },
+      "condition": {
+        "field": "selfLifeCount",
+        "op": "=",
+        "value": 0
+      },
+      "selectors": {
+        "luffySupernovaFromHandOrTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand", "trash"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernova"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "luffySupernovaFromHandOrTrash",
+          "destination": "topOfLife",
+          "ordering": "chosen",
+          "faceUp": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": "Per the rules, your face up life cards will be sent to the bottom of your deck instead of to your hand." }
+  ]
 }

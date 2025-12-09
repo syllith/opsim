@@ -1,65 +1,87 @@
 {
-  "id": "OP11-018",
-  "set": "OP11",
-  "number": 18,
-  "name": "Honesty Impact",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy",
-    "SWORD"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-018.png",
-  "stats": {
-    "cost": 6,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "K.O. Up to 1 of your opponent's Characters with 6000 power or less."
-  },
-  "text": "Main Give up to 1 of your opponent's Characters -4000 power during this turn. Then, K.O. up to 1 of your opponent's Characters with 6000 power or less.",
+  "cardName": "Honesty Impact",
+  "cardId": "OP11-018",
+  "cardType": "event",
+  "colors": ["red", "yellow"],
+  "cost": 6,
+  "types": ["Navy", "SWORD"],
+  "traits": ["navy", "sword"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "018",
+  "printedText": "[Main] Give up to 1 of your opponent's Characters -4000 power during this turn. Then, K.O. up to 1 of your opponent's Characters with 6000 power or less.\n[Trigger] K.O. up to 1 of your opponent's Characters with 6000 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "koTarget6000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 6000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -4000 power during this turn. Then, K.O. up to 1 of your opponent's Characters with 6000 power or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -4000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        },
+        {
+          "type": "ko",
+          "target": "koTarget6000OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "triggerKoTarget6000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 6000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. Up to 1 of your opponent's Characters with 6000 power or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "triggerKoTarget6000OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

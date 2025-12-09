@@ -1,48 +1,88 @@
 {
-  "id": "ST22-002",
-  "set": "ST22",
-  "number": 2,
-  "name": "Izo",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Ranged",
+  "cardName": "Izo",
+  "cardId": "ST22-002",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["ranged"],
   "types": ["Land of Wano", "Whitebeard Pirates"],
-  "rarity": "SR",
-  "art": "/cards/ST22/ST22-002.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "On Opponent's Attack"],
-  "trigger": null,
-  "text": "On Play Look at 5 cards from the top of your deck; reveal up to 1 card with a type including 'Whitebeard Pirates' other than [Izo] and add it to your hand. Then, place the rest at the bottom of your deck in any order. On Opponent's Attack You may trash this Character: Draw 1 card and place 1 card from your hand to the bottom of your deck.",
+  "traits": ["landOfWano", "whitebeardPirates"],
+  "rarity": "starter",
+  "setId": "ST22",
+  "cardNumber": "002",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 card with a type including \"Whitebeard Pirates\" other than [Izo] and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[On Opponent's Attack] You may trash this Character: Draw 1 card and place 1 card from your hand to the bottom of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 card with a type including 'Whitebeard Pirates' other than [Izo] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": ["deckTop5"],
-        "conditions": ["optionalTarget", "revealWhitebeardPiratesCardOtherThanSelf"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "izoSearchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Whitebeard Pirates"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Izo"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "izoSearchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "On Opponent's Attack",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash this Character: Draw 1 card and place 1 card from your hand to the bottom of your deck.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentAttackDeclared", "trashSelf"]
-      }
+      "timing": "onOpponentsAttack",
+      "cost": {
+        "type": "trashThis",
+        "may": true
+      },
+      "selectors": {
+        "handToBottom": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "moveCard",
+          "target": "handToBottom",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

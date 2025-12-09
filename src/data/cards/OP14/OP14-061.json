@@ -1,68 +1,87 @@
 {
-  "id": "OP14-061",
-  "set": "OP14",
-  "number": 61,
-  "name": "Vergo",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Punk Hazard",
-    "Navy",
-    "Donquixote Pirates"
-  ],
+  "cardName": "Vergo",
+  "cardId": "OP14-061",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Punk Hazard", "Navy", "Donquixote Pirates"],
+  "traits": ["punkHazard", "navy", "donquixotePirates"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-061.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "Once Per Turn",
-    "When Attacking",
-    "DON!!-1"
-  ],
-  "trigger": null,
-  "text": "Once Per Turn: If your (Donquixote Pirates) type Character would be removed from the field by your opponent's effect, you may return 1 DON!! card from your field to your DON!! deck instead. When Attacking DON!!-1: Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "setId": "OP14",
+  "cardNumber": "061",
+  "printedText": "[Once Per Turn] If your {Donquixote Pirates} type Character would be removed from the field by your opponent's effect, you may return 1 DON!! card from your field to your DON!! deck instead.\n[When Attacking] DON!!-1: Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "donquixoteCharacterToProtect": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "donquixotePirates"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If your (Donquixote Pirates) type Character would be removed from the field by your opponent's effect, you may return 1 DON!! card from your field to your DON!! deck instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "selfDonquixoteCharacterWouldBeRemovedFromFieldByOpponentsEffect",
+          "target": "donquixoteCharacterToProtect",
+          "may": true,
+          "cost": {
+            "type": "returnDon",
+            "count": 1
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "opponentCharacterUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

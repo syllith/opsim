@@ -1,36 +1,18 @@
 {
-  "id": "ST22-008",
-  "set": "ST22",
-  "number": 8,
-  "name": "Decalvan Brothers",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
+  "cardName": "Decalvan Brothers",
+  "cardId": "ST22-008",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Whitebeard Pirates Allies"],
-  "rarity": "C",
-  "art": "/cards/ST22/ST22-008.png",
-  "stats": {
-    "cost": 2,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": "Counter +1000",
-  "abilities": [
-    {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Counter +1000",
-        "powerMod": { "amount": 1000, "duration": "this battle" },
-        "targets": ["self"],
-        "conditions": []
-      }
-    }
-  ],
-  "meta": { "notes": null }
+  "traits": ["whitebeardPiratesAllies"],
+  "rarity": "starter",
+  "setId": "ST22",
+  "cardNumber": "008",
+  "printedText": "",
+  "keywords": [],
+  "abilities": []
 }

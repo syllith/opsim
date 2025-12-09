@@ -1,49 +1,68 @@
 {
-  "id": "OP10-044",
-  "set": "OP10",
-  "number": 44,
-  "name": "Cub",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "The Tontattas",
-    "Dressrosa"
-  ],
+  "cardName": "Cub",
+  "cardId": "OP10-044",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["The Tontattas", "Dressrosa"],
+  "traits": ["theTontattas", "dressrosa"],
   "rarity": "UC",
-  "art": "/cards/OP10/OP10-044.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may rest 1 of your {Dressrosa} type Leader or Stage cards: Return up to 1 of your opponent's Characters with a cost of 1 or less to the owner's hand.",
+  "setId": "OP10",
+  "cardNumber": "044",
+  "printedText": "[On Play] You may rest 1 of your {Dressrosa} type Leader or Stage cards: Return up to 1 of your opponent's Characters with a cost of 1 or less to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restFromField",
+        "selector": "dressrosaLeaderOrStage",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 1 of your {Dressrosa} type Leader or Stage cards: Return up to 1 of your opponent's Characters with a cost of 1 or less to the owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "dressrosaLeaderOrStage": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "stage"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "dressrosa"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "opponentCost1OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentCost1OrLessCharacter",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample and has 'SAMPLE' watermark. Rarity is UC as printed. Power is 2000 as printed. Life is not printed for Character cards. Counter value is 1000 as printed."
-  }
+  ]
 }

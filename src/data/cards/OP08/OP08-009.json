@@ -1,32 +1,18 @@
 {
-  "id": "OP08-009",
-  "set": "OP08",
-  "number": 9,
-  "name": "Leekbear Maria",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Drum Kingdom"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-009.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Leekbear Maria",
+  "cardId": "OP08-009",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Drum Kingdom"],
+  "traits": ["drumKingdom"],
+  "rarity": "C",
+  "setId": "OP08",
+  "cardNumber": "009",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. Power is 5000, cost is 3, and counter is +1000. No text or abilities printed."
-  }
+  "abilities": []
 }

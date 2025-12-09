@@ -1,38 +1,71 @@
 {
-  "id": "OP01-064",
-  "set": "OP01",
-  "number": 64,
-  "name": "Alvida",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["Buggy Pirates"],
-  "rarity": "C",
-  "art": "/cards/OP01/OP01-064.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["DON!! x1", "When Attacking"],
-  "trigger": null,
-  "text": "DON!! x1 | When Attacking: You may trash 1 card from your hand: Return up to 1 of your opponent's Characters with a cost of 3 or less to their hand.",
+  "cardName": "Alvida",
+  "cardId": "OP01-064",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
+  "types": [
+    "Buggy Pirates"
+  ],
+  "rarity": "R",
+  "setId": "OP01",
+  "cardNumber": "064",
+  "printedText": "DON!! x1 When Attacking You may trash 1 card from your hand: Return up to 1 of your opponent's Characters with a cost of 3 or less to their hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Return up to 1 of your opponent's Characters with a cost of 3 or less to their hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=3"],
-        "conditions": ["trashHandCard"],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "this.attachedDon",
+        "op": ">=",
+        "value": 1
+      },
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "oppCharCost3OrLessUpTo1": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppCharCost3OrLessUpTo1",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "buggyPirates"
+  ]
 }

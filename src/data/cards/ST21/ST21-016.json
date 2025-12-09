@@ -1,60 +1,104 @@
 {
-  "id": "ST21-016",
-  "set": "ST21",
-  "number": 16,
-  "name": "Gum Gum Dawn Whip",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Four Emperors", "Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/ST21/ST21-016.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["Main", "Blocker"],
-  "trigger": { "text": "K.O. up to one of your opponent's characters with a power of 4000 or less." },
-  "text": "Main Give up to one of your leaders or characters +1000 power during this turn. Then, up to one of your opponent's character with a power of 4000 or less power cannot activate Blocker during this turn. Trigger K.O. up to one of your opponent's characters with a power of 4000 or less.",
+  "cardName": "Gum Gum Dawn Whip",
+  "cardId": "ST21-016",
+  "cardType": "event",
+  "colors": [
+    "red"
+  ],
+  "cost": 2,
+  "types": [
+    "Four Emperors",
+    "Straw Hat Crew"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "strawHatCrew"
+  ],
+  "rarity": "starter",
+  "setId": "ST21",
+  "cardNumber": "016",
+  "printedText": "[Main] Give up to 1 of your Leaders or Characters +1000 power during this turn. Then, up to 1 of your opponent's Characters with a power of 4000 or less cannot activate [Blocker] during this turn. [Trigger] K.O. up to 1 of your opponent's Characters with a power of 4000 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to one of your leaders or characters +1000 power during this turn.",
-        "powerMod": { "amount": 1000, "duration": "this turn" },
-        "targets": ["oneAllyLeader", "oneAllyCharacter"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "main",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "oppNoBlockerTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        },
+        {
+          "type": "restrict",
+          "restrictionKind": "blocker",
+          "target": "oppNoBlockerTarget",
+          "duration": "thisTurn"
+        }
+      ]
     },
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Up to one of your opponent's character with a power of 4000 or less power cannot activate Blocker during this turn.",
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=4000"],
-        "conditions": ["optionalTarget"]
-      }
-    },
-    {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to one of your opponent's characters with a power of 4000 or less.",
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=4000"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "trigger",
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

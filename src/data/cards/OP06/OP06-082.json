@@ -1,70 +1,68 @@
 {
-  "id": "OP06-082",
-  "set": "OP06",
-  "number": 82,
-  "name": "Inuppe",
-  "category": "Character",
+  "cardName": "Inuppe",
+  "cardId": "OP06-082",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Thriller Bark Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-082.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "On K.O."
+  "traits": [
+    "thrillerBarkPirates"
   ],
-  "trigger": null,
-  "text": "On Play / On K.O. If your leader has the <Thriller Bark Pirates> Type, draw 2 cards, then discard 2 cards from your hand.",
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "082",
+  "printedText": "On Play / On K.O. If your leader has the {Thriller Bark Pirates} type, draw 2 cards, then discard 2 cards from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderHasTraitThrillerBarkPirates",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your leader has the <Thriller Bark Pirates> Type, draw 2 cards, then discard 2 cards from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Thriller Bark Pirates"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderHasTraitThrillerBarkPirates",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your leader has the <Thriller Bark Pirates> Type, draw 2 cards, then discard 2 cards from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Thriller Bark Pirates"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a '打 STRIKE' icon, but attribute is 'Strike' as printed."
-  }
+  ]
 }

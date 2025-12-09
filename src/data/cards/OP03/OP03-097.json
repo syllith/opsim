@@ -1,74 +1,87 @@
 {
-  "id": "OP03-097",
-  "set": "OP03",
-  "number": 97,
-  "name": "Six King Pistol",
-  "category": "Event",
+  "cardName": "Six King Pistol",
+  "cardId": "OP03-097",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": null,
-  "types": [],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-097.png",
-  "stats": {
-    "cost": 0,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
+  "cost": 0,
+  "types": [
+    "CP9"
   ],
-  "trigger": {
-    "text": "Draw 1 card. Then, K.O. up to 1 of your opponent's Characters with a cost of 1 or less."
-  },
-  "text": "#Counter You may trash 1 card from your hand: Up to 1 of your Leader or Characters gains +3000 Power during this battle.\n\nTrigger Draw 1 card. Then, K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "097",
+  "printedText": "[Counter] You may trash 1 card from your hand: Up to 1 of your Leader or Characters gains +3000 Power during this battle.\nTrigger Draw 1 card. Then, K.O. up to 1 of your opponent’s Characters with a cost of 1 or less.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
+      "timing": "counter",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Up to 1 of your Leader or Characters gains +3000 Power during this battle.",
-        "powerMod": {
+      "selectors": {
+        "powerTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "bindAs": "buffTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "upTo1LeaderOrCharacter"
-        ],
-        "conditions": [
-          "yourHand"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "oppCost1": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "bindAs": "toKO"
+        }
       },
-      "effect": {
-        "text": "Draw 1 card. Then, K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
-        "powerMod": null,
-        "targets": [
-          "upTo1OpponentCharacter<=cost1"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "ko",
+          "target": "toKO"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is visible in the bottom right corner. The card is an Event with no cost, power, or life. The Counter and Trigger abilities are clearly defined."
-  }
+  "traits": [
+    "cp9"
+  ]
 }

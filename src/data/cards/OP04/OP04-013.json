@@ -1,51 +1,61 @@
 {
-  "id": "OP04-013",
-  "set": "OP04",
-  "number": 13,
-  "name": "Pell",
-  "category": "Character",
+  "cardName": "Pell",
+  "cardId": "OP04-013",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Alabasta Kingdom"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-013.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 [When Attacking] K.O. up to 1 of your opponent's Characters with 4000 or less power.",
+  "rarity": "SR",
+  "setId": "OP04",
+  "cardNumber": "013",
+  "printedText": "[DON!! x1] [When Attacking] K.O. up to 1 of your opponent's Characters with 4000 or less power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with 4000 or less power.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=4000"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppChar4000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppChar4000OrLess"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "alabastaKingdom"
+  ]
 }

@@ -1,38 +1,69 @@
 {
-  "id": "OP02-015",
-  "set": "OP02",
-  "number": 15,
-  "name": "Makino",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Wisdom",
-  "types": ["Windmill Village"],
+  "cardName": "Makino",
+  "cardId": "OP02-015",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "types": [
+    "Windmill Village"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-015.png",
-  "stats": {
-    "cost": 0,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["Counter", "Activate: Main"],
-  "trigger": null,
-  "text": "Activate: Main You may rest this Character: Up to 1 of your red Characters with a cost of 1 gains +3000 power during this turn.",
+  "setId": "OP02",
+  "cardNumber": "015",
+  "printedText": "[Activate: Main] You may rest this Character: Up to 1 of your red Characters with a cost of 1 gains +3000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Character: Up to 1 of your red Characters with a cost of 1 gains +3000 power during this turn.",
-        "grants": [],
-        "powerMod": { "amount": 3000, "duration": "this turn" },
-        "targets": ["oneRedCharacter<=1"],
-        "conditions": ["restSelf", "optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "redCost1Char": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "color",
+              "op": "=",
+              "value": "red"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisTurn",
+          "target": "redCost1Char"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "windmillVillage"
+  ]
 }

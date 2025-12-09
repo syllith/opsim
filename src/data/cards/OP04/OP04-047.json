@@ -1,57 +1,74 @@
 {
-  "id": "OP04-047",
-  "set": "OP04",
-  "number": 47,
-  "name": "Ice Oni",
-  "category": "Character",
+  "cardName": "Ice Oni",
+  "cardId": "OP04-047",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 8,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "Plague",
     "Animal Kingdom Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-047.png",
-  "stats": {
-    "cost": 8,
-    "power": 1000,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn At the end of battle between this character and an opponent's 5 cost or lower character, place the opponent's character at the bottom of the owner's deck.",
+  "setId": "OP04",
+  "cardNumber": "047",
+  "printedText": "[Your Turn] At the end of a battle where this Character fights your opponent's Character with cost 5 or less, put that Character on the bottom of its owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "At the end of battle between this character and an opponent's 5 cost or lower character, place the opponent's character at the bottom of the owner's deck.",
-        "powerMod": null,
-        "targets": [
-          "thisCharacter",
-          "oneOpponentCharacter<=cost5"
-        ],
-        "conditions": [
-          "battle",
-          "opponentCharacter<=cost5"
-        ],
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "endOfBattleWithThisCharacter",
+          "target": "battleOpponent",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "currentTurnPlayer",
+                "op": "=",
+                "value": "self"
+              },
+              {
+                "field": "battleOpponentController",
+                "op": "=",
+                "value": "opponent"
+              },
+              {
+                "field": "battleOpponentType",
+                "op": "=",
+                "value": "character"
+              },
+              {
+                "field": "battleOpponentCost",
+                "op": "<=",
+                "value": 5
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "battleOpponent",
+              "destination": "bottomOfDeck",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is visible in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "plague",
+    "animalKingdomPirates"
+  ]
 }

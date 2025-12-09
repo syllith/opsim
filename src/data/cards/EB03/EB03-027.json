@@ -1,37 +1,58 @@
 {
-  "id": "EB03-027",
-  "set": "EB03",
-  "number": 27,
-  "name": "Marguerite",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Ranged",
-  "types": ["Amazon Lily"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-027.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Return up to 1 Character with with 7000 base power to the owner's hand.",
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB03-027",
+  "printedText": "[On Play] Return up to 1 Character with 7000 base power to the owner's hand.",
+  "types": [
+    "Amazon Lily"
+  ],
+  "cardNumber": "027",
+  "keywords": [
+    "onPlay"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Return up to 1 Character with with 7000 base power to the owner's hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:Character:basePower=7000"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "destination": "hand",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 7000,
+                "field": "basePower",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "both",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Marguerite",
+  "rarity": "R",
+  "cost": 6,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "amazonLily"
+  ]
 }

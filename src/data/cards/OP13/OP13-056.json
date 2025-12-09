@@ -1,51 +1,52 @@
 {
-  "id": "OP13-056",
-  "set": "OP13",
-  "number": 56,
-  "name": "LittleOars Jr.",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Giant",
-    "Whitebeard Pirates Allies"
-  ],
+  "cardName": "LittleOars Jr.",
+  "cardId": "OP13-056",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 7,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Giant", "Whitebeard Pirates Allies"],
+  "traits": ["giant", "whitebeardPiratesAllies"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-056.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "056",
+  "printedText": "[When Attacking] If your Leader has a type including \"Whitebeard Pirates\", draw 1 card.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: If your Leader has a type including \"Whitebeard Pirates\", draw 1 card.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "leaderWithWhitebeard": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "whitebeardPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your Leader has a type including \"Whitebeard Pirates\", draw 1 card.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasTypeIncludingWhitebeardPirates"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderWithWhitebeard",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

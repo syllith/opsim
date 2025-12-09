@@ -1,54 +1,65 @@
 {
-  "id": "OP06-088",
-  "set": "OP06",
-  "number": 88,
-  "name": "Sai",
-  "category": "Character",
+  "cardName": "Sai",
+  "cardId": "OP06-088",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 4000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Dressrosa",
     "Happosui Army"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-088.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "traits": [
+    "dressrosa",
+    "happosuiArmy"
+  ],
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "088",
+  "printedText": "If your Leader has the {Dressrosa} type and your leader is active, this character gains +2000 power.",
   "keywords": [],
-  "trigger": null,
-  "text": "If your Leader has the {Dressrosa} type and your leader is active, this character gains +2000 power.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderHasTraitDressrosa",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "leaderIsActive",
+            "op": "=",
+            "value": true
+          }
+        ]
       },
-      "effect": {
-        "text": "If your Leader has the {Dressrosa} type and your leader is active, this character gains +2000 power.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "conditions": [
-          "your Leader has the {Dressrosa} type",
-          "your leader is active"
-        ],
-        "giveDon": null
-      }
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

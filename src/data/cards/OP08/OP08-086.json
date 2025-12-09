@@ -1,49 +1,56 @@
 {
-  "id": "OP08-086",
-  "set": "OP08",
-  "number": 86,
-  "name": "Ginrummy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animal Kingdom Pirates",
-    "SMILE"
-  ],
+  "cardName": "Ginrummy",
+  "cardId": "OP08-086",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Animal Kingdom Pirates", "SMILE"],
+  "traits": ["animalKingdomPirates", "smile"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-086.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your opponent has a Character with a cost of 0, draw 2 cards and trash 2 cards from your hand.",
+  "setId": "OP08",
+  "cardNumber": "086",
+  "printedText": "[On Play] If your opponent has a Character with a cost of 0, draw 2 cards and trash 2 cards from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "oppCost0Character",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "If your opponent has a Character with a cost of 0, draw 2 cards and trash 2 cards from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCost0Character": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "side": "self",
+          "minCards": 2,
+          "maxCards": 2
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has '打' (Strike) symbol in top right corner, which is consistent with 'Strike' attribute. Power value is clearly 3000. Rarity is 'C' as printed in bottom right corner. No life value printed."
-  }
+  ]
 }

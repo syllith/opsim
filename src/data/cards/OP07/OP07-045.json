@@ -1,50 +1,77 @@
 {
-  "id": "OP07-045",
-  "set": "OP07",
-  "number": 45,
-  "name": "Jinbe",
-  "category": "Character",
+  "cardName": "Jinbe",
+  "cardId": "OP07-045",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Fishman",
-    "Seven Warlords",
+    "Seven Warlords of the Sea",
     "Sun Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-045.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "fishMan",
+    "theSevenWarlordsOfTheSea",
+    "sunPirates"
   ],
-  "trigger": null,
-  "text": "On Play: Play up to 1 Cost 4 or lower <Seven Warlords of the Sea> type character card other than \"Jinbe\" from your hand.",
+  "rarity": "SR",
+  "setId": "OP07",
+  "cardNumber": "045",
+  "printedText": "[On Play] Play up to 1 cost 4 or lower {Seven Warlords of the Sea} type Character card other than [Jinbe] from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "sevenWarlordsOfTheSea"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Jinbe"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Play up to 1 Cost 4 or lower <Seven Warlords of the Sea> type character card other than \"Jinbe\" from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

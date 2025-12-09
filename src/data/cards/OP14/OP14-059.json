@@ -1,63 +1,71 @@
 {
-  "id": "OP14-059",
-  "set": "OP14",
-  "number": 59,
-  "name": "Please Take Me With You!! I Can Be of Great Help to You!!",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Fish-Man",
-    "The Seven Warlords of the Sea",
-    "The Sun Pirates"
-  ],
+  "cardName": "Please Take Me With You!! I Can Be of Great Help to You!!",
+  "cardId": "OP14-059",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 1,
+  "types": ["Fish-Man", "The Seven Warlords of the Sea", "The Sun Pirates"],
+  "traits": ["fishMan", "theSevenWarlordsOfTheSea", "theSunPirates"],
   "rarity": "UC",
-  "art": "/cards/OP14/OP14-059.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP14",
+  "cardNumber": "059",
+  "printedText": "[Main] If your Leader is [Jinbe] and you have 2 or less cards in your hand, draw 2 cards.\n[Trigger] Return up to 1 Character with a cost of 4 or less to the owner's hand.",
   "keywords": [],
-  "trigger": {
-    "text": "Return up to 1 Character with a cost of 4 or less to the owner's hand."
-  },
-  "text": "Main If your Leader is [Jinbe] and you have 2 or less cards in your hand, draw 2 cards.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderCardName",
+            "op": "=",
+            "value": "Jinbe"
+          },
+          {
+            "field": "selfHandSize",
+            "op": "<=",
+            "value": 2
+          }
+        ]
       },
-      "effect": {
-        "text": "If your Leader is [Jinbe] and you have 2 or less cards in your hand, draw 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "characterCost4OrLessUpToOne": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Return up to 1 Character with a cost of 4 or less to the owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "characterCost4OrLessUpToOne",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

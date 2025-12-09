@@ -1,68 +1,96 @@
 {
-  "id": "OP13-102",
-  "set": "OP13",
-  "number": 102,
-  "name": "Edison",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Scientist",
-    "Egghead"
-  ],
+  "cardName": "Edison",
+  "cardId": "OP13-102",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Scientist", "Egghead"],
+  "traits": ["scientist", "egghead"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-102.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 1 card. Then, rest up to 1 of your opponent's Characters with a cost of 3 or less."
-  },
-  "text": "Activate: Main You may trash this Character: If you have less Life cards than your opponent, draw 1 card. Then, rest up to 1 of your opponent's Characters with a cost of 3 or less.\nTrigger Draw 1 card. Then, rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "setId": "OP13",
+  "cardNumber": "102",
+  "printedText": "[Activate:Main] You may trash this Character: If you have less Life cards than your opponent, draw 1 card. Then, rest up to 1 of your opponent's Characters with a cost of 3 or less.\n[Trigger] Draw 1 card. Then, rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may trash this Character: If you have less Life cards than your opponent, draw 1 card. Then, rest up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "conditions": [
-          "less Life cards than your opponent"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "upToOneOppCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "field": "lifeCountSelf",
+        "op": "<",
+        "fieldRef": "lifeCountOpponent"
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "upToOneOppCost3OrLess",
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "upToOneOppCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Draw 1 card. Then, rest up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "upToOneOppCost3OrLess",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

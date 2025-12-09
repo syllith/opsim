@@ -1,48 +1,59 @@
 {
-  "id": "OP05-104",
-  "set": "OP05",
-  "number": 104,
-  "name": "Conis",
-  "category": "Character",
+  "cardName": "Conis",
+  "cardId": "OP05-104",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
   "types": [
     "Sky Island"
   ],
-  "rarity": "UB",
-  "art": "/cards/OP05/OP05-104.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may place 1 of your stage cards on the bottom of your deck: Draw 1 cards, then trash 1.",
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "104",
+  "printedText": "On Play You may place 1 of your stage cards on the bottom of your deck: Draw 1 cards, then trash 1.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromField",
+        "selector": "selfStageCard",
+        "may": true
       },
-      "effect": {
-        "text": "You may place 1 of your stage cards on the bottom of your deck: Draw 1 cards, then trash 1.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "selfStageCard": {
+          "side": "self",
+          "type": "stage",
+          "zones": [
+            "stage"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "skyIsland"
+  ]
 }

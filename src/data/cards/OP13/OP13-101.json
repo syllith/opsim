@@ -1,33 +1,18 @@
 {
-  "id": "OP13-101",
-  "set": "OP13",
-  "number": 101,
-  "name": "Atlas",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Scientist",
-    "Egghead"
-  ],
+  "cardName": "Atlas",
+  "cardId": "OP13-101",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Scientist", "Egghead"],
+  "traits": ["scientist", "egghead"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-101.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "101",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "abilities": []
 }

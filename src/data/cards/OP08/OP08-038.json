@@ -1,65 +1,74 @@
 {
-  "id": "OP08-038",
-  "set": "OP08",
-  "number": 38,
-  "name": "We Would Never Sell a Comrade to an Enemy!!!",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Minks",
-    "The Akazaya Nine"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP08/OP08-038.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Rest up to 1 of your opponent's Characters with a cost of 3 or less."
-  },
-  "text": "Main: You may rest 2 of your Characters: None of your Characters can be K.O.'d by your opponent's effects until the end of your opponent's next turn. Trigger: Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "cardName": "We Would Never Sell a Comrade to an Enemy!!!",
+  "cardId": "OP08-038",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 1,
+  "types": ["Minks", "The Akazaya Nine"],
+  "traits": ["minks", "theAkazayaNine"],
+  "rarity": "R",
+  "setId": "OP08",
+  "cardNumber": "038",
+  "printedText": "[Main] You may rest 2 of your Characters: None of your Characters can be K.O.'d by your opponent's effects until the end of your opponent's next turn.\n[Trigger] Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restFromField",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        },
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 2 of your Characters: None of your Characters can be K.O.'d by your opponent's effects until the end of your opponent's next turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "allSelfCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "wouldBeKOdByEffect",
+          "target": "allSelfCharacters",
+          "actions": [
+            { "type": "noop" }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "restOppCost3": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            { "field": "cost", "op": "<=", "value": 3 }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restOppCost3"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

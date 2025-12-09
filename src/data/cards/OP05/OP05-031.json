@@ -1,49 +1,82 @@
 {
-  "id": "OP05-031",
-  "set": "OP05",
-  "number": 31,
-  "name": "buffalo",
-  "category": "Character",
+  "cardName": "buffalo",
+  "cardId": "OP05-031",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Donquixote Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-031.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "031",
+  "printedText": "[When Attacking] [Once Per Turn] If two or more of your Characters are rested, you may set up to 1 of your cost 1 Characters as active.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking Once Per Turn If two or more of your characters are rested, you may set up to one of your cost 1 characters as active.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "restedChars",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "If two or more of your characters are rested, you may set up to one of your cost 1 characters as active.",
-        "powerMod": null,
-        "conditions": [
-          "two or more of your characters are rested"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "restedChars": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system",
+          "bindAs": "restedChars"
+        },
+        "cost1Chars": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "cost1Chars"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "cost1Chars",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

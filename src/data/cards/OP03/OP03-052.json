@@ -1,54 +1,26 @@
 {
-  "id": "OP03-052",
-  "set": "OP03",
-  "number": 52,
-  "name": "Merry",
-  "category": "Character",
+  "cardName": "Merry",
+  "cardId": "OP03-052",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "East Blue"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-052.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Counter"
+  "setId": "OP03",
+  "cardNumber": "052",
+  "printedText": "",
+  "keywords": [],
+  "abilities": [],
+  "attributes": [
+    "wisdom"
   ],
-  "trigger": null,
-  "text": "When this card is played, you may rest 1 of your DON!! from the cost area. If you do, this card's power becomes 4000 until the end of the turn.",
-  "abilities": [
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "This card's power becomes 4000 until the end of the turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner."
-  }
+  "traits": [
+    "eastBlue"
+  ]
 }

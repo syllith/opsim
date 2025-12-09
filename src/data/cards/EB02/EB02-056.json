@@ -1,39 +1,96 @@
 {
-  "id": "EB02-056",
-  "set": "EB02",
-  "number": 56,
-  "name": "Vegapunk",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Wisdom",
-  "types": ["Egghead", "Scientist"],
-  "rarity": "SR",
-  "art": "/cards/EB02/EB02-056.png",
-  "stats": {
-    "cost": 5,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play", "Trigger"],
-  "trigger": {
-    "text": "Draw 1 card."
-  },
-  "text": "[Blocker]\n[On Play] Look at the top 5 cards of your deck, play up to 1 cost 5 or lower {Scientist} type Character other than \"Vegapunk\", and place the rest at the bottom of your deck in any order, and if your opponent has 2 characters or less, discard 1 card.\n[Trigger] Draw 1 card.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB02-056",
+  "printedText": "Blocker\nOn Play Look at the top 5 cards of your deck, play up to 1 cost 5 or lower {Scientist} type Character other than \"Vegapunk\". Then, place the rest at the bottom of your deck in any order, and if your opponent has 2 characters or less, discard 1 card.\nTrigger Draw 1 card.",
+  "cardNumber": "056",
+  "keywords": [
+    "Blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, play up to 1 cost 5 or lower {Scientist} type Character other than \"Vegapunk\", and place the rest at the bottom of your deck in any order, and if your opponent has 2 characters or less, discard 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "opponentHand"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "selector": {
+            "filters": [
+              {
+                "value": 5,
+                "field": "cost",
+                "op": "<="
+              },
+              {
+                "value": "Scientist",
+                "field": "types",
+                "op": "="
+              },
+              {
+                "value": "Vegapunk",
+                "field": "name",
+                "op": "!="
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "addTo": "characterArea",
+          "remainingOrdering": "chosen",
+          "topCount": 5,
+          "type": "search",
+          "sourceZone": "deck",
+          "ordering": "chosen",
+          "moveRemainingTo": "bottomOfDeck"
+        },
+        {
+          "type": "trashFromHand",
+          "condition": {
+            "value": 2,
+            "field": "opponent.characterCount",
+            "op": "<="
+          },
+          "maxCards": 1,
+          "minCards": 1
+        }
+      ],
+      "frequency": "none"
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "count": 1,
+          "type": "draw"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "SR",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Vegapunk",
+  "types": [
+    "Egghead",
+    "Scientist"
+  ],
+  "cost": 5,
+  "colors": [
+    "yellow"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "egghead",
+    "scientist"
+  ]
 }

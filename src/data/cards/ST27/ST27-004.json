@@ -1,50 +1,88 @@
 {
-  "id": "ST27-004",
-  "set": "ST27",
-  "number": 4,
-  "name": "Sanjuan.Wolf",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": null,
+  "cardName": "Sanjun.Wolf",
+  "cardId": "ST27-004",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Giant", "Blackbeard Pirates"],
-  "rarity": "SR",
-  "art": "/cards/ST27/ST27-004.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "If your Leader has the {Blackbeard Pirates} type, this Character gains [Blocker] and +1 cost for every 4 cards in your trash.\n(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Trash 1 card from your hand.",
+  "traits": ["giant", "blackbeardPirates"],
+  "rarity": "C",
+  "setId": "ST27",
+  "cardNumber": "004",
+  "printedText": "If your Leader has the {Blackbeard Pirates} type, this Character gains [Blocker] and +1 cost for every 4 cards in your trash. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Blackbeard Pirates} type, this Character gains [Blocker] and +1 cost for every 4 cards in your trash.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["leaderHasBlackbeardPiratesType", "trashCount"]
-      }
+      "timing": "static",
+      "selectors": {
+        "blackbeardLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "blackbeardPirates"
+            }
+          ]
+        },
+        "trashCards": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "whoChooses": "system"
+        },
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "perCount",
+          "perCount": 4,
+          "perAmount": 1,
+          "countSelector": "trashCards",
+          "duration": "permanent",
+          "target": "thisCardSelector",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "blackbeardLeader",
+            "op": ">=",
+            "value": 1
+          }
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "thisCardSelector",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "blackbeardLeader",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Trash 1 card from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

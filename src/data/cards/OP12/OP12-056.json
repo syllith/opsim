@@ -1,48 +1,69 @@
 {
-  "id": "OP12-056",
-  "set": "OP12",
-  "number": 56,
-  "name": "Monkey.D.Garp",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy"
-  ],
+  "cardName": "Monkey.D.Garp",
+  "cardId": "OP12-056",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 8,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Navy"],
+  "traits": ["navy"],
   "rarity": "SR",
-  "art": "/cards/OP12/OP12-056.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may trash 1 card from your hand. Play up to 1 blue (Navy) Character card with a power of 8000 or less other than [Monkey.D.Garp] from your hand.",
+  "setId": "OP12",
+  "cardNumber": "056",
+  "printedText": "[On Play] You may trash 1 card from your hand: Play up to 1 blue {Navy} Character card with a power of 8000 or less other than [Monkey.D.Garp] from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand. Play up to 1 blue (Navy) Character card with a power of 8000 or less other than [Monkey.D.Garp] from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "garpPlayTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "blue"
+            },
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "navy"
+            },
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 8000
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Monkey.D.Garp"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "garpPlayTarget",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

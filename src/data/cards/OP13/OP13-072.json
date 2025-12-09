@@ -1,53 +1,79 @@
 {
-  "id": "OP13-072",
-  "set": "OP13",
-  "number": 72,
-  "name": "Buggy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Roger Pirates"
-  ],
+  "cardName": "Buggy",
+  "cardId": "OP13-072",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Roger Pirates"],
+  "traits": ["rogerPirates"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-072.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has a type including \"Roger Pirates\" and you have any given DON!! cards, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "setId": "OP13",
+  "cardNumber": "072",
+  "printedText": "[On Play] If your Leader has a type including \"Roger Pirates\" and you have any given DON!! cards, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "leaderWithRoger": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "rogerPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "givenDonOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your Leader has a type including \"Roger Pirates\" and you have any given DON!! cards, add up to 1 DON!! card from your DON!! deck and rest it.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Roger Pirates",
-          "youHaveGivenDON!!Cards"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": "leaderWithRoger",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCount",
+            "selector": "givenDonOnField",
+            "op": ">=",
+            "value": 1
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDonDeckCard",
+          "destination": "costArea",
+          "enterRested": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

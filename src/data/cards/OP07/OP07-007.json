@@ -1,32 +1,29 @@
 {
-  "id": "OP07-007",
-  "set": "OP07",
-  "number": 7,
-  "name": "Dice",
-  "category": "Character",
+  "cardName": "Dice",
+  "cardId": "OP07-007",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 6000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
-    "FILM/Gran Tesoro"
+    "FILM",
+    "Gran Tesoro"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-007.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "traits": [
+    "film",
+    "granTesoro"
+  ],
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "007",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but fields are read from printed text."
-  }
+  "abilities": []
 }

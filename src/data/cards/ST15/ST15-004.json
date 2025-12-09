@@ -1,48 +1,55 @@
 {
-  "id": "ST15-004",
-  "set": "ST15",
-  "number": 4,
-  "name": "Thatch",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
+  "cardName": "Thatch",
+  "cardId": "ST15-004",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["slash"],
   "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/ST15/ST15-004.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play", "Counter"],
-  "trigger": null,
-  "text": "On Play: If your leader has {Whitebeard Pirates} included in its types, give up to one of your opponent's characters -2000 power for this turn. Then, put the top card of your life into your hand.",
+  "setId": "ST15",
+  "cardNumber": "004",
+  "printedText": "[On Play] If your Leader's type includes \"Whitebeard Pirates\", give up to 1 of your opponent's Characters −2000 power during this turn. Then, add 1 card from the top of your Life cards to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your leader has {Whitebeard Pirates} included in its types, give up to one of your opponent's characters -2000 power for this turn.",
-        "powerMod": { "amount": -2000, "duration": "this turn" },
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["leaderType=Whitebeard Pirates"]
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Put the top card of your life into your hand.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderHasTrait",
+        "op": "=",
+        "value": "whitebeardPirates"
+      },
+      "selectors": {
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "opponentCharacter",
+          "may": true
+        },
+        {
+          "type": "moveCard",
+          "target": "selfTopLifeCard",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

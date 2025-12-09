@@ -1,48 +1,46 @@
 {
-  "id": "P-055",
-  "set": "P",
-  "number": 55,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-055.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may trash 2 cards from your hand: Your opponent chooses a character they own and places it at the bottom of their deck.",
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "P-055",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-055",
+  "printedText": "[On Play] You may trash 2 cards from your hand: Your opponent chooses 1 Character they own and places it at the bottom of their deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 2 cards from your hand: Your opponent chooses a character they own and places it at the bottom of their deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterChoice": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentCharacterChoice",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has 'BANDAI MADE IN JAPAN' text, but these are not part of the card's official data. The card ID is P-055, which is consistent with the printed ID in the bottom right corner."
-  }
+  ]
 }

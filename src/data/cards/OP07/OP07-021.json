@@ -1,63 +1,40 @@
 {
-  "id": "OP07-021",
-  "set": "OP07",
-  "number": 21,
-  "name": "Uroge",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernovas",
-    "Fallen Monk Pirates"
-  ],
+  "cardName": "Urouge",
+  "cardId": "OP07-021",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Supernovas", "Fallen Monk Pirates"],
+  "traits": ["supernovas", "fallenMonkPirates"],
   "rarity": "R",
-  "art": "/cards/OP07/OP07-021.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "End of Your Turn"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nEnd of Your Turn: Set up to one of your Don!! cards as active.",
+  "setId": "OP07",
+  "cardNumber": "021",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [End of Your Turn] Set up to 1 of your DON!! cards as active.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "selectors": {
+        "donTarget": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Set up to one of your Don!! cards as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

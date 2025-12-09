@@ -1,48 +1,75 @@
 {
-  "id": "OP09-053",
-  "set": "OP09",
-  "number": 53,
-  "name": "Mohji",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Cross Guild"
-  ],
+  "cardName": "Mohji",
+  "cardId": "OP09-053",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Cross Guild"],
+  "traits": ["crossGuild"],
   "rarity": "UC",
-  "art": "/cards/OP09/OP09-053.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck and reveal up to one (Richie) and put it into your hand, then place the rest of the cards on the bottom of your deck in any order and play up to one (Richie) from your hand.",
+  "setId": "OP09",
+  "cardNumber": "053",
+  "printedText": "[On Play] Look at the top 5 cards of your deck and reveal up to 1 \"Richie\" and put it into your hand, then place the rest of the cards on the bottom of your deck in any order and play up to 1 \"Richie\" from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "richieFromDeck": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Richie"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "richieFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Richie"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck and reveal up to one (Richie) and put it into your hand, then place the rest of the cards on the bottom of your deck in any order and play up to one (Richie) from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "richieFromDeck",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "richieFromHand",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

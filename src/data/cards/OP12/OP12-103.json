@@ -1,34 +1,30 @@
 {
-  "id": "OP12-103",
-  "set": "OP12",
-  "number": 103,
-  "name": "Seto",
-  "category": "Character",
+  "cardName": "Seto",
+  "cardId": "OP12-103",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
+  "counter": 2000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Jaya",
     "Sky Island",
     "Shandian Warrior"
   ],
+  "traits": [
+    "jaya",
+    "skyIsland",
+    "shandianWarrior"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP12/OP12-103.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "103",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "abilities": []
 }

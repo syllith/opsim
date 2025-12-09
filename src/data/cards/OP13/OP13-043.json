@@ -1,48 +1,40 @@
 {
-  "id": "OP13-043",
-  "set": "OP13",
-  "number": 43,
-  "name": "Otama",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Land of Wano"
-  ],
+  "cardName": "Otama",
+  "cardId": "OP13-043",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Land of Wano"],
+  "traits": ["landOfWano"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-043.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have 3 or less Life cards, draw 2 cards and trash 1 card from your hand.",
+  "setId": "OP13",
+  "cardNumber": "043",
+  "printedText": "[On Play] If you have 3 or less Life cards, draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "life",
+        "op": "<=",
+        "value": 3
       },
-      "effect": {
-        "text": "If you have 3 or less Life cards, draw 2 cards and trash 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

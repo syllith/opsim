@@ -1,50 +1,105 @@
 {
-  "id": "ST25-003",
-  "set": "ST25",
-  "number": 3,
-  "name": "Crocodile & Mihawk",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": null,
+  "cardName": "Crocodile & Mihawk",
+  "cardId": "ST25-003",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 8,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash", "special"],
   "types": ["Cross Guild", "Former Baroque Works"],
+  "traits": ["crossGuild", "formerBaroqueWorks"],
   "rarity": "SR",
-  "art": "/cards/ST25/ST25-003.png",
-  "stats": {
-    "cost": 8,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "Once Per Turn"],
-  "trigger": null,
-  "text": "[On Play] Draw 2 cards and trash 1 card from your hand. Then, play up to 1 {Cross Guild} type Character card with a cost of 4 or less from your hand.\n[Once Per Turn] If your {Cross Guild} type Character would be removed from the field by your opponent's effect, you may trash 1 card from your hand instead.",
+  "setId": "ST25",
+  "cardNumber": "003",
+  "printedText": "[On Play] Draw 2 cards and trash 1 card from your hand. Then, play up to 1 {Cross Guild} type Character card with a cost of 4 or less from your hand.\n[Once Per Turn] If your {Cross Guild} type Character would be removed from the field by your opponent's effect, you may trash 1 card from your hand instead.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw 2 cards and trash 1 card from your hand. Then, play up to 1 {Cross Guild} type Character card with a cost of 4 or less from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "crossGuildCharacterFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "crossGuild"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "crossGuildCharacterFromHand",
+          "payCost": true,
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your {Cross Guild} type Character would be removed from the field by your opponent's effect, you may trash 1 card from your hand instead.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:Character"],
-        "conditions": ["characterTypeIsCrossGuild", "removedByOpponentEffect"]
-      }
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "crossGuildCharactersInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "crossGuild"
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "crossGuildCharacterWouldLeaveFieldByOppEffect",
+          "target": "crossGuildCharactersInPlay",
+          "may": true,
+          "cost": {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1,
+            "may": true
+          },
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

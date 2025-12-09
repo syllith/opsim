@@ -1,36 +1,74 @@
 {
-  "id": "OP02-095",
-  "set": "OP02",
-  "number": 95,
-  "name": "Onigumo",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Navy"],
+  "cardName": "Onigumo",
+  "cardId": "OP02-095",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "Navy"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-095.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Banish"],
-  "trigger": null,
-  "text": "If there is a Character with a cost of 0 in play, this Character gains <Banish> (When a character deals damage, the target card is trashed without activating its Trigger.)",
+  "setId": "OP02",
+  "cardNumber": "095",
+  "printedText": "If there is a Character with a cost of 0 in play, this Character gains Banish (When this card deals damage, the target card is trashed without activating its Trigger.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If there is a Character with a cost of 0 in play, this Character gains <Banish>",
-        "grants": ["Banish"],
-        "targets": ["self"],
-        "conditions": ["characterCost0InPlay"]
-      }
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "zeroCostCharacterInPlay": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "zeroCostChars"
+        },
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "thisCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "banish",
+          "duration": "permanent",
+          "target": "thisCharacter",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "zeroCostCharacterInPlay",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

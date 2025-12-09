@@ -1,38 +1,56 @@
 {
-  "id": "OP02-011",
-  "set": "OP02",
-  "number": 11,
-  "name": "Vista",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Vista",
+  "cardId": "OP02-011",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-011.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter", "On Play"],
-  "trigger": null,
-  "text": "On Play K.O up to 1 of your opponent's Characters with 3000 power or less.",
+  "setId": "OP02",
+  "cardNumber": "011",
+  "printedText": "[On Play] K.O. up to 1 of your opponent's Characters with 3000 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O up to 1 of your opponent's Characters with 3000 power or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=3000power"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "opp3000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opp3000OrLess"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

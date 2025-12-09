@@ -1,74 +1,94 @@
 {
-  "id": "OP07-095",
-  "set": "OP07",
-  "number": 95,
-  "name": "Iron Body",
-  "category": "Event",
+  "cardName": "Iron Body",
+  "cardId": "OP07-095",
+  "cardType": "event",
   "colors": [
-    "Black"
+    "yellow"
   ],
-  "attribute": null,
-  "types": [],
+  "cost": 2,
+  "types": [
+    "CP9"
+  ],
+  "traits": [
+    "cp9"
+  ],
   "rarity": "C",
-  "art": "/cards/OP07/OP07-095.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 4000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Give up to one leader or character +1000 power for the turn."
-  },
-  "text": "Give up to one of your leaders or characters +4000 Power for the battle. Then, if your trash has 10 or more cards, give that card another +2000 Power for the battle.",
+  "setId": "OP07",
+  "cardNumber": "095",
+  "printedText": "[Counter] Give up to 1 of your Leaders or Characters +4000 power for the battle. Then, if your trash has 10 or more cards, that card gains +2000 power for the battle.\n[Trigger] Give up to 1 of your Leaders or Characters +1000 power for the turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "battleTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to one of your leaders or characters +4000 Power for the battle. Then, if your trash has 10 or more cards, give that card another +2000 Power for the battle.",
-        "powerMod": null,
-        "targets": [
-          "oneOfYourLeadersOrCharacters"
-        ],
-        "conditions": [
-          "trash>=10"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "battleTarget"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfTrashCount",
+            "op": ">=",
+            "value": 10
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 2000,
+              "duration": "thisBattle",
+              "target": "battleTarget"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "triggerBuffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to one leader or character +1000 power for the turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneLeaderOrCharacter"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "triggerBuffTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,48 +1,64 @@
 {
-  "id": "OP13-086",
-  "set": "OP13",
-  "number": 86,
-  "name": "Saint Shalria",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Celestial Dragons"
-  ],
+  "cardName": "Saint Shalria",
+  "cardId": "OP13-086",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Celestial Dragons"],
+  "traits": ["celestialDragons"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-086.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at 3 cards from the top of your deck; reveal up to 1 {Celestial Dragons} type card other than [Saint Shalria] and add it to your hand. Then, trash the rest and trash 1 card from your hand.",
+  "setId": "OP13",
+  "cardNumber": "086",
+  "printedText": "[On Play] Look at 3 cards from the top of your deck; reveal up to 1 {Celestial Dragons} type card other than [Saint Shalria] and add it to your hand. Then, trash the rest and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "celestialCardExceptShalria": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "celestialDragons"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Saint Shalria"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at 3 cards from the top of your deck; reveal up to 1 {Celestial Dragons} type card other than [Saint Shalria] and add it to your hand. Then, trash the rest and trash 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "celestialCardExceptShalria",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "trash",
+          "remainingOrdering": "keep"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

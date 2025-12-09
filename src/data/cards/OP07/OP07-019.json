@@ -1,51 +1,46 @@
 {
-  "id": "OP07-019",
-  "set": "OP07",
-  "number": 19,
-  "name": "Jewelry Bonney",
-  "category": "Leader",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Supernovas",
-    "Bonney Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP07/OP07-019.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Jewelry Bonney",
+  "cardId": "OP07-019",
+  "cardType": "leader",
+  "colors": ["green"],
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": ["Supernovas", "Bonney Pirates"],
+  "traits": ["supernovas", "bonneyPirates"],
+  "rarity": "L",
+  "setId": "OP07",
+  "cardNumber": "019",
+  "printedText": "[On Your Opponent's Attack] [Once Per Turn] ➀ (You may rest the specified number of DON!! cards in your cost area.): Rest up to 1 of your opponent's Leader or Character cards.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Opponent Attacks Once Per Turn (You may rest the specified number of DON!! cards in your Cost Area) Rest up to one of your opponents leaders or characters.",
   "abilities": [
     {
-      "timing": "When Opponent Attacks",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "(You may rest the specified number of DON!! cards in your Cost Area) Rest up to one of your opponents leaders or characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentLeader",
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

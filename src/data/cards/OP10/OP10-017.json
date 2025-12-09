@@ -1,48 +1,69 @@
 {
-  "id": "OP10-017",
-  "set": "OP10",
-  "number": 17,
-  "name": "Rock",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Punk Hazard"
-  ],
+  "cardName": "Rock",
+  "cardId": "OP10-017",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Punk Hazard"],
+  "traits": ["punkHazard"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-017.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play If you do not have a {Scotch}, you may play up to 1 {Scotch} from your hand.",
+  "setId": "OP10",
+  "cardNumber": "017",
+  "printedText": "[On Play] If you do not have a \"Scotch\", you may play up to 1 \"Scotch\" from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "scotchOnField": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "scotch"
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "scotchFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "scotch"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If you do not have a {Scotch}, you may play up to 1 {Scotch} from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "scotchOnField",
+        "op": "=",
+        "value": 0
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "scotchFromHand",
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

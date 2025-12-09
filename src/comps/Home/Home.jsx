@@ -31,6 +31,8 @@ import { useDonManagement } from './Don';
 import { useTargeting } from './useTargeting';
 import { useModifiers } from './useModifiers';
 import { useDeckInitializer, createInitialAreas } from './useDeckInitializer';
+import GameModeSelect from './GameModeSelect';
+import DiceRoll from './DiceRoll';
 
 const CARD_BACK_URL = '/api/cards/assets/Card%20Backs/CardBackRegular.png'; //. Performance: constants defined outside component
 const HARDCODED = true;
@@ -128,8 +130,17 @@ export default function Home() {
     const compact = false;
     const [areas, setAreas] = useState(createInitialAreas);
 
+    //. Game Mode State
+    const [gameMode, setGameMode] = useState(null); //. null = not selected, 'self-vs-self', 'vs-ai', 'multiplayer'
+
+    //. Game Setup State (for vs-self mode)
+    const [setupPhase, setSetupPhase] = useState('dice'); //. 'dice' | 'hand-first' | 'hand-second' | 'complete'
+    const [firstPlayer, setFirstPlayer] = useState(null); //. 'player' | 'opponent' - who won dice roll
+    const [currentHandSide, setCurrentHandSide] = useState(null); //. Which side is currently selecting hand
+
     //. Game State
-    const gameStarted = true; //. Manual board edits disabled during game
+    const gameStarted = gameMode !== null; //. Manual board edits disabled during game
+    const gameSetupComplete = setupPhase === 'complete'; //. True when both hands selected
     const [library, setLibrary] = useState([]); //. Player deck card IDs (top at end)
     const [oppLibrary, setOppLibrary] = useState([]); //. Opponent deck card IDs
     const deckSearchRef = useRef(null); //. Deck search component ref
@@ -137,7 +148,8 @@ export default function Home() {
 
     const { //. Deck initialization and card asset helpers
         createCardBacks,
-        getAssetForId
+        getAssetForId,
+        resetGameInit
     } = useDeckInitializer({
         isLoggedIn,
         allCards,
@@ -150,7 +162,8 @@ export default function Home() {
         initializeDonDecks: () => { }, //. will be overridden after DON hook init
         openingHandRef,
         demoConfig: { HARDCODED, DEMO_LEADER, DEMO_DECK_ITEMS },
-        cardBackUrl: CARD_BACK_URL
+        cardBackUrl: CARD_BACK_URL,
+        gameMode
     });
 
     const [openingHandShown, setOpeningHandShown] = useState(false);
@@ -298,6 +311,37 @@ export default function Home() {
     const [currentAttack, setCurrentAttack] = useState(null);
     const [battleArrow, setBattleArrow] = useState(null);
     const [battle, setBattle] = useState(null); //. Battle lifecycle: attack > block > counter > damage > end (CR 7-1)
+
+    //. Leave game and reset all game state
+    const leaveGame = useCallback(() => {
+        setGameMode(null);
+        setAreas(createInitialAreas());
+        setLibrary([]);
+        setOppLibrary([]);
+        setOpeningHandShown(false);
+        setTurnSide('player');
+        setTurnNumber(1);
+        setPhase('Draw');
+        setLog([]);
+        setBattle(null);
+        setCurrentAttack(null);
+        setBattleArrow(null);
+        setSetupPhase('dice');
+        setFirstPlayer(null);
+        setCurrentHandSide(null);
+        resetGameInit();
+    }, [resetGameInit]);
+
+    //. Handle dice roll completion
+    const handleDiceRollComplete = useCallback(({ firstPlayer: winner }) => {
+        setFirstPlayer(winner);
+        setSetupPhase('hand-first');
+        setCurrentHandSide(winner);
+        //. Initialize opening hand for the first player (dice roll winner)
+        const lib = winner === 'player' ? library : oppLibrary;
+        openingHandRef?.current?.initialize(lib, winner);
+    }, [library, oppLibrary]);
+
     const {
         targeting,
         setTargeting,
@@ -327,10 +371,10 @@ export default function Home() {
         return _.some(keywords, k => new RegExp(keyword, 'i').test(k));
     }, []);
 
-    //. Game actions allowed after opening hand finalized
+    //. Game actions allowed after opening hand finalized AND game setup complete
     const canPerformGameAction = useCallback(() => {
-        return !openingHandShown;
-    }, [openingHandShown]);
+        return !openingHandShown && gameSetupComplete;
+    }, [openingHandShown, gameSetupComplete]);
 
     const getOpposingSide = useCallback((side) => {
         return side === 'player' ? 'opponent' : 'player';
@@ -346,6 +390,8 @@ export default function Home() {
         returnAllGivenDon,
         getDonPowerBonus,
         returnDonFromCard,
+        returnDonToDonDeckFromCard,
+        detachDonFromCard,
         initializeDonDecks,
         getDonDeckArray,
         hasEnoughDonFor
@@ -382,11 +428,69 @@ export default function Home() {
     } = useModifiers({ modKey, appendLog });
 
     const [oncePerTurnUsage, setOncePerTurnUsage] = useState({}); //. Track Once Per Turn abilities (CR 10-2-13)
+    const [attackLocked, setAttackLocked] = useState(false); //. Prevent cancelling attack after When Attacking effects resolve
 
     //. Reset Once Per Turn usage each turn
     useEffect(() => {
         setOncePerTurnUsage({});
+        setAttackLocked(false);
     }, [turnSide, turnNumber]);
+
+    const lockCurrentAttack = useCallback((source, abilityIndex) => {
+        try {
+            if (!currentAttack || !source) { return; }
+            const isLeaderAttack = currentAttack.isLeader;
+            const sameSide = source.side === currentAttack.side;
+            const sameSection = source.section === (isLeaderAttack ? 'middle' : 'char');
+            const sameKey = source.keyName === (isLeaderAttack ? 'leader' : 'char');
+            const sameIndex = (source.index ?? 0) === (currentAttack.index ?? 0);
+            if (sameSide && sameSection && sameKey && sameIndex) {
+                setAttackLocked(true);
+            }
+        } catch { /* noop */ }
+    }, [currentAttack]);
+
+    //. Cancel an attack during declaring phase - un-rests the attacker and clears battle state
+    const cancelAttack = useCallback(() => {
+        if (attackLocked) { return; } //. Cannot cancel if locked by When Attacking ability
+        if (!battle || battle.step !== 'declaring') { return; } //. Only cancel during declaring phase
+
+        const attacker = battle.attacker;
+        if (attacker) {
+            //. Un-rest the attacker
+            setAreas((prev) => {
+                const next = _.cloneDeep(prev);
+                const sideLoc = attacker.side === 'player' ? next.player : next.opponent;
+                if (attacker.section === 'char' && attacker.keyName === 'char') {
+                    if (sideLoc?.char?.[attacker.index]) {
+                        sideLoc.char[attacker.index].rested = false;
+                    }
+                } else if (attacker.section === 'middle' && attacker.keyName === 'leader') {
+                    if (sideLoc?.middle?.leader?.[0]) {
+                        sideLoc.middle.leader[0].rested = false;
+                    }
+                }
+                return next;
+            });
+            appendLog(`[Attack] Cancelled attack with ${attacker.id}.`);
+        }
+
+        //. Clear battle and targeting state
+        cancelTargeting();
+        setBattle(null);
+        setCurrentAttack(null);
+    }, [attackLocked, battle, cancelTargeting, setAreas, appendLog]);
+
+    //. Reset attackLocked when attack/battle ends OR when a new attack begins
+    useEffect(() => {
+        if (!currentAttack && !battle) {
+            //. No active attack or battle: reset lock
+            setAttackLocked(false);
+        } else if (currentAttack && battle?.step === 'declaring') {
+            //. New attack just started in declaring phase: reset lock
+            setAttackLocked(false);
+        }
+    }, [currentAttack, battle]);
 
     const markOncePerTurnUsed = useCallback((source, abilityIndex) => {
         if (!source || typeof abilityIndex !== 'number') { return; }
@@ -528,59 +632,135 @@ export default function Home() {
                 return false;
             }
 
-            //. Check if card has replacement ability
+            //. Check if card has replacement ability (new schema)
             const meta = metaById.get(cardInstance.id);
             if (!meta) { return false; }
 
             const abilities = _.get(meta, 'abilities', []);
-            const hasReplacementAbility = _.some(abilities, (ability) => {
-                if (_.get(ability, 'type') !== 'Continuous') { return false; }
-                if (_.toLower(_.get(ability, 'frequency', '')) !== 'once per turn') { return false; }
+            
+            //. Events that represent "would be removed by opponent's effect"
+            const removalEvents = [
+                'beforeThisRemovedByOpponentsEffect',
+                'wouldBeRemovedFromFieldByOpponentsEffect',
+                'thisCardWouldBeRemovedFromFieldByOpponentsEffect'
+            ];
+            
+            //. Find replacement effect action for removal prevention
+            let foundAbility = null;
+            let foundAction = null;
+            let foundAbilityIndex = -1;
+            
+            for (let abilityIdx = 0; abilityIdx < abilities.length; abilityIdx++) {
+                const ability = abilities[abilityIdx];
+                //. Only static/continuous abilities can have permanent replacement effects
+                if (ability.timing !== 'static') continue;
+                
+                const actions = _.get(ability, 'actions', []);
+                for (const action of actions) {
+                    if (action.type !== 'replacementEffect') continue;
+                    if (!removalEvents.includes(action.event)) continue;
+                    
+                    //. Check that target refers to this card
+                    const targetRef = action.target;
+                    let targetSelector = null;
+                    if (typeof targetRef === 'string') {
+                        //. Could be a selector key or global like 'selfThisCard'
+                        if (targetRef === 'selfThisCard' || targetRef === 'thisCard') {
+                            targetSelector = { side: 'self', type: 'thisCard' };
+                        } else if (ability.selectors && ability.selectors[targetRef]) {
+                            targetSelector = ability.selectors[targetRef];
+                        }
+                    } else if (typeof targetRef === 'object') {
+                        targetSelector = targetRef;
+                    }
+                    
+                    //. Ensure selector targets 'thisCard'
+                    if (!targetSelector || targetSelector.type !== 'thisCard') continue;
+                    
+                    foundAbility = ability;
+                    foundAction = action;
+                    foundAbilityIndex = abilityIdx;
+                    break;
+                }
+                if (foundAction) break;
+            }
+            
+            if (!foundAction) { return false; }
 
-                const effectText = _.toLower(
-                    _.isString(ability.effect)
-                        ? ability.effect
-                        : _.get(ability, 'effect.text', '')
-                );
-
-                return _.includes(effectText, 'would be removed from the field') &&
-                    _.includes(effectText, 'opponent') &&
-                    _.includes(effectText, '-2000');
-            });
-
-            if (!hasReplacementAbility) { return false; }
-
-            //. Once per turn usage check
+            //. Check frequency: oncePerTurn
             const usedTurnProp = '__replacementUsedTurn';
-            if (cardInstance[usedTurnProp] === turnNumber) {
+            const frequency = foundAbility.frequency || 'none';
+            
+            if (frequency === 'oncePerTurn') {
+                if (cardInstance[usedTurnProp] === turnNumber) {
+                    return false;
+                }
+            }
+            
+            //. Check maxTriggers if specified
+            const maxTriggers = foundAction.maxTriggers || Infinity;
+            const triggersUsedProp = '__replacementTriggersUsed';
+            const triggersUsed = cardInstance[triggersUsedProp] || 0;
+            if (triggersUsed >= maxTriggers) {
                 return false;
             }
 
-            //. Apply -2000 this turn to self and mark used
+            //. TODO: If may is true, we should prompt the player
+            //. For now, auto-apply the replacement (beneficial for the player)
+            const isMay = foundAction.may === true;
+            
+            //. Execute nested actions from the replacement effect
+            const nestedActions = foundAction.actions || [];
             const expireOnSide = turnSide === 'player' ? 'opponent' : 'player';
             const cardIndex = isCharacter ? index : 0;
-
-            applyPowerMod(targetSide, section, keyName, cardIndex, -2000, expireOnSide);
-
-            if (registerUntilNextTurnEffect) {
-                registerUntilNextTurnEffect(
-                    expireOnSide,
-                    `${meta.name || cardInstance.id}: replacement -2000 applied instead of removal`
-                );
+            
+            let appliedAnyEffect = false;
+            
+            for (const nestedAction of nestedActions) {
+                if (nestedAction.type === 'noop') {
+                    //. noop means simply prevent the removal without additional effects
+                    appliedAnyEffect = true;
+                    appendLog(`[Replacement Effect] ${meta.cardName || cardInstance.id} cannot be removed by opponent's effect.`);
+                } else if (nestedAction.type === 'modifyStat' && nestedAction.stat === 'power') {
+                    //. Apply power modification instead of removal
+                    const amount = nestedAction.amount || 0;
+                    const duration = nestedAction.duration || 'thisTurn';
+                    
+                    //. Apply power mod
+                    applyPowerMod(targetSide, section, keyName, cardIndex, amount, expireOnSide);
+                    
+                    if (registerUntilNextTurnEffect && duration === 'thisTurn') {
+                        registerUntilNextTurnEffect(
+                            expireOnSide,
+                            `${meta.cardName || cardInstance.id}: replacement ${amount} power applied instead of removal`
+                        );
+                    }
+                    
+                    appliedAnyEffect = true;
+                    appendLog(`[Replacement Effect] ${meta.cardName || cardInstance.id} gains ${amount} power instead of being removed.`);
+                } else if (nestedAction.type === 'preventKO') {
+                    //. Simply prevent the removal
+                    appliedAnyEffect = true;
+                    appendLog(`[Replacement Effect] ${meta.cardName || cardInstance.id} KO prevented.`);
+                }
+            }
+            
+            if (!appliedAnyEffect) {
+                return false;
             }
 
-            //. Persist the flag on areas
+            //. Persist the usage flag on areas
             setAreas((prev) => {
                 const next = cloneAreas(prev);
                 const loc = getSideLocationFromNext(next, targetSide);
 
                 if (isCharacter && loc?.char?.[cardIndex]) {
                     loc.char[cardIndex][usedTurnProp] = turnNumber;
+                    loc.char[cardIndex][triggersUsedProp] = triggersUsed + 1;
                 } else if (isLeader && loc?.middle?.leader?.[0]) {
                     loc.middle.leader[0][usedTurnProp] = turnNumber;
+                    loc.middle.leader[0][triggersUsedProp] = triggersUsed + 1;
                 }
-
-
 
                 return next;
             });
@@ -591,7 +771,7 @@ export default function Home() {
         } catch {
             return false;
         }
-    }, [setAreas, appendLog, returnDonFromCard, metaById, getSideLocation, getSideLocationFromNext, turnNumber, turnSide, applyPowerMod, registerUntilNextTurnEffect]);
+    }, [setAreas, appendLog, returnDonFromCard, metaById, getSideLocation, getSideLocationFromNext, turnNumber, turnSide, applyPowerMod, registerUntilNextTurnEffect, cloneAreas]);
 
     const removeCardByEffect = useCallback((targetSide, section, keyName, index, sourceSide) => {
         //. Check replacement effect first (e.g., -2000 power instead of removal)
@@ -643,7 +823,9 @@ export default function Home() {
     }, [maybeApplyRemovalReplacement, setAreas, appendLog, returnDonFromCard, cloneAreas, getSideLocationFromNext, getHandCostLocationFromNext]);
 
     const getBasePower = useCallback((id) => {
-        return _.get(metaById.get(id), 'stats.power', 0);
+        const meta = metaById.get(id) || {};
+        //. v2 schema: use top-level power only
+        return _.get(meta, 'power', 0);
     }, [metaById]);
 
     const getAuraPowerMod = useCallback((targetSide, section, keyName, index) => {
@@ -684,12 +866,36 @@ export default function Home() {
                 let modSum = 0;
 
                 for (const ability of abilities) {
-                    if (ability?.type !== 'Continuous') continue;
+                    // New schema: continuous is timing === 'static'
+                    if (ability?.timing !== 'static') continue;
 
-                    const actions = ability.effect?.actions || [];
+                    const actions = Array.isArray(ability.actions) ? ability.actions : [];
                     for (const action of actions) {
+                        // Legacy aura support
                         if (actionAppliesToTarget(action, srcSide)) {
                             modSum += action.amount || 0;
+                            continue;
+                        }
+                        // Schema power modify: treat permanent adds as aura to targets
+                        if (action?.type === 'modifyStat' && action.stat === 'power' && action.duration === 'permanent') {
+                            const sel = action.target;
+                            const selector = typeof sel === 'object' ? sel : null;
+                            if (selector) {
+                                // Resolve selector side relative to srcSide
+                                const actualSide = selector.side === 'self'
+                                  ? srcSide
+                                  : selector.side === 'opponent'
+                                  ? (srcSide === 'player' ? 'opponent' : 'player')
+                                  : targetSide;
+                                if (actualSide === targetSide || actualSide === 'both') {
+                                    const targetType = selector.type || 'any';
+                                    const leaderOk = targetType === 'leader' || targetType === 'leaderOrCharacter' || targetType === 'any';
+                                    const charOk = targetType === 'character' || targetType === 'leaderOrCharacter' || targetType === 'any';
+                                    if ((appliesToLeader && leaderOk) || (appliesToChar && charOk)) {
+                                        modSum += action.amount || 0;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -752,34 +958,103 @@ export default function Home() {
             let totalMod = 0;
 
             for (const ability of abilities) {
-                if (_.get(ability, 'type') !== 'Continuous') continue;
+                //. Handle both old schema (type: 'Continuous') and new schema (timing: 'static')
+                const isOldContinuous = _.get(ability, 'type') === 'Continuous';
+                const isNewStatic = _.get(ability, 'timing') === 'static';
+                if (!isOldContinuous && !isNewStatic) continue;
 
-                const actions = _.get(ability, 'effect.actions', []);
+                //. Get actions from either old (effect.actions) or new (actions) schema
+                let actions = _.get(ability, 'actions', []);
+                if (_.isEmpty(actions)) {
+                    actions = _.get(ability, 'effect.actions', []);
+                }
                 if (_.isEmpty(actions)) continue;
 
                 for (const action of actions) {
-                    //. Must be a cost mod that applies to hand and targets self
-                    if (action?.type !== 'costMod') continue;
-                    if (!action.appliesToHand || !action.targetSelf) continue;
+                    //. Handle old schema: costMod with appliesToHand and targetSelf
+                    if (action?.type === 'costMod') {
+                        if (!action.appliesToHand || !action.targetSelf) continue;
 
-                    //. Check condition if present
-                    const condition = ability.condition || {};
-                    let conditionMet = true;
+                        //. Check condition if present (old schema)
+                        const condition = ability.condition || {};
+                        let conditionMet = true;
 
-                    if (condition.allyCharacterPower) {
-                        //. Check if you have a Character with >= specified power
-                        const sideLoc = getSideLocation(side);
-                        const chars = sideLoc?.char || [];
+                        if (condition.allyCharacterPower) {
+                            const sideLoc = getSideLocation(side);
+                            const chars = sideLoc?.char || [];
+                            conditionMet = _.some(chars, (char, i) => {
+                                if (!char?.id) return false;
+                                const totalPower = getTotalPower(side, 'char', 'char', i, char.id);
+                                return totalPower >= condition.allyCharacterPower;
+                            });
+                        }
 
-                        conditionMet = _.some(chars, (char, i) => {
-                            if (!char?.id) return false;
-                            const totalPower = getTotalPower(side, 'char', 'char', i, char.id);
-                            return totalPower >= condition.allyCharacterPower;
-                        });
+                        if (conditionMet) {
+                            totalMod += action.amount || 0;
+                        }
                     }
 
-                    if (conditionMet) {
-                        totalMod += action.amount || 0;
+                    //. Handle new schema: modifyStat with stat='cost' and target='thisCard'
+                    if (action?.type === 'modifyStat' && action?.stat === 'cost' && action?.target === 'thisCard') {
+                        //. Check action-level condition (new schema)
+                        const actionCondition = action.condition || {};
+                        let conditionMet = true;
+
+                        if (actionCondition.logic === 'AND' && Array.isArray(actionCondition.all)) {
+                            conditionMet = actionCondition.all.every(cond => {
+                                //. Check selfZone condition - card must be in hand
+                                if (cond.field === 'selfZone' && cond.op === '=' && cond.value === 'hand') {
+                                    return isInHand; //. Already checked above, always true here
+                                }
+
+                                //. Check selectorCount condition - count cards matching selector
+                                if (cond.field === 'selectorCount' && cond.selector) {
+                                    const selector = ability.selectors?.[cond.selector];
+                                    if (!selector) return false;
+
+                                    //. Evaluate selector to count matching cards
+                                    const selectorSide = selector.side === 'self' ? side : (side === 'player' ? 'opponent' : 'player');
+                                    const sideLoc = getSideLocation(selectorSide);
+                                    let matchCount = 0;
+
+                                    //. Check zones specified in selector
+                                    const zones = selector.zones || [];
+                                    if (zones.includes('character') && sideLoc?.char) {
+                                        for (let i = 0; i < sideLoc.char.length; i++) {
+                                            const char = sideLoc.char[i];
+                                            if (!char?.id) continue;
+
+                                            //. Apply filters
+                                            let matches = true;
+                                            for (const filter of (selector.filters || [])) {
+                                                if (filter.field === 'power') {
+                                                    const charPower = getTotalPower(selectorSide, 'char', 'char', i, char.id);
+                                                    if (filter.op === '>=' && charPower < filter.value) matches = false;
+                                                    if (filter.op === '<=' && charPower > filter.value) matches = false;
+                                                    if (filter.op === '>' && charPower <= filter.value) matches = false;
+                                                    if (filter.op === '<' && charPower >= filter.value) matches = false;
+                                                    if (filter.op === '=' && charPower !== filter.value) matches = false;
+                                                }
+                                            }
+                                            if (matches) matchCount++;
+                                        }
+                                    }
+
+                                    //. Evaluate the comparison
+                                    if (cond.op === '>=' && matchCount < cond.value) return false;
+                                    if (cond.op === '<=' && matchCount > cond.value) return false;
+                                    if (cond.op === '>' && matchCount <= cond.value) return false;
+                                    if (cond.op === '<' && matchCount >= cond.value) return false;
+                                    if (cond.op === '=' && matchCount !== cond.value) return false;
+                                }
+
+                                return true;
+                            });
+                        }
+
+                        if (conditionMet) {
+                            totalMod += action.amount || 0;
+                        }
                     }
                 }
             }
@@ -793,7 +1068,8 @@ export default function Home() {
     const getCardCost = useCallback((id, side = null, section = null, keyName = null, index = null) => {
         if (!id) return 0;
         const meta = metaById.get(id);
-        const baseCost = _.get(meta, 'stats.cost');
+        //. v2 schema: use top-level cost only
+        const baseCost = _.get(meta, 'cost', 0);
         const cost = _.isNumber(baseCost) && baseCost > 0 ? baseCost : 0;
 
         if (side !== null && section !== null && keyName !== null && index !== null) {
@@ -961,7 +1237,8 @@ export default function Home() {
         turnSide,
         phaseLower,
         turnNumber,
-        getCardMeta
+        getCardMeta,
+        lockCurrentAttack
     });
 
     //. Game Action Helpers
@@ -990,12 +1267,13 @@ export default function Home() {
     }, [canPerformGameAction, library, oppLibrary, getAssetForId, createCardBacks, setAreas, setLibrary, setOppLibrary]);
 
     const startDeckSearch = useCallback((config) => { //. Delegate to DeckSearch component
-        closeActionPanel();
+        //. Note: Do NOT close action panel here - the ability resolution needs to continue
+        //. The DeckSearch component will handle UI overlay independently
 
         if (deckSearchRef.current) {
             deckSearchRef.current.start(config);
         }
-    }, [closeActionPanel]);
+    }, []);
 
     const returnCardToDeck = useCallback((side, section, keyName, index, location = 'bottom') => {
         setAreas((prev) => {
@@ -1088,6 +1366,36 @@ export default function Home() {
         });
     }, [setAreas, appendLog]);
 
+    //. Set active (untap) card; used for actions
+    const setActive = useCallback((side, section, keyName, index) => {
+        setAreas((prev) => {
+            const next = cloneAreas(prev);
+            const sideLoc = getSideLocationFromNext(next, side);
+            try {
+                if (section === 'char' && keyName === 'char') {
+                    if (sideLoc?.char?.[index]) {
+                        sideLoc.char[index].rested = false;
+                        appendLog(`[Effect] Set Character ${sideLoc.char[index].id} active.`);
+                    }
+                } else if (section === 'middle' && keyName === 'leader') {
+                    if (sideLoc?.middle?.leader?.[0]) {
+                        sideLoc.middle.leader[0].rested = false;
+                        appendLog(`[Effect] Set Leader ${sideLoc.middle.leader[0].id} active.`);
+                    }
+                } else if (section === 'middle' && keyName === 'stage') {
+                    if (sideLoc?.middle?.stage?.[0]) {
+                        sideLoc.middle.stage[0].rested = false;
+                        appendLog(`[Effect] Set Stage ${sideLoc.middle.stage[0].id} active.`);
+                    }
+                }
+            } catch (e) {
+                console.warn('[setActive] Failed to set active', { side, section, keyName, index }, e);
+                return prev;
+            }
+            return next;
+        });
+    }, [setAreas, appendLog]);
+
     //. Execute Refresh Phase (CR 6-2)
     const executeRefreshPhase = useCallback((side) => {
         appendLog(`[Refresh Phase] Start ${side}'s turn.`);
@@ -1122,6 +1430,35 @@ export default function Home() {
 
         appendLog('[Refresh Phase] Complete.');
     }, [appendLog, cleanupOnRefreshPhase, returnAllGivenDon, setAreas]);
+
+    //. Handle when a player finishes selecting their hand
+    const handleHandSelected = useCallback((side) => {
+        if (setupPhase === 'hand-first') {
+            //. First player done, now second player selects
+            const secondPlayer = firstPlayer === 'player' ? 'opponent' : 'player';
+            setSetupPhase('hand-second');
+            setCurrentHandSide(secondPlayer);
+            //. Initialize opening hand for the second player
+            const lib = secondPlayer === 'player' ? library : oppLibrary;
+            setTimeout(() => {
+                openingHandRef?.current?.initialize(lib, secondPlayer);
+            }, 100);
+        } else if (setupPhase === 'hand-second') {
+            //. Both players done, start the game
+            setSetupPhase('complete');
+            setCurrentHandSide(null);
+            
+            //. Initialize turn state - first player goes first
+            setTurnSide(firstPlayer);
+            setTurnNumber(1);
+            
+            //. Execute Refresh Phase for first turn (rule 6-2)
+            executeRefreshPhase(firstPlayer);
+            
+            setPhase('Draw');
+            appendLog(`Game started! ${firstPlayer === 'player' ? 'Bottom Player' : 'Top Player'} goes first.`);
+        }
+    }, [setupPhase, firstPlayer, library, oppLibrary, executeRefreshPhase, appendLog]);
 
     //. Pay life as cost (no Trigger check)
     const payLife = useCallback((side, amount) => {
@@ -1297,12 +1634,27 @@ export default function Home() {
                     </Typography>
                     {isLoggedIn && (
                         <Stack direction='row' spacing={1} alignItems='center'>
-                            <Chip color='primary' label={`Turn ${turnNumber}`} />
-                            <Chip
-                                color={turnSide === 'player' ? 'success' : 'warning'}
-                                label={`${turnSide === 'player' ? 'Your' : "Opponent's"} Turn`}
-                            />
-                            <Chip variant='outlined' label={`Phase: ${phase}`} />
+                            {gameSetupComplete ? (
+                                <>
+                                    <Chip color='primary' label={`Turn ${turnNumber}`} />
+                                    <Chip
+                                        color={turnSide === 'player' ? 'success' : 'warning'}
+                                        label={`${turnSide === 'player' ? 'Bottom' : 'Top'} Player's Turn`}
+                                    />
+                                    <Chip variant='outlined' label={`Phase: ${phase}`} />
+                                </>
+                            ) : (
+                                <Chip
+                                    color='info'
+                                    label={
+                                        setupPhase === 'dice'
+                                            ? 'Rolling for first turn...'
+                                            : setupPhase === 'hand-first'
+                                            ? `${currentHandSide === 'player' ? 'Bottom' : 'Top'} Player: Choose opening hand`
+                                            : `${currentHandSide === 'player' ? 'Bottom' : 'Top'} Player: Choose opening hand`
+                                    }
+                                />
+                            )}
                             {donGivingMode.active && (
                                 <Chip
                                     color='warning'
@@ -1317,26 +1669,28 @@ export default function Home() {
                                     }}
                                 />
                             )}
-                            <Button
-                                size='small'
-                                variant='contained'
-                                color={
-                                    phaseLower === 'main' && endTurnConfirming
-                                        ? 'error'
-                                        : 'primary'
-                                }
-                                onClick={onNextAction}
-                                disabled={
-                                    !canPerformGameAction() ||
-                                    !!battle ||
-                                    resolvingEffect ||
-                                    targeting.active ||
-                                    (deckSearchRef.current?.active) ||
-                                    !!triggerPending
-                                }
-                            >
-                                {nextActionLabel}
-                            </Button>
+                            {gameSetupComplete && (
+                                <Button
+                                    size='small'
+                                    variant='contained'
+                                    color={
+                                        phaseLower === 'main' && endTurnConfirming
+                                            ? 'error'
+                                            : 'primary'
+                                    }
+                                    onClick={onNextAction}
+                                    disabled={
+                                        !canPerformGameAction() ||
+                                        !!battle ||
+                                        resolvingEffect ||
+                                        targeting.active ||
+                                        (deckSearchRef.current?.active) ||
+                                        !!triggerPending
+                                    }
+                                >
+                                    {nextActionLabel}
+                                </Button>
+                            )}
                         </Stack>
                     )}
                     {isLoggedIn && (
@@ -1347,6 +1701,16 @@ export default function Home() {
                                 gap: 1
                             }}
                         >
+                            {gameMode && (
+                                <Button
+                                    size='small'
+                                    variant='outlined'
+                                    color='warning'
+                                    onClick={leaveGame}
+                                >
+                                    Leave Game
+                                </Button>
+                            )}
                             <Button
                                 size='small'
                                 variant='contained'
@@ -1374,6 +1738,8 @@ export default function Home() {
                     <Typography>Checking session…</Typography>
                 ) : !isLoggedIn ? (
                     <LoginRegister compact={compact} />
+                ) : !gameMode ? (
+                    <GameModeSelect onSelectMode={setGameMode} />
                 ) : (
                     <Box sx={{ mt: 0 }}>
                         <Divider sx={{ mt: -0.5, mb: 0 }} />
@@ -1427,6 +1793,9 @@ export default function Home() {
                                 openingHandRef={openingHandRef}
                                 openingHandShown={openingHandShown}
                                 setOpeningHandShown={setOpeningHandShown}
+                                currentHandSide={currentHandSide}
+                                onHandSelected={handleHandSelected}
+                                firstPlayer={firstPlayer}
                                 deckSearchRef={deckSearchRef}
                                 library={library}
                                 oppLibrary={oppLibrary}
@@ -1543,9 +1912,12 @@ export default function Home() {
                             disableKeyword={addDisabledKeyword}
                             giveDonToCard={giveDonToCard}
                             moveDonFromCostToCard={moveDonFromCostToCard}
+                            returnDonFromCardToDeck={returnDonToDonDeckFromCard}
+                            detachDonFromCard={detachDonFromCard}
                             startDeckSearch={startDeckSearch}
                             returnCardToDeck={returnCardToDeck}
                             restCard={restCard}
+                            setActive={setActive}
                             payLife={payLife}
                             battle={battle}
                             battleApplyBlocker={applyBlocker}
@@ -1558,6 +1930,8 @@ export default function Home() {
                             setResolvingEffect={setResolvingEffect}
                             getTotalPower={getTotalPower}
                             markAbilityUsed={markOncePerTurnUsed}
+                            drawCards={drawCard}
+                            lockCurrentAttack={lockCurrentAttack}
                             abilityUsage={
                                 actionSource
                                     ? oncePerTurnUsage[
@@ -1624,9 +1998,9 @@ export default function Home() {
                                             if (!meta) return null;
 
                                             const elements = [];
-                                            const counterVal = meta?.stats?.counter?.present
-                                                ? (meta.stats.counter.value || 0)
-                                                : 0;
+                                            const counterVal = _.isNumber(meta?.counter)
+                                                ? meta.counter
+                                                : (meta?.stats?.counter?.present ? (meta.stats.counter.value || 0) : 0);
 
                                             if (counterVal) {
                                                 elements.push(
@@ -1642,11 +2016,13 @@ export default function Home() {
                                                 );
                                             }
 
-                                            const isEvent = meta.category === 'Event';
+                                            //. Schema uses cardType; legacy uses category
+                                            const cardType = meta.cardType || meta.category;
+                                            const isEvent = cardType === 'event' || cardType === 'Event';
                                             const hasCounterKeyword = hasKeyword(meta.keywords, 'counter');
 
                                             if (isEvent && hasCounterKeyword) {
-                                                const cost = meta?.stats?.cost || 0;
+                                                const cost = _.get(meta, 'cost', _.get(meta, 'stats.cost', 0)) || 0;
                                                 const canPay = hasEnoughDonFor(battle.target.side, cost);
                                                 elements.push(
                                                     <Button
@@ -1738,13 +2114,19 @@ export default function Home() {
                                         battle.attacker.side === attackingSide)
                                 );
 
-                                if (isAttacking) return null; //. Attacker has no controls during battle steps
+                                //. Hide controls only during battle steps AFTER declaring (block, counter, damage)
+                                if (isAttacking && battle.step !== 'declaring') return null;
 
                                 //. Determine if card can attack
                                 const canAtk = isLeader
                                     ? canLeaderAttack(cardObj, attackingSide)
                                     : canCharacterAttack(cardObj, attackingSide, idx);
-                                if (!canAtk || (battle && battle.step !== 'declaring')) return null;
+                                
+                                //. During declaring phase, show controls for the attacker even if they can't attack (they're rested)
+                                const isDeclaring = isAttacking && battle?.step === 'declaring';
+                                
+                                //. Show controls if: can attack normally, OR is currently declaring an attack
+                                if (!canAtk && !isDeclaring) return null;
 
                                 const selecting =
                                     targeting.active &&
@@ -1800,7 +2182,8 @@ export default function Home() {
                                             <Button
                                                 size='small'
                                                 variant='outlined'
-                                                onClick={cancelTargeting}
+                                                onClick={cancelAttack}
+                                                disabled={attackLocked}
                                             >
                                                 Cancel Attack
                                             </Button>
@@ -1910,6 +2293,12 @@ export default function Home() {
                     </Stack>
                 </Paper>
             )}
+
+            {/* Dice Roll for game start (self-vs-self mode) */}
+            <DiceRoll
+                visible={gameMode === 'self-vs-self' && setupPhase === 'dice' && library.length > 0}
+                onComplete={handleDiceRollComplete}
+            />
         </Container>
     );
 }

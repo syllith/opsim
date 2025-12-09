@@ -1,37 +1,96 @@
 {
-  "id": "EB01-043",
-  "set": "EB01",
-  "number": 43,
-  "name": "Spandine",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Wisdom",
-  "types": ["CP9"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-043.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] You may return 3 cards with [CP] in its Types from your trash to the bottom of your deck in any order: Play up to 1 cost 4 or lower Character Card with [CP] in its types other than \"Spandine\" from your trash rested.",
+  "power": 2000,
+  "cardType": "character",
+  "cardId": "EB01-043",
+  "printedText": "[On Play] You may return 3 cards with [CP] in their types from your trash to the bottom of your deck in any order: Play up to 1 cost 4 or lower Character card with [CP] in its types other than [Spandine] from your trash rested.",
+  "types": [
+    "CP9"
+  ],
+  "cardNumber": "043",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may return 3 cards with [CP] in its Types from your trash to the bottom of your deck in any order: Play up to 1 cost 4 or lower Character Card with [CP] in its types other than \"Spandine\" from your trash rested.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["trash"],
-        "conditions": ["characterTypeCP", "characterCost<=4", "notSpandine"]
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "may": true,
+          "type": "moveCard",
+          "target": {
+            "bindAs": "returnedCP",
+            "filters": [
+              {
+                "value": "CP",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "trash"
+            ],
+            "min": 3,
+            "max": 3,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        },
+        {
+          "may": true,
+          "enterRested": true,
+          "type": "playCard",
+          "payCost": true,
+          "sourceZone": "trash",
+          "condition": {
+            "value": 3,
+            "field": "bound.returnedCP.count",
+            "op": "="
+          },
+          "target": {
+            "filters": [
+              {
+                "value": "CP",
+                "field": "types",
+                "op": "="
+              },
+              {
+                "value": "Spandine",
+                "field": "name",
+                "op": "!="
+              },
+              {
+                "value": 4,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "trash"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Spandine",
+  "rarity": "R",
+  "cost": 3,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "cp9"
+  ]
 }

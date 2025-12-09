@@ -1,54 +1,28 @@
 {
-  "id": "OP03-107",
-  "set": "OP03",
-  "number": 107,
-  "name": "Charlotte Galette",
-  "category": "Character",
+  "cardName": "Charlotte Galette",
+  "cardId": "OP03-107",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Big Mom Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-107.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "107",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "keywords": [
     "Blocker"
   ],
-  "trigger": null,
-  "text": "(Blocker) (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [
-    {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
-    }
+  "abilities": [],
+  "attributes": [
+    "special"
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, indicated by the large 'SAMPLE' watermark."
-  }
+  "traits": [
+    "bigMomPirates"
+  ]
 }

@@ -1,57 +1,58 @@
 {
-  "id": "OP04-096",
-  "set": "OP04",
-  "number": 96,
-  "name": "Corrida Colosseum",
-  "category": "Stage",
+  "cardName": "Corrida Colosseum",
+  "cardId": "OP04-096",
+  "cardType": "stage",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
-    "Dressrosa",
-    "Corrida Colosseum"
+    "Dressrosa"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-096.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "096",
+  "printedText": "If your Leader has the {Dressrosa} type, your Characters that have the {Dressrosa} type can attack Characters on the turn they are played.",
   "keywords": [
-    "On Play"
+    "static"
   ],
-  "trigger": null,
-  "text": "If your Leader has the {Dressrosa} type, your Characters that have the {Dressrosa} type can attack Characters on the turn they are played.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "leaderTypesIncludes",
+        "op": "=",
+        "value": "Dressrosa"
       },
-      "effect": {
-        "text": "If your Leader has the {Dressrosa} type, your Characters that have the {Dressrosa} type can attack Characters on the turn they are played.",
-        "powerMod": null,
-        "targets": [
-          "yourCharacters",
-          "opponentCharacters"
-        ],
-        "conditions": [
-          "yourLeaderHasType:Dressrosa",
-          "yourCharacterHasType:Dressrosa"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "yourDressrosaCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Dressrosa"
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "canAttackCharactersFirstTurn",
+          "duration": "permanent",
+          "target": "yourDressrosaCharacters"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "traits": [
+    "dressrosa"
+  ]
 }

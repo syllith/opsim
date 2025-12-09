@@ -1,51 +1,81 @@
 {
-  "id": "OP06-098",
-  "set": "OP06",
-  "number": 98,
-  "name": "Thriller Bark",
-  "category": "Stage",
+  "cardName": "Thriller Bark",
+  "cardId": "OP06-098",
+  "cardType": "stage",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Thriller Bark Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-098.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
+  "traits": [
+    "thrillerBarkPirates"
   ],
-  "trigger": null,
-  "text": "Activate: Main (You may rest the specified number of DON!! cards in your Cost Area) rest this stage: If your leader has the [Thriller Bark Pirates] type, you may play up to 1 cost 2 or lower [Thriller Bark Pirates] type character card from your trash rested.",
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "098",
+  "printedText": "Activate: Main DON!!-1 (You may rest the specified number of DON!! cards in your Cost Area) rest this stage: If your leader has the [Thriller Bark Pirates] type, you may play up to 1 cost 2 or lower [Thriller Bark Pirates] type character card from your trash rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ]
       },
-      "effect": {
-        "text": "rest this stage: If your leader has the [Thriller Bark Pirates] type, you may play up to 1 cost 2 or lower [Thriller Bark Pirates] type character card from your trash rested.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the [Thriller Bark Pirates] type"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderHasTraitThrillerBarkPirates",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "tbpCost2OrLessFromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "hasTraitThrillerBarkPirates",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "tbpCost2OrLessFromTrash",
+          "enterRested": true,
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

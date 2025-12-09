@@ -1,51 +1,84 @@
 {
-  "id": "OP06-001",
-  "set": "OP06",
-  "number": 1,
-  "name": "Uta",
-  "category": "Leader",
+  "cardName": "Uta",
+  "cardId": "OP06-001",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
   "types": [
     "FILM"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP06/OP06-001.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "rarity": "L",
+  "setId": "OP06",
+  "cardNumber": "001",
+  "printedText": "[When Attacking] You may trash 1 {FILM} type card from your hand: Give up to 1 of your opponent's Characters -2000 power during this turn. Then, add up to 1 DON!! card from your DON!! deck and rest it.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: You may trash 1 FILM type card from your hand: Give up to one of your opponents' characters -2000 power until the end of turn. Then, add up to 1 DON!! from your DON!! deck as rested.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": [
+          "type=FILM"
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 FILM type card from your hand: Give up to one of your opponents' characters -2000 power until the end of turn. Then, add up to 1 DON!! from your DON!! deck as rested.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "DON!! deck",
-          "to": []
+      "selectors": {
+        "oppCharacterUpTo1": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "targetCharacter"
+        },
+        "donFromDonDeckUpTo1": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "donToAdd"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "oppCharacterUpTo1"
+        },
+        {
+          "type": "moveCard",
+          "target": "donFromDonDeckUpTo1",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "enterRested": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "film"
+  ]
 }

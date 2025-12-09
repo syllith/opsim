@@ -1,0 +1,73 @@
+{
+  "cardName": "Gum-Gum Elephant Gatling",
+  "cardId": "OP11-038",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 1,
+  "types": ["Fish-Man Island", "Supernovas", "Straw Hat Crew"],
+  "traits": ["fishManIsland", "supernovas", "strawHatCrew"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "038",
+  "printedText": "[Main] You may rest 1 of your DON!! cards: Rest up to 1 of your opponent's Characters with a cost of 5 or less.\n[Counter] Up to 1 of your Leader cards gains +3000 power during this battle.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "main",
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
+      },
+      "selectors": {
+        "opponentCharacterCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCharacterCost5OrLess"
+        }
+      ]
+    },
+    {
+      "timing": "counter",
+      "selectors": {
+        "selfLeaderUpToOne": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "selfLeaderUpToOne"
+        }
+      ]
+    }
+  ]
+}

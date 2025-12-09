@@ -1,37 +1,72 @@
 {
-  "id": "OP02-031",
-  "set": "OP02",
-  "number": 31,
-  "name": "Kozuki Toki",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Wisdom",
-  "types": ["Wano Country", "Kozuki Family"],
+  "cardName": "Kozuki Toki",
+  "cardId": "OP02-031",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "types": [
+    "Wano Country",
+    "Kozuki Family"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-031.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker"],
-  "trigger": null,
-  "text": "If you have a [Kozuki Oden] Character in play, this Character gains Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "setId": "OP02",
+  "cardNumber": "031",
+  "printedText": "If you have a [Kozuki Oden] Character, this Character gains [Blocker]. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "Continuous",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have a [Kozuki Oden] Character in play, this Character gains Blocker.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["Kozuki Oden Character in play"]
-      }
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "odenCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Kozuki Oden"
+            }
+          ],
+          "min": 0,
+          "max": 99,
+          "whoChooses": "system",
+          "bindAs": "odenInPlay"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "odenCharacter",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "blocker",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "wanoCountry",
+    "kozukiFamily"
+  ]
 }

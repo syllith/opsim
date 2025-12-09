@@ -1,51 +1,62 @@
 {
-  "id": "OP04-022",
-  "set": "OP04",
-  "number": 22,
-  "name": "Eric",
-  "category": "Character",
+  "cardName": "Eric",
+  "cardId": "OP04-022",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "East Blue"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-022.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this character: Rest up to 1 of your opponent's cost 1 or less characters.",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "022",
+  "printedText": "[Activate: Main] You may rest this character: Rest up to 1 of your opponent's cost 1 or less Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restThis"
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's cost 1 or less characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost1"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCost1OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "bindAs": "opponentCost1OrLessCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCost1OrLessCharacter"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

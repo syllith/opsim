@@ -1,54 +1,59 @@
 {
-  "id": "OP03-075",
-  "set": "OP03",
-  "number": 75,
-  "name": "Galley-La Company",
-  "category": "Event",
+  "cardName": "Galley-La Company",
+  "cardId": "OP03-075",
+  "cardType": "event",
   "colors": [
-    "Water"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 3,
   "types": [
+    "Water 7",
     "Galley-La Company"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-075.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "075",
+  "printedText": "Activate: Main You may rest this Stage: If your Leader is [Iceburg], add up to 1 DON!! card from your DON!! deck and rest it.",
   "keywords": [
-    "Activate: Main"
+    "activateMain"
   ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this Stage: If your Leader is [Iceburg], add up to 1 DON!! card from your DON!! deck and rest it.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis"
       },
-      "effect": {
-        "text": "You may rest this Stage: If your Leader is [Iceburg], add up to 1 DON!! card from your DON!! deck and rest it.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "leader:Iceburg"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leader.types",
+        "op": "=",
+        "value": "Iceburg"
+      },
+      "selectors": {
+        "donToAdd": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "donSource"
+        }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "target": "self"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "traits": [
+    "waterSeven",
+    "galleyLaCompany"
+  ]
 }

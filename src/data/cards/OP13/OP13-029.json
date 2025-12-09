@@ -1,34 +1,18 @@
 {
-  "id": "OP13-029",
-  "set": "OP13",
-  "number": 29,
-  "name": "Jinbe",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "FILM",
-    "Fish-Man",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Jinbe",
+  "cardId": "OP13-029",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["FILM", "Fish-Man", "Straw Hat Crew"],
+  "traits": ["film", "fishMan", "strawHatCrew"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-029.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "029",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "abilities": []
 }

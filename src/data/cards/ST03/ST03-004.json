@@ -1,20 +1,75 @@
 {
-  "id": "ST03-004",
-  "set": "ST03",
-  "number": 4,
-  "name": "Gecko Moria",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
+  "cardName": "Gecko Moria",
+  "cardId": "ST03-004",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["The Seven Warlords of the Sea", "Thriller Bark Pirates"],
-  "rarity": null,
-  "art": "/cards/ST03/ST03-004.png",
-  "stats": { "cost": 4, "power": 5000, "life": null, "counter": { "present": true, "value": 1000 } },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "(Placeholder) On Play: Add up to 1 Character (Warlords/Thriller Bark Pirates) with cost <=4 except Gecko Moria from trash to hand.",
+  "traits": ["theSevenWarlordsOfTheSea", "thrillerBarkPirates"],
+  "rarity": "common",
+  "setId": "ST03",
+  "cardNumber": "004",
+  "printedText": "[On Play] Add up to 1 {The Seven Warlords of the Sea} or {Thriller Bark Pirates} type Character with a cost of 4 or less other than [Gecko Moria] from your trash to your hand.",
+  "keywords": [],
   "abilities": [
-    {"timing": "On Play", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Return one target Character with cost 4 or less matching type from trash to hand.", "grants": [], "powerMod": null, "targets": ["oneCharacterTrash"], "conditions": []}}
+    {
+      "timing": "onPlay",
+      "selectors": {
+        "warlordOrThrillerTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "logic": "OR",
+                  "any": [
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "theSevenWarlordsOfTheSea"
+                    },
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "thrillerBarkPirates"
+                    }
+                  ]
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Gecko Moria"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "warlordOrThrillerTrash",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
+    }
   ],
-  "meta": {"notes": null}
+  "alsoTreatedAsNames": []
 }

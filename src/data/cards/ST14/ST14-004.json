@@ -1,37 +1,67 @@
 {
-  "id": "ST14-004",
-  "set": "ST14",
-  "number": 4,
-  "name": "Jinbe",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Strike",
-  "types": ["Fishman", "Sun Pirates"],
-  "rarity": "C",
-  "art": "/cards/ST14/ST14-004.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn Give up to one of your black characters with the {Straw Hat Crew} +2 cost until the end of your opponents next turn.",
+  "cardName": "Jinbe",
+  "cardId": "ST14-004",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
+  "types": [
+    "Fishman",
+    "Sun Pirates"
+  ],
+  "traits": [
+    "fishMan",
+    "sunPirates"
+  ],
+  "setId": "ST14",
+  "cardNumber": "004",
+  "printedText": "[Activate: Main] [Once Per Turn] Give up to one of your black characters with the {Straw Hat Crew} +2 cost until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to one of your black characters with the {Straw Hat Crew} +2 cost until the end of your opponents next turn.",
-        "powerMod": null,
-        "targets": ["oneAllyCharacter:color=Black:type=Straw Hat Crew:cost+2"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "targetStrawHat": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 2,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "targetStrawHat"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

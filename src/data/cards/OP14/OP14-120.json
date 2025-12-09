@@ -1,62 +1,123 @@
 {
-  "id": "OP14-120",
-  "set": "OP14",
-  "number": 120,
-  "name": "Crocodile",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Special",
+  "cardName": "Crocodile",
+  "cardId": "OP14-120",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 8,
+  "power": 10000,
+  "attributes": ["special"],
   "types": [
-    "The Seven Warlords of the Sea/Baroque Works"
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
   ],
   "rarity": "SEC",
-  "art": "/cards/OP14/OP14-120.png",
-  "stats": {
-    "cost": 8,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 10000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On Play: Up to 1 of your opponent's Characters with a cost of 9 or less cannot attack until the end of your opponent's next turn. Then, if your opponent has a Character with a cost of 0 or a Character with a cost of 8 or more, draw 1 card.\nOn K.O.: You may trash 1 card from your hand: Play this Character card from your trash.",
+  "setId": "OP14",
+  "cardNumber": "120",
+  "printedText": "[On Play] Up to 1 of your opponent's Characters with a cost of 9 or less cannot attack until the end of your opponent's next turn. Then, if your opponent has a Character with a cost of 0 or a Character with a cost of 8 or more, draw 1 card.\n[On K.O.] You may trash 1 card from your hand: Play this Character card from your trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "opponentCharCost9OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 9
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "opponentCost0Char": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "opponentCost8PlusChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 8
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your opponent's Characters with a cost of 9 or less cannot attack until the end of your opponent's next turn. Then, if your opponent has a Character with a cost of 0 or a Character with a cost of 8 or more, draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "attack",
+          "target": "opponentCharCost9OrLess",
+          "duration": "untilEndOfOpponentsNextTurn"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "logic": "OR",
+            "any": [
+              {
+                "field": "selectorCount",
+                "selector": "opponentCost0Char",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "selectorCount",
+                "selector": "opponentCost8PlusChar",
+                "op": ">=",
+                "value": 1
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 1,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onKO",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Play this Character card from your trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "selfThisCard",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

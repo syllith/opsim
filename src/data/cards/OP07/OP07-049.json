@@ -1,48 +1,69 @@
 {
-  "id": "OP07-049",
-  "set": "OP07",
-  "number": 49,
-  "name": "Buckin",
-  "category": "Character",
+  "cardName": "Buckin",
+  "cardId": "OP07-049",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 0,
+  "counter": 1000,
+  "attributes": [
+    "wisdom"
+  ],
   "types": [
     "Weevil's Mom"
   ],
-  "rarity": "C",
-  "art": "/cards/OP07/OP07-049.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "weevilSMom"
   ],
-  "trigger": null,
-  "text": "On Play: Play up to 1 Cost 4 or lower [Edward Weevil] from your hand rested.",
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "049",
+  "printedText": "[On Play] Play up to 1 cost 4 or lower [Edward Weevil] from your hand rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Edward Weevil"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Play up to 1 Cost 4 or lower [Edward Weevil] from your hand rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "enterRested": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but ID and other fields are legible."
-  }
+  ]
 }

@@ -1,77 +1,86 @@
 {
-  "id": "OP06-019",
-  "set": "OP06",
-  "number": 19,
-  "name": "Azure Dragon Stamp Flowing Water",
-  "category": "Event",
+  "cardName": "Blue Dragon Seal Water Stream",
+  "cardId": "OP06-019",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 3,
+  "power": 0,
+  "counter": 0,
   "types": [
     "FILM",
     "Straw Hat Crew"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-019.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "K.O. up to one of your opponent's characters with power 4000 or less."
-  },
-  "text": "Main K.O. up to one of your opponent's characters with power 5000 or less.\nTrigger K.O. up to one of your opponent's characters with power 4000 or less.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "019",
+  "printedText": "[Main] K.O. up to 1 of your opponent's Characters with 5000 power or less.\n[Trigger] K.O. up to 1 of your opponent's Characters with 4000 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "mainKoTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 5000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to one of your opponent's characters with power 5000 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "power<=5000"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "mainKoTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "triggerKoTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to one of your opponent's characters with power 4000 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "power<=4000"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "triggerKoTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "film",
+    "strawHatCrew"
+  ]
 }

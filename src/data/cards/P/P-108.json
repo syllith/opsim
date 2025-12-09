@@ -1,63 +1,40 @@
 {
-  "id": "P-108",
-  "set": "P",
-  "number": 108,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-108.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. Set up to 2 of your DON!! cards as active.",
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "P-108",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Supernovas", "Straw Hat Crew"],
+  "traits": ["supernovas", "strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-108",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] Set up to 2 of your DON!! cards as active.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "yourDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Set up to 2 of your DON!! cards as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "yourDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

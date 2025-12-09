@@ -1,60 +1,128 @@
 {
-  "id": "ST14-015",
-  "set": "ST14",
-  "number": 15,
-  "name": "GUM GUM Diable Three Sword Style Mouton JET Six Hundred Pound Cannon",
-  "category": "Event",
-  "colors": ["Black"],
-  "attribute": null,
+  "cardName": "Gum-Gum Diable Three-Swords Style Mouten Jet Six Hundred Pound Phoenix Cannon",
+  "cardId": "ST14-015",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 2,
   "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/ST14/ST14-015.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "If you have a cost 8 or greater character in play, KO up to one of your opponents cost 5 or lower characters." },
-  "text": "Main: Give your leader or up to one of your characters +3000 power for this turn. Then, if you have a cost 8 or greater character in play, KO up to one of your opponents cost 2 or less characters. Trigger: If you have a cost 8 or greater character in play, KO up to one of your opponents cost 5 or lower characters.",
+  "setId": "ST14",
+  "cardNumber": "015",
+  "printedText": "[Main] Up to 1 of your Leader or Character cards gains +3000 power during this turn. Then, if you have a Character with a cost of 8 or more, K.O. up to 1 of your opponent's Characters with a cost of 2 or less.\n[Trigger] If you have a Character with a cost of 8 or more, K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give your leader or up to one of your characters +3000 power for this turn.",
-        "powerMod": { "amount": 3000, "duration": "this turn" },
-        "targets": ["ally:Leader", "oneAllyCharacter"],
-        "conditions": []
-      }
+      "timing": "main",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "highCostCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 8
+            }
+          ]
+        },
+        "koTargetMain": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "highCostCharacters",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "ko",
+              "target": "koTargetMain"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have a cost 8 or greater character in play, KO up to one of your opponents cost 2 or less characters.",
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=2"],
-        "conditions": ["hasAllyCharacter>=8"]
-      }
-    },
-    {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have a cost 8 or greater character in play, KO up to one of your opponents cost 5 or lower characters.",
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=5"],
-        "conditions": ["hasAllyCharacter>=8"]
-      }
+      "timing": "trigger",
+      "selectors": {
+        "highCostCharactersTrigger": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 8
+            }
+          ]
+        },
+        "koTargetTrigger": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "highCostCharactersTrigger",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTargetTrigger"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

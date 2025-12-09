@@ -1,55 +1,73 @@
 {
-  "id": "OP04-072",
-  "set": "OP04",
-  "number": 72,
-  "name": "Mr. 5 (Gem)",
-  "category": "Character",
+  "cardName": "Mr.5(Gem)",
+  "cardId": "OP04-072",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 7,
+  "power": 8000,
+  "counter": 0,
   "types": [
     "Baroque Works"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-072.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "072",
+  "printedText": "[On Your Opponent's Attack] [Once Per Turn] DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck.) You may rest this Character: K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
   "keywords": [
-    "On Opponent's Attack",
-    "Once Per Turn"
+    "onOpponentsAttack",
+    "oncePerTurn"
   ],
-  "trigger": null,
-  "text": "On Opponent's Attack: Once Per Turn, Don -2. You may rest this character: KO Up to one of your opponents characters with a cost of 4 or less.",
   "abilities": [
     {
-      "timing": "On Opponent's Attack",
-      "frequency": "Once Per Turn",
-      "donReq": 2,
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "donMinus",
+            "count": 2
+          },
+          {
+            "type": "restThis"
+          }
+        ]
       },
-      "effect": {
-        "text": "You may rest this character: KO Up to one of your opponents characters with a cost of 4 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "conditions": [
-          "rested"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCharCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "target"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharCost4OrLess"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card has a 'SPECIAL' icon next to the power value, but this is not a rarity and is treated as a flavor/indicator. The rarity is clearly printed as 'C' in the bottom right corner."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

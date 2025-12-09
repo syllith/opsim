@@ -1,50 +1,41 @@
 {
-  "id": "ST18-002",
-  "set": "ST18",
-  "number": 2,
-  "name": "Onami",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
+  "cardName": "Onami",
+  "cardId": "ST18-002",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 2000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/ST18/ST18-002.png",
-  "stats": {
-    "cost": 4,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play", "Counter +1000"],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Play If you have 8 or more Don!! on your field, trash 1 card from your hand then draw 2 cards.",
+  "traits": ["strawHatCrew"],
+  "rarity": "starter",
+  "setId": "ST18",
+  "cardNumber": "002",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [On Play] If you have 8 or more DON!! on your field, trash 1 card from your hand then draw 2 cards.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentAttackDeclared"],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 8 or more Don!! on your field, trash 1 card from your hand then draw 2 cards.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["donCount>=8"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "condition": {
+        "field": "selfDonCount",
+        "op": ">=",
+        "value": 8
+      },
+      "actions": [
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        },
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

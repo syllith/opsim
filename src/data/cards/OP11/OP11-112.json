@@ -1,69 +1,40 @@
 {
-  "id": "OP11-112",
-  "set": "OP11",
-  "number": 112,
-  "name": "Megalo",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Animal",
-    "Fish-Man Island"
-  ],
+  "cardName": "Megalo",
+  "cardId": "OP11-112",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Animal", "Fish-Man Island"],
+  "traits": ["animal", "fishManIsland"],
   "rarity": "UC",
-  "art": "/cards/OP11/OP11-112.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "Opponent's Turn"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOpponent's Turn: If your Leader is [Shirahoshi], this Character gains +4000 power.",
+  "setId": "OP11",
+  "cardNumber": "112",
+  "printedText": "[Blocker]\n[Opponent's Turn] If your Leader is [Shirahoshi], this Character gains +4000 power.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "condition": {
+        "field": "leaderIs_shirahoshi",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your Leader is [Shirahoshi], this Character gains +4000 power.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 4000,
-          "duration": "this turn"
-        },
-        "conditions": [
-          "yourLeaderIs[Shirahoshi]"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,50 +1,62 @@
 {
-  "id": "P-030",
-  "set": "P",
-  "number": 30,
-  "name": "Jinbe",
-  "category": "Character",
+  "cardName": "Jinbe",
+  "cardId": "P-030",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Fish-man",
     "The 7 Warlords of the Sea",
     "Sun Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/P/P-030.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O."
+  "traits": [
+    "fishMan",
+    "theSevenWarlordsOfTheSea",
+    "sunPirates"
   ],
-  "trigger": null,
-  "text": "On K.O. Place up to 1 Character with a cost of 3 or less at the bottom of the owner's deck.",
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-030",
+  "printedText": "[On K.O.] Place up to 1 Character with a cost of 3 or less at the bottom of the owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "lowCostCharacter": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Place up to 1 Character with a cost of 3 or less at the bottom of the owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "lowCostCharacter",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and 'BANDAI MADE IN JAPAN' indicates it is not a real card from a published set. The ID 'P-030' is used as a placeholder."
-  }
+  ]
 }

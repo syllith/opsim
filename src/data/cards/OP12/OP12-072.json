@@ -1,55 +1,36 @@
 {
-  "id": "OP12-072",
-  "set": "OP12",
-  "number": 72,
-  "name": "Zeff",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "East Blue"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP12/OP12-072.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "When 1 or more of your DON!! cards is returned to your DON!! Deck and your Leader is [Sanji], this Character gains Rush. (This card can attack on the turn in which it is played.)",
+  "cardName": "Zeff",
+  "cardId": "OP12-072",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["East Blue"],
+  "traits": ["eastBlue"],
+  "rarity": "UC",
+  "setId": "OP12",
+  "cardNumber": "072",
+  "printedText": "When a DON!! card on your field is returned to your DON!! deck, if your Leader is [Sanji], this Character gains Rush during this turn.\n(This card can attack on the turn in which it is played.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenDonReturned",
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Sanji"
       },
-      "effect": {
-        "text": "When 1 or more of your DON!! cards is returned to your DON!! Deck and your Leader is [Sanji], this Character gains Rush. (This card can attack on the turn in which it is played.)",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "conditions": [
-          "1 or more of your DON!! cards is returned to your DON!! Deck",
-          "your Leader is [Sanji]"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "thisTurn",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

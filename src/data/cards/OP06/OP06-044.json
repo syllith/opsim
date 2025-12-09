@@ -1,49 +1,57 @@
 {
-  "id": "OP06-044",
-  "set": "OP06",
-  "number": 44,
-  "name": "Gion",
-  "category": "Character",
+  "cardName": "Gion",
+  "cardId": "OP06-044",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "life": 0,
+  "counter": 2000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Navy"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP06/OP06-044.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn"
+  "traits": [
+    "navy"
   ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn When your opponent activates an event, your opponent places one card from their hand at the bottom of their deck.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "044",
+  "printedText": "Your Turn Once Per Turn When your opponent activates an event, your opponent places one card from their hand at the bottom of their deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "afterOpponentActivatesEvent",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "turnPlayer",
+        "op": "=",
+        "value": "self"
       },
-      "effect": {
-        "text": "When your opponent activates an event, your opponent places one card from their hand at the bottom of their deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentHandOne": {
+          "side": "opponent",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentHandOne",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is marked as a sample. Counter value is 2000. Rarity is UC (U and C next to each other in the box)."
-  }
+  ]
 }

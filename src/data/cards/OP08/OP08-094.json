@@ -1,64 +1,108 @@
 {
-  "id": "OP08-094",
-  "set": "OP08",
-  "number": 94,
-  "name": "Imperial Flame",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animal Kingdom Pirates"
-  ],
+  "cardName": "Imperial Flame",
+  "cardId": "OP08-094",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
+  "types": ["Animal Kingdom Pirates"],
+  "traits": ["animalKingdomPirates"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-094.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main / #Counter You may place 3 cards from your trash at the bottom of your deck in any order: K.Q. up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "setId": "OP08",
+  "cardNumber": "094",
+  "printedText": "[Main]/[Counter] You may place 3 cards from your trash at the bottom of your deck in any order: K.O. up to 1 of your opponent's Characters with a cost of 2 or less. [Trigger] Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromTrash",
+        "selector": "threeFromTrash",
+        "may": true
       },
-      "effect": {
-        "text": "You may place 3 cards from your trash at the bottom of your deck in any order: K.Q. up to 1 of your opponent's Characters with a cost of 2 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "threeFromTrash": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 3,
+          "max": 3,
+          "whoChooses": "self"
+        },
+        "oppCost2OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost2OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "counter",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromTrash",
+        "selector": "threeFromTrashCounter",
+        "may": true
       },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "threeFromTrashCounter": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 3,
+          "max": 3,
+          "whoChooses": "self"
+        },
+        "oppCost2OrLessCounter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost2OrLessCounter"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' in image, but rarity and ID are read from printed text."
-  }
+  ]
 }

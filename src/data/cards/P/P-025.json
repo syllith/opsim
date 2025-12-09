@@ -1,46 +1,55 @@
 {
-  "id": "P-025",
-  "set": "P",
-  "number": 25,
-  "name": "Smoker",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Navy"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-025.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Smoker",
+  "cardId": "P-025",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 5000,
+  "life": 0,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": ["Navy"],
+  "traits": ["navy"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-025",
+  "printedText": "[DON!! x1] This Character cannot be K.O.'d in battle by Characters without the \"Special\" attribute.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!!x1 This Character cannot be K.O'd when battling characters without the (Special) attribute.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This Character cannot be K.O'd when battling characters without the (Special) attribute.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "selfWouldBeKOdInBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "isGivenDon",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "battleOpponent",
+                "attribute": "special",
+                "op": "=",
+                "value": false
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and 'SPECIAL' in the image, but rarity is confirmed as 'SP' from the printed text. Power is clearly 5000. No life value printed."
-  }
+  ]
 }

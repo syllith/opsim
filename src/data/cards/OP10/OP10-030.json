@@ -1,63 +1,59 @@
 {
-  "id": "OP10-030",
-  "set": "OP10",
-  "number": 30,
-  "name": "Smoker",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Punk Hazard",
-    "Navy"
-  ],
+  "cardName": "Smoker",
+  "cardId": "OP10-030",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Punk Hazard", "Navy"],
+  "traits": ["punkHazard", "navy"],
   "rarity": "SR",
-  "art": "/cards/OP10/OP10-030.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "Banish",
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Banish (When a character deals damage, the target card is trashed without activating its Trigger.)\nActivate: Main Set up to one of your Don!! cards as active. Then, you cannot set your Don!! cards as active through characters effects for the rest of this turn.",
+  "setId": "OP10",
+  "cardNumber": "030",
+  "printedText": "Banish (When a character deals damage, the target card is trashed without activating its Trigger.)\n[Activate: Main] Set up to 1 of your DON!! cards as active. Then, you cannot set your DON!! cards as active through characters' effects for the rest of this turn.",
+  "keywords": ["Banish"],
   "abilities": [
     {
-      "timing": "Banish",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "selectors": {
+        "donToReady": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "yourDonCards": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "When a character deals damage, the target card is trashed without activating its Trigger.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Set up to one of your Don!! cards as active. Then, you cannot set your Don!! cards as active through characters effects for the rest of this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donToReady"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "setDonActiveByCharacterEffect",
+          "target": "yourDonCards",
+          "may": false,
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

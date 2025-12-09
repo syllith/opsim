@@ -1,52 +1,77 @@
 {
-  "id": "OP05-053",
-  "set": "OP05",
-  "number": 53,
-  "name": "Mozambia",
-  "category": "Character",
+  "cardName": "Mozambia",
+  "cardId": "OP05-053",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Navy"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-053.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn When you draw a card except for during your draw phase this character gets +2000 during this turn.",
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "053",
+  "printedText": "[Your Turn] [Once Per Turn] When you draw a card except during your draw phase, this Character gains +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCardSelector"
+        }
       },
-      "effect": {
-        "text": "When you draw a card except for during your draw phase this character gets +2000 during this turn.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "afterYouDrawCard",
+          "target": "thisCardSelector",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "turnPlayer",
+                "op": "=",
+                "value": "self"
+              },
+              {
+                "field": "phase",
+                "op": "!=",
+                "value": "drawPhase"
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 2000,
+              "duration": "thisTurn",
+              "target": "thisCardSelector"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

@@ -1,57 +1,86 @@
 {
-  "id": "OP01-118",
-  "set": "OP01",
-  "number": 118,
-  "name": "Ulti-Mortar",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Animal Kingdom Pirates"],
+  "cardName": "Ulti-Mortar",
+  "cardId": "OP01-118",
+  "cardType": "event",
+  "colors": [
+    "purple"
+  ],
+  "cost": 1,
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-118.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "DON!!", "Trigger"],
-  "trigger": { "text": "Add 1 DON!! card from your DON!! deck and set it as active." },
-  "text": "Counter DON!! -2 Your Leader or up to 1 of your Characters gains +2000 Power during this battle. Then, draw 1 card. Trigger Add 1 DON!! card from your DON!! deck and set it as active.",
+  "setId": "OP01",
+  "cardNumber": "118",
+  "printedText": "[Counter] DON!! −2: Your Leader or up to 1 of your Characters gains +2000 Power during this battle. Then, draw 1 card.\n[Trigger] Add 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [
+    "counter",
+    "trigger"
+  ],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 2 },
-      "effect": {
-        "text": "Your Leader or up to 1 of your Characters gains +2000 Power during this battle. Then, draw 1 card.",
-        "grants": [],
-        "powerMod": { "amount": 2000, "duration": "this battle" },
-        "targets": ["ally:Leader", "oneAllyCharacter"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "counter",
+      "cost": {
+        "type": "returnDon",
+        "count": 2
+      },
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        },
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Add 1 DON!! card from your DON!! deck and set it as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "costArea",
-          "to": ["field"]
+      "timing": "trigger",
+      "selectors": {
+        "donTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 0
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "target": "donTarget"
+        },
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

@@ -1,64 +1,93 @@
 {
-  "id": "OP13-037",
-  "set": "OP13",
-  "number": 37,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "FILM",
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP13-037",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["FILM", "Supernovas", "Straw Hat Crew"],
+  "traits": ["film", "supernovas", "strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-037.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "End of Your Turn"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the (FILM) or (Straw Hat Crew) type, set up to 2 of your DON!! cards as active. End of Your Turn: Set this Character as active.",
+  "setId": "OP13",
+  "cardNumber": "037",
+  "printedText": "[On Play] If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 2 of your DON!! cards as active.\n[End of Your Turn] Set this Character as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "filmOrStrawHatLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "film"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "strawHatCrew"
+                }
+              ]
+            }
+          ]
+        },
+        "upToTwoRestedDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If your Leader has the (FILM) or (Straw Hat Crew) type, set up to 2 of your DON!! cards as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "filmOrStrawHatLeader",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "setState",
+              "state": "active",
+              "target": "upToTwoRestedDon"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Set this Character as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "endOfYourTurn",
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

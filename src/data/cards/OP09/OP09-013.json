@@ -1,78 +1,105 @@
 {
-  "id": "OP09-013",
-  "set": "OP09",
-  "number": 13,
-  "name": "Yasopp",
-  "category": "Character",
+  "cardName": "Yasopp",
+  "cardId": "OP09-013",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Ranged",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "ranged"
+  ],
   "types": [
     "Red Hair Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-013.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    
+  "traits": [
+    "redHairedPirates"
   ],
-  "trigger": null,
-  "text": "[On Play] Up to 1 of your Leader gains +1000 power until the end of your opponent's next turn.\n[DON!! x1] [On Attack] Up to 1 of your opponent's Characters gets -1000 power during this turn.",
-  
+  "rarity": "R",
+  "setId": "OP09",
+  "cardNumber": "013",
+  "printedText": "[On Play] Up to 1 of your Leaders gains +1000 power until the end of your opponent's next turn.\n[DON!! x1] [When Attacking] Up to 1 of your opponent's Characters gets -1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "type": "On Play",
-      "autoResolve": false,
-      "frequency": null,
-      "condition": null,
-      "cost": null,
-      "effect": {
-        "text": "Give up to 1 of your Leader +1000 power until the end of your opponent's next turn.",
-        "actions": [
-          {
-            "type": "powerMod",
-            "amount": 1000,
-            "targetSide": "player",
-            "targetType": "leader",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "duration": "untilOpponentsNextTurn"
-          }
-        ]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "selfLeaderBuff": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "selfLeaderBuff"
+        }
+      ]
     },
     {
-      "type": "On Attack",
-      "frequency": null,
-      "condition": { "don": 1 },
-      "cost": null,
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -1000 power during this turn.",
-        "actions": [
-          {
-            "type": "powerMod",
-            "amount": -1000,
-            "targetSide": "opponent",
-            "targetType": "character",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "duration": "thisTurn"
-          }
-        ]
-      }
+      "timing": "whenAttacking",
+      "selectors": {
+        "attachedDonToThis": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "attachedTo",
+              "op": "=",
+              "value": "thisCard"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "oppCharacterMinus1000": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "attachedDonToThis",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": "oppCharacterMinus1000"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

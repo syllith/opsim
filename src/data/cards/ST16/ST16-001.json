@@ -1,48 +1,51 @@
 {
-  "id": "ST16-001",
-  "set": "ST16",
-  "number": 1,
-  "name": "Uta",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Special",
+  "cardName": "Uta",
+  "cardId": "ST16-001",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 0,
+  "attributes": ["special"],
   "types": ["FILM"],
+  "traits": ["film"],
   "rarity": "SR",
-  "art": "/cards/ST16/ST16-001.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["Blocker", "Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) Activate: Main Once Per Turn: You may trash 1 {Film} type card from your hand: Give your leader or up to one of your characters up to 1 rested Don!!.",
+  "setId": "ST16",
+  "cardNumber": "001",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Activate: Main] [Once Per Turn] You may trash 1 {FILM} type card from your hand: Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["blocker"]
-      }
-    },
-    {
-      "timing": "Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 {Film} type card from your hand: Give your leader or up to one of your characters up to 1 rested Don!!.",
-        "powerMod": null,
-        "targets": ["ally:Leader", "oneAllyCharacter"],
-        "conditions": ["trashCard:type=Film", "giveDon:rested:1"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": ["film"],
+        "may": true
+      },
+      "selectors": {
+        "donRecipient": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "side": "self",
+          "target": "donRecipient",
+          "may": true,
+          "sourceDonState": "rested"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

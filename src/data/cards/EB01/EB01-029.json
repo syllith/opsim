@@ -1,39 +1,125 @@
 {
-  "id": "EB01-029",
-  "set": "EB01",
-  "number": 29,
-  "name": "Sorry, I'm dead",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["East Blue", "Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/EB01/EB01-029.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": {
-    "text": "Return up to one cost 8 or less character to its owner's hand."
-  },
-  "text": "[Counter] Reveal the top card of your deck. If the revealed card has a cost of 4 or greater, return up to one of your characters to your hand. Then, place the revealed card on the bottom of your deck.\n[Trigger] Return up to one cost 8 or less character to its owner's hand.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB01-029",
+  "printedText": "[Counter] Reveal the top card of your deck. If the revealed card has a cost of 4 or greater, return up to one of your characters to your hand. Then, place the revealed card on the bottom of your deck.\n[Trigger] Return up to one cost 8 or less character to its owner's hand.",
+  "types": [
+    "East Blue",
+    "Straw Hat Crew"
+  ],
+  "cardNumber": "029",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Reveal the top card of your deck. If the revealed card has a cost of 4 or greater, return up to one of your characters to your hand. Then, place the revealed card on the bottom of your deck.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "ally:Character"],
-        "conditions": ["revealedCardCost>=4"]
-      }
+      "selectors": {},
+      "timing": "counter",
+      "actions": [
+        {
+          "selector": {
+            "bindAs": "revealedCard",
+            "zones": [
+              "deck"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "deck",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "moveRemainingTo": "topOfDeck",
+          "topCount": 1,
+          "addTo": "topOfDeck",
+          "reveal": true,
+          "sourceZone": "deck",
+          "type": "search",
+          "remainingOrdering": "keep"
+        },
+        {
+          "type": "moveCard",
+          "condition": {
+            "value": 4,
+            "field": "revealedCard.cost",
+            "op": ">="
+          },
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "ordering": "keep",
+          "destination": "hand"
+        },
+        {
+          "destination": "bottomOfDeck",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "op": "=",
+                "field": "instanceId",
+                "fieldRef": "revealedCard.instanceId"
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "deck",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "ordering": "keep"
+        }
+      ],
+      "frequency": "none"
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "destination": "hand",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 8,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "both",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Sorry, I'm dead",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "blue"
+  ],
+  "traits": [
+    "eastBlue",
+    "strawHatCrew"
+  ]
 }

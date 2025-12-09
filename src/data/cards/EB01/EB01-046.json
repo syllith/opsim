@@ -1,50 +1,116 @@
 {
-  "id": "EB01-046",
-  "set": "EB01",
-  "number": 46,
-  "name": "Brook",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Slash",
-  "types": ["Straw Hat Crew"],
-  "rarity": "SR",
-  "art": "/cards/EB01/EB01-046.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "When Attacking"],
-  "trigger": null,
-  "text": "[On Play] / [When Attacking] Give up to one of your opponent's characters cost -1 for this turn. Then, KO up to 1 of your opponent's 0 cost characters.",
+  "power": 4000,
+  "cardType": "character",
+  "cardId": "EB01-046",
+  "printedText": "[On Play] [When Attacking] Give up to 1 of your opponent's Characters cost -1 for this turn. Then, KO up to 1 of your opponent's cost 0 Characters.",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "cardNumber": "046",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to one of your opponent's characters cost -1 for this turn. Then, KO up to 1 of your opponent's 0 cost characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "amount": -1000,
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
+        },
+        {
+          "target": {
+            "filters": [
+              {
+                "value": 0,
+                "field": "cost",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "type": "ko"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to one of your opponent's characters cost -1 for this turn. Then, KO up to 1 of your opponent's 0 cost characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "whenAttacking",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "amount": -1000,
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
+        },
+        {
+          "target": {
+            "filters": [
+              {
+                "value": 0,
+                "field": "cost",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "type": "ko"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Brook",
+  "rarity": "SR",
+  "cost": 3,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

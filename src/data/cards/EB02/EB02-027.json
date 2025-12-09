@@ -1,37 +1,54 @@
 {
-  "id": "EB02-027",
-  "set": "EB02",
-  "number": 27,
-  "name": "Vista",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Whitebeard Pirates"],
-  "rarity": "C",
-  "art": "/cards/EB02/EB02-027.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Place up to 1 of your opponent's characters of 1000 power or less at the bottom of the owner's deck.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB02-027",
+  "printedText": "On Play Place up to 1 of your opponent's characters of 1000 power or less at the bottom of the owner's deck.",
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "cardNumber": "027",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Place up to 1 of your opponent's characters of 1000 power or less at the bottom of the owner's deck.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:opponent:Character:power<=1000"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "may": true,
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 1000,
+                "field": "power",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent"
+          },
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Vista",
+  "rarity": "C",
+  "cost": 4,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

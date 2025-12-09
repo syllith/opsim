@@ -166,6 +166,13 @@ export function useBattleSystem({
         } Leader declares attack (power ${attackerPower}). Choose target.`
       );
 
+      //. Rest the attacking leader immediately upon declaration (CR 7-4-3)
+      setAreas((prev) => {
+        const next = _.cloneDeep(prev);
+        restInstance(next, [attackingSide, 'middle', 'leader', 0]);
+        return next;
+      });
+
       //. Enter "declaring" so On Attack abilities can fire during target selection
       setBattle({
         attacker: {
@@ -202,19 +209,20 @@ export function useBattleSystem({
         (targets) => {
           const t = _.get(targets, 0);
           if (!t) {
-            //. Attack cancelled – clear battle state
+            //. Attack cancelled – unreset attacker and clear battle state
+            setAreas((prev) => {
+              const next = _.cloneDeep(prev);
+              const inst = _.get(next, [attackingSide, 'middle', 'leader', 0]);
+              if (inst) inst.rested = false;
+              return next;
+            });
             setCurrentAttack(null);
             setBattle(null);
             appendLog('[attack] Attack cancelled.');
             return;
           }
 
-          //. Rest attacking Leader
-          setAreas((prev) => {
-            const next = _.cloneDeep(prev);
-            restInstance(next, [attackingSide, 'middle', 'leader', 0]);
-            return next;
-          });
+          //. Leader was already rested during declaration, proceed with attack
 
           //. Resolve target card from current board state
           const targetArr =
@@ -305,6 +313,13 @@ export function useBattleSystem({
         } ${attackerCard.id} declares attack (power ${attackerPower}). Choose target.`
       );
 
+      //. Rest the attacking character immediately upon declaration (CR 7-4-3)
+      setAreas((prev) => {
+        const next = _.cloneDeep(prev);
+        restInstance(next, [attackingSide, 'char', 'char', attackerIndex]);
+        return next;
+      });
+
       //. Enter "declaring" so On Attack abilities can fire during target selection
       setBattle({
         attacker: {
@@ -341,19 +356,20 @@ export function useBattleSystem({
         (targets) => {
           const t = _.get(targets, 0);
           if (!t) {
-            //. Attack cancelled – clear battle state
+            //. Attack cancelled – unreset attacker and clear battle state
+            setAreas((prev) => {
+              const next = _.cloneDeep(prev);
+              const inst = _.get(next, [attackingSide, 'char', 'char', attackerIndex]);
+              if (inst) inst.rested = false;
+              return next;
+            });
             setCurrentAttack(null);
             setBattle(null);
             appendLog('[attack] Attack cancelled.');
             return;
           }
 
-          //. Rest attacking Character
-          setAreas((prev) => {
-            const next = _.cloneDeep(prev);
-            restInstance(next, [attackingSide, 'char', attackerIndex]);
-            return next;
-          });
+          //. Character was already rested during declaration, proceed with attack
 
           const targetArr =
             t.section === 'char'
@@ -574,8 +590,9 @@ export function useBattleSystem({
       if (!card) { return; }
 
       const meta = getCardMeta(card.id);
-      const counterVal = meta?.stats?.counter?.present
-        ? meta.stats.counter.value || 0
+      //. Schema v2 uses top-level counter number only
+      const counterVal = _.isNumber(meta?.counter) && meta.counter > 0
+        ? meta.counter
         : 0;
       if (!counterVal) { return; }
 
@@ -652,11 +669,13 @@ export function useBattleSystem({
         const meta = getCardMeta(card.id);
         if (!meta) { return prev; }
 
-        const isEvent = meta.category === 'Event';
+        //. Schema v2 uses cardType only
+        const cardType = meta.cardType;
+        const isEvent = cardType === 'event';
         const hasCounterKeyword = hasKeyword(meta.keywords, 'counter');
         if (!isEvent || !hasCounterKeyword) { return prev; }
 
-        const cost = meta?.stats?.cost || 0;
+        const cost = _.get(meta, 'cost', _.get(meta, 'stats.cost', 0)) || 0;
         const costArr = loc.cost || [];
 
         const activeDon = _.filter(

@@ -1,52 +1,58 @@
 {
-  "id": "P-111",
-  "set": "P",
-  "number": 111,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-111.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Once Per Turn: If your (Straw Hat Crew) type Character would be removed from the field by your opponent's effect, you may rest 1 of your DON!! cards instead.",
+  "cardName": "Nico Robin",
+  "cardId": "P-111",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-111",
+  "printedText": "Once Per Turn If your {Straw Hat Crew} type Character would be removed from the field by your opponent's effect, you may rest 1 of your DON!! cards instead.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "strawHatCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your (Straw Hat Crew) type Character would be removed from the field by your opponent's effect, you may rest 1 of your DON!! cards instead.",
-        "powerMod": null,
-        "conditions": [
-          "your (Straw Hat Crew) type Character",
-          "would be removed from the field by your opponent's effect"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "beforeStrawHatCharacterRemovedByOpponentsEffect",
+          "target": "strawHatCharacters",
+          "may": true,
+          "cost": {
+            "type": "restDonFromCostArea",
+            "count": 1,
+            "may": true
+          },
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

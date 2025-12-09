@@ -1,52 +1,66 @@
 {
-  "id": "OP10-047",
-  "set": "OP10",
-  "number": 47,
-  "name": "Koala",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Dressrosa",
-    "Revolutionary Army"
-  ],
+  "cardName": "Koala",
+  "cardId": "OP10-047",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Dressrosa", "Revolutionary Army"],
+  "traits": ["dressrosa", "revolutionaryArmy"],
   "rarity": "UC",
-  "art": "/cards/OP10/OP10-047.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP10",
+  "cardNumber": "047",
+  "printedText": "[When Attacking] You may return 1 of your {Revolutionary Army} type Characters with a cost of 3 or more to the owner's hand: This Character gains +3000 power during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: You may return 1 of your (Revolutionary Army) type Characters with a cost of 3 or more to the owner's hand: This Character gains +3000 power during this turn.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "revArmyCost3OrMore": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "revolutionaryArmy"
+                },
+                {
+                  "field": "cost",
+                  "op": ">=",
+                  "value": 3
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may return 1 of your (Revolutionary Army) type Characters with a cost of 3 or more to the owner's hand: This Character gains +3000 power during this turn.",
-        "powerMod": null,
-        "conditions": [
-          "oneOfYourCharacters",
-          "cost>=3",
-          "type=(Revolutionary Army)"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "moveFromField",
+        "selector": "revArmyCost3OrMore",
+        "destination": "hand",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisTurn",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is UC as printed. Power is 3000 as printed. Attribute is Strike as printed. Colors are Blue as printed. No life value printed. No keywords printed. No trigger box."
-  }
+  ]
 }

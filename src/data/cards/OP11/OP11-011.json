@@ -1,50 +1,18 @@
 {
-  "id": "OP11-011",
-  "set": "OP11",
-  "number": 11,
-  "name": "Bins",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "FILM",
-    "Neo Navy"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP11/OP11-011.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Bins",
+  "cardId": "OP11-011",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["FILM", "Neo Navy"],
+  "traits": ["film", "neoNavy"],
+  "rarity": "C",
+  "setId": "OP11",
+  "cardNumber": "011",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: If this character attacks, you may pay 1 DON!! to make this character's attack power +1000 until end of turn.",
-  "abilities": [
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "If this character attacks, you may pay 1 DON!! to make this character's attack power +1000 until end of turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "abilities": []
 }

@@ -1,42 +1,108 @@
 {
-  "id": "EB01-028",
-  "set": "EB01",
-  "number": 28,
-  "name": "Gum Gum Champion Rifle",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Straw Hat Crew", "Impel Down"],
-  "rarity": "UC",
-  "art": "/cards/EB01/EB01-028.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": {
-    "text": "Return up to one cost 3 or lower character to the bottom of its owner's deck"
-  },
-  "text": "[Counter] If your Leader has the [Impel Down] type, give up to 1 of your leader or characters +2000 Power until the end of this battle. Then, your opponent returns 1 of their active characters to the owner's hand.\n[Trigger] Return up to one cost 3 or lower character to the bottom of its owner's deck",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB01-028",
+  "printedText": "[Counter] If your Leader has the {Impel Down} type, give up to 1 of your Leader or Characters +2000 Power until the end of this battle. Then, your opponent returns 1 of their active Characters to the owner's hand.\n[Trigger] Return up to 1 cost 3 or lower Character to the bottom of its owner's deck.",
+  "types": [
+    "Straw Hat Crew",
+    "Impel Down"
+  ],
+  "cardNumber": "028",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the [Impel Down] type, give up to 1 of your leader or characters +2000 Power until the end of this battle. Then, your opponent returns 1 of their active characters to the owner's hand.",
-        "grants": [],
-        "powerMod": {
+      "condition": {
+        "value": "Impel Down",
+        "field": "leader.types",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisBattle",
           "amount": 2000,
-          "duration": "thisBattle"
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          }
         },
-        "targets": ["self:Leader", "ally:Character"],
-        "conditions": ["leaderTypeImpelDown"]
-      }
+        {
+          "destination": "hand",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": false,
+                "field": "rested",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "opponent"
+          },
+          "ordering": "keep"
+        }
+      ],
+      "frequency": "none"
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "destination": "bottomOfDeck",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 3,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "both",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Gum Gum Champion Rifle",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "blue"
+  ],
+  "traits": [
+    "strawHatCrew",
+    "impelDown"
+  ]
 }

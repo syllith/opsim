@@ -1,56 +1,93 @@
 {
-  "id": "EB03-006",
-  "set": "EB03",
-  "number": 6,
-  "name": "Nami",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Wisdom",
-  "types": ["Alabasta", "Straw Hat Crew"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-006.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "[On Play] You may give your 1 active Leader -5000 power during this turn: draw 1 card.\n[Activate: Main] [Once Per Turn] If your Leader has the {Alabasta} type, give up to 1 of your opponent's Characters -1000 power during this turn.",
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB03-006",
+  "printedText": "On Play You may give your 1 active Leader -5000 power during this turn; draw 1 card. Activate:Main Once Per Turn If your Leader has the {Alabasta} type, give up to 1 of your opponent's Characters -1000 power during this turn.",
+  "types": [
+    "Alabasta",
+    "Straw Hat Crew"
+  ],
+  "cardNumber": "006",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may give your 1 active Leader -5000 power during this turn: draw 1 card.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "modifyStat",
           "amount": -5000,
-          "duration": "duringThisTurn"
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "may": true,
+          "target": {
+            "filters": [
+              {
+                "value": true,
+                "field": "isActive",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "leader"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "leader",
+            "side": "self",
+            "whoChooses": "self"
+          }
         },
-        "targets": ["self:activeLeader", "deck"],
-        "conditions": []
-      }
+        {
+          "count": 1,
+          "type": "draw"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Alabasta} type, give up to 1 of your opponent's Characters -1000 power during this turn.",
-        "grants": [],
-        "powerMod": {
+      "condition": {
+        "value": "Alabasta",
+        "field": "leaderTypes",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
           "amount": -1000,
-          "duration": "duringThisTurn"
-        },
-        "targets": ["upTo1:opponent:Character"],
-        "conditions": ["leaderHasAlabasta"]
-      }
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Nami",
+  "rarity": "R",
+  "cost": 5,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "alabasta",
+    "strawHatCrew"
+  ]
 }

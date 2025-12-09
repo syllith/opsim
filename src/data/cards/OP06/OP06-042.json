@@ -1,0 +1,56 @@
+{
+  "cardName": "Vinsmoke Reiju",
+  "cardId": "OP06-042",
+  "cardType": "leader",
+  "colors": [
+    "blue",
+    "purple"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "attributes": [
+    "special"
+  ],
+  "types": [
+    "Vinsmoke Family",
+    "Germa 66"
+  ],
+  "traits": [
+    "vinsmokeFamily",
+    "germa66"
+  ],
+  "rarity": "L",
+  "setId": "OP06",
+  "cardNumber": "042",
+  "printedText": "Your Turn Once Per Turn When one of your DON!! cards on the field is returned to your DON!! deck, draw 1 card.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "whenDonReturned",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "returnedDonOwner",
+            "op": "=",
+            "value": "self"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

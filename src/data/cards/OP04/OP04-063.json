@@ -1,59 +1,85 @@
 {
-  "id": "OP04-063",
-  "set": "OP04",
-  "number": 63,
-  "name": "Franky",
-  "category": "Character",
+  "cardName": "Franky",
+  "cardId": "OP04-063",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 1000,
+  "counter": 2000,
   "types": [
     "Water 7",
     "Franky Family"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-063.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Once Per Turn",
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "When opponent attack [Once Per Turn] DON!! -1: If your Leader has the {Water 7} type, up to 1 of your Leader or Characters gains +1000 Power during this battle.",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "063",
+  "printedText": "When Opponent Attacks Once Per Turn DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): If your Leader has the {Water 7} type, up to 1 of your Leader or Characters gains +1000 Power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "water7Leader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Water 7"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "water7Leader"
+        }
       },
-      "effect": {
-        "text": "If your Leader has the {Water 7} type, up to 1 of your Leader or Characters gains +1000 Power during this battle.",
-        "powerMod": {
+      "condition": {
+        "field": "selectorCount",
+        "selector": "water7Leader",
+        "op": ">=",
+        "value": 1
+      },
+      "cost": {
+        "type": "returnDon",
+        "count": 1,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "oneLeaderOrCharacter"
-        ],
-        "conditions": [
-          "leaderHasType:Water 7"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "leaderOrCharacter",
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, but all fields are based on the visible text and layout."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "waterSeven",
+    "frankyFamily"
+  ]
 }

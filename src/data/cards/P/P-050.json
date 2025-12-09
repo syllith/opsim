@@ -1,67 +1,58 @@
 {
-  "id": "P-050",
-  "set": "P",
-  "number": 50,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-050.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nDON!!x1 Your Turn: If you have 3 or less cards in your hand, this character gains +4000 power.",
+  "cardName": "Sanji",
+  "cardId": "P-050",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 3,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-050",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[DON!! x1] [Your Turn] If you have 3 or less cards in your hand, this Character gains +4000 power.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isGivenDon",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "handSize",
+            "op": "<=",
+            "value": 3
+          },
+          {
+            "field": "isYourTurn",
+            "op": "=",
+            "value": true
+          }
+        ]
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "DON!!x1 Your Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "If you have 3 or less cards in your hand, this character gains +4000 power.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 4000,
-          "duration": "this turn"
-        },
-        "conditions": [
-          "you have 3 or less cards in your hand"
-        ],
-        "giveDon": null
-      }
+          "duration": "permanent",
+          "target": "thisCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, but rarity is R. Power is 2000, not 2000+4000 as written in text. Text says 'gains +4000 power' which is additive to base power."
-  }
+  ]
 }

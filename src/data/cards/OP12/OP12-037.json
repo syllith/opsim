@@ -1,68 +1,66 @@
 {
-  "id": "OP12-037",
-  "set": "OP12",
-  "number": 37,
-  "name": "Demonic Aura Nine-Sword Style Asura Dead Man's Game",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Demonic Aura Nine-Sword Style Asura Dead Man's Game",
+  "cardId": "OP12-037",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 1,
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-037.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main: You may rest 3 of your DON!! cards: Rest up to a total of 2 of your opponent's Characters or DON!! cards. \nCounter: Up to 1 of your Leader gains +3000 power during this battle.",
+  "setId": "OP12",
+  "cardNumber": "037",
+  "printedText": "[Main] You may rest 3 of your DON!! cards: Rest up to a total of 2 of your opponent's Characters or DON!! cards.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 3
+        "type": "restDonFromCostArea",
+        "count": 3,
+        "may": true
       },
-      "effect": {
-        "text": "Rest up to a total of 2 of your opponent's Characters or DON!! cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "restTargets": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["character", "costArea"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTargets"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "oneLeader"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "leaderTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

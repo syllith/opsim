@@ -1,73 +1,104 @@
 {
-  "id": "OP12-113",
-  "set": "OP12",
-  "number": 113,
-  "name": "Roronoa Zoro",
-  "category": "Character",
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP12-113",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Supernovas",
     "Straw Hat Crew"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP12/OP12-113.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O.",
-    "Trigger"
+  "traits": [
+    "supernovas",
+    "strawHatCrew"
   ],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's Characters with a cost of 1. Then, add this card to your hand."
-  },
-  "text": "On K.O. If your Leader has the (Supernovas) type, play up to 1 cost 4 or lower (Supernova) type Character card from your hand rested.",
+  "rarity": "UC",
+  "setId": "OP12",
+  "cardNumber": "113",
+  "printedText": "[On K.O.] If your Leader has the {Supernovas} type, play up to 1 cost 4 or lower {Supernovas} type Character card from your hand rested.\n[Trigger] K.O. up to 1 of your opponent's Characters with a cost of 1. Then, add this card to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "leaderHasTrait",
+        "op": "=",
+        "value": "supernovas"
       },
-      "effect": {
-        "text": "If your Leader has the (Supernovas) type, play up to 1 cost 4 or lower (Supernova) type Character card from your hand rested.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Supernovas"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "supernovasHandCharCost4OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernovas"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "supernovasHandCharCost4OrLess",
+          "enterRested": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponentCharCost1": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 1. Then, add this card to your hand.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter",
-          "cost:1"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharCost1"
+        },
+        {
+          "type": "moveCard",
+          "target": "selfTriggerSourceCard",
+          "destination": "hand"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

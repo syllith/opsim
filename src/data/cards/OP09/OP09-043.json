@@ -1,52 +1,58 @@
 {
-  "id": "OP09-043",
-  "set": "OP09",
-  "number": 43,
-  "name": "Alvida",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Cross Guild"
-  ],
-  "rarity": "US",
-  "art": "/cards/OP09/OP09-043.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. If your leader has the \"Cross Guild\" type, play up to 1 cost 5 or lower character card, other than 'Alvida', from your hand.",
+  "cardName": "Alvida",
+  "cardId": "OP09-043",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Cross Guild"],
+  "traits": ["crossGuild"],
+  "rarity": "UC",
+  "setId": "OP09",
+  "cardNumber": "043",
+  "printedText": "[On K.O.] If your Leader has the {Cross Guild} type, play up to 1 Character card with a cost of 5 or less other than \"Alvida\" from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "crossGuild"
       },
-      "effect": {
-        "text": "If your leader has the \"Cross Guild\" type, play up to 1 cost 5 or lower character card, other than 'Alvida', from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Cross Guild"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "charFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            },
+            {
+              "field": "name",
+              "op": "!=",
+              "value": "Alvida"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "charFromHand",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and 'BANDAI MADE IN JAPAN' are not part of the card data. 'US' rarity is printed in the bottom right corner."
-  }
+  ]
 }

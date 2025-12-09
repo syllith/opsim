@@ -1,68 +1,80 @@
 {
-  "id": "P-058",
-  "set": "P",
-  "number": 58,
-  "name": "Where The Wind Blows",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Song",
-    "FILM"
-  ],
+  "cardName": "Where The Wind Blows",
+  "cardId": "P-058",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 2,
+  "types": ["Song", "FILM"],
+  "traits": ["song", "film"],
   "rarity": "P",
-  "art": "/cards/P/P-058.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Set all your [FILM] type characters active."
-  },
-  "text": "Main: If your leader is Uta, at the end of your turn, set all your [FILM] type characters active. Trigger: Set all your [FILM] type characters active.",
+  "setId": "P",
+  "cardNumber": "P-058",
+  "printedText": "Main If your Leader is [Uta], at the end of your turn, set all of your [FILM] type Characters active.\nTrigger Set all of your [FILM] type Characters active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "condition": {
+        "field": "leaderCardName",
+        "op": "=",
+        "value": "Uta"
       },
-      "effect": {
-        "text": "If your leader is Uta, at the end of your turn, set all your [FILM] type characters active.",
-        "powerMod": null,
-        "conditions": [
-          "your leader is Uta"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "yourFilmCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "film"
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "endOfYourTurn",
+          "target": "yourFilmCharacters",
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "setState",
+              "state": "active",
+              "target": "yourFilmCharacters"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "yourFilmCharactersNow": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "film"
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Set all your [FILM] type characters active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "yourFilmCharactersNow"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

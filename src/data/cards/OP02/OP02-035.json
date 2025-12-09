@@ -1,37 +1,85 @@
 {
-  "id": "OP02-035",
-  "set": "OP02",
-  "number": 35,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["FILM", "Supernovas", "Heart Pirates"],
+  "cardName": "Trafalgar Law",
+  "cardId": "OP02-035",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "FILM",
+    "Supernovas",
+    "Heart Pirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-035.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "Activate: Main 1 (You may rest the specified number of DON!! cards in your Cost Area): You may return this Character to the owner's hand: Play up to 1 Character with a cost of 3 from your hand.",
+  "setId": "OP02",
+  "cardNumber": "035",
+  "printedText": "[Activate: Main] (1) (You may rest the specified number of DON!! cards in your cost area.) You may return this Character to the owner's hand: Play up to 1 Character with a cost of 3 from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "You may return this Character to the owner's hand: Play up to 1 Character with a cost of 3 from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["cost 3"]
-      }
+      "timing": "activateMain",
+      "frequency": "none",
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 1
+      },
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCard"
+        },
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "charToPlay"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "thisCard",
+          "destination": "hand",
+          "may": true
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "film",
+    "supernovas",
+    "heartPirates"
+  ]
 }

@@ -1,37 +1,57 @@
 {
-  "id": "EB01-015",
-  "set": "EB01",
-  "number": 15,
-  "name": "Scratchmen Apoo",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Special",
-  "types": ["Supernova", "On Air Pirates"],
-  "rarity": "UC",
-  "art": "/cards/EB01/EB01-015.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Rest up to one of your opponent's cost 2 or less characters.",
+  "power": 1000,
+  "cardType": "character",
+  "attributes": [
+    "special"
+  ],
+  "cardId": "EB01-015",
+  "printedText": "[On Play] Rest up to one of your opponent's cost 2 or less characters.\n[Counter +2000]",
+  "types": [
+    "Supernova",
+    "On Air Pirates"
+  ],
+  "cardNumber": "015",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Rest up to one of your opponent's cost 2 or less characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["characterCost<=2"]
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "setState",
+          "target": {
+            "filters": [
+              {
+                "value": 2,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "state": "rested"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 2000,
+  "cardName": "Scratchmen Apoo",
+  "rarity": "R",
+  "cost": 1,
+  "colors": [
+    "green"
+  ],
+  "traits": [
+    "supernova",
+    "onAirPirates"
+  ]
 }

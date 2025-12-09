@@ -1,48 +1,53 @@
 {
-  "id": "OP07-046",
-  "set": "OP07",
-  "number": 46,
-  "name": "Sengoku",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Navy"
-  ],
+  "cardName": "Sengoku",
+  "cardId": "OP07-046",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Navy"],
+  "traits": ["navy"],
   "rarity": "R",
-  "art": "/cards/OP07/OP07-046.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck and reveal up to one card with the (Seven Warlords of the Sea) type and add it to your hand. Then, place the remaining cards on the bottom of your deck in any order.",
+  "setId": "OP07",
+  "cardNumber": "046",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 card with the {Seven Warlords of the Sea} type and add it to your hand. Then, place the remaining cards on the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "searchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "sevenWarlordsOfTheSea"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck and reveal up to one card with the (Seven Warlords of the Sea) type and add it to your hand. Then, place the remaining cards on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

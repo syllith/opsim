@@ -1,51 +1,81 @@
 {
-  "id": "OP11-073",
-  "set": "OP11",
-  "number": 73,
-  "name": "Charlotte Linlin",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Big Mom Pirates"
-  ],
+  "cardName": "Charlotte Linlin",
+  "cardId": "OP11-073",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 10,
+  "power": 12000,
+  "attributes": ["special"],
+  "types": ["The Four Emperors", "Big Mom Pirates"],
+  "traits": ["theFourEmperors", "bigMomPirates"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-073.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 12000
-    }
-  },
-  "keywords": [
-    "Rush",
-    "On Opponent's Attack",
-    "Once Per Turn",
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "If your leader has the type {Big Mom Pirates}, this Character gains Rush. On Opponent's Attack Once Per Turn DON!! -5: You may declare a cost. Reveal 1 card from the top of your opponent's deck. If the revealed card has the same cost as the declared cost, give up to 1 of your Leaders +2000 power during this turn.",
+  "setId": "OP11",
+  "cardNumber": "073",
+  "printedText": "If your Leader has the \"Big Mom Pirates\" type, this Character gains [Rush]. [On Your Opponent's Attack] [Once Per Turn] DON!! -5: Choose a cost and reveal 1 card from the top of your opponent's deck. If the revealed card has the chosen cost, up to 1 of your Leader gains +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Opponent's Attack",
-      "frequency": "Once Per Turn",
-      "donReq": 5,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "leaderHasType_bigMomPirates",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "You may declare a cost. Reveal 1 card from the top of your opponent's deck. If the revealed card has the same cost as the declared cost, give up to 1 of your Leaders +2000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "permanent",
+          "target": "thisCard"
+        }
+      ]
+    },
+    {
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "donMinus",
+        "count": 5
+      },
+      "selectors": {
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTopDeckCard",
+          "destination": "topOfDeck",
+          "ordering": "keep",
+          "faceUp": true
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "topDeckCardCostMatchesChosenCost",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 2000,
+              "duration": "thisTurn",
+              "target": "leaderTarget"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,52 +1,80 @@
 {
-  "id": "OP03-080",
-  "set": "OP03",
-  "number": 80,
-  "name": "Kaku",
-  "category": "Character",
+  "cardName": "Kaku",
+  "cardId": "OP03-080",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
   "types": [
-    "Supernovas",
     "CP9"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-080.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may return 2 cards with (CP) in its type from your trash to the bottom of your deck in any order. K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "rarity": "SR",
+  "setId": "OP03",
+  "cardNumber": "080",
+  "printedText": "[On Play] You may return 2 cards with {CP} in their types from your trash to the bottom of your deck in any order. Then, K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "cpTrash2": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "CP"
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "trashReturn"
+        },
+        "oppCost3": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "bindAs": "oppTarget"
+        }
       },
-      "effect": {
-        "text": "You may return 2 cards with (CP) in its type from your trash to the bottom of your deck in any order. K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "targets": [
-          "upTo1OpponentCharacter<=cost3"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "trashReturn",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen",
+          "may": true
+        },
+        {
+          "type": "ko",
+          "target": "oppCost3"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card ID 'OP03-080' and number '80' confirmed from bottom right. Rarity 'C' confirmed from bottom right box. Counter value '1000' confirmed from left side. Attribute 'Slash' confirmed from icon. Color 'Red' confirmed from border. All text and stats are legible."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "cp9"
+  ]
 }

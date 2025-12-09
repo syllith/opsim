@@ -1,53 +1,67 @@
 {
-  "id": "OP10-035",
-  "set": "OP10",
-  "number": 35,
-  "name": "Brook",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "ODYSSEY",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Brook",
+  "cardId": "OP10-035",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["ODYSSEY", "Straw Hat Crew"],
+  "traits": ["odyssey", "strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-035.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. Rest up to 1 of your opponent's leader or cost 5 or lower characters.",
+  "setId": "OP10",
+  "cardNumber": "035",
+  "printedText": "[On K.O.] Rest up to 1 of your opponent's Leader or cost 5 or lower Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "opponentLeaderOrCost5OrLessCharacter": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "leader"
+                },
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "field": "cardType",
+                      "op": "=",
+                      "value": "character"
+                    },
+                    {
+                      "field": "cost",
+                      "op": "<=",
+                      "value": 5
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's leader or cost 5 or lower characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost5",
-          "oneOpponentLeader"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentLeaderOrCost5OrLessCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,68 +1,75 @@
 {
-  "id": "OP13-108",
-  "set": "OP13",
-  "number": 108,
-  "name": "Jewelry Bonney",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Egghead",
-    "Bonney Pirates"
-  ],
+  "cardName": "Jewelry Bonney",
+  "cardId": "OP13-108",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 9,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": ["Egghead", "Bonney Pirates"],
+  "traits": ["egghead", "bonneyPirates"],
   "rarity": "SR",
-  "art": "/cards/OP13/OP13-108.png",
-  "stats": {
-    "cost": 9,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 10000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "If you have 1 or less Life cards, rest up to 1 of your opponent's Characters with a cost of 7 or less."
-  },
-  "text": "On Play: If your Leader has the (Egghead) type, this Character gains Rush. Then, your opponent adds the top card of their Life cards to their hand.",
+  "setId": "OP13",
+  "cardNumber": "108",
+  "printedText": "[On Play] If your Leader has the {Egghead} type, this Character gains Rush. Then, your opponent adds the top card of their Life cards to their hand.\n[Trigger] If you have 1 or less Life cards, rest up to 1 of your opponent's Characters with a cost of 7 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your Leader has the (Egghead) type, this Character gains Rush. Then, your opponent adds the top card of their Life cards to their hand.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "permanent",
+          "target": "selfThisCard",
+          "condition": {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "egghead"
+          }
+        },
+        {
+          "type": "moveCard",
+          "target": "opponentTopLifeCard",
+          "destination": "hand"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "condition": {
+        "field": "lifeCountSelf",
+        "op": "<=",
+        "value": 1
       },
-      "effect": {
-        "text": "If you have 1 or less Life cards, rest up to 1 of your opponent's Characters with a cost of 7 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "upToOneOppCost7OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "upToOneOppCost7OrLess",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,23 +1,54 @@
 {
-  "id": "OP02-066",
-  "set": "OP02",
-  "number": 66,
-  "name": "Impel Down All Stars",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Impel Down"],
-  "rarity": "C",
-  "art": "/cards/OP02/OP02-066.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Draw 2 cards." },
-  "text": "Main: You may trash 2 cards from your hand: If your Leader has the {Impel Down} type, draw up to 2 cards.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "cardName": "Impel Down All Stars",
+  "cardId": "OP02-066",
+  "cardType": "event",
+  "colors": [
+    "blue"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Impel Down"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "066",
+  "printedText": "[Main] You may trash 2 cards from your hand: If your Leader has the {Impel Down} type, draw up to 2 cards. [Trigger] Draw 2 cards.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "main",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "may": true
+      },
+      "condition": {
+        "field": "leaderTypes",
+        "op": "=",
+        "value": "Impel Down"
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "may": true
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "traits": [
+    "impelDown"
+  ]
 }

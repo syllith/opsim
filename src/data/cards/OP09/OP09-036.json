@@ -1,49 +1,91 @@
 {
-  "id": "OP09-036",
-  "set": "OP09",
-  "number": 36,
-  "name": "Monkey .D. Luffy",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernova",
-    "Straw Hat Crew"
-  ],
-  "rarity": "L",
-  "art": "/cards/OP09/OP09-036.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have 2 or more rested characters, choose up to 1 of your opponent's cost 6 or lower characters or up to 1 of your opponent's DON!! and rest it.",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP09-036",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["ODYSSEY", "Supernova", "Straw Hat Crew"],
+  "traits": ["odyssey", "supernova", "strawHatCrew"],
+  "rarity": "C",
+  "setId": "OP09",
+  "cardNumber": "036",
+  "printedText": "[On Play] If you have 2 or more rested Characters, choose up to 1 of your opponent's Characters with a cost of 6 or less or up to 1 of your opponent's DON!! cards and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "oppCharOrDonToRest": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["character", "costArea"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "field": "cardType",
+                      "op": "=",
+                      "value": "character"
+                    },
+                    {
+                      "field": "cost",
+                      "op": "<=",
+                      "value": 6
+                    }
+                  ]
+                },
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "field": "cardType",
+                      "op": "=",
+                      "value": "don"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If you have 2 or more rested characters, choose up to 1 of your opponent's cost 6 or lower characters or up to 1 of your opponent's DON!! and rest it.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCharOrDonToRest"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

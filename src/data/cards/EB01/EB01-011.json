@@ -1,37 +1,76 @@
 {
-  "id": "EB01-011",
-  "set": "EB01",
-  "number": 11,
-  "name": "Mini Merry II",
-  "category": "Stage",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/EB01/EB01-011.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this card and place one of your character cards with an original power of 1000 on the bottom of your deck: Draw 1 card.",
+  "power": 0,
+  "cardType": "stage",
+  "cardId": "EB01-011",
+  "printedText": "Activate: Main You may rest this card and place one of your character cards with an original power of 1000 on the bottom of your deck: Draw 1 card.",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "cardNumber": "011",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this card and place one of your character cards with an original power of 1000 on the bottom of your deck: Draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self", "ally:Character"],
-        "conditions": ["characterPower=1000"]
-      }
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "may": true,
+          "type": "setState",
+          "target": {
+            "filters": [
+              {
+                "value": "EB01-011",
+                "field": "thisCardId",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "stage"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "stage",
+            "side": "self"
+          },
+          "state": "rested"
+        },
+        {
+          "may": true,
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 1000,
+                "field": "originalPower",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self"
+          },
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        },
+        {
+          "count": 1,
+          "type": "draw"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Mini Merry II",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "red"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

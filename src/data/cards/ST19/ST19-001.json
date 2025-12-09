@@ -1,37 +1,55 @@
 {
-  "id": "ST19-001",
-  "set": "ST19",
-  "number": 1,
-  "name": "Smoker",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Special",
+  "cardName": "Smoker",
+  "cardId": "ST19-001",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Navy"],
-  "rarity": "SR",
-  "art": "/cards/ST19/ST19-001.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play You may trash 1 black {Navy} type card from your hand: Up to two of your opponents cost 4 or less characters cannot attack during your opponents next turn.",
+  "traits": ["navy"],
+  "rarity": "starter",
+  "setId": "ST19",
+  "cardNumber": "001",
+  "printedText": "[On Play] You may trash 1 black {Navy} type card from your hand: Up to two of your opponent's cost 4 or less characters cannot attack during your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 black {Navy} type card from your hand: Up to two of your opponents cost 4 or less characters cannot attack during your opponents next turn.",
-        "powerMod": null,
-        "targets": ["upToTwoOpponentCharacters:<=4"],
-        "conditions": ["optionalTrashHandCard:Black:Navy"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": ["black", "navy"],
+        "may": true
+      },
+      "selectors": {
+        "restrictedChars": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "attack",
+          "target": "restrictedChars",
+          "duration": "untilEndOfOpponentsNextTurn"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

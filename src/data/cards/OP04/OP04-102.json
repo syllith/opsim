@@ -1,55 +1,60 @@
 {
-  "id": "OP04-102",
-  "set": "OP04",
-  "number": 102,
-  "name": "Kin'emon",
-  "category": "Character",
+  "cardName": "Kin'emon",
+  "cardId": "OP04-102",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 6,
+  "power": 6000,
+  "counter": 0,
   "types": [
     "Wano Country"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-102.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main [Once Per Turn] (1) (You may rest the specified number of DON!! cards in your Cost Area) You may add one card from the top or bottom of your life to your hand: This card becomes active.",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "102",
+  "printedText": "[Activate: Main] [Once Per Turn] [DON!! -1] You may add 1 card from the top or bottom of your Life to your hand: This card becomes active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restDonFromCostArea",
+        "count": 1
       },
-      "effect": {
-        "text": "You may add one card from the top or bottom of your life to your hand: This card becomes active.",
-        "powerMod": null,
-        "targets": [
-          "oneCardFromLife"
-        ],
-        "conditions": [
-          "rested"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "self": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "hand",
+          "may": true,
+          "target": "selfTopLifeCard"
+        },
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "self"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "wanoCountry"
+  ]
 }

@@ -1,72 +1,75 @@
 {
-  "id": "OP13-040",
-  "set": "OP13",
-  "number": 40,
-  "name": "I Know You're Strong...So I'll Go All Out From the Start!!!",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
+  "cardName": "I Know You're Strong... So I'll Go All Out from the Very Start!!!",
+  "cardId": "OP13-040",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 0,
+  "types": ["Supernovas", "Straw Hat Crew"],
+  "traits": ["supernovas", "strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-040.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main You may rest 2 of your DON!! cards: Up to 2 of your opponent's rested Characters with a cost of 7 or less will not become active in your opponent's next Refresh Phase. \nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "setId": "OP13",
+  "cardNumber": "040",
+  "printedText": "[Main] You may rest 2 of your DON!! cards: Up to 2 of your opponent's rested Characters with a cost of 7 or less will not become active in your opponent's next Refresh Phase.\n[Counter] Your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restDonFromCostArea",
+        "count": 2,
+        "may": true
       },
-      "effect": {
-        "text": "Up to 2 of your opponent's rested Characters with a cost of 7 or less will not become active in your opponent's next Refresh Phase.",
-        "powerMod": null,
-        "conditions": [
-          "opponent:restedCharacter<=cost7"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "upToTwoOppRestedCost7OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "opponentRefreshSetActive",
+          "target": "upToTwoOppRestedCost7OrLess",
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "self:Leader"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "selfLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

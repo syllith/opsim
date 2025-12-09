@@ -1,23 +1,26 @@
 {
-  "id": "EB01-018",
-  "set": "EB01",
-  "number": 18,
-  "name": "Yama san",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
-  "types": ["Animal", "Land of Wano"],
+  "power": 7000,
+  "cardType": "character",
+  "attributes": [
+    "strike"
+  ],
+  "cardId": "EB01-018",
+  "printedText": "[Counter +1000]",
+  "cardNumber": "018",
   "rarity": "C",
-  "art": "/cards/EB01/EB01-018.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": "Vanilla card with no abilities" }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Yama san",
+  "types": [
+    "Animal",
+    "Land of Wano"
+  ],
+  "cost": 5,
+  "colors": [
+    "green"
+  ],
+  "traits": [
+    "animal",
+    "landOfWano"
+  ]
 }

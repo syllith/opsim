@@ -1,35 +1,80 @@
 {
-  "id": "OP02-083",
-  "set": "OP02",
-  "number": 83,
-  "name": "Hanyabal",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["Impel Down"],
+  "cardName": "Hanyabal",
+  "cardId": "OP02-083",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "types": [
+    "Impel Down"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-083.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 purple {Impel Down} type card other than [Hanyabal] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP02",
+  "cardNumber": "083",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 purple {Impel Down} type card other than [Hanyabal] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 purple {Impel Down} type card other than [Hanyabal] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "targets": ["deck"],
-        "conditions": ["purpleColor", "typeImpelDown", "notHanyabal"]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "searchChoice": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "colors",
+                  "op": "=",
+                  "value": "purple"
+                },
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Impel Down"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Hanyabal"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "chosenCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchChoice",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "impelDown"
+  ]
 }

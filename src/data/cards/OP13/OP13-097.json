@@ -1,75 +1,111 @@
 {
-  "id": "OP13-097",
-  "set": "OP13",
-  "number": 97,
-  "name": "The World's Equilibrium Cannot Be Maintained Forever",
-  "category": "Event",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Five Elders",
-    "Celestial Dragons"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP13/OP13-097.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main You may rest 5 of your DON!! cards: if the only Characters on your field are (Celestial Dragons) type Characters, K.O. up to 1 of your opponent's Characters with base cost 6 or less.\nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "cardName": "The World's Equilibrium Cannot Be Maintained Forever",
+  "cardId": "OP13-097",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 1,
+  "types": ["Five Elders", "Celestial Dragons"],
+  "traits": ["fiveElders", "celestialDragons"],
+  "rarity": "R",
+  "setId": "OP13",
+  "cardNumber": "097",
+  "printedText": "[Main] You may rest 5 of your DON!! cards: If the only Characters on your field are {Celestial Dragons} type Characters, K.O. up to 1 of your opponent's Characters with base cost 6 or less.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 5,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 5
+        "type": "restDonFromCostArea",
+        "count": 5,
+        "may": true
       },
-      "effect": {
-        "text": "if the only Characters on your field are (Celestial Dragons) type Characters, K.O. up to 1 of your opponent's Characters with base cost 6 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost6"
-        ],
-        "conditions": [
-          "onlyCharactersOnFieldAre(CelestialDragons)"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "allSelfCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "celestialCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "celestialDragons"
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "oppCost6OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": "allSelfCharacters",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCountDifference",
+            "selectorA": "allSelfCharacters",
+            "selectorB": "celestialCharacters",
+            "op": "=",
+            "value": 0
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost6OrLess"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "upToOneLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "grants": [
-          "+3000Power"
-        ],
-        "powerMod": null,
-        "targets": [
-          "oneLeader"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "upToOneLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

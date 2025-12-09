@@ -1,56 +1,77 @@
 {
-  "id": "ST10-012",
-  "set": "ST10",
-  "number": 12,
-  "name": "Bepo",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
+  "cardName": "Bepo",
+  "cardId": "ST10-012",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Mink Tribe", "Heart Pirates"],
+  "traits": ["minkTribe", "heartPirates"],
   "rarity": "C",
-  "art": "/cards/ST10/ST10-012.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "When Attacking"],
-  "trigger": null,
-  "text": "On Play / When Attacking: If the number of DON!! cards on your opponent's field is greater than the number of DON!! cards on your field, add 1 DON!! card from your DON!! deck rested to your cost area.",
+  "setId": "ST10",
+  "cardNumber": "012",
+  "printedText": "[On Play] [When Attacking] If the number of DON!! cards on your opponent's field is greater than the number of DON!! cards on your field, add 1 DON!! card from your DON!! deck rested to your cost area.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If the number of DON!! cards on your opponent's field is greater than the number of DON!! cards on your field, add 1 DON!! card from your DON!! deck rested to your cost area.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["donDeck"],
-        "conditions": ["opponentFieldDon>yourFieldDon"],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["costArea"]
+      "timing": "onPlay",
+      "selectors": {
+        "selfDonOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "oppDonOnField": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"]
         }
-      }
+      },
+      "condition": {
+        "field": "selectorCountCompare",
+        "selectorA": "oppDonOnField",
+        "selectorB": "selfDonOnField",
+        "op": ">"
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "enterRested": true
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If the number of DON!! cards on your opponent's field is greater than the number of DON!! cards on your field, add 1 DON!! card from your DON!! deck rested to your cost area.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["donDeck"],
-        "conditions": ["opponentFieldDon>yourFieldDon"]
-      }
+      "timing": "whenAttacking",
+      "selectors": {
+        "selfDonOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "oppDonOnField": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"]
+        }
+      },
+      "condition": {
+        "field": "selectorCountCompare",
+        "selectorA": "oppDonOnField",
+        "selectorB": "selfDonOnField",
+        "op": ">"
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

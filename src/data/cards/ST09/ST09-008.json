@@ -1,37 +1,70 @@
 {
-  "id": "ST09-008",
-  "set": "ST09",
-  "number": 8,
-  "name": "Shimotsuki Ushimaru",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
+  "cardName": "Shimotsuki Ushimaru",
+  "cardId": "ST09-008",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Land of Wano"],
-  "rarity": null,
-  "art": "/cards/ST09/ST09-008.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-     "counter": null
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "DON!! x1 — When Attacking: You may add the top or bottom card of your Life area to your hand: Play up to 1 yellow (Land of Wano) type Character card with a cost of 4 or less from your hand.",
+  "traits": ["landOfWano"],
+  "rarity": "C",
+  "setId": "ST09",
+  "cardNumber": "008",
+  "printedText": "[DON!! x1] [When Attacking] You may add the top or bottom card of your Life area to your hand: Play up to 1 yellow {Land of Wano} type Character card with a cost of 4 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may add the top or bottom card of your Life area to your hand: Play up to 1 yellow (Land of Wano) type Character card with a cost of 4 or less from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["topOrBottomLifeCard", "yellowLandOfWanoCharacter"],
-        "conditions": ["chooseTopOrBottom", "cost<=4"]
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "donCountOnThis",
+        "op": ">=",
+        "value": 1
+      },
+      "cost": {
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
+      },
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "yellow"
+            },
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "landOfWano"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "payCost": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

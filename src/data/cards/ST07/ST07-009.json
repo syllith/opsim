@@ -1,37 +1,79 @@
 {
-  "id": "ST07-009",
-  "set": "ST07",
-  "number": 9,
-  "name": "Charlotte Mont D'Or",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Special",
+  "cardName": "Charlotte Mont D'Or",
+  "cardId": "ST07-009",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Big Mom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST07/ST07-009.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": { "text": "You may trash 1 card from your hand: Play this card." },
-  "text": "Activate: Main: You may rest this Character and add the top or bottom card of your Life Area to your hand: K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "traits": ["bigMomPirates"],
+  "rarity": "",
+  "setId": "ST07",
+  "cardNumber": "009",
+  "printedText": "[Activate: Main] You may rest this Character and add the top or bottom card of your Life Area to your hand: K.O. up to 1 of your opponent's Characters with a cost of 3 or less.\n[Trigger] You may trash 1 card from your hand: Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Character and add the top or bottom card of your Life Area to your hand: K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter", "lifeArea"],
-        "conditions": ["restSelf", "chooseTopOrBottom", "targetCost<=3"]
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "moveTopLifeCard",
+            "side": "self",
+            "destination": "hand",
+            "position": "topOrBottom"
+          }
+        ],
+        "may": true
+      },
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

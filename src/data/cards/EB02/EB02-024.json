@@ -1,37 +1,74 @@
 {
-  "id": "EB02-024",
-  "set": "EB02",
-  "number": 24,
-  "name": "Sogeking",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Ranged",
-  "types": ["Sniper Island"],
-  "rarity": "SR",
-  "art": "/cards/EB02/EB02-024.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "According to rules, this card's name is also treated as 'Usopp'.\n[On Play] Draw 2 cards and place 2 cards from your hand to the bottom of your deck in any order. Then, return up to character with a cost of 1 or less back to the owner's hand.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB02-024",
+  "printedText": "According to rules, this card's name is also treated as 'Usopp'.\nOn Play Draw 2 cards and place 2 cards from your hand to the bottom of your deck in any order. Then, return up to 1 character with a cost of 1 or less back to the owner's hand.",
+  "cardNumber": "024",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw 2 cards and place 2 cards from your hand to the bottom of your deck in any order. Then, return up to character with a cost of 1 or less back to the owner's hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand", "deck", "upTo1:Character:cost<=1"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "count": 2,
+          "type": "draw"
+        },
+        {
+          "destination": "bottomOfDeck",
+          "type": "moveCard",
+          "target": {
+            "zones": [
+              "hand"
+            ],
+            "min": 2,
+            "max": 2,
+            "type": "hand",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "ordering": "chosen"
+        },
+        {
+          "destination": "hand",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 1,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "both",
+            "whoChooses": "self"
+          },
+          "ordering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": "Also treated as 'Usopp' for deck building and game rules" }
+  "rarity": "C",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Sogeking",
+  "types": [
+    "Sniper Island"
+  ],
+  "cost": 4,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "sniperIsland"
+  ]
 }

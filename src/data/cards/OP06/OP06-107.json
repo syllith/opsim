@@ -1,63 +1,92 @@
 {
-  "id": "OP06-107",
-  "set": "OP06",
-  "number": 107,
-  "name": "Kozuki Momonosuke",
-  "category": "Character",
+  "cardName": "Kozuki Momonosuke",
+  "cardId": "OP06-107",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 5,
+  "power": 6000,
+  "counter": 0,
+  "attributes": [
+    "wisdom"
+  ],
   "types": [
     "Land of Wano",
     "Kozuki Clan"
   ],
-  "rarity": "SR",
-  "art": "/cards/OP06/OP06-107.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
+  "traits": [
+    "landOfWano",
+    "kozukiClan"
   ],
-  "trigger": null,
-  "text": "Blocker - (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: Place up to one of your (Wano) type characters other than (Kozuki Momonosuke) on the top or bottom of its owners life pile face-up.",
+  "rarity": "SR",
+  "setId": "OP06",
+  "cardNumber": "107",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Place up to 1 of your {Wano} type Characters other than {Kozuki Momonosuke} on the top or bottom of its owner's Life area face up.",
+  "keywords": [
+    "blocker",
+    "onPlay"
+  ],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "selfWanoCharacterNonMomo": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "card.traits",
+              "op": "=",
+              "value": "wanoCountry"
+            },
+            {
+              "field": "card.name",
+              "op": "!=",
+              "value": "Kozuki Momonosuke"
+            }
+          ],
+          "bindAs": "characterToMove"
+        }
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Place up to one of your (Wano) type characters other than (Kozuki Momonosuke) on the top or bottom of its owners life pile face-up.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "selfWanoCharacterNonMomo",
+                  "destination": "topOfLife",
+                  "faceUp": true
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "selfWanoCharacterNonMomo",
+                  "destination": "bottomOfLife",
+                  "faceUp": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

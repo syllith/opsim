@@ -1,48 +1,66 @@
 {
-  "id": "OP07-092",
-  "set": "OP07",
-  "number": 92,
-  "name": "Yusef",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "CP0"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-092.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Return 2 [CP] cards from your trash to your bottom deck. K.O. 1 of your opponent's characters with a cost of 1 or less.",
+  "cardName": "Yusef",
+  "cardId": "OP07-092",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["CP0"],
+  "traits": ["cp0"],
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "092",
+  "printedText": "[On Play] You may place 2 cards with a type including \"CP\" from your trash at the bottom of your deck in any order: K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromTrash",
+        "selector": "cpCardsToBottom",
+        "may": true
       },
-      "effect": {
-        "text": "Return 2 [CP] cards from your trash to your bottom deck. K.O. 1 of your opponent's characters with a cost of 1 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "cpCardsToBottom": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "CP"
+            }
+          ],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        },
+        "opponentCost1Character": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCost1Character"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

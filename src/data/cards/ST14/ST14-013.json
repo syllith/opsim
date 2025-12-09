@@ -1,23 +1,18 @@
 {
-  "id": "ST14-013",
-  "set": "ST14",
-  "number": 13,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Slash",
+  "cardName": "Roronoa Zoro",
+  "cardId": "ST14-013",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/ST14/ST14-013.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": "",
-  "abilities": [],
-  "meta": { "notes": null }
+  "setId": "ST14",
+  "cardNumber": "013",
+  "printedText": "",
+  "keywords": [],
+  "abilities": []
 }

@@ -1,46 +1,85 @@
 {
-  "id": "OP02-085",
-  "set": "OP02",
-  "number": 85,
-  "name": "Magellan",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["Impel Down"],
+  "cardName": "Magellan",
+  "cardId": "OP02-085",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 5,
+  "power": 6000,
+  "counter": 0,
+  "types": [
+    "Impel Down"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP02/OP02-085.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "DON!! -1", "Opponent's Turn"],
-  "trigger": null,
-  "text": "[On Play] DON!! -1: Your opponent returns 1 of their DON!! cards on the field to their DON!! deck.\n[Opponent's Turn] When this Character is K.O.'ed, your opponent returns 2 of their DON!! cards on the field to their DON!! deck.",
+  "setId": "OP02",
+  "cardNumber": "085",
+  "printedText": "[On Play] DON!! -1: Your opponent returns 1 of their DON!! cards on the field to their DON!! deck. [Opponent's Turn] When this Character is K.O.'d, your opponent returns 2 of their DON!! cards on the field to their DON!! deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your opponent returns 1 of their DON!! cards on the field to their DON!! deck.",
-        "targets": ["opponent:Don"],
-        "conditions": []
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "cost": {
+        "type": "donMinus",
+        "count": 1,
+        "may": true
+      },
+      "selectors": {
+        "opponentDonFieldOne": {
+          "side": "opponent",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent",
+          "bindAs": "returnedDon"
+        }
+      },
+      "actions": [
+        {
+          "type": "returnDon",
+          "count": 1,
+          "target": "opponentDonFieldOne"
+        }
+      ]
     },
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When this Character is K.O.'ed, your opponent returns 2 of their DON!! cards on the field to their DON!! deck.",
-        "targets": ["opponent:Don"],
-        "conditions": ["whenKOed"]
-      }
+      "timing": "whenCharacterIsKOd",
+      "frequency": "none",
+      "condition": {
+        "field": "turnPlayer",
+        "op": "=",
+        "value": "opponent"
+      },
+      "selectors": {
+        "opponentDonFieldTwo": {
+          "side": "opponent",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 2,
+          "whoChooses": "opponent",
+          "bindAs": "returnedDons"
+        }
+      },
+      "actions": [
+        {
+          "type": "returnDon",
+          "count": 2,
+          "target": "opponentDonFieldTwo"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "impelDown"
+  ]
 }

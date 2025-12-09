@@ -1,20 +1,60 @@
 {
-  "id": "ST03-013",
-  "set": "ST03",
-  "number": 13,
-  "name": "Boa Hancock",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["The Seven Warlords of the Sea", "Kuja Pirates"],
-  "rarity": null,
-  "art": "/cards/ST03/ST03-013.png",
-  "stats": { "cost": 3, "power": 1000, "life": null, "counter": { "present": true, "value": 1000 } },
-  "keywords": ["Blocker"],
-  "trigger": {"text": "Play this card."},
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) Trigger: Play this card.",
-  "abilities": [
-    {"timing": "Block", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "After opponent declares an attack you may rest this to become new target.", "grants": [], "powerMod": null, "targets": ["self"], "conditions": ["opponentDeclaredAttack"]}}
+  "cardName": "Boa Hancock",
+  "cardId": "ST03-013",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 3,
+  "power": 1000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Kuja Pirates"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "kujaPirates"
+  ],
+  "rarity": "C",
+  "setId": "ST03",
+  "cardNumber": "013",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Trigger] Play this card.",
+  "keywords": ["Blocker"],
+  "abilities": [
+    {
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "selfFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["life"]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfFromLife",
+          "enterRested": false,
+          "payCost": false,
+          "may": true
+        }
+      ]
+    }
+  ]
 }

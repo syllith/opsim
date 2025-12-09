@@ -1,33 +1,18 @@
 {
-  "id": "OP12-005",
-  "set": "OP12",
-  "number": 5,
-  "name": "Shiki",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "FILM",
-    "Golden Lion Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP12/OP12-005.png",
-  "stats": {
-    "cost": 8,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Shiki",
+  "cardId": "OP12-005",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 8,
+  "power": 10000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["FILM", "Golden Lion Pirates"],
+  "traits": ["film", "goldenLionPirates"],
+  "rarity": "SR",
+  "setId": "OP12",
+  "cardNumber": "005",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or abilities. Power and life are not printed, so set to null."
-  }
+  "abilities": []
 }

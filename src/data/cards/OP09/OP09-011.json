@@ -1,54 +1,67 @@
 {
-  "id": "OP09-011",
-  "set": "OP09",
-  "number": 11,
-  "name": "Hongo",
-  "category": "Character",
+  "cardName": "Hongo",
+  "cardId": "OP09-011",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Red Hair Pirates"
   ],
+  "traits": [
+    "redHairedPirates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP09/OP09-011.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP09",
+  "cardNumber": "011",
+  "printedText": "[Activate: Main] You may rest this Character: If your Leader has the \"Red Hair Pirates\" type, give up to 1 of your opponent's Characters -2000 power during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "[Activate Main] You may rest this Character: If your Leader has the type \"Red Hair Pirates\", give up to 1 of your opponent's Characters -2000 power during this turn.",
   "abilities": [
     {
-      "type": "Activate Main",
-      "frequency": null,
-      "condition": { "leaderHasType": "Red Hair Pirates" },
-      "cost": { "restThis": true },
-      "effect": {
-        "text": "If your Leader has the type \"Red Hair Pirates\", give up to 1 of your opponent's Characters -2000 power during this turn.",
-        "actions": [
-          {
-            "type": "powerMod",
-            "amount": -2000,
-            "targetSide": "opponent",
-            "targetType": "character",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "duration": "thisTurn"
-          }
-        ]
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "redHairPirates"
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": -2000,
+              "duration": "thisTurn",
+              "target": "opponentCharacter"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

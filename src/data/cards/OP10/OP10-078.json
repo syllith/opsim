@@ -1,49 +1,104 @@
 {
-  "id": "OP10-078",
-  "set": "OP10",
-  "number": 78,
-  "name": "I can never forgive anyone who laughs at my family...!!!!",
-  "category": "Event",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "Donquixote Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-078.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main / Counter Look at 3 cards from the top of your deck; reveal up to 1 (Donquixote Pirates) type card other than \"I can never forgive anyone who laughs at my family...!!!!\" and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "cardName": "I can never forgive anyone who laughs at my family...!!!!!",
+  "cardId": "OP10-078",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 1,
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
+  "rarity": "R",
+  "setId": "OP10",
+  "cardNumber": "078",
+  "printedText": "[Main] / [Counter] Look at 3 cards from the top of your deck; reveal up to 1 {Donquixote Pirates} type card other than \"I can never forgive anyone who laughs at my family...!!!!!\" and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "top3DonquixoteNonSelf": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "donquixotePirates"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "I can never forgive anyone who laughs at my family...!!!!!"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "top3DonquixoteNonSelf"
+        }
       },
-      "effect": {
-        "text": "Look at 3 cards from the top of your deck; reveal up to 1 (Donquixote Pirates) type card other than \"I can never forgive anyone who laughs at my family...!!!!\" and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top3DonquixoteNonSelf",
+          "reveal": true,
+          "addTo": "hand",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
+    },
+    {
+      "timing": "counter",
+      "selectors": {
+        "top3DonquixoteNonSelf": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "donquixotePirates"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "I can never forgive anyone who laughs at my family...!!!!!"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "top3DonquixoteNonSelf"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top3DonquixoteNonSelf",
+          "reveal": true,
+          "addTo": "hand",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

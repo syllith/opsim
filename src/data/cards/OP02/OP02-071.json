@@ -1,39 +1,50 @@
 {
-  "id": "OP02-071",
-  "set": "OP02",
-  "number": 71,
-  "name": "Magellan",
-  "category": "Leader",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Impel Down"],
+  "cardName": "Magellan",
+  "cardId": "OP02-071",
+  "cardType": "leader",
+  "colors": [
+    "purple"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "types": [
+    "Impel Down"
+  ],
   "rarity": "L",
-  "art": "/cards/OP02/OP02-071.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Your Turn", "Once Per Turn"],
-  "trigger": null,
-  "text": "[Your Turn] [Once Per Turn] When a DON!! card is returned from the field to the DON!! deck, this Leader gains +1000 Power during this turn.",
+  "setId": "OP02",
+  "cardNumber": "071",
+  "printedText": "[Your Turn] [Once Per Turn] When a DON!! card is returned from the field to the DON!! deck, this Leader gains +1000 Power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When a DON!! card is returned from the field to the DON!! deck, this Leader gains +1000 Power during this turn.",
-        "powerMod": {
+      "timing": "whenDonReturned",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "isYourTurn",
+        "op": "=",
+        "value": true
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": ["self:Leader"],
-        "conditions": ["donReturnedFromFieldToDeck"]
-      }
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "impelDown"
+  ]
 }

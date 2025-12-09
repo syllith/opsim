@@ -1,33 +1,18 @@
 {
-  "id": "OP13-073",
-  "set": "OP13",
-  "number": 73,
-  "name": "Prometheus",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Homies",
-    "Big Mom Pirates"
-  ],
+  "cardName": "Prometheus",
+  "cardId": "OP13-073",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Homies", "Big Mom Pirates"],
+  "traits": ["homies", "bigMomPirates"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-073.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "073",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords. Power is 6000, cost is 5, and counter is +2000. Rarity is UC (indicated by 'UC' in the bottom right corner)."
-  }
+  "abilities": []
 }

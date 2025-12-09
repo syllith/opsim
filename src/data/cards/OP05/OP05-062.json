@@ -1,64 +1,58 @@
 {
-  "id": "OP05-062",
-  "set": "OP05",
-  "number": 62,
-  "name": "Onami",
-  "category": "Character",
+  "cardName": "Onami",
+  "cardId": "OP05-062",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
   "types": [
     "Straw Hat Crew"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-062.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "If you have 10 DON!! on your field, this character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "062",
+  "printedText": "If you have 10 DON!! on your field, this Character gains [Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 10,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "field": "donCountField",
+        "op": ">=",
+        "value": 10
       },
-      "effect": {
-        "text": "this character gains Blocker",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCardSelector"
+        }
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "blocker",
+          "duration": "permanent",
+          "target": "thisCardSelector"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

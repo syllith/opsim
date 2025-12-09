@@ -1,49 +1,64 @@
 {
-  "id": "OP10-099",
-  "set": "OP10",
-  "number": 99,
-  "name": "Eustass \"Captain\" Kid",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Supernova",
-    "Kid Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP10/OP10-099.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "End of Your Turn: You may turn the top card of your Life cards face-up. Set up to one of your 3 to 8 cost characters with the (Supernova) type active, that character gains until the end of your opponent's next turn.",
+  "cardName": "Eustass \"Captain\" Kid",
+  "cardId": "OP10-099",
+  "cardType": "leader",
+  "colors": ["yellow"],
+  "power": 5000,
+  "life": 5,
+  "attributes": ["special"],
+  "types": ["Supernova", "Kid Pirates"],
+  "traits": ["supernova", "kidPirates"],
+  "rarity": "R",
+  "setId": "OP10",
+  "cardNumber": "099",
+  "printedText": "[End of Your Turn] You may turn the top card of your Life cards face-up: Set up to 1 of your 3 to 8 cost Characters with the {Supernova} type active, then that Character gains [Blocker] until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
+      "timing": "endOfYourTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "setTopLifeFace",
+        "side": "self",
+        "count": 1,
+        "faceUp": true,
+        "may": true
       },
-      "effect": {
-        "text": "You may turn the top card of your Life cards face-up. Set up to one of your 3 to 8 cost characters with the (Supernova) type active, that character gains until the end of your opponent's next turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "supernova3To8Char": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                { "field": "traits", "op": "=", "value": "supernova" },
+                { "field": "cost", "op": ">=", "value": 3 },
+                { "field": "cost", "op": "<=", "value": 8 }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "supernova3To8Char"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "supernova3To8Char"
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "supernova3To8Char"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

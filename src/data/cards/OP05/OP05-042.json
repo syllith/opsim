@@ -1,48 +1,60 @@
 {
-  "id": "OP05-042",
-  "set": "OP05",
-  "number": 42,
-  "name": "Issho",
-  "category": "Character",
+  "cardName": "Issho",
+  "cardId": "OP05-042",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 6,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Navy"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-042.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Until the start of your next turn, up to 1 of your opponent's characters with a cost of 7 or less cannot attack.",
+  "setId": "OP05",
+  "cardNumber": "042",
+  "printedText": "[On Play] Until the start of your next turn, up to 1 of your opponent's Characters with a cost of 7 or less cannot attack.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "restrictTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "restrictTarget"
+        }
       },
-      "effect": {
-        "text": "Until the start of your next turn, up to 1 of your opponent's characters with a cost of 7 or less cannot attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "target": "restrictTarget",
+          "duration": "untilStartOfYourNextTurn",
+          "restrictionKind": "attack"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

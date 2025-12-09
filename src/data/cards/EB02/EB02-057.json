@@ -1,37 +1,53 @@
 {
-  "id": "EB02-057",
-  "set": "EB02",
-  "number": 57,
-  "name": "Mad Treasure",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Special",
+  "cardName": "Mad Treasure",
+  "cardId": "EB02-057",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Treasure Pirates"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-057.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "[When Attacking] You may add 1 card from the top or bottom of your Life to your hand: Add up to 1 of your opponent's Characters with a cost of 3 or less to the top or bottom of your opponent's Life.",
+  "traits": ["treasurePirates"],
+  "rarity": "C",
+  "setId": "EB02",
+  "cardNumber": "057",
+  "printedText": "[When Attacking] You may add 1 card from the top or bottom of your Life cards to your hand: Add up to 1 of your opponent's Characters with a cost of 3 or less to the top or bottom of your opponent's Life cards face-up.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may add 1 card from the top or bottom of your Life to your hand: Add up to 1 of your opponent's Characters with a cost of 3 or less to the top or bottom of your opponent's Life.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:Life", "upTo1:opponent:Character:cost<=3", "opponent:Life"],
-        "conditions": []
-      }
+      "timing": "whenAttacking",
+      "cost": {
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": ["character"],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 3
+              }
+            ]
+          },
+          "destination": "topOrBottomOfLife",
+          "faceUp": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,46 +1,66 @@
 {
-  "id": "OP09-080",
-  "set": "OP09",
-  "number": 80,
-  "name": "Thousand Sunny",
-  "category": "Stage",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Thousand Sunny",
+  "cardId": "OP09-080",
+  "cardType": "stage",
+  "colors": ["purple"],
+  "cost": 1,
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-080.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP09",
+  "cardNumber": "080",
+  "printedText": "[Opponent's Turn] You may rest this Stage: When 1 of your {Straw Hat Crew} type Characters leaves play due to your opponent's effects, set up to 1 DON!! from your DON!! deck as rested.",
   "keywords": [],
-  "trigger": null,
-  "text": "Opponent's Turn: You may rest this stage: When one of your {Straw Hat Crew} type characters leave play due to your opponent's effects, set up to one rested Don!! from your Don!! deck as rested.",
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
+      "timing": "duringOpponentsTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this stage: When one of your {Straw Hat Crew} type characters leave play due to your opponent's effects, set up to one rested Don!! from your Don!! deck as rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "donFromDeckRestedUpToOne": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "yourStrawHatCrewCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "selfStrawHatCrewCharacterLeavesPlayByOpponentEffect",
+          "target": "yourStrawHatCrewCharacter",
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "donFromDeckRestedUpToOne",
+              "destination": "costArea",
+              "ordering": "keep",
+              "enterRested": true
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but this is not a game error; it's a placeholder for the card image."
-  }
+  ]
 }

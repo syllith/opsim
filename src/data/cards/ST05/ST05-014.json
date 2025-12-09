@@ -1,20 +1,58 @@
 {
-  "id": "ST05-014",
-  "set": "ST05",
-  "number": 14,
-  "name": "Buena Fiesta",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Wisdom",
+  "cardName": "Buena Fiesta",
+  "cardId": "ST05-014",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
   "types": ["FILM", "Pirate Fest"],
-  "rarity": null,
-  "art": "/cards/ST05/ST05-014.png",
-  "stats": { "cost": 1, "power": 0, "life": null, "counter": { "present": true, "value": 2000 } },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Look at 5 cards from the top of your deck; reveal up to 1 FILM type card other than [Buena Fiesta] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "traits": ["film", "pirateFest"],
+  "rarity": "",
+  "setId": "ST05",
+  "cardNumber": "014",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {FILM} type card other than [Buena Fiesta] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
-    {"timing": "On Play", "frequency": null, "donReq": null, "cost": null, "effect": {"text": "Look at top 5 cards, reveal up to 1 FILM card (not Buena Fiesta), add to hand, rest to bottom in any order.", "grants": [], "powerMod": null, "targets": ["deck"], "conditions": ["top5", "filmType", "notSelf"]}}
-  ],
-  "meta": {"notes": null}
+    {
+      "timing": "onPlay",
+      "selectors": {
+        "filmCardFromTop5": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "film"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Buena Fiesta"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "filmCardFromTop5",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
+    }
+  ]
 }

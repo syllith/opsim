@@ -1,62 +1,69 @@
 {
-  "id": "OP10-008",
-  "set": "OP10",
-  "number": 8,
-  "name": "Scotch",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Punk Hazard"
-  ],
+  "cardName": "Scotch",
+  "cardId": "OP10-008",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Punk Hazard"],
+  "traits": ["punkHazard"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-008.png",
-  "stats": {
-    "cost": 2,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play If you do not have a (Rock), you may play up to 1 (Rock) from your hand.",
+  "setId": "OP10",
+  "cardNumber": "008",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If you do not have a \"Rock\", you may play up to 1 \"Rock\" from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "rockOnField": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "rock"
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "rockFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "rock"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "field": "selectorCount",
+        "selector": "rockOnField",
+        "op": "=",
+        "value": 0
       },
-      "effect": {
-        "text": "If you do not have a (Rock), you may play up to 1 (Rock) from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "rockFromHand",
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,38 +1,61 @@
 {
-  "id": "OP02-008",
-  "set": "OP02",
-  "number": 8,
-  "name": "Jozu",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Jozu",
+  "cardId": "OP02-008",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-008.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["Counter", "DON!!", "Rush"],
-  "trigger": null,
-  "text": "DON!! x1 If you have 2 or less Life cards and your Leader has {Whitebeard Pirates} in its type, this Character gains Rush (This card can attack on the turn in which it is played.)",
+  "setId": "OP02",
+  "cardNumber": "008",
+  "printedText": "[DON!! x1] If you have 2 or less Life cards and your Leader's type includes \"Whitebeard Pirates\", this Character gains [Rush]. (This card can attack on the turn in which it is played.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Continuous",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 2 or less Life cards and your Leader has {Whitebeard Pirates} in its type, this Character gains Rush.",
-        "grants": ["rush"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["lifeCards<=2", "leaderHasType:Whitebeard Pirates"],
-        "giveDon": null
-      }
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "this.attachedDon",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "self.life",
+            "op": "<=",
+            "value": 2
+          },
+          {
+            "field": "leaderHasWhitebeardPiratesType",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "rush",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

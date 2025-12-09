@@ -1,37 +1,76 @@
 {
-  "id": "OP02-040",
-  "set": "OP02",
-  "number": 40,
-  "name": "Brook",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["FILM", "Straw Hat Crew"],
+  "cardName": "Brook",
+  "cardId": "OP02-040",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-040.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Play up to 1 {FILM} or {Straw Hat Crew} type Character card with a cost of 3 or less from your hand.",
+  "setId": "OP02",
+  "cardNumber": "040",
+  "printedText": "[On Play] Play up to 1 {FILM} or {Straw Hat Crew} type Character with a cost of 3 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 {FILM} or {Straw Hat Crew} type Character card with a cost of 3 or less from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["FILM or Straw Hat Crew type", "cost 3 or less"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "brookPlayTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "FILM"
+                },
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Straw Hat Crew"
+                }
+              ]
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "playTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "brookPlayTarget",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "film",
+    "strawHatCrew"
+  ]
 }

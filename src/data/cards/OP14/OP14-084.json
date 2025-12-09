@@ -1,48 +1,98 @@
 {
-  "id": "OP14-084",
-  "set": "OP14",
-  "number": 84,
-  "name": "Ms. All Sunday",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Baroque Works"
-  ],
+  "cardName": "Ms. All Sunday",
+  "cardId": "OP14-084",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 7,
+  "power": 8000,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["Baroque Works"],
+  "traits": ["baroqueWorks"],
   "rarity": "SR",
-  "art": "/cards/OP14/OP14-084.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader's type includes \"Baroque Works\", play up to 1 Character card with a type including \"Baroque Works\" and a cost of 4 or less and up to 1 Character card with a type including \"Baroque Works\" and a cost of 1 from your trash.",
+  "setId": "OP14",
+  "cardNumber": "084",
+  "printedText": "[On Play] If your Leader's type includes \"Baroque Works\", play up to 1 Character card with a type including \"Baroque Works\" and a cost of 4 or less and up to 1 Character card with a type including \"Baroque Works\" and a cost of 1 from your trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "selfLeaderBaroque": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "baroqueWorks"
+            }
+          ]
+        },
+        "trashBaroqueCost4OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "baroqueWorks"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        },
+        "trashBaroqueCost1": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "baroqueWorks"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 1
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If your Leader's type includes \"Baroque Works\", play up to 1 Character card with a type including \"Baroque Works\" and a cost of 4 or less and up to 1 Character card with a type including \"Baroque Works\" and a cost of 1 from your trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfLeaderBaroque",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "trashBaroqueCost4OrLess",
+          "payCost": false,
+          "may": true
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "trashBaroqueCost1",
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

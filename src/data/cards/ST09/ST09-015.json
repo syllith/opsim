@@ -1,45 +1,81 @@
 {
-  "id": "ST09-015",
-  "set": "ST09",
-  "number": 15,
-  "name": "Thunder Bagua",
-  "category": "Event",
-  "colors": ["Yellow"],
-  "attribute": null,
+  "cardName": "Thunder Bagua",
+  "cardId": "ST09-015",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 2,
   "types": ["Land of Wano"],
-  "rarity": null,
-  "art": "/cards/ST09/ST09-015.png",
-  "stats": { "cost": 2, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": { "text": "Draw 1 card." },
-  "text": "Counter: Up to 1 of your Leader or Characters gains +4000 Power during this battle. Then, if you have 2 or less cards in your life area, place up to 1 of your opponent's Characters with a cost of 3 or less face down at the top or bottom of their Life.",
+  "traits": ["landOfWano"],
+  "rarity": "C",
+  "setId": "ST09",
+  "cardNumber": "015",
+  "printedText": "Counter Up to 1 of your Leader or Characters gains +4000 Power during this battle. Then, if you have 2 or less cards in your life area, place up to 1 of your opponent's Characters with a cost of 3 or less face down at the top or bottom of their Life.\nTrigger Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": null,
-      "effect": {
-        "text": "Up to 1 of your Leader or Characters gains +4000 Power during this battle. Then, if you have 2 or less cards in your life area, place up to 1 of your opponent's Characters with a cost of 3 or less face down at the top or bottom of their Life.",
-        "grants": ["power+4000"],
-        "powerMod": 4000,
-        "targets": ["oneLeaderOrCharacter", "oneOpponentCharacter"],
-        "conditions": ["ifYourLifeArea<=2", "targetCost<=3", "chooseTopOrBottom", "faceDown"]
-      }
+      "timing": "counter",
+      "selectors": {
+        "selfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true
+        },
+        "opponentLowCostCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "selfLeaderOrCharacter"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfLife",
+            "op": "<=",
+            "value": 2
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "opponentLowCostCharacter",
+              "destination": "topOrBottomOfLife",
+              "ordering": "chosen",
+              "faceUp": false
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": null,
-      "effect": {
-        "text": "Draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["draw:1"]
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

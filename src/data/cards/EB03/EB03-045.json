@@ -1,43 +1,104 @@
 {
-  "id": "EB03-045",
-  "set": "EB03",
-  "number": 45,
-  "name": "Perona",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Special",
-  "types": ["Muggy Kingdom", "Thriller Bark Pirates"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-045.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "[Blocker]\n[On Play] Give up to 1 rested DON!! card to your Leader or 1 of your Characters. Then, if you have 10 or more cards in your trash, play up to 1 {Thriller Bark Pirates} type Character card with a cost of 2 or less from your trash rested.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB03-045",
+  "printedText": "Blocker\n[On Play] Give up to 1 rested DON!! card to your Leader or 1 of your Characters. Then, if you have 10 or more cards in your trash, play up to 1 {Thriller Bark Pirates} type Character card with a cost of 2 or less from your trash rested.",
+  "types": [
+    "Muggy Kingdom",
+    "Thriller Bark Pirates"
+  ],
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 rested DON!! card to your Leader or 1 of your Characters. Then, if you have 10 or more cards in your trash, play up to 1 {Thriller Bark Pirates} type Character card with a cost of 2 or less from your trash rested.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self:Leader", "ally:oneCharacter", "trash:Character:ThrillerBarkPirates:cost<=2"],
-        "conditions": ["10orMoreCardsInTrash"],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["self:Leader", "oneAllyCharacter"]
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "type": "leaderOrCharacter",
+            "max": 1,
+            "min": 1,
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "selector": {
+            "filters": [
+              {
+                "op": "=",
+                "field": "state",
+                "value": "rested"
+              }
+            ],
+            "zones": [
+              "costArea"
+            ],
+            "upTo": true,
+            "type": "don",
+            "max": 1,
+            "min": 0,
+            "side": "self",
+            "whoChooses": "self"
+          }
+        },
+        {
+          "enterRested": true,
+          "type": "playCard",
+          "payCost": true,
+          "sourceZone": "trash",
+          "condition": {
+            "op": ">=",
+            "field": "selfTrashCount",
+            "value": 10
+          },
+          "target": {
+            "filters": [
+              {
+                "op": "=",
+                "field": "types",
+                "value": "Thriller Bark Pirates"
+              },
+              {
+                "op": "<=",
+                "field": "cost",
+                "value": 2
+              }
+            ],
+            "zones": [
+              "trash"
+            ],
+            "upTo": true,
+            "type": "character",
+            "max": 1,
+            "min": 0,
+            "side": "self",
+            "whoChooses": "self"
+          }
         }
-      }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardNumber": "045",
+  "cardName": "Perona",
+  "rarity": "SR",
+  "cost": 4,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "muggyKingdom",
+    "thrillerBarkPirates"
+  ]
 }

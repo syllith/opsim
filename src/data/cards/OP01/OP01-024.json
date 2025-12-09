@@ -1,83 +1,93 @@
 {
-  "id": "OP01-024",
-  "set": "OP01",
-  "number": 24,
-  "name": "Monkey. D. Luffy",
-  "category": "Character",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP01-024",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Supernovas",
     "Straw Hat Crew"
   ],
   "rarity": "SR",
-  "art": "/cards/OP01/OP01-024.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x2",
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "[DON!! x2] This Character cannot be K.O.'d when battling (Strike) Attribute Characters.\n[Activate: Main] [Once Per Turn] Give this Character up to 2 rested DON!! cards.",
+  "setId": "OP01",
+  "cardNumber": "024",
+  "printedText": "[DON!! x2] This Character cannot be K.O.'d when battling (Strike) Attribute Characters.\nActivate: Main Once Per Turn Give this Character up to 2 rested DON!! cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This Character cannot be K.O.'d when battling {Strike} Attribute Characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "battlingStrikeAttribute"
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 2
+          },
+          {
+            "field": "battleOpponent",
+            "attribute": "strike",
+            "op": "=",
+            "value": true
+          }
         ]
-      }
+      },
+      "selectors": {
+        "selfTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "selfTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "preventKO",
+          "target": "selfTarget"
+        }
+      ]
     },
     {
-      "timing": "Activate Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Give this Character up to 2 rested DON!! cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [],
-        "giveDon": {
-          "quantity": 2,
-          "state": "rested",
-          "from": "costArea",
-          "to": [
-            "self"
-          ]
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "selfTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "selfTarget"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 2,
+          "target": "selfTarget",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "supernovas",
+    "strawHatCrew"
+  ]
 }

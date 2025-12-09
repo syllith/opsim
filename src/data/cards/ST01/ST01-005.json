@@ -1,37 +1,55 @@
 {
-  "id": "ST01-005",
-  "set": "ST01",
-  "number": 5,
-  "name": "Jinbe",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Jinbe",
+  "cardId": "ST01-005",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Fish-Man", "Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST01/ST01-005.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
+  "traits": ["fishMan", "strawHatCrew"],
+  "rarity": "common",
+  "setId": "ST01",
+  "cardNumber": "005",
+  "printedText": "[DON!! x1] [When Attacking] Your Leader or up to 1 of your Characters other than this card gains +1000 Power during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 — When Attacking: Your Leader or up to 1 of your Characters other than this card gains +1000 Power during this turn.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your Leader or up to 1 of your Characters other than this card gains +1000 Power during this turn.",
-        "grants": [],
-        "powerMod": { "amount": 1000, "duration": "this turn" },
-        "targets": ["ally:Leader", "ally:CharacterExceptSelf"],
-        "conditions": []
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "givenDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "field": "isThisCard",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": "Counter value not visible on scan; treated as none." }
+  "alsoTreatedAsNames": []
 }

@@ -1,64 +1,79 @@
 {
-  "id": "OP08-117",
-  "set": "OP08",
-  "number": 117,
-  "name": "Burn Blade",
-  "category": "Event",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Sky Island/Shandian Warrior"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-117.png",
-  "stats": {
-    "cost": 5,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "You may add 1 card from the top of your Life cards to your hand: Add up to 1 card from your hand to the top of your Life cards."
-  },
-  "text": "Main: You may trash 1 card from the top of your Life cards: K.O. up to 1 of your opponent's Characters with a cost of 7 or less. Trigger: You may add 1 card from the top of your Life cards to your hand: Add up to 1 card from your hand to the top of your Life cards.",
+  "cardName": "Burn Blade",
+  "cardId": "OP08-117",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 5,
+  "types": ["Sky Island", "Shandian Warrior"],
+  "traits": ["skyIsland", "shandianWarrior"],
+  "rarity": "UC",
+  "setId": "OP08",
+  "cardNumber": "117",
+  "printedText": "[Main] You may trash 1 card from the top of your Life cards: K.O. up to 1 of your opponent's Characters with a cost of 7 or less.\n[Trigger] You may add 1 card from the top of your Life cards to your hand: Add up to 1 card from your hand to the top of your Life cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "trash",
+        "position": "top",
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from the top of your Life cards: K.O. up to 1 of your opponent's Characters with a cost of 7 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterCost7OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacterCost7OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "top",
+        "may": true
       },
-      "effect": {
-        "text": "You may add 1 card from the top of your Life cards to your hand: Add up to 1 card from your hand to the top of your Life cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "handCardToLife": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "handCardToLife",
+          "destination": "topOfLife",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' in image, but rarity and other details are legible."
-  }
+  ]
 }

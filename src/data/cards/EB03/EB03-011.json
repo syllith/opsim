@@ -1,42 +1,77 @@
 {
-  "id": "EB03-011",
-  "set": "EB03",
-  "number": 11,
-  "name": "But If We Ever See Each Other Again Will You Call Me Your Shipmate?!!",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Alabasta"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-011.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": {
-    "text": "Give up to 1 of your opponent's Character cards -2000 power during this turn."
-  },
-  "text": "[Counter] If your Leader is [Nefeltari Vivi], up to 1 of your Leader or Character cards gains +4000 power during this battle.\n[Trigger] Give up to 1 of your opponent's Character cards -2000 power during this turn.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB03-011",
+  "printedText": "Counter If your Leader is [Nefeltari Vivi], up to 1 of your Leader or Character cards gains +4000 power during this battle.\nTrigger Give up to 1 of your opponent's Character cards -2000 power during this turn.",
+  "types": [
+    "Alabasta"
+  ],
+  "cardNumber": "011",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader is [Nefeltari Vivi], up to 1 of your Leader or Character cards gains +4000 power during this battle.",
-        "grants": [],
-        "powerMod": {
+      "condition": {
+        "value": "Nefeltari Vivi",
+        "field": "leaderName",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisBattle",
           "amount": 4000,
-          "duration": "duringThisBattle"
-        },
-        "targets": ["upTo1:ally:LeaderOrCharacter"],
-        "conditions": ["leaderIsNefeltariVivi"]
-      }
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ]
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "amount": -2000,
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 0,
+  "cardName": "But If We Ever See Each Other Again Will You Call Me Your Shipmate?!!",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "red"
+  ],
+  "traits": [
+    "alabasta"
+  ]
 }

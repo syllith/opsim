@@ -1,67 +1,93 @@
 {
-  "id": "PRB02-002",
-  "set": "PRB02",
-  "number": 2,
-  "name": "Trafalgar Law",
-  "category": "Character",
+  "cardName": "Trafalgar Law",
+  "cardId": "PRB02-002",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Punk Hazard",
     "The Seven Warlords of the Sea",
     "Heart Pirates"
   ],
-  "rarity": "SR",
-  "art": "/cards/PRB02/PRB02-002.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    
+  "traits": [
+    "punkHazard",
+    "theSevenWarlordsOfTheSea",
+    "heartPirates"
   ],
-  "trigger": null,
-  "text": "[Once Per Turn] If this Character would be removed from the field by your opponent's effect, you may give this Character -2000 power during this turn instead.\n[When Attacking] Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "rarity": "SR",
+  "setId": "PRB02",
+  "cardNumber": "002",
+  "printedText": "[Once Per Turn] If this Character would be removed from the field by your opponent's effect, you may give this Character -2000 power during this turn instead.\n[When Attacking] Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "type": "Continuous",
-      "frequency": "Once Per Turn",
-      "condition": null,
-      "cost": null,
-      "effect": {
-        "text": "If this Character would be removed from the field by your opponent's effect, you may give this Character -2000 power during this turn instead."
-      }
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "beforeThisRemovedByOpponentsEffect",
+          "target": "thisCard",
+          "may": true,
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": -2000,
+              "duration": "thisTurn",
+              "target": "thisCard"
+            }
+          ]
+        }
+      ]
     },
     {
-      "type": "On Attack",
-      "frequency": null,
-      "condition": null,
-      "cost": null,
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
-        "actions": [
-          {
-            "type": "powerMod",
-            "amount": -2000,
-            "targetSide": "opponent",
-            "targetType": "character",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "duration": "thisTurn"
-          }
-        ]
-      }
+      "timing": "whenAttacking",
+      "selectors": {
+        "oppCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "oppCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

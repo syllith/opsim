@@ -1,49 +1,64 @@
 {
-  "id": "OP06-106",
-  "set": "OP06",
-  "number": 106,
-  "name": "Kozuki Hiyori",
-  "category": "Character",
+  "cardName": "Kozuki Hiyori",
+  "cardId": "OP06-106",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 0,
+  "counter": 2000,
+  "attributes": [
+    "wisdom"
+  ],
   "types": [
-    "Wano country",
+    "Wano Country",
     "Kozuki Clan"
   ],
-  "rarity": "SR",
-  "art": "/cards/OP06/OP06-106.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "wanoCountry",
+    "kozukiClan"
   ],
-  "trigger": null,
-  "text": "On Play: You may put the top or bottom card of your life pile into your hand. Put up to one card from your hand on the top of your life pile.",
+  "rarity": "SR",
+  "setId": "OP06",
+  "cardNumber": "106",
+  "printedText": "[On Play] You may put the top or bottom card of your Life area into your hand: Put up to 1 card from your hand on the top of your Life area.",
+  "keywords": [
+    "onPlay"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
       },
-      "effect": {
-        "text": "You may put the top or bottom card of your life pile into your hand. Put up to one card from your hand on the top of your life pile.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "handCardToLife": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "cardToPlaceOnLife"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "handCardToLife",
+          "destination": "topOfLife",
+          "faceUp": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,32 +1,27 @@
 {
-  "id": "OP06-094",
-  "set": "OP06",
-  "number": 94,
-  "name": "Lola",
-  "category": "Character",
+  "cardName": "Lola",
+  "cardId": "OP06-094",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 6000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Thriller Bark Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-094.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "traits": [
+    "thrillerBarkPirates"
+  ],
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "094",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but rarity is clearly 'R' in the bottom right corner."
-  }
+  "abilities": []
 }

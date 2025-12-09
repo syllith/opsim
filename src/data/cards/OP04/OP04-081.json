@@ -1,53 +1,97 @@
 {
-  "id": "OP04-081",
-  "set": "OP04",
-  "number": 81,
-  "name": "Cavendish",
-  "category": "Character",
+  "cardName": "Cavendish",
+  "cardId": "OP04-081",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
+  "counter": 0,
   "types": [
     "Dressrosa",
     "Beautiful Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-081.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 This Character can attack active Characters.\nWhen Attacking: You may rest your leader: K.0, up to one of your opponent's Characters that cost 1 or less. Then, trash two cards from the top of your deck.",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "081",
+  "printedText": "[DON!! x1] This Character can also attack active Characters.\n[When Attacking] You may rest your Leader: K.O. up to 1 of your opponent's Characters with a cost of 1 or less. Then, trash 2 cards from the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "canAttackActiveCharacters",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
+    },
+    {
+      "timing": "whenAttacking",
+      "selectors": {
+        "yourLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "oppCost1Character": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may rest your leader: K.0, up to one of your opponent's Characters that cost 1 or less. Then, trash two cards from the top of your deck.",
-        "powerMod": null,
-        "targets": [
-          "leader:rested",
-          "oneOpponentCharacter<=cost1"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "restFromField",
+        "selector": "yourLeader",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost1Character"
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 2
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. Power value is 6000 as printed. Cost is 5 as printed. Attribute is 'Slash' as indicated by the icon. The card is a Character type. The text is fully captured from the card."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "dressrosa",
+    "beautifulPirates"
+  ]
 }

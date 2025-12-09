@@ -1,36 +1,51 @@
 {
-  "id": "ST21-010",
-  "set": "ST21",
-  "number": 10,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Nico Robin",
+  "cardId": "ST21-010",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/ST21/ST21-010.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "DON!! x2 When Attacking KO up to one of your opponent's characters with a power of 4000 or less.",
+  "traits": ["strawHatCrew"],
+  "rarity": "starter",
+  "setId": "ST21",
+  "cardNumber": "010",
+  "printedText": "[DON!! x2] [When Attacking] KO up to one of your opponent's Characters with a power of 4000 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "KO up to one of your opponent's characters with a power of 4000 or less.",
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=4000"],
-        "conditions": ["donAttached", "optionalTarget"]
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 2
+      },
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

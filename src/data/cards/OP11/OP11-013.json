@@ -1,49 +1,45 @@
 {
-  "id": "OP11-013",
-  "set": "OP11",
-  "number": 13,
-  "name": "Prince Grus",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy",
-    "SWORD"
-  ],
+  "cardName": "Prince Grus",
+  "cardId": "OP11-013",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Navy", "SWORD"],
+  "traits": ["navy", "sword"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-013.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking: All of your opponents Characters with a power of 2000 or less cannot activate Blocker for the rest of the turn.",
+  "setId": "OP11",
+  "cardNumber": "013",
+  "printedText": "[When Attacking] All of your opponent's Characters with a power of 2000 or less cannot activate [Blocker] for the rest of the turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "opponentCharacters2000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 2000
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "All of your opponents Characters with a power of 2000 or less cannot activate Blocker for the rest of the turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "blocker",
+          "target": "opponentCharacters2000OrLess",
+          "duration": "thisTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

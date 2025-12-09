@@ -1,23 +1,117 @@
 {
-  "id": "OP02-045",
-  "set": "OP02",
-  "number": 45,
-  "name": "Three Sword Style: Oni Giri",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["FILM", "Supernovas", "Straw Hat Crew"],
+  "cardName": "Three Sword Style: Oni Giri",
+  "cardId": "OP02-045",
+  "cardType": "event",
+  "colors": [
+    "green"
+  ],
+  "cost": 3,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "FILM",
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-045.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": { "text": "Rest up to 1 of your opponent’s Leader or Characters with a cost of 5 or lower." },
-  "text": "Counter: Your Leader or up to 1 of your Characters gains +6000 Power during this battle. Then, you may play up to 1 Character with a cost of 3 or less without an effect from your hand.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "setId": "OP02",
+  "cardNumber": "045",
+  "printedText": "[Counter] Give up to 1 of your Leader or Character cards +6000 power for this battle, then play up to 1 cost 3 or lower Character card with no base effect from your hand. [Trigger] Rest up to 1 of your opponent's Leader or Character cards with a cost of 5 or less.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "counter",
+      "selectors": {
+        "oniGiriBuffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oniGiriBuffTarget"
+        },
+        "oniGiriPlayTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            },
+            {
+              "field": "hasEffectText",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oniGiriPlayFromHand"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 6000,
+          "duration": "thisBattle",
+          "target": "oniGiriBuffTarget"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "oniGiriPlayTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "oniGiriTriggerRestTarget": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oniGiriRestTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oniGiriTriggerRestTarget"
+        }
+      ]
+    }
+  ],
+  "traits": [
+    "film",
+    "supernovas",
+    "strawHatCrew"
+  ]
 }

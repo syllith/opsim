@@ -1,51 +1,83 @@
 {
-  "id": "OP07-091",
-  "set": "OP07",
-  "number": 91,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "OP07-091",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP07/OP07-091.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking Trash up to 1 of your opponent's Characters with a cost of 2 or less. Then, place any number of Character cards with a cost of 4 or more from your trash at the bottom of your deck in any order. This Character gains +1000 power during this turn for every 3 cards placed at the bottom of your deck.",
+  "setId": "OP07",
+  "cardNumber": "091",
+  "printedText": "[When Attacking] Trash up to 1 of your opponent's Characters with a cost of 2 or less. Then, place any number of Character cards with a cost of 4 or more from your trash at the bottom of your deck in any order. This Character gains +1000 power during this turn for every 3 cards placed at the bottom of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Trash up to 1 of your opponent's Characters with a cost of 2 or less. Then, place any number of Character cards with a cost of 4 or more from your trash at the bottom of your deck in any order. This Character gains +1000 power during this turn for every 3 cards placed at the bottom of your deck.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "timing": "whenAttacking",
+      "selectors": {
+        "opponentCost2Character": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         },
-        "giveDon": null
-      }
+        "bottomDeckSelection": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "bottomDeckSelection"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentCost2Character",
+          "destination": "trash",
+          "ordering": "keep"
+        },
+        {
+          "type": "moveCard",
+          "target": "bottomDeckSelection",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 3,
+          "perAmount": 1000,
+          "countSelector": "bottomDeckSelection",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,90 +1,113 @@
 {
-  "id": "EB01-002",
-  "set": "EB01",
-  "number": 2,
-  "name": "Izou",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB01-002",
+  "printedText": "[On Play] Attach up to 1 rested DON!! to your Leader or 1 of your Characters.\n[On Your Opponent's Attack] [Once Per Turn] You may trash 1 card from your hand: If your Leader has the {Land of Wano} or {Whitebeard Pirates} type, give up to 1 of your opponent's Leader or Characters -2000 power for this turn.",
   "types": [
     "Land of Wano",
     "Whitebeard Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-002.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "When opponent attack",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "[On Play] Attach up to one rested don!! to your leader or one of your characters.\n[When opponent attack] [Once Per Turn] You may trash 1 card from your hand: If your leader has the {Land of Wano} or {Whitebeard Pirates} type, give up to one of your opponent's leader or character -2000 power for this turn.",
+  "cardNumber": "002",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Attach up to one rested don!! to your leader or one of your characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "self:Leader",
-          "ally:Character"
-        ],
-        "conditions": [],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": [
-            "self:Leader",
-            "oneAllyCharacter"
-          ]
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "selector": {
+            "filters": [
+              {
+                "value": "rested",
+                "field": "state",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "costArea"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          }
         }
-      }
+      ],
+      "frequency": "none"
     },
     {
-      "timing": "When opponent attack",
-      "frequency": "Once Per Turn",
-      "donReq": null,
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "maxCards": 1,
+        "minCards": 1
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand.: If your leader has the {Land of Wano} or {Whitebeard Pirates} type, give up to one of your opponent's leader or character -2000 power for this turn.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "onOpponentsAttack",
+      "actions": [
+        {
+          "type": "modifyStat",
           "amount": -2000,
-          "duration": "duringThisTurn"
-        },
-        "targets": [
-          "opponent:Leader",
-          "opponent:Character"
-        ],
-        "conditions": [
-          "mayTrash1FromHand",
-          "leaderHasLandOfWanoOrWhitebeardPirates"
-        ]
-      }
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "condition": {
+            "any": [
+              {
+                "value": true,
+                "field": "selfLeaderHasType:Land of Wano",
+                "op": "="
+              },
+              {
+                "value": true,
+                "field": "selfLeaderHasType:Whitebeard Pirates",
+                "op": "="
+              }
+            ],
+            "logic": "OR"
+          },
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Izou",
+  "rarity": "R",
+  "cost": 5,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "landOfWano",
+    "whitebeardPirates"
+  ]
 }

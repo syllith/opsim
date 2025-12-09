@@ -1,40 +1,83 @@
 {
-  "id": "EB01-014",
-  "set": "EB01",
-  "number": 14,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
-  "types": ["FILM", "Straw Hat Crew"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-014.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["DON!! x1", "Your Turn"],
-  "trigger": null,
-  "text": "[DON!! x1] [Your Turn] For every 3 rested Don!! on your field, this characters gains +1000 power.",
+  "power": 5000,
+  "cardType": "character",
+  "attributes": [
+    "strike"
+  ],
+  "cardId": "EB01-014",
+  "printedText": "DON!! x1 [Your Turn] For every 3 rested Don!! on your field, this character gains +1000 power.\n[Counter +2000]",
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
+  "cardNumber": "014",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "For every 3 rested Don!! on your field, this characters gains +1000 power.",
-        "grants": [],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "whileConditionMet"
-        },
-        "targets": ["self"],
-        "conditions": ["per3RestedDon"]
-      }
+      "condition": {
+        "all": [
+          {
+            "value": 1,
+            "field": "attachedDonCount",
+            "op": ">="
+          },
+          {
+            "value": "self",
+            "field": "turnPlayer",
+            "op": "="
+          }
+        ],
+        "logic": "AND"
+      },
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "countSelector": {
+            "type": "don",
+            "side": "self",
+            "filters": [
+              {
+                "value": true,
+                "field": "rested",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "costArea"
+            ]
+          },
+          "mode": "perCount",
+          "perCount": 3,
+          "duration": "thisTurn",
+          "perAmount": 1000,
+          "target": {
+            "type": "character",
+            "side": "self",
+            "filters": [
+              {
+                "value": "EB01-014",
+                "field": "cardId",
+                "op": "="
+              }
+            ]
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 2000,
+  "cardName": "Sanji",
+  "rarity": "R",
+  "cost": 4,
+  "colors": [
+    "green"
+  ],
+  "traits": [
+    "film",
+    "strawHatCrew"
+  ]
 }

@@ -1,34 +1,28 @@
 {
-  "id": "OP01-018",
-  "set": "OP01",
-  "number": 18,
-  "name": "Hajrudin",
-  "category": "Character",
+  "cardName": "Hajrudin",
+  "cardId": "OP01-018",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Giants",
     "New Giant Warrior Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-018.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "018",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "",
   "abilities": [],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "giants",
+    "newGiantWarriorPirates"
+  ]
 }

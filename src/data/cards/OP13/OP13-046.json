@@ -1,49 +1,71 @@
 {
-  "id": "OP13-046",
-  "set": "OP13",
-  "number": 46,
-  "name": "Vista",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Whitebeard Pirates"
-  ],
+  "cardName": "Vista",
+  "cardId": "OP13-046",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-046.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
-  "keywords": [
-    "Double Attack",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Double Attack\nOnce Per Turn: If this Character would be K.O.'d in battle, or if this Character would be removed from the field by your opponent's effect, you may trash 1 card with a type including \"Whitebeard Pirates\" from your hand instead.",
+  "setId": "OP13",
+  "cardNumber": "046",
+  "printedText": "[Double Attack]\n[Once Per Turn] If this Character would be K.O.'d in battle, or if this Character would be removed from the field by your opponent's effect, you may trash 1 card with a type including \"Whitebeard Pirates\" from your hand instead.",
+  "keywords": ["Double Attack"],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If this Character would be K.O.'d in battle, or if this Character would be removed from the field by your opponent's effect, you may trash 1 card with a type including \"Whitebeard Pirates\" from your hand instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKOdInBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "cost": {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1,
+            "filters": [
+              "typeIncludesWhitebeardPirates"
+            ],
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeRemovedFromFieldByOpponentsEffect",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "cost": {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1,
+            "filters": [
+              "typeIncludesWhitebeardPirates"
+            ],
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

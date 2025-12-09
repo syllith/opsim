@@ -1,51 +1,40 @@
 {
-  "id": "OP14-004",
-  "set": "OP14",
-  "number": 4,
-  "name": "Cavendish",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Dressrosa",
-    "Supernovas",
-    "Beautiful Pirates"
-  ],
+  "cardName": "Cavendish",
+  "cardId": "OP14-004",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Dressrosa", "Supernovas", "Beautiful Pirates"],
+  "traits": ["dressrosa", "supernovas", "beautifulPirates"],
   "rarity": "UC",
-  "art": "/cards/OP14/OP14-004.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP14",
+  "cardNumber": "004",
+  "printedText": "If this Character has 5000 power or more, this Character gains Rush.\n(This card can attack on the turn in which it is played.)",
   "keywords": [],
-  "trigger": null,
-  "text": "If this Character has 5000 power or more, this Character gains Rush. (This card can attack on the turn in which it is played.)",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If this Character has 5000 power or more, this Character gains Rush. (This card can attack on the turn in which it is played.)",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          },
+          "condition": {
+            "field": "selfPower",
+            "op": ">=",
+            "value": 5000
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

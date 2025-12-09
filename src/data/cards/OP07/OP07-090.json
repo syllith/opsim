@@ -1,48 +1,39 @@
 {
-  "id": "OP07-090",
-  "set": "OP07",
-  "number": 90,
-  "name": "Morgans",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Journalist"
-  ],
-  "rarity": "L",
-  "art": "/cards/OP07/OP07-090.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Your opponent discards one card from their hand, and then reveals their hand. Then your opponent draws a card.",
+  "cardName": "Morgans",
+  "cardId": "OP07-090",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Journalist"],
+  "traits": ["journalist"],
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "090",
+  "printedText": "[On Play] Your opponent trashes 1 card from their hand and reveals their hand. Then, your opponent draws 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Your opponent discards one card from their hand, and then reveals their hand. Then your opponent draws a card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "trashFromHand",
+          "side": "opponent",
+          "minCards": 1,
+          "maxCards": 1
+        },
+        {
+          "type": "revealHand",
+          "side": "opponent"
+        },
+        {
+          "type": "draw",
+          "side": "opponent",
+          "count": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

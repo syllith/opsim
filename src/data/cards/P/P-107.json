@@ -1,52 +1,47 @@
 {
-  "id": "P-107",
-  "set": "P",
-  "number": 107,
-  "name": "Gol.D.Roger",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Pirate King",
-    "Roger Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-107.png",
-  "stats": {
-    "cost": 8,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 10000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you or your opponent have 10 DON!! cards on the field, your Leader gains +2000 power until the end of your opponent's next End Phase.",
+  "cardName": "Gol.D.Roger",
+  "cardId": "P-107",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 8,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["Pirate King", "Roger Pirates"],
+  "traits": ["pirateKing", "rogerPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-107",
+  "printedText": "[On Play] If you or your opponent have 10 DON!! cards on the field, your Leader gains +2000 power until the end of your opponent's next End Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 10,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "logic": "OR",
+        "all": [
+          {
+            "field": "selfDonCount",
+            "op": ">=",
+            "value": 10
+          },
+          {
+            "field": "opponentDonCount",
+            "op": ">=",
+            "value": 10
+          }
+        ]
       },
-      "effect": {
-        "text": "If you or your opponent have 10 DON!! cards on the field, your Leader gains +2000 power until the end of your opponent's next End Phase.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "until the end of your opponent's next End Phase"
-        },
-        "giveDon": null
-      }
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "selfLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

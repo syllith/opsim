@@ -1,37 +1,89 @@
 {
-  "id": "EB01-042",
-  "set": "EB01",
-  "number": 42,
-  "name": "Scarlet",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Wisdom",
-  "types": ["Dressrosa"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-042.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may trash this Character: Play up to 1 {Dressrosa} type Character card other than [Scarlet] with a cost of 3 or less from your hand rested. Then, give up to 1 of your opponent's Characters Cost -2 during this turn.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB01-042",
+  "printedText": "[Activate: Main] You may trash this Character: Play up to 1 {Dressrosa}-type Character card other than [Scarlet] with a cost of 3 or less from your hand rested. Then, give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "types": [
+    "Dressrosa"
+  ],
+  "cardNumber": "042",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash this Character: Play up to 1 {Dressrosa} type Character card other than [Scarlet] with a cost of 3 or less from your hand rested. Then, give up to 1 of your opponent's Characters Cost -2 during this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand", "opponent:Character"],
-        "conditions": ["characterTypeDressrosa", "characterCost<=3", "notScarlet"]
-      }
+      "cost": {
+        "type": "trashThis"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "enterRested": true,
+          "type": "playCard",
+          "payCost": true,
+          "sourceZone": "hand",
+          "may": true,
+          "target": {
+            "filters": [
+              {
+                "value": "Dressrosa",
+                "field": "types",
+                "op": "="
+              },
+              {
+                "value": "Scarlet",
+                "field": "name",
+                "op": "!="
+              },
+              {
+                "value": 3,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        },
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "amount": -2000,
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Scarlet",
+  "rarity": "R",
+  "cost": 2,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "dressrosa"
+  ]
 }

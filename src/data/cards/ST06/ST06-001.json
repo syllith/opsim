@@ -1,32 +1,61 @@
 {
-  "id": "ST06-001",
-  "set": "ST06",
-  "number": 1,
-  "name": "Sakazuki",
-  "category": "Leader",
-  "colors": ["Black"],
-  "attribute": "Special",
+  "cardName": "Sakazuki",
+  "cardId": "ST06-001",
+  "cardType": "leader",
+  "colors": ["black"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "attributes": ["special"],
   "types": ["Navy"],
-  "rarity": null,
-  "art": "/cards/ST06/ST06-001.png",
-  "stats": { "cost": null, "power": 5000, "life": 5, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "Activate: Main — Once Per Turn — 3 (You may rest the specified number of DON!! cards in your Cost Area): You may trash 1 card from your hand: K.O. up to 1 of your opponent's Characters with a cost of 0.",
+  "traits": ["navy"],
+  "rarity": "L",
+  "setId": "ST06",
+  "cardNumber": "001",
+  "printedText": "[Activate: Main] [Once Per Turn] 3 (You may rest the specified number of DON!! cards in your Cost Area): You may trash 1 card from your hand: K.O. up to 1 of your opponent's Characters with a cost of 0.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 3 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: K.O. up to 1 of your opponent's Characters with a cost of 0.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["targetCost=0", "trashFromHand:1"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 3
+          },
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          }
+        ]
+      },
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

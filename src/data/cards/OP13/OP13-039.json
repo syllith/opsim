@@ -1,50 +1,58 @@
 {
-  "id": "OP13-039",
-  "set": "OP13",
-  "number": 39,
-  "name": "Gum-Gum Snake Shot",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Fish-Man Island",
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Gum-Gum Snake Shot",
+  "cardId": "OP13-039",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 0,
+  "types": ["Fish-Man Island", "Supernovas", "Straw Hat Crew"],
+  "traits": ["fishManIsland", "supernovas", "strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-039.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "039",
+  "printedText": "[Counter] K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.\n[Trigger] Activate this card's [Counter] effect.",
   "keywords": [],
-  "trigger": {
-    "text": "Activate this card's #Counter effect."
-  },
-  "text": "Counter K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "upToOneOppRestedCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "upToOneOppRestedCost4OrLess"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "counter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

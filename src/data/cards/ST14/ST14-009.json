@@ -1,36 +1,68 @@
 {
-  "id": "ST14-009",
-  "set": "ST14",
-  "number": 9,
-  "name": "Franky",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Special",
+  "cardName": "Franky",
+  "cardId": "ST14-009",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/ST14/ST14-009.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["DON!! x1", "Opponent's Turn", "Counter"],
-  "trigger": null,
-  "text": "DON!! x1 Opponent's Turn: If you have a 6 cost or above character on your field, this character cannot be KO-ed by your opponent's effect and Gain +2000 power.",
+  "setId": "ST14",
+  "cardNumber": "009",
+  "printedText": "DON!! x1 [Opponent's Turn] If you have a 6 cost or greater character on your field, this character cannot be KO'd by your opponent's effect and gains +2000 Power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have a 6 cost or above character on your field, this character cannot be KO-ed by your opponent's effect and Gain +2000 power.",
-        "powerMod": { "amount": 2000, "duration": "this turn" },
-        "targets": ["self"],
-        "conditions": ["hasAllyCharacter>=6"]
-      }
+      "timing": "duringOpponentsTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCountThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCount",
+            "selector": "highCostCharacters",
+            "op": ">=",
+            "value": 1
+          }
+        ]
+      },
+      "selectors": {
+        "highCostCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 6
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "preventKO",
+          "target": "thisCard",
+          "sourceSide": "opponent",
+          "cause": "effect"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "thisCard"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

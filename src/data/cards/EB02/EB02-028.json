@@ -1,37 +1,97 @@
 {
-  "id": "EB02-028",
-  "set": "EB02",
-  "number": 28,
-  "name": "Portgas.D.Ace",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Whitebeard Pirates", "Alabasta"],
-  "rarity": "SR",
-  "art": "/cards/EB02/EB02-028.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If your leader's types include {Whitebeard Pirates}, look at the top 5 cards of your deck, reveal up to one cost 2 character and put it into your hand. Then, place the rest on the bottom of your deck in any order and play up to one cost 2 character from your hand as rested.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB02-028",
+  "printedText": "On Play If your leader's types include {Whitebeard Pirates}, look at the top 5 cards of your deck, reveal up to one cost 2 character and put it into your hand. Then, place the rest on the bottom of your deck in any order and play up to one cost 2 character from your hand as rested.",
+  "types": [
+    "Whitebeard Pirates",
+    "Alabasta"
+  ],
+  "cardNumber": "028",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your leader's types include {Whitebeard Pirates}, look at the top 5 cards of your deck, reveal up to one cost 2 character and put it into your hand. Then, place the rest on the bottom of your deck in any order and play up to one cost 2 character from your hand as rested.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "hand:Character:cost=2"],
-        "conditions": ["leaderHasWhitebeardPirates"]
-      }
+      "condition": {
+        "value": "Whitebeard Pirates",
+        "field": "selfLeaderHasType",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "selector": {
+            "filters": [
+              {
+                "value": "character",
+                "field": "cardType",
+                "op": "="
+              },
+              {
+                "value": 2,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "min": 0,
+            "max": 1,
+            "type": "any",
+            "side": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 5,
+          "addTo": "hand",
+          "reveal": true,
+          "sourceZone": "deck",
+          "type": "search",
+          "remainingOrdering": "chosen"
+        },
+        {
+          "enterRested": true,
+          "type": "playCard",
+          "payCost": true,
+          "sourceZone": "hand",
+          "may": true,
+          "target": {
+            "filters": [
+              {
+                "value": "character",
+                "field": "cardType",
+                "op": "="
+              },
+              {
+                "value": 2,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Portgas.D.Ace",
+  "rarity": "R",
+  "cost": 5,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "whitebeardPirates",
+    "alabasta"
+  ]
 }

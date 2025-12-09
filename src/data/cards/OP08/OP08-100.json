@@ -1,50 +1,56 @@
 {
-  "id": "OP08-100",
-  "set": "OP08",
-  "number": 100,
-  "name": "South Bird",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Animals",
-    "Jaya",
-    "Sky Island"
-  ],
+  "cardName": "South Bird",
+  "cardId": "OP08-100",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Animals", "Jaya", "Sky Island"],
+  "traits": ["animals", "jaya", "skyIsland"],
   "rarity": "UC",
-  "art": "/cards/OP08/OP08-100.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 7 cards of your deck and play up to one [Upper Yard] from among them. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "setId": "OP08",
+  "cardNumber": "100",
+  "printedText": "[On Play] Look at the top 7 cards of your deck and play up to 1 [Upper Yard] from among them. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "upperYardFromTop7": {
+          "side": "self",
+          "type": "stage",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Upper Yard"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "upperYardFromTop7"
+        }
       },
-      "effect": {
-        "text": "Look at the top 7 cards of your deck and play up to one [Upper Yard] from among them. Then, place the rest of the cards on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "upperYardFromTop7",
+          "reveal": false,
+          "addTo": "stage",
+          "ordering": "any",
+          "topCount": 7,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "asPlay": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a 'U' and 'C' in the rarity box, indicating UC rarity. Power value is clearly printed as 2000."
-  }
+  ]
 }

@@ -1,37 +1,59 @@
 {
-  "id": "EB03-022",
-  "set": "EB03",
-  "number": 22,
-  "name": "Isuka",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Navy"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-022.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Place up to 1 Character with a cost of 4 or less at the bottom of the owner's deck.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB03-022",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Place up to 1 Character with a cost of 4 or less at the bottom of the owner's deck.",
+  "cardNumber": "022",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Place up to 1 Character with a cost of 4 or less at the bottom of the owner's deck.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:Character:cost<=4"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "destination": "bottomOfDeck",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 4,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "both",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "R",
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Isuka",
+  "types": [
+    "Navy"
+  ],
+  "cost": 6,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

@@ -1,35 +1,65 @@
 {
-  "id": "OP03-005",
-  "set": "OP03",
-  "number": 5,
-  "name": "Thatch",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
-  "types": ["Whitebeard Pirates"],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-005.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate Main"],
-  "trigger": null,
-  "text": "[Activate: Main] [Once Per Turn] You may trash this Character: Give up to 1 of your Leader or Character cards +2000 power during this turn.",
+  "cardName": "Thatch",
+  "cardId": "OP03-005",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "005",
+  "printedText": "Activate: Main [Once Per Turn] This Character gains +2000 Power during this turn. Then, place this Character in the trash at the end of your turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0, "trashThisCharacter": true },
-      "effect": {
-        "text": "Give up to 1 of your Leader or Character cards +2000 power during this turn.",
-        "powerMod": { "amount": 2000 },
-        "targets": ["yourLeaderOrCharacter"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "thisCardSelector"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "untilStartOfYourNextTurn",
+          "event": "endOfYourTurn",
+          "target": "thisCardSelector",
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "thisCardSelector",
+              "destination": "trash",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

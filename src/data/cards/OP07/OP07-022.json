@@ -1,48 +1,68 @@
 {
-  "id": "OP07-022",
-  "set": "OP07",
-  "number": 22,
-  "name": "Otama",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Land of Wano"
-  ],
+  "cardName": "Otama",
+  "cardId": "OP07-022",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Land of Wano"],
+  "traits": ["landOfWano"],
   "rarity": "R",
-  "art": "/cards/OP07/OP07-022.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck, reveal up to one green (Land of Wano) type card other than [Otama] and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "setId": "OP07",
+  "cardNumber": "022",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 green {Land of Wano} type card other than [Otama] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "searchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "colors",
+                  "op": "=",
+                  "value": "green"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "landOfWano"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Otama"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to one green (Land of Wano) type card other than [Otama] and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

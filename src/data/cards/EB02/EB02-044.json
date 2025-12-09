@@ -1,37 +1,70 @@
 {
-  "id": "EB02-044",
-  "set": "EB02",
-  "number": 44,
-  "name": "Sengoku",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Wisdom",
-  "types": ["Navy"],
-  "rarity": "R",
-  "art": "/cards/EB02/EB02-044.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "[Blocker]\n[On Play] Play up to 1 Black {Navy} type Character card with a cost of 4 or less from your trash as rested.",
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB02-044",
+  "printedText": "Blocker\n[On Play] Play up to 1 Black {Navy} type Character card with a cost of 4 or less from your trash rested.",
+  "types": [
+    "Navy"
+  ],
+  "cardNumber": "044",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 Black {Navy} type Character card with a cost of 4 or less from your trash as rested.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["trash:Character:Black:Navy:cost<=4"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "payCost": true,
+          "sourceZone": "trash",
+          "type": "playCard",
+          "target": {
+            "filters": [
+              {
+                "value": "black",
+                "field": "colors",
+                "op": "="
+              },
+              {
+                "value": "Navy",
+                "field": "types",
+                "op": "="
+              },
+              {
+                "value": 4,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "trash"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "enterRested": true
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Sengoku",
+  "rarity": "SR",
+  "cost": 7,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

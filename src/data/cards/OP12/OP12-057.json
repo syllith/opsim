@@ -1,69 +1,62 @@
 {
-  "id": "OP12-057",
-  "set": "OP12",
-  "number": 57,
-  "name": "Ice Block: Pheasant Peck",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Navy"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP12/OP12-057.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 4000
-    }
-  },
-  "keywords": [
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "You may trash 1 card from your hand: draw 1 card."
-  },
-  "text": "Up to 1 of your Leader or Character cards gets +4000 during this battle. Then, trash 1 card from your hand.",
+  "cardName": "Ice Block: Pheasant Peck",
+  "cardId": "OP12-057",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 1,
+  "types": ["Navy"],
+  "traits": ["navy"],
+  "rarity": "R",
+  "setId": "OP12",
+  "cardNumber": "057",
+  "printedText": "[Counter] Up to 1 of your Leader or Character cards gets +4000 during this battle. Then, trash 1 card from your hand.\n[Trigger] You may trash 1 card from your hand: draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Character cards gets +4000 during this battle. Then, trash 1 card from your hand.",
-        "powerMod": {
-          "amount": 4000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "oneOfYourLeaderOrCharacter"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

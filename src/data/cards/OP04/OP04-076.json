@@ -1,77 +1,77 @@
 {
-  "id": "OP04-076",
-  "set": "OP04",
-  "number": 76,
-  "name": "Weakness is a Sin",
-  "category": "Event",
+  "cardName": "Weakness is a Sin",
+  "cardId": "OP04-076",
+  "cardType": "event",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
-    "The Seven Warlords of the Sea/Baroque Works"
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-076.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "076",
+  "printedText": "[Counter] DON!! -1: Up to one of your Leaders or Characters gains +1000 Power this turn.\n[Trigger] Add up to 1 DON!! card from your DON!! deck and set it as active.",
   "keywords": [
-    "Counter",
-    "Trigger"
+    "counter",
+    "trigger"
   ],
-  "trigger": {
-    "text": "Add up to 1 DON!! card from your DON!! deck and set it as active."
-  },
-  "text": "Counter DON!!-1: Up to one of your leaders or characters gains +1000 Power this turn.\nTrigger: Add up to 1 DON!! card from your DON!! deck and set it as active.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "counter",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "Up to one of your leaders or characters gains +1000 Power this turn.",
-        "powerMod": {
+      "selectors": {
+        "ownLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "buffTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneAllyCharacter"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "ownLeaderOrCharacter"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "deck",
-          "to": [
-            "activeDon"
-          ]
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "target": {
+            "side": "self",
+            "type": "don",
+            "zones": [
+              "costArea"
+            ]
+          },
+          "may": true
         }
-      }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
-  }
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
+  ]
 }

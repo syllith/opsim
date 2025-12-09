@@ -1,81 +1,59 @@
 {
-  "id": "OP04-071",
-  "set": "OP04",
-  "number": 71,
-  "name": "Mr.4(Babe)",
-  "category": "Character",
+  "cardName": "Mr.4 (Babe)",
+  "cardId": "OP04-071",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Baroque Works"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-071.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Blocker",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "Opponent attack DON!!-1: This character gains Blocker and +1000 Power for this battle. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "071",
+  "printedText": "When Opponent Attacks DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): This Character gains Blocker and +1000 Power for this battle. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "onOpponentsAttack",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "This character gains Blocker and +1000 Power for this battle.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this battle"
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
         },
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "afterOpponentDeclaresAttack"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample. The text 'SAMPLE' is overlaid on the image."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

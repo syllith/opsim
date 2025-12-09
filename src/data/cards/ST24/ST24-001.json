@@ -1,37 +1,60 @@
 {
-  "id": "ST24-001",
-  "set": "ST24",
-  "number": 1,
-  "name": "Capone\"Gang\"Bege",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": null,
+  "cardName": "Capone\"Gang\"Bege",
+  "cardId": "ST24-001",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["ranged"],
   "types": ["Supernovas", "Firetank Pirates"],
-  "rarity": "SR",
-  "art": "/cards/ST24/ST24-001.png",
-  "stats": {
-    "cost": 2,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If you have 6 or more rested cards, draw 1 card and trash 1 card from your hand.",
+  "traits": ["supernovas", "firetankPirates"],
+  "rarity": "C",
+  "setId": "ST24",
+  "cardNumber": "001",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If you have 6 or more rested cards, draw 1 card and trash 1 card from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 6 or more rested cards, draw 1 card and trash 1 card from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["restedCards>=6"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "restedCards": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "character", "stage", "costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "restedCards",
+            "op": ">=",
+            "value": 6
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 1,
+              "side": "self"
+            },
+            {
+              "type": "trashFromHand",
+              "minCards": 1,
+              "maxCards": 1,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

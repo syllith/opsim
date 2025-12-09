@@ -1,37 +1,69 @@
 {
-  "id": "EB03-035",
-  "set": "EB03",
-  "number": 35,
-  "name": "Charlotte Pudding",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Wisdom",
-  "types": ["Big Mom Pirates"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-035.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "[Blocker]\n[On Play] If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "power": 4000,
+  "cardType": "character",
+  "cardId": "EB03-035",
+  "printedText": "Blocker\n[On Play] If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "cardNumber": "035",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and rest it.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["donDeck"],
-        "conditions": ["ownDonEqualOrLessThanOpponentDon"]
-      }
+      "condition": {
+        "op": "<=",
+        "field": "selectorCountCompare",
+        "selectorA": {
+          "type": "don",
+          "side": "self",
+          "zones": [
+            "costArea"
+          ]
+        },
+        "selectorB": {
+          "type": "don",
+          "side": "opponent",
+          "zones": [
+            "costArea"
+          ]
+        }
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "may": true,
+          "type": "giveDon",
+          "target": {
+            "zones": [
+              "costArea"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "count": 1
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 2000,
+  "cardName": "Charlotte Pudding",
+  "rarity": "R",
+  "cost": 4,
+  "colors": [
+    "purple"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "bigMomPirates"
+  ]
 }

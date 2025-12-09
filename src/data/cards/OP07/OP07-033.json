@@ -1,47 +1,65 @@
 {
-  "id": "OP07-033",
-  "set": "OP07",
-  "number": 33,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernova",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP07-033",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Supernova", "Straw Hat Crew"],
+  "traits": ["supernova", "strawHatCrew"],
   "rarity": "UC",
-  "art": "/cards/OP07/OP07-033.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP07",
+  "cardNumber": "033",
+  "printedText": "If you have 3 or more Characters, your cost 3 or lower Characters other than [Monkey D. Luffy] cannot be KO'd by your opponent's effects.",
   "keywords": [],
-  "trigger": null,
-  "text": "If you have 3 or more characters, your cost 3 or lower characters other than \"Monkey D. Luffy\" cannot be KO'd by your opponent's effects.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "selfCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "whoChooses": "system"
+        },
+        "protectedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 3
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Monkey D. Luffy"
+                }
+              ]
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If you have 3 or more characters, your cost 3 or lower characters other than \"Monkey D. Luffy\" cannot be KO'd by your opponent's effects.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "preventKO",
+          "target": "protectedCharacters",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "selfCharacters",
+            "op": ">=",
+            "value": 3
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

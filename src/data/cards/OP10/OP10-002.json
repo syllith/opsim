@@ -1,48 +1,82 @@
 {
-  "id": "OP10-002",
-  "set": "OP10",
-  "number": 2,
-  "name": "Caesar Clown",
-  "category": "Leader",
-  "colors": [
-    "Red",
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Scientist",
-    "Punk Hazard"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP10/OP10-002.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Caesar Clown",
+  "cardId": "OP10-002",
+  "cardType": "leader",
+  "colors": ["blue", "purple"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": ["Scientist", "Punk Hazard"],
+  "traits": ["scientist", "punkHazard"],
+  "rarity": "L",
+  "setId": "OP10",
+  "cardNumber": "002",
+  "printedText": "[DON!! x2] [When Attacking] You may return 1 of your \"Punk Hazard\" type Characters with a cost of 2 or more to the owner's hand: K.O. up to 1 of your opponent's Characters with 4000 power or less.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x2 When Attacking: You may return 1 of your (Punk Hazard) type Characters with a cost of 2 or more to the owner's hand. K.O. up to 1 of your opponent's Characters with 4000 power or less.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "donAttachedCount",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "You may return 1 of your (Punk Hazard) type Characters with a cost of 2 or more to the owner's hand. K.O. up to 1 of your opponent's Characters with 4000 power or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "moveFromField",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "punkHazard"
+                },
+                {
+                  "field": "cost",
+                  "op": ">=",
+                  "value": 2
+                }
+              ]
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "destination": "hand",
+        "may": true
+      },
+      "selectors": {
+        "opponentCharacter4000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacter4000OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

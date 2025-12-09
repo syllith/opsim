@@ -1,50 +1,37 @@
 {
-  "id": "OP13-030",
-  "set": "OP13",
-  "number": 30,
-  "name": "Tony Tony.Chopper",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "FILM",
-    "Animal",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Tony Tony.Chopper",
+  "cardId": "OP13-030",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["FILM", "Animal", "Straw Hat Crew"],
+  "traits": ["film", "animal", "strawHatCrew"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-030.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Set up to 2 of your DON!! cards as active.",
+  "setId": "OP13",
+  "cardNumber": "030",
+  "printedText": "[On Play] Set up to 2 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Set up to 2 of your DON!! cards as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "don",
+            "zones": ["costArea"],
+            "min": 0,
+            "max": 2,
+            "upTo": true,
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

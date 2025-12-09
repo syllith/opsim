@@ -1,59 +1,83 @@
 {
-  "id": "OP09-022",
-  "set": "OP09",
-  "number": 22,
-  "name": "Lim",
-  "category": "Leader",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "ODYSSEY"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP09/OP09-022.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Lim",
+  "cardId": "OP09-022",
+  "cardType": "leader",
+  "colors": ["green", "purple"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "attributes": ["wisdom"],
+  "types": ["ODYSSEY"],
+  "traits": ["odyssey"],
+  "rarity": "L",
+  "setId": "OP09",
+  "cardNumber": "022",
+  "printedText": "Your Character cards are played rested.\n[Activate: Main] [Once Per Turn] You may rest 3 of your DON!! cards: Add up to 1 DON!! card from your DON!! deck and rest it, and play up to 1 {ODYSSEY} type Character card with a cost of 5 or less from your hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "Your characters enter play as rested.\nActivate: Main Once Per Turn You may rest 3 of your Don!!: Set up to one Don!! from your Don!! deck as rested. Then, play a cost 5 or lower (Odyssey) type character from your hand.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Your characters enter play as rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "selfCharacterEntersPlay",
+          "target": "selfCharactersEnteringPlay",
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": "selfCharactersEnteringPlay"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 3
+        "type": "restDonFromCostArea",
+        "count": 3,
+        "may": true
       },
-      "effect": {
-        "text": "Set up to one Don!! from your Don!! deck as rested. Then, play a cost 5 or lower (Odyssey) type character from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "odysseyCharFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "odyssey"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "target": "selfCostArea"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "odysseyCharFromHand",
+          "payCost": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

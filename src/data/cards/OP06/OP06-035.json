@@ -1,50 +1,68 @@
 {
-  "id": "OP06-035",
-  "set": "OP06",
-  "number": 35,
-  "name": "Hody Jones",
-  "category": "Character",
+  "cardName": "Hody Jones",
+  "cardId": "OP06-035",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 7,
+  "power": 8000,
+  "counter": 0,
   "types": [
-    "Fishman",
-    "New Fishman Pirates"
+    "Fish-Man",
+    "New Fish-Man Pirates"
   ],
   "rarity": "SR",
-  "art": "/cards/OP06/OP06-035.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP06",
+  "cardNumber": "035",
+  "printedText": "[Rush] (This card can attack on the turn in which it is played.)\n[On Play] Rest up to a total of 2 of your opponent's Characters and/or DON!! cards. Then, add the top card of your Life cards to your hand.",
   "keywords": [
-    "Rush",
-    "On Play"
+    "Rush"
   ],
-  "trigger": null,
-  "text": "Rush (This card can attack on the turn in which it is played!) On Play: Rest up to a total of 2 of your opponents characters and/or don. Then, put the top of your life cards into your hand.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "restTargets": {
+          "side": "opponent",
+          "type": "any",
+          "zones": [
+            "character",
+            "costArea"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to a total of 2 of your opponents characters and/or don. Then, put the top of your life cards into your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTargets"
+        },
+        {
+          "type": "moveCard",
+          "destination": "hand",
+          "target": "selfTopLifeCard"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "fishMan",
+    "newFishManPirates"
+  ]
 }

@@ -1,54 +1,57 @@
 {
-  "id": "OP10-114",
-  "set": "OP10",
-  "number": 114,
-  "name": "X.Drake",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Supernovas",
-    "Navy",
-    "Drake Pirates"
-  ],
+  "cardName": "X.Drake",
+  "cardId": "OP10-114",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Supernovas", "Navy", "Drake Pirates"],
+  "traits": ["supernovas", "navy", "drakePirates"],
   "rarity": "UC",
-  "art": "/cards/OP10/OP10-114.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this character: If the number of your life cards is less than or equal to the number of your opponent's life cards, rest up to one of your opponent's characters with a cost of 4 or less.",
+  "setId": "OP10",
+  "cardNumber": "114",
+  "printedText": "[Activate: Main] You may rest this Character: If the number of your Life cards is less than or equal to the number of your opponent's Life cards, rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this character: If the number of your life cards is less than or equal to the number of your opponent's life cards, rest up to one of your opponent's characters with a cost of 4 or less.",
-        "powerMod": null,
-        "conditions": [
-          "self",
-          "oneOpponentCharacter<=cost4"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selfLifeCount",
+        "op": "<=",
+        "fieldRef": "opponentLifeCount"
+      },
+      "selectors": {
+        "oppCost4OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppCost4OrLessChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCost4OrLessChar"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

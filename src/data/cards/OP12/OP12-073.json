@@ -1,50 +1,87 @@
 {
-  "id": "OP12-073",
-  "set": "OP12",
-  "number": 73,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Heart Pirates",
-    "Supernovas",
-    "Dressrosa"
-  ],
+  "cardName": "Trafalgar Law",
+  "cardId": "OP12-073",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 7,
+  "power": 8000,
+  "attributes": ["slash"],
+  "types": ["Heart Pirates", "Supernovas", "Dressrosa"],
+  "traits": ["heartPirates", "supernovas", "dressrosa"],
   "rarity": "SR",
-  "art": "/cards/OP12/OP12-073.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as active. Then, your [Donquixote Rosinante] and your [Heart Pirates] type Characters get +1000 power until the end of your opponent's next turn.",
+  "setId": "OP12",
+  "cardNumber": "073",
+  "printedText": "[On Play] If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as active. Then, all of your [Donquixote Rosinante] and \"Heart Pirates\" type Characters gain +1000 power until the end of your opponent's next End Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "selfDonOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "opponentDonOnField": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "donquixoteRosinante": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Donquixote Rosinante"
+            }
+          ]
+        },
+        "heartPiratesCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "heartPirates"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as active. Then, your [Donquixote Rosinante] and your [Heart Pirates] type Characters get +1000 power until the end of your opponent's next turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCountDifference",
+        "selectorA": "selfDonOnField",
+        "selectorB": "opponentDonOnField",
+        "op": "<=",
+        "value": 0
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "may": true
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "donquixoteRosinante"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "heartPiratesCharacters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

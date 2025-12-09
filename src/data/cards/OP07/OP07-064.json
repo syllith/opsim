@@ -1,61 +1,76 @@
 {
-  "id": "OP07-064",
-  "set": "OP07",
-  "number": 64,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
+  "cardName": "Sanji",
+  "cardId": "OP07-064",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 6000,
+  "counter": 2000,
+  "attributes": ["strike"],
   "types": [
     "Straw Hat Crew"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-064.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Blocker"
+  "traits": [
+    "strawHatCrew"
   ],
-  "trigger": null,
-  "text": "While you have 2 or more fewer dan!! cards than your opponent, in your hand this card costs 3 less. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "rarity": "SR",
+  "setId": "OP07",
+  "cardNumber": "064",
+  "printedText": "While you have 2 or more fewer DON!! cards than your opponent, this card costs 3 less in your hand. [Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "selfDonInCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "opponentDonInCostArea": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "thisCardInHand": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["hand"]
+        }
       },
-      "effect": {
-        "text": "While you have 2 or more fewer dan!! cards than your opponent, in your hand this card costs 3 less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCountDifference",
+        "selectorA": "opponentDonInCostArea",
+        "selectorB": "selfDonInCostArea",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -3,
+          "duration": "permanent",
+          "target": "thisCardInHand"
+        }
+      ]
     },
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

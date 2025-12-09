@@ -1,65 +1,61 @@
 {
-  "id": "OP05-066",
-  "set": "OP05",
-  "number": 66,
-  "name": "Jinbe",
-  "category": "Character",
+  "cardName": "Jinbe",
+  "cardId": "OP05-066",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Straw Hat Crew"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-066.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "066",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Opponent's Turn] If your board has 10 DON!!, this Character has power +1000.",
   "keywords": [
-    "Blocker",
-    "Opponent's Turn"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOpponent's Turn: If your board has 10 DON!!, This character has power +1000.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "frequency": "none",
+      "condition": {
+        "field": "donCountField",
+        "op": ">=",
+        "value": 10
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": 10,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCardSelector"
+        }
       },
-      "effect": {
-        "text": "If your board has 10 DON!!, This character has power +1000.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "thisCardSelector"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

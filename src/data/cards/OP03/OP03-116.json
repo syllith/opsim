@@ -1,64 +1,61 @@
 {
-  "id": "OP03-116",
-  "set": "OP03",
-  "number": 116,
-  "name": "Shirahoshi",
-  "category": "Character",
+  "cardName": "Shirahoshi",
+  "cardId": "OP03-116",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 5,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "Mermaid"
   ],
   "rarity": "UC",
-  "art": "/cards/OP03/OP03-116.png",
-  "stats": {
-    "cost": 5,
-    "power": 1000,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "116",
+  "printedText": "On Play Draw 3 cards and trash 2 cards from your hand.\nTrigger Play this card.",
   "keywords": [
     "On Play",
     "Trigger"
   ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "[On Play] Draw 3 cards and trash 2 cards from your hand.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 3 cards and trash 2 cards from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 3
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample image, indicated by the 'SAMPLE' watermark. The rarity is inferred from the 'UC' symbol in the bottom right corner."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "mermaid"
+  ]
 }

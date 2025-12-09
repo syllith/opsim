@@ -1,48 +1,62 @@
 {
-  "id": "P-052",
-  "set": "P",
-  "number": 52,
-  "name": "Dracule Mihawk",
-  "category": "Character",
+  "cardName": "Dracule Mihawk",
+  "cardId": "P-052",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Seven Warlords of the Sea"
   ],
-  "rarity": "R",
-  "art": "/cards/P/P-052.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! X1"
+  "traits": [
+    "theSevenWarlordsOfTheSea"
   ],
-  "trigger": null,
-  "text": "DON!! X1 This Character cannot be K.O'd in battle by <Slash> attribute Characters.",
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-052",
+  "printedText": "[DON!! x1] This Character cannot be K.O.'d in battle by [Slash] attribute Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This Character cannot be K.O'd in battle by <Slash> attribute Characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "selfWouldBeKOdInBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "isGivenDon",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "battleOpponent",
+                "attribute": "slash",
+                "op": "=",
+                "value": true
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, but ID and stats are read from printed text."
-  }
+  ]
 }

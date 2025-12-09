@@ -1,40 +1,47 @@
 {
-  "id": "ST26-004",
-  "set": "ST26",
-  "number": 4,
-  "name": "General Franky",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": null,
+  "cardName": "General Franky",
+  "cardId": "ST26-004",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 8,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["ranged"],
   "types": ["Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/ST26/ST26-004.png",
-  "stats": {
-    "cost": 8,
-    "power": 10000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Give up to 2 of your opponent's Characters −2000 power during this turn.",
+  "traits": ["strawHatCrew"],
+  "rarity": "R",
+  "setId": "ST26",
+  "cardNumber": "004",
+  "printedText": "[On Play] DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Give up to 2 of your opponent's Characters -2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Give up to 2 of your opponent's Characters −2000 power during this turn.",
-        "grants": [],
-        "powerMod": {
+      "timing": "onPlay",
+      "cost": {
+        "type": "donMinus",
+        "count": 2
+      },
+      "selectors": {
+        "opponentCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": -2000,
-          "duration": "duringThisTurn"
-        },
-        "targets": ["opponent:Character"],
-        "conditions": []
-      }
+          "duration": "thisTurn",
+          "target": "opponentCharacters"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

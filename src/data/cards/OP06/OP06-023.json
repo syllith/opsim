@@ -1,66 +1,100 @@
 {
-  "id": "OP06-023",
-  "set": "OP06",
-  "number": 23,
-  "name": "Arlong",
-  "category": "Character",
+  "cardName": "Arlong",
+  "cardId": "OP06-023",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
   "types": [
-    "Fishman",
+    "Fish-Man",
     "East Blue",
     "Arlong Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP06/OP06-023.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Rest up to 1 of your opponent's cost 4 or lower characters."
-  },
-  "text": "On Play: You may discard 1 card from your hand: up to 1 of your opponent's rested leaders may not attack until the end of their next turn. Trigger: Rest up to 1 of your opponent's cost 4 or lower characters.",
+  "setId": "OP06",
+  "cardNumber": "023",
+  "printedText": "[On Play] You may discard 1 card from your hand: up to 1 of your opponent's rested Leaders may not attack until the end of their next turn.\n[Trigger] Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard 1 card from your hand: up to 1 of your opponent's rested leaders may not attack until the end of their next turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "restedOppLeader": {
+          "side": "opponent",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "target": "restedOppLeader",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "restrictionKind": "attack"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "triggerRestTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's cost 4 or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "triggerRestTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "fishMan",
+    "eastBlue",
+    "arlongPirates"
+  ]
 }

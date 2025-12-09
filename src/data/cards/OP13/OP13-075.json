@@ -1,72 +1,93 @@
 {
-  "id": "OP13-075",
-  "set": "OP13",
-  "number": 75,
-  "name": "Guess We'll Have Another Scrap, You Can Only Risk Death While You're Still Alive!!!",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Pirate King/Roger Pirates"
-  ],
+  "cardName": "Guess We'll Have Another Scrap. You Can Only Risk Death While You're Still Alive!!!",
+  "cardId": "OP13-075",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 1,
+  "types": ["Pirate King", "Roger Pirates"],
+  "traits": ["pirateKing", "rogerPirates"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-075.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main You may rest 1 of your DON!! cards: If your Leader is [Gol.D.Roger] and you have any given DON!! cards, add up to 1 DON!! cards from your DON!! deck and rest it. \nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "setId": "OP13",
+  "cardNumber": "075",
+  "printedText": "[Main] You may rest 1 of your DON!! cards: If your Leader is [Gol.D.Roger] and you have any given DON!! cards, add up to 1 DON!! card from your DON!! deck and rest it.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "If your Leader is [Gol.D.Roger] and you have any given DON!! cards, add up to 1 DON!! cards from your DON!! deck and rest it.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Gol.D.Roger]",
-          "youHaveAnyGivenDON!!Cards"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "golRogerLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Gol.D.Roger"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "givenDonOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
+      },
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": "golRogerLeader",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCount",
+            "selector": "givenDonOnField",
+            "op": ">=",
+            "value": 1
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDonDeckCard",
+          "destination": "costArea",
+          "enterRested": true
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "upTo1OfYourLeader"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "selfLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

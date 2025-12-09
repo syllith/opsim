@@ -1,37 +1,76 @@
 {
-  "id": "ST10-001",
-  "set": "ST10",
-  "number": 1,
-  "name": "Trafalgar Law",
-  "category": "Leader",
-  "colors": ["Red"],
-  "attribute": "Slash",
+  "cardName": "Trafalgar Law",
+  "cardId": "ST10-001",
+  "cardType": "leader",
+  "colors": ["red"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "attributes": ["slash"],
   "types": ["Heart Pirates"],
-  "rarity": null,
-  "art": "/cards/ST10/ST10-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn", "DON!! -3"],
-  "trigger": null,
-  "text": "Activate: Main — Once Per Turn — DON!! -3: Return 1 of your opponent's Characters with 3000 Power or less to the bottom of their deck. Then, play up to 1 Character with a cost of 4 or less from your hand.",
+  "traits": ["heartPirates"],
+  "rarity": "starter",
+  "setId": "ST10",
+  "cardNumber": "001",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!! -3 Return one of your opponent's Characters with 3000 Power or less to the bottom of their deck. Then, play 1 cost 4 or lower Character card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 3,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Return 1 of your opponent's Characters with 3000 Power or less to the bottom of their deck. Then, play up to 1 cost 4 or less Character from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter", "hand"],
-        "conditions": ["donAttached", "opponentCharacterPower<=3000"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "donMinus",
+        "count": 3,
+        "may": true
+      },
+      "selectors": {
+        "oppPower3000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ]
+        },
+        "hand4CostOrLessChar": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppPower3000OrLess",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "hand4CostOrLessChar",
+          "payCost": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,48 +1,64 @@
 {
-  "id": "OP06-099",
-  "set": "OP06",
-  "number": 99,
-  "name": "Aisa",
-  "category": "Character",
+  "cardName": "Aisa",
+  "cardId": "OP06-099",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 0,
+  "life": 0,
+  "counter": 2000,
+  "attributes": [
+    "wisdom"
+  ],
   "types": [
     "Sky Island"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-099.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "skyIsland"
   ],
-  "trigger": null,
-  "text": "On Play: Look at up to 1 card from the top of your or your opponent's Life cards, and place it at the top or bottom of the Life Cards.",
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "099",
+  "printedText": "On Play Look at up to 1 card from the top of your or your opponent's Life cards, and place it at the top or bottom of the Life Cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at up to 1 card from the top of your or your opponent's Life cards, and place it at the top or bottom of the Life Cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "self",
+                  "all": false,
+                  "ordering": "chosen"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "opponent",
+                  "all": false,
+                  "ordering": "chosen"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample; no additional notes needed."
-  }
+  ]
 }

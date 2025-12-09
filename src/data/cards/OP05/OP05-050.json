@@ -1,48 +1,42 @@
 {
-  "id": "OP05-050",
-  "set": "OP05",
-  "number": 50,
-  "name": "Hina",
-  "category": "Character",
+  "cardName": "Hina",
+  "cardId": "OP05-050",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Navy"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-050.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your hand has 5 or less cards in it draw 1 card.",
+  "rarity": "R",
+  "setId": "OP05",
+  "cardNumber": "050",
+  "printedText": "[On Play] If you have 5 or fewer cards in your hand, draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "handCount",
+        "op": "<=",
+        "value": 5
       },
-      "effect": {
-        "text": "If your hand has 5 or less cards in it draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

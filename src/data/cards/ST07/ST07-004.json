@@ -1,37 +1,51 @@
 {
-  "id": "ST07-004",
-  "set": "ST07",
-  "number": 4,
-  "name": "Charlotte Snack",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
+  "cardName": "Charlotte Snack",
+  "cardId": "ST07-004",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Big Mom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST07/ST07-004.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-     "counter": null
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "DON!! x1 — When Attacking: You may add the top or bottom card of your Life area to your hand: This Character gains Banish and +1000 Power during this battle.",
+  "traits": ["bigMomPirates"],
+  "rarity": "R",
+  "setId": "ST07",
+  "cardNumber": "004",
+  "printedText": "[DON!! x1] [When Attacking] You may add the top or bottom card of your Life area to your hand: This Character gains Banish and +1000 power during this battle.\n(When a Character deals damage, the target card is trashed without activating its Trigger.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may add the top or bottom card of your Life area to your hand: This Character gains Banish and +1000 Power during this battle.",
-        "grants": ["banish","power+1000"],
-        "powerMod": 1000,
-        "targets": ["self","lifeArea"],
-        "conditions": ["chooseTopOrBottom","duration:battle"]
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopOrBottomLifeCard",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisBattle",
+          "target": "selfThisCard"
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Banish",
+          "duration": "thisBattle",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": "Banish note: when a character deals damage, the target card is trashed without activating its Trigger." }
+  ]
 }

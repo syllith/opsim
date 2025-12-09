@@ -1,55 +1,54 @@
 {
-  "id": "OP04-098",
-  "set": "OP04",
-  "number": 98,
-  "name": "Toko",
-  "category": "Character",
+  "cardName": "Toko",
+  "cardId": "OP04-098",
+  "cardType": "character",
   "colors": [
-    "Wisdom"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "Wano Country"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-098.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "098",
+  "printedText": "[On Play] You may trash 2 cards with the {Wano Country} type from your hand: If your Life is 1 or less, add 1 card from the top of your deck to the top of your Life.",
   "keywords": [
-    "On Play"
+    "onPlay"
   ],
-  "trigger": null,
-  "text": "On Play You may trash 2 cards with the {Wano Country} type from your hand. If your life is 1 or less, add 1 card from the top of your deck to the top of your life.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "filters": [
+          "Wano Country"
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 2 cards with the {Wano Country} type from your hand. If your life is 1 or less, add 1 card from the top of your deck to the top of your life.",
-        "powerMod": null,
-        "targets": [
-          "2 cards with the {Wano Country} type from your hand",
-          "1 card from the top of your deck"
-        ],
-        "conditions": [
-          "your life is 1 or less"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "life",
+          "may": false,
+          "condition": {
+            "field": "self.life",
+            "op": "<=",
+            "value": 1
+          },
+          "target": "selfTopDeckCard"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "wanoCountry"
+  ]
 }

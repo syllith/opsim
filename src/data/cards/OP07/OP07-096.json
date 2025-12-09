@@ -1,64 +1,92 @@
 {
-  "id": "OP07-096",
-  "set": "OP07",
-  "number": 96,
-  "name": "Tempest Kick",
-  "category": "Event",
+  "cardName": "Tempest Kick",
+  "cardId": "OP07-096",
+  "cardType": "event",
   "colors": [
-    "Black"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
-    "Event"
+    "CP9"
   ],
-  "rarity": "C",
-  "art": "/cards/OP07/OP07-096.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "cp9"
   ],
-  "trigger": {
-    "text": "KO up to one of your opponents 3 cost or lower characters."
-  },
-  "text": "Main Draw one card. After this, if your trash has 10 or more cards, give up to one of your opponents characters -3 cost for the turn.",
+  "rarity": "R",
+  "setId": "OP07",
+  "cardNumber": "096",
+  "printedText": "[Main] Draw 1 card. After this, if your trash has 10 or more cards, give up to 1 of your opponent's Characters -3 cost for the turn.\n[Trigger] K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Draw one card. After this, if your trash has 10 or more cards, give up to one of your opponents characters -3 cost for the turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "side": "self",
+          "count": 1
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfTrashCount",
+            "op": ">=",
+            "value": 10
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "cost",
+              "mode": "add",
+              "amount": -3,
+              "duration": "thisTurn",
+              "target": "opponentCharacter"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponentCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "KO up to one of your opponents 3 cost or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCost3OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

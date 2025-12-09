@@ -1,49 +1,98 @@
 {
-  "id": "OP10-056",
-  "set": "OP10",
-  "number": 56,
-  "name": "Mansherry",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Tontatta",
-    "Dressrosa"
-  ],
-  "rarity": "US",
-  "art": "/cards/OP10/OP10-056.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may rest one of your {Dressrosa} type leaders or stage cards, and return one of your cost 4 or greater {Dressrosa} type characters to your hand: Return up to one of your opponent's cost 4 or lower characters to its owner's hand.",
+  "cardName": "Mansherry",
+  "cardId": "OP10-056",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Tontatta", "Dressrosa"],
+  "traits": ["tontatta", "dressrosa"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "056",
+  "printedText": "[On Play] You may rest one of your {Dressrosa} type Leaders or Stage cards, and return one of your cost 4 or greater {Dressrosa} type Characters to your hand: Return up to 1 of your opponent's cost 4 or lower Characters to its owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restFromField",
+            "selector": "dressrosaLeaderOrStageToRest"
+          },
+          {
+            "type": "moveFromField",
+            "selector": "dressrosaBigCharacterToReturn",
+            "destination": "hand"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may rest one of your {Dressrosa} type leaders or stage cards, and return one of your cost 4 or greater {Dressrosa} type characters to your hand: Return up to one of your opponent's cost 4 or lower characters to its owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "dressrosaLeaderOrStageToRest": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "stage"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "dressrosa"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "dressrosaBigCharacterToReturn": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "dressrosa"
+            },
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 4
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "opponentCost4OrLowerCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentCost4OrLowerCharacter",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Rarity is 'US' as printed in the bottom right corner. The card has a Counter +1000 icon. The text is split into two parts: the first part is the 'On Play' effect, and the second part is the 'Return up to one...' effect. The latter is a conditional effect based on the first action."
-  }
+  ]
 }

@@ -1,48 +1,60 @@
 {
-  "id": "OP14-067",
-  "set": "OP14",
-  "number": 67,
-  "name": "Dellinger",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Donquixote Pirates"
-  ],
+  "cardName": "Dellinger",
+  "cardId": "OP14-067",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
   "rarity": "UC",
-  "art": "/cards/OP14/OP14-067.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. Add up to 1 DON!! card from your DON!! deck and rest it. Then, look at 5 cards from the top of your deck; reveal up to 1 {Donquixote Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP14",
+  "cardNumber": "067",
+  "printedText": "[On K.O.] Add up to 1 DON!! card from your DON!! deck and rest it. Then, look at 5 cards from the top of your deck; reveal up to 1 {Donquixote Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "selfDeckTopDonquixoteCard": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "donquixotePirates"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Add up to 1 DON!! card from your DON!! deck and rest it. Then, look at 5 cards from the top of your deck; reveal up to 1 {Donquixote Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "enterRested": true,
+          "may": true
+        },
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "selfDeckTopDonquixoteCard",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,37 +1,54 @@
 {
-  "id": "ST10-004",
-  "set": "ST10",
-  "number": 4,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Sanji",
+  "cardId": "ST10-004",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 6,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST10/ST10-004.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "Rush"],
-  "trigger": null,
-  "text": "On Play: If your opponent has a Character with 5000 Power or more, this Character gains Rush during this turn.",
+  "traits": ["strawHatCrew"],
+  "rarity": "C",
+  "setId": "ST10",
+  "cardNumber": "004",
+  "printedText": "[On Play] If your opponent has a Character with 5000 Power or more, this Character gains Rush during this turn. (This card can attack on the turn in which it is played.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your opponent has a Character with 5000 Power or more, this gains Rush during this turn.",
-        "grants": ["Rush"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentCharacterPower>=5000"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "oppChar5000OrMore": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": ">=",
+              "value": 5000
+            }
+          ]
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "oppChar5000OrMore",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": "Rush reminder text present on card." }
+  ]
 }

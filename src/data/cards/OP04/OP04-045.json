@@ -1,48 +1,37 @@
 {
-  "id": "OP04-045",
-  "set": "OP04",
-  "number": 45,
-  "name": "King",
-  "category": "Character",
+  "cardName": "King",
+  "cardId": "OP04-045",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 7,
+  "power": 8000,
+  "counter": 1000,
   "types": [
     "Animal Kingdom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-045.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "[On Play] Draw 1 card.",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "045",
+  "printedText": "[On Play] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

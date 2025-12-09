@@ -1,20 +1,59 @@
 {
-  "id": "ST05-011",
-  "set": "ST05",
-  "number": 11,
-  "name": "Douglass Bullet",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
+  "cardName": "Douglas Bullet",
+  "cardId": "ST05-011",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 8,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["special"],
   "types": ["FILM", "Pirate Fest"],
+  "traits": ["film", "pirateFest"],
   "rarity": "SR",
-  "art": "/cards/ST05/ST05-011.png",
-  "stats": { "cost": 8, "power": 10000, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Activate: Main", "Once Per Turn", "DON!! -4", "Double Attack"],
-  "trigger": null,
-  "text": "Activate: Main — Once Per Turn — DON!! -4 (You may return the specified number of DON!! cards from your field to your DON!! deck): Rest up to 2 of your opponent's Characters with a cost of 6 or less. Then, this Character gains Double Attack during this turn. (This card deals 2 damage.)",
+  "setId": "ST05",
+  "cardNumber": "011",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!! −4 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Rest up to 2 of your opponent's Characters with a cost of 6 or less. Then, this Character gains [Double Attack] during this turn.\n(This card deals 2 damage.)",
+  "keywords": [],
   "abilities": [
-    {"timing": "Activate: Main", "frequency": "Once Per Turn", "donReq": 4, "cost": {"returnDonToDeck": 4}, "effect": {"text": "Rest up to 2 opponent Characters with cost 6 or less. Then gain Double Attack this turn.", "grants": ["doubleAttack"], "powerMod": null, "targets": ["upToTwoOpponentCharacters"], "conditions": ["cost6OrLess"]}}
-  ],
-  "meta": {"notes": null}
+    {
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "donMinus",
+        "count": 4
+      },
+      "selectors": {
+        "opponentCharactersUpTo2Cost6OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCharactersUpTo2Cost6OrLess"
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Double Attack",
+          "duration": "thisTurn",
+          "target": "selfThisCard"
+        }
+      ]
+    }
+  ]
 }

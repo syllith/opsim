@@ -1,50 +1,87 @@
 {
-  "id": "ST20-004",
-  "set": "ST20",
-  "number": 4,
-  "name": "Charlotte Pudding",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Wisdom",
+  "cardName": "Charlotte Pudding",
+  "cardId": "ST20-004",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
   "types": ["Big Mom Pirates"],
-  "rarity": "C",
-  "art": "/cards/ST20/ST20-004.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "Trigger", "Counter +1000"],
-  "trigger": { "text": "Rest up to one of your opponents cost 3 or lower characters." },
-  "text": "On Play You may add the top card of your life to your hand: Set up to one of your cost 3 or less (Big Mom Pirates) type characters as active. Trigger Rest up to one of your opponents cost 3 or lower characters.",
+  "traits": ["bigMomPirates"],
+  "rarity": "starter",
+  "setId": "ST20",
+  "cardNumber": "004",
+  "printedText": "[On Play] You may add the top card of your Life to your hand: Set up to one of your cost 3 or less {Big Mom Pirates} type Characters as active. Trigger Rest up to one of your opponent's cost 3 or lower Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may add the top card of your life to your hand: Set up to one of your cost 3 or less (Big Mom Pirates) type characters as active.",
-        "powerMod": null,
-        "targets": ["upToOneAllyCharacter:Big Mom Pirates:<=3"],
-        "conditions": ["optionalAddTopLifeCardToHand"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "top",
+        "may": true
+      },
+      "selectors": {
+        "bmCharacterToReady": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            },
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Big Mom Pirates"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "bmCharacterToReady"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Rest up to one of your opponents cost 3 or lower characters.",
-        "powerMod": null,
-        "targets": ["upToOneOpponentCharacter:<=3"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

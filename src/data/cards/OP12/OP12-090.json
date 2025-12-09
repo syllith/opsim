@@ -1,48 +1,48 @@
 {
-  "id": "OP12-090",
-  "set": "OP12",
-  "number": 90,
-  "name": "Belo Betty",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Revolutionary Army"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP12/OP12-090.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking Trash 2 cards from the top of your deck: Give up to 1 of your opponent's Characters -2 cost during this turn.",
+  "cardName": "Belo Betty",
+  "cardId": "OP12-090",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Revolutionary Army"],
+  "traits": ["revolutionaryArmy"],
+  "rarity": "C",
+  "setId": "OP12",
+  "cardNumber": "090",
+  "printedText": "[When Attacking] Trash 2 cards from the top of your deck: Give up to 1 of your opponent's Characters -2 cost during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashTopDeck",
+        "count": 2,
+        "may": true
       },
-      "effect": {
-        "text": "Trash 2 cards from the top of your deck: Give up to 1 of your opponent's Characters -2 cost during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -2,
+          "duration": "thisTurn",
+          "target": "opponentCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

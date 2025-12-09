@@ -1,71 +1,71 @@
 {
-  "id": "OP03-054",
-  "set": "OP03",
-  "number": 54,
-  "name": "Usopp's Rubber Band of Doom!",
-  "category": "Event",
+  "cardName": "Usopp's Rubber Band of Doom!",
+  "cardId": "OP03-054",
+  "cardType": "event",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "East Blue",
     "Straw Hat Crew"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-054.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 1 card and trash the top card of your deck."
-  },
-  "text": "#Counter Up to 1 of your Leader or Characters gains +2000 Power during this battle. Then you may trash the top card of your deck.\n\nTrigger Draw 1 card and trash the top card of your deck.",
+  "setId": "OP03",
+  "cardNumber": "054",
+  "printedText": "[Counter] Up to 1 of your Leader or Characters gains +2000 Power during this battle. Then you may trash the top card of your deck.\n[Trigger] Draw 1 card and trash the top card of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "frequency": "none",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Characters gains +2000 Power during this battle. Then you may trash the top card of your deck.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this battle"
+          "duration": "thisBattle",
+          "target": "buffTarget"
         },
-        "targets": [
-          "oneAllyCharacter"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "trashTopDeck",
+          "count": 1,
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card and trash the top card of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
-  }
+  "traits": [
+    "eastBlue",
+    "strawHatCrew"
+  ]
 }

@@ -1,39 +1,80 @@
 {
-  "id": "OP02-112",
-  "set": "OP02",
-  "number": 112,
-  "name": "Bell-mère",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Ranged",
-  "types": ["Navy"],
+  "cardName": "Bell-mère",
+  "cardId": "OP02-112",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "types": [
+    "Navy"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-112.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this Character: Give up to 1 of your opponent's Characters -1 to their cost during this turn. Then, your Leader or up to 1 of your Characters gains +1000 Power during this turn.",
+  "setId": "OP02",
+  "cardNumber": "112",
+  "printedText": "[Activate: Main] You may rest this Character: Give up to 1 of your opponent's Characters -1 to their cost during this turn. Then, your Leader or up to 1 of your Characters gains +1000 Power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -1 to their cost during this turn. Then, your Leader or up to 1 of your Characters gains +1000 Power during this turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "timing": "activateMain",
+      "frequency": "none",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "oppCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "costDownTarget"
         },
-        "targets": ["upTo1:opponent:Character", "ally:Leader", "upTo1:ally:Character"],
-        "conditions": []
-      }
+        "selfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "powerUpTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -1,
+          "duration": "thisTurn",
+          "target": "oppCharacterUpToOne"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "selfLeaderOrCharacter"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

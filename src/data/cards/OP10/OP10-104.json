@@ -1,51 +1,56 @@
 {
-  "id": "OP10-104",
-  "set": "OP10",
-  "number": 104,
-  "name": "Caribou",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Supernova",
-    "Caribou Pirates"
-  ],
-  "rarity": "US",
-  "art": "/cards/OP10/OP10-104.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Caribou",
+  "cardId": "OP10-104",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Supernova", "Caribou Pirates"],
+  "traits": ["supernova", "caribouPirates"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "104",
+  "printedText": "[DON!! x1] If your Leader has the \"Supernova\" type and your opponent has 3 or more Life cards, this Character cannot be K.O.'d in battle.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1: If your leader has the \"Supernova\" type and your opponent has 3 or more life cards, this character cannot be KOed in battle.",
   "abilities": [
     {
-      "timing": "DON!!",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your leader has the \"Supernova\" type and your opponent has 3 or more life cards, this character cannot be KOed in battle.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader:hasType:Supernova",
-          "opponent:hasLifeCards:3+"
-        ],
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKOdInBattle",
+          "target": "selfThisCard",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "isGivenDon",
+                "op": "=",
+                "value": true
+              },
+              {
+                "field": "leaderTraits",
+                "op": "=",
+                "value": "supernova"
+              },
+              {
+                "field": "opponentLifeCount",
+                "op": ">=",
+                "value": 3
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": "selfThisCard"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

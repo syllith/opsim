@@ -33,6 +33,9 @@ export function useDeckSearch({
 
   //. Start a deck search with the given configuration
   const start = useCallback((searchConfig) => {
+    console.log('[DeckSearch] start() called with config:', searchConfig);
+    console.log('[DeckSearch] library:', library?.length, 'cards');
+    
     const {
       quantity,
       filter,
@@ -40,21 +43,28 @@ export function useDeckSearch({
       maxSelect,
       returnLocation,
       effectDescription,
+      reveal,
+      ordering,
+      remainingOrdering,
       onSearchComplete
     } = searchConfig;
 
     if (!library || !library.length) {
       if (appendLog) appendLog('[Deck Search] No cards in deck!');
+      console.log('[DeckSearch] ERROR: No library or empty library');
       return;
     }
 
     //. Get top X cards from library (top of deck is at end of array)
     const lookCount = Math.min(quantity, library.length);
     const topCards = _.takeRight(library, lookCount);
+    console.log('[DeckSearch] topCards IDs:', topCards);
+    
     const cardAssets = _(topCards)
       .map((id) => getAssetForId(id))
       .filter(Boolean)
       .value();
+    console.log('[DeckSearch] cardAssets:', cardAssets.length, 'cards');
 
     setConfig({
       cards: cardAssets,
@@ -65,9 +75,13 @@ export function useDeckSearch({
       returnLocation: returnLocation || 'bottom',
       canReorder: true,
       effectDescription: effectDescription || '',
+      reveal: !!reveal,
+      ordering: ordering || 'any',
+      remainingOrdering: remainingOrdering || 'keep',
       onSearchComplete
     });
     setActive(true);
+    console.log('[DeckSearch] setActive(true) called');
     setSelected([]);
   }, [library, getAssetForId, appendLog]);
 
@@ -75,8 +89,19 @@ export function useDeckSearch({
   const handleConfirm = useCallback((selectedCards, remainder) => {
     if (!config) return;
 
-    const selectedIds = selectedCards.map((c) => c.id);
-    const remainderIds = remainder.map((c) => c.id);
+    //. Apply selected ordering
+    let finalSelected = selectedCards;
+    if (config.ordering === 'random') {
+      finalSelected = _.shuffle(finalSelected);
+    }
+    //. Apply remainder ordering
+    let finalRemainder = remainder;
+    if (config.remainingOrdering === 'random') {
+      finalRemainder = _.shuffle(finalRemainder);
+    }
+
+    const selectedIds = finalSelected.map((c) => c.id);
+    const remainderIds = finalRemainder.map((c) => c.id);
 
     //. Add selected cards to hand
     setAreas((prev) => {
@@ -84,7 +109,7 @@ export function useDeckSearch({
       const isPlayer = side === 'player';
       const handLoc = isPlayer ? next.player.bottom : next.opponent.top;
 
-      selectedCards.forEach((card) => {
+      finalSelected.forEach((card) => {
         handLoc.hand = [...(handLoc.hand || []), card];
       });
 
@@ -122,7 +147,7 @@ export function useDeckSearch({
 
     if (appendLog) {
       appendLog(
-        `[Deck Search] Added ${selectedIds.length} card(s) to hand, returned ${remainderIds.length} to ${config.returnLocation} of deck.`
+        `[Deck Search]${config.reveal ? ' Revealed and' : ''} added ${selectedIds.length} card(s) to hand, returned ${remainderIds.length} to ${config.returnLocation} of deck.`
       );
     }
 
@@ -199,17 +224,17 @@ export function useDeckSearch({
         }
       }
 
-      //. Check cost filter
+      //. Check cost filter (v2 schema: use top-level cost only)
       if (_.isNumber(filter.cost)) {
-        const cardCost = _.get(meta, 'stats.cost');
+        const cardCost = _.get(meta, 'cost', 0);
         if (cardCost !== filter.cost) {
           return { selectable: false, reason: `Cost must be ${filter.cost}` };
         }
       }
 
-      //. Check cost range (e.g., cost <= 3)
+      //. Check cost range (e.g., cost <= 3) using v2 top-level cost
       if (_.isNumber(filter.maxCost)) {
-        const cardCost = _.get(meta, 'stats.cost', 0);
+        const cardCost = _.get(meta, 'cost', 0);
         if (cardCost > filter.maxCost) {
           return {
             selectable: false,
@@ -220,7 +245,7 @@ export function useDeckSearch({
 
       //. Check power filter
       if (_.isNumber(filter.power)) {
-        const cardPower = _.get(meta, 'stats.power', 0);
+        const cardPower = _.get(meta, 'power', 0);
         if (cardPower !== filter.power) {
           return { selectable: false, reason: `Power must be ${filter.power}` };
         }
@@ -228,9 +253,34 @@ export function useDeckSearch({
 
       //. Check category filter (Leader, Character, Event, Stage)
       if (filter.category) {
-        const category = _.get(meta, 'category');
-        if (_.toLower(category) !== _.toLower(filter.category)) {
+        //. v2 schema uses cardType
+        const cardType = _.get(meta, 'cardType', '');
+        if (_.toLower(cardType) !== _.toLower(filter.category)) {
           return { selectable: false, reason: `Must be ${filter.category}` };
+        }
+      }
+
+      //. Check traits filter (schema format for types like "Red-Haired Pirates")
+      if (filter.traits) {
+        //. Schema uses both 'traits' array and 'types' array
+        const cardTraits = _.get(meta, 'traits', []);
+        const cardTypes = _.get(meta, 'types', []);
+        const allTraits = [...cardTraits, ...cardTypes];
+        
+        //. Convert to lowercase for comparison
+        const needle = _.toLower(filter.traits);
+        const hasMatchingTrait = allTraits.some((trait) => {
+          const lower = _.toLower(trait);
+          //. Match exact, or partial (e.g., "redHairedPirates" matches "Red-Haired Pirates")
+          const normalized = lower.replace(/[-\s]/g, '');
+          const needleNormalized = needle.replace(/[-\s]/g, '');
+          return normalized === needleNormalized || 
+                 normalized.includes(needleNormalized) || 
+                 needleNormalized.includes(normalized);
+        });
+        
+        if (!hasMatchingTrait) {
+          return { selectable: false, reason: `Must have ${filter.traits} trait/type` };
         }
       }
 
@@ -293,6 +343,7 @@ export function useDeckSearch({
   const Component = useMemo(
     () =>
       function DeckSearchModal() {
+        console.log('[DeckSearchModal] Rendering, active:', active, 'config:', !!config);
         if (!active || !config) return null;
 
         return (
@@ -344,6 +395,7 @@ export function useDeckSearch({
                     : `${minSelect}-${maxSelect}`
                   }.`}
                 {selectableCount === 0 && ' (No matches)'}
+                {config?.reveal && ' Reveal selected cards.'}
               </Typography>
               {effectDescription && (
                 <Typography

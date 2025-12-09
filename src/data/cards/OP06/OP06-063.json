@@ -1,49 +1,81 @@
 {
-  "id": "OP06-063",
-  "set": "OP06",
-  "number": 63,
-  "name": "Vinsmoke Sora",
-  "category": "Character",
+  "cardName": "Vinsmoke Sora",
+  "cardId": "OP06-063",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 0,
+  "life": 0,
+  "counter": 2000,
+  "attributes": [
+    "wisdom"
+  ],
   "types": [
     "Vinsmoke Family",
     "Germa Kingdom"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP06/OP06-063.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "vinsmokeFamily",
+    "germaKingdom"
   ],
-  "trigger": null,
-  "text": "On Play: You may discard a card from your hand: if you have equal to or less DON!! on your field than your opponent, add to your hand up to 1 character card of 4000 Power or less that has the (Vinsmoke Family) type from the trash.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "063",
+  "printedText": "On Play You may discard a card from your hand: If you have equal to or less DON!! on your field than your opponent, add to your hand up to 1 character card of 4000 Power or less that has the {Vinsmoke Family} type from the trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard a card from your hand: if you have equal to or less DON!! on your field than your opponent, add to your hand up to 1 character card of 4000 Power or less that has the (Vinsmoke Family) type from the trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selfDonOnField",
+        "op": "<=",
+        "fieldRef": "opponentDonOnField"
+      },
+      "selectors": {
+        "vinsmokeTrashChar4000OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            },
+            {
+              "field": "hasTraitVinsmokeFamily",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "vinsmokeTrashChar4000OrLess",
+          "reveal": false,
+          "addTo": "hand",
+          "ordering": "any",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is UC as printed. Power and life are 0 as printed."
-  }
+  ]
 }

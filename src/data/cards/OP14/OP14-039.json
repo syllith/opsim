@@ -1,60 +1,57 @@
 {
-  "id": "OP14-039",
-  "set": "OP14",
-  "number": 39,
-  "name": "Coffin Boat",
-  "category": "Stage",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "East Blue",
-    "The Seven Warlords of the Sea"
-  ],
+  "cardName": "Coffin Boat",
+  "cardId": "OP14-039",
+  "cardType": "stage",
+  "colors": ["blue"],
+  "cost": 1,
+  "types": ["East Blue", "The Seven Warlords of the Sea"],
+  "traits": ["eastBlue", "theSevenWarlordsOfTheSea"],
   "rarity": "UC",
-  "art": "/cards/OP14/OP14-039.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP14",
+  "cardNumber": "039",
+  "printedText": "[On Play] If your Leader is [Dracule Mihawk], draw 1 card.\n[End of Your Turn] If your Leader is [Dracule Mihawk], set up to 1 of your DON!! cards as active.",
   "keywords": [],
-  "trigger": null,
-  "text": "On Play: If your Leader is [Dracule Mihawk], draw 1 card.\nEnd of Your Turn: If your Leader is [Dracule Mihawk], set up to 1 of your DON!! cards as active.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderCardName",
+        "op": "=",
+        "value": "Dracule Mihawk"
       },
-      "effect": {
-        "text": "If your Leader is [Dracule Mihawk], draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "condition": {
+        "field": "leaderCardName",
+        "op": "=",
+        "value": "Dracule Mihawk"
       },
-      "effect": {
-        "text": "If your Leader is [Dracule Mihawk], set up to 1 of your DON!! cards as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "selfDonUpToOne": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfDonUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

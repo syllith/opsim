@@ -1,50 +1,35 @@
 {
-  "id": "OP09-047",
-  "set": "OP09",
-  "number": 47,
-  "name": "Oden",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Land of Wano",
-    "Whitebeard Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP09/OP09-047.png",
-  "stats": {
-    "cost": 9,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 10000
-    }
-  },
-  "keywords": [
-    "Double Attack",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "Double Attack (This card deals 2 damage.)\nOn K.O. Draw 2 cards then discard 1 card.",
+  "cardName": "Oden",
+  "cardId": "OP09-047",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 9,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["Land of Wano", "Whitebeard Pirates"],
+  "traits": ["landOfWano", "whitebeardPirates"],
+  "rarity": "SR",
+  "setId": "OP09",
+  "cardNumber": "047",
+  "printedText": "Double Attack (This card deals 2 damage.)\n[On K.O.] Draw 2 cards, then discard 1 card.",
+  "keywords": ["Double Attack"],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards then discard 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' in image, but this is not a real card. The printed ID is OP09-047, which is a real card in the One Piece TCG. The 'SAMPLE' watermark is not part of the card's official text."
-  }
+  ]
 }

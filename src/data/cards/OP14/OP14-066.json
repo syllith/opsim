@@ -1,46 +1,18 @@
 {
-  "id": "OP14-066",
-  "set": "OP14",
-  "number": 66,
-  "name": "Diamante",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Donquixote Pirates"
-  ],
+  "cardName": "Diamante",
+  "cardId": "OP14-066",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
   "rarity": "C",
-  "art": "/cards/OP14/OP14-066.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP14",
+  "cardNumber": "066",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "When this card is played, you may pay 1 DON!! to gain 1000 Counter.",
-  "abilities": [
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "When this card is played, you may pay 1 DON!! to gain 1000 Counter.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "abilities": []
 }

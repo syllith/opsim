@@ -1,44 +1,75 @@
 {
-  "id": "OP05-097",
-  "set": "OP05",
-  "number": 97,
-  "name": "The Holy Land Mary Geoise",
-  "category": "Stage",
-  "colors": [],
-  "attribute": null,
+  "cardName": "The Holy Land Mary Geoise",
+  "cardId": "OP05-097",
+  "cardType": "stage",
+  "colors": [
+    "blue"
+  ],
+  "cost": 1,
   "types": [
-    "Celestial Dragon"
+    "The Holy Land Mary Geoise"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-097.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "097",
+  "printedText": "Your Turn Character cards that cost 2 or more and have the {Celestial Dragon} type cost 1 less to play from your hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "Your Turn: Character cards that cost 2 or more and have the (Celestial Dragon) type cost 1 less to play from your hand.",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "celestialDragonHandCharCost2OrMore": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cost",
+                  "op": ">=",
+                  "value": 2
+                },
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Celestial Dragon"
+                }
+              ]
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Character cards that cost 2 or more and have the (Celestial Dragon) type cost 1 less to play from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "beforePlayCardFromHand",
+          "target": "celestialDragonHandCharCost2OrMore",
+          "condition": {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "cost",
+              "mode": "add",
+              "amount": -1,
+              "duration": "thisTurn",
+              "target": "celestialDragonHandCharCost2OrMore"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "theHolyLandMaryGeoise"
+  ]
 }

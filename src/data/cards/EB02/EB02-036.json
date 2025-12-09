@@ -1,37 +1,66 @@
 {
-  "id": "EB02-036",
-  "set": "EB02",
-  "number": 36,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Straw Hat Crew"],
-  "rarity": "R",
-  "art": "/cards/EB02/EB02-036.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On K.O", "DON!! -1"],
-  "trigger": null,
-  "text": "[Blocker]\n[On K.O] [DON!! -1]: Look at the top 3 cards of your deck, reveal up to 1 {Strawhat Crew} type card and put it into your hand. Then place the rest on the bottom of your deck in any order.",
+  "power": 2000,
+  "cardType": "character",
+  "attributes": [
+    "strike"
+  ],
+  "cardId": "EB02-036",
+  "printedText": "[Blocker]\n[On K.O.] DON!!-1: Look at the top 3 cards of your deck; reveal up to 1 [Straw Hat Crew] type card and put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "cardNumber": "036",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On K.O",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "Look at the top 3 cards of your deck, reveal up to 1 {Strawhat Crew} type card and put it into your hand. Then place the rest on the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": []
-      }
+      "cost": {
+        "count": 1,
+        "type": "donMinus"
+      },
+      "selectors": {},
+      "timing": "onKO",
+      "actions": [
+        {
+          "selector": {
+            "filters": [
+              {
+                "value": "Straw Hat Crew",
+                "field": "traits",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "any",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 3,
+          "addTo": "hand",
+          "reveal": true,
+          "sourceZone": "deck",
+          "type": "search",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": "DON!! -1 means return 1 DON!! card from field to DON!! deck as cost" }
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Nico Robin",
+  "rarity": "R",
+  "cost": 3,
+  "colors": [
+    "purple"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

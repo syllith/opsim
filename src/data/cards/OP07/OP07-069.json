@@ -1,46 +1,71 @@
 {
-  "id": "OP07-069",
-  "set": "OP07",
-  "number": 69,
-  "name": "Pickles",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Foxy Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-069.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Pickles",
+  "cardId": "OP07-069",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Foxy Pirates"],
+  "traits": ["foxyPirates"],
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "069",
+  "printedText": "If you have less or equal DON!! than your opponent, your {Foxy Pirates} Characters other than {Pickles} cannot be KO'd by your opponent's effects.",
   "keywords": [],
-  "trigger": null,
-  "text": "If you have less or equal don than your opponent, Your (Foxy Pirate) characters other than (Pickles) cannot be KOD by your opponents effects.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "selfDonInCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "opponentDonInCostArea": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "foxyPiratesOtherThanPickles": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "foxyPirates"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Pickles"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If you have less or equal don than your opponent, Your (Foxy Pirate) characters other than (Pickles) cannot be KOD by your opponents effects.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCountCompare",
+        "selectorA": "selfDonInCostArea",
+        "selectorB": "opponentDonInCostArea",
+        "op": "<="
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "opponentEffectWouldKO",
+          "target": "foxyPiratesOtherThanPickles",
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": "foxyPiratesOtherThanPickles"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

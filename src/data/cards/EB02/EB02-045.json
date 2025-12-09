@@ -1,37 +1,96 @@
 {
-  "id": "EB02-045",
-  "set": "EB02",
-  "number": 45,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Slash",
-  "types": ["Dressrosa", "Supernova", "Heart Pirates"],
-  "rarity": "SR",
-  "art": "/cards/EB02/EB02-045.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "[Blocker]\n[On Play] You may return 2 cards from your trash to the bottom of your deck in any order: Choose one of the following,\n◉Draw 1 card.\n◉If your opponent has 5 or more cards in their hand, they discard 1 card from their hand.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB02-045",
+  "printedText": "Blocker\n[On Play] You may return 2 cards from your trash to the bottom of your deck in any order; Choose 1 of the following.\n• Draw 1 card.\n• If your opponent has 5 or more cards in their hand, they discard 1 card from their hand.",
+  "types": [
+    "Dressrosa",
+    "Supernova",
+    "Heart Pirates"
+  ],
+  "cardNumber": "045",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may return 2 cards from your trash to the bottom of your deck in any order: Choose one of the following, ◉Draw 1 card. ◉If your opponent has 5 or more cards in their hand, they discard 1 card from their hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["trash", "deck", "opponentHand"],
-        "conditions": ["mayReturn2FromTrash"]
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "may": true,
+          "type": "moveCard",
+          "target": {
+            "zones": [
+              "trash"
+            ],
+            "min": 2,
+            "max": 2,
+            "type": "any",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        },
+        {
+          "min": 1,
+          "type": "chooseMode",
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "count": 1,
+                  "type": "draw"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "condition": {
+                    "value": 5,
+                    "field": "opponentHandCount",
+                    "op": ">="
+                  },
+                  "target": {
+                    "zones": [
+                      "hand"
+                    ],
+                    "min": 1,
+                    "max": 1,
+                    "type": "hand",
+                    "side": "opponent",
+                    "whoChooses": "self"
+                  },
+                  "ordering": "chosen",
+                  "destination": "trash"
+                }
+              ]
+            }
+          ],
+          "max": 1
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Trafalgar Law",
+  "rarity": "SR",
+  "cost": 5,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "dressrosa",
+    "supernova",
+    "heartPirates"
+  ]
 }

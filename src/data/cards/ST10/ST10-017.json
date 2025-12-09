@@ -1,62 +1,61 @@
 {
-  "id": "ST10-017",
-  "set": "ST10",
-  "number": 17,
-  "name": "Punk Vice",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
+  "cardName": "Punk Vice",
+  "cardId": "ST10-017",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 3,
   "types": ["Kid Pirates"],
+  "traits": ["kidPirates"],
   "rarity": "C",
-  "art": "/cards/ST10/ST10-017.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Add up to 1 DON!! card from your DON!! deck set as active." },
-  "text": "Main: Rest up to 1 of your opponent's Characters with a cost of 2 or less. Add up to 1 DON!! from your DON!! deck set as rested. Trigger: Add up to 1 DON!! from your DON!! deck set as active.",
+  "setId": "ST10",
+  "cardNumber": "017",
+  "printedText": "[Main] Rest up to 1 of your opponent's Characters with a cost of 2 or less, and add up to 1 DON!! card from your DON!! deck and rest it. [Trigger] Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 3 },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters with a cost of 2 or less. Add up to 1 DON!! from your DON!! deck set as rested.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacterCost<=2", "donDeck"],
-        "conditions": ["optionalTarget"],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["costArea"]
+      "timing": "main",
+      "selectors": {
+        "oppCharCost2OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ]
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCharCost2OrLess"
+        },
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "enterRested": true,
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Add up to 1 DON!! from your DON!! deck set as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["donDeck"],
-        "conditions": ["optionalTarget", "lifeTrigger"],
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "costArea",
-          "to": ["costArea"]
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "may": true
         }
-      }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

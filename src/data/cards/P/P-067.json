@@ -1,47 +1,60 @@
 {
-  "id": "P-067",
-  "set": "P",
-  "number": 67,
-  "name": "Eustass Kid",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Supernova",
-    "Kid Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-067.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
+  "cardName": "Eustass Kid",
+  "cardId": "P-067",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Supernova", "Kid Pirates"],
+  "traits": ["supernova", "kidPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-067",
+  "printedText": "If this Character is rested, your opponent cannot attack any card other than Characters named [Eustass \"Captain\" Kid].",
   "keywords": [],
-  "trigger": null,
-  "text": "If this Character is rested, your opponent cannot attack any card other than Characters named [Eustass' Captain 'Kid'].",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "thisCardState",
+        "op": "=",
+        "value": "rested"
       },
-      "effect": {
-        "text": "If this Character is rested, your opponent cannot attack any card other than Characters named [Eustass' Captain 'Kid'].",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "yourNonCaptainKidCards": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "leader"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Eustass \"Captain\" Kid"
+                }
+              ]
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "attack",
+          "target": "yourNonCaptainKidCards",
+          "duration": "permanent"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

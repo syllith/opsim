@@ -1,70 +1,68 @@
 {
-  "id": "OP12-070",
-  "set": "OP12",
-  "number": 70,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Alabasta",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Sanji",
+  "cardId": "OP12-070",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 5000,
+  "attributes": ["strike"],
+  "types": ["Alabasta", "Straw Hat Crew"],
+  "traits": ["alabasta", "strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-070.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "070",
+  "printedText": "This Character gains +1000 power for every 5 Events in your trash.\nIf this Character would be removed from the field by your opponent's effects, you may return 1 DON!! card to your DON!! deck instead.",
   "keywords": [],
-  "trigger": null,
-  "text": "This Character gains +1000 power for every 5 Events in your trash. If this Character would be removed from the field by your opponent's effects, you may return 1 DON!! card to your DON!! deck instead.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This Character gains +1000 power for every 5 Events in your trash.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this battle"
-        },
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If this Character would be removed from the field by your opponent's effects, you may return 1 DON!! card to your DON!! deck instead.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "costArea",
-          "to": [
-            "DON!! deck"
+      "timing": "static",
+      "selectors": {
+        "selfTrashEvents": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "cardType",
+              "op": "=",
+              "value": "event"
+            }
           ]
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 5,
+          "perAmount": 1000,
+          "countSelector": "selfTrashEvents",
+          "duration": "permanent",
+          "target": "selfThisCard"
+        }
+      ]
+    },
+    {
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "selfWouldBeRemovedFromFieldByOppEffect",
+          "target": "selfThisCard",
+          "may": true,
+          "cost": {
+            "type": "returnDon",
+            "count": 1
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

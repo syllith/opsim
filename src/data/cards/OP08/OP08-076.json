@@ -1,68 +1,98 @@
 {
-  "id": "OP08-076",
-  "set": "OP08",
-  "number": 76,
-  "name": "It's to die for♡",
-  "category": "Event",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "The Four Emperors",
-    "Big Mom Pirates"
-  ],
+  "cardName": "It's to die for♡",
+  "cardId": "OP08-076",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
+  "types": ["The Four Emperors", "Big Mom Pirates"],
+  "traits": ["theFourEmperors", "bigMomPirates"],
   "rarity": "UC",
-  "art": "/cards/OP08/OP08-076.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Add up to 1 DON!! card from your DON!! deck and set it as active."
-  },
-  "text": "Main Add up to 1 DON!! card from your DON!! deck and set it as active. Then, if your opponent has a Character with 6000 power or more in play, add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "setId": "OP08",
+  "cardNumber": "076",
+  "printedText": "[Main] Add up to 1 DON!! card from your DON!! deck and set it as active. Then, if your opponent has a Character with 6000 power or more, add up to 1 DON!! card from your DON!! deck and set it as active.\n[Trigger] Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "opp6000Plus": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": ">=",
+              "value": 6000
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active. Then, if your opponent has a Character with 6000 power or more in play, add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "powerMod": null,
-        "conditions": [
-          "opponentCharacter>=power6000"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "faceUp": true,
+          "enterRested": false
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "opp6000Plus",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "donFromDeck",
+              "destination": "costArea",
+              "ordering": "chosen",
+              "faceUp": true,
+              "enterRested": false
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "donFromDeckTrigger": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeckTrigger",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "faceUp": true,
+          "enterRested": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

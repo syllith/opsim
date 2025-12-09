@@ -1,56 +1,50 @@
 {
-  "id": "OP04-086",
-  "set": "OP04",
-  "number": 86,
-  "name": "Chinjao",
-  "category": "Character",
+  "cardName": "Chinjao",
+  "cardId": "OP04-086",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Dressrosa",
     "Happo Navy"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-086.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "086",
+  "printedText": "[DON!! x1] When the opponent's Character battling this one is K.O.'d, draw 2 cards and trash 2 cards from your hand.",
   "keywords": [
-    "DON!!"
+    "donX1"
   ],
-  "trigger": null,
-  "text": "DON!! x1 When the opponent's character battling this one is K.O'd: draw 2 cards and trash 2 cards from your hand.",
   "abilities": [
     {
-      "timing": "DON!!",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "whenBattleOpponentKOd",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "When the opponent's character battling this one is K.O'd: draw 2 cards and trash 2 cards from your hand.",
-        "powerMod": null,
-        "targets": [
-          "opponentCharacter"
-        ],
-        "conditions": [
-          "battling",
-          "K.O'd"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is confirmed as 'C' from the bottom right corner of the card."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "dressrosa",
+    "happoNavy"
+  ]
 }

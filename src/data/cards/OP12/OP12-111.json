@@ -1,49 +1,18 @@
 {
-  "id": "OP12-111",
-  "set": "OP12",
-  "number": 111,
-  "name": "Baby 5",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Donquixote Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP12/OP12-111.png",
-  "stats": {
-    "cost": 2,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Baby 5",
+  "cardId": "OP12-111",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 2,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
+  "rarity": "C",
+  "setId": "OP12",
+  "cardNumber": "111",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "When this card is played, you may rest 1 DON!! from your cost area. If you do, this card gains +1000 power until end of turn.",
-  "abilities": [
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "When this card is played, you may rest 1 DON!! from your cost area. If you do, this card gains +1000 power until end of turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "abilities": []
 }

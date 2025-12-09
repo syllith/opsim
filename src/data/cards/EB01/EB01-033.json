@@ -1,37 +1,76 @@
 {
-  "id": "EB01-033",
-  "set": "EB01",
-  "number": 33,
-  "name": "Blueno",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Water 7"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-033.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "DON!! -1"],
-  "trigger": null,
-  "text": "[On Play] Don!! -1: If your leader has the {W7} type, play up to 1 cost 5 or lower {W7} type character card other than \"Blueno\" from your hand or trash.",
+  "power": 5000,
+  "cardType": "character",
+  "attributes": [
+    "strike"
+  ],
+  "cardId": "EB01-033",
+  "printedText": "[On Play] Don!! -1: If your leader has the {W7} type, play up to 1 cost 5 or lower {W7} type character card other than \"Blueno\" from your hand or trash.\n[Counter +1000]",
+  "types": [
+    "Water 7"
+  ],
+  "cardNumber": "033",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Don!! -1: If your leader has the {W7} type, play up to 1 cost 5 or lower {W7} type character card other than \"Blueno\" from your hand or trash.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand", "trash"],
-        "conditions": ["leaderTypeW7", "characterCost<=5", "characterTypeW7", "notBlueno"]
+      "actions": [
+        {
+          "destination": "characterArea",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 5,
+                "field": "cost",
+                "op": "<="
+              },
+              {
+                "value": "W7",
+                "field": "types",
+                "op": "="
+              },
+              {
+                "value": "EB01-033",
+                "field": "cardId",
+                "op": "!="
+              }
+            ],
+            "zones": [
+              "hand",
+              "trash"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        }
+      ],
+      "condition": {
+        "value": "W7",
+        "field": "leader.types",
+        "op": "="
+      },
+      "frequency": "none",
+      "timing": "onPlay",
+      "selectors": {},
+      "cost": {
+        "count": 1,
+        "type": "donMinus"
       }
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Blueno",
+  "rarity": "R",
+  "cost": 4,
+  "colors": [
+    "purple"
+  ],
+  "traits": [
+    "waterSeven"
+  ]
 }

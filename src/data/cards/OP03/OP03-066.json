@@ -1,55 +1,91 @@
 {
-  "id": "OP03-066",
-  "set": "OP03",
-  "number": 66,
-  "name": "Paulie",
-  "category": "Character",
+  "cardName": "Paulie",
+  "cardId": "OP03-066",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 0,
   "types": [
     "Water 7",
     "Galley-La Company"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-066.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "SR",
+  "setId": "OP03",
+  "cardNumber": "066",
+  "printedText": "[On Play] ② (You may rest the specified number of DON!! cards in your Cost Area): Add up to 1 DON!! card from your DON!! deck and set it as active. Then, if you have 8 or more DON!! in play, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
   "keywords": [
-    "On Play"
+    "onPlay"
   ],
-  "trigger": null,
-  "text": "[On Play] (2) (You may rest the specified number of DON!! cards in your Cost Area): Add up to 1 DON!! card from your DON!! deck and set it as active. Then, if you have 8 or more DON!! in play, K.O. up to 1 of your opponent's Character's with a cost of 4 or less.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": "Once Per Turn",
-      "donReq": 2,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restDonFromCostArea",
+        "count": 2
       },
-      "effect": {
-        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active. Then, if you have 8 or more DON!! in play, K.O. up to 1 of your opponent's Character's with a cost of 4 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "conditions": [
-          "8orMoreDONInPlay"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "selfDonFromDonDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "donToAdd"
+        },
+        "oppCharCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "charToKO"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfDonFromDonDeck",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "faceUp": false,
+          "enterRested": false
+        },
+        {
+          "type": "ko",
+          "target": "oppCharCost4OrLess",
+          "condition": {
+            "field": "selfDonInPlay",
+            "op": ">=",
+            "value": 8
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "waterSeven",
+    "galleyLaCompany"
+  ]
 }

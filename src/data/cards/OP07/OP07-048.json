@@ -1,50 +1,65 @@
 {
-  "id": "OP07-048",
-  "set": "OP07",
-  "number": 48,
-  "name": "Donquixote Doflamingo",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
+  "cardName": "Donquixote Doflamingo",
+  "cardId": "OP07-048",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 3,
+  "power": 4000,
+  "attributes": ["special"],
   "types": [
     "The Seven Warlords of the Sea",
     "Donquixote Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP07/OP07-048.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "donquixotePirates"
   ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn 2 Reveal 1 card from the top of your deck. If that card is a (The Seven Warlords of the Sea) type Character card with a cost of 4 or less, you may play that card rested. Then, place the remaining card on the bottom of your deck.",
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "048",
+  "printedText": "[Activate: Main] [Once Per Turn] ➁ (You may rest the specified number of DON!! cards in your cost area.): Reveal 1 card from the top of your deck. If that card is a {The Seven Warlords of the Sea} type Character card with a cost of 4 or less, you may play that card rested. Then, place the rest at the bottom of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restDonFromCostArea",
+        "count": 2
       },
-      "effect": {
-        "text": "Reveal 1 card from the top of your deck. If that card is a (The Seven Warlords of the Sea) type Character card with a cost of 4 or less, you may play that card rested. Then, place the remaining card on the bottom of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "character",
+            "zones": ["deck"],
+            "filters": [
+              {
+                "field": "traits",
+                "op": "=",
+                "value": "theSevenWarlordsOfTheSea"
+              },
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 4
+              }
+            ]
+          },
+          "reveal": true,
+          "addTo": "characterArea",
+          "ordering": "any",
+          "topCount": 1,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "keep",
+          "may": true,
+          "asPlay": true,
+          "payCost": false,
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,46 +1,45 @@
 {
-  "id": "P-047",
-  "set": "P",
-  "number": 47,
-  "name": "Monkey.D.Luffy",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-047.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Monkey .D. Luffy",
+  "cardId": "P-047",
+  "cardType": "leader",
+  "colors": ["blue"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-047",
+  "printedText": "[DON!! x1] [When Attacking] If you have 3 or less cards in your hand, draw 1 card.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking: If you have 3 or less cards in your hand, draw 1 card.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isGivenDon",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "handSize",
+            "op": "<=",
+            "value": 3
+          }
+        ]
       },
-      "effect": {
-        "text": "If you have 3 or less cards in your hand, draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and 'NOT FOR SALE'."
-  }
+  ]
 }

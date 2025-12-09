@@ -1,18 +1,24 @@
 {
-  "id": "ST04-009",
-  "set": "ST04",
-  "number": 9,
-  "name": "Ginrummy",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Animal Kingdom Pirates", "Smile"],
-  "rarity": null,
-  "art": "/cards/ST04/ST04-009.png",
-  "stats": { "cost": 1, "power": 3000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "cardName": "Ginrummy",
+  "cardId": "ST04-009",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": [
+    "Animal Kingdom Pirates",
+    "Smile"
+  ],
+  "traits": [
+    "animalKingdomPirates",
+    "smile"
+  ],
+  "rarity": "C",
+  "setId": "ST04",
+  "cardNumber": "009",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {"notes": null}
+  "abilities": []
 }

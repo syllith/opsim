@@ -1,63 +1,103 @@
 {
-  "id": "OP14-034",
-  "set": "OP14",
-  "number": 34,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "OP14-034",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["FILM", "Supernovas", "Straw Hat Crew"],
+  "traits": ["film", "supernovas", "strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-034.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn: All of your (Straw Hat Crew) Characters with a base cost of 4 or more gain +1000 power. Once Per Turn: If your (Straw Hat Crew) type Character would be K.O.'d by your opponent's effect, you may rest 1 of your Characters instead.",
+  "setId": "OP14",
+  "cardNumber": "034",
+  "printedText": "[Your Turn] All of your {Straw Hat Crew} Characters with a base cost of 4 or more gain +1000 power.\n[Once Per Turn] If your {Straw Hat Crew} type Character would be K.O.'d by your opponent's effect, you may rest 1 of your Characters instead.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "strawHatCrewCharsCost4OrMore": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            },
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 4
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "All of your (Straw Hat Crew) Characters with a base cost of 4 or more gain +1000 power.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "permanent",
+          "target": "strawHatCrewCharsCost4OrMore",
+          "condition": {
+            "field": "isYourTurn",
+            "op": "=",
+            "value": true
+          }
+        }
+      ]
     },
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "strawHatCrewCharacterToProtect": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            }
+          ]
+        },
+        "characterToRestInstead": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your (Straw Hat Crew) type Character would be K.O.'d by your opponent's effect, you may rest 1 of your Characters instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "selfStrawHatCrewCharacterWouldBeKOdByOpponentsEffect",
+          "target": "strawHatCrewCharacterToProtect",
+          "may": true,
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": "characterToRestInstead"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

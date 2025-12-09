@@ -1,53 +1,56 @@
 {
-  "id": "OP11-107",
-  "set": "OP11",
-  "number": 107,
-  "name": "Chonmage",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Sea Kings"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-107.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn If your Leader is [Shirahoshi], you may turn 1 card from the top of your Life cards face-down: At the end of your turn, set this Character as active.",
+  "cardName": "Chonmage",
+  "cardId": "OP11-107",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Sea Kings"],
+  "traits": ["seaKings"],
+  "rarity": "C",
+  "setId": "OP11",
+  "cardNumber": "107",
+  "printedText": "[Blocker]\n[Activate: Main] [Once Per Turn] If your Leader is [Shirahoshi], you may turn 1 card from the top of your Life cards face-down: At the end of your turn, set this Character as active.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "leaderIs_shirahoshi",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your Leader is [Shirahoshi], you may turn 1 card from the top of your Life cards face-down: At the end of your turn, set this Character as active.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Shirahoshi]"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "setTopLifeFace",
+        "side": "self",
+        "count": 1,
+        "faceUp": false,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "endOfYourTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "actions": [
+            {
+              "type": "setState",
+              "state": "active",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              }
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

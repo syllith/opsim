@@ -1,68 +1,63 @@
 {
-  "id": "OP09-015",
-  "set": "OP09",
-  "number": 15,
-  "name": "Lucky Roux",
-  "category": "Character",
+  "cardName": "Lucky Roux",
+  "cardId": "OP09-015",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Ranged",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "ranged"
+  ],
   "types": [
     "Red Hair Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-015.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On K.O."
+  "traits": [
+    "redHairedPirates"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. If your Leader has the (Red Hair Pirates) type, K.O. up to 1 of your opponent's Characters with an original power of 6000 or less.",
+  "rarity": "R",
+  "setId": "OP09",
+  "cardNumber": "015",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] If your Leader has the {Red Hair Pirates} type, K.O. up to 1 of your opponent's Characters with an original power of 6000 or less.",
+  "keywords": [
+    "Blocker"
+  ],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "redHairPirates"
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "oppBase6000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 6000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your Leader has the (Red Hair Pirates) type, K.O. up to 1 of your opponent's Characters with an original power of 6000 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=power6000"
-        ],
-        "conditions": [
-          "self:hasType(Red Hair Pirates)"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppBase6000OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

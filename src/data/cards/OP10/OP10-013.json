@@ -1,33 +1,28 @@
 {
-  "id": "OP10-013",
-  "set": "OP10",
-  "number": 13,
-  "name": "Nami",
-  "category": "Character",
+  "cardName": "Nami",
+  "cardId": "OP10-013",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Punk Hazard",
     "Straw Hat Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP10/OP10-013.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "traits": [
+    "punkHazard",
+    "strawHatPirates"
+  ],
+  "rarity": "C",
+  "setId": "OP10",
+  "cardNumber": "013",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "abilities": []
 }

@@ -1,0 +1,114 @@
+{
+  "cardName": "Donquixote Rosinante",
+  "cardId": "OP04-119",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 8,
+  "power": 8000,
+  "types": [
+    "Navy",
+    "Donquixote Pirates"
+  ],
+  "setId": "OP04",
+  "cardNumber": "119",
+  "printedText": "Opponent's Turn If this Character is rested, your active Characters with an original cost of 5 cannot be K.O.'d by effects.\nOn Play You may rest this Character: Play up to 1 green Character card with a cost of 5 from your hand.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "duringOpponentsTurn",
+      "frequency": "none",
+      "condition": {
+        "field": "thisCardState",
+        "op": "=",
+        "value": "rested"
+      },
+      "selectors": {
+        "protectedChars": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            },
+            {
+              "field": "originalCost",
+              "op": "=",
+              "value": 5
+            }
+          ],
+          "whoChooses": "system",
+          "bindAs": "protectedChars"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKOdByEffect",
+          "target": "protectedChars",
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "frequency": "none",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "color",
+              "op": "=",
+              "value": "green"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "playTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "payCost": true
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy",
+    "donquixotePirates"
+  ]
+}

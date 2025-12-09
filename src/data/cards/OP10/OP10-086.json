@@ -1,66 +1,76 @@
 {
-  "id": "OP10-086",
-  "set": "OP10",
-  "number": 86,
-  "name": "Shiryu",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Blackbeard Pirates"
-  ],
+  "cardName": "Shiryu",
+  "cardId": "OP10-086",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-086.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Opponent's Turn: This character gains +2000 power. Activate: Main Once Per Turn: If this is the turn this card was played and if your leader has type (Blackbeard Pirate), K.O up to 1 of your opponent's characters with an original cost of 3 or less.",
+  "setId": "OP10",
+  "cardNumber": "086",
+  "printedText": "[Opponent's Turn] This Character gains +2000 power.\n[Activate: Main] [Once Per Turn] If this is the turn this card was played and if your Leader has the type \"Blackbeard Pirate\", K.O. up to 1 of your opponent's Characters with an original cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This character gains +2000 power.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "duringOpponentsTurn",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "selfThisCard"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selfPlayedThisTurn",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "blackbeardPirates"
+          }
+        ]
       },
-      "effect": {
-        "text": "If this is the turn this card was played and if your leader has type (Blackbeard Pirate), K.O up to 1 of your opponent's characters with an original cost of 3 or less.",
-        "powerMod": null,
-        "conditions": [
-          "this is the turn this card was played",
-          "your leader has type (Blackbeard Pirate)"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppOriginalCost3OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppOriginalCost3OrLessChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppOriginalCost3OrLessChar"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample; 'SAMPLE' watermark present. Rarity is 'R' as printed. Power is 5000 as printed. Counter value is 1000 as printed. Text is fully legible."
-  }
+  ]
 }

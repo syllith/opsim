@@ -1,76 +1,133 @@
 {
-  "id": "OP04-117",
-  "set": "OP04",
-  "number": 117,
-  "name": "Heavenly Fire",
-  "category": "Event",
+  "cardName": "Heavenly Fire",
+  "cardId": "OP04-117",
+  "cardType": "event",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "Four Emperors",
     "Big Mom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-117.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "117",
+  "printedText": "Main Add up to 1 of your opponent's cost 3 or less Characters to the top or bottom of your opponent's Life face-up.\n\nTrigger You may add 1 card to your hand from the top or bottom of your Life: Place up to 1 card from your hand on top of your Life.",
   "keywords": [
-    "Main",
-    "Trigger"
+    "trigger"
   ],
-  "trigger": {
-    "text": "You may add 1 card to your hand from the top or bottom of your life: Place up to one card from your hand on top of your life."
-  },
-  "text": "Main Add up to 1 of your opponent's cost 3 or less characters to the top or bottom of your opponent's life face-up.\nTrigger You may add 1 card to your hand from the top or bottom of your life: Place up to one card from your hand on top of your life.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "mainTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "mainTarget"
+        }
       },
-      "effect": {
-        "text": "Add up to 1 of your opponent's cost 3 or less characters to the top or bottom of your opponent's life face-up.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost3"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "mainTarget",
+                  "destination": "topOfLife",
+                  "ordering": "keep",
+                  "faceUp": true
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "mainTarget",
+                  "destination": "bottomOfLife",
+                  "ordering": "keep",
+                  "faceUp": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "triggerHandToLife": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "triggerHandToLife"
+        }
       },
-      "effect": {
-        "text": "You may add 1 card to your hand from the top or bottom of your life: Place up to one card from your hand on top of your life.",
-        "powerMod": null,
-        "targets": [
-          "oneCardFromLife",
-          "oneCardFromHand"
-        ],
-        "conditions": [
-          "fromLife",
-          "fromHand"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "destination": "hand",
+                  "target": "selfTopLifeCard"
+                },
+                {
+                  "type": "moveCard",
+                  "target": "triggerHandToLife",
+                  "destination": "topOfLife",
+                  "ordering": "keep"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "noop"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "traits": [
+    "theFourEmperors",
+    "bigMomPirates"
+  ]
 }

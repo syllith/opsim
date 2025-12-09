@@ -1,65 +1,71 @@
 {
-  "id": "OP14-097",
-  "set": "OP14",
-  "number": 97,
-  "name": "Hurry Up and Make Me the Pirate King!",
-  "category": "Event",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
+  "cardName": "Hurry Up and Make Me the Pirate King!",
+  "cardId": "OP14-097",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 1,
   "types": [
     "The Seven Warlords of the Sea",
     "Thriller Bark Pirates"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP14/OP14-097.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "thrillerBarkPirates"
   ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main Look at 3 cards from the top of your deck; reveal up to 1 {Thriller Bark Pirates} type card other than [Hurry Up and Make Me the Pirate King!] and add it to your hand. Then, trash the rest.",
+  "rarity": "UC",
+  "setId": "OP14",
+  "cardNumber": "097",
+  "printedText": "[Main] Look at 3 cards from the top of your deck; reveal up to 1 {Thriller Bark Pirates} type card other than [Hurry Up and Make Me the Pirate King!] and add it to your hand. Then, trash the rest.\n[Trigger] Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "top3TbpNonSelf": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "thrillerBarkPirates"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Hurry Up and Make Me the Pirate King!"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at 3 cards from the top of your deck; reveal up to 1 {Thriller Bark Pirates} type card other than [Hurry Up and Make Me the Pirate King!] and add it to your hand. Then, trash the rest.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top3TbpNonSelf",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "trash",
+          "remainingOrdering": "keep",
+          "may": false
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

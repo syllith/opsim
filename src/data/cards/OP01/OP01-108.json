@@ -1,38 +1,67 @@
 {
-  "id": "OP01-108",
-  "set": "OP01",
-  "number": 108,
-  "name": "Kamazo the Manslayer",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Slash",
-  "types": ["Supernovas", "Kid Pirates", "Smile"],
-  "rarity": "C",
-  "art": "/cards/OP01/OP01-108.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter", "On K.O.", "DON!!"],
-  "trigger": null,
-  "text": "On K.O. DON!! -1 K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "cardName": "Kamazo the Manslayer",
+  "cardId": "OP01-108",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "Supernovas",
+    "Kid Pirates",
+    "Smile"
+  ],
+  "rarity": "UC",
+  "setId": "OP01",
+  "cardNumber": "108",
+  "printedText": "[On K.O.] DON!! −1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "keywords": [
+    "onKO"
+  ],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=5"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "frequency": "none",
+      "cost": {
+        "type": "returnDon",
+        "count": 1
+      },
+      "selectors": {
+        "opponentCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCost5OrLess"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "supernovas",
+    "kidPirates",
+    "smile"
+  ]
 }

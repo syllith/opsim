@@ -1,35 +1,117 @@
 {
-  "id": "OP03-028",
-  "set": "OP03",
-  "number": 28,
-  "name": "Django",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Ranged",
-  "types": ["East Blue", "Black Cat Pirates"],
-  "rarity": "SR",
-  "art": "/cards/OP03/OP03-028.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Choose 1 of the following effects.\n• Set up to 1 of your Leader or Characters with the {East Blue} type with a cost of 6 or less as active.\n• Rest this Character and up to 1 of your opponent's Characters.",
+  "cardName": "Django",
+  "cardId": "OP03-028",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "East Blue",
+    "Black Cat Pirates"
+  ],
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "028",
+  "printedText": "[On Play] Choose 1 of the following effects.\n• Set up to 1 of your Leader or Characters with the {East Blue} type with a cost of 6 or less as active.\n• Rest this Character and up to 1 of your opponent's Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Choose 1 of the following effects. • Set up to 1 of your Leader or Characters with the {East Blue} type with a cost of 6 or less as active. • Rest this Character and up to 1 of your opponent's Characters.",
-        "targets": ["yourLeaderOrCharacter", "thisCharacter", "opponentCharacter"],
-        "conditions": ["typeEastBlue", "costLessOrEqual6"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "eastBlueSelfLC": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "East Blue"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 6
+                }
+              ]
+            }
+          ]
+        },
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "oppChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "setState",
+                  "state": "active",
+                  "target": "eastBlueSelfLC"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "setState",
+                  "state": "rested",
+                  "target": "thisCard"
+                },
+                {
+                  "type": "setState",
+                  "state": "rested",
+                  "target": "oppChar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "eastBlue",
+    "blackCatPirates"
+  ]
 }

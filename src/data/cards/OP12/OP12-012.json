@@ -1,59 +1,54 @@
 {
-  "id": "OP12-012",
-  "set": "OP12",
-  "number": 12,
-  "name": "Buggy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Roger Pirates"
-  ],
+  "cardName": "Buggy",
+  "cardId": "OP12-012",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Roger Pirates"],
+  "traits": ["rogerPirates"],
   "rarity": "C",
-  "art": "/cards/OP12/OP12-012.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "On Play: Up to 1 of your (Roger Pirates) type Characters other than [Buggy] gains Blocker until the end of your opponent's next turn.",
+  "setId": "OP12",
+  "cardNumber": "012",
+  "printedText": "[On Play] Up to 1 of your {Roger Pirates} type Characters other than [Buggy] gains Blocker until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "rogerPiratesOtherThanBuggy": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "rogerPirates"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Buggy"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your (Roger Pirates) type Characters other than [Buggy] gains Blocker until the end of your opponent's next turn.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "oneOfYourCharacters",
-          "otherThanSelf"
-        ],
-        "conditions": [
-          "type:Roger Pirates"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "rogerPiratesOtherThanBuggy"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

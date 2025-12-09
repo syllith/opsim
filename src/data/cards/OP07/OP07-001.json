@@ -1,52 +1,75 @@
 {
-  "id": "OP07-001",
-  "set": "OP07",
-  "number": 1,
-  "name": "Monkey.D.Dragon",
-  "category": "Leader",
+  "cardName": "Monkey.D.Dragon",
+  "cardId": "OP07-001",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP07/OP07-001.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
+  "traits": [
+    "revolutionaryArmy"
   ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn Give up to a total of 2 of your currently attached don to one of your characters.",
+  "rarity": "L",
+  "setId": "OP07",
+  "cardNumber": "001",
+  "printedText": "[Activate: Main] [Once Per Turn] Give up to 2 total of your currently given DON!! cards to 1 of your Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "donToMove": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "filters": [
+            {
+              "field": "isGiven",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "targetCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to a total of 2 of your currently attached don to one of your characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOfYourCharacters"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "detachDon",
+          "target": "donToMove",
+          "count": 2,
+          "may": true
+        },
+        {
+          "type": "attachDon",
+          "target": "targetCharacter",
+          "selector": "donToMove"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

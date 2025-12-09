@@ -1,66 +1,91 @@
 {
-  "id": "OP11-020",
-  "set": "OP11",
-  "number": 20,
-  "name": "X Caliber",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy",
-    "SWORD",
-    "Drake Pirates"
-  ],
+  "cardName": "X Caliber",
+  "cardId": "OP11-020",
+  "cardType": "event",
+  "colors": ["red", "yellow"],
+  "cost": 2,
+  "types": ["Navy", "SWORD", "Drake Pirates"],
+  "traits": ["navy", "sword", "drakePirates"],
   "rarity": "UC",
-  "art": "/cards/OP11/OP11-020.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's Characters with a power of 4000 or less."
-  },
-  "text": "Main: Give up to 2 of your opponent's Characters -2000 power during this turn. Then, up to 1 of your {Navy} type Characters gains +1000 power during this turn.",
+  "setId": "OP11",
+  "cardNumber": "020",
+  "printedText": "[Main] Give up to 2 of your opponent's Characters -2000 power during this turn. Then, up to 1 of your {Navy} type Characters gains +1000 power during this turn.\n[Trigger] K.O. up to 1 of your opponent's Characters with a power of 4000 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "debuffTargets": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "navyBuffTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "navy"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 2 of your opponent's Characters -2000 power during this turn. Then, up to 1 of your {Navy} type Characters gains +1000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "debuffTargets"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "navyBuffTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "triggerKoTarget4000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a power of 4000 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "triggerKoTarget4000OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

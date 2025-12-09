@@ -1,76 +1,125 @@
 {
-  "id": "OP12-016",
-  "set": "OP12",
-  "number": 16,
-  "name": "To Never Doubt--That Is Power!",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Former Roger Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP12/OP12-016.png",
-  "stats": {
-    "cost": 0,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "Main You may give up to 2 active DON!! cards to your [Silvers Rayleigh]: Your opponent cannot activate if that Leader or Character attacks during this turn. \n#Counter Give up to 1 of your Characters or [Silvers Rayleigh] +2000 power during this battle.",
+  "cardName": "To Never Doubt--That Is Power!",
+  "cardId": "OP12-016",
+  "cardType": "event",
+  "colors": ["red"],
+  "cost": 0,
+  "types": ["Former Roger Pirates"],
+  "traits": ["formerRogerPirates"],
+  "rarity": "R",
+  "setId": "OP12",
+  "cardNumber": "016",
+  "printedText": "[Main] You may give up to 2 active DON!! cards to your [Silvers Rayleigh]; your opponent cannot activate Blocker if that Leader or Character attacks during this turn.\n[Counter] Give up to 1 of your Characters or [Silvers Rayleigh] +2000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 2
+      "timing": "main",
+      "selectors": {
+        "rayleighTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Silvers Rayleigh"
+            }
+          ]
+        },
+        "activeDonForRayleigh": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            }
+          ]
+        },
+        "opponentBlockers": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "hasKeyword",
+              "op": "=",
+              "value": "Blocker"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "You may give up to 2 active DON!! cards to your [Silvers Rayleigh]: Your opponent cannot activate if that Leader or Character attacks during this turn.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "ally:Leader",
-          "ally:Character"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": "rayleighTarget",
+          "selector": "activeDonForRayleigh",
+          "may": true
+        },
+        {
+          "type": "restrict",
+          "restrictionKind": "blocker",
+          "target": "opponentBlockers",
+          "duration": "thisTurn",
+          "condition": {
+            "field": "attackSourceCardName",
+            "op": "=",
+            "value": "Silvers Rayleigh"
+          }
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "counter",
+      "selectors": {
+        "powerBoostTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "character"
+                },
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Silvers Rayleigh"
+                }
+              ]
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your Characters or [Silvers Rayleigh] +2000 power during this battle.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "oneOpponentCharacter",
-          "self"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "powerBoostTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

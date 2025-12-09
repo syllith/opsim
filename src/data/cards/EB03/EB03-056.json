@@ -1,37 +1,64 @@
 {
-  "id": "EB03-056",
-  "set": "EB03",
-  "number": 56,
-  "name": "Belo Betty",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Revolutionary Army"],
+  "cardName": "Belo Betty",
+  "cardId": "EB03-056",
+  "cardType": "character",
+  "colors": [
+    "yellow"
+  ],
+  "cost": 4,
+  "power": 3000,
+  "counter": 2000,
+  "types": [
+    "Revolutionary Army"
+  ],
   "rarity": "R",
-  "art": "/cards/EB03/EB03-056.png",
-  "stats": {
-    "cost": 4,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] You may turn 1 card from the top of your Life cards face-up: K.O. up to 1 of your opponent's Characters with a base cost of 3 or less.",
+  "setId": "EB03",
+  "cardNumber": "056",
+  "printedText": "On Play You may turn 1 card from the top of your Life cards face-up: K.O. up to 1 of your opponent's Characters with a base cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may turn 1 card from the top of your Life cards face-up: K.O. up to 1 of your opponent's Characters with a base cost of 3 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["life", "upTo1:opponent:Character"],
-        "conditions": ["mayTurnLifeFaceUp", "opponentCharacterBaseCost<=3"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "oppCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "revealLife",
+          "count": 1,
+          "side": "self",
+          "may": true,
+          "all": false,
+          "ordering": "keep"
+        },
+        {
+          "type": "ko",
+          "target": "oppCost3OrLess"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "revolutionaryArmy"
+  ]
 }

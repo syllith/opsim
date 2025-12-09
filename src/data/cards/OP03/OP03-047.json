@@ -1,72 +1,100 @@
 {
-  "id": "OP03-047",
-  "set": "OP03",
-  "number": 47,
-  "name": "Zeff",
-  "category": "Character",
+  "cardName": "Zeff",
+  "cardId": "OP03-047",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "East Blue"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-047.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!!",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When this Character deals damage to your opponent's life, you may trash 7 cards from the top of your deck. On Play Return up to 1 Character with a cost of 3 or less to the owner's hand, then you may trash 2 cards from the top of your deck.",
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "047",
+  "printedText": "DON!! x1 When this Character deals damage to your opponent's Life, you may trash 7 cards from the top of your deck.\n[On Play] Return up to 1 Character with a cost of 3 or less to the owner's hand, then you may trash 2 cards from the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "DON!!",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "When this Character deals damage to your opponent's life, you may trash 7 cards from the top of your deck.",
-        "powerMod": null,
-        "targets": [
-          "opponent:Character"
-        ],
-        "conditions": [
-          "thisCharacter:dealsDamage"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "thisCharacterDealsLifeDamage",
+          "target": "thisCard",
+          "actions": [
+            {
+              "type": "trashTopDeck",
+              "count": 7,
+              "may": true
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Return up to 1 Character with a cost of 3 or less to the owner's hand, then you may trash 2 cards from the top of your deck.",
-        "powerMod": null,
-        "targets": [
-          "oneCharacter<=cost3",
-          "optionalTarget"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bounceTarget",
+          "destination": "hand",
+          "may": true
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 2,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

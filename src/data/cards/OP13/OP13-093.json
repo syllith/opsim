@@ -1,62 +1,35 @@
 {
-  "id": "OP13-093",
-  "set": "OP13",
-  "number": 93,
-  "name": "Morgans",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Journalist"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP13/OP13-093.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: Draw 2 cards and trash 2 cards from your hand.",
+  "cardName": "Morgans",
+  "cardId": "OP13-093",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Journalist"],
+  "traits": ["journalist"],
+  "rarity": "C",
+  "setId": "OP13",
+  "cardNumber": "093",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Draw 2 cards and trash 2 cards from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards and trash 2 cards from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

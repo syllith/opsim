@@ -1,49 +1,59 @@
 {
-  "id": "OP05-109",
-  "set": "OP05",
-  "number": 109,
-  "name": "Pagaya",
-  "category": "Character",
+  "cardName": "Pagaya",
+  "cardId": "OP05-109",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
   "types": [
     "Sky Island"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-109.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Once Per Turn",
-    "When a Trigger activates"
-  ],
-  "trigger": null,
-  "text": "Once Per Turn When a Trigger activates, draw 2 cards and trash 2 cards from your hand.",
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "109",
+  "printedText": "Once Per Turn When a Trigger activates, draw 2 cards and trash 2 cards from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "anyTriggerSourceInLife": {
+          "side": "both",
+          "type": "any",
+          "zones": [
+            "life"
+          ]
+        }
       },
-      "effect": {
-        "text": "When a Trigger activates, draw 2 cards and trash 2 cards from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "triggerActivated",
+          "target": "anyTriggerSourceInLife",
+          "actions": [
+            {
+              "type": "draw",
+              "count": 2
+            },
+            {
+              "type": "trashFromHand",
+              "minCards": 2,
+              "maxCards": 2
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card is a sample and does not represent an actual card from the One Piece TCG. The text 'SAMPLE' is overlaid on the image."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "skyIsland"
+  ]
 }

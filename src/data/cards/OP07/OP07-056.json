@@ -1,64 +1,91 @@
 {
-  "id": "OP07-056",
-  "set": "OP07",
-  "number": 56,
-  "name": "Slave Arrow",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
+  "cardName": "Slave Arrow",
+  "cardId": "OP07-056",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 1,
   "types": [
-    "Seven Warlords of the Sea/Kuja Pirates"
+    "Seven Warlords of the Sea",
+    "Kuja Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-056.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 4000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "kujaPirates"
   ],
-  "trigger": {
-    "text": "Draw 2 cards and place 2 cards from your hand on the bottom of your deck."
-  },
-  "text": "You may return 1 of your Cost 2 or higher Characters to its owner's hand: Give up to 1 of your Leader or Characters +4000 power during this battle.",
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "056",
+  "printedText": "[Counter] You may return 1 of your Characters with a cost of 2 or more to the owner's hand: Up to 1 of your Leader or Character cards gains +4000 power during this battle. [Trigger] Draw 2 cards and place 2 cards from your hand at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
+      "timing": "counter",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveFromField",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 2
+            }
+          ]
+        },
+        "destination": "hand",
+        "may": true
       },
-      "effect": {
-        "text": "You may return 1 of your Cost 2 or higher Characters to its owner's hand: Give up to 1 of your Leader or Characters +4000 power during this battle.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "slaveArrowCounterBoostTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "slaveArrowCounterBoostTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "slaveArrowTriggerHandToBottom": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Draw 2 cards and place 2 cards from your hand on the bottom of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "moveCard",
+          "target": "slaveArrowTriggerHandToBottom",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,64 +1,85 @@
 {
-  "id": "OP11-037",
-  "set": "OP11",
-  "number": 37,
-  "name": "The Ancient Weapon \"Poseidon\"",
-  "category": "Event",
+  "cardName": "The Ancient Weapon \"Poseidon\"",
+  "cardId": "OP11-037",
+  "cardType": "event",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "Fishman Island"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP11/OP11-037.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "fishManIsland"
   ],
-  "trigger": {
-    "text": "Draw 1 card."
-  },
-  "text": "Main: Look at the top 4 cards of your deck. Reveal up to 1 (Sea King) or (Fishman Island) type Character card and add it to your hand, then place the remaining cards at the bottom of your deck in any order.",
+  "rarity": "UC",
+  "setId": "OP11",
+  "cardNumber": "037",
+  "printedText": "[Main] Look at the top 4 cards of your deck. Reveal up to 1 {Sea King} or {Fishman Island} type Character card and add it to your hand, then place the remaining cards at the bottom of your deck in any order.\n[Trigger] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at the top 4 cards of your deck. Reveal up to 1 (Sea King) or (Fishman Island) type Character card and add it to your hand, then place the remaining cards at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "main",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "deck"
+            ],
+            "filters": [
+              {
+                "logic": "AND",
+                "all": [
+                  {
+                    "field": "cardType",
+                    "op": "=",
+                    "value": "character"
+                  },
+                  {
+                    "logic": "OR",
+                    "any": [
+                      {
+                        "field": "traits",
+                        "op": "=",
+                        "value": "seaKings"
+                      },
+                      {
+                        "field": "traits",
+                        "op": "=",
+                        "value": "fishmanIsland"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 4,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,55 +1,81 @@
 {
-  "id": "OP14-108",
-  "set": "OP14",
-  "number": 108,
-  "name": "Silvers Rayleigh",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Slash",
+  "cardName": "Silvers Rayleigh",
+  "cardId": "OP14-108",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 6,
+  "power": 6000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": [
     "Former Roger Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP14/OP14-108.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
+  "traits": [
+    "formerRogerPirates"
   ],
-  "trigger": {
-    "text": "Activate this card's On Play effect."
-  },
-  "text": "On Play: If your Leader is multicolored and your opponent has 3 or less Life cards, K.O. up to 1 of your opponent's Characters with 7000 base power or less.",
+  "rarity": "R",
+  "setId": "OP14",
+  "cardNumber": "108",
+  "printedText": "[On Play] If your Leader is multicolored and your opponent has 3 or less Life cards, K.O. up to 1 of your opponent's Characters with 7000 base power or less.\n[Trigger] Activate this card's [On Play] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "opponentLife": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["life"]
+        },
+        "opponentCharacter7000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 7000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your Leader is multicolored and your opponent has 3 or less Life cards, K.O. up to 1 of your opponent's Characters with 7000 base power or less.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIsMulticolored",
-          "opponentHas3OrLessLifeCards"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selfLeaderColorCount",
+            "op": ">=",
+            "value": 2
+          },
+          {
+            "field": "selectorCount",
+            "selector": "opponentLife",
+            "op": "<=",
+            "value": 3
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacter7000OrLess"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "onPlay"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

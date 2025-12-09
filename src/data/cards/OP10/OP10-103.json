@@ -1,49 +1,58 @@
 {
-  "id": "OP10-103",
-  "set": "OP10",
-  "number": 103,
-  "name": "Capone \"Gang\" Bege",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Supernova",
-    "Fire Tank Pirates"
-  ],
+  "cardName": "Capone \"Gang\" Bege",
+  "cardId": "OP10-103",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["ranged"],
+  "types": ["Supernova", "Fire Tank Pirates"],
+  "traits": ["supernova", "fireTankPirates"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-103.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may add 1 card from the top or bottom of your Life cards to your hand. Add up to 1 Character with the type \"Supernova\" from your hand to the top of your Life cards face-up.",
+  "setId": "OP10",
+  "cardNumber": "103",
+  "printedText": "[On Play] You may add 1 card from the top or bottom of your Life cards to your hand: Add up to 1 Character with the type \"Supernova\" from your hand to the top of your Life cards face-up.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
       },
-      "effect": {
-        "text": "You may add 1 card from the top or bottom of your Life cards to your hand. Add up to 1 Character with the type \"Supernova\" from your hand to the top of your Life cards face-up.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "supernovaFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernova"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "supernovaFromHand"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "supernovaFromHand",
+          "destination": "topOfLife",
+          "ordering": "keep",
+          "faceUp": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,46 +1,64 @@
 {
-  "id": "OP06-052",
-  "set": "OP06",
-  "number": 52,
-  "name": "Tokikake",
-  "category": "Character",
+  "cardName": "Tokikake",
+  "cardId": "OP06-052",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Navy"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-052.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "traits": [
+    "navy"
+  ],
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "052",
+  "printedText": "DON!! x1 If you have 4 or less cards in your hand, this character cannot be K.O.'d in battle.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 If you have 4 or less cards in your hand, this character cannot be K.O'd in battle",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onWouldBeKO",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selfHandSize",
+            "op": "<=",
+            "value": 4
+          },
+          {
+            "field": "koReason",
+            "op": "=",
+            "value": "battle"
+          }
+        ]
       },
-      "effect": {
-        "text": "If you have 4 or less cards in your hand, this character cannot be K.O'd in battle",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "preventKO",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, but rarity is R based on printed text. Power is 3000, not 3000 as printed in the top right corner. Life is not printed."
-  }
+  ]
 }

@@ -1,67 +1,57 @@
 {
-  "id": "OP11-075",
-  "set": "OP11",
-  "number": 75,
-  "name": "Jaguar.D.Saul",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Giants",
-    "Ohara",
-    "Former Navy"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-075.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger",
-    "Activate: Main"
-  ],
-  "trigger": {
-    "text": "Activate this card's On Play effect."
-  },
-  "text": "On Play If your leader is [Nico Robin] and you have 7 or more DON!! cards on your field, draw 2 cards.",
+  "cardName": "Jaguar.D.Saul",
+  "cardId": "OP11-075",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 6000,
+  "attributes": ["strike"],
+  "types": ["Giants", "Ohara", "Former Navy"],
+  "traits": ["giants", "ohara", "formerNavy"],
+  "rarity": "C",
+  "setId": "OP11",
+  "cardNumber": "075",
+  "printedText": "[On Play] If your Leader is [Nico Robin] and you have 7 or more DON!! cards on your field, draw 2 cards. [Trigger] Activate this card's [On Play] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 7,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your leader is [Nico Robin] and you have 7 or more DON!! cards on your field, draw 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "leaderIs_nicoRobin",
+                "op": "=",
+                "value": true
+              },
+              {
+                "field": "donOnFieldCount",
+                "op": ">=",
+                "value": 7
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 2,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's On Play effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "onPlay"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

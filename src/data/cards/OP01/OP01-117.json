@@ -1,38 +1,60 @@
 {
-  "id": "OP01-117",
-  "set": "OP01",
-  "number": 117,
-  "name": "Sheep's Horn",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Animal Kingdom Pirates", "Smile"],
+  "cardName": "Sheep's Horn",
+  "cardId": "OP01-117",
+  "cardType": "event",
+  "colors": [
+    "purple"
+  ],
+  "cost": 2,
+  "types": [
+    "Animal Kingdom Pirates",
+    "Smile"
+  ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-117.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "DON!!"],
-  "trigger": null,
-  "text": "Main DON!! -1 Rest up to 1 of your opponent's Characters with a cost of 6 or less.",
+  "setId": "OP01",
+  "cardNumber": "117",
+  "printedText": "[Main] DON!! −1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Rest up to 1 of your opponent's Characters with a cost of 6 or less.",
+  "keywords": [
+    "main"
+  ],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters with a cost of 6 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=6"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "main",
+      "cost": {
+        "type": "returnDon",
+        "count": 1
+      },
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "animalKingdomPirates",
+    "smile"
+  ]
 }

@@ -1,35 +1,63 @@
 {
-  "id": "OP02-079",
-  "set": "OP02",
-  "number": 79,
-  "name": "Douglas Bullet",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["FILM", "The Pirates Fest"],
-  "rarity": "SR",
-  "art": "/cards/OP02/OP02-079.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "DON!! -1"],
-  "trigger": null,
-  "text": "[On Play] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "cardName": "Douglas Bullet",
+  "cardId": "OP02-079",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "FILM",
+    "The Pirates Fest"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "079",
+  "printedText": "[On Play] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [
+    "onPlay"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
-        "targets": ["upTo1:opponent:Character<=4"],
-        "conditions": []
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "cost": {
+        "type": "donMinus",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 4
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "film",
+    "thePiratesFest"
+  ]
 }

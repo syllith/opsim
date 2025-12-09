@@ -1,76 +1,95 @@
 {
-  "id": "OP05-005",
-  "set": "OP05",
-  "number": 5,
-  "name": "Karasu",
-  "category": "Character",
+  "cardName": "Karasu",
+  "cardId": "OP05-005",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Revolutionary Army"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-005.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "On Play: If your leader's type is (Revolutionary Army), Give up to 1 of your opponent's Leader or Characters -1000 power during this turn. When Attacking: If this character has 7000 power or more, Give up to 1 of your opponent's Leader or Characters -1000 power during this turn.",
+  "setId": "OP05",
+  "cardNumber": "005",
+  "printedText": "[On Play] If your Leader's type is {Revolutionary Army}, give up to 1 of your opponent's Leader or Characters -1000 Power during this turn.\n[When Attacking] If this Character has 7000 Power or more, give up to 1 of your opponent's Leader or Characters -1000 Power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderHasType",
+        "op": "=",
+        "value": "Revolutionary Army"
       },
-      "effect": {
-        "text": "If your leader's type is (Revolutionary Army), Give up to 1 of your opponent's Leader or Characters -1000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter",
-          "oneOpponentLeader"
-        ],
-        "conditions": [
-          "leaderType:Revolutionary Army"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "debuffTargetOnPlay": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "debuffTargetOnPlay"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": "debuffTargetOnPlay"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "thisCardPower",
+        "op": ">=",
+        "value": 7000
       },
-      "effect": {
-        "text": "If this character has 7000 power or more, Give up to 1 of your opponent's Leader or Characters -1000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter",
-          "oneOpponentLeader"
-        ],
-        "conditions": [
-          "thisCharacterPower>=7000"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "debuffTargetAttack": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "debuffTargetAttack"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": "debuffTargetAttack"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "revolutionaryArmy"
+  ]
 }

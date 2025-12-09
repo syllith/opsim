@@ -1,70 +1,47 @@
 {
-  "id": "P-101",
-  "set": "P",
-  "number": 101,
-  "name": "Tony Tony.Chopper",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animal",
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-101.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play Give up to 1 rested DON!! card to your Leader.",
+  "cardName": "Tony Tony.Chopper",
+  "cardId": "P-101",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Animal", "Straw Hat Crew"],
+  "traits": ["animal", "strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-101",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Give up to 1 rested DON!! card to your Leader.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Give up to 1 rested DON!! card to your Leader.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": [
-            "Leader"
-          ]
+      "timing": "onPlay",
+      "selectors": {
+        "restedDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": "selfLeader",
+          "selector": "restedDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

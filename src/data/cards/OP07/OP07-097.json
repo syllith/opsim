@@ -1,47 +1,102 @@
 {
-  "id": "OP07-097",
-  "set": "OP07",
-  "number": 97,
-  "name": "Vegapunk",
-  "category": "Leader",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Egghead",
-    "Scientist"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP07/OP07-097.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 2,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "cardName": "Vegapunk",
+  "cardId": "OP07-097",
+  "cardType": "leader",
+  "colors": ["yellow"],
+  "power": 5000,
+  "life": 2,
+  "attributes": ["wisdom"],
+  "types": ["Egghead", "Scientist"],
+  "traits": ["egghead", "scientist"],
+  "rarity": "L",
+  "setId": "OP07",
+  "cardNumber": "097",
+  "printedText": "This Leader cannot attack.\n[Activate: Main] [Once Per Turn] [1] (You may rest the specified number of DON!! cards in your Cost Area.) Place up to 1 cost 5 or less card with the {Egghead} type from your hand face-up on top of your Life or into play.",
   "keywords": [],
-  "trigger": null,
-  "text": "This leader cannot attack.\nActivate: Main Once Per Turn (You may rest the specified number of DON!! cards in your Cost Area) Place up to one cost 5 or less card with the (Egghead) type from your hand face-up on top of your life or into play.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "thisLeader": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["leader"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Place up to one cost 5 or less card with the (Egghead) type from your hand face-up on top of your life or into play.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "attack",
+          "target": "thisLeader",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 1
+      },
+      "selectors": {
+        "eggheadFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Egghead"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "eggheadFromHand",
+                  "destination": "topOfLife",
+                  "ordering": "keep",
+                  "faceUp": true
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "eggheadFromHand",
+                  "destination": "characterArea",
+                  "ordering": "keep",
+                  "faceUp": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

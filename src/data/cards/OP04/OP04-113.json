@@ -1,51 +1,54 @@
 {
-  "id": "OP04-113",
-  "set": "OP04",
-  "number": 113,
-  "name": "Rabian",
-  "category": "Character",
+  "cardName": "Rabian",
+  "cardId": "OP04-113",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Special",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Big Mom Pirates",
     "Homies"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-113.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "113",
+  "printedText": "[Trigger] Play this card.",
   "keywords": [
-    "Trigger"
+    "trigger"
   ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "Trigger\nPlay this card.",
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "selfFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfFromLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is C, confirmed by the 'C' in the bottom right corner of the card."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "bigMomPirates",
+    "homies"
+  ]
 }

@@ -1,55 +1,91 @@
 {
-  "id": "OP06-028",
-  "set": "OP06",
-  "number": 28,
-  "name": "Zeo",
-  "category": "Character",
+  "cardName": "Zeo",
+  "cardId": "OP06-028",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
   "types": [
-    "Fishman",
-    "New Fishman Pirates"
+    "Fish-Man",
+    "New Fish-Man Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP06/OP06-028.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking: If your leader has the <New Fishman Pirates> type, set up to 1 of your DON!! active, and this character gains Power +1000 for this turn. Then, add the top card of your life to your hand.",
+  "setId": "OP06",
+  "cardNumber": "028",
+  "printedText": "[DON!! x1] [When Attacking] If your Leader has the [New Fish-Man Pirates] type, set up to 1 of your DON!! cards to active, and this Character gains +1000 Power for this turn. Then, add the top card of your Life to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCountThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "leaderTypes",
+            "op": "=",
+            "value": "New Fish-Man Pirates"
+          }
+        ]
       },
-      "effect": {
-        "text": "If your leader has the <New Fishman Pirates> type, set up to 1 of your DON!! active, and this character gains Power +1000 for this turn. Then, add the top card of your life to your hand.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "selectors": {
+        "donToReady": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         },
-        "conditions": [
-          "leader:hasType<New Fishman Pirates>"
-        ],
-        "giveDon": null
-      }
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donToReady"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "thisCardSelector"
+        },
+        {
+          "type": "moveCard",
+          "destination": "hand",
+          "target": "selfTopLifeCard"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and 'BANDAI MADE IN JAPAN' on the image, but these are not part of the card's official data. The printed ID is OP06-028, set is OP06, number is 28, rarity is C (indicated by 'C' in the rarity box)."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "fishMan",
+    "newFishManPirates"
+  ]
 }

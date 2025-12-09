@@ -1,79 +1,86 @@
 {
-  "id": "OP03-113",
-  "set": "OP03",
-  "number": 113,
-  "name": "Charlotte Perospero",
-  "category": "Character",
+  "cardName": "Charlotte Perospero",
+  "cardId": "OP03-113",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Special",
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Big Mom Pirates"
   ],
   "rarity": "SR",
-  "art": "/cards/OP03/OP03-113.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "113",
+  "printedText": "On K.O. Look at 3 cards from the top of your deck; reveal up to 1 Big Mom Pirates type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\nTrigger You may discard 1 card from your hand: Play this card.",
   "keywords": [
-    "On K.O.",
+    "On KO",
     "Trigger"
   ],
-  "trigger": {
-    "text": "You may discard 1 card from your hand: Play this card."
-  },
-  "text": "On K.O.: Look at 3 cards from the top of your deck; reveal up to 1 {Big Mom Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at 3 cards from the top of your deck; reveal up to 1 {Big Mom Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": [
-          "upTo1CardFromTopOfDeck"
-        ],
-        "conditions": [
-          "isBigMomPirates"
-        ],
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "topCount": 3,
+          "selector": {
+            "side": "self",
+            "type": "deck",
+            "zones": [
+              "deck"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "types",
+                "op": "=",
+                "value": "Big Mom Pirates"
+              }
+            ]
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard 1 card from your hand: Play this card.",
-        "grants": [
-          "Play"
-        ],
-        "powerMod": null,
-        "targets": [
-          "yourHand"
-        ],
-        "conditions": [
-          "discard1Card"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is SR, confirmed by the 'SR' symbol next to the card number. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "bigMomPirates"
+  ]
 }

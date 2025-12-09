@@ -1,51 +1,62 @@
 {
-  "id": "OP09-092",
-  "set": "OP09",
-  "number": 92,
-  "name": "Marshall D. Teach",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Whitebeard Pirates"
-  ],
+  "cardName": "Marshall D. Teach",
+  "cardId": "OP09-092",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-092.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this character: If your hand has 3 or more fewer cards than your opponent's hand, draw 2 cards then discard 1 card.",
+  "setId": "OP09",
+  "cardNumber": "092",
+  "printedText": "[Activate: Main] You may rest this Character: If your hand has 3 or more fewer cards than your opponent's hand, draw 2 cards, then discard 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this character: If your hand has 3 or more fewer cards than your opponent's hand, draw 2 cards then discard 1 card.",
-        "powerMod": null,
-        "conditions": [
-          "yourHand < opponentHand by 3 or more"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "selfHand": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "opponentHand": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 0,
+          "whoChooses": "system"
+        }
+      },
+      "condition": {
+        "field": "selectorCountDifference",
+        "selectorA": "opponentHand",
+        "selectorB": "selfHand",
+        "op": ">=",
+        "value": 3
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "side": "self",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

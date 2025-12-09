@@ -1,64 +1,88 @@
 {
-  "id": "OP06-059",
-  "set": "OP06",
-  "number": 59,
-  "name": "White Snake",
-  "category": "Event",
+  "cardName": "White Snake",
+  "cardId": "OP06-059",
+  "cardType": "event",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Navy"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP06/OP06-059.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
+  "traits": [
+    "navy"
   ],
-  "trigger": {
-    "text": "Look at the top 5 cards of your deck, then place them in any order at the top or bottom of your deck."
-  },
-  "text": "Up to one of your leader or characters gain +1000 for this turn. Then, draw 1 card.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "059",
+  "printedText": "Counter Up to one of your leader or characters gains +1000 for this turn. Then, draw 1 card.\nTrigger Look at the top 5 cards of your deck, then place them in any order at the top or bottom of your deck.",
+  "keywords": [
+    "Counter"
+  ],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "frequency": "none",
+      "selectors": {
+        "selfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to one of your leader or characters gain +1000 for this turn. Then, draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "selfLeaderOrCharacter"
+        },
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "topFiveCards": {
+          "side": "self",
+          "type": "deck",
+          "zones": [
+            "deck"
+          ],
+          "min": 0,
+          "max": 5,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, then place them in any order at the top or bottom of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "topFiveCards",
+          "reveal": false,
+          "addTo": "topOfDeck",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "topOrBottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' in image, but rarity is UC as printed."
-  }
+  ]
 }

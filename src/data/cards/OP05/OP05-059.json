@@ -1,62 +1,82 @@
 {
-  "id": "OP05-059",
-  "set": "OP05",
-  "number": 59,
-  "name": "Let us begin the \"World of Violence\"!!!",
-  "category": "Event",
-  "colors": [],
-  "attribute": null,
+  "cardName": "Let us begin the \"World of Violence\"!!!",
+  "cardId": "OP05-059",
+  "cardType": "event",
+  "colors": [
+    "blue"
+  ],
+  "cost": 5,
+  "power": 0,
+  "counter": 0,
   "types": [
-    "Four Emperors/Animal Kingdom Pirates"
+    "Four Emperors",
+    "Animal Kingdom Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-059.png",
-  "stats": {
-    "cost": 5,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "If your leader is mixed coloured, draw 2 cards."
-  },
-  "text": "Main If your leader is mixed coloured, draw a card. Then, return a cost 5 or lower character to its owner's hand.\nTrigger If your leader is mixed coloured, draw 2 cards.",
+  "setId": "OP05",
+  "cardNumber": "059",
+  "printedText": "[Main] If your Leader is mixed coloured, draw 1 card. Then, return a cost 5 or lower Character to its owner's hand.\n[Trigger] If your Leader is mixed coloured, draw 2 cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderColorCount",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "If your leader is mixed coloured, draw a card. Then, return a cost 5 or lower character to its owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "bounceTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "moveCard",
+          "target": "bounceTarget",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderColorCount",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "If your leader is mixed coloured, draw 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark. Rarity is UC as printed in the bottom right corner. No colors printed on card, so colors field is empty."
-  }
+  "traits": [
+    "theFourEmperors",
+    "animalKingdomPirates"
+  ]
 }

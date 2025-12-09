@@ -1,65 +1,107 @@
 {
-  "id": "OP11-019",
-  "set": "OP11",
-  "number": 19,
-  "name": "Clay Web",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Navy",
-    "SWORD"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-019.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Give up to 1 of your Leaders or Characters +1000 power during this turn."
-  },
-  "text": "Counter: Give up to 1 of your Leaders or Characters +2000 power during this battle. Then, if your opponent has a Character with 6000 power or more, give up to 1 of your Leaders or Characters +1000 power during this turn. Trigger: Give up to 1 of your Leaders or Characters +1000 power during this turn.",
+  "cardName": "Clay Web",
+  "cardId": "OP11-019",
+  "cardType": "event",
+  "colors": ["red", "yellow"],
+  "cost": 2,
+  "types": ["Navy", "SWORD"],
+  "traits": ["navy", "sword"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "019",
+  "printedText": "[Counter] Give up to 1 of your Leaders or Characters +2000 power during this battle. Then, if your opponent has a Character with 6000 power or more, give up to 1 of your Leaders or Characters +1000 power during this turn.\n[Trigger] Give up to 1 of your Leaders or Characters +1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "battleBuffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "opponentCharacter6000OrMore": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": ">=",
+              "value": 6000
+            }
+          ],
+          "min": 0,
+          "max": 99,
+          "whoChooses": "system"
+        },
+        "turnBuffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your Leaders or Characters +2000 power during this battle. Then, if your opponent has a Character with 6000 power or more, give up to 1 of your Leaders or Characters +1000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "battleBuffTarget"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "opponentCharacter6000OrMore",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 1000,
+              "duration": "thisTurn",
+              "target": "turnBuffTarget"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "triggerBuffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your Leaders or Characters +1000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "triggerBuffTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

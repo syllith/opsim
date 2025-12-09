@@ -1,48 +1,71 @@
 {
-  "id": "OP09-066",
-  "set": "OP09",
-  "number": 66,
-  "name": "Jean Bart",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Heart Pirates"
-  ],
+  "cardName": "Jean Bart",
+  "cardId": "OP09-066",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Heart Pirates"],
+  "traits": ["heartPirates"],
   "rarity": "UC",
-  "art": "/cards/OP09/OP09-066.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your opponent has more DON!! cards on their field than you, K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "setId": "OP09",
+  "cardNumber": "066",
+  "printedText": "[On Play] If your opponent has more DON!! cards on their field than you, K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "selfDonInPlay": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 10,
+          "whoChooses": "system",
+          "bindAs": "selfDonInPlay"
+        },
+        "oppDonInPlay": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 10,
+          "whoChooses": "system",
+          "bindAs": "oppDonInPlay"
+        },
+        "oppCost3OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your opponent has more DON!! cards on their field than you, K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCountDifference",
+        "selectorA": "oppDonInPlay",
+        "selectorB": "selfDonInPlay",
+        "op": ">",
+        "value": 0
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost3OrLessChar"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

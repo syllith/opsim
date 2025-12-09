@@ -1,49 +1,85 @@
 {
-  "id": "OP10-067",
-  "set": "OP10",
-  "number": 67,
-  "name": "Senor Pink",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "Donquixote Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP10/OP10-067.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "On Play DON!! -1: Add up to 1 purple Event card with a cost of 5 or less from your trash to your hand. Then, set up to 1 of your DON!! cards as active.",
+  "cardName": "Senor Pink",
+  "cardId": "OP10-067",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
+  "rarity": "R",
+  "setId": "OP10",
+  "cardNumber": "067",
+  "printedText": "[On Play] DON!! -1: Add up to 1 purple Event card with a cost of 5 or less from your trash to your hand. Then, set up to 1 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "Add up to 1 purple Event card with a cost of 5 or less from your trash to your hand. Then, set up to 1 of your DON!! cards as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "purpleEventCost5OrLessFromTrash": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "colors",
+                  "op": "=",
+                  "value": "purple"
+                },
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "event"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 5
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "purpleEventCost5OrLessFromTrash"
+        },
+        "selfDonInCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "selfDonInCostArea"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "purpleEventCost5OrLessFromTrash",
+          "reveal": false,
+          "addTo": "hand",
+          "ordering": "any"
+        },
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfDonInCostArea"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has 'SPECIAL' rarity indicator, but rarity is confirmed as 'SP' from printed text. Power value is 6000, which is also shown in the counter box."
-  }
+  ]
 }

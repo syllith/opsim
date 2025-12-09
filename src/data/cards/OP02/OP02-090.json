@@ -1,52 +1,86 @@
 {
-  "id": "OP02-090",
-  "set": "OP02",
-  "number": 90,
-  "name": "Hydra",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Impel Down"],
+  "cardName": "Hydra",
+  "cardId": "OP02-090",
+  "cardType": "event",
+  "colors": [
+    "purple"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Impel Down"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-090.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "DON!! -1"],
-  "trigger": {
-    "text": "If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck."
-  },
-  "text": "[Main] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Give up to 1 of your opponent's Characters -3000 power during this turn.\n[Trigger] If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck.",
+  "setId": "OP02",
+  "cardNumber": "090",
+  "printedText": "[Main] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Give up to 1 of your opponent's Characters -3000 power during this turn. [Trigger] If your opponent has 6 or more DON!! cards on their field, your opponent returns 1 DON!! card from their field to their DON!! deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -3000 power during this turn.",
-        "powerMod": {
+      "timing": "main",
+      "frequency": "none",
+      "cost": {
+        "type": "donMinus",
+        "count": 1,
+        "may": true
+      },
+      "selectors": {
+        "oppCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "affectedCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": -3000,
-          "duration": "this turn"
-        },
-        "targets": ["upTo1:opponent:Character"],
-        "conditions": []
-      }
+          "duration": "thisTurn",
+          "target": "oppCharacterUpToOne"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck.",
-        "targets": ["opponent:Don"],
-        "conditions": ["opponentHas6OrMoreDon"]
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "condition": {
+        "field": "opponentDonOnField",
+        "op": ">=",
+        "value": 6
+      },
+      "selectors": {
+        "opponentDonFieldOne": {
+          "side": "opponent",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent",
+          "bindAs": "returnedDon"
+        }
+      },
+      "actions": [
+        {
+          "type": "returnDon",
+          "count": 1,
+          "target": "opponentDonFieldOne"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "impelDown"
+  ]
 }

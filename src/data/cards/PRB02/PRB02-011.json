@@ -1,50 +1,36 @@
 {
-  "id": "PRB02-011",
-  "set": "PRB02",
-  "number": 11,
-  "name": "Donquixote Doflamingo",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "The Seven Warlords of the Sea",
-    "Donquixote Pirates"
-  ],
+  "cardName": "Donquixote Doflamingo",
+  "cardId": "PRB02-011",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["The Seven Warlords of the Sea", "Donquixote Pirates"],
+  "traits": ["theSevenWarlordsOfTheSea", "donquixotePirates"],
   "rarity": "R",
-  "art": "/cards/PRB02/PRB02-011.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "If your leader is multicolored, add up to 1 DON!! card from your DON!! deck and set it as rested.",
+  "setId": "PRB02",
+  "cardNumber": "011",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play If your Leader is multicolored, add up to 1 DON!! card from your DON!! deck and set it as rested.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "selfLeaderIsMulticolored",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your leader is multicolored, add up to 1 DON!! card from your DON!! deck and set it as rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "side": "self",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

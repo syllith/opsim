@@ -1,48 +1,55 @@
 {
-  "id": "OP09-085",
-  "set": "OP09",
-  "number": 85,
-  "name": "Gecko moria",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Thriller Bark Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP09/OP09-085.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Play up to 1 Character Card with the Thriller Bark Pirates trait and cost 2 or less from your trash rested.",
+  "cardName": "Gecko Moria",
+  "cardId": "OP09-085",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "attributes": ["special"],
+  "types": ["Thriller Bark Pirates"],
+  "traits": ["thrillerBarkPirates"],
+  "rarity": "C",
+  "setId": "OP09",
+  "cardNumber": "085",
+  "printedText": "[On Play] Play up to 1 \"Thriller Bark Pirates\" type Character card with a cost of 2 or less from your trash rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Play up to 1 Character Card with the Thriller Bark Pirates trait and cost 2 or less from your trash rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": ["trash"],
+            "filters": [
+              {
+                "logic": "AND",
+                "all": [
+                  {
+                    "field": "traits",
+                    "op": "=",
+                    "value": "thrillerBarkPirates"
+                  },
+                  {
+                    "field": "cost",
+                    "op": "<=",
+                    "value": 2
+                  }
+                ]
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "enterRested": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

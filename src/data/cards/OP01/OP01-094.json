@@ -1,38 +1,85 @@
 {
-  "id": "OP01-094",
-  "set": "OP01",
-  "number": 94,
-  "name": "Kaido",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["The Four Emperors", "Animal Kingdom Pirates"],
+  "cardName": "Kaido",
+  "cardId": "OP01-094",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 10,
+  "power": 12000,
+  "types": [
+    "The Four Emperors",
+    "Animal Kingdom Pirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP01/OP01-094.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: DON!! -6 (You may return the specified number of DON!! cards from your field to your DON!! deck): If your Leader has the {Animal Kingdom Pirates} type, K.O. all Characters other than this one.",
+  "setId": "OP01",
+  "cardNumber": "094",
+  "printedText": "[On Play] DON!! −6: If your Leader has the {Animal Kingdom Pirates} type, K.O. all Characters other than this one.",
+  "keywords": [
+    "onPlay"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 6 },
-      "effect": {
-        "text": "If your Leader has the {Animal Kingdom Pirates} type, K.O. all Characters other than this one.",
-        "grants": ["KO All Characters Except Self"],
-        "powerMod": null,
-        "targets": ["allCharactersExceptSelf"],
-        "conditions": ["leaderHasAnimalKingdomPirates"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "returnDon",
+        "count": 6
+      },
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": {
+              "side": "self",
+              "type": "leader",
+              "zones": [
+                "leader"
+              ],
+              "filters": [
+                {
+                  "field": "hasType",
+                  "op": "=",
+                  "value": "Animal Kingdom Pirates"
+                }
+              ]
+            },
+            "op": ">=",
+            "value": 1
+          }
+        ]
+      },
+      "selectors": {
+        "otherCharacters": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Kaido"
+            }
+          ],
+          "min": 0,
+          "max": 99
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "otherCharacters"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "animalKingdomPirates"
+  ]
 }

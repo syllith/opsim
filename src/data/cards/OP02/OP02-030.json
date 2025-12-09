@@ -1,50 +1,91 @@
 {
-  "id": "OP02-030",
-  "set": "OP02",
-  "number": 30,
-  "name": "Kozuki Oden",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Wano Country", "Kozuki Family"],
+  "cardName": "Kozuki Oden",
+  "cardId": "OP02-030",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 8,
+  "power": 8000,
+  "counter": 0,
+  "types": [
+    "Wano Country",
+    "Kozuki Family"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP02/OP02-030.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn", "On K.O."],
-  "trigger": null,
-  "text": "Activate: Main | Once Per Turn | 3 (You may rest the specified number of DON!! cards in your Cost Area): Set this Character as active. On K.O.: Play up to 1 (Wano Country) type Character card with a cost of 3 from your deck. Then, shuffle your deck.",
+  "setId": "OP02",
+  "cardNumber": "030",
+  "printedText": "[Activate: Main] [Once Per Turn] (3) (You may rest the specified number of DON!! cards in your Cost Area.): Set this Character as active.\n[On K.O.] Play up to 1 green {Wano Country} type Character card with a cost of 3 from your deck. Then, shuffle your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 3 },
-      "effect": {
-        "text": "Set this Character as active.",
-        "grants": ["active"],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": []
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 3
+      },
+      "selectors": {},
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 (Wano Country) type Character card with a cost of 3 from your deck. Then, shuffle your deck.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["Wano Country type", "cost 3"]
-      }
+      "timing": "onKO",
+      "frequency": "none",
+      "selectors": {
+        "deckOdenTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "color",
+              "op": "=",
+              "value": "green"
+            },
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Wano Country"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "odenTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "deck",
+          "target": "deckOdenTarget",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "wanoCountry",
+    "kozukiFamily"
+  ]
 }

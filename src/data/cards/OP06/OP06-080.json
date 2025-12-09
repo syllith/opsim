@@ -1,47 +1,92 @@
 {
-  "id": "OP06-080",
-  "set": "OP06",
-  "number": 80,
-  "name": "Gekko Moria",
-  "category": "Leader",
+  "cardName": "Gekko Moria",
+  "cardId": "OP06-080",
+  "cardType": "leader",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": null,
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": [
+    "special"
+  ],
   "types": [
-    "Seven Warlord of the sea",
+    "Seven Warlords of the Sea",
     "Thriller Bark Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP06/OP06-080.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "thrillerBarkPirates"
+  ],
+  "rarity": "L",
+  "setId": "OP06",
+  "cardNumber": "080",
+  "printedText": "DON!! x1 When Attacking (2) (You may rest the specified number of DON!! cards in your Cost Area.) Discard 1 card from your hand: Trash the top 2 cards of your deck, then play up to 1 {Thriller Bark Pirates} type character with a cost of 4 or less from your trash.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! X1 When Attacking (You may rest the specified number of DON!! cards in your Cost Area) Discard 1 card from your hand: put the top 2 cards of your deck into the trash and play 1 {Thriller Bark Pirates} characters with a cost of 4 or less from the trash.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Discard 1 card from your hand: put the top 2 cards of your deck into the trash and play 1 {Thriller Bark Pirates} characters with a cost of 4 or less from the trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 2
+          },
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          }
+        ]
+      },
+      "selectors": {
+        "tbpCharCost4OrLessFromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "hasTraitThrillerBarkPirates",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "trashTopDeck",
+          "count": 2
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "tbpCharCost4OrLessFromTrash",
+          "enterRested": false,
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

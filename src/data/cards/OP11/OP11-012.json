@@ -1,49 +1,46 @@
 {
-  "id": "OP11-012",
-  "set": "OP11",
-  "number": 12,
-  "name": "Franky",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-012.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn When your opponent activates an Event this turn, all your Characters gain +2000 power during this turn.",
+  "cardName": "Franky",
+  "cardId": "OP11-012",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "UC",
+  "setId": "OP11",
+  "cardNumber": "012",
+  "printedText": "[Your Turn] [Once Per Turn] When your opponent activates an Event this turn, all of your Characters gain +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "afterOpponentActivatesEvent",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "currentTurnSide",
+        "op": "=",
+        "value": "self"
       },
-      "effect": {
-        "text": "When your opponent activates an Event this turn, all your Characters gain +2000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "allSelfCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "allSelfCharacters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

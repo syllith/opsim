@@ -1,77 +1,86 @@
 {
-  "id": "OP04-093",
-  "set": "OP04",
-  "number": 93,
-  "name": "Gum-Gum King Kong Gun",
-  "category": "Event",
+  "cardName": "Gum-Gum King Kong Gun",
+  "cardId": "OP04-093",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": null,
+  "cost": 3,
   "types": [
     "Dressrosa",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-093.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "093",
+  "printedText": "[Main] Choose 1 {Dressrosa} type Character. That Character gets +6000 Power for this turn. Then, if your trash has 15 or more cards, that Character gains Double Attack for this turn. (This card deals 2 damage.)\n[Trigger] Draw 3 cards and trash 2 cards from your hand.",
   "keywords": [
-    "Main",
-    "Trigger"
+    "main",
+    "trigger"
   ],
-  "trigger": {
-    "text": "Draw 3 cards and trash 2 cards."
-  },
-  "text": "Main Choose one {Dressrosa} type character, power +6000. After, if your trash has 15 or more cards, this character gains Double Attack for the turn. (This card deals 2 damage.)",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "dressrosaCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Dressrosa"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "buffTarget"
+        }
       },
-      "effect": {
-        "text": "Choose one {Dressrosa} type character, power +6000. After, if your trash has 15 or more cards, this character gains Double Attack for the turn.",
-        "grants": [
-          "Double Attack"
-        ],
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 6000,
-          "duration": "this turn"
+          "duration": "thisTurn",
+          "target": "dressrosaCharacter"
         },
-        "targets": [
-          "oneDressrosaCharacter"
-        ],
-        "conditions": [
-          "trash>=15"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "doubleAttack",
+          "duration": "thisTurn",
+          "target": "dressrosaCharacter",
+          "condition": {
+            "field": "trashCount",
+            "op": ">=",
+            "value": 15
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 3 cards and trash 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 3
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is printed in the bottom right corner. The card is an Event with no power or life. The text includes a note about damage: '(This card deals 2 damage.)' which is not a formal ability but part of the rules text."
-  }
+  "traits": [
+    "dressrosa",
+    "strawHatCrew"
+  ]
 }

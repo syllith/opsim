@@ -1,36 +1,69 @@
 {
-  "id": "ST17-001",
-  "set": "ST17",
-  "number": 1,
-  "name": "Crocodile",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
-  "rarity": "C",
-  "art": "/cards/ST17/ST17-001.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "Counter"],
-  "trigger": null,
-  "text": "On Play: Reveal 1 card from the top of your deck. If that card has the {The Seven Warlords of the Sea} type, draw 2 cards and place 1 card from your hand on the top of your deck.",
+  "cardName": "Crocodile",
+  "cardId": "ST17-001",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
+  ],
+  "rarity": "starter",
+  "setId": "ST17",
+  "cardNumber": "001",
+  "printedText": "[On Play] Reveal 1 card from the top of your deck. If that card has the {The Seven Warlords of the Sea} type, draw 2 cards and place 1 card from your hand on the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Reveal 1 card from the top of your deck. If that card has the {The Seven Warlords of the Sea} type, draw 2 cards and place 1 card from your hand on the top of your deck.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["revealTopDeck", "revealedCardType=The Seven Warlords of the Sea"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "handCardToTopOfDeck": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "selfTopDeckCard",
+            "filters": [
+              {
+                "field": "types",
+                "op": "=",
+                "value": "The Seven Warlords of the Sea"
+              }
+            ],
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 2,
+              "side": "self"
+            },
+            {
+              "type": "moveCard",
+              "target": "handCardToTopOfDeck",
+              "destination": "topOfDeck",
+              "ordering": "chosen"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

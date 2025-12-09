@@ -1,48 +1,91 @@
 {
-  "id": "OP13-095",
-  "set": "OP13",
-  "number": 95,
-  "name": "Saint Rosward",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Celestial Dragons"
-  ],
+  "cardName": "Saint Rosward",
+  "cardId": "OP13-095",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Celestial Dragons"],
+  "traits": ["celestialDragons"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-095.png",
-  "stats": {
-    "cost": 3,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may trash 1 card from your hand: If the only Characters on your field are (Celestial Dragons) type Characters, K.O. up to 2 of your opponent's Characters with a base cost of 3 or less.",
+  "setId": "OP13",
+  "cardNumber": "095",
+  "printedText": "[On Play] You may trash 1 card from your hand: If the only Characters on your field are {Celestial Dragons} type Characters, K.O. up to 2 of your opponent's Characters with a base cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: If the only Characters on your field are (Celestial Dragons) type Characters, K.O. up to 2 of your opponent's Characters with a base cost of 3 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "allSelfCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "celestialCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "celestialDragons"
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "oppCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": "allSelfCharacters",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCountDifference",
+            "selectorA": "allSelfCharacters",
+            "selectorB": "celestialCharacters",
+            "op": "=",
+            "value": 0
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost3OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

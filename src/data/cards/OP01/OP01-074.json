@@ -1,52 +1,86 @@
 {
-  "id": "OP01-074",
-  "set": "OP01",
-  "number": 74,
-  "name": "Bartholomew Kuma",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["The Seven Warlords of the Sea", "Revolutionary Army"],
+  "cardName": "Bartholomew Kuma",
+  "cardId": "OP01-074",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Revolutionary Army"
+  ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-074.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On K.O."],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) | On K.O.: Play up to 1 [Pacifista] card with a cost of 4 or less from your hand.",
+  "setId": "OP01",
+  "cardNumber": "074",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] Play up to 1 [Pacifista] card with a cost of 4 or less from your hand.",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentAttackDeclared", "restSelf"],
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          }
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 [Pacifista] card with a cost of 4 or less from your hand.",
-        "grants": ["Play Pacifista"],
-        "powerMod": null,
-        "targets": ["onePacifistaFromHand<=4"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "hand"
+            ],
+            "filters": [
+              {
+                "field": "types",
+                "op": "=",
+                "value": "Pacifista"
+              },
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 4
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "revolutionaryArmy"
+  ]
 }

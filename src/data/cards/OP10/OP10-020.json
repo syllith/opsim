@@ -1,71 +1,89 @@
 {
-  "id": "OP10-020",
-  "set": "OP10",
-  "number": 20,
-  "name": "Gum-Gum UFO",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew",
-    "Punk Hazard"
-  ],
+  "cardName": "Gum-Gum UFO",
+  "cardId": "OP10-020",
+  "cardType": "event",
+  "colors": ["red"],
+  "cost": 2,
+  "types": ["Straw Hat Crew", "Punk Hazard"],
+  "traits": ["strawHatCrew", "punkHazard"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-020.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's 3000 power or less characters."
-  },
-  "text": "Main Give up to 1 of your opponent's characters -4000 power until the end of this turn. Then if you have 2 or less life give your leader or up to 1 of your characters +1000 power until the end of this turn.",
+  "setId": "OP10",
+  "cardNumber": "020",
+  "printedText": "[Main] Give up to 1 of your opponent's Characters -4000 power until the end of this turn. Then, if you have 2 or less Life, give your Leader or up to 1 of your Characters +1000 power until the end of this turn.\n[Trigger] K.O. up to 1 of your opponent's Characters with 3000 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "selfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's characters -4000 power until the end of this turn. Then if you have 2 or less life give your leader or up to 1 of your characters +1000 power until the end of this turn.",
-        "powerMod": null,
-        "conditions": [
-          "you have 2 or less life"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -4000,
+          "duration": "thisTurn",
+          "target": "opponentCharacter"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "selfLeaderOrCharacter",
+          "condition": {
+            "field": "selfLifeTotal",
+            "op": "<=",
+            "value": 2
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponent3000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's 3000 power or less characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=power3000"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponent3000OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

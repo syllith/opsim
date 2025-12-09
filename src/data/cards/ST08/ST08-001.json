@@ -1,32 +1,62 @@
 {
-  "id": "ST08-001",
-  "set": "ST08",
-  "number": 1,
-  "name": "Monkey. D. Luffy",
-  "category": "Leader",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Monkey. D. Luffy",
+  "cardId": "ST08-001",
+  "cardType": "leader",
+  "colors": ["black"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST08/ST08-001.png",
-  "stats": { "cost": null, "power": 5000, "life": 5, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Your Turn"],
-  "trigger": null,
-  "text": "Your Turn: When a Character is K.O.'d, give up to 1 rested DON!! cards to this Leader.",
+  "traits": ["strawHatCrew"],
+  "rarity": "",
+  "setId": "ST08",
+  "cardNumber": "001",
+  "printedText": "Your Turn When a Character is K.O.'d, give up to 1 rested DON!! card to this Leader.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": null,
-      "effect": {
-        "text": "When a Character is K.O.'d, give up to 1 rested DON!! cards to this Leader.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["restedDonCards"],
-        "conditions": ["whenCharacterKOd"]
-      }
+      "timing": "whenCharacterIsKOd",
+      "condition": {
+        "field": "turnPlayer",
+        "op": "=",
+        "value": "self"
+      },
+      "selectors": {
+        "luffyLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "restedDonInCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": "luffyLeader",
+          "selector": "restedDonInCostArea",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

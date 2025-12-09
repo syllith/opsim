@@ -1,49 +1,85 @@
 {
-  "id": "OP08-074",
-  "set": "OP08",
-  "number": 74,
-  "name": "Black Maria",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animal Kingdom Pirates"
-  ],
+  "cardName": "Black Maria",
+  "cardId": "OP08-074",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Animal Kingdom Pirates"],
+  "traits": ["animalKingdomPirates"],
   "rarity": "SR",
-  "art": "/cards/OP08/OP08-074.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn If you have no other [Black Maria], add up to 5 DON!! cards from your DON!! deck rested. Then at the end of your turn, return DON!! cards from your field to the DON!! deck until the number of DON!! cards on your field is equal to the number on your opponent's field.",
+  "setId": "OP08",
+  "cardNumber": "074",
+  "printedText": "[Activate: Main] [Once Per Turn] If you have no other [Black Maria] Characters, add up to 5 DON!! cards from your DON!! deck and rest them. Then, at the end of this turn, return DON!! cards from your field to your DON!! deck until you have the same number of DON!! cards on your field as your opponent.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "otherBlackMaria",
+        "op": "=",
+        "value": 0
       },
-      "effect": {
-        "text": "If you have no other [Black Maria], add up to 5 DON!! cards from your DON!! deck rested. Then at the end of your turn, return DON!! cards from your field to the DON!! deck until the number of DON!! cards on your field is equal to the number on your opponent's field.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "otherBlackMaria": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Black Maria"
+                },
+                {
+                  "field": "isThisCard",
+                  "op": "=",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 5,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "faceUp": true,
+          "enterRested": true
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "endOfYourTurn",
+          "target": "selfDonOnField",
+          "actions": [
+            {
+              "type": "matchDonCount",
+              "side": "self",
+              "referenceSide": "opponent"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,63 +1,53 @@
 {
-  "id": "OP13-112",
-  "set": "OP13",
-  "number": 112,
-  "name": "Vegapunk",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Egghead",
-    "Scientist"
-  ],
+  "cardName": "Vegapunk",
+  "cardId": "OP13-112",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Egghead", "Scientist"],
+  "traits": ["egghead", "scientist"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-112.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "112",
+  "printedText": "If you have 2 or more given DON!! cards, this Character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "keywords": [],
-  "trigger": null,
-  "text": "If you have 2 or more given DON!! cards, this Character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "givenDonOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "this Character gains Blocker",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "you may rest this card to make it the new target of the attack",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "selfThisCard",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "givenDonOnField",
+            "op": ">=",
+            "value": 2
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

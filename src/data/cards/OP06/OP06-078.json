@@ -1,65 +1,79 @@
 {
-  "id": "OP06-078",
-  "set": "OP06",
-  "number": 78,
-  "name": "GERMA 66",
-  "category": "Event",
+  "cardName": "GERMA 66",
+  "cardId": "OP06-078",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Germa Kingdom",
     "Germa 66"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP06/OP06-078.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "germaKingdom",
+    "germa66"
   ],
-  "trigger": {
-    "text": "Draw a card."
-  },
-  "text": "Main: Look at 5 cards from the top of your deck, reveal up to one card with a type including \"Germa\" other than [GERMA 66] and add it to your hand. Then, place the rest on the bottom of the deck in any order.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "078",
+  "printedText": "Main Look at 5 cards from the top of your deck, reveal up to one card with a type including \"Germa\" other than [GERMA 66] and add it to your hand. Then, place the rest on the bottom of the deck in any order.\nTrigger Draw a card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "germaTypeCard": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "typeIncludesGerma",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "GERMA 66"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck, reveal up to one card with a type including \"Germa\" other than [GERMA 66] and add it to your hand. Then, place the rest on the bottom of the deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "germaTypeCard",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw a card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,47 +1,63 @@
 {
-  "id": "OP10-049",
-  "set": "OP10",
-  "number": 49,
-  "name": "Sabo",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Revolutionary Army",
-    "Dressrosa"
-  ],
+  "cardName": "Sabo",
+  "cardId": "OP10-049",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Revolutionary Army", "Dressrosa"],
+  "traits": ["revolutionaryArmy", "dressrosa"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-049.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP10",
+  "cardNumber": "049",
+  "printedText": "If one of your characters other than \"Sabo\" with an original cost of 7 cost or lower would be removed from the board by your opponent's effect, you may instead return this character to your hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "If one of your characters other than \"Sabo\" with an original cost of 7 cost or lower would be removed from the board by your opponent's effect, you may instead return this character to your hand.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "protectedCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Sabo"
+            },
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 7
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If one of your characters other than \"Sabo\" with an original cost of 7 cost or lower would be removed from the board by your opponent's effect, you may instead return this character to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "selfCharacterWouldBeRemovedFromFieldByOpponentEffect",
+          "target": "protectedCharacter",
+          "may": true,
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              },
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

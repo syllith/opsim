@@ -1,51 +1,73 @@
 {
-  "id": "OP08-077",
-  "set": "OP08",
-  "number": 77,
-  "name": "Hakai Ocean Sovereignty",
-  "category": "Event",
+  "cardName": "Hakai Ocean Sovereignty",
+  "cardId": "OP08-077",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 6,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Four Emperors",
     "Animal Kingdom Pirates",
     "Big Mom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP08/OP08-077.png",
-  "stats": {
-    "cost": 6,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Don!!"
+  "traits": [
+    "theFourEmperors",
+    "animalKingdomPirates",
+    "bigMomPirates"
   ],
-  "trigger": null,
-  "text": "Main Don!!: If your leader's type has {Animal Kingdom Pirates} or {Big Mom Pirates} in it, KO up to two of your opponents cost 6 or lower characters.",
+  "rarity": "R",
+  "setId": "OP08",
+  "cardNumber": "077",
+  "printedText": "[Main] DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): If your Leader's type has {Animal Kingdom Pirates} or {Big Mom Pirates} in it, K.O. up to 2 of your opponent's Characters with a cost of 6 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 2,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 2
       },
-      "effect": {
-        "text": "If your leader's type has {Animal Kingdom Pirates} or {Big Mom Pirates} in it, KO up to two of your opponents cost 6 or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCost6OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "selfLeaderAnimalKingdomOrBigMomPirates",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "ko",
+              "target": "oppCost6OrLess"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is marked as a SAMPLE, but this is not a valid card for gameplay. The printed ID is OP08-077, set is OP08, number is 77, rarity is C, and the text is as printed."
-  }
+  ]
 }

@@ -1,65 +1,97 @@
 {
-  "id": "OP05-094",
-  "set": "OP05",
-  "number": 94,
-  "name": "Haute Couture: Patch★Work",
-  "category": "Event",
+  "cardName": "Haute Couture: Patch★Work",
+  "cardId": "OP05-094",
+  "cardType": "event",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Tontatta Tribe",
     "Dressrosa"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-094.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 2 cards, then trash 1 card from your hand."
-  },
-  "text": "Main: Give up to 1 of your opponent's characters -3 cost during this turn. Then, up to 1 of your opponent's characters with a cost of 0 isn't set as active during the next Refresh Phase.",
+  "setId": "OP05",
+  "cardNumber": "094",
+  "printedText": "[Main] Give up to 1 of your opponent's Characters −3 cost during this turn. Then, up to 1 of your opponent's Characters with a cost of 0 will not become active in the next Refresh Phase. [Trigger] Draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "mainDebuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "noRefreshTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's characters -3 cost during this turn. Then, up to 1 of your opponent's characters with a cost of 0 isn't set as active during the next Refresh Phase.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -3,
+          "duration": "thisTurn",
+          "target": "mainDebuffTarget"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "refreshSetActive",
+          "target": "noRefreshTarget",
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards, then trash 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "tontattaTribe",
+    "dressrosa"
+  ]
 }

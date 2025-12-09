@@ -1,23 +1,26 @@
 {
-  "id": "EB01-005",
-  "set": "EB01",
-  "number": 5,
-  "name": "Doma",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Whitebeard Pirates Allies"],
+  "power": 3000,
+  "cardType": "character",
+  "cardId": "EB01-005",
+  "printedText": "",
+  "cardNumber": "005",
   "rarity": "C",
-  "art": "/cards/EB01/EB01-005.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": "Vanilla character with no abilities visible" }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Doma",
+  "types": [
+    "Whitebeard Pirates",
+    "Allies"
+  ],
+  "cost": 1,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "whitebeardPirates",
+    "allies"
+  ]
 }

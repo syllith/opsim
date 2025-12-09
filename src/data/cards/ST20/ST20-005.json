@@ -1,37 +1,58 @@
 {
-  "id": "ST20-005",
-  "set": "ST20",
-  "number": 5,
-  "name": "Charlotte Linlin",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Special",
+  "cardName": "Charlotte Linlin",
+  "cardId": "ST20-005",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 0,
+  "attributes": ["special"],
   "types": ["The Four Emperors", "Big Mom Pirates"],
-  "rarity": "SR",
-  "art": "/cards/ST20/ST20-005.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play You may trash 1 card from your hand: Your opponent chooses one: • Your opponent discards 2 cards from hand. • Trash 1 card from the top of your opponent's Life cards.",
+  "traits": ["theFourEmperors", "bigMomPirates"],
+  "rarity": "starter",
+  "setId": "ST20",
+  "cardNumber": "005",
+  "printedText": "[On Play] You may trash 1 card from your hand: Your opponent chooses one:\n• Your opponent discards 2 cards from hand.\n• Trash 1 card from the top of your opponent's Life cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Your opponent chooses one: • Your opponent discards 2 cards from hand. • Trash 1 card from the top of your opponent's Life cards.",
-        "powerMod": null,
-        "targets": ["opponentHand:discard:2", "opponentLife:trash:1"],
-        "conditions": ["optionalTrashHandCard:Any:Any"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "trashFromHand",
+                  "minCards": 2,
+                  "maxCards": 2,
+                  "side": "opponent"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "opponentTopLifeCard",
+                  "destination": "trash",
+                  "ordering": "keep"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

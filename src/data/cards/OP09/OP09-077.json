@@ -1,74 +1,93 @@
 {
-  "id": "OP09-077",
-  "set": "OP09",
-  "number": 77,
-  "name": "Gum Gum Lightning",
-  "category": "Event",
+  "cardName": "Gum Gum Lightning",
+  "cardId": "OP09-077",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 2,
   "types": [
     "Four Emperors",
     "Straw Hat Crew"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP09/OP09-077.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "theFourEmperors",
+    "strawHatCrew"
   ],
-  "trigger": {
-    "text": "Set up to one Don!! from your Don!! deck as active."
-  },
-  "text": "Main Don!!: KO up to one of your opponent's power 6000 or lower characters.",
+  "rarity": "UC",
+  "setId": "OP09",
+  "cardNumber": "077",
+  "printedText": "[Main] Don!!-2: K.O. up to 1 of your opponent's power 6000 or less Characters.\n[Trigger] Set up to 1 DON!! from your DON!! deck as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 2,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 2
       },
-      "effect": {
-        "text": "KO up to one of your opponent's power 6000 or lower characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "power<=6000"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacter6000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 6000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "donFromDeckUpToOne": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacter6000OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "donFromDeckUpToOne": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to one Don!! from your Don!! deck as active.",
-        "powerMod": null,
-        "targets": [
-          "oneDonFromDonDeck"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeckUpToOne",
+          "destination": "costArea",
+          "ordering": "keep",
+          "enterRested": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

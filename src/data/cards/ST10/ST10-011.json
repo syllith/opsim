@@ -1,37 +1,41 @@
 {
-  "id": "ST10-011",
-  "set": "ST10",
-  "number": 11,
-  "name": "Heat",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
+  "cardName": "Heat",
+  "cardId": "ST10-011",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Kid Pirates"],
+  "traits": ["kidPirates"],
   "rarity": "C",
-  "art": "/cards/ST10/ST10-011.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Your Turn", "Once Per Turn"],
-  "trigger": null,
-  "text": "Your Turn — Once Per Turn: When a DON!! is returned to the DON!! deck from your field, this Character gains +2000 power until the start of your next turn.",
+  "setId": "ST10",
+  "cardNumber": "011",
+  "printedText": "[Your Turn] [Once Per Turn] When a DON!! is returned to the DON!! deck from your field, this Character gains +2000 Power until the start of your next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When DON!! Returned",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When a DON!! is returned to the DON!! deck from your field, this Character gains +2000 power until the start of your next turn.",
-        "grants": [],
-        "powerMod": { "amount": 2000, "duration": "untilStartOfYourNextTurn" },
-        "targets": ["self"],
-        "conditions": ["donReturnedToDeck"]
-      }
+      "timing": "whenDonReturned",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "turnPlayer",
+        "op": "=",
+        "value": "self"
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "untilStartOfYourNextTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

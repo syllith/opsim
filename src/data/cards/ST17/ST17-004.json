@@ -1,60 +1,88 @@
 {
-  "id": "ST17-004",
-  "set": "ST17",
-  "number": 4,
-  "name": "Boa Hancock",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Seven Warlords of the Sea", "Kuja Pirates"],
+  "cardName": "Boa Hancock",
+  "cardId": "ST17-004",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
+  "types": [
+    "Seven Warlords of the Sea",
+    "Kuja Pirates"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "kujaPirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/ST17/ST17-004.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Blocker", "On Play", "Counter"],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Play: Look at the top 3 cards of your deck, then place them in any order on the top or bottom of your deck. Then, give up to one of your {Seven Warlords of the Sea} type leader or characters up to one rested Don!!.",
+  "setId": "ST17",
+  "cardNumber": "004",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Look at the top 3 cards of your deck, then place them in any order on the top or bottom of your deck. Then, give up to 1 of your {Seven Warlords of the Sea} type Leader or Characters up to 1 rested DON!!.",
+  "keywords": [
+    "Blocker"
+  ],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["blocker"]
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top 3 cards of your deck, then place them in any order on the top or bottom of your deck.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["lookTopDeck:3", "reorderTopOrBottomDeck:3"]
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to one of your {Seven Warlords of the Sea} type leader or characters up to one rested Don!!.",
-        "powerMod": null,
-        "targets": ["oneAllyLeader:type=Seven Warlords of the Sea", "oneAllyCharacter:type=Seven Warlords of the Sea"],
-        "conditions": ["giveDon:rested:1"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "topThree": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "sevenWarlordsLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "sevenWarlordsOfTheSea"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "topCount": 3,
+          "selector": "topThree",
+          "reveal": false,
+          "addTo": "topOfDeck",
+          "ordering": "chosen",
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        },
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "side": "self",
+          "target": "sevenWarlordsLeaderOrCharacter",
+          "may": true,
+          "sourceDonState": "rested"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

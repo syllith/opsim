@@ -1,40 +1,82 @@
 {
-  "id": "EB01-058",
-  "set": "EB01",
-  "number": 58,
-  "name": "Mont Blanc Cricket",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
-  "types": ["Saruyama Alliance"],
-  "rarity": "C",
-  "art": "/cards/EB01/EB01-058.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["DON!! x1", "Your Turn"],
-  "trigger": null,
-  "text": "[DON!! x1] [Your Turn] If you have 2 or less life, this character has +2000 power.",
+  "power": 3000,
+  "cardType": "character",
+  "cardId": "EB01-058",
+  "printedText": "DON!! x1 [Your Turn] If you have 2 or less life, this character has +2000 power.",
+  "types": [
+    "Saruyama Alliance"
+  ],
+  "cardNumber": "058",
+  "keywords": [
+    "donX1",
+    "yourTurn",
+    "conditionalPowerUp"
+  ],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 2 or less life, this character has +2000 power.",
-        "grants": [],
-        "powerMod": {
+      "condition": {
+        "all": [
+          {
+            "value": 1,
+            "field": "donAttachedToSource",
+            "op": ">="
+          },
+          {
+            "value": true,
+            "field": "isYourTurn",
+            "op": "="
+          },
+          {
+            "value": 2,
+            "field": "selfController.life",
+            "op": "<="
+          }
+        ],
+        "logic": "AND"
+      },
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "permanent",
           "amount": 2000,
-          "duration": "whileConditionMet"
-        },
-        "targets": ["self"],
-        "conditions": ["selfLife<=2"]
-      }
+          "target": {
+            "filters": [
+              {
+                "value": true,
+                "field": "isSource",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "system"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Mont Blanc Cricket",
+  "rarity": "C",
+  "cost": 2,
+  "colors": [
+    "yellow"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "saruyamaAlliance"
+  ]
 }

@@ -1,50 +1,66 @@
 {
-  "id": "OP12-027",
-  "set": "OP12",
-  "number": 27,
-  "name": "Koushirou",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "East Blue",
-    "Frost Moon Village"
-  ],
+  "cardName": "Koushirou",
+  "cardId": "OP12-027",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["East Blue", "Frost Moon Village"],
+  "traits": ["eastBlue", "frostMoonVillage"],
   "rarity": "UC",
-  "art": "/cards/OP12/OP12-027.png",
-  "stats": {
-    "cost": 2,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "If 1 of your cost 5 or lower <Slash> attribute Characters other than this Character would be K.O.'d by an opponent's effect, you may rest this Character instead.\n[Blocker]",
+  "setId": "OP12",
+  "cardNumber": "027",
+  "printedText": "If 1 of your cost 5 or lower <Slash> attribute Characters other than this Character would be K.O.'d by an opponent's effect, you may rest this Character instead.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "protectedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            },
+            {
+              "field": "attributes",
+              "op": "=",
+              "value": "slash"
+            },
+            {
+              "field": "isThisCard",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If 1 of your cost 5 or lower <Slash> attribute Characters other than this Character would be K.O'd by an opponent's effect, you may rest this Character instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "koByOpponentsEffect",
+          "target": "protectedCharacters",
+          "cost": {
+            "type": "restThis",
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

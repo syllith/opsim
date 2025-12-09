@@ -1,37 +1,57 @@
 {
-  "id": "ST23-003",
-  "set": "ST23",
-  "number": 3,
-  "name": "Benn.Beckman",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": null,
+  "cardName": "Benn.Beckman",
+  "cardId": "ST23-003",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["ranged"],
   "types": ["Red-Haired Pirates"],
+  "traits": ["redHairedPirates"],
   "rarity": "C",
-  "art": "/cards/ST23/ST23-003.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] You may trash 1 card from your hand: If your Leader has the {Red-Haired Pirates} type, K.O. up to 1 of your opponent's Characters with 4000 base power or less.",
+  "setId": "ST23",
+  "cardNumber": "003",
+  "printedText": "[On Play] You may trash 1 card from your hand: If your Leader has the \"Red-Haired Pirates\" type, K.O. up to 1 of your opponent's Characters with 4000 base power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: If your Leader has the {Red-Haired Pirates} type, K.O. up to 1 of your opponent's Characters with 4000 base power or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["mayTrash1FromHand", "leaderHasRedHairedPiratesType", "characterBasePower<=4000"]
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "opponentCharacter4000BaseOrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacter4000BaseOrLess",
+          "condition": {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "redHairedPirates"
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

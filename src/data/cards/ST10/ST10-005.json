@@ -1,37 +1,48 @@
 {
-  "id": "ST10-005",
-  "set": "ST10",
-  "number": 5,
-  "name": "Jinbe",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Jinbe",
+  "cardId": "ST10-005",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["strike"],
   "types": ["Fishmen", "Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST10/ST10-005.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["When Attacking", "DON!! x1"],
-  "trigger": null,
-  "text": "DON!! x1 — When Attacking: Give up to 1 of your opponent's Characters -2000 Power for this turn.",
+  "traits": ["fishmen", "strawHatCrew"],
+  "rarity": "C",
+  "setId": "ST10",
+  "cardNumber": "005",
+  "printedText": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters -2000 Power for this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -2000 Power for this turn.",
-        "grants": [],
-        "powerMod": { "amount": -2000, "duration": "thisTurn" },
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["donAttached"]
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "donCountOnThis",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "oppCharMinus2000": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "oppCharMinus2000"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

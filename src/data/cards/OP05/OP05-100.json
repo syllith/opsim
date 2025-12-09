@@ -1,53 +1,80 @@
 {
-  "id": "OP05-100",
-  "set": "OP05",
-  "number": 100,
-  "name": "Enel",
-  "category": "Character",
+  "cardName": "Enel",
+  "cardId": "OP05-100",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 7,
+  "power": 7000,
   "types": [
     "Sky Island"
   ],
   "rarity": "SR",
-  "art": "/cards/OP05/OP05-100.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "100",
+  "printedText": "Rush Once Per Turn If this character were to be removed from the field, you may trash the top card of your life instead. If character [Monkey D. Luffy] is on the field, this effect may not be activated.",
   "keywords": [
-    "Rush",
-    "Once Per Turn"
+    "rush"
   ],
-  "trigger": null,
-  "text": "Once Per Turn: If this character were to be removed from the field, you may trash the top card of your life instead. If character [Monkey D. Luffy] is on the field, this effect may not be activated.",
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ]
+        },
+        "monkeyDLuffyOnField": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Monkey D. Luffy"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If this character were to be removed from the field, you may trash the top card of your life instead. If character [Monkey D. Luffy] is on the field, this effect may not be activated.",
-        "powerMod": null,
-        "conditions": [
-          "self",
-          "character [Monkey D. Luffy] is on the field"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeRemovedFromField",
+          "target": "thisCard",
+          "may": true,
+          "cost": {
+            "type": "moveTopLifeCard",
+            "side": "self",
+            "destination": "trash"
+          },
+          "condition": {
+            "field": "selectorCount",
+            "selector": "monkeyDLuffyOnField",
+            "op": "=",
+            "value": 0
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "skyIsland"
+  ]
 }

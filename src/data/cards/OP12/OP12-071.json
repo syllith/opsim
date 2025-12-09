@@ -1,48 +1,64 @@
 {
-  "id": "OP12-071",
-  "set": "OP12",
-  "number": 71,
-  "name": "Charlotte Pudding",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Big Mom Pirates"
-  ],
+  "cardName": "Charlotte Pudding",
+  "cardId": "OP12-071",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-071.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the 4 cards from the top of your deck; reveal up to 1 [Sanji] or Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP12",
+  "cardNumber": "071",
+  "printedText": "[On Play] Look at 4 cards from the top of your deck; reveal up to 1 [Sanji] or Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "puddingSearchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Sanji"
+                },
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "event"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "puddingChosenCard"
+        }
       },
-      "effect": {
-        "text": "Look at the 4 cards from the top of your deck; reveal up to 1 [Sanji] or Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "puddingSearchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 4,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

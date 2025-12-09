@@ -1,33 +1,18 @@
 {
-  "id": "OP10-101",
-  "set": "OP10",
-  "number": 101,
-  "name": "Urouge",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernovas",
-    "Fallen Monk Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP10/OP10-101.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Urouge",
+  "cardId": "OP10-101",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Supernovas", "Fallen Monk Pirates"],
+  "traits": ["supernovas", "fallenMonkPirates"],
+  "rarity": "C",
+  "setId": "OP10",
+  "cardNumber": "101",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card is a sample and may not reflect final printed text or stats. Life value not printed on card."
-  }
+  "abilities": []
 }

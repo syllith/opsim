@@ -1,32 +1,18 @@
 {
-  "id": "OP12-011",
-  "set": "OP12",
-  "number": 11,
-  "name": "Duval",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "The Flying Fish Riders"
-  ],
+  "cardName": "Duval",
+  "cardId": "OP12-011",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["The Flying Fish Riders"],
+  "traits": ["theFlyingFishRiders"],
   "rarity": "C",
-  "art": "/cards/OP12/OP12-011.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "011",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "abilities": []
 }

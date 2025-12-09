@@ -1,65 +1,18 @@
 {
-  "id": "OP11-015",
-  "set": "OP11",
-  "number": 15,
-  "name": "Mocha",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Punk Hazard"
-  ],
+  "cardName": "Mocha",
+  "cardId": "OP11-015",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Punk Hazard"],
+  "traits": ["punkHazard"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-015.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP11",
+  "cardNumber": "015",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: If this character is attacking, you may pay 1 DON!! to gain 1000 power until end of turn. [Main] Pay 1 DON!!: Gain 1000 power until end of turn.",
-  "abilities": [
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "If this character is attacking, you may pay 1 DON!! to gain 1000 power until end of turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "Pay 1 DON!!: Gain 1000 power until end of turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "abilities": []
 }

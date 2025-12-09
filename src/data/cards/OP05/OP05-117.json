@@ -1,48 +1,59 @@
 {
-  "id": "OP05-117",
-  "set": "OP05",
-  "number": 117,
-  "name": "Upper Yard",
-  "category": "Stage",
+  "cardName": "Upper Yard",
+  "cardId": "OP05-117",
+  "cardType": "stage",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "Sky Island"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-117.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck, reveal up to 1 card with the (Sky Island) type and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "117",
+  "printedText": "On Play Look at the top 5 cards of your deck; reveal up to 1 card with the {Sky Island} type and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "skyIslandFromTop5": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Sky Island"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to 1 card with the (Sky Island) type and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "skyIslandFromTop5",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "skyIsland"
+  ]
 }

@@ -1,49 +1,99 @@
 {
-  "id": "OP05-088",
-  "set": "OP05",
-  "number": 88,
-  "name": "Mansherry",
-  "category": "Character",
+  "cardName": "Mansherry",
+  "cardId": "OP05-088",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "Tontatta Tribe",
     "Dressrosa"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-088.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main (You may rest the specified number of DON!! cards in your Cost Area) Rest this character, return 2 cards from your trash to the bottom of your deck in any order: Return one cost 3 to 5 black character card from your trash to your hand.",
+  "rarity": "R",
+  "setId": "OP05",
+  "cardNumber": "088",
+  "printedText": "[Activate: Main] ➀ (You may rest the specified number of DON!! cards in your cost area.) You may rest this Character and place 2 cards from your trash at the bottom of your deck in any order: Add up to 1 black Character card with a cost of 3 to 5 from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "bottomDeckFromTrash",
+            "selector": "mansherryBottomDeck"
+          }
+        ]
       },
-      "effect": {
-        "text": "Rest this character, return 2 cards from your trash to the bottom of your deck in any order: Return one cost 3 to 5 black character card from your trash to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "mansherryBottomDeck": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "trash"
+          ],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        },
+        "mansherryTrashTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "color",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 3
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "mansherryTrashTarget",
+          "reveal": false,
+          "addTo": "hand",
+          "ordering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "tontattaTribe",
+    "dressrosa"
+  ]
 }

@@ -1,48 +1,18 @@
 {
-  "id": "P-045",
-  "set": "P",
-  "number": 45,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-045.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Banish"
-  ],
-  "trigger": null,
-  "text": "Banish (When a character deals damage, the target card is trashed without activating its Trigger.)",
-  "abilities": [
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "When a character deals damage, the target card is trashed without activating its Trigger.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "cardName": "Roronoa Zoro",
+  "cardId": "P-045",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-045",
+  "printedText": "Banish (When this card deals damage, the target card is trashed without activating its Trigger.)",
+  "keywords": ["Banish"],
+  "abilities": []
 }

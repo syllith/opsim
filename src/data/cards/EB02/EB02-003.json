@@ -1,59 +1,112 @@
 {
-  "id": "EB02-003",
-  "set": "EB02",
-  "number": 3,
-  "name": "Tony Tony Chopper",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
-  "types": ["Animal", "Drum Kingdom", "Straw Hat Crew"],
-  "rarity": "R",
-  "art": "/cards/EB02/EB02-003.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["DON!! x2", "Opponent's Turn", "On Play"],
-  "trigger": null,
-  "text": "[DON!! x2] [Opponent's Turn] This character has +2000 power.\n[On Play] If your leader has the {Straw Hat Crew} type, give your leader or one character up to 1 rested DON!! cards.",
+  "power": 3000,
+  "cardType": "character",
+  "cardId": "EB02-003",
+  "printedText": "DON!! ×2 Opponent's Turn This character has +2000 power.\nOn Play If your leader has the {Straw Hat Crew} type, give your leader or one character up to 1 rested DON!! cards.",
+  "cardNumber": "003",
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This character has +2000 power.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "type": "modifyStat",
           "amount": 2000,
-          "duration": "continuous"
-        },
-        "targets": ["self"],
-        "conditions": ["opponentsTurn"]
-      }
+          "mode": "add",
+          "stat": "power",
+          "duration": "permanent",
+          "condition": {
+            "all": [
+              {
+                "value": 2,
+                "field": "attachedDonCount",
+                "op": ">="
+              },
+              {
+                "value": true,
+                "field": "isOpponentsTurn",
+                "op": "="
+              }
+            ],
+            "logic": "AND"
+          },
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "system"
+          }
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your leader has the {Straw Hat Crew} type, give your leader or one character up to 1 rested DON!! cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self:Leader", "ally:oneCharacter"],
-        "conditions": ["leaderHasStrawHatCrew"],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["self:Leader", "oneAllyCharacter"]
+      "condition": {
+        "value": "Straw Hat Crew",
+        "field": "leader.types",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 1,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "selector": {
+            "filters": [
+              {
+                "value": true,
+                "field": "rested",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "costArea"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          }
         }
-      }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "R",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Tony Tony Chopper",
+  "types": [
+    "Animal",
+    "Drum Kingdom",
+    "Straw Hat Crew"
+  ],
+  "cost": 3,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animal",
+    "drumKingdom",
+    "strawHatCrew"
+  ]
 }

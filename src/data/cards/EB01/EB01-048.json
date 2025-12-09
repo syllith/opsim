@@ -1,37 +1,54 @@
 {
-  "id": "EB01-048",
-  "set": "EB01",
-  "number": 48,
-  "name": "Laboon",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Strike",
-  "types": ["Animal"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-048.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this character: Give up to one of your opponent's characters cost -4 for this turn.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB01-048",
+  "printedText": "[Activate: Main] You may rest this Character: Give up to 1 of your opponent's Characters -4 cost during this turn.",
+  "cardNumber": "048",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this character: Give up to one of your opponent's characters cost -4 for this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": []
-      }
+      "cost": {
+        "type": "restThis"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "cost",
+          "duration": "thisTurn",
+          "amount": -4,
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "SR",
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Laboon",
+  "types": [
+    "Animal"
+  ],
+  "cost": 4,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animal"
+  ]
 }

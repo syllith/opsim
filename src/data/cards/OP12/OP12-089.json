@@ -1,78 +1,77 @@
 {
-  "id": "OP12-089",
-  "set": "OP12",
-  "number": 89,
-  "name": "Hack",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Fish-man",
-    "Dressrosa",
-    "Revolutionary Army"
-  ],
+  "cardName": "Hack",
+  "cardId": "OP12-089",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Fish-man", "Dressrosa", "Revolutionary Army"],
+  "traits": ["fishMan", "dressrosa", "revolutionaryArmy"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-089.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On K.O.",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "If your Leader has the (Revolutionary Army) type, this Character gains Blocker and +4 cost. On K.O. If your Leader has the (Revolutionary Army) type, K.O. up to 1 of your opponent's Characters with an original cost of 4 or less.",
+  "setId": "OP12",
+  "cardNumber": "089",
+  "printedText": "If your Leader has the {Revolutionary Army} type, this Character gains Blocker and +4 cost.\n[On K.O.] If your Leader has the {Revolutionary Army} type, K.O. up to 1 of your opponent's Characters with an original cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "revolutionaryArmy"
       },
-      "effect": {
-        "text": "If your Leader has the (Revolutionary Army) type, this Character gains Blocker and +4 cost.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "conditions": [
-          "your Leader has the (Revolutionary Army) type"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "selfThisCard"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 4,
+          "duration": "permanent",
+          "target": "selfThisCard"
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "revolutionaryArmy"
       },
-      "effect": {
-        "text": "If your Leader has the (Revolutionary Army) type, K.O. up to 1 of your opponent's Characters with an original cost of 4 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "your Leader has the (Revolutionary Army) type",
-          "original cost <= 4"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacterCost4OrLess",
+          "may": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

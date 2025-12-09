@@ -1,65 +1,83 @@
 {
-  "id": "OP09-083",
-  "set": "OP09",
-  "number": 83,
-  "name": "Van Augur",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Blackbeard Pirates"
-  ],
+  "cardName": "Van Augur",
+  "cardId": "OP09-083",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-083.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this character: If your leader has the (Blackbeard Pirates) type, give up to one of your opponent's characters -3 cost for this turn. On K.O. Draw one card.",
+  "setId": "OP09",
+  "cardNumber": "083",
+  "printedText": "[Activate: Main] You may rest this Character: If your Leader has the \"Blackbeard Pirates\" type, give up to 1 of your opponent's Characters -3 cost for this turn.\n[On K.O.] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this character: If your leader has the (Blackbeard Pirates) type, give up to one of your opponent's characters -3 cost for this turn.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the (Blackbeard Pirates) type"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "leaderBlackbeard": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "blackbeardPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "leaderBlackbeard",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "cost",
+              "mode": "add",
+              "amount": -3,
+              "duration": "thisTurn",
+              "target": "opponentCharacter"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw one card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

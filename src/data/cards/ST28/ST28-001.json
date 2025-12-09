@@ -1,37 +1,61 @@
 {
-  "id": "ST28-001",
-  "set": "ST28",
-  "number": 1,
-  "name": "Ashura Doji",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": null,
+  "cardName": "Ashura Doji",
+  "cardId": "ST28-001",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Land of Wano", "The Akazaya Nine"],
+  "traits": ["landOfWano", "theAkazayaNine"],
   "rarity": "C",
-  "art": "/cards/ST28/ST28-001.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If your Leader has the {Land of Wano} type and your opponent has 3 or more Life cards, K.O. up to 1 of your opponent's Characters with a base cost of 5 or less.",
+  "setId": "ST28",
+  "cardNumber": "001",
+  "printedText": "[On Play] If your Leader has the {Land of Wano} type and your opponent has 3 or more Life cards, K.O. up to 1 of your opponent's Characters with a base cost of 5 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Land of Wano} type and your opponent has 3 or more Life cards, K.O. up to 1 of your opponent's Characters with a base cost of 5 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["leaderHasLandOfWanoType", "opponentLife>=3", "characterBaseCost<=5"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "opponentCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "baseCost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "landOfWano"
+          },
+          {
+            "field": "opponentLifeCount",
+            "op": ">=",
+            "value": 3
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCost5OrLess"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

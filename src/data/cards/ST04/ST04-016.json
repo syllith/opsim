@@ -1,20 +1,50 @@
 {
-  "id": "ST04-016",
-  "set": "ST04",
-  "number": 16,
-  "name": "Blast Breath",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["The Four Emperors", "Animal Kingdom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST04/ST04-016.png",
-  "stats": { "cost": 1, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Counter", "DON!! -1"],
-  "trigger": null,
-  "text": "Counter — DON!! -1: Your Leader or 1 of your Characters gains +4000 Power during this battle.",
-  "abilities": [
-    {"timing": "Counter", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Give +4000 Power to Leader or 1 Character this battle.", "grants": ["+4000 power"], "powerMod": {"amount": 4000, "duration": "thisBattle"}, "targets": ["leader", "oneCharacter"], "conditions": ["donAttached"]}}
+  "cardName": "Blast Breath",
+  "cardId": "ST04-016",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 1,
+  "types": [
+    "The Four Emperors",
+    "Animal Kingdom Pirates"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "theFourEmperors",
+    "animalKingdomPirates"
+  ],
+  "rarity": "",
+  "setId": "ST04",
+  "cardNumber": "016",
+  "printedText": "[Counter] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Your Leader or 1 of your Character cards gains +4000 power during this battle.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "counter",
+      "cost": {
+        "type": "donMinus",
+        "count": 1
+      },
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        }
+      ]
+    }
+  ]
 }

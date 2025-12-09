@@ -1,53 +1,87 @@
 {
-  "id": "ST27-001",
-  "set": "ST27",
-  "number": 1,
-  "name": "Avalo Pizarro",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": null,
+  "cardName": "Avalo Pizarro",
+  "cardId": "ST27-001",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
   "rarity": "C",
-  "art": "/cards/ST27/ST27-001.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate:Main", "Once Per Turn", "On K.O."],
-  "trigger": null,
-  "text": "[Activate:Main] [Once Per Turn] You may rest 1 of your [Fullalead] cards: If your Leader has the {Blackbeard Pirates} type, this Character gains +4000 power during this turn.\n[On K.O.] Draw 1 card.",
+  "setId": "ST27",
+  "cardNumber": "001",
+  "printedText": "[Activate:Main] [Once Per Turn] You may rest 1 of your [Fullalead] cards: If your Leader has the {Blackbeard Pirates} type, this Character gains +4000 power during this turn.\n[On K.O.] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest 1 of your [Fullalead] cards: If your Leader has the {Blackbeard Pirates} type, this Character gains +4000 power during this turn.",
-        "grants": [],
-        "powerMod": {
-          "amount": 4000,
-          "duration": "duringThisTurn"
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "restFromField",
+        "selector": "fullaleadCard",
+        "may": true
+      },
+      "selectors": {
+        "fullaleadCard": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "character", "stage"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Fullalead"
+            }
+          ]
         },
-        "targets": ["self"],
-        "conditions": ["mayRest1Fullalead", "leaderHasBlackbeardPiratesType"]
-      }
+        "blackbeardLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "blackbeardPirates"
+            }
+          ]
+        },
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisTurn",
+          "target": "thisCardSelector",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "blackbeardLeader",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "onKO",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,51 +1,60 @@
 {
-  "id": "OP03-081",
-  "set": "OP03",
-  "number": 81,
-  "name": "Kalifa",
-  "category": "Character",
+  "cardName": "Kalifa",
+  "cardId": "OP03-081",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Ranged",
+  "cost": 4,
+  "power": 4000,
   "types": [
     "CP9"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-081.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Draw 2 cards, and trash 2 cards from your hand. Then, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "081",
+  "printedText": "[On Play] Draw 2 cards, and trash 2 cards from your hand. Then, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "oppChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "bindAs": "targetOpp"
+        }
       },
-      "effect": {
-        "text": "Draw 2 cards, and trash 2 cards from your hand. Then, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2
+        },
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -2,
+          "duration": "thisTurn",
+          "target": "targetOpp"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, but all fields are filled based on visible text."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "cp9"
+  ]
 }

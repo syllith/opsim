@@ -1,57 +1,54 @@
 {
-  "id": "OP03-114",
-  "set": "OP03",
-  "number": 114,
-  "name": "Charlotte Linlin",
-  "category": "Character",
+  "cardName": "Charlotte Linlin",
+  "cardId": "OP03-114",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 10,
+  "power": 12000,
+  "counter": 0,
   "types": [
     "Four Emperors",
     "Big Mom Pirates"
   ],
   "rarity": "SR",
-  "art": "/cards/OP03/OP03-114.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "114",
+  "printedText": "On Play If your Leader has the Big Mom Pirates type, place up to 1 card from the top of your deck at the top of your Life area. Then, trash up to 1 card from the top of your opponent's Life area.",
   "keywords": [
     "On Play"
   ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the {Big Mom Pirates} type, place up to 1 card from your deck at the top of your Life area. Then, trash up to 1 card from the top of your opponent's Life area.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderHasBigMomPiratesType",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your Leader has the {Big Mom Pirates} type, place up to 1 card from your deck at the top of your Life area. Then, trash up to 1 card from the top of your opponent's Life area.",
-        "powerMod": null,
-        "targets": [
-          "yourDeck",
-          "yourLifeArea",
-          "opponentLifeArea"
-        ],
-        "conditions": [
-          "yourLeaderHasType:Big Mom Pirates"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "life",
+          "may": true,
+          "target": "selfTopDeckCard"
+        },
+        {
+          "type": "moveCard",
+          "destination": "trash",
+          "may": true,
+          "target": "opponentTopLifeCard"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is SR, visible in the bottom right corner. The card is a sample, indicated by the large 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "bigMomPirates"
+  ]
 }

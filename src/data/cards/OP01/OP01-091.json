@@ -1,38 +1,51 @@
 {
-  "id": "OP01-091",
-  "set": "OP01",
-  "number": 91,
-  "name": "King",
-  "category": "Leader",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["Animal Kingdom Pirates"],
-  "rarity": null,
-  "art": "/cards/OP01/OP01-091.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Your Turn"],
-  "trigger": null,
-  "text": "Your Turn: If you have 10 DON!! cards on your field, all of your opponent's Characters have -1000 power.",
+  "cardName": "King",
+  "cardId": "OP01-091",
+  "cardType": "leader",
+  "colors": [
+    "purple"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "L",
+  "setId": "OP01",
+  "cardNumber": "091",
+  "printedText": "[Your Turn] If you have 10 DON!! cards on your field, all of your opponent's Characters have -1000 power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 10 DON!! cards on your field, all of your opponent's Characters have -1000 power.",
-        "grants": [],
-        "powerMod": { "amount": -1000, "duration": "while in play" },
-        "targets": ["allOpponentCharacters"],
-        "conditions": ["donOnField>=10"],
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": [
+              "character"
+            ]
+          },
+          "condition": {
+            "field": "donOnField",
+            "op": ">=",
+            "value": 10
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

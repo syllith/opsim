@@ -1,23 +1,19 @@
 {
-  "id": "ST02-006",
-  "set": "ST02",
-  "number": 6,
-  "name": "Koby",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
+  "cardName": "Koby",
+  "cardId": "ST02-006",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Navy"],
-  "rarity": null,
-  "art": "/cards/ST02/ST02-006.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["navy"],
+  "rarity": "common",
+  "setId": "ST02",
+  "cardNumber": "006",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

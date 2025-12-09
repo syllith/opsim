@@ -1,65 +1,101 @@
 {
-  "id": "OP13-002",
-  "set": "OP13",
-  "number": 2,
-  "name": "Portgas.D.Ace",
-  "category": "Leader",
-  "colors": [
-    "Red",
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Whitebeard Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP13/OP13-002.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": 3,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "On Your Opponent's Attack",
-    "Once Per Turn",
-    "DON!! x1",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "On Your Opponent's Attack Once Per Turn You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this battle. DON!! x1 Once Per Turn When you receive damage or your Character with 6000 base power or more is K.O.'d, draw 1 card.",
+  "cardName": "Portgas.D.Ace",
+  "cardId": "OP13-002",
+  "cardType": "leader",
+  "colors": ["red", "blue"],
+  "power": 6000,
+  "life": 3,
+  "attributes": ["special"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
+  "rarity": "L",
+  "setId": "OP13",
+  "cardNumber": "002",
+  "printedText": "[On Your Opponent's Attack] [Once Per Turn] You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this battle.\n[DON!! x1] [Once Per Turn] When you receive damage or your Character with 6000 base power or more is K.O.'d, draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Your Opponent's Attack",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this battle.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentLeaderOrCharacter": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisBattle",
+          "target": "opponentLeaderOrCharacter"
+        }
+      ]
     },
     {
-      "timing": "DON!! x1",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "When you receive damage or your Character with 6000 base power or more is K.O.'d, draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "receiveDamage",
+          "target": "selfLeader",
+          "condition": {
+            "field": "givenDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 1,
+              "side": "self"
+            }
+          ]
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "selfCharacterKOd",
+          "target": "selfTriggerSourceCard",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "givenDonCount",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "power",
+                "op": ">=",
+                "value": 6000
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 1,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

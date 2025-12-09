@@ -1,68 +1,73 @@
 {
-  "id": "OP08-039",
-  "set": "OP08",
-  "number": 39,
-  "name": "Zou",
-  "category": "Stage",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Animal"
-  ],
+  "cardName": "Zou",
+  "cardId": "OP08-039",
+  "cardType": "stage",
+  "colors": ["green"],
+  "cost": 3,
+  "types": ["Animal"],
+  "traits": ["animal"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-039.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "End of Your Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this stage: If your leader has the (Minks) type, set up to one of your Don!! as active. End of Your Turn Set up to one of your (Minks) type characters as active.",
+  "setId": "OP08",
+  "cardNumber": "039",
+  "printedText": "[Activate: Main] You may rest this stage: If your leader has the {Minks} type, set up to one of your Don!! as active.\n[End of Your Turn] Set up to one of your {Minks} type characters as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this stage: If your leader has the (Minks) type, set up to one of your Don!! as active.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the (Minks) type"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderTypes",
+        "op": "=",
+        "value": "Minks"
+      },
+      "selectors": {
+        "restedDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "filters": [
+            { "field": "state", "op": "=", "value": "rested" }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "restedDon"
+        }
+      ]
     },
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "selectors": {
+        "selfMinksChar": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            { "field": "types", "op": "=", "value": "Minks" }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to one of your (Minks) type characters as active.",
-        "powerMod": null,
-        "targets": [
-          "one of your (Minks) type characters"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfMinksChar"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

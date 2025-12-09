@@ -1,62 +1,83 @@
 {
-  "id": "OP11-070",
-  "set": "OP11",
-  "number": 70,
-  "name": "Charlotte Pudding",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Big Mom Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-070.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck, reveal up to one cost 2 or greater (Big Mom Pirates) type card and put it into your hand. Then, put the rest at the bottom of your deck in any order.\nActivate: Main: DON!!-1, then rest this Character. Look at the top card of your opponent's deck.",
+  "cardName": "Charlotte Pudding",
+  "cardId": "OP11-070",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
+  "rarity": "SR",
+  "setId": "OP11",
+  "cardNumber": "070",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Big Mom Pirates} type card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order. [Activate: Main] DON!! −1, You may rest this Character: Look at 1 card from the top of your opponent's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "puddingSearch": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "bigMomPirates"
+            },
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 2
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to one cost 2 or greater (Big Mom Pirates) type card and put it into your hand. Then, put the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "puddingSearch",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "donMinus",
+            "count": 1
+          },
+          {
+            "type": "restThis",
+            "may": true
+          }
+        ]
       },
-      "effect": {
-        "text": "DON!!-1, then rest this Character. Look at the top card of your opponent's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTopDeckCard",
+          "destination": "topOfDeck",
+          "ordering": "keep",
+          "faceUp": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

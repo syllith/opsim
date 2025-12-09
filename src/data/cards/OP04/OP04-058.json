@@ -1,49 +1,68 @@
 {
-  "id": "OP04-058",
-  "set": "OP04",
-  "number": 58,
-  "name": "Crocodile",
-  "category": "Leader",
+  "cardName": "Crocodile",
+  "cardId": "OP04-058",
+  "cardType": "leader",
   "colors": [
-    "Yellow"
+    "purple",
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
   "types": [
-    "Seven Warlords Of The Sea",
+    "Seven Warlords of the Sea",
     "Baroque Works"
   ],
   "rarity": "L",
-  "art": "/cards/OP04/OP04-058.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Opponent's Turn Once Per Turn When you return DON!! from your field to the DON!! deck through one of your effects, add 1 DON!! from your DON!! deck as active.",
+  "setId": "OP04",
+  "cardNumber": "058",
+  "printedText": "[Opponent's Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck by your effect, add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenDonReturned",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "currentTurnPlayer",
+            "op": "=",
+            "value": "opponent"
+          },
+          {
+            "field": "donReturnedController",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "donReturnSource",
+            "op": "=",
+            "value": "effect"
+          },
+          {
+            "field": "donReturnFromZone",
+            "op": "=",
+            "value": "field"
+          }
+        ]
       },
-      "effect": {
-        "text": "When you return DON!! from your field to the DON!! deck through one of your effects, add 1 DON!! from your DON!! deck as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample. The text 'Opponent's Turn' is printed in a blue box, indicating the timing condition."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
+  ]
 }

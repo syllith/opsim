@@ -1,56 +1,56 @@
 {
-  "id": "OP11-006",
-  "set": "OP11",
-  "number": 6,
-  "name": "Zephyr",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "FILM",
-    "Neo Navy"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-006.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking Up to 1 of your opponent's <Special> attribute Characters gains -5000 power during this turn.",
+  "cardName": "Zephyr",
+  "cardId": "OP11-006",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["FILM", "Neo Navy"],
+  "traits": ["film", "neoNavy"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "006",
+  "printedText": "[DON!! x1] [When Attacking] Up to 1 of your opponent's <Special> attribute Characters gains -5000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "isGivenDon",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "Up to 1 of your opponent's <Special> attribute Characters gains -5000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "<Special> attribute"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppSpecialChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "attributes",
+              "op": "=",
+              "value": "special"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppSpecialChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -5000,
+          "duration": "thisTurn",
+          "target": "oppSpecialChar"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,39 +1,79 @@
 {
-  "id": "EB03-060",
-  "set": "EB03",
-  "number": 60,
-  "name": "Will You Be My Servant?",
-  "category": "Event",
-  "colors": ["Yellow"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
+  "cardName": "Will You Be My Servant?",
+  "cardId": "EB03-060",
+  "cardType": "event",
+  "colors": [
+    "yellow"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Straw Hat Crew"
+  ],
   "rarity": "C",
-  "art": "/cards/EB03/EB03-060.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main"],
-  "trigger": {
-    "text": "Activate this card's [Main] effect."
-  },
-  "text": "[Main] If your Leader is [Nami], look at 4 cards from the top of your deck; reveal up to 1 card with a cost of 2 to 8 and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "EB03",
+  "cardNumber": "060",
+  "printedText": "Main If your Leader is [Nami], look at 4 cards from the top of your deck; reveal up to 1 card with a cost of 2 to 8 and add it to your hand. Then, place the rest at the bottom of your deck in any order.\nTrigger Activate this card's Main effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader is [Nami], look at 4 cards from the top of your deck; reveal up to 1 card with a cost of 2 to 8 and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "hand"],
-        "conditions": ["leaderIsNami", "cardCost2to8"]
-      }
+      "timing": "main",
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Nami"
+      },
+      "selectors": {
+        "top4Cost2to8": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 2
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 8
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top4Cost2to8",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 4,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "strawHatCrew"
+  ]
 }

@@ -1,49 +1,62 @@
 {
-  "id": "OP12-051",
-  "set": "OP12",
-  "number": 51,
-  "name": "Hina",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy"
-  ],
+  "cardName": "Hina",
+  "cardId": "OP12-051",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Navy"],
+  "traits": ["navy"],
   "rarity": "UC",
-  "art": "/cards/OP12/OP12-051.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this Character and trash 1 card from your hand: Up to 1 of your opponent's Characters with an original cost of 4 or less cannot activate Blocker during this turn.",
+  "setId": "OP12",
+  "cardNumber": "051",
+  "printedText": "[Activate: Main] You may rest this Character and trash 1 card from your hand: Up to 1 of your opponent's Characters with an original cost of 4 or less cannot activate Blocker during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character and trash 1 card from your hand: Up to 1 of your opponent's Characters with an original cost of 4 or less cannot activate Blocker during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "targetCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "blocker",
+          "target": "targetCharacter",
+          "duration": "thisTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

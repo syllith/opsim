@@ -1,23 +1,24 @@
 {
-  "id": "ST07-014",
-  "set": "ST07",
-  "number": 14,
-  "name": "Pekoms",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
-  "types": ["Minks", "Big Mom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST07/ST07-014.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "cardName": "Pekoms",
+  "cardId": "ST07-014",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": [
+    "Minks",
+    "Big Mom Pirates"
+  ],
+  "traits": [
+    "minks",
+    "bigMomPirates"
+  ],
+  "rarity": "",
+  "setId": "ST07",
+  "cardNumber": "014",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": []
 }

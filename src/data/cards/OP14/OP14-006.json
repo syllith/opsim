@@ -1,49 +1,48 @@
 {
-  "id": "OP14-006",
-  "set": "OP14",
-  "number": 6,
-  "name": "Shachi & Penguin",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Heart Pirates"
-  ],
+  "cardName": "Shachi & Penguin",
+  "cardId": "OP14-006",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Heart Pirates"],
+  "traits": ["heartPirates"],
   "rarity": "C",
-  "art": "/cards/OP14/OP14-006.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP14",
+  "cardNumber": "006",
+  "printedText": "[When Attacking] If this Character has 5000 power or more, give up to 1 of your opponent's Characters -2000 power during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking If this Character has 5000 power or more, give up to 1 of your opponent's Characters -2000 power during this turn.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "selfPower",
+        "op": ">=",
+        "value": 5000
       },
-      "effect": {
-        "text": "If this Character has 5000 power or more, give up to 1 of your opponent's Characters -2000 power during this turn.",
-        "powerMod": null,
-        "conditions": [
-          "this Character has 5000 power or more"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "opponentCharacterUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

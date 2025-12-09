@@ -1,37 +1,43 @@
 {
-  "id": "ST06-005",
-  "set": "ST06",
-  "number": 5,
-  "name": "Sengoku",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Wisdom",
+  "cardName": "Sengoku",
+  "cardId": "ST06-005",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
   "types": ["Navy"],
-  "rarity": null,
-  "art": "/cards/ST06/ST06-005.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "When Attacking: Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
+  "traits": ["navy"],
+  "rarity": "R",
+  "setId": "ST06",
+  "cardNumber": "005",
+  "printedText": "[When Attacking] Give up to 1 of your opponent's Characters −4 to their cost during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["reduceCost:-4","duration:turn"]
-      }
+      "timing": "whenAttacking",
+      "selectors": {
+        "costDownTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -4,
+          "duration": "thisTurn",
+          "target": "costDownTarget"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,50 +1,54 @@
 {
-  "id": "ST11-002",
-  "set": "ST11",
-  "number": 2,
-  "name": "Uta",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Special",
+  "cardName": "Uta",
+  "cardId": "ST11-002",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["FILM"],
+  "traits": ["film"],
   "rarity": "SR",
-  "art": "/cards/ST11/ST11-002.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "ST11",
+  "cardNumber": "002",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [End of Your Turn] You may discard 1 event card from your hand: Set up to 1 of your {FILM} type Characters as active.",
   "keywords": ["Blocker"],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) End of Your Turn You may discard 1 event card from your hand: Set up to 1 of your [FILM] type characters as active.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentAttackDeclared"],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may discard 1 event card from your hand: Set up to 1 of your [FILM] type characters as active.",
-        "powerMod": null,
-        "targets": ["oneAllyCharacter:type=FILM"],
-        "conditions": ["discardEventFromHand"],
-        "giveDon": null
-      }
+      "timing": "endOfYourTurn",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": ["event"],
+        "may": true
+      },
+      "selectors": {
+        "filmCharacterUpTo1": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "film"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "filmCharacterUpTo1"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

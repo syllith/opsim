@@ -1,56 +1,63 @@
 {
-  "id": "OP01-017",
-  "set": "OP01",
-  "number": 17,
-  "name": "Nico Robin",
-  "category": "Character",
+  "cardName": "Nico Robin",
+  "cardId": "OP01-017",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Straw Hat Crew"
   ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-017.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "[DON!! x1] [When Attacking] K.O. up to 1 of your opponent's Characters with 3000 power or less.",
+  "setId": "OP01",
+  "cardNumber": "017",
+  "printedText": "[DON!! x1] When Attacking K.O. up to 1 of your opponent’s Characters with 3000 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with 3000 power or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "upTo1:opponent:Character"
-        ],
-        "conditions": [
-          "opponentCharacterPower<=3000"
-        ]
-      }
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

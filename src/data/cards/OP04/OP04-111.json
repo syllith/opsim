@@ -1,59 +1,118 @@
 {
-  "id": "OP04-111",
-  "set": "OP04",
-  "number": 111,
-  "name": "Hera",
-  "category": "Character",
+  "cardName": "Hera",
+  "cardId": "OP04-111",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Special",
+  "cost": 5,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Big Mom Pirates",
     "Homies"
   ],
   "rarity": "UC",
-  "art": "/cards/OP04/OP04-111.png",
-  "stats": {
-    "cost": 5,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "111",
+  "printedText": "[Activate: Main] You may trash 1 of your {Homies} type Characters other than this Character and rest this Character: Set up to 1 of your {Charlotte Linlin} Characters as active.\n[Trigger] Play this card.",
   "keywords": [
-    "Activate: Main",
-    "Trigger"
+    "trigger"
   ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "Activate: Main\nYou may trash 1 of your (Homies) type Characters other than this Character and rest this Character. Set up to 1 of your [Charlotte Linlin] Characters as active.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "trashFromField",
+            "selector": {
+              "side": "self",
+              "type": "character",
+              "zones": [
+                "character"
+              ],
+              "filters": [
+                {
+                  "field": "hasTrait",
+                  "op": "=",
+                  "value": "Homies"
+                },
+                {
+                  "field": "isThisCard",
+                  "op": "=",
+                  "value": false
+                }
+              ],
+              "min": 1,
+              "max": 1,
+              "whoChooses": "self"
+            }
+          },
+          {
+            "type": "restThis"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 of your (Homies) type Characters other than this Character and rest this Character. Set up to 1 of your [Charlotte Linlin] Characters as active.",
-        "powerMod": null,
-        "targets": [
-          "oneOfYour(Homies)Character",
-          "oneOfYour(CharlotteLinlin)Character"
-        ],
-        "conditions": [
-          "otherThanThisCharacter"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "charlotteLinlinTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasTrait",
+              "op": "=",
+              "value": "Charlotte Linlin"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "charlotteLinlinTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "selfFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfFromLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'UC' confirmed from the 'UC' symbol in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "bigMomPirates",
+    "homies"
+  ]
 }

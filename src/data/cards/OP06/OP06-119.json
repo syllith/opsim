@@ -1,50 +1,76 @@
 {
-  "id": "OP06-119",
-  "set": "OP06",
-  "number": 119,
-  "name": "Kaido and Linlin",
-  "category": "Character",
+  "cardName": "Sanji",
+  "cardId": "OP06-119",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 9,
+  "power": 9000,
+  "life": 0,
+  "counter": 0,
+  "attributes": [
+    "strike"
+  ],
   "types": [
-    "Four Emperors",
-    "Animal Kingdom Pirates",
-    "Big Mom Pirates"
+    "Straw Hat Crew"
+  ],
+  "traits": [
+    "strawHatCrew"
   ],
   "rarity": "SEC",
-  "art": "/cards/OP06/OP06-119.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 12000
-    }
-  },
+  "setId": "OP06",
+  "cardNumber": "119",
+  "printedText": "[On Play] Reveal the top 1 card of your deck, you may put into play up to 1 revealed Character with cost 9 or less other than [Sanji]. Then, place the remaining cards on the bottom of your deck.",
   "keywords": [
-    "When Attacking"
+    "onPlay",
+    "search"
   ],
-  "trigger": null,
-  "text": "When Attacking -10 Don!!: KO all other characters. Then, put up to one card from the top of your deck on your life pile and trash up to one card from the top of your opponent's life pile.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 10,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "topCardEligibleCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "deck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "card.cost",
+              "op": "<=",
+              "value": 9
+            },
+            {
+              "field": "card.name",
+              "op": "!=",
+              "value": "Sanji"
+            }
+          ],
+          "bindAs": "characterToPlay"
+        }
       },
-      "effect": {
-        "text": "-10 Don!!: KO all other characters. Then, put up to one card from the top of your deck on your life pile and trash up to one card from the top of your opponent's life pile.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "topCardEligibleCharacter",
+          "reveal": true,
+          "addTo": "characterArea",
+          "ordering": "chosen",
+          "topCount": 1,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "keep",
+          "asPlay": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

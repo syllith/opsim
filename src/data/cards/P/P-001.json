@@ -1,53 +1,41 @@
 {
-  "id": "P-001",
-  "set": "P",
-  "number": 1,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "P-001",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 6,
+  "power": 7000,
+  "attributes": ["strike"],
   "types": [
     "Supernovas",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/P/P-001.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "DON!! x2",
-    "Rush"
+  "traits": [
+    "supernovas",
+    "strawHatCrew"
   ],
-  "trigger": null,
-  "text": "DON!! x2 This Character gains Rush. (This card can attack on the turn in which it is played.)",
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "001",
+  "printedText": "[DON!! x2] This Character gains Rush. (This card can attack on the turn in which it is played.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This Character gains Rush.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "permanent",
+          "target": "selfThisCard",
+          "condition": {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 2
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

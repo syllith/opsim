@@ -1,50 +1,73 @@
 {
-  "id": "OP10-087",
-  "set": "OP10",
-  "number": 87,
-  "name": "Tony Tony Chopper",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animal",
-    "Dressrosa",
-    "Straw Hat Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP10/OP10-087.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this and one of your leader or stage that has the {Dressrosa} type: If your opponent's hand is 5 or greater, your opponent trashes 1 card from their hand. Then, trash the top 2 cards of your deck.",
+  "cardName": "Tony Tony.Chopper",
+  "cardId": "OP10-087",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Animal", "Dressrosa", "Straw Hat Pirates"],
+  "traits": ["animal", "dressrosa", "strawHatPirates"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "087",
+  "printedText": "[Activate: Main] You may rest this Character and 1 of your {Dressrosa} type Leader or Stage cards: If your opponent has 5 or more cards in their hand, your opponent trashes 1 card from their hand. Then, trash 2 cards from the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "restFromField",
+            "selector": {
+              "side": "self",
+              "type": "any",
+              "zones": ["leader", "stage"],
+              "filters": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "dressrosa"
+                }
+              ],
+              "min": 1,
+              "max": 1,
+              "whoChooses": "self",
+              "bindAs": "dressrosaLeaderOrStage"
+            }
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this and one of your leader or stage that has the {Dressrosa} type: If your opponent's hand is 5 or greater, your opponent trashes 1 card from their hand. Then, trash the top 2 cards of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {},
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "opponentHandCount",
+            "op": ">=",
+            "value": 5
+          },
+          "actions": [
+            {
+              "type": "trashFromHand",
+              "side": "opponent",
+              "minCards": 1,
+              "maxCards": 1
+            }
+          ]
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 2
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

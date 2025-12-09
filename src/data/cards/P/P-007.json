@@ -1,49 +1,45 @@
 {
-  "id": "P-007",
-  "set": "P",
-  "number": 7,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "P-007",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": [
     "Supernovas",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/P/P-007.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!!x1"
+  "traits": [
+    "supernovas",
+    "strawHatCrew"
   ],
-  "trigger": null,
-  "text": "This Character cannot be K.O'd when battling (Strike) Attribute Leader or Characters.",
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "007",
+  "printedText": "[DON!! x1] This Character cannot be K.O.'d in battle by \"Strike\" attribute Leaders or Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "This Character cannot be K.O'd when battling (Strike) Attribute Leader or Characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "preventKO",
+          "target": "selfThisCard",
+          "condition": {
+            "field": "battleOpponent",
+            "attribute": "strike",
+            "op": "=",
+            "value": true
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

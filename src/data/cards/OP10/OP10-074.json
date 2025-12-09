@@ -1,48 +1,39 @@
 {
-  "id": "OP10-074",
-  "set": "OP10",
-  "number": 74,
-  "name": "Pika",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Donquixote Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-074.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Once Per Turn: If this character were to be KO'd by one of your opponents effects, you may instead rest 2 of your DON!!",
+  "cardName": "Pika",
+  "cardId": "OP10-074",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "074",
+  "printedText": "[Once Per Turn] If this character were to be K.O.'d by one of your opponent's effects, you may instead rest 2 of your DON!!.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onWouldBeKO",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "koSource",
+        "op": "=",
+        "value": "opponentEffect"
       },
-      "effect": {
-        "text": "If this character were to be KO'd by one of your opponents effects, you may instead rest 2 of your DON!!",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 2,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "preventKO",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, but ID and stats are read from printed text."
-  }
+  ]
 }

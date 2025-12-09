@@ -1,37 +1,63 @@
 {
-  "id": "OP01-048",
-  "set": "OP01",
-  "number": 48,
-  "name": "Cat Viper",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
-  "types": ["Mink Tribe", "Wano Country", "Nine Red Scabbards"],
-  "rarity": "UC",
-  "art": "/cards/OP01/OP01-048.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "cardName": "Cat Viper",
+  "cardId": "OP01-048",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Mink Tribe",
+    "Wano Country",
+    "Nine Red Scabbards"
+  ],
+  "rarity": "C",
+  "setId": "OP01",
+  "cardNumber": "048",
+  "printedText": "On Play Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:opponent:Character"],
-        "conditions": ["opponentCharacterCost<=3"]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "restTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "minkTribe",
+    "wanoCountry",
+    "nineRedScabbards"
+  ]
 }

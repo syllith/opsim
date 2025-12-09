@@ -1,65 +1,101 @@
 {
-  "id": "OP10-001",
-  "set": "OP10",
-  "number": 1,
-  "name": "Smoker",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Punk Hazard",
-    "Navy"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-001.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Smoker",
+  "cardId": "OP10-001",
+  "cardType": "leader",
+  "colors": ["red", "green"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["Punk Hazard", "Navy"],
+  "traits": ["punkHazard", "navy"],
+  "rarity": "L",
+  "setId": "OP10",
+  "cardNumber": "001",
+  "printedText": "[Opponent's Turn] Your Characters with the \"Navy\" or \"Punk Hazard\" type gain +1000 power.\n[Activate: Main] [Once Per Turn] If you have a Character with 7000 power or more, set up to 2 of your DON!! as active.",
   "keywords": [],
-  "trigger": null,
-  "text": "Opponent's Turn: Your characters with the {Navy} or {Punk Hazard} trait gain +1000 Power. Activate: Main Once Per Turn: If you have a character with 7000 power or more, Set 2 DON!! as active.",
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "selectors": {
+        "navyOrPunkHazardCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "navy"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "punkHazard"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Your characters with the {Navy} or {Punk Hazard} trait gain +1000 Power.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "navyOrPunkHazardCharacters"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If you have a character with 7000 power or more, Set 2 DON!! as active.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 2,
-          "state": "active",
-          "from": "costArea",
-          "to": []
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "power7000OrMoreCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": ">=",
+              "value": 7000
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "donToReady": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
         }
-      }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "power7000OrMoreCharacters",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donToReady"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

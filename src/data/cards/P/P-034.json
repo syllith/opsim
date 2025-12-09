@@ -1,55 +1,58 @@
 {
-  "id": "P-034",
-  "set": "P",
-  "number": 34,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Vinsmoke Family"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-034.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!!",
-    "Your Turn"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 Your Turn: While your Life area has 2 or less life cards, this Character gains +2000 power.",
+  "cardName": "Sanji",
+  "cardId": "P-034",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Vinsmoke Family"],
+  "traits": ["vinsmokeFamily"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-034",
+  "printedText": "[DON!! x1] [Your Turn] If you have 2 or less Life cards, this Character gains +2000 power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isGivenDon",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "life",
+            "op": "<=",
+            "value": 2
+          },
+          {
+            "field": "isYourTurn",
+            "op": "=",
+            "value": true
+          }
+        ]
       },
-      "effect": {
-        "text": "While your Life area has 2 or less life cards, this Character gains +2000 power.",
-        "powerMod": {
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "conditions": [
-          "your Life area has 2 or less life cards"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "thisCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is C (not UC)."
-  }
+  ]
 }

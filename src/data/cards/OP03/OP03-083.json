@@ -1,51 +1,55 @@
 {
-  "id": "OP03-083",
-  "set": "OP03",
-  "number": 83,
-  "name": "Corgy",
-  "category": "Character",
+  "cardName": "Corgy",
+  "cardId": "OP03-083",
+  "cardType": "character",
   "colors": [
-    "Wisdom"
+    "black"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 0,
   "types": [
     "World Government"
   ],
+  "counter": 1000,
   "rarity": "C",
-  "art": "/cards/OP03/OP03-083.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play Look at 5 cards from the top of your deck and place up to 2 cards in the trash. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP03",
+  "cardNumber": "083",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck and place up to 2 cards in the trash. Then, place the rest at the bottom of your deck in any order.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "chooseTrash": {
+          "side": "self",
+          "type": "deck",
+          "zones": [
+            "deck"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "trashChoices"
+        }
       },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck and place up to 2 cards in the trash. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": [
-          "top5CardsOfDeck"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "topCount": 5,
+          "selector": "chooseTrash",
+          "addTo": "trash",
+          "moveRemainingTo": "bottomOfDeck",
+          "ordering": "chosen",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "worldGovernment"
+  ]
 }

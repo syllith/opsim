@@ -1,50 +1,98 @@
 {
-  "id": "OP10-027",
-  "set": "OP10",
-  "number": 27,
-  "name": "Kin'e'mon",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Punk Hazard",
-    "Wano Country",
-    "Nine Red Scabbards"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP10/OP10-027.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may place this character and a \"Kin'e'mon\" with 1000 power from your trash to the bottom of your deck in your any order: Play up to one \"Kin'e'mon\" with 6 cost from your hand.",
+  "cardName": "Kin'emon",
+  "cardId": "OP10-027",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Punk Hazard", "Wano Country", "Nine Red Scabbards"],
+  "traits": ["punkHazard", "wanoCountry", "nineRedScabbards"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "027",
+  "printedText": "[Activate: Main] You may place this Character and a \"Kin'emon\" with 1000 power from your trash at the bottom of your deck in any order: Play up to 1 \"Kin'emon\" with a cost of 6 from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "may": true,
+        "costs": [
+          {
+            "type": "moveFromField",
+            "selector": {
+              "side": "self",
+              "type": "thisCard",
+              "zones": ["character"]
+            },
+            "destination": "bottomOfDeck"
+          },
+          {
+            "type": "bottomDeckFromTrash",
+            "selector": {
+              "side": "self",
+              "type": "character",
+              "zones": ["trash"],
+              "filters": [
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "field": "cardName",
+                      "op": "=",
+                      "value": "Kin'emon"
+                    },
+                    {
+                      "field": "power",
+                      "op": "=",
+                      "value": 1000
+                    }
+                  ]
+                }
+              ],
+              "min": 1,
+              "max": 1,
+              "whoChooses": "self"
+            }
+          }
+        ]
       },
-      "effect": {
-        "text": "You may place this character and a \"Kin'e'mon\" with 1000 power from your trash to the bottom of your deck in your any order: Play up to one \"Kin'e'mon\" with 6 cost from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": ["hand"],
+            "filters": [
+              {
+                "logic": "AND",
+                "all": [
+                  {
+                    "field": "cardName",
+                    "op": "=",
+                    "value": "Kin'emon"
+                  },
+                  {
+                    "field": "cost",
+                    "op": "=",
+                    "value": 6
+                  }
+                ]
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

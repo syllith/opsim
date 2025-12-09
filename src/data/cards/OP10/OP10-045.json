@@ -1,50 +1,36 @@
 {
-  "id": "OP10-045",
-  "set": "OP10",
-  "number": 45,
-  "name": "Cavendish",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Dressarosa",
-    "Beautiful Pirates"
-  ],
+  "cardName": "Cavendish",
+  "cardId": "OP10-045",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Dressrosa", "Beautiful Pirates"],
+  "traits": ["dressrosa", "beautifulPirates"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-045.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "When Attacking Once Per Turn: Draw 2 cards and trash 1 card from your hand.",
+  "setId": "OP10",
+  "cardNumber": "045",
+  "printedText": "[When Attacking] [Once Per Turn] Draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards and trash 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, but ID and other fields are extracted from printed text."
-  }
+  ]
 }

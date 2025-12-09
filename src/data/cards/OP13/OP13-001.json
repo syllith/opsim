@@ -1,50 +1,105 @@
 {
-  "id": "OP13-001",
-  "set": "OP13",
-  "number": 1,
-  "name": "Monkey.D.Luffy",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "OP13-001",
+  "cardType": "leader",
+  "colors": ["red", "green"],
+  "power": 5000,
+  "life": 4,
+  "attributes": ["strike"],
+  "types": ["Supernovas", "Straw Hat Crew"],
+  "traits": ["supernovas", "strawHatCrew"],
   "rarity": "L",
-  "art": "/cards/OP13/OP13-001.png",
-  "stats": {
-    "cost": null,
-    "power": 4,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "On Your Opponent's Attack"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 On Your Opponent's Attack If you have 5 or less active DON!! cards on your field, you may rest any number of your active DON!! cards. Up to 1 of your Leader or {Straw Hat Crew} type Characters gain +2000 power for each DON!! that was rested by this effect.",
+  "setId": "OP13",
+  "cardNumber": "001",
+  "printedText": "[DON!! x1] [On Your Opponent's Attack] If you have 5 or less active DON!! cards, you may rest any number of your DON!! cards. For every DON!! card rested this way, this Leader or up to 1 of your {Straw Hat Crew} type Characters gains +2000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Your Opponent's Attack",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onOpponentsAttack",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "givenDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCount",
+            "selector": "activeDon",
+            "op": "<=",
+            "value": 5
+          }
+        ]
       },
-      "effect": {
-        "text": "If you have 5 or less active DON!! cards on your field, you may rest any number of your active DON!! cards. Up to 1 of your Leader or {Straw Hat Crew} type Characters gain +2000 power for each DON!! that was rested by this effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "activeDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            }
+          ],
+          "min": 0,
+          "max": 10,
+          "whoChooses": "system"
+        },
+        "donToRest": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            }
+          ],
+          "min": 0,
+          "max": 5,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "restedDon"
+        },
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "donToRest",
+          "may": true
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 1,
+          "perAmount": 2000,
+          "countSelector": "donToRest",
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

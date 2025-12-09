@@ -1,64 +1,61 @@
 {
-  "id": "OP06-041",
-  "set": "OP06",
-  "number": 41,
-  "name": "Noah's Ark",
-  "category": "Stage",
+  "cardName": "Noah's Ark",
+  "cardId": "OP06-041",
+  "cardType": "stage",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 6,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Fishman Island"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-041.png",
-  "stats": {
-    "cost": 6,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
+  "traits": [
+    "fishManIsland"
   ],
-  "trigger": {
-    "text": "Put this card into play."
-  },
-  "text": "On Play: Rest all of your opponent's characters.",
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "041",
+  "printedText": "On Play Rest all of your opponent's characters.\nTrigger Put this card into play.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Rest all of your opponent's characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Put this card into play.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ]
+          },
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

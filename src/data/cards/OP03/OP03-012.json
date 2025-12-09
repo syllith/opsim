@@ -1,35 +1,65 @@
 {
-  "id": "OP03-012",
-  "set": "OP03",
-  "number": 12,
-  "name": "Marshall. D. Teach",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Special",
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Marshall D. Teach",
+  "cardId": "OP03-012",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP03/OP03-012.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "[When Attacking] You may trash 1 red Character card with 4000 Power or more: Draw 1 card. Then, this Character gains +1000 Power during this battle.",
+  "setId": "OP03",
+  "cardNumber": "012",
+  "printedText": "[When Attacking] You may trash 1 red Character card with 4000 Power or more from your hand: Draw 1 card. Then, this Character gains +1000 Power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0, "trashRedCharacter4000Plus": true },
-      "effect": {
-        "text": "Draw 1 card. Then, this Character gains +1000 Power during this battle.",
-        "powerMod": { "amount": 1000 },
-        "targets": ["thisCharacter"]
-      }
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": [
+          "color=red",
+          "cardType=character",
+          "power>=4000"
+        ],
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

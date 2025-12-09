@@ -1,56 +1,108 @@
 {
-  "id": "OP03-058",
-  "set": "OP03",
-  "number": 58,
-  "name": "Iceburg",
-  "category": "Leader",
+  "cardName": "Iceburg",
+  "cardId": "OP03-058",
+  "cardType": "leader",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
   "types": [
-    "Water Seven",
+    "Water 7",
     "Galley-La Company"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-058.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 5000,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "This Leader cannot attack.\nActivate: Main DON!!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck), you may rest this Leader: Play up to 1 Character with the (Galley-La Company) type with a cost of 5 or less from your hand.",
+  "rarity": "L",
+  "setId": "OP03",
+  "cardNumber": "058",
+  "printedText": "This Leader cannot attack.\n[Activate: Main] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): You may rest this Leader: Play up to 1 Character with the {Galley-La Company} type with a cost of 5 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "selfLeader": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "You may rest this Leader: Play up to 1 Character with the (Galley-La Company) type with a cost of 5 or less from your hand.",
-        "powerMod": null,
-        "targets": [
-          "oneCharacter<=cost5",
-          "ally:Character"
-        ],
-        "conditions": [
-          "self:rested"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "target": "selfLeader",
+          "duration": "permanent",
+          "restrictionKind": "attack"
+        }
+      ]
+    },
+    {
+      "timing": "activateMain",
+      "frequency": "none",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "returnDon",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ]
+      },
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Galley-La Company"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 5
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample image, so the text and layout may not reflect the final printed version."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "waterSeven",
+    "galleyLaCompany"
+  ]
 }

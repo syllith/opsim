@@ -1,62 +1,126 @@
 {
-  "id": "EB01-020",
-  "set": "EB01",
-  "number": 20,
-  "name": "Shambles",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB01-020",
+  "printedText": "Main If your leader has the {Supernovas} type, return one of your characters to its owner's hand. Then, put up to one cost 2 or less character of a different color than the returned card from your hand into play.\nTrigger Activate this card's Main ability.",
   "types": [
     "Supernovas",
     "Heart Pirates"
   ],
-  "rarity": "UC",
-  "art": "/cards/EB01/EB01-020.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Activate this card's [Main] ability."
-  },
-  "text": "[Main] If your leader has the {Supernovas} type, return one of your characters to its owner's hand. Then, put up to one cost 2 or less character of a different color than the returned card from your hand into play.\n[Trigger] Activate this card's [Main] ability.",
+  "cardNumber": "020",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "value": "Supernovas",
+        "field": "leader.hasType",
+        "op": "="
       },
-      "effect": {
-        "text": "If your leader has the {Supernovas} type, return one of your characters to its owner's hand. Then, put up to one cost 2 or less character of a different color than the returned card from your hand into play.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "ally:Character",
-          "hand"
-        ],
-        "conditions": [
-          "leaderTypeSupernovas",
-          "characterCost<=2",
-          "differentColor"
-        ]
-      }
+      "selectors": {},
+      "timing": "main",
+      "actions": [
+        {
+          "destination": "hand",
+          "type": "moveCard",
+          "target": {
+            "bindAs": "returned",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self"
+          },
+          "ordering": "keep"
+        },
+        {
+          "destination": "characterArea",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 2,
+                "field": "cost",
+                "op": "<="
+              },
+              {
+                "op": "!=",
+                "field": "color",
+                "fieldRef": "returned.colors[0]"
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self"
+          },
+          "ordering": "keep"
+        }
+      ]
+    },
+    {
+      "selectors": {},
+      "timing": "onOpponentsAttack",
+      "actions": [
+        {
+          "destination": "hand",
+          "type": "moveCard",
+          "target": {
+            "bindAs": "returned",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self"
+          },
+          "ordering": "keep"
+        },
+        {
+          "destination": "characterArea",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 2,
+                "field": "cost",
+                "op": "<="
+              },
+              {
+                "op": "!=",
+                "field": "color",
+                "fieldRef": "returned.colors[0]"
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self"
+          },
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": false
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Shambles",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "green"
+  ],
+  "traits": [
+    "supernovas",
+    "heartPirates"
+  ]
 }

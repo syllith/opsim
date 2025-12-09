@@ -1,56 +1,84 @@
 {
-  "id": "OP14-001",
-  "set": "OP14",
-  "number": 1,
-  "name": "Traffagar Law",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "The Seven Warlords of the Sea",
-    "Supernovas",
-    "Heart Pirates"
-  ],
+  "cardName": "Trafalgar Law",
+  "cardId": "OP14-001",
+  "cardType": "leader",
+  "colors": ["red"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "attributes": ["slash"],
+  "types": ["The Seven Warlords of the Sea", "Supernovas", "Heart Pirates"],
+  "traits": ["theSevenWarlordsOfTheSea", "supernovas", "heartPirates"],
   "rarity": "L",
-  "art": "/cards/OP14/OP14-001.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate:Main Once Per Turn Select 2 of your (Supernovas) or {Heart Pirates} type Characters. Swap the base power of the selected Characters with each other during this turn.",
+  "setId": "OP14",
+  "cardNumber": "001",
+  "printedText": "[Activate:Main] [Once Per Turn] Select 2 of your {Supernovas} or {Heart Pirates} type Characters. Swap the base power of the selected Characters with each other during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "swapChar1": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "supernovas"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "heartPirates"
+                }
+              ]
+            }
+          ]
+        },
+        "swapChar2": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "supernovas"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "heartPirates"
+                }
+              ]
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Select 2 of your (Supernovas) or {Heart Pirates} type Characters. Swap the base power of the selected Characters with each other during this turn.",
-        "powerMod": null,
-        "targets": [
-          "twoOfYourCharacters",
-          "oneOfYourCharacters",
-          "oneOfYourCharacters"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "swapBaseStat",
+          "stat": "power",
+          "selectorA": "swapChar1",
+          "selectorB": "swapChar2",
+          "duration": "thisTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

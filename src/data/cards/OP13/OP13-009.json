@@ -1,49 +1,54 @@
 {
-  "id": "OP13-009",
-  "set": "OP13",
-  "number": 9,
-  "name": "Curly.Dadan",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Mountain Bandits"
-  ],
+  "cardName": "Curly.Dadan",
+  "cardId": "OP13-009",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Mountain Bandits"],
+  "traits": ["mountainBandits"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-009.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "009",
+  "printedText": "If you have a {Mountain Bandits} type Character other than this card, this Character gains Double Attack.",
   "keywords": [],
-  "trigger": null,
-  "text": "If you have a (Mountain Bandits) type Character other than this card, this Character gains Double Attack.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "mountainBanditsCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "mountainBandits"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If you have a (Mountain Bandits) type Character other than this card, this Character gains Double Attack.",
-        "grants": [
-          "Double Attack"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Double Attack",
+          "duration": "permanent",
+          "target": "selfThisCard",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "mountainBanditsCharacters",
+            "op": ">=",
+            "value": 2
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

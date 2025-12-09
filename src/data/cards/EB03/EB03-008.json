@@ -1,66 +1,115 @@
 {
-  "id": "EB03-008",
-  "set": "EB03",
-  "number": 8,
-  "name": "Hibari",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Ranged",
-  "types": ["Navy", "SWORD"],
-  "rarity": "UC",
-  "art": "/cards/EB03/EB03-008.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "When Attacking", "Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "[On Play] / [When Attacking] Up to 1 of your {SWORD} type Leader or Character can also attack active Characters during this turn.\n[Activate: Main] [Once Per Turn] Give up to 1 of your opponent's Characters -1000 power during this turn.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB03-008",
+  "printedText": "On Play / When Attacking Up to 1 of your {SWORD} type Leader or Character can also attack active Characters during this turn. Activate:Main Once Per Turn Give up to 1 of your opponent's Characters -1000 power during this turn.",
+  "types": [
+    "Navy",
+    "SWORD"
+  ],
+  "cardNumber": "008",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Up to 1 of your {SWORD} type Leader or Character can also attack active Characters during this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:ally:LeaderOrCharacter:SWORD"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "keyword": "canAttackActiveCharacters",
+          "target": {
+            "filters": [
+              {
+                "value": "SWORD",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "type": "keywordEffect",
+          "operation": "grant",
+          "duration": "thisTurn"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Up to 1 of your {SWORD} type Leader or Character can also attack active Characters during this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:ally:LeaderOrCharacter:SWORD"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "whenAttacking",
+      "actions": [
+        {
+          "keyword": "canAttackActiveCharacters",
+          "target": {
+            "filters": [
+              {
+                "value": "SWORD",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "type": "keywordEffect",
+          "operation": "grant",
+          "duration": "thisTurn"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -1000 power during this turn.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
           "amount": -1000,
-          "duration": "duringThisTurn"
-        },
-        "targets": ["upTo1:opponent:Character"],
-        "conditions": []
-      }
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Hibari",
+  "rarity": "R",
+  "cost": 3,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "navy",
+    "sword"
+  ]
 }

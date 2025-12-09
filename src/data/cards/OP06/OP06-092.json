@@ -1,48 +1,94 @@
 {
-  "id": "OP06-092",
-  "set": "OP06",
-  "number": 92,
-  "name": "Brook",
-  "category": "Character",
+  "cardName": "Brook",
+  "cardId": "OP06-092",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 6,
+  "power": 6000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Former Rumbar Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-092.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "formerRumbarPirates"
   ],
-  "trigger": null,
-  "text": "On Play: Choose one: Put up to one of your opponent's characters with a cost of 4 or less into their trash. • Your opponent puts 3 cards from their trash to the bottom of their deck in any order.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "092",
+  "printedText": "[On Play] Choose one:\n• Put up to 1 of your opponent's characters with a cost of 4 or less into their trash.\n• Your opponent puts 3 cards from their trash to the bottom of their deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "oppCost4OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "oppTrashCards": {
+          "side": "opponent",
+          "type": "any",
+          "zones": [
+            "trash"
+          ],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "opponent"
+        }
       },
-      "effect": {
-        "text": "Choose one: Put up to one of your opponent's characters with a cost of 4 or less into their trash. • Your opponent puts 3 cards from their trash to the bottom of their deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "oppCost4OrLessCharacter",
+                  "destination": "trash",
+                  "ordering": "keep",
+                  "may": true
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "oppTrashCards",
+                  "destination": "bottomOfDeck",
+                  "ordering": "chosen"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

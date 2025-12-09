@@ -1,63 +1,67 @@
 {
-  "id": "OP11-096",
-  "set": "OP11",
-  "number": 96,
-  "name": "Ripper",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Navy",
-    "East Blue"
-  ],
+  "cardName": "Ripper",
+  "cardId": "OP11-096",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Navy", "East Blue"],
+  "traits": ["navy", "eastBlue"],
   "rarity": "UC",
-  "art": "/cards/OP11/OP11-096.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP11",
+  "cardNumber": "096",
+  "printedText": "If you have a black {Navy} type Character other than [Ripper], this Character gains [Blocker]. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "keywords": [],
-  "trigger": null,
-  "text": "If you have a Black (Navy) type Character in play other than [Ripper], this Character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "otherBlackNavyCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "navy"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Ripper"
+            }
+          ],
+          "min": 0,
+          "max": 20,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If you have a Black (Navy) type Character in play other than [Ripper], this Character gains Blocker.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "field": "selectorCount",
+            "selector": "otherBlackNavyCharacter",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

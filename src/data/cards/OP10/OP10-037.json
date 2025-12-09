@@ -1,62 +1,93 @@
 {
-  "id": "OP10-037",
-  "set": "OP10",
-  "number": 37,
-  "name": "Lim",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "ODYSSEY"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-037.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Once Per Turn",
-    "End of Your Turn"
-  ],
-  "trigger": null,
-  "text": "Once Per Turn: If this character were to be removed from the board by one of your opponent's effects, you may instead rest 1 of your (ODYSSEY) Characters. End of Your Turn: You may set up to 1 of your (ODYSSEY) type characters active.",
+  "cardName": "Lim",
+  "cardId": "OP10-037",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["ODYSSEY"],
+  "traits": ["odyssey"],
+  "rarity": "R",
+  "setId": "OP10",
+  "cardNumber": "037",
+  "printedText": "[Once Per Turn] If this character were to be removed from the board by one of your opponent's effects, you may instead rest 1 of your {ODYSSEY} Characters.\n[End of Your Turn] You may set up to 1 of your {ODYSSEY} type characters active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "odysseyCharactersToRest": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "odyssey"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If this character were to be removed from the board by one of your opponent's effects, you may instead rest 1 of your (ODYSSEY) Characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "removeFromPlayByOpponentsEffect",
+          "target": "thisCard",
+          "may": true,
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": "odysseyCharactersToRest"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "selectors": {
+        "odysseyCharactersToReady": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "odyssey"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may set up to 1 of your (ODYSSEY) type characters active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "odysseyCharactersToReady",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

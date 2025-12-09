@@ -1,57 +1,68 @@
 {
-  "id": "OP01-016",
-  "set": "OP01",
-  "number": 16,
-  "name": "Nami",
-  "category": "Character",
+  "cardName": "Nami",
+  "cardId": "OP01-016",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Special",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Straw Hat Crew"
   ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-016.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Straw Hat Crew} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP01",
+  "cardNumber": "016",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Straw Hat Crew} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "namiSearch": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Straw Hat Crew"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Nami"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Straw Hat Crew} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "deck",
-          "hand"
-        ],
-        "conditions": [
-          "strawHatCrewType",
-          "notNami"
-        ]
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "topCount": 5,
+          "selector": "namiSearch",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

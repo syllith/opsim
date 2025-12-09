@@ -1,52 +1,47 @@
 {
-  "id": "OP09-119",
-  "set": "OP09",
-  "number": 119,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-119.png",
-  "stats": {
-    "cost": 9,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "On Play: You may return one or more Don!! cards from play to your Don!! deck: Draw 1 card, then this character gains Rush for this turn.",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP09-119",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 9,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "SEC",
+  "setId": "OP09",
+  "cardNumber": "119",
+  "printedText": "[On Play] You may return 1 or more DON!! cards from your field to your DON!! deck: Draw 1 card, then this Character gains Rush during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may return one or more Don!! cards from play to your Don!! deck: Draw 1 card, then this character gains Rush for this turn.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "thisTurn",
+          "target": "thisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is marked as a sample. Power value is clearly printed as 10000. Rarity is 'R' as printed in the bottom right corner. No life value is printed. No counter icon present."
-  }
+  ]
 }

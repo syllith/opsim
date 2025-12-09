@@ -1,50 +1,87 @@
 {
-  "id": "ST06-004",
-  "set": "ST06",
-  "number": 4,
-  "name": "Smoker",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Special",
+  "cardName": "Smoker",
+  "cardId": "ST06-004",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Navy"],
-  "rarity": null,
-  "art": "/cards/ST06/ST06-004.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Double Attack"],
-  "trigger": null,
-  "text": "This Character cannot be K.O.'d by card effects. DON!! x1 — As long as there is a Character that costs 0 in play, this Character gains Double Attack. (This card deals 2 damage.)",
+  "traits": ["navy"],
+  "rarity": "SR",
+  "setId": "ST06",
+  "cardNumber": "004",
+  "printedText": "This Character cannot be K.O.'d by card effects.\n[DON!! x1] As long as there is a Character that costs 0 in play, this Character gains [Double Attack]. (This card deals 2 damage.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Continuous",
-      "frequency": null,
-      "donReq": null,
-      "cost": null,
-      "effect": {
-        "text": "This Character cannot be K.O.'d by card effects.",
-        "grants": ["cannotBeKOdByEffects"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKOdByEffect",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              }
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Continuous",
-      "frequency": null,
-      "donReq": 1,
-      "cost": null,
-      "effect": {
-        "text": "As long as there is a Character that costs 0 in play, this Character gains Double Attack.",
-        "grants": ["doubleAttack"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["anyCharacterWithCost0InPlay"]
-      }
+      "timing": "static",
+      "selectors": {
+        "zeroCostCharactersInPlay": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ],
+          "min": 0,
+          "max": 99,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Double Attack",
+          "duration": "permanent",
+          "target": "selfThisCard",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "attachedDonCount",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "selectorCount",
+                "selector": "zeroCostCharactersInPlay",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

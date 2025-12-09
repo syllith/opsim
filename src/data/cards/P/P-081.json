@@ -1,51 +1,86 @@
 {
-  "id": "P-081",
-  "set": "P",
-  "number": 81,
-  "name": "Dracule Mihawk",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Cross Guild"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-081.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may return this character to your hand: If you have 3 or more (Cross Guild) type characters in play, you may play up to one cost 5 (Cross Guild) type character from your hand.",
+  "cardName": "Dracule Mihawk",
+  "cardId": "P-081",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Cross Guild"],
+  "traits": ["crossGuild"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-081",
+  "printedText": "[Activate: Main] You may return this Character to your hand: If you have 3 or more {Cross Guild} type Characters in play, you may play up to 1 cost 5 {Cross Guild} type Character card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveFromField",
+        "selector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "destination": "hand",
+        "may": true
       },
-      "effect": {
-        "text": "You may return this character to your hand: If you have 3 or more (Cross Guild) type characters in play, you may play up to one cost 5 (Cross Guild) type character from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "have 3 or more (Cross Guild) type characters in play"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "yourCrossGuildCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "crossGuild"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "crossGuildCost5InHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "crossGuild"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourCrossGuildCharacters",
+        "op": ">=",
+        "value": 3
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "crossGuildCost5InHand",
+          "payCost": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

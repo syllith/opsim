@@ -1,55 +1,77 @@
 {
-  "id": "OP06-085",
-  "set": "OP06",
-  "number": 85,
-  "name": "Kumacy",
-  "category": "Character",
+  "cardName": "Kumacy",
+  "cardId": "OP06-085",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Thriller Bark Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-085.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x2",
-    "Your Turn"
+  "traits": [
+    "thrillerBarkPirates"
   ],
-  "trigger": null,
-  "text": "DON!! x2 Your Turn: For every 5 cards in your trash, this character gets +1000 power.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "085",
+  "printedText": "DON!! x2 Your Turn For every 5 cards in your trash, this character gets +1000 power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "selfTrashCards": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "trash"
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "For every 5 cards in your trash, this character gets +1000 power.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
-        },
-        "conditions": [
-          "every 5 cards in your trash"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 5,
+          "perAmount": 1000,
+          "countSelector": "selfTrashCards",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          },
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "attachedDonCount",
+                "op": ">=",
+                "value": 2
+              },
+              {
+                "field": "turnPlayer",
+                "op": "=",
+                "value": "self"
+              }
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' in image, but this is not a meta field. Card ID is OP06-085, rarity is R (indicated by 'R' in bottom right corner)."
-  }
+  ]
 }

@@ -1,48 +1,17 @@
 {
-  "id": "OP12-023",
-  "set": "OP12",
-  "number": 23,
-  "name": "Kawamatsu",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Fish-Man",
-    "Land of Wano",
-    "The Akazaya Nine"
-  ],
-  "rarity": "UC",
-  "art": "/cards/OP12/OP12-023.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "cardName": "Kawamatsu",
+  "cardId": "OP12-023",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Fish-Man", "Land of Wano", "The Akazaya Nine"],
+  "traits": ["fishMan", "landOfWano", "theAkazayaNine"],
+  "setId": "OP12",
+  "cardNumber": "023",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: If this character is attacking, you may pay 1 DON!! to make it deal 2000 damage to the target.",
-  "abilities": [
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "If this character is attacking, you may pay 1 DON!! to make it deal 2000 damage to the target.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "abilities": []
 }

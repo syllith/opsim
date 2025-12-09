@@ -1,65 +1,79 @@
 {
-  "id": "OP10-061",
-  "set": "OP10",
-  "number": 61,
-  "name": "Special Long Ranged Attack: Bagworm!",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Dressrosa",
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-061.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Return up to one cost 2 or lower character to its owner's hand."
-  },
-  "text": "Main: Draw 1 card. Then return up to one of your opponent's cost 2 or lower characters to its owner's hand. Trigger: Return up to one cost 2 or lower character to its owner's hand.",
+  "cardName": "Special Long-Range Attack!! Bagworm",
+  "cardId": "OP10-061",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 3,
+  "types": ["Dressrosa", "Straw Hat Crew"],
+  "traits": ["dressrosa", "strawHatCrew"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "061",
+  "printedText": "[Main] Draw 1 card. Then, return up to 1 of your opponent's Characters with a cost of 2 or less to the owner's hand.\n[Trigger] Return up to 1 Character with a cost of 2 or less to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "opponentCost2OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Draw 1 card. Then return up to one of your opponent's cost 2 or lower characters to its owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "moveCard",
+          "target": "opponentCost2OrLess",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "anyCost2OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Return up to one cost 2 or lower character to its owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "anyCost2OrLess",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

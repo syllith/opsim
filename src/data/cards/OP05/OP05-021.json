@@ -1,48 +1,77 @@
 {
-  "id": "OP05-021",
-  "set": "OP05",
-  "number": 21,
-  "name": "Revolutionary Army General Headquarters",
-  "category": "Stage",
+  "cardName": "Revolutionary Army General Headquarters",
+  "cardId": "OP05-021",
+  "cardType": "stage",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "C",
-  "art": "/cards/OP05/OP05-021.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may trash 1 card from your hand and rest this Stage: Look at the top 3 cards of your deck; reveal up to 1 {Revolutionary Army} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "021",
+  "printedText": "[Activate: Main] You may trash 1 card from your hand and rest this Stage: Look at the top 3 cards of your deck; reveal up to 1 {Revolutionary Army} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand and rest this Stage: Look at the top 3 cards of your deck; reveal up to 1 {Revolutionary Army} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "searchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Revolutionary Army"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "searchTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "revolutionaryArmy"
+  ]
 }

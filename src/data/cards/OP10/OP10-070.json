@@ -1,62 +1,55 @@
 {
-  "id": "OP10-070",
-  "set": "OP10",
-  "number": 70,
-  "name": "Trebol",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "Donquixote Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-070.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play All of your Characters with 1000 base power or less cannot be K.O.'d by your opponent's effects until the end of your opponent's next turn.",
+  "cardName": "Trebol",
+  "cardId": "OP10-070",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
+  "rarity": "R",
+  "setId": "OP10",
+  "cardNumber": "070",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] All of your Characters with 1000 base power or less cannot be K.O.'d by your opponent's effects until the end of your opponent's next turn.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "lowPowerSelfCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 1000
+            }
+          ],
+          "min": 0,
+          "max": 999,
+          "upTo": true,
+          "whoChooses": "system",
+          "bindAs": "lowPowerSelfCharacters"
+        }
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "All of your Characters with 1000 base power or less cannot be K.O.'d by your opponent's effects until the end of your opponent's next turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "wouldBeKOdByOpponentsEffect",
+          "target": "lowPowerSelfCharacters",
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": "effectTarget"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "This is a sample card with placeholder text. Actual card details may vary."
-  }
+  ]
 }

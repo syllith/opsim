@@ -1,51 +1,58 @@
 {
-  "id": "OP05-010",
-  "set": "OP05",
-  "number": 10,
-  "name": "Nico Robin",
-  "category": "Character",
+  "cardName": "Nico Robin",
+  "cardId": "OP05-010",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Straw Hat Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-010.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: K.O. up to 1 of your opponent's characters with 1000 power or less.",
+  "setId": "OP05",
+  "cardNumber": "010",
+  "printedText": "[On Play] K.O. up to 1 of your opponent's Characters with 1000 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 1000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's characters with 1000 power or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=power1000"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "strawHatPirates"
+  ]
 }

@@ -1,46 +1,57 @@
 {
-  "id": "OP13-047",
-  "set": "OP13",
-  "number": 47,
-  "name": "Fossa",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Whitebeard Pirates"
-  ],
+  "cardName": "Fossa",
+  "cardId": "OP13-047",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-047.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "047",
+  "printedText": "If your Character with a type including \"Whitebeard Pirates\" would be K.O.'d by your opponent's effect, you may trash this Character instead.",
   "keywords": [],
-  "trigger": null,
-  "text": "If your Character with a type including \"Whitebeard Pirates\" would be K.O.'d by your opponent's effect, you may trash this Character instead.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "whitebeardCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "whitebeardPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your Character with a type including \"Whitebeard Pirates\" would be K.O.'d by your opponent's effect, you may trash this Character instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKOdByOpponentsEffect",
+          "target": "whitebeardCharacter",
+          "cost": {
+            "type": "trashThis",
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": "whitebeardCharacter"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

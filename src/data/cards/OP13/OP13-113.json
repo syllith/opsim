@@ -1,52 +1,67 @@
 {
-  "id": "OP13-113",
-  "set": "OP13",
-  "number": 113,
-  "name": "Lilith",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Scientist",
-    "Egghead"
-  ],
+  "cardName": "Lilith",
+  "cardId": "OP13-113",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Scientist", "Egghead"],
+  "traits": ["scientist", "egghead"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-113.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Activate this card's On Play effect."
-  },
-  "text": "On Play: Look at 4 cards from the top of your deck; reveal up to 1 card with a Trigger other than [Lilith] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP13",
+  "cardNumber": "113",
+  "printedText": "[On Play] Look at 4 cards from the top of your deck; reveal up to 1 card with a Trigger other than [Lilith] and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Trigger] Activate this card's [On Play] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "top4TriggerNotLilith": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "hasTrigger",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Lilith"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at 4 cards from the top of your deck; reveal up to 1 card with a Trigger other than [Lilith] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top4TriggerNotLilith",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 4,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "any"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "onPlay"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

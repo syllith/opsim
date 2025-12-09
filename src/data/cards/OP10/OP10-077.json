@@ -1,67 +1,34 @@
 {
-  "id": "OP10-077",
-  "set": "OP10",
-  "number": 77,
-  "name": "Bellamy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Donquixote Pirates"
-  ],
+  "cardName": "Bellamy",
+  "cardId": "OP10-077",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-077.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "When Blocking"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) When Blocking: You may rest 2 don: Add up to one active don from your don deck.",
+  "setId": "OP10",
+  "cardNumber": "077",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[When Blocking] You may rest 2 DON!!: Add up to 1 active DON!! from your DON!! deck.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onBlock",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restDonFromCostArea",
+        "count": 2,
+        "may": true
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Blocking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may rest 2 don: Add up to one active don from your don deck.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "don deck",
-          "to": []
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false
         }
-      }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "This is a sample card with placeholder text. The actual card may have different text or layout."
-  }
+  ]
 }

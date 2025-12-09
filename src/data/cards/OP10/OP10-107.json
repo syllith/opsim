@@ -1,63 +1,60 @@
 {
-  "id": "OP10-107",
-  "set": "OP10",
-  "number": 107,
-  "name": "Jewelry Bonney",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Supernovas",
-    "Bonney Pirates"
-  ],
+  "cardName": "Jewelry Bonney",
+  "cardId": "OP10-107",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Supernovas", "Bonney Pirates"],
+  "traits": ["supernovas", "bonneyPirates"],
   "rarity": "UC",
-  "art": "/cards/OP10/OP10-107.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: You may add 1 card from the top or bottom of your Life cards to your hand. Add up to 1 (Supernovas) type Character card with a cost of 5 from your hand to the top of your Life cards face-up.",
+  "setId": "OP10",
+  "cardNumber": "107",
+  "printedText": "[Blocker]\n[On Play] You may add 1 card from the top or bottom of your Life cards to your hand: Add up to 1 {Supernovas} type Character card with a cost of 5 or less from your hand to the top of your Life cards face-up.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "supernovaCost5OrLessFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                { "field": "traits", "op": "=", "value": "supernovas" },
+                { "field": "cost", "op": "<=", "value": 5 }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "supernovaCost5OrLessFromHand"
+        }
       },
-      "effect": {
-        "text": "You may add 1 card from the top or bottom of your Life cards to your hand. Add up to 1 (Supernovas) type Character card with a cost of 5 from your hand to the top of your Life cards face-up.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "supernovaCost5OrLessFromHand",
+          "destination": "topOfLife",
+          "ordering": "keep",
+          "faceUp": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

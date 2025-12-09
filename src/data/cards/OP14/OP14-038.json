@@ -1,65 +1,86 @@
 {
-  "id": "OP14-038",
-  "set": "OP14",
-  "number": 38,
-  "name": "I Never Bother to Remember the Faces of Trash",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "The Seven Warlords of the Sea"
-  ],
+  "cardName": "I Never Bother to Remember the Faces of Trash",
+  "cardId": "OP14-038",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 1,
+  "types": ["The Seven Warlords of the Sea"],
+  "traits": ["theSevenWarlordsOfTheSea"],
   "rarity": "UC",
-  "art": "/cards/OP14/OP14-038.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main: You may rest 2 of your cards: Draw 1 card. Then, rest up to 1 of your opponent's Characters with 7000 base power or less. \nCounter: Up to 1 of your Leader gains +3000 power during this battle.",
+  "setId": "OP14",
+  "cardNumber": "038",
+  "printedText": "[Main] You may rest 2 of your cards: Draw 1 card. Then, rest up to 1 of your opponent's Characters with 7000 base power or less.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restFromField",
+        "selector": "twoCardsToRestForCost",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 2 of your cards: Draw 1 card. Then, rest up to 1 of your opponent's Characters with 7000 base power or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "twoCardsToRestForCost": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "character", "stage", "costArea"],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        },
+        "opponentBase7000OrLessUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 7000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentBase7000OrLessUpToOne"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "selfLeaderUpToOne": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "selfLeaderUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

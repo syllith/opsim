@@ -1,71 +1,76 @@
 {
-  "id": "OP03-073",
-  "set": "OP03",
-  "number": 73,
-  "name": "Hull Dismantler Slash",
-  "category": "Event",
+  "cardName": "Hull Dismantler Slash",
+  "cardId": "OP03-073",
+  "cardType": "event",
   "colors": [
-    "Water"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Water 7",
     "Franky Family"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-073.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): If your Leader has the {Water 7} type, K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "setId": "OP03",
+  "cardNumber": "073",
+  "printedText": "[Main] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): If your Leader has the {Water 7} type, K.O. up to 1 of your opponent's Characters with a cost of 2 or less.\n[Trigger] Activate this card's Main effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "main",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "If your Leader has the {Water 7} type, K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost2"
-        ],
-        "conditions": [
-          "leaderHasType:Water 7"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderHasTypeWater7",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "oppCharCost2OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "charToKO"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharCost2OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
-  }
+  "traits": [
+    "waterSeven",
+    "frankyFamily"
+  ]
 }

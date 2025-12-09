@@ -1,48 +1,73 @@
 {
-  "id": "OP12-006",
-  "set": "OP12",
-  "number": 6,
-  "name": "Shakuyaku",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Amazon Lily"
-  ],
+  "cardName": "Shakuyaku",
+  "cardId": "OP12-006",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Amazon Lily"],
+  "traits": ["amazonLily"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-006.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck; reveal up to 1 [Monkey.D.Luffy] or red Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP12",
+  "cardNumber": "006",
+  "printedText": "[On Play] Look at the top 5 cards of your deck; reveal up to 1 [Monkey.D.Luffy] or red Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "searchHit": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Monkey.D.Luffy"
+                },
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "field": "cardType",
+                      "op": "=",
+                      "value": "event"
+                    },
+                    {
+                      "field": "colors",
+                      "op": "=",
+                      "value": "red"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck; reveal up to 1 [Monkey.D.Luffy] or red Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchHit",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

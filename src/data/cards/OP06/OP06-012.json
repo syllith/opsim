@@ -1,47 +1,87 @@
 {
-  "id": "OP06-012",
-  "set": "OP06",
-  "number": 12,
-  "name": "Bearing",
-  "category": "Character",
+  "cardName": "Bearking",
+  "cardId": "OP06-012",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "FILM",
     "Trump Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-012.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "012",
+  "printedText": "If your opponent has a Leader or Character with a base power of 6000 or higher, this Character cannot be KO'd in battle.",
   "keywords": [],
-  "trigger": null,
-  "text": "If your opponent has a leader or character with a base power of 6000 or higher, this character cannot be KO'd in battle.",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCharacter"
+        },
+        "oppLeaderOrCharacterBase6000Plus": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": ">=",
+              "value": 6000
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "oppBigUnits"
+        }
       },
-      "effect": {
-        "text": "If your opponent has a leader or character with a base power of 6000 or higher, this character cannot be KO'd in battle.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "preventKO",
+          "target": "thisCharacter",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "selectorCount",
+                "selector": "oppLeaderOrCharacterBase6000Plus",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "koSource",
+                "op": "=",
+                "value": "battle"
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "film",
+    "trumpPirates"
+  ]
 }

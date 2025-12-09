@@ -1,49 +1,58 @@
 {
-  "id": "OP13-109",
-  "set": "OP13",
-  "number": 109,
-  "name": "Jewelry Bonney",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Supernovas",
-    "Bonney Pirates"
-  ],
+  "cardName": "Jewelry Bonney",
+  "cardId": "OP13-109",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Supernovas", "Bonney Pirates"],
+  "traits": ["supernovas", "bonneyPirates"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-109.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "109",
+  "printedText": "If this Character would be removed from the field by your opponent's effect, you may turn 1 card from the top of your Life cards face-up instead.\n[Trigger] Draw 2 cards and trash 1 card from your hand.",
   "keywords": [],
-  "trigger": {
-    "text": "Draw 2 cards and trash 1 card from your hand."
-  },
-  "text": "If this Character would be removed from the field by your opponent's effect, you may turn 1 card from the top of your Life cards face-up instead.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If this Character would be removed from the field by your opponent's effect, you may turn 1 card from the top of your Life cards face-up instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeRemovedFromFieldByOpponentsEffect",
+          "target": "selfThisCard",
+          "cost": {
+            "type": "setTopLifeFace",
+            "side": "self",
+            "count": 1,
+            "faceUp": true,
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

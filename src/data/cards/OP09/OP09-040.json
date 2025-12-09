@@ -1,68 +1,90 @@
 {
-  "id": "OP09-040",
-  "set": "OP09",
-  "number": 40,
-  "name": "Thunder Lance Flip Pound Phoenix Shot",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "ODYSSEY",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Thunder Lance Flip Pound Phoenix Shot",
+  "cardId": "OP09-040",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 3,
+  "types": ["ODYSSEY", "Straw Hat Crew"],
+  "traits": ["odyssey", "strawHatCrew"],
   "rarity": "UC",
-  "art": "/cards/OP09/OP09-040.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Rest up to one of your opponent's cost 4 or lower characters."
-  },
-  "text": "Main If you have two or more rested characters in play, KO up to one of your opponent's cost 4 or lower characters. Trigger Rest up to one of your opponent's cost 4 or lower characters.",
+  "setId": "OP09",
+  "cardNumber": "040",
+  "printedText": "[Main] If you have 2 or more rested Characters in play, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.\n[Trigger] Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "oppCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If you have two or more rested characters in play, KO up to one of your opponent's cost 4 or lower characters.",
-        "powerMod": null,
-        "conditions": [
-          "twoOrMoreRestedCharactersInPlay"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost4OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "oppCost4OrLessTrigger": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to one of your opponent's cost 4 or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCost4OrLessTrigger"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

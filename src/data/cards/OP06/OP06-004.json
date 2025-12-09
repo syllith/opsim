@@ -1,49 +1,62 @@
 {
-  "id": "OP06-004",
-  "set": "OP06",
-  "number": 4,
-  "name": "Baron Omatsuri",
-  "category": "Character",
+  "cardName": "Baron Omatsuri",
+  "cardId": "OP06-004",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Ranged",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "FILM",
     "Omatsuri Island"
   ],
   "rarity": "C",
-  "art": "/cards/OP06/OP06-004.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Play up to one \"Lily Carnation\" from your hand.",
+  "setId": "OP06",
+  "cardNumber": "004",
+  "printedText": "[On Play] Play up to 1 \"Lily Carnation\" from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "lilyCarnationFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Lily Carnation"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "lilyCarnation"
+        }
       },
-      "effect": {
-        "text": "Play up to one \"Lily Carnation\" from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "lilyCarnationFromHand",
+          "payCost": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, but ID and stats are read from printed text."
-  }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "film",
+    "omatsuriIsland"
+  ]
 }

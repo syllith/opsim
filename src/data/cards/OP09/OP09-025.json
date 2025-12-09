@@ -1,48 +1,63 @@
 {
-  "id": "OP09-025",
-  "set": "OP09",
-  "number": 25,
-  "name": "Crocodile",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "ODYSSEY",
-    "The Seven Warlords of the Sea",
-    "Baroque Works"
-  ],
+  "cardName": "Crocodile",
+  "cardId": "OP09-025",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["ODYSSEY", "The Seven Warlords of the Sea", "Baroque Works"],
+  "traits": ["odyssey", "theSevenWarlordsOfTheSea", "baroqueWorks"],
   "rarity": "UC",
-  "art": "/cards/OP09/OP09-025.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP09",
+  "cardNumber": "025",
+  "printedText": "If your Leader has the {ODYSSEY} type, this Character cannot be K.O.'d in battle by Leaders.",
   "keywords": [],
-  "trigger": null,
-  "text": "If your leader has the <<Odyssey>> type, this character cannot be KO'd in battle by leaders.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"]
+        }
       },
-      "effect": {
-        "text": "If your leader has the <<Odyssey>> type, this character cannot be KO'd in battle by leaders.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKO",
+          "target": "thisCard",
+          "may": false,
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "leaderTraits",
+                "op": "=",
+                "value": "odyssey"
+              },
+              {
+                "field": "koCause",
+                "op": "=",
+                "value": "battle"
+              },
+              {
+                "field": "koSourceCardType",
+                "op": "=",
+                "value": "leader"
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

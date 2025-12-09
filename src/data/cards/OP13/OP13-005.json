@@ -1,48 +1,47 @@
 {
-  "id": "OP13-005",
-  "set": "OP13",
-  "number": 5,
-  "name": "Inazuma",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Revolutionary Army"
-  ],
+  "cardName": "Inazuma",
+  "cardId": "OP13-005",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Revolutionary Army"],
+  "traits": ["revolutionaryArmy"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-005.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Give up to 1 rested DON!! card to your Leader.",
+  "setId": "OP13",
+  "cardNumber": "005",
+  "printedText": "[On Play] Give up to 1 rested DON!! card to your Leader.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "restedDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 rested DON!! card to your Leader.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": "selfLeader",
+          "selector": "restedDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

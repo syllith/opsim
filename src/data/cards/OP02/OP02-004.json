@@ -1,52 +1,109 @@
 {
-  "id": "OP02-004",
-  "set": "OP02",
-  "number": 4,
-  "name": "Edward Newgate",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Special",
-  "types": ["The Four Emperors", "Whitebeard Pirates"],
+  "cardName": "Edward Newgate",
+  "cardId": "OP02-004",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 9,
+  "power": 10000,
+  "counter": 0,
+  "types": [
+    "The Four Emperors",
+    "Whitebeard Pirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP02/OP02-004.png",
-  "stats": {
-    "cost": 9,
-    "power": 10000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "When Attacking", "DON!!"],
-  "trigger": null,
-  "text": "On Play Up to 1 of your Leader gains +2000 until the start of your next turn. Then, you cannot add cards from your Life area to your hand by your effects during this turn. DON!! x2 When Attacking K.O. up to 1 of your opponent's characters with 3000 or less Power.",
+  "setId": "OP02",
+  "cardNumber": "004",
+  "printedText": "[On Play] Up to 1 of your Leader gains +2000 until the start of your next turn. Then, you cannot add cards from your Life area to your hand by your effects during this turn.\n[DON!! x2] [When Attacking] K.O. up to 1 of your opponent's Characters with 3000 or less Power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +2000 until the start of your next turn. Then, you cannot add cards from your Life area to your hand by your effects during this turn.",
-        "grants": [],
-        "powerMod": { "amount": 2000, "duration": "until start of your next turn" },
-        "targets": ["ally:Leader"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "yourLeaderUpTo1": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "untilStartOfYourNextTurn",
+          "target": "yourLeaderUpTo1"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "moveLifeToHandBySelfEffect",
+          "target": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "life"
+            ],
+            "min": 0,
+            "max": 5,
+            "whoChooses": "system"
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's characters with 3000 or less Power.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=3000power"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "this.attachedDon",
+        "op": ">=",
+        "value": 2
+      },
+      "selectors": {
+        "opp3000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opp3000OrLess"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "whitebeardPirates"
+  ]
 }

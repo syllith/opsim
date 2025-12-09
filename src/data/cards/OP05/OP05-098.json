@@ -1,46 +1,68 @@
 {
-  "id": "OP05-098",
-  "set": "OP05",
-  "number": 98,
-  "name": "Enel",
-  "category": "Leader",
+  "cardName": "Enel",
+  "cardId": "OP05-098",
+  "cardType": "leader",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
   "types": [
     "Sky Island"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-098.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "L",
+  "setId": "OP05",
+  "cardNumber": "098",
+  "printedText": "Opponent's Turn Once Per Turn When your life hits 0, you may add the top card of your deck to your life. Then, discard 1 card from your hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "Opponent's Turn Once Per Turn When your life hits 0, you may add the top card of your deck to your life. Then, discard 1 card from your hand.",
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "life",
+        "op": "=",
+        "value": 0
       },
-      "effect": {
-        "text": "When your life hits 0, you may add the top card of your deck to your life. Then, discard 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "destination": "life",
+                  "target": "selfTopDeckCard"
+                },
+                {
+                  "type": "trashFromHand",
+                  "minCards": 1,
+                  "maxCards": 1,
+                  "filters": []
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "noop"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "skyIsland"
+  ]
 }

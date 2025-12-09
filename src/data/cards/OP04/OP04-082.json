@@ -1,51 +1,121 @@
 {
-  "id": "OP04-082",
-  "set": "OP04",
-  "number": 82,
-  "name": "Kyros",
-  "category": "Character",
+  "cardName": "Kyros",
+  "cardId": "OP04-082",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 5000,
+  "counter": 0,
   "types": [
     "Dressrosa"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-082.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "If this Character would be K.O.'ed, you may instead rest 1 of your Leaders or [Corrida Colosseum].",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "082",
+  "printedText": "If this Character would be K.O.'d, you may rest your Leader or 1 [Corrida Coliseum] instead.\n[On Play] If your Leader is [Rebecca], K.O. up to 1 of your opponent's Characters with a cost of 1 or less. Then, trash 1 card from the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        },
+        "leaderOrCorrida": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "leader",
+            "stage"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardIsLeader",
+                  "op": "=",
+                  "value": true
+                },
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Corrida Coliseum"
+                }
+              ]
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your Leader is [Rebecca], K.O. up to 1 of your opponent's Characters with a cost of 1 or less. Then, trash 1 card from the top of your deck.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost1"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKOd",
+          "target": "thisCharacter",
+          "may": true,
+          "cost": {
+            "type": "restFromField",
+            "selector": "leaderOrCorrida"
+          },
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": "thisCharacter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Rebecca"
+      },
+      "selectors": {
+        "oppCost1Character": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost1Character"
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in a box in the bottom right. The card number is 'OP04-082'. The cost is '3' in the top left. The power is '5000' in the top right. The attribute is 'Slash' indicated by the icon in the top right. The character type is 'Dressrosa' printed below the name."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "dressrosa"
+  ]
 }

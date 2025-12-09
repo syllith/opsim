@@ -1,48 +1,52 @@
 {
-  "id": "P-013",
-  "set": "P",
-  "number": 13,
-  "name": "Gordon",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
+  "cardName": "Gordon",
+  "cardId": "P-013",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 2000,
+  "attributes": ["wisdom"],
   "types": [
-    "Film"
+    "FILM"
   ],
-  "rarity": "C",
-  "art": "/cards/P/P-013.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
+  "traits": [
+    "film"
   ],
-  "trigger": null,
-  "text": "Activate: Main You may return this card to the bottom of the deck: Give up to 1 of your opponent's Characters -3000 power during this turn",
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "013",
+  "printedText": "[Activate: Main] You may place this Character at the bottom of the owner's deck: Give up to 1 of your opponent's Characters -3000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveFromField",
+        "selector": "selfThisCard",
+        "destination": "bottomOfDeck",
+        "may": true
       },
-      "effect": {
-        "text": "You may return this card to the bottom of the deck: Give up to 1 of your opponent's Characters -3000 power during this turn",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -3000,
+          "duration": "thisTurn",
+          "target": "opponentCharacterUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

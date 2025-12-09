@@ -1,23 +1,18 @@
 {
-  "id": "ST14-010",
-  "set": "ST14",
-  "number": 10,
-  "name": "Brook",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Slash",
+  "cardName": "Brook",
+  "cardId": "ST14-010",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/ST14/ST14-010.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": "",
-  "abilities": [],
-  "meta": { "notes": null }
+  "setId": "ST14",
+  "cardNumber": "010",
+  "printedText": "",
+  "keywords": [],
+  "abilities": []
 }

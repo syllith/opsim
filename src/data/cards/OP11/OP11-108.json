@@ -1,52 +1,47 @@
 {
-  "id": "OP11-108",
-  "set": "OP11",
-  "number": 108,
-  "name": "Neptune",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Merfolk",
-    "Fishman Island"
-  ],
+  "cardName": "Neptune",
+  "cardId": "OP11-108",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Merfolk", "Fish-Man Island"],
+  "traits": ["merfolk", "fishManIsland"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-108.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader is [Shirahoshi], you may turn the top of your Life cards face down: Draw 2 cards and trash 1 card from your hand.",
+  "setId": "OP11",
+  "cardNumber": "108",
+  "printedText": "[On Play] If your Leader is [Shirahoshi], you may turn the top of your Life cards face-down: Draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderIs_shirahoshi",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your Leader is [Shirahoshi], you may turn the top of your Life cards face down: Draw 2 cards and trash 1 card from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Shirahoshi]"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "setTopLifeFace",
+        "side": "self",
+        "count": 1,
+        "faceUp": false,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

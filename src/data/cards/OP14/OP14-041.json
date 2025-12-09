@@ -1,60 +1,82 @@
 {
-  "id": "OP14-041",
-  "set": "OP14",
-  "number": 41,
-  "name": "Boa Hancock",
-  "category": "Leader",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "The Seven Warlords of the Sea",
-    "Kuja Pirates"
-  ],
+  "cardName": "Boa Hancock",
+  "cardId": "OP14-041",
+  "cardType": "leader",
+  "colors": ["blue", "yellow"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "attributes": ["special"],
+  "types": ["The Seven Warlords of the Sea", "Kuja Pirates"],
+  "traits": ["theSevenWarlordsOfTheSea", "kujaPirates"],
   "rarity": "L",
-  "art": "/cards/OP14/OP14-041.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP14",
+  "cardNumber": "041",
+  "printedText": "[Opponent's Turn] When you play a Character, draw 1 card.\n[DON!! x1] [Once Per Turn] When one of your {Amazon Lily} or {Kuja Pirates} type Characters with 5000 base power or more is K.O.'d, add up to 1 card from the top of your opponent's Life cards to the owner's hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 Once Per Turn: When your {Amazon Lily} or {Kuja Pirates} type Character with 5000 base power or more is K.O.'d, your opponent adds 1 card from the top of their Life cards to their hand. Opponent's Turn: When you play a Character, draw 1 card.",
   "abilities": [
     {
-      "timing": "DON!! x1 Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "When your {Amazon Lily} or {Kuja Pirates} type Character with 5000 base power or more is K.O.'d, your opponent adds 1 card from the top of their Life cards to their hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "duringOpponentsTurn",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self",
+          "condition": {
+            "field": "event",
+            "op": "=",
+            "value": "selfPlayedCharacter"
+          }
+        }
+      ]
     },
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenCharacterIsKOd",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selfDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "kOdCharacterOwner",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "logic": "OR",
+            "any": [
+              {
+                "field": "kOdCharacterTraits",
+                "op": "=",
+                "value": "amazonLily"
+              },
+              {
+                "field": "kOdCharacterTraits",
+                "op": "=",
+                "value": "kujaPirates"
+              }
+            ]
+          },
+          {
+            "field": "kOdCharacterBasePower",
+            "op": ">=",
+            "value": 5000
+          }
+        ]
       },
-      "effect": {
-        "text": "When you play a Character, draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTopLifeCard",
+          "destination": "hand",
+          "faceUp": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

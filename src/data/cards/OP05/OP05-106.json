@@ -1,65 +1,97 @@
 {
-  "id": "OP05-106",
-  "set": "OP05",
-  "number": 106,
-  "name": "Shura",
-  "category": "Character",
+  "cardName": "Shura",
+  "cardId": "OP05-106",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Sky Island",
     "God's Priests"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-106.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "On Play: Look at the top 5 cards of your deck, reveal up to 1 [Sky Island] type card other than [Shura] and add it to your hand. Return the rest to the bottom of your deck in any order.",
+  "setId": "OP05",
+  "cardNumber": "106",
+  "printedText": "On Play Look at the top 5 cards of your deck, reveal up to 1 [Sky Island] type card other than [Shura] and add it to your hand. Return the rest to the bottom of your deck in any order. Trigger Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "skyIslandNonShuraFromTop5": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Sky Island"
+                },
+                {
+                  "field": "name",
+                  "op": "!=",
+                  "value": "Shura"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to 1 [Sky Island] type card other than [Shura] and add it to your hand. Return the rest to the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "skyIslandNonShuraFromTop5",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "thisCardInLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ]
+        }
       },
-      "effect": {
-        "text": "Play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardInLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "skyIsland",
+    "godSPriests"
+  ]
 }

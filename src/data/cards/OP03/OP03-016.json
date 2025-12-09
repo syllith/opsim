@@ -1,37 +1,110 @@
 {
-  "id": "OP03-016",
-  "set": "OP03",
-  "number": 16,
-  "name": "Flame Emperor",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Flame Emperor",
+  "cardId": "OP03-016",
+  "cardType": "event",
+  "colors": [
+    "red"
+  ],
+  "cost": 7,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP03/OP03-016.png",
-  "stats": {
-    "cost": 7,
-    "power": null,
-    "life": null,
-    "counter": null
-  },
-  "keywords": ["Main"],
-  "trigger": "K.O. up to 1 of your opponent's Characters with 6000 Power or less.",
-  "text": "[Main] If your Leader is [Portgaz D. Ace], K.O. up to 1 of your opponent's Characters with 8000 Power or less, then your Leader gains [Double Attack] and +3000 Power during this turn. (This card deals 2 damage.)",
+  "setId": "OP03",
+  "cardNumber": "016",
+  "printedText": "[Main] If your Leader is [Portgas.D.Ace], K.O. up to 1 of your opponent's Characters with 8000 power or less, and your Leader gains [Double Attack] and +3000 power during this turn. (This card deals 2 damage.)\n[Trigger] K.O. up to 1 of your opponent's Characters with 6000 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader is [Portgaz D. Ace], K.O. up to 1 of your opponent's Characters with 8000 Power or less, then your Leader gains [Double Attack] and +3000 Power during this turn. (This card deals 2 damage.)",
-        "powerMod": { "amount": 3000 },
-        "targets": ["yourLeader", "opponentCharacter"],
-        "conditions": ["leaderPortgasDaceOrAce", "powerLessOrEqual8000"],
-        "giveDon": { "doubleAttack": true }
-      }
+      "timing": "main",
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Portgas D. Ace"
+      },
+      "selectors": {
+        "mainKoTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 8000
+            }
+          ]
+        },
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "mainKoTarget"
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Double Attack",
+          "duration": "thisTurn",
+          "target": "leaderTarget"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisTurn",
+          "target": "leaderTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "triggerKoTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 6000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "triggerKoTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

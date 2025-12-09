@@ -1,55 +1,68 @@
 {
-  "id": "OP04-031",
-  "set": "OP04",
-  "number": 31,
-  "name": "Donquixote Doflamingo",
-  "category": "Character",
+  "cardName": "Donquixote Doflamingo",
+  "cardId": "OP04-031",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 10,
+  "power": 10000,
+  "counter": 0,
   "types": [
     "Seven Warlords of the Sea",
     "Donquixote Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP04/OP04-031.png",
-  "stats": {
-    "cost": 10,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "[On Play] A total of up to 3 of your opponent's rested Characters or Leaders do not become active during your opponent's next refresh phase.",
+  "rarity": "SR",
+  "setId": "OP04",
+  "cardNumber": "031",
+  "printedText": "[On Play] A total of up to 3 of your opponent's rested Characters or Leaders do not become active during your opponent's next refresh phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "lockedTargets": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "A total of up to 3 of your opponent's rested Characters or Leaders do not become active during your opponent's next refresh phase.",
-        "powerMod": null,
-        "targets": [
-          "upTo3OpponentRestedCharactersOrLeaders"
-        ],
-        "conditions": [
-          "opponentRested"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "refreshPhaseSetActive",
+          "target": "lockedTargets",
+          "may": false,
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'SP' in the top right corner. The card is a sample, indicated by the large 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "donquixotePirates"
+  ]
 }

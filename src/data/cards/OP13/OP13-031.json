@@ -1,54 +1,82 @@
 {
-  "id": "OP13-031",
-  "set": "OP13",
-  "number": 31,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "FILM",
-    "Supernovas",
-    "Heart Pirates"
-  ],
+  "cardName": "Trafalgar Law",
+  "cardId": "OP13-031",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 6,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["FILM", "Supernovas", "Heart Pirates"],
+  "traits": ["film", "supernovas", "heartPirates"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-031.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "If you have 1 or less Life cards, this Character gains Blocker. On Play: You may return 1 Character to your hand: Play up to 1 Character card with a cost of 5 or less from your hand rested.",
+  "setId": "OP13",
+  "cardNumber": "031",
+  "printedText": "If you have 1 or less Life cards, this Character gains Blocker.\n[On Play] You may return 1 Character to your hand: Play up to 1 Character card with a cost of 5 or less from your hand as rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "life",
+        "op": "<=",
+        "value": 1
       },
-      "effect": {
-        "text": "You may return 1 Character to your hand: Play up to 1 Character card with a cost of 5 or less from your hand rested.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "cost": {
+        "type": "moveFromField",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "destination": "hand",
+        "may": true
+      },
+      "selectors": {
+        "upToOneCheapCharacterFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "upToOneCheapCharacterFromHand",
+          "enterRested": true,
+          "payCost": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

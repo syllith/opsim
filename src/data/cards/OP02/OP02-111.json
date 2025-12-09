@@ -1,39 +1,75 @@
 {
-  "id": "OP02-111",
-  "set": "OP02",
-  "number": 111,
-  "name": "Fullbody",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["Navy"],
+  "cardName": "Fullbody",
+  "cardId": "OP02-111",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Navy"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-111.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "[When Attacking] If you have [Django] in play, this Character gains +3000 Power during this battle.",
+  "setId": "OP02",
+  "cardNumber": "111",
+  "printedText": "[When Attacking] If you have [Django] in play, this Character gains +3000 Power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have [Django] in play, this Character gains +3000 Power during this battle.",
-        "powerMod": {
-          "amount": 3000,
-          "duration": "this battle"
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "selectors": {
+        "djangoInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Django"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "djangoChars"
         },
-        "targets": ["self"],
-        "conditions": ["allyDjangoInPlay"]
-      }
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "thisCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "thisCharacter",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "djangoInPlay",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

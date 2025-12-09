@@ -1,38 +1,55 @@
 {
-  "id": "OP01-112",
-  "set": "OP01",
-  "number": 112,
-  "name": "Page One",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Animal Kingdom Pirates"],
+  "cardName": "Page One",
+  "cardId": "OP01-112",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-112.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter", "Activate: Main", "Once Per Turn", "DON!!"],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn DON!! -1 This Character can also attack your opponent's active Characters during this turn.",
+  "setId": "OP01",
+  "cardNumber": "112",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!! −1 (You may return the specified number of DON!! cards from your field to your DON!! deck): This Character can also attack your opponent's active Characters during this turn.",
+  "keywords": [
+    "activateMain"
+  ],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "This Character can also attack your opponent's active Characters during this turn.",
-        "grants": ["canAttackActiveCharacters"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "returnDon",
+        "count": 1
+      },
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "attackActiveCharacters",
+          "duration": "thisTurn",
+          "target": "thisCardSelector"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

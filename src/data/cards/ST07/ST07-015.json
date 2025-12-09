@@ -1,32 +1,64 @@
 {
-  "id": "ST07-015",
-  "set": "ST07",
-  "number": 15,
-  "name": "Soul Pocus",
-  "category": "Event",
-  "colors": ["Yellow"],
-  "attribute": null,
-  "types": ["The Four Emperors", "Big Mom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST07/ST07-015.png",
-  "stats": { "cost": 5, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Activate this card's Main effect." },
-  "text": "Main: Your opponent chooses 1 of the following effects. • Trash 1 Life card from the top of your opponent's Life area. • Put 1 card from the top of your deck on top of your Life area.",
+  "cardName": "Soul Pocus",
+  "cardId": "ST07-015",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 5,
+  "types": [
+    "The Four Emperors",
+    "Big Mom Pirates"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "bigMomPirates"
+  ],
+  "rarity": "",
+  "setId": "ST07",
+  "cardNumber": "015",
+  "printedText": "[Main] Your opponent chooses 1 of the following effects.\n• Trash 1 Life card from the top of your opponent's Life area.\n• Put 1 card from the top of your deck on top of your Life area.\n[Trigger] Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your opponent chooses 1 of the following effects: Trash 1 Life card from the top of your opponent's Life area OR Put 1 card from the top of your deck on top of your Life area.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent"],
-        "conditions": ["chooseEffect", "opponentTrashTopLife", "putTopDeckToTopOfLife"]
-      }
+      "timing": "main",
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "opponentTopLifeCard",
+                  "destination": "trash",
+                  "ordering": "keep"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "selfTopDeckCard",
+                  "destination": "topOfLife",
+                  "ordering": "keep"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

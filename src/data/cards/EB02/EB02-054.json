@@ -1,37 +1,52 @@
 {
-  "id": "EB02-054",
-  "set": "EB02",
-  "number": 54,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
-  "types": ["East Blue", "Straw Hat Crew"],
-  "rarity": "R",
-  "art": "/cards/EB02/EB02-054.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If you have 2 or less life, draw 2 cards and trash 1 card from your hand.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB02-054",
+  "printedText": "Blocker\n(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play If you have 2 or less Life, draw 2 cards and trash 1 card from your hand.",
+  "cardNumber": "054",
+  "keywords": [
+    "Blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 2 or less life, draw 2 cards and trash 1 card from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "hand"],
-        "conditions": ["yourLife2OrLess"]
-      }
+      "condition": {
+        "value": 2,
+        "field": "life",
+        "op": "<="
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "count": 2,
+          "type": "draw"
+        },
+        {
+          "type": "trashFromHand",
+          "maxCards": 1,
+          "minCards": 1
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "R",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Sanji",
+  "types": [
+    "East Blue",
+    "Straw Hat Crew"
+  ],
+  "cost": 5,
+  "colors": [
+    "yellow"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "eastBlue",
+    "strawHatCrew"
+  ]
 }

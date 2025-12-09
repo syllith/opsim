@@ -1,55 +1,110 @@
 {
-  "id": "OP09-093",
-  "set": "OP09",
-  "number": 93,
-  "name": "Marshall D Teach",
-  "category": "Character",
+  "cardName": "Marshall D. Teach",
+  "cardId": "OP09-093",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Special",
+  "cost": 10,
+  "power": 12000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Four Emperors",
     "Blackbeard Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-093.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 12000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "Activate: Main",
-    "Once Per Turn"
+  "traits": [
+    "theFourEmperors",
+    "blackbeardPirates"
   ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn. If your leader has the type (Blackbeard Pirates), and if this character has played this turn, Up to one of your opponents leaders effects are negated for the rest of the turn. Then, up to one of your opponents characters effects are negated until the end of your opponent's next turn, that character also cannot attack.",
+  "rarity": "SR",
+  "setId": "OP09",
+  "cardNumber": "093",
+  "printedText": "[Blocker]\n[Activate: Main] [Once Per Turn] If your Leader has the \"Blackbeard Pirates\" type, and if this Character was played this turn, up to 1 of your opponent's Leaders has its effects negated for this turn. Then, up to 1 of your opponent's Characters has its effects negated until the end of your opponent's next turn, and that Character also cannot attack.",
+  "keywords": [
+    "Blocker"
+  ],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "leaderBlackbeard": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "blackbeardPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "opponentLeader": {
+          "side": "opponent",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your leader has the type (Blackbeard Pirates), and if this character has played this turn, Up to one of your opponents leaders effects are negated for the rest of the turn. Then, up to one of your opponents characters effects are negated until the end of your opponent's next turn, that character also cannot attack.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader:hasType(Blackbeard Pirates)",
-          "thisCharacter:hasPlayedThisTurn"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": "leaderBlackbeard",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selfWasPlayedThisTurn",
+            "op": "=",
+            "value": true
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "negateEffects",
+          "target": "opponentLeader",
+          "duration": "thisTurn"
+        },
+        {
+          "type": "negateEffects",
+          "target": "opponentCharacter",
+          "duration": "untilEndOfOpponentsNextTurn"
+        },
+        {
+          "type": "restrict",
+          "restrictionKind": "attack",
+          "target": "opponentCharacter",
+          "duration": "untilEndOfOpponentsNextTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

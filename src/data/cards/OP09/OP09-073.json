@@ -1,46 +1,47 @@
 {
-  "id": "OP09-073",
-  "set": "OP09",
-  "number": 73,
-  "name": "Brook",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-073.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Brook",
+  "cardId": "OP09-073",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "C",
+  "setId": "OP09",
+  "cardNumber": "073",
+  "printedText": "[When Attacking] Return 1 or more DON!! cards from your field to your DON!! deck: Up to 2 of your opponent's Characters get -2000 power during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking Return 1 or more don to your don deck: choose 2 of your opponent character, during this turn -2000 Power.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "Return 1 or more don to your don deck: choose 2 of your opponent character, during this turn -2000 Power.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharactersUpToTwo": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "opponentCharactersUpToTwo"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

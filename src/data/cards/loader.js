@@ -15,21 +15,29 @@ export async function loadAllCards() {
     const cards = [];
     for (const key of Object.keys(modules)) {
       const mod = modules[key];
-      const card = mod?.default || mod;
-      if (card && card.id) cards.push(card);
+      const raw = mod?.default || mod;
+      if (raw && (raw.cardId || raw.id)) cards.push(raw);
     }
     return buildIndexes(cards);
   }
 }
 
 function buildIndexes(cards) {
-  const byId = new Map(cards.map((c) => [c.id, c]));
+  const byId = new Map(cards.map((c) => [(c.cardId || c.id), c]));
   const bySet = cards.reduce((acc, c) => {
-    acc[c.set] = acc[c.set] || [];
-    acc[c.set].push(c);
+    const setKey = c.setId || c.set || 'UNKNOWN';
+    acc[setKey] = acc[setKey] || [];
+    acc[setKey].push(c);
     return acc;
   }, {});
-  Object.keys(bySet).forEach((k) => bySet[k].sort((a, b) => (a.number ?? 0) - (b.number ?? 0)));
+  // Sort within set by numeric cardNumber when available (fallback to 0)
+  Object.keys(bySet).forEach((k) => {
+    bySet[k].sort((a, b) => {
+      const an = parseInt(String(a.cardNumber || a.number || 0), 10) || 0;
+      const bn = parseInt(String(b.cardNumber || b.number || 0), 10) || 0;
+      return an - bn;
+    });
+  });
   return { cards, byId, bySet };
 }
 

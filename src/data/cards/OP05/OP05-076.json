@@ -1,62 +1,87 @@
 {
-  "id": "OP05-076",
-  "set": "OP05",
-  "number": 76,
-  "name": "When you're at sea you fight pirates!!!",
-  "category": "Event",
+  "cardName": "When you're at sea you fight pirates!!!",
+  "cardId": "OP05-076",
+  "cardType": "event",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": null,
-  "types": [],
-  "rarity": "C",
-  "art": "/cards/OP05/OP05-076.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Wano Country"
   ],
-  "trigger": {
-    "text": "Activate this card's Main effect"
-  },
-  "text": "Main Look at the top 3 cards of your deck, reveal up to 1 <Straw Hat Crew>, <Kid Pirates> or <Heart Pirates> type card and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+  "rarity": "R",
+  "setId": "OP05",
+  "cardNumber": "076",
+  "printedText": "[Main] Look at the top 3 cards of your deck, reveal up to 1 {Straw Hat Crew}, {Kid Pirates} or {Heart Pirates} type card and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.\n[Trigger] Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "pirateSearch": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "hasType",
+                  "op": "=",
+                  "value": "Straw Hat Crew"
+                },
+                {
+                  "field": "hasType",
+                  "op": "=",
+                  "value": "Kid Pirates"
+                },
+                {
+                  "field": "hasType",
+                  "op": "=",
+                  "value": "Heart Pirates"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "pirateSearch"
+        }
       },
-      "effect": {
-        "text": "Look at the top 3 cards of your deck, reveal up to 1 <Straw Hat Crew>, <Kid Pirates> or <Heart Pirates> type card and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "pirateSearch",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "wanoCountry"
+  ]
 }

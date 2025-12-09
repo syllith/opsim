@@ -1,63 +1,63 @@
 {
-  "id": "OP10-072",
-  "set": "OP10",
-  "number": 72,
-  "name": "Donquixote Rosinante",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "Navy",
-    "Donquixote Pirates"
-  ],
+  "cardName": "Donquixote Rosinante",
+  "cardId": "OP10-072",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Navy", "Donquixote Pirates"],
+  "traits": ["navy", "donquixotePirates"],
   "rarity": "SR",
-  "art": "/cards/OP10/OP10-072.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "End of Your Turn"
-  ],
-  "trigger": null,
-  "text": "On Play: You may trash 1 event card from your hand: Draw 2 cards.\nEnd of Your Turn: If you have 7 or more Don!! cards, set up to two of them as active.",
+  "setId": "OP10",
+  "cardNumber": "072",
+  "printedText": "[On Play] You may trash 1 Event card from your hand: Draw 2 cards.\n[End of Your Turn] If you have 7 or more DON!! cards, set up to two of them as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": ["event"],
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 event card from your hand: Draw 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": 7,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "condition": {
+        "field": "selfDonCount",
+        "op": ">=",
+        "value": 7
       },
-      "effect": {
-        "text": "If you have 7 or more Don!! cards, set up to two of them as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "selfDonInCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "selfDonInCostArea"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfDonInCostArea"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

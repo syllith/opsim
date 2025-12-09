@@ -1,33 +1,18 @@
 {
-  "id": "P-064",
-  "set": "P",
-  "number": 64,
-  "name": "Kozuki Momonosuke",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Land of Wano",
-    "Kozuki Clan"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-064.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Kozuki Momonosuke",
+  "cardId": "P-064",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Land of Wano", "Kouzuki Clan"],
+  "traits": ["landOfWano", "kouzukiClan"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-064",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "abilities": []
 }

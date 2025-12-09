@@ -1,50 +1,80 @@
 {
-  "id": "ST27-005",
-  "set": "ST27",
-  "number": 5,
-  "name": "Marshall.D.Teach",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": null,
+  "cardName": "Marshall.D.Teach",
+  "cardId": "ST27-005",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 7,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["The Four Emperors", "Blackbeard Pirates"],
+  "traits": ["theFourEmperors", "blackbeardPirates"],
   "rarity": "SR",
-  "art": "/cards/ST27/ST27-005.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate:Main", "On K.O."],
-  "trigger": null,
-  "text": "[Activate:Main] You may rest this Character: K.O. up to 1 Character with a cost of 3 or less.\n[On K.O.] Add up to 1 black card from your trash to your hand.",
+  "setId": "ST27",
+  "cardNumber": "005",
+  "printedText": "[Activate:Main] You may rest this Character: K.O. up to 1 Character with a cost of 3 or less.\n[On K.O.] Add up to 1 black card from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Character: K.O. up to 1 Character with a cost of 3 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["mayRestThisCharacter", "characterCost<=3"]
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "cost3OrLessCharacter": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "cost3OrLessCharacter"
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Add up to 1 black card from your trash to your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "onKO",
+      "selectors": {
+        "blackCardInTrash": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "black"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "blackCardInTrash",
+          "destination": "hand",
+          "ordering": "chosen",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

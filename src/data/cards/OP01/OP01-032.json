@@ -1,59 +1,90 @@
 {
-  "id": "OP01-032",
-  "set": "OP01",
-  "number": 32,
-  "name": "Ashura Douji",
-  "category": "Character",
+  "cardName": "Ashura Douji",
+  "cardId": "OP01-032",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Wano Country",
     "Nine Red Scabbards"
   ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-032.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x1"
-  ],
-  "trigger": null,
-  "text": "[DON!! x1] If your opponent has 2 or more rested Characters, this Character gains +2000 power.",
+  "setId": "OP01",
+  "cardNumber": "032",
+  "printedText": "[DON!! x1] If your opponent has 2 or more rested Characters, this Character gains +2000 power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your opponent has 2 or more rested Characters, this Character gains +2000 power.",
-        "grants": [],
-        "powerMod": {
-          "amount": 2000,
-          "duration": "static"
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "opponentRestedChars": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "opponentRestedChars"
         },
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "opponentHas2OrMoreRestedCharacters"
+        "selfTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "selfTarget"
+        }
+      },
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCount",
+            "selector": "opponentRestedChars",
+            "op": ">=",
+            "value": 2
+          }
         ]
-      }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "permanent",
+          "target": "selfTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "wanoCountry",
+    "nineRedScabbards"
+  ]
 }

@@ -1,37 +1,42 @@
 {
-  "id": "ST09-012",
-  "set": "ST09",
-  "number": 12,
-  "name": "Yamato",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Yamato",
+  "cardId": "ST09-012",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["strike"],
   "types": ["Land of Wano"],
-  "rarity": null,
-  "art": "/cards/ST09/ST09-012.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "When Attacking: You may add the top or bottom card of your Life area to your hand: This Character gains +2000 Power until the start of your next turn.",
+  "traits": ["landOfWano"],
+  "rarity": "C",
+  "setId": "ST09",
+  "cardNumber": "012",
+  "printedText": "[When Attacking] You may add the top or bottom card of your Life area to your hand: This Character gains +2000 Power until the start of your next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may add the top or bottom card of your Life area to your hand: This Character gains +2000 Power until the start of your next turn.",
-        "grants": ["power+2000"],
-        "powerMod": 2000,
-        "targets": ["self", "topOrBottomLifeCard"],
-        "conditions": ["chooseTopOrBottom", "duration:untilStartOfNextTurn"]
-      }
+      "timing": "whenAttacking",
+      "cost": {
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "untilStartOfYourNextTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

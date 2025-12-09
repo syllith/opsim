@@ -1,51 +1,56 @@
 {
-  "id": "OP08-082",
-  "set": "OP08",
-  "number": 82,
-  "name": "Sasaki",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Animal Kingdom Pirates"
-  ],
+  "cardName": "Sasaki",
+  "cardId": "OP08-082",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Animal Kingdom Pirates"],
+  "traits": ["animalKingdomPirates"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-082.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest one of your Don!! and this character: Up to one of your opponents characters gets -2 cost for this turn.",
+  "setId": "OP08",
+  "cardNumber": "082",
+  "printedText": "[Activate: Main] Rest 1 of your DON!! cards and you may rest this Character: Give up to 1 of your opponent's Characters −2 cost during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis",
+            "may": true
+          }
+        ]
       },
-      "effect": {
-        "text": "Up to one of your opponents characters gets -2 cost for this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -2,
+          "duration": "thisTurn",
+          "target": "opponentCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

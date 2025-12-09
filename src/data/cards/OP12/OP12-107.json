@@ -1,63 +1,62 @@
 {
-  "id": "OP12-107",
-  "set": "OP12",
-  "number": 107,
-  "name": "Donquixote Doflamingo",
-  "category": "Character",
+  "cardName": "Donquixote Doflamingo",
+  "cardId": "OP12-107",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 8,
+  "power": 8000,
+  "counter": 0,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "The Seven Warlords of the Sea",
     "Donquixote Pirates"
   ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "donquixotePirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-107.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "107",
+  "printedText": "If you have 2 or less Life cards, this Character gains Rush.\n[Opponent's Turn] [On K.O.] Add up to 1 card from the top of your deck to the top of your Life cards.",
   "keywords": [],
-  "trigger": null,
-  "text": "If you have 2 or less Life cards, this Character gains Rush. Opponent's Turn On K.O. Add up to 1 card from the top of your deck to the top of your Life cards.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "lifeTotalSelf",
+        "op": "<=",
+        "value": 2
       },
-      "effect": {
-        "text": "If you have 2 or less Life cards, this Character gains Rush.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "permanent",
+          "target": "selfThisCard"
+        }
+      ]
     },
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "isOpponentsTurn",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "On K.O. Add up to 1 card from the top of your deck to the top of your Life cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDeckCard",
+          "destination": "topOfLife",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

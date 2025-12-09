@@ -1,63 +1,64 @@
 {
-  "id": "P-098",
-  "set": "P",
-  "number": 98,
-  "name": "Buggy",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "The Four Emperors",
-    "Cross Guild"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-098.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 12000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: If you do not have 5 Characters with a cost of 5 or more, place this Character at the bottom of the owner's deck.",
+  "cardName": "Buggy",
+  "cardId": "P-098",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 10,
+  "power": 12000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["The Four Emperors", "Cross Guild"],
+  "traits": ["theFourEmperors", "crossGuild"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-098",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If you do not have 5 Characters with a cost of 5 or more, place this Character at the bottom of the owner's deck.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "yourHighCostCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 5
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If you do not have 5 Characters with a cost of 5 or more, place this Character at the bottom of the owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "yourHighCostCharacters",
+            "op": "<",
+            "value": 5
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "thisCharacter",
+              "destination": "bottomOfDeck",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

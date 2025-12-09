@@ -1,55 +1,51 @@
 {
-  "id": "P-095",
-  "set": "P",
-  "number": 95,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-095.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Your Opponent's Attack",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "On Your Opponent's Attack: Once Per Turn. You may trash 1 Event card from your hand: Up to 1 of your Leader or Character gains +2000 power during this battle.",
+  "cardName": "Sanji",
+  "cardId": "P-095",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-095",
+  "printedText": "On Your Opponent's Attack Once Per Turn You may trash 1 Event card from your hand: Up to 1 of your Leader or Character gains +2000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Your Opponent's Attack",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": ["cardType=event"],
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 Event card from your hand: Up to 1 of your Leader or Character gains +2000 power during this battle.",
-        "powerMod": {
+      "selectors": {
+        "leaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "up to 1 of your Leader or Character"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "leaderOrCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

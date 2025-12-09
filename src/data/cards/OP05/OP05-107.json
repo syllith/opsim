@@ -1,55 +1,69 @@
 {
-  "id": "OP05-107",
-  "set": "OP05",
-  "number": 107,
-  "name": "First Lieutenant Spacey",
-  "category": "Character",
+  "cardName": "First Lieutenant Spacey",
+  "cardId": "OP05-107",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Ranged",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Moon"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-107.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn: When one of your life cards is put into your hand this character gets +2000 this turn.",
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "107",
+  "printedText": "Your Turn Once Per Turn When one of your life cards is put into your hand this character gets +2000 this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ]
+        }
       },
-      "effect": {
-        "text": "When one of your life cards is put into your hand this character gets +2000 this turn.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
-        },
-        "conditions": [
-          "oneOfYourLifeCardsIsPutIntoYourHand"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "lifeCardAddedToHand",
+          "target": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "life"
+            ]
+          },
+          "condition": {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 2000,
+              "duration": "thisTurn",
+              "target": "thisCard"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but this is not a real card. All fields are inferred from the visible text and layout."
-  }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "moon"
+  ]
 }

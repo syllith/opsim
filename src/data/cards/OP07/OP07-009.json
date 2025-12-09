@@ -1,52 +1,72 @@
 {
-  "id": "OP07-009",
-  "set": "OP07",
-  "number": 9,
-  "name": "Dogura & Magura",
-  "category": "Character",
+  "cardName": "Dogura & Magura",
+  "cardId": "OP07-009",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 2,
+  "power": 3000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Mountain Bandits"
   ],
+  "traits": [
+    "mountainBandits"
+  ],
   "rarity": "C",
-  "art": "/cards/OP07/OP07-009.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP07",
+  "cardNumber": "009",
+  "printedText": "[On Play] Give up to 1 of your red cost 1 Characters \"Double Attack\" during this turn. (This card deals 2 damage.)",
   "keywords": [
-    "On Play",
     "Double Attack"
   ],
-  "trigger": null,
-  "text": "On Play: Give up to 1 of your Red Cost 1 Characters. Double Attack until the end of this turn. (This card deals 2 damage.)",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "redCost1Character": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "color",
+                  "op": "=",
+                  "value": "red"
+                },
+                {
+                  "field": "cost",
+                  "op": "=",
+                  "value": 1
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your Red Cost 1 Characters. Double Attack until the end of this turn. (This card deals 2 damage.)",
-        "grants": [
-          "Double Attack"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Double Attack",
+          "duration": "thisTurn",
+          "target": "redCost1Character"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, but content is readable."
-  }
+  ]
 }

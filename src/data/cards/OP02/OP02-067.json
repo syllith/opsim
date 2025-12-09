@@ -1,23 +1,90 @@
 {
-  "id": "OP02-067",
-  "set": "OP02",
-  "number": 67,
-  "name": "Arabesque Brick Fist",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Fish-man", "Impel Down"],
-  "rarity": "UG",
-  "art": "/cards/OP02/OP02-067.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Activate this card’s Main effect." },
-  "text": "Main: Return up to 1 Character with a cost of 4 or less to the owner's hand.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "cardName": "Arabesque Brick Fist",
+  "cardId": "OP02-067",
+  "cardType": "event",
+  "colors": [
+    "blue"
+  ],
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Fish-man",
+    "Impel Down"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "067",
+  "printedText": "[Main] Return up to 1 Character with a cost of 4 or less to the owner's hand. [Trigger] Activate this card's [Main] effect.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "main",
+      "selectors": {
+        "brickFistBounce": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "brickFistBounce"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "brickFistBounce",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "brickFistBounceTrigger": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "brickFistBounceTrigger"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "brickFistBounceTrigger",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
+    }
+  ],
+  "traits": [
+    "fishMan",
+    "impelDown"
+  ]
 }

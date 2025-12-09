@@ -1,50 +1,78 @@
 {
-  "id": "OP08-057",
-  "set": "OP08",
-  "number": 57,
-  "name": "King",
-  "category": "Leader",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Animal Kingdom Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP08/OP08-057.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn",
-    "Don!!:2"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn Don!!:2: Choose one: • If your hand is 5 or less cards, draw 1 card. • Give up to one of your opponents characters -2 cost this turn.",
+  "cardName": "King",
+  "cardId": "OP08-057",
+  "cardType": "leader",
+  "colors": ["purple"],
+  "power": 5000,
+  "life": 4,
+  "attributes": ["special"],
+  "types": ["Animal Kingdom Pirates"],
+  "traits": ["animalKingdomPirates"],
+  "rarity": "L",
+  "setId": "OP08",
+  "cardNumber": "057",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!!-2: Choose one:\n• If your hand is 5 or less cards, draw 1 card.\n• Give up to one of your opponent's characters -2 cost this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 2,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 2
       },
-      "effect": {
-        "text": "Choose one: • If your hand is 5 or less cards, draw 1 card. • Give up to one of your opponents characters -2 cost this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "conditional",
+                  "condition": {
+                    "field": "handSize",
+                    "op": "<=",
+                    "value": 5
+                  },
+                  "actions": [
+                    {
+                      "type": "draw",
+                      "count": 1,
+                      "side": "self"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "stat": "cost",
+                  "mode": "add",
+                  "amount": -2,
+                  "duration": "thisTurn",
+                  "target": "oppCharacter"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

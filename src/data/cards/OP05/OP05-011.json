@@ -1,71 +1,90 @@
 {
-  "id": "OP05-011",
-  "set": "OP05",
-  "number": 11,
-  "name": "Bartholomew Kuma",
-  "category": "Character",
+  "cardName": "Bartholomew Kuma",
+  "cardId": "OP05-011",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "The Seven Warlords",
     "Revolutionary Army"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-011.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "011",
+  "printedText": "[On Play] K.O. up to 1 of your opponent's Characters with 2000 power or less.\n[Trigger] If your Leader is mixed-colour, play this card.",
   "keywords": [
-    "On Play",
-    "Trigger"
+    "trigger"
   ],
-  "trigger": {
-    "text": "If your leader is mixed-colour, play this card."
-  },
-  "text": "On Play: KO up to 1 opponent's character with Power of 2000 or less. Trigger: If your leader is mixed-colour, play this card.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 2000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
       },
-      "effect": {
-        "text": "KO up to 1 opponent's character with Power of 2000 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderColorCount",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "If your leader is mixed-colour, play this card.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIsMixedColour"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCardInLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "whoChooses": "system",
+          "bindAs": "thisCardInLife"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardInLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "revolutionaryArmy"
+  ]
 }

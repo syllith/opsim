@@ -1,62 +1,82 @@
 {
-  "id": "OP12-101",
-  "set": "OP12",
-  "number": 101,
-  "name": "Jewelry Bonney",
-  "category": "Character",
+  "cardName": "Jewelry Bonney",
+  "cardId": "OP12-101",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Special",
+  "cost": 3,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Supernovas",
     "Bonney Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP12/OP12-101.png",
-  "stats": {
-    "cost": 3,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Trigger"
+  "traits": [
+    "supernovas",
+    "bonneyPirates"
   ],
-  "trigger": {
-    "text": "If your Leader has the {Supernovas} type, play this card."
-  },
-  "text": "Activate: Main You may rest this Character: Up to 1 of your {Supernovas} type Leader gains +1000 power until the end of your opponent's next turn.",
+  "rarity": "R",
+  "setId": "OP12",
+  "cardNumber": "101",
+  "printedText": "[Activate: Main] You may rest this Character: Up to 1 of your {Supernovas} type Leader gains +1000 power until the end of your opponent's next turn.\n[Trigger] If your Leader has the {Supernovas} type, play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character: Up to 1 of your {Supernovas} type Leader gains +1000 power until the end of your opponent's next turn.",
-        "powerMod": {
+      "selectors": {
+        "supernovasLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernovas"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "self",
-          "ally:Leader"
-        ],
-        "giveDon": null
-      }
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "supernovasLeader"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "condition": {
+        "field": "leaderHasTrait",
+        "op": "=",
+        "value": "supernovas"
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

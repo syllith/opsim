@@ -1,53 +1,35 @@
 {
-  "id": "OP08-013",
-  "set": "OP08",
-  "number": 13,
-  "name": "Robson",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Animal",
-    "Drum Kingdom"
-  ],
-  "rarity": "US",
-  "art": "/cards/OP08/OP08-013.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x2",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "DON!! x2 This character gain Rush. (This card can attack on the turn in which it is played.)",
+  "cardName": "Robson",
+  "cardId": "OP08-013",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Animal", "Drum Kingdom"],
+  "traits": ["animal", "drumKingdom"],
+  "rarity": "UC",
+  "setId": "OP08",
+  "cardNumber": "013",
+  "printedText": "[DON!! x2] This Character gains [Rush]. (This card can attack on the turn in which it is played.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "givenDonCount",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "This character gain Rush.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Rush",
+          "target": "thisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

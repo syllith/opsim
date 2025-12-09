@@ -1,0 +1,69 @@
+{
+  "cardName": "Gol D. Roger",
+  "cardId": "OP09-118",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 10,
+  "power": 13000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["Pirate King", "Roger Pirates"],
+  "traits": ["pirateKing", "rogerPirates"],
+  "rarity": "SEC",
+  "setId": "OP09",
+  "cardNumber": "118",
+  "printedText": "Rush (This card can attack on the turn in which it is played.)\nWhen your opponent activates Blocker, if you or your opponent have 0 life, you win the game.",
+  "keywords": ["Rush"],
+  "abilities": [
+    {
+      "timing": "static",
+      "selectors": {
+        "opponentBlocker": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "field": "hasKeyword",
+              "op": "=",
+              "value": "Blocker"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "afterOpponentActivatesBlocker",
+          "target": "opponentBlocker",
+          "actions": [
+            {
+              "type": "winGame",
+              "side": "self",
+              "condition": {
+                "logic": "OR",
+                "any": [
+                  {
+                    "field": "selfLifeTotal",
+                    "op": "=",
+                    "value": 0
+                  },
+                  {
+                    "field": "opponentLifeTotal",
+                    "op": "=",
+                    "value": 0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

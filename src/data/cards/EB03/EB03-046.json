@@ -1,50 +1,91 @@
 {
-  "id": "EB03-046",
-  "set": "EB03",
-  "number": 46,
-  "name": "Miss Doublefinger(Zala)",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Slash",
-  "types": ["Baroque Works"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-046.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "On K.O"],
-  "trigger": null,
-  "text": "[On Play] If there is a Character with a cost of 0 or a Character with a cost of 8 or more, draw 1 card.\n[On K.O] Trash 2 cards from the top of your deck.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB03-046",
+  "printedText": "[On Play] If there is a Character with a cost of 0 or a Character with a cost of 8 or more, draw 1 card.\n[On K.O.] Trash 2 cards from the top of your deck.",
+  "types": [
+    "Baroque Works"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If there is a Character with a cost of 0 or a Character with a cost of 8 or more, draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["characterCost0OrCost8OrMore"]
-      }
+      "condition": {
+        "any": [
+          {
+            "op": ">=",
+            "field": "selectorCount",
+            "selector": {
+              "type": "character",
+              "side": "self",
+              "filters": [
+                {
+                  "op": "=",
+                  "field": "cost",
+                  "value": 0
+                }
+              ],
+              "zones": [
+                "character"
+              ]
+            },
+            "value": 1
+          },
+          {
+            "op": ">=",
+            "field": "selectorCount",
+            "selector": {
+              "type": "character",
+              "side": "self",
+              "filters": [
+                {
+                  "op": ">=",
+                  "field": "cost",
+                  "value": 8
+                }
+              ],
+              "zones": [
+                "character"
+              ]
+            },
+            "value": 1
+          }
+        ],
+        "logic": "OR"
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "count": 1,
+          "type": "draw"
+        }
+      ],
+      "frequency": "none"
     },
     {
-      "timing": "On K.O",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Trash 2 cards from the top of your deck.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onKO",
+      "actions": [
+        {
+          "count": 2,
+          "type": "trashTopDeck"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardNumber": "046",
+  "cardName": "Miss Doublefinger (Zala)",
+  "rarity": "R",
+  "cost": 4,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

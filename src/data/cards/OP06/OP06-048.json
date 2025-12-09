@@ -1,51 +1,54 @@
 {
-  "id": "OP06-048",
-  "set": "OP06",
-  "number": 48,
-  "name": "Zeff",
-  "category": "Character",
+  "cardName": "Zeff",
+  "cardId": "OP06-048",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 3000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "East Blue"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-048.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "During Your Turn"
+  "traits": [
+    "eastBlue"
   ],
-  "trigger": null,
-  "text": "During Your Turn: When your opponent activates a Blocker or event, if your leader has the (East Blue) type, you may put the top 4 cards of your deck into your trash.",
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "048",
+  "printedText": "During Your Turn When your opponent activates a Blocker or event, if your leader has the {East Blue} type, you may trash 4 cards from the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "During Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "afterOpponentActivatesEvent",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "leaderHasTraitEastBlue",
+            "op": "=",
+            "value": true
+          }
+        ]
       },
-      "effect": {
-        "text": "When your opponent activates a Blocker or event, if your leader has the (East Blue) type, you may put the top 4 cards of your deck into your trash.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the (East Blue) type"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "trashTopDeck",
+          "count": 4,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. All values are read from the card as printed."
-  }
+  ]
 }

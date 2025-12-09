@@ -1,62 +1,82 @@
 {
-  "id": "OP04-004",
-  "set": "OP04",
-  "number": 4,
-  "name": "Karoo",
-  "category": "Character",
+  "cardName": "Karoo",
+  "cardId": "OP04-004",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Animal",
     "Alabasta Kingdom"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-004.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this Character: Give up to 1 rested DON!! card to each of your (Alabasta) type Characters.",
+  "setId": "OP04",
+  "cardNumber": "004",
+  "printedText": "[Activate: Main] You may rest this Character: Give up to 1 rested DON!! card to each of your {Alabasta} type Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "Give up to 1 rested DON!! card to each of your (Alabasta) type Characters.",
-        "powerMod": null,
-        "targets": [
-          "allAlabastaTypeCharacters"
-        ],
-        "conditions": [
-          "thisCharacterIsResting"
-        ],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": [
-            "allAlabastaTypeCharacters"
+      "selectors": {
+        "alabastaCharactersUpTo": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 5,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Alabasta Kingdom"
+            }
+          ]
+        },
+        "restedDonFromCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 10,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
           ]
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": "alabastaCharactersUpTo",
+          "selector": "restedDonFromCostArea",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is marked as a sample."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animal",
+    "alabastaKingdom"
+  ]
 }

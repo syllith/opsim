@@ -1,82 +1,104 @@
 {
-  "id": "OP04-073",
-  "set": "OP04",
-  "number": 73,
-  "name": "Mr. 13 & Miss Friday",
-  "category": "Character",
+  "cardName": "Mr. 13 & Miss Friday",
+  "cardId": "OP04-073",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 3,
+  "power": 1000,
+  "counter": 2000,
   "types": [
     "Animal",
     "Baroque Works"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-073.png",
-  "stats": {
-    "cost": 3,
-    "power": 1000,
-    "life": 2000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "073",
+  "printedText": "[Activate: Main] You may trash this Character and 1 of your Characters with a type including \"Baroque Works\": Add up to 1 DON!! card from your DON!! deck and set it as active.\n[Trigger] Play this card.",
   "keywords": [
-    "Activate: Main",
-    "Trigger"
+    "activateMain",
+    "trigger"
   ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "Activate: Main You may trash this Character and 1 of your Characters with a type including \"Baroque Works\": Add up to 1 DON!! card from your DON!! deck and set it as active.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "trashThis"
+          },
+          {
+            "type": "trashFromField",
+            "selector": "baroqueWorksCharacter"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may trash this Character and 1 of your Characters with a type including \"Baroque Works\": Add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "powerMod": null,
-        "targets": [
-          "thisCharacter",
-          "oneAllyCharacter:type=Baroque Works"
-        ],
-        "conditions": [
-          "type=Baroque Works"
-        ],
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "donDeck",
-          "to": [
-            "activeDon"
-          ]
+      "selectors": {
+        "baroqueWorksCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Baroque Works"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "sacrifice"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "target": {
+            "side": "self",
+            "type": "don",
+            "zones": [
+              "costArea"
+            ]
+          },
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Play this card.",
-        "powerMod": null,
-        "targets": [
-          "thisCard"
-        ],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          },
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample card, indicated by the large 'SAMPLE' watermark. The text and layout are based on the visible content, but the card is not official."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "animal",
+    "baroqueWorks"
+  ]
 }

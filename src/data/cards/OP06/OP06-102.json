@@ -1,66 +1,116 @@
 {
-  "id": "OP06-102",
-  "set": "OP06",
-  "number": 102,
-  "name": "Kamakiri",
-  "category": "Character",
+  "cardName": "Kamakiri",
+  "cardId": "OP06-102",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Sky Island",
     "Shondora Warrior"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-102.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn",
-    "Trigger"
+  "traits": [
+    "skyIsland",
+    "shondoraWarrior"
   ],
-  "trigger": {
-    "text": "If you have 2 or less life cards, play this card."
-  },
-  "text": "Activate: Main Once Per Turn Place a 1 cost stage at the bottom of its owner's deck: KO up to 1 of your opponent's cost 2 or lower characters. Trigger If you have 2 or less life cards, play this card.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "102",
+  "printedText": "[Activate: Main] [Once Per Turn] Place a 1 cost Stage at the bottom of its owner's deck: K.O. up to 1 of your opponent's cost 2 or lower Characters.\n[Trigger] If you have 2 or less Life cards, play this card.",
+  "keywords": [
+    "activateMain",
+    "oncePerTurn",
+    "trigger"
+  ],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromField",
+        "selector": "anyCost1StageOnField"
       },
-      "effect": {
-        "text": "Place a 1 cost stage at the bottom of its owner's deck: KO up to 1 of your opponent's cost 2 or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "anyCost1StageOnField": {
+          "side": "both",
+          "type": "stage",
+          "zones": [
+            "stage"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "card.cost",
+              "op": "=",
+              "value": 1
+            }
+          ],
+          "bindAs": "stageToBottom"
+        },
+        "opponentCost2OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "card.cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "bindAs": "targetToKo"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCost2OrLessCharacter"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "condition": {
+        "field": "selfLifeCount",
+        "op": "<=",
+        "value": 2
       },
-      "effect": {
-        "text": "If you have 2 or less life cards, play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCardFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardFromLife",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

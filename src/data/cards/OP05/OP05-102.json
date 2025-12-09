@@ -1,55 +1,59 @@
 {
-  "id": "OP05-102",
-  "set": "OP05",
-  "number": 102,
-  "name": "Gedatsu",
-  "category": "Character",
+  "cardName": "Gedatsu",
+  "cardId": "OP05-102",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Sky Island",
     "God's Priest"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-102.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: KO up to 1 of your opponent's characters with cost equal or less than their Life.",
+  "setId": "OP05",
+  "cardNumber": "102",
+  "printedText": "On Play KO up to 1 of your opponent's characters with cost equal or less than their Life.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "oppCharacterCostLeqLife": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "fieldRef": "opponentLife"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "KO up to 1 of your opponent's characters with cost equal or less than their Life.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "cost<=life"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharacterCostLeqLife"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "skyIsland",
+    "godSPriest"
+  ]
 }

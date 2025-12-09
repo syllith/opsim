@@ -1,35 +1,66 @@
 {
-  "id": "OP03-014",
-  "set": "OP03",
-  "number": 14,
-  "name": "Monkey. D. Garp",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
-  "types": ["Navy"],
-  "rarity": "R",
-  "art": "/cards/OP03/OP03-014.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "[When Attacking] Play up to 1 red Character card with a cost of 1 from your hand.",
+  "cardName": "Monkey.D.Garp",
+  "cardId": "OP03-014",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 3,
+  "power": 5000,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "014",
+  "printedText": "[When Attacking] Play up to 1 red Character card with a cost of 1 from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 red Character card with a cost of 1 from your hand.",
-        "targets": ["hand"],
-        "conditions": ["colorRed", "categoryCharacter", "costEqual1"]
-      }
+      "timing": "whenAttacking",
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "color",
+                  "op": "=",
+                  "value": "red"
+                },
+                {
+                  "field": "cost",
+                  "op": "=",
+                  "value": 1
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

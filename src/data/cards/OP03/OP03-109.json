@@ -1,51 +1,48 @@
 {
-  "id": "OP03-109",
-  "set": "OP03",
-  "number": 109,
-  "name": "Charlotte Chiffon",
-  "category": "Character",
+  "cardName": "Charlotte Chiffon",
+  "cardId": "OP03-109",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Big Mom Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-109.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "109",
+  "printedText": "[On Play] You may trash the top or bottom card of your Life: Place up to 1 card from the top of your deck at the top of your Life.",
   "keywords": [
     "On Play"
   ],
-  "trigger": null,
-  "text": "On Play You may trash the top or bottom card of your Life: Place up to 1 card from the top of your deck at the top of your Life.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "trash",
+        "position": "topOrBottom",
+        "may": true
       },
-      "effect": {
-        "text": "You may trash the top or bottom card of your Life: Place up to 1 card from the top of your deck at the top of your Life.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "life",
+          "may": true,
+          "target": "selfTopDeckCard"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card. The card is a Character with Yellow color and Wisdom attribute. The text is fully readable."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "bigMomPirates"
+  ]
 }

@@ -1,32 +1,18 @@
 {
-  "id": "OP12-067",
-  "set": "OP12",
-  "number": 67,
-  "name": "Carmen",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "East Blue"
-  ],
+  "cardName": "Carmen",
+  "cardId": "OP12-067",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["East Blue"],
+  "traits": ["eastBlue"],
   "rarity": "C",
-  "art": "/cards/OP12/OP12-067.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "067",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Life value not printed on card."
-  }
+  "abilities": []
 }

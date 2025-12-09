@@ -1,66 +1,96 @@
 {
-  "id": "OP09-086",
-  "set": "OP09",
-  "number": 86,
-  "name": "Jesus Burgess",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Blackbeard Pirates"
-  ],
+  "cardName": "Jesus Burgess",
+  "cardId": "OP09-086",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-086.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP09",
+  "cardNumber": "086",
+  "printedText": "This Character cannot be K.O.'d by your opponent's effects.\nIf your Leader has the \"Blackbeard Pirates\" type, this Character gains +1000 power for every 4 cards in your trash.",
   "keywords": [],
-  "trigger": null,
-  "text": "This character cannot be KO'd by your opponents effects. If your leader has the (Blackbeard Pirates) type, this character gets +1000 power for every 4 cards in your trash.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This character cannot be KO'd by your opponents effects.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your leader has the (Blackbeard Pirates) type, this character gets +1000 power for every 4 cards in your trash.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "timing": "static",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard"
         },
-        "conditions": [
-          "yourLeader",
-          "hasType:Blackbeard Pirates"
-        ],
-        "giveDon": null
-      }
+        "leaderBlackbeard": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "blackbeardPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "selfTrash": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 0,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKO",
+          "target": "thisCard",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "koSourceSide",
+                "op": "=",
+                "value": "opponent"
+              },
+              {
+                "field": "koSourceKind",
+                "op": "=",
+                "value": "effect"
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": "thisCard"
+            }
+          ]
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 4,
+          "perAmount": 1000,
+          "countSelector": "selfTrash",
+          "duration": "permanent",
+          "target": "thisCard",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "leaderBlackbeard",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

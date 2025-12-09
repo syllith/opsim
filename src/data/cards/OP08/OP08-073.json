@@ -1,49 +1,68 @@
 {
-  "id": "OP08-073",
-  "set": "OP08",
-  "number": 73,
-  "name": "Viscount Hiyoko",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Big Mom Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-073.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "DON!! -1"
-  ],
-  "trigger": null,
-  "text": "Opponent's Turn On K.O. DON!! -1: Play up to 1 [Count Niwatori] with a cost of 6 or less from your deck, then shuffle your deck.",
+  "cardName": "Viscount Hiyoko",
+  "cardId": "OP08-073",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
+  "rarity": "C",
+  "setId": "OP08",
+  "cardNumber": "073",
+  "printedText": "[Opponent's Turn] [On K.O.] DON!! −1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play up to 1 [Count Niwatori] with a cost of 6 or less from your deck. Then, shuffle your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "turnOwner",
+        "op": "=",
+        "value": "opponent"
       },
-      "effect": {
-        "text": "Play up to 1 [Count Niwatori] with a cost of 6 or less from your deck, then shuffle your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "donMinus",
+        "count": 1
+      },
+      "selectors": {
+        "niwatoriFromDeck": {
+          "side": "self",
+          "type": "character",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Count Niwatori"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "niwatoriFromDeck",
+          "reveal": false,
+          "addTo": "characterArea",
+          "ordering": "chosen",
+          "moveRemainingTo": "topOfDeck",
+          "remainingOrdering": "random",
+          "asPlay": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample; 'SAMPLE' watermark present. Rarity 'R' confirmed. Power value is 6000. Attribute is 'Strike'."
-  }
+  ]
 }

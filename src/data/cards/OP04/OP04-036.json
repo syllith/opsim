@@ -1,57 +1,65 @@
 {
-  "id": "OP04-036",
-  "set": "OP04",
-  "number": 36,
-  "name": "Donquixote Family",
-  "category": "Event",
+  "cardName": "Donquixote Family",
+  "cardId": "OP04-036",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "green"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "Donquixote Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-036.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Activate this card's #Counter effect."
-  },
-  "text": "#Counter Look at 5 cards from the top of your deck; reveal up to 1 (Donquixote Pirates) type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP04",
+  "cardNumber": "036",
+  "printedText": "[Counter] Look at 5 cards from the top of your deck; reveal up to 1 {Donquixote Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Trigger] Activate this card's [Counter] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 (Donquixote Pirates) type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": [
-          "top5CardsOfDeck"
-        ],
-        "conditions": [
-          "isDonquixotePirates"
-        ],
-        "giveDon": null
-      }
+      "timing": "counter",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "deck"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "hasType",
+                "op": "=",
+                "value": "Donquixote Pirates"
+              }
+            ]
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "counter"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner of the card."
-  }
+  "traits": [
+    "donquixotePirates"
+  ]
 }

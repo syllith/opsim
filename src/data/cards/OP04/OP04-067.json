@@ -1,70 +1,52 @@
 {
-  "id": "OP04-067",
-  "set": "OP04",
-  "number": 67,
-  "name": "Miss Merry Christmas (Drophy)",
-  "category": "Character",
+  "cardName": "Miss Merry Christmas (Drophy)",
+  "cardId": "OP04-067",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Baroque Works"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-067.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "067",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n\nTrigger DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play this card.",
   "keywords": [
-    "Blocker",
-    "Trigger"
+    "Blocker"
   ],
-  "trigger": {
-    "text": "DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card."
-  },
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nTrigger DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "Play this card.",
-        "powerMod": null,
-        "targets": [
-          "thisCard"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ]
+          },
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

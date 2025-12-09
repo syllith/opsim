@@ -1,68 +1,53 @@
 {
-  "id": "P-039",
-  "set": "P",
-  "number": 39,
-  "name": "Bellamy",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Bellamy Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-039.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Banish",
-    "DON!! x2"
-  ],
-  "trigger": null,
-  "text": "Banish (When a character deals damage, the target card is trashed without activating its Trigger.)\nDON!! x2 When you have 0 life this character gains +2000 power.",
+  "cardName": "Bellamy",
+  "cardId": "P-039",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["Bellamy Pirates"],
+  "traits": ["bellamyPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-039",
+  "printedText": "Banish (When this card deals damage, the target card is trashed without activating its Trigger.)\n[DON!! x2] When you have 0 Life this Character gains +2000 power.",
+  "keywords": ["Banish"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isGivenDon",
+            "op": ">=",
+            "value": 2
+          },
+          {
+            "field": "life",
+            "op": "=",
+            "value": 0
+          }
+        ]
       },
-      "effect": {
-        "text": "Banish (When a character deals damage, the target card is trashed without activating its Trigger.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "When you have 0 life this character gains +2000 power.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "conditions": [
-          "self:life=0"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "thisCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,20 +1,47 @@
 {
-  "id": "ST05-002",
-  "set": "ST05",
-  "number": 2,
-  "name": "Ain",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["FILM", "Neo Navy"],
-  "rarity": null,
-  "art": "/cards/ST05/ST05-002.png",
-  "stats": { "cost": 4, "power": 5000, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Add 1 DON!! card from your DON!! deck and rest it.",
-  "abilities": [
-    {"timing": "On Play", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Add 1 DON!! from DON deck and rest it.", "grants": [], "powerMod": null, "targets": ["donDeck"], "conditions": []}}
+  "cardName": "Ain",
+  "cardId": "ST05-002",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": [
+    "FILM",
+    "Neo Navy"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "film",
+    "neoNavy"
+  ],
+  "rarity": "C",
+  "setId": "ST05",
+  "cardNumber": "002",
+  "printedText": "[On Play] Add 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "onPlay",
+      "selectors": {
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "ordering": "keep",
+          "enterRested": true
+        }
+      ]
+    }
+  ]
 }

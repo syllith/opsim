@@ -1,51 +1,81 @@
 {
-  "id": "OP07-052",
-  "set": "OP07",
-  "number": 52,
-  "name": "Boa Marigold",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
+  "cardName": "Boa Marigold",
+  "cardId": "OP07-052",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 6000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": [
     "Kuja Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-052.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "kujaPirates"
   ],
-  "trigger": null,
-  "text": "On Play: If you have two or more characters in play with the (Amazon Lily) or (Kuja Pirates) type, place up to one cost 2 or less character on the bottom of its owner's deck.",
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "052",
+  "printedText": "[On Play] If you have 2 or more [Amazon Lily] or [Kuja Pirates] type Characters on your field, place up to 1 Character with a cost of 2 or less at the bottom of the owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfAmazonOrKujaCharacters",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "If you have two or more characters in play with the (Amazon Lily) or (Kuja Pirates) type, place up to one cost 2 or less character on the bottom of its owner's deck.",
-        "powerMod": null,
-        "conditions": [
-          "two or more characters in play with the (Amazon Lily) or (Kuja Pirates) type"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "selfAmazonOrKujaCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "amazonLily"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "kujaPirates"
+                }
+              ]
+            }
+          ]
+        },
+        "lowCostCharacter": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "lowCostCharacter",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is marked as a sample; no other notes needed."
-  }
+  ]
 }

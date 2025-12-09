@@ -1,23 +1,123 @@
 {
-  "id": "OP02-024",
-  "set": "OP02",
-  "number": 24,
-  "name": "Moby Dick",
-  "category": "Stage",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Whitebeard Pirates"],
-  "rarity": "R",
-  "art": "/cards/OP02/OP02-024.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Your Turn", "Trigger"],
-  "trigger": { "text": "Play this card." },
-  "text": "Your Turn: If you have 1 or less Life cards, your [Edward Newgate] and all your Characters with {Whitebeard Pirates} in its type gain +2000 power.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "cardName": "Moby Dick",
+  "cardId": "OP02-024",
+  "cardType": "stage",
+  "colors": [
+    "red"
+  ],
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Whitebeard Pirates"
+  ],
+  "rarity": "C",
+  "setId": "OP02",
+  "cardNumber": "024",
+  "printedText": "[Your Turn] If you have 1 or less Life cards, your [Edward.Newgate] and all your Characters with a type including \"Whitebeard Pirates\" gain +2000 power.\n[Trigger] Play this card.",
+  "keywords": [
+    "yourTurn",
+    "trigger"
+  ],
+  "abilities": [
+    {
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selfLife",
+            "op": "<=",
+            "value": 1
+          },
+          {
+            "field": "turnOwner",
+            "op": "=",
+            "value": "self"
+          }
+        ]
+      },
+      "selectors": {
+        "selfEdwardNewgate": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Edward Newgate"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "selfWhitebeardCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Whitebeard Pirates"
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "permanent",
+          "target": "selfEdwardNewgate"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "permanent",
+          "target": "selfWhitebeardCharacters"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "thisCardInLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardInLife",
+          "enterRested": false,
+          "payCost": false,
+          "may": false
+        }
+      ]
+    }
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

@@ -1,64 +1,117 @@
 {
-  "id": "OP05-040",
-  "set": "OP05",
-  "number": 40,
-  "name": "Bird Cage",
-  "category": "Stage",
-  "colors": [],
-  "attribute": null,
+  "cardName": "Bird Cage",
+  "cardId": "OP05-040",
+  "cardType": "stage",
+  "colors": [
+    "green"
+  ],
+  "cost": 5,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Donquixote Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-040.png",
-  "stats": {
-    "cost": 5,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "040",
+  "printedText": "If your Leader is [Donquixote Doflamingo], all Characters with a cost of 5 or less will not become active during both player's Refresh Phase.\n[End of Your Turn] If you have 10 DON!! cards on your field, K.O. all rested Characters with a cost of 5 or less. Then, trash this Stage.",
   "keywords": [],
-  "trigger": null,
-  "text": "If your Leader is [Donquixote Doflamingo], all Characters with a cost of 5 or less will not become active during both player's Refresh Phase. \nEnd of Your Turn: If you have 10 DON!! cards on your field, K.O. all rested Characters with a cost of 5 or less. Then, trash this stage.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Donquixote Doflamingo"
       },
-      "effect": {
-        "text": "If your Leader is [Donquixote Doflamingo], all Characters with a cost of 5 or less will not become active during both player's Refresh Phase.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Donquixote Doflamingo]",
-          "allCharacters<=cost5"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "affectedChars": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "whoChooses": "system",
+          "bindAs": "affectedChars"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldRefreshDuringRefreshPhase",
+          "target": "affectedChars",
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": 10,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "frequency": "none",
+      "condition": {
+        "field": "donCountField",
+        "op": ">=",
+        "value": 10
       },
-      "effect": {
-        "text": "If you have 10 DON!! cards on your field, K.O. all rested Characters with a cost of 5 or less. Then, trash this stage.",
-        "powerMod": null,
-        "conditions": [
-          "youHave10DON!!onYourField"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "restedCost5Chars": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "whoChooses": "system",
+          "bindAs": "restedCost5Chars"
+        },
+        "thisStageSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "stage"
+          ],
+          "whoChooses": "system",
+          "bindAs": "thisStageSelector"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "restedCost5Chars"
+        },
+        {
+          "type": "moveCard",
+          "target": "thisStageSelector",
+          "destination": "trash",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "donquixotePirates"
+  ]
 }

@@ -1,62 +1,47 @@
 {
-  "id": "OP10-052",
-  "set": "OP10",
-  "number": 52,
-  "name": "Bartolomeo",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Dressrosa/Barto Club"
-  ],
-  "rarity": "L",
-  "art": "/cards/OP10/OP10-052.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play Return up to one character with a cost of 1 or below to the bottom of the players deck.",
+  "cardName": "Bartolomeo",
+  "cardId": "OP10-052",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 6000,
+  "attributes": ["special"],
+  "types": ["Dressrosa", "Barto Club"],
+  "traits": ["dressrosa", "bartoClub"],
+  "rarity": "C",
+  "setId": "OP10",
+  "cardNumber": "052",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [On Play] Place up to 1 Character with a cost of 1 or less at the bottom of the owner's deck.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "cost1OrLessCharacter": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Return up to one character with a cost of 1 or below to the bottom of the players deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "cost1OrLessCharacter",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,48 +1,48 @@
 {
-  "id": "OP11-091",
-  "set": "OP11",
-  "number": 91,
-  "name": "Berry Good",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Navy"
-  ],
+  "cardName": "Berry Good",
+  "cardId": "OP11-091",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Navy"],
+  "traits": ["navy"],
   "rarity": "UC",
-  "art": "/cards/OP11/OP11-091.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Your opponent places 3 Event cards from their trash to the bottom of their deck in any order.",
+  "setId": "OP11",
+  "cardNumber": "091",
+  "printedText": "[On Play] Your opponent places 3 Event cards from their trash to the bottom of their deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "opponentTrashEvents": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 0,
+          "max": 3,
+          "upTo": false,
+          "whoChooses": "opponent",
+          "filters": [
+            {
+              "field": "cardType",
+              "op": "=",
+              "value": "event"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Your opponent places 3 Event cards from their trash to the bottom of their deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTrashEvents",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

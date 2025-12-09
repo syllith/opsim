@@ -1,48 +1,71 @@
 {
-  "id": "OP02-119",
-  "set": "OP02",
-  "number": 119,
-  "name": "Meteor Volcano",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Navy"],
+  "cardName": "Meteor Volcano",
+  "cardId": "OP02-119",
+  "cardType": "event",
+  "colors": [
+    "black"
+  ],
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Navy"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-119.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main"],
-  "trigger": {
-    "text": "Draw 2 cards and trash 1 card from your hand."
-  },
-  "text": "[Main] K.O. up to 1 of your opponent's Characters with a cost of 1 or less.\n[Trigger] Draw 2 cards and trash 1 card from your hand.",
+  "setId": "OP02",
+  "cardNumber": "119",
+  "printedText": "[Main] K.O. up to 1 of your opponent's Characters with a cost of 1 or less.\n[Trigger] Draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
-        "targets": ["upTo1:opponent:Character<=1"],
-        "conditions": []
-      }
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "oppCharCost1OrLessUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharCost1OrLessUpToOne"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw 2 cards and trash 1 card from your hand.",
-        "targets": ["self:player"],
-        "conditions": []
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "may": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "navy"
+  ]
 }

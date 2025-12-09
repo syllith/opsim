@@ -1,33 +1,28 @@
 {
-  "id": "OP09-067",
-  "set": "OP09",
-  "number": 67,
-  "name": "Jinbei",
-  "category": "Character",
+  "cardName": "Jinbe",
+  "cardId": "OP09-067",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 7,
+  "power": 9000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Fishman",
     "Straw Hat Crew"
   ],
+  "traits": [
+    "fishMan",
+    "strawHatCrew"
+  ],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-067.png",
-  "stats": {
-    "cost": 7,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP09",
+  "cardNumber": "067",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card marked as SAMPLE, so stats and text are not fully functional. Power is 9000, cost is 7, and counter is +1000. No text or abilities printed."
-  }
+  "abilities": []
 }

@@ -1,69 +1,80 @@
 {
-  "id": "OP05-032",
-  "set": "OP05",
-  "number": 32,
-  "name": "Pica",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Donquixote Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-032.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "End of Your Turn",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "End of Your Turn (You may rest the specified number of DON!! cards in your Cost Area) Set this character as active. Once Per Turn If this character would be K.O.d, you may instead rest up to one of your other 3 cost or more characters not named {Pica}",
+  "cardName": "Pica",
+  "cardId": "OP05-032",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
+  "rarity": "SR",
+  "setId": "OP05",
+  "cardNumber": "032",
+  "printedText": "[End of Your Turn] (1) (You may rest the specified number of DON!! cards in your Cost Area.) Set this Character as active.\n[Once Per Turn] If this Character would be K.O.'d, you may instead rest up to 1 of your other 3 cost or more Characters not named [Pica].",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
+      "timing": "endOfYourTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may rest the specified number of DON!! cards in your Cost Area) Set this character as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     },
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If this character would be K.O.d, you may instead rest up to one of your other 3 cost or more characters not named {Pica}",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "self",
-          "not named {Pica}"
-        ],
-        "giveDon": null
-      }
+      "timing": "onWouldBeKO",
+      "frequency": "oncePerTurn",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "thisWouldBeKOd",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "may": true,
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": {
+                "side": "self",
+                "type": "character",
+                "zones": ["character"],
+                "min": 0,
+                "max": 1,
+                "upTo": true,
+                "whoChooses": "self",
+                "filters": [
+                  {
+                    "field": "cost",
+                    "op": ">=",
+                    "value": 3
+                  },
+                  {
+                    "field": "cardName",
+                    "op": "!=",
+                    "value": "Pica"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

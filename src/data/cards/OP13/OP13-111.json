@@ -1,33 +1,18 @@
 {
-  "id": "OP13-111",
-  "set": "OP13",
-  "number": 111,
-  "name": "Pythagoras",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Scientist",
-    "Egghead"
-  ],
+  "cardName": "Pythagoras",
+  "cardId": "OP13-111",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Scientist", "Egghead"],
+  "traits": ["scientist", "egghead"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-111.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "111",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, only stats and counter."
-  }
+  "abilities": []
 }

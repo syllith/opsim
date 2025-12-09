@@ -1,50 +1,97 @@
 {
-  "id": "EB03-034",
-  "set": "EB03",
-  "number": 34,
-  "name": "Charlotte Linlin",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["Rocks Pirates"],
-  "rarity": "SR",
-  "art": "/cards/EB03/EB03-034.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "On K.O", "DON!! -1"],
-  "trigger": null,
-  "text": "[On Play] Draw 1 card and place 1 card from your hand at the top of your deck. Then, add up to 1 DON!! card from your DON!! deck and set it as active.\n[On K.O] [DON!! -1]: Add up to 1 card from the top of your deck to the top of your Life cards.",
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB03-034",
+  "printedText": "On Play Draw 1 card and place 1 card from your hand at the top of your deck. Then, add up to 1 DON!! card from your DON!! deck and set it as active.\nOn K.O. DON!!-1: Add up to 1 card from the top of your deck to the top of your Life cards.",
+  "types": [
+    "Rocks Pirates"
+  ],
+  "cardNumber": "034",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw 1 card and place 1 card from your hand at the top of your deck. Then, add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "hand", "donDeck"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "count": 1,
+          "type": "draw"
+        },
+        {
+          "destination": "topOfDeck",
+          "type": "moveCard",
+          "target": {
+            "zones": [
+              "hand"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "hand",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        },
+        {
+          "destination": "costArea",
+          "type": "moveCard",
+          "target": {
+            "zones": [
+              "donDeck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "ordering": "chosen"
+        },
+        {
+          "type": "setState",
+          "target": {
+            "zones": [
+              "costArea"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "state": "active"
+        }
+      ]
     },
     {
-      "timing": "On K.O",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "[DON!! -1]: Add up to 1 card from the top of your deck to the top of your Life cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "life"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onKO",
+      "actions": [
+        {
+          "count": 1,
+          "type": "returnDon"
+        },
+        {
+          "may": true,
+          "type": "moveCard",
+          "destination": "life",
+          "target": "selfTopDeckCard"
+        }
+      ]
     }
   ],
-  "meta": { "notes": "DON!! -1 on On K.O means return 1 DON!! from field to DON!! deck as cost" }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Charlotte Linlin",
+  "rarity": "R",
+  "cost": 7,
+  "colors": [
+    "purple"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "rocksPirates"
+  ]
 }

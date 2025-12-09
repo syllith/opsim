@@ -1,23 +1,73 @@
 {
-  "id": "ST09-005",
-  "set": "ST09",
-  "number": 5,
-  "name": "Kozuki Momonosuke",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Wisdom",
-  "types": ["Land of Wano", "Kozuki Family"],
-  "rarity": null,
-  "art": "/cards/ST09/ST09-005.png",
-  "stats": {
-    "cost": 2,
-    "power": 4000,
-    "life": null,
-     "counter": null
-  },
+  "cardName": "Kouzuki Oden",
+  "cardId": "ST09-005",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 7,
+  "power": 7000,
+  "attributes": ["slash"],
+  "types": ["Land of Wano", "Kouzuki Clan"],
+  "traits": ["landOfWano", "kouzukiClan"],
+  "rarity": "SR",
+  "setId": "ST09",
+  "cardNumber": "005",
+  "printedText": "[DON!! x1] This Character gains [Double Attack]. (This card deals 2 damage.) [On K.O.] You may trash 2 cards from your hand: Add up to 1 card from the top of your deck to the top of your Life cards.",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": [
+    {
+      "timing": "static",
+      "condition": {
+        "field": "donCountOnThis",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Double Attack",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onKO",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "may": true
+      },
+      "selectors": {
+        "topDeckCard": {
+          "side": "self",
+          "type": "deck",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "position",
+              "op": "=",
+              "value": "top"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "topDeckCard",
+          "destination": "topOfLife",
+          "ordering": "keep"
+        }
+      ]
+    }
+  ]
 }

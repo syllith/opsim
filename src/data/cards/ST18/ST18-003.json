@@ -1,37 +1,36 @@
 {
-  "id": "ST18-003",
-  "set": "ST18",
-  "number": 3,
-  "name": "Sangoro",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
+  "cardName": "Sangoro",
+  "cardId": "ST18-003",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/ST18/ST18-003.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking", "Once Per Turn", "Counter +1000"],
-  "trigger": null,
-  "text": "When Attacking Once Per Turn If you have 8 or more Don!!, draw one card.",
+  "traits": ["strawHatCrew"],
+  "rarity": "starter",
+  "setId": "ST18",
+  "cardNumber": "003",
+  "printedText": "[When Attacking] [Once Per Turn] If you have 8 or more DON!!, draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 8 or more Don!!, draw one card.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["donCount>=8"],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "selfDonCount",
+        "op": ">=",
+        "value": 8
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

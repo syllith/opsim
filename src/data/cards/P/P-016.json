@@ -1,34 +1,30 @@
 {
-  "id": "P-016",
-  "set": "P",
-  "number": 16,
-  "name": "Shanks",
-  "category": "Character",
+  "cardName": "Shanks",
+  "cardId": "P-016",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 8,
+  "power": 10000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "FILM",
     "The Four Emperors",
     "Red Hair Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/P/P-016.png",
-  "stats": {
-    "cost": 8,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "traits": [
+    "film",
+    "theFourEmperors",
+    "redHairedPirates"
+  ],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "016",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords. Power is 10000, cost is 8, and counter is +1000. Rarity is C (indicated by 'C' in the rarity box)."
-  }
+  "abilities": []
 }

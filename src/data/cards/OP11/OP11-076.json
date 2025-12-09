@@ -1,53 +1,62 @@
 {
-  "id": "OP11-076",
-  "set": "OP11",
-  "number": 76,
-  "name": "Hannyabal",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Impel Down"
-  ],
+  "cardName": "Hannyabal",
+  "cardId": "OP11-076",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Impel Down"],
+  "traits": ["impelDown"],
   "rarity": "C",
-  "art": "/cards/OP11/OP11-076.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the {Impel Down} type, you may play 1 {Impel Down} type Character and a cost of 3 or less from your hand.",
+  "setId": "OP11",
+  "cardNumber": "076",
+  "printedText": "[Blocker] [On Play] If your Leader has the \"Impel Down\" type, play up to 1 \"Impel Down\" type Character card with a cost of 3 or less from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "impelDownCharacterFromHandCost3OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "impelDown"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If your Leader has the {Impel Down} type, you may play 1 {Impel Down} type Character and a cost of 3 or less from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Impel Down"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderHasType_impelDown",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "playCard",
+              "sourceZone": "hand",
+              "target": "impelDownCharacterFromHandCost3OrLess"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

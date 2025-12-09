@@ -1,36 +1,63 @@
 {
-  "id": "ST21-003",
-  "set": "ST21",
-  "number": 3,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Sanji",
+  "cardId": "ST21-003",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/ST21/ST21-003.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play", "Blocker"],
-  "trigger": null,
-  "text": "On Play Choose up to 1 of your {Straw Hat Crew} type Characters with a Power of 6000 or more. During this turn, your opponent may not activate Blocker when that character attacks.",
+  "traits": ["strawHatCrew"],
+  "rarity": "starter",
+  "setId": "ST21",
+  "cardNumber": "003",
+  "printedText": "[On Play] Choose up to 1 of your {Straw Hat Crew} type Characters with a Power of 6000 or more. During this turn, your opponent may not activate [Blocker] when that character attacks.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Choose up to 1 of your {Straw Hat Crew} type Characters with a Power of 6000 or more. During this turn, your opponent may not activate Blocker when that character attacks.",
-        "powerMod": null,
-        "targets": ["oneAllyCharacter:StrawHatCrew>=6000"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "sanjiBuffTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Straw Hat Crew"
+            },
+            {
+              "field": "power",
+              "op": ">=",
+              "value": 6000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "opponentWouldActivateBlocker",
+          "target": "sanjiBuffTarget",
+          "condition": {
+            "field": "currentAttackSourceSelectorKey",
+            "op": "=",
+            "value": "sanjiBuffTarget"
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

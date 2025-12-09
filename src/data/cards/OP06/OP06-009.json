@@ -1,84 +1,69 @@
 {
-  "id": "OP06-009",
-  "set": "OP06",
-  "number": 9,
-  "name": "Shuraiya",
-  "category": "Character",
+  "cardName": "Shuraiya",
+  "cardId": "OP06-009",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "FILM",
     "Shipbuilding Town"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-009.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "SR",
+  "setId": "OP06",
+  "cardNumber": "009",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [When Attacking] [When Blocking] [Once Per Turn] This Character's base power becomes the same as the power of your opponent's Leader until the start of your next turn.",
   "keywords": [
-    "Blocker",
-    "When Attacking",
-    "When Blocking",
-    "Once Per Turn"
+    "Blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nWhen Attacking / When Blocking Once Per Turn This Character's base power becomes the same as the power of your opponent's Leader until the start of your next turn.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This Character's base power becomes the same as the power of your opponent's Leader until the start of your next turn.",
-        "powerMod": {
-          "amount": 0,
-          "duration": "this turn"
+      "timing": "whenAttackingOrBlocking",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCharacter"
         },
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Blocking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+        "opponentLeader": {
+          "side": "opponent",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "opponentLeader"
+        }
       },
-      "effect": {
-        "text": "This Character's base power becomes the same as the power of your opponent's Leader until the start of your next turn.",
-        "powerMod": {
-          "amount": 0,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "setBaseFromSelector",
+          "sourceSelector": "opponentLeader",
+          "duration": "untilStartOfYourNextTurn",
+          "target": "thisCharacter"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "film",
+    "shipbuildingTown"
+  ]
 }

@@ -1,73 +1,82 @@
 {
-  "id": "OP12-117",
-  "set": "OP12",
-  "number": 117,
-  "name": "Slam Gibson",
-  "category": "Event",
+  "cardName": "Slam Gibson",
+  "cardId": "OP12-117",
+  "cardType": "event",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "Supernovas",
     "Kid Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP12/OP12-117.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
+  "traits": [
+    "supernovas",
+    "kidPirates"
   ],
-  "trigger": null,
-  "text": "Main: You may rest 5 of your DON!! cards: If your Leader has the (Supernovas) type, place up to 1 Character with a cost of 9 or lower into the owners top or bottom Life cards face-down. \nCounter: Up to 1 of your Leader gains +3000 power during this battle.",
+  "rarity": "R",
+  "setId": "OP12",
+  "cardNumber": "117",
+  "printedText": "[Main] You may rest 5 of your DON!! cards: If your Leader has the {Supernovas} type, add up to 1 Character with a cost of 9 or less to the top or bottom of the owner's Life cards face-down.\n[Counter] Your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 5,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 5
+        "type": "restDonFromCostArea",
+        "count": 5,
+        "may": true
       },
-      "effect": {
-        "text": "If your Leader has the (Supernovas) type, place up to 1 Character with a cost of 9 or lower into the owners top or bottom Life cards face-down.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Supernovas"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "charCost9OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 9
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderHasTrait",
+            "op": "=",
+            "value": "supernovas"
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "charCost9OrLess",
+              "destination": "topOrBottomOfLife"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "upTo1:yourLeader"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "selfLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

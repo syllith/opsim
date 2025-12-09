@@ -1,62 +1,58 @@
 {
-  "id": "OP08-070",
-  "set": "OP08",
-  "number": 70,
-  "name": "Baron Tamago",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Big Mom Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-070.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. DON!! -1: Play up to 1 [Vicsount Hiyoko] with a cost of 5 or less from your hand.",
+  "cardName": "Baron Tamago",
+  "cardId": "OP08-070",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
+  "rarity": "C",
+  "setId": "OP08",
+  "cardNumber": "070",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [On K.O.] DON!! −1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play up to 1 [Viscount Hiyoko] with a cost of 5 or less from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onKO",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "hiyokoFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Viscount Hiyoko"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "DON!! -1: Play up to 1 [Vicsount Hiyoko] with a cost of 5 or less from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "hiyokoFromHand",
+          "payCost": false,
+          "enterRested": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a '打' symbol in the top right corner, which is likely a placeholder or test mark and not part of the official card text."
-  }
+  ]
 }

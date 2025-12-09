@@ -1,42 +1,100 @@
 {
-  "id": "EB02-007",
-  "set": "EB02",
-  "number": 7,
-  "name": "Carving Hoof Cherry Blossom Blizzard",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Animal", "W7", "Straw Hat Pirates"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-007.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": {
-    "text": "K.O up one of your opponent's characters with a Power of 4000 or less."
-  },
-  "text": "[Main] Give up to 3 of your Leader or Characters gain +1000 Power during this turn. Then, K.O up to one of your opponent's characters with a Power of 3000 or less.\n[Trigger] K.O up one of your opponent's characters with a Power of 4000 or less.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB02-007",
+  "printedText": "Main Give up to 3 of your Leader or Characters +1000 Power during this turn. Then, K.O up to one of your opponent's characters with a Power of 3000 or less.\nTrigger K.O up to one of your opponent's characters with a Power of 4000 or less.",
+  "cardNumber": "007",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 3 of your Leader or Characters gain +1000 Power during this turn. Then, K.O up to one of your opponent's characters with a Power of 3000 or less.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "main",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
           "amount": 1000,
-          "duration": "duringThisTurn"
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 3,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          }
         },
-        "targets": ["upTo3:ally:LeaderOrCharacter", "upTo1:opponent:Character:power<=3000"],
-        "conditions": []
-      }
+        {
+          "target": {
+            "filters": [
+              {
+                "value": 3000,
+                "field": "power",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "type": "ko"
+        }
+      ]
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "target": {
+            "filters": [
+              {
+                "value": 4000,
+                "field": "power",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "type": "ko"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "C",
+  "setId": "EB02",
+  "counter": 0,
+  "cardName": "Carving Hoof Cherry Blossom Blizzard",
+  "types": [
+    "Animal",
+    "W7",
+    "Straw Hat Pirates"
+  ],
+  "cost": 3,
+  "colors": [
+    "red"
+  ],
+  "traits": [
+    "animal",
+    "waterSeven",
+    "strawHatPirates"
+  ]
 }

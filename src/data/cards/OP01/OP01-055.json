@@ -1,37 +1,51 @@
 {
-  "id": "OP01-055",
-  "set": "OP01",
-  "number": 55,
-  "name": "You Can Be My Samurai!!!",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["Wano Country", "Kozuki Family"],
+  "cardName": "You Can Be My Samurai!!!",
+  "cardId": "OP01-055",
+  "cardType": "event",
+  "colors": [
+    "green"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Wano Country",
+    "Kozuki Family"
+  ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-055.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main"],
-  "trigger": null,
-  "text": "[Main] You may rest 2 of your Characters: Draw 2 cards.",
+  "setId": "OP01",
+  "cardNumber": "055",
+  "printedText": "Main You may rest 2 of your Characters: Draw 2 cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest 2 of your Characters: Draw 2 cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:Character", "deck"],
-        "conditions": ["mayRest2Characters"]
-      }
+      "timing": "main",
+      "frequency": "none",
+      "cost": {
+        "type": "restFromField",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self",
+          "bindAs": "restedForCost"
+        },
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "wanoCountry",
+    "kozukiFamily"
+  ]
 }

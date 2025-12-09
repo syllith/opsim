@@ -1,48 +1,42 @@
 {
-  "id": "P-033",
-  "set": "P",
-  "number": 33,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "L",
-  "art": "/cards/P/P-033.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may return this Character to the bottom of its owner's deck. Draw 1 card.",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "P-033",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-033",
+  "printedText": "[Activate: Main] You may place this Character at the bottom of the owner's deck: Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveFromField",
+        "selector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "destination": "bottomOfDeck",
+        "may": true
       },
-      "effect": {
-        "text": "You may return this Character to the bottom of its owner's deck. Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Rarity 'L' is visible in the bottom right corner. The card is a Character with a cost of 4, power of 5000, and a counter of 1000. The text is clearly readable."
-  }
+  ]
 }

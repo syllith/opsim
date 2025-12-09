@@ -1,65 +1,101 @@
 {
-  "id": "OP05-016",
-  "set": "OP05",
-  "number": 16,
-  "name": "Morley",
-  "category": "Character",
+  "cardName": "Morley",
+  "cardId": "OP05-016",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Giant",
     "Revolutionary Army"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-016.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "You may trash 1 card. If your leader is multicolored, play this card."
-  },
-  "text": "When Attacking: If this character has 7000 power or more, your opponent cannot activate Blocker during this battle.",
+  "rarity": "R",
+  "setId": "OP05",
+  "cardNumber": "016",
+  "printedText": "[When Attacking] If this Character has 7000 power or more, your opponent cannot activate [Blocker] during this battle.\n[Trigger] You may trash 1 card from your hand: If your Leader is multicolored, play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "thisCardPower",
+        "op": ">=",
+        "value": 7000
       },
-      "effect": {
-        "text": "If this character has 7000 power or more, your opponent cannot activate Blocker during this battle.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentBlockers": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasKeyword",
+              "op": "=",
+              "value": "blocker"
+            }
+          ],
+          "min": 0,
+          "max": 10,
+          "upTo": true,
+          "whoChooses": "system",
+          "bindAs": "opponentBlockers"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "target": "opponentBlockers",
+          "duration": "thisBattle",
+          "restrictionKind": "blocker"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card. If your leader is multicolored, play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderColorCount",
+        "op": ">=",
+        "value": 2
+      },
+      "selectors": {
+        "thisCardInLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "whoChooses": "system",
+          "bindAs": "thisCardInLife"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardInLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "giant",
+    "revolutionaryArmy"
+  ]
 }

@@ -1,33 +1,28 @@
 {
-  "id": "OP05-044",
-  "set": "OP05",
-  "number": 44,
-  "name": "John Giant",
-  "category": "Character",
+  "cardName": "John Giant",
+  "cardId": "OP05-044",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 8,
+  "power": 10000,
+  "counter": 1000,
   "types": [
     "Giant",
     "Navy"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-044.png",
-  "stats": {
-    "cost": 8,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "044",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "giant",
+    "navy"
+  ]
 }

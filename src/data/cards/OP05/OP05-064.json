@@ -1,48 +1,70 @@
 {
-  "id": "OP05-064",
-  "set": "OP05",
-  "number": 64,
-  "name": "Killer",
-  "category": "Character",
+  "cardName": "Killer",
+  "cardId": "OP05-064",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": "Slash",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Kid Pirates"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-064.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck, reveal up to 1 [Kid Pirates] type card other than [Killer] and add it to your hand. Return the rest to the bottom of your deck in any order.",
+  "setId": "OP05",
+  "cardNumber": "064",
+  "printedText": "[On Play] Look at the top 5 cards of your deck, reveal up to 1 {Kid Pirates} type card other than [Killer] and add it to your hand. Return the rest to the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "killerSearch": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Kid Pirates"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Killer"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "killerSearch"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to 1 [Kid Pirates] type card other than [Killer] and add it to your hand. Return the rest to the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "killerSearch",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "kidPirates"
+  ]
 }

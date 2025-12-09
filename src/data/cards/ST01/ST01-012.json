@@ -1,50 +1,49 @@
 {
-  "id": "ST01-012",
-  "set": "ST01",
-  "number": 12,
-  "name": "Monkey. D. Luffy",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "ST01-012",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 0,
+  "attributes": ["strike"],
   "types": ["Supernovas", "Straw Hat Crew"],
-  "rarity": "SR",
-  "art": "/cards/ST01/ST01-012.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
+  "traits": ["supernovas", "strawHatCrew"],
+  "rarity": "superRare",
+  "setId": "ST01",
+  "cardNumber": "012",
+  "printedText": "[Rush] (This card can attack on the turn in which it is played.) [DON!! x2] [When Attacking] Your opponent cannot activate [Blocker] during this battle.",
   "keywords": ["Rush"],
-  "trigger": null,
-  "text": "Rush. DON!! x2 — When Attacking: Your opponent cannot activate Blocker during this battle.",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character can attack on the turn in which it is played.",
-        "grants": ["Rush"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your opponent cannot activate Blocker during this battle.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:All"],
-        "conditions": ["blockerDisabled"]
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "givenDonCount",
+        "op": ">=",
+        "value": 2
+      },
+      "selectors": {
+        "opponentBlockers": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "hasKeyword",
+              "op": "=",
+              "value": "Blocker"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "blocker",
+          "target": "opponentBlockers",
+          "duration": "thisBattle"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

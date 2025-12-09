@@ -1,50 +1,18 @@
 {
-  "id": "P-089",
-  "set": "P",
-  "number": 89,
-  "name": "Tony Tony.Chopper",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animal",
-    "Straw Hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-089.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Tony Tony.Chopper",
+  "cardId": "P-089",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Animal", "Straw Hat Crew"],
+  "traits": ["animal", "strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-089",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: You may rest 1 DON!! from your cost area. If you do, this character gains +1000 power until end of turn.",
-  "abilities": [
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "You may rest 1 DON!! from your cost area. If you do, this character gains +1000 power until end of turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "until end of turn"
-        },
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "abilities": []
 }

@@ -1,37 +1,65 @@
 {
-  "id": "OP01-052",
-  "set": "OP01",
-  "number": 52,
-  "name": "Raizo",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Wano Country", "Nine Red Scabbards"],
-  "rarity": "C",
-  "art": "/cards/OP01/OP01-052.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["When Attacking", "Once Per Turn"],
-  "trigger": null,
-  "text": "[When Attacking] [Once Per Turn] If you have 2 or more rested Characters, draw 1 card.",
+  "cardName": "Raizo",
+  "cardId": "OP01-052",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "Wano Country",
+    "Nine Red Scabbards"
+  ],
+  "rarity": "UC",
+  "setId": "OP01",
+  "cardNumber": "052",
+  "printedText": "When Attacking Once Per Turn If you have 2 or more rested Characters, draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 2 or more rested Characters, draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["has2OrMoreRestedCharacters"]
-      }
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "myRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "myRestedCharacters"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "myRestedCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "wanoCountry",
+    "nineRedScabbards"
+  ]
 }

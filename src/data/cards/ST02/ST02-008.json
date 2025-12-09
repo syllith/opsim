@@ -1,37 +1,47 @@
 {
-  "id": "ST02-008",
-  "set": "ST02",
-  "number": 8,
-  "name": "Scratchmen Apoo",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Ranged",
+  "cardName": "Scratchmen Apoo",
+  "cardId": "ST02-008",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["ranged"],
   "types": ["Supernovas", "On Air Pirates"],
-  "rarity": null,
-  "art": "/cards/ST02/ST02-008.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
+  "traits": ["supernovas", "onAirPirates"],
+  "rarity": "common",
+  "setId": "ST02",
+  "cardNumber": "008",
+  "printedText": "[DON!! x1] [When Attacking] Rest up to 1 of your opponent's DON!! cards.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 — When Attacking: Rest up to 1 of your opponent's DON!! cards.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's DON!! cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:donInCostArea"],
-        "conditions": []
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "givenDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "opponentDon": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentDon",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

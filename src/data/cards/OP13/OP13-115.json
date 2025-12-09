@@ -1,49 +1,63 @@
 {
-  "id": "OP13-115",
-  "set": "OP13",
-  "number": 115,
-  "name": "Paper Art Afterimage",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Egghead",
-    "CP0"
-  ],
+  "cardName": "Paper Art Afterimage",
+  "cardId": "OP13-115",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 2,
+  "types": ["Egghead", "CP0"],
+  "traits": ["egghead", "cp0"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-115.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "115",
+  "printedText": "[Counter] Up to 1 of your Leader or Character cards gains +3000 power during this battle. Then, if your opponent has 2 or less Life cards, up to 1 of your Leader or Character cards gains +1000 power during this turn.\n[Trigger] Draw 1 card.",
   "keywords": [],
-  "trigger": {
-    "text": "Draw 1 card."
-  },
-  "text": "Up to 1 of your Leader or Character cards gains +3000 power during this battle. Then, if your opponent has 2 or less Life cards, up to 1 of your Leader or Character cards gains +1000 power during this turn.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "selfLeaderOrCharacterUpToOne": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Character cards gains +3000 power during this battle. Then, if your opponent has 2 or less Life cards, up to 1 of your Leader or Character cards gains +1000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "selfLeaderOrCharacterUpToOne"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "selfLeaderOrCharacterUpToOne",
+          "condition": {
+            "field": "opponentLife",
+            "op": "<=",
+            "value": 2
+          }
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

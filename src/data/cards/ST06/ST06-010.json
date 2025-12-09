@@ -1,37 +1,43 @@
 {
-  "id": "ST06-010",
-  "set": "ST06",
-  "number": 10,
-  "name": "Helmeppo",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
+  "cardName": "Helmeppo",
+  "cardId": "ST06-010",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Navy"],
-  "rarity": null,
-  "art": "/cards/ST06/ST06-010.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Give up to 1 of your opponent's Characters -3 to their cost during this turn.",
+  "traits": ["navy"],
+  "rarity": "C",
+  "setId": "ST06",
+  "cardNumber": "010",
+  "printedText": "[On Play] Give up to 1 of your opponent's Characters -3 to their cost during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -3 to their cost during this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["reduceCost:-3","duration:turn"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "costDownTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -3,
+          "duration": "thisTurn",
+          "target": "costDownTarget"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

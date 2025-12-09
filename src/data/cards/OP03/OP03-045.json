@@ -1,80 +1,70 @@
 {
-  "id": "OP03-045",
-  "set": "OP03",
-  "number": 45,
-  "name": "Carne",
-  "category": "Character",
+  "cardName": "Carne",
+  "cardId": "OP03-045",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "East Blue"
   ],
   "rarity": "UC",
-  "art": "/cards/OP03/OP03-045.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "045",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Opponent's Turn] If your deck has 20 or less cards, this Character gains +3000 power.",
   "keywords": [
-    "Blocker",
-    "Opponent's Turn"
+    "Blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOpponent's Turn If your deck has 20 or less cards, this Character gains +3000 power.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your deck has 20 or less cards, this Character gains +3000 power.",
-        "grants": [
-          "Opponent's Turn"
-        ],
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "deckSize<=20"
-        ],
-        "giveDon": null
-      }
+          "duration": "permanent",
+          "target": "thisCard",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "isOpponentsTurn",
+                "op": "=",
+                "value": true
+              },
+              {
+                "field": "deckCountSelf",
+                "op": "<=",
+                "value": 20
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'UC' as printed in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

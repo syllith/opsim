@@ -1,65 +1,78 @@
 {
-  "id": "OP10-117",
-  "set": "OP10",
-  "number": 117,
-  "name": "ROOM",
-  "category": "Event",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Supernova",
-    "Heart Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-117.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 1 card."
-  },
-  "text": "If you have 1 or less life, give up to 1 of your leader or characters +3000 Power for this battle. Then, set up to 1 of your 5 cost or lower characters active.",
+  "cardName": "ROOM",
+  "cardId": "OP10-117",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 1,
+  "types": ["Supernova", "Heart Pirates"],
+  "traits": ["supernova", "heartPirates"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "117",
+  "printedText": "[Counter] If you have 1 or less Life, give up to 1 of your Leaders or Characters +3000 power for this battle. Then, set up to 1 of your 5 cost or lower Characters active.\n[Trigger] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "condition": {
+        "field": "selfLifeCount",
+        "op": "<=",
+        "value": 1
       },
-      "effect": {
-        "text": "If you have 1 or less life, give up to 1 of your leader or characters +3000 Power for this battle. Then, set up to 1 of your 5 cost or lower characters active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "selfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "selfLeaderOrCharacter"
+        },
+        "selfCost5OrLessChar": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "selfCost5OrLessChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "selfLeaderOrCharacter"
+        },
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfCost5OrLessChar"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

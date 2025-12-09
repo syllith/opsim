@@ -1,56 +1,56 @@
 {
-  "id": "PRB01-001",
-  "set": "PRB01",
-  "number": 1,
-  "name": "Sanji",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/PRB01/PRB01-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "cardName": "Sanji",
+  "cardId": "PRB01-001",
+  "cardType": "leader",
+  "colors": ["red"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "P",
+  "setId": "PRB01",
+  "cardNumber": "001",
+  "printedText": "[Activate: Main] [Once Per Turn] Up to one of your cost 8 or lower Characters without an [On Play] effect gains Rush until the end of this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn Up to one of your cost 8 or lower characters without an On Play effect gains Rush until the end of this turn.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "yourCharNoOnPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 8
+            },
+            {
+              "field": "hasOnPlayEffect",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to one of your cost 8 or lower characters without an On Play effect gains Rush until the end of this turn.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "cost<=8",
-          "withoutOnPlayEffect"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "thisTurn",
+          "target": "yourCharNoOnPlay"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

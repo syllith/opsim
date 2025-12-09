@@ -1,51 +1,63 @@
 {
-  "id": "OP05-027",
-  "set": "OP05",
-  "number": 27,
-  "name": "Trafalgar Law",
-  "category": "Character",
+  "cardName": "Trafalgar Law",
+  "cardId": "OP05-027",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Donquixote Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-027.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may trash this character: Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "setId": "OP05",
+  "cardNumber": "027",
+  "printedText": "[Activate: Main] You may trash this Character: Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may trash this character: Rest up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost3"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "restTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

@@ -1,46 +1,38 @@
 {
-  "id": "OP12-040",
-  "set": "OP12",
-  "number": 40,
-  "name": "Kuzan",
-  "category": "Leader",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Navy"
-  ],
+  "cardName": "Kuzan",
+  "cardId": "OP12-040",
+  "cardType": "leader",
+  "colors": ["blue"],
+  "power": 5000,
+  "life": 5,
+  "attributes": ["special"],
+  "types": ["Navy"],
+  "traits": ["navy"],
   "rarity": "L",
-  "art": "/cards/OP12/OP12-040.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "040",
+  "printedText": "When you trash cards from your hand due to your {Navy} card effects, you may draw an equal number of cards that was trashed due to that effect.",
   "keywords": [],
-  "trigger": null,
-  "text": "When you trash cards from your hand due to your (Navy) card effect's, you may draw an equal number of cards that was trashed due to that effect.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "When you trash cards from your hand due to your (Navy) card effect's, you may draw an equal number of cards that was trashed due to that effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "trashCardFromHandByOwnNavyEffect",
+          "target": "selfHandCardTrashedByNavyEffect",
+          "may": false,
+          "actions": [
+            {
+              "type": "draw",
+              "count": 1,
+              "side": "self",
+              "may": true
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

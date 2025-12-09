@@ -1,40 +1,96 @@
 {
-  "id": "EB03-009",
-  "set": "EB03",
-  "number": 9,
-  "name": "Makino",
-  "category": "Character",
-  "colors": ["Red", "Green"],
-  "attribute": "Wisdom",
-  "types": ["Windmill Village"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-009.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this Character: Up to 1 of your Characters with no base effect gains +2000 power during this turn.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB03-009",
+  "printedText": "Activate:Main You may rest this Character: Up to 1 of your Characters with no base effect gains +2000 power during this turn.",
+  "types": [
+    "Windmill Village"
+  ],
+  "cardNumber": "009",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Character: Up to 1 of your Characters with no base effect gains +2000 power during this turn.",
-        "grants": [],
-        "powerMod": {
-          "amount": 2000,
-          "duration": "duringThisTurn"
-        },
-        "targets": ["upTo1:ally:Character:noBaseEffect"],
-        "conditions": ["restSelf"]
-      }
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "min": 0,
+          "type": "chooseMode",
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "setState",
+                  "target": {
+                    "filters": [
+                      {
+                        "value": true,
+                        "field": "isSelf",
+                        "op": "="
+                      }
+                    ],
+                    "zones": [
+                      "character"
+                    ],
+                    "min": 1,
+                    "max": 1,
+                    "type": "character",
+                    "side": "self"
+                  },
+                  "state": "rested"
+                },
+                {
+                  "type": "modifyStat",
+                  "mode": "add",
+                  "stat": "power",
+                  "duration": "thisTurn",
+                  "amount": 2000,
+                  "target": {
+                    "filters": [
+                      {
+                        "value": false,
+                        "field": "hasBaseEffect",
+                        "op": "="
+                      }
+                    ],
+                    "zones": [
+                      "character"
+                    ],
+                    "upTo": true,
+                    "min": 0,
+                    "max": 1,
+                    "type": "character",
+                    "side": "self",
+                    "whoChooses": "self"
+                  }
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "noop"
+                }
+              ]
+            }
+          ],
+          "max": 1
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 2000,
+  "cardName": "Makino",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "windmillVillage"
+  ]
 }

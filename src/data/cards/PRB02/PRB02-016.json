@@ -1,73 +1,91 @@
 {
-  "id": "PRB02-016",
-  "set": "PRB02",
-  "number": 16,
-  "name": "Otama",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Land of Wano"
-  ],
-  "rarity": "R",
-  "art": "/cards/PRB02/PRB02-016.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Rest up to 1 of your opponent's Characters with a cost of 4 or less."
-  },
-  "text": "Activate: Main You may rest this Character and add 1 card from the top or bottom of your Life cards to your hand: Up to 1 of your Leader or Characters gains +3000 power during this turn. Trigger Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "cardName": "Otama",
+  "cardId": "PRB02-016",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 2,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Land of Wano"],
+  "traits": ["landOfWano"],
+  "setId": "PRB02",
+  "cardNumber": "016",
+  "printedText": "[Activate: Main] You may rest this Character and add 1 card from the top or bottom of your Life cards to your hand: Up to 1 of your Leader or Characters gains +3000 power during this turn.\n[Trigger] Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "moveTopLifeCard",
+            "side": "self",
+            "destination": "hand",
+            "position": "topOrBottom"
+          }
+        ]
       },
-      "effect": {
-        "text": "You may rest this Character and add 1 card from the top or bottom of your Life cards to your hand: Up to 1 of your Leader or Characters gains +3000 power during this turn.",
-        "powerMod": {
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "up to 1 of your Leader or Characters"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponentCharacterCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cardType",
+              "op": "=",
+              "value": "character"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
-        "powerMod": null,
-        "targets": [
-          "up to 1 of your opponent's Characters with a cost of 4 or less"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCharacterCost4OrLess",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "alsoTreatedAsNames": []
 }

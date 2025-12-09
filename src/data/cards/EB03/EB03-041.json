@@ -1,53 +1,80 @@
 {
-  "id": "EB03-041",
-  "set": "EB03",
-  "number": 41,
-  "name": "Kujyaku",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Special",
-  "types": ["Navy", "SWORD"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-041.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Opponent's Turn", "On Play"],
-  "trigger": null,
-  "text": "[Opponent's Turn] All of your Characters with a {SWORD} type and a cost of 6 or less gain +2000 power.\n[On Play] You may trash 1 {Navy} type card from your hand: Draw 2 cards.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB03-041",
+  "printedText": "Opponent's Turn All of your Characters with a {SWORD} type and a cost of 6 or less gain +2000 power.\n[On Play] You may trash 1 {Navy} type card from your hand: Draw 2 cards.",
+  "types": [
+    "Navy",
+    "SWORD"
+  ],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "All of your Characters with a {SWORD} type and a cost of 6 or less gain +2000 power.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "endOfOpponentsTurn",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "untilEndOfOpponentsNextTurn",
           "amount": 2000,
-          "duration": "continuous"
-        },
-        "targets": ["ally:allCharacters:SWORD:cost<=6"],
-        "conditions": ["opponentsTurn"]
-      }
+          "target": {
+            "type": "character",
+            "side": "self",
+            "filters": [
+              {
+                "op": "=",
+                "field": "types",
+                "value": "SWORD"
+              },
+              {
+                "op": "<=",
+                "field": "cost",
+                "value": 6
+              }
+            ],
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ],
+      "frequency": "none"
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 {Navy} type card from your hand: Draw 2 cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["trash1NavyFromHand"]
-      }
+      "cost": {
+        "type": "trashFromHand",
+        "filters": [
+          "types=Navy"
+        ],
+        "maxCards": 1,
+        "minCards": 1
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "count": 2,
+          "type": "draw"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 0,
+  "cardNumber": "041",
+  "cardName": "Kujyaku",
+  "rarity": "R",
+  "cost": 4,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy",
+    "sword"
+  ]
 }

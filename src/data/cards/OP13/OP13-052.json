@@ -1,52 +1,74 @@
 {
-  "id": "OP13-052",
-  "set": "OP13",
-  "number": 52,
-  "name": "Boa Marigold",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Kuja Pirates"
-  ],
+  "cardName": "Boa Marigold",
+  "cardId": "OP13-052",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Kuja Pirates"],
+  "traits": ["kujaPirates"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-052.png",
-  "stats": {
-    "cost": 5,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader is [Boa Hancock], play up to 1 [Boa Hancock] with a cost of 6 or less from your hand.",
+  "setId": "OP13",
+  "cardNumber": "052",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If your Leader is [Boa Hancock], play up to 1 [Boa Hancock] with a cost of 6 or less from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "boaLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Boa Hancock"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "upToOneBoaFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Boa Hancock"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your Leader is [Boa Hancock], play up to 1 [Boa Hancock] with a cost of 6 or less from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Boa Hancock]"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "boaLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "upToOneBoaFromHand",
+          "payCost": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

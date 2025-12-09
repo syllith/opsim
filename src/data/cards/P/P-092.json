@@ -1,69 +1,61 @@
 {
-  "id": "P-092",
-  "set": "P",
-  "number": 92,
-  "name": "Coby",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy",
-    "SWORD"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-092.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Opponent's Turn",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "Opponent's Turn: This Character gains -3000 power. When Attacking: If your Leader has the (Navy) type, your Leader's original power becomes 7000 until the end of your opponent's next turn.",
+  "cardName": "Coby",
+  "cardId": "P-092",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 7,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Navy", "SWORD"],
+  "traits": ["navy", "sword"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-092",
+  "printedText": "Opponent's Turn This Character gains -3000 power.\nWhen Attacking If your Leader has the {Navy} type, your Leader's original power becomes 7000 until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "isOpponentsTurn",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "This Character gains -3000 power.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -3000,
+          "duration": "thisTurn",
+          "target": "thisCharacter"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "navy"
       },
-      "effect": {
-        "text": "If your Leader has the (Navy) type, your Leader's original power becomes 7000 until the end of your opponent's next turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "setBase",
           "amount": 7000,
-          "duration": "until the end of your opponent's next turn"
-        },
-        "conditions": [
-          "your Leader has the (Navy) type"
-        ],
-        "giveDon": null
-      }
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "selfLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

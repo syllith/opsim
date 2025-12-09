@@ -1,39 +1,67 @@
 {
-  "id": "EB01-038",
-  "set": "EB01",
-  "number": 38,
-  "name": "Okama Way",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Baroque Works"],
-  "rarity": "UC",
-  "art": "/cards/EB01/EB01-038.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger", "DON!! -1"],
-  "trigger": {
-    "text": "DON!! -1 Draw 2 cards"
-  },
-  "text": "[Counter] DON!! -1 If your leader has \"Baroque Works\" in its Types, choose one of your characters. It becomes the target of the attack.\n[Trigger] DON!! -1 Draw 2 cards",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB01-038",
+  "printedText": "[Counter] DON!! -1 If your leader has \"Baroque Works\" in its Types, choose one of your characters. It becomes the target of the attack.\n[Trigger] DON!! -1 Draw 2 cards.",
+  "types": [
+    "Baroque Works"
+  ],
+  "cardNumber": "038",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "DON!! -1 If your leader has \"Baroque Works\" in its Types, choose one of your characters. It becomes the target of the attack.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:Character"],
-        "conditions": ["leaderTypeBaroqueWorks"]
+      "actions": [
+        {
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "type": "redirectAttack"
+        }
+      ],
+      "condition": {
+        "value": "Baroque Works",
+        "field": "leader.types",
+        "op": "="
+      },
+      "frequency": "none",
+      "timing": "counter",
+      "selectors": {},
+      "cost": {
+        "count": 1,
+        "type": "donMinus"
       }
+    },
+    {
+      "cost": {
+        "count": 1,
+        "type": "donMinus"
+      },
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "count": 2,
+          "type": "draw"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Okama Way",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "purple"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

@@ -1,72 +1,124 @@
 {
-  "id": "PRB02-015",
-  "set": "PRB02",
-  "number": 15,
-  "name": "Shiryu",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Blackbeard Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/PRB02/PRB02-015.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Shiryu",
+  "cardId": "PRB02-015",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
+  "setId": "PRB02",
+  "cardNumber": "015",
+  "printedText": "If your Leader has the {Blackbeard Pirates} type, this Character gains Blocker and +4 Cost.\n[On K.O.] If your Leader has the {Blackbeard Pirates} type, K.O. up to 1 of your opponent's Characters with a base cost of 4 or less.",
   "keywords": [],
-  "trigger": null,
-  "text": "If your Leader has the {Blackbeard Pirates} type, this Character gains Blocker and +4 Cost. On K.O. If your Leader has the {Blackbeard Pirates} type, K.O. up to 1 of your opponent's Characters with a base cost of 4 or less.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderBlackbeardPirates",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "If your Leader has the {Blackbeard Pirates} type, this Character gains Blocker and +4 Cost.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "conditions": [
-          "your Leader has the {Blackbeard Pirates} type"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "leaderBlackbeardPirates": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "blackbeardPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "thisCharacter"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 4,
+          "duration": "permanent",
+          "target": "thisCharacter"
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderBlackbeardPirates",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "If your Leader has the {Blackbeard Pirates} type, K.O. up to 1 of your opponent's Characters with a base cost of 4 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "your Leader has the {Blackbeard Pirates} type",
-          "base cost of 4 or less"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "leaderBlackbeardPirates": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "blackbeardPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "opponentCharacterBaseCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cardType",
+              "op": "=",
+              "value": "character"
+            },
+            {
+              "field": "baseCost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacterBaseCost4OrLess",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "alsoTreatedAsNames": []
 }

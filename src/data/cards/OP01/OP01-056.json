@@ -1,37 +1,62 @@
 {
-  "id": "OP01-056",
-  "set": "OP01",
-  "number": 56,
-  "name": "Demon Face",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["Supernovas", "Hawkins Pirates"],
+  "cardName": "Demon Face",
+  "cardId": "OP01-056",
+  "cardType": "event",
+  "colors": [
+    "green"
+  ],
+  "cost": 6,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Supernovas",
+    "Hawkins Pirates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-056.png",
-  "stats": {
-    "cost": 6,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main"],
-  "trigger": null,
-  "text": "[Main] K.O. up to 2 of your opponent's rested Characters with a cost of 5 or less.",
+  "setId": "OP01",
+  "cardNumber": "056",
+  "printedText": "Main K.O. up to 2 of your opponent's rested Characters with a cost of 5 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 2 of your opponent's rested Characters with a cost of 5 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo2:opponent:Character"],
-        "conditions": ["restedCharacter", "opponentCharacterCost<=5"]
-      }
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "koTargets": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTargets"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTargets"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "supernovas",
+    "hawkinsPirates"
+  ]
 }

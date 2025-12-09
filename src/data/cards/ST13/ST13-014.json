@@ -1,37 +1,82 @@
 {
-  "id": "ST13-014",
-  "set": "ST13",
-  "number": 14,
-  "name": "Monkey D. Luffy",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "ST13-014",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Goa Kingdom"],
+  "traits": ["goaKingdom"],
   "rarity": "C",
-  "art": "/cards/ST13/ST13-014.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "Activate: Main You may trash this character: Reveal the top card of your life, if the card is a 5 cost (Monkey D. Luffy) card, you may play it. If you play it, up to 1 of your leaders gets +2000 Power until the end of your opponent's turn.",
+  "setId": "ST13",
+  "cardNumber": "014",
+  "printedText": "[Activate: Main] You may trash this character: Reveal the top card of your life, if the card is a 5 cost {Monkey D. Luffy} card, you may play it. If you play it, up to 1 of your leader gets +2000 Power until the end of your opponent's turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash this character: Reveal the top card of your life, if the card is a 5 cost (Monkey D. Luffy) card, you may play it. If you play it, up to 1 of your leaders gets +2000 Power until the end of your opponent's turn.",
-        "powerMod": { "amount": 2000, "duration": "endOfOpponentsTurn" },
-        "targets": ["self:trash:optional", "self:lifeTop:reveal", "oneAllyCharacter=5:name=Monkey D. Luffy:play", "ally:Leader"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "trashThis",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "revealLife",
+          "count": 1,
+          "side": "self",
+          "all": false,
+          "ordering": "keep"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "topLifeCardCost",
+                "op": "=",
+                "value": 5
+              },
+              {
+                "field": "topLifeCardName",
+                "op": "=",
+                "value": "Monkey D. Luffy"
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "playCard",
+              "sourceZone": "life",
+              "target": "selfTopLifeCard",
+              "payCost": true,
+              "may": true
+            },
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 2000,
+              "duration": "untilEndOfOpponentsNextTurn",
+              "target": {
+                "side": "self",
+                "type": "leader",
+                "zones": ["leader"],
+                "min": 0,
+                "max": 1,
+                "upTo": true
+              },
+              "condition": {
+                "field": "cardPlayedFromLifeByThisEffect",
+                "op": "=",
+                "value": true
+              }
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

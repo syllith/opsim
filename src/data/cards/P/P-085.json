@@ -1,53 +1,64 @@
 {
-  "id": "P-085",
-  "set": "P",
-  "number": 85,
-  "name": "Jewelry Bonney",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Supernova",
-    "Bonney Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-085.png",
-  "stats": {
-    "cost": 5,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the {Supernovas} type and your life total is equal to or less than your opponent's, place up to one of your opponent's cost 4 or lower characters on the top or bottom of their life face-up.",
+  "cardName": "Jewelry Bonney",
+  "cardId": "P-085",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Supernova", "Bonney Pirates"],
+  "traits": ["supernova", "bonneyPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-085",
+  "printedText": "[On Play] If your Leader has the {Supernovas} type and your life total is equal to or less than your opponent's, place up to 1 of your opponent's cost 4 or lower Characters on the top or bottom of their Life face-up.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "supernova"
+          },
+          {
+            "field": "lifeTotalSelf",
+            "op": "<=",
+            "fieldRef": "lifeTotalOpponent"
+          }
+        ]
       },
-      "effect": {
-        "text": "If your Leader has the {Supernovas} type and your life total is equal to or less than your opponent's, place up to one of your opponent's cost 4 or lower characters on the top or bottom of their life face-up.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderHasType{Supernovas}",
-          "yourLifeTotal <= opponentLifeTotal"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentLowCostCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentLowCostCharacter",
+          "destination": "topOrBottomOfLife",
+          "ordering": "keep",
+          "faceUp": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is 'SP' as printed. Power and life are not printed on the card."
-  }
+  ]
 }

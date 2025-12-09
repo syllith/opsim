@@ -1,37 +1,75 @@
 {
-  "id": "ST21-001",
-  "set": "ST21",
-  "number": 1,
-  "name": "Monkey D. Luffy",
-  "category": "Leader",
-  "colors": ["Red"],
-  "attribute": "Strike",
-  "types": ["Four Emperors", "Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/ST21/ST21-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "DON!! x1 Activate: Main Once Per Turn Give one of your characters up to 2 rested Don!! cards.",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "ST21-001",
+  "cardType": "leader",
+  "colors": [
+    "red"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "attributes": [
+    "strike"
+  ],
+  "types": [
+    "Four Emperors",
+    "Straw Hat Crew"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "strawHatCrew"
+  ],
+  "rarity": "starter",
+  "setId": "ST21",
+  "cardNumber": "001",
+  "printedText": "[DON!! x1] [Activate: Main] [Once Per Turn] Give one of your Characters up to 2 rested DON!! cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give one of your characters up to 2 rested Don!! cards.",
-        "powerMod": null,
-        "targets": ["oneAllyCharacter"],
-        "conditions": ["donAttached"]
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "giveDon": { "amount": 2, "state": "rested", "to": "oneAllyCharacter" }
+      "selectors": {
+        "luffyGiveTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "restedDonsToAttach": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": "luffyGiveTarget",
+          "selector": "restedDonsToAttach"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

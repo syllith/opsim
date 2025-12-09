@@ -1,49 +1,82 @@
 {
-  "id": "OP06-031",
-  "set": "OP06",
-  "number": 31,
-  "name": "Hatchan",
-  "category": "Character",
+  "cardName": "Hatchan",
+  "cardId": "OP06-031",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
-    "Fishman",
-    "Former Arolng Pirates"
+    "Fish-Man",
+    "Former Arlong Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP06/OP06-031.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP06",
+  "cardNumber": "031",
+  "printedText": "[Trigger] Play up to 1 {Fish-Man} or {Merfolk} Character card with a cost of 3 or less from your hand.",
   "keywords": [],
-  "trigger": {
-    "text": "Play up to one <Fishman> or <Merfolk> character with a cost of 3 or less from your hand."
-  },
-  "text": null,
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "logic": "OR",
+                  "any": [
+                    {
+                      "field": "types",
+                      "op": "=",
+                      "value": "Fish-Man"
+                    },
+                    {
+                      "field": "types",
+                      "op": "=",
+                      "value": "Merfolk"
+                    }
+                  ]
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 3
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Play up to one <Fishman> or <Merfolk> character with a cost of 3 or less from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but all data is extracted from printed text."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "fishMan",
+    "formerArlongPirates"
+  ]
 }

@@ -1,75 +1,76 @@
 {
-  "id": "OP04-059",
-  "set": "OP04",
-  "number": 59,
-  "name": "Iceburg",
-  "category": "Character",
+  "cardName": "Iceburg",
+  "cardId": "OP04-059",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "Water Seven",
     "Galley-La Company"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-059.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Opponent attack",
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "Opponent attack DON!!-1: If your leader is {Water 7} type, this character gains Blocker for the turn. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "059",
+  "printedText": "On Your Opponent's Attack DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): If your Leader has the {Water Seven} type, this Character gains Blocker during this turn. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Opponent attack",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onOpponentsAttack",
+      "frequency": "none",
+      "selectors": {
+        "water7Leader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Water Seven"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "water7Leader"
+        }
       },
-      "effect": {
-        "text": "If your leader is {Water 7} type, this character gains Blocker for the turn.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "thisCharacter"
-        ],
-        "conditions": [
-          "yourLeaderIsWater7"
-        ],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Opponent attack",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "field": "selectorCount",
+        "selector": "water7Leader",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "targets": [
-          "thisCard"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "returnDon",
+        "count": 1,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "waterSeven",
+    "galleyLaCompany"
+  ]
 }

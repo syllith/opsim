@@ -1,66 +1,28 @@
 {
-  "id": "OP12-114",
-  "set": "OP12",
-  "number": 114,
-  "name": "Wyper",
-  "category": "Character",
+  "cardName": "Wyper",
+  "cardId": "OP12-114",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Ranged",
+  "cost": 6,
+  "power": 7000,
+  "counter": 2000,
+  "attributes": [
+    "ranged"
+  ],
   "types": [
     "Sky Island",
     "Shandian Warrior"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP12/OP12-114.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: If this character attacks, you may pay 1 DON!! to gain 2000 power until end of turn. [Main] Pay 1 DON!! to gain 2000 power until end of turn.",
-  "abilities": [
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "If this character attacks, you may pay 1 DON!! to gain 2000 power until end of turn.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "Pay 1 DON!! to gain 2000 power until end of turn.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
-    }
+  "traits": [
+    "skyIsland",
+    "shandianWarrior"
   ],
-  "meta": {
-    "notes": null
-  }
+  "rarity": "R",
+  "setId": "OP12",
+  "cardNumber": "114",
+  "printedText": "",
+  "keywords": [],
+  "abilities": []
 }

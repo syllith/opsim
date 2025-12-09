@@ -1,37 +1,36 @@
 {
-  "id": "ST13-011",
-  "set": "ST13",
-  "number": 11,
-  "name": "Portgas D. Ace",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Special",
+  "cardName": "Portgas D. Ace",
+  "cardId": "ST13-011",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 0,
+  "attributes": ["special"],
   "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "SR",
-  "art": "/cards/ST13/ST13-011.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-     "counter": null
-  },
-  "keywords": ["On Play", "Rush"],
-  "trigger": null,
-  "text": "On Play If you have 2 or less life, this character gains Rush (This card can attack on the turn in which it is played.)",
+  "setId": "ST13",
+  "cardNumber": "011",
+  "printedText": "[On Play] If you have 2 or less life, this character gains Rush. (This card can attack on the turn in which it is played.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 2 or less life, this character gains Rush.",
-        "powerMod": null,
-        "targets": ["self:life<=2", "self:gainRush"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "thisTurn",
+          "target": "thisCard",
+          "condition": {
+            "field": "selfLife",
+            "op": "<=",
+            "value": 2
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": "This card can attack on the turn in which it is played." }
+  ]
 }

@@ -1,23 +1,28 @@
 {
-  "id": "OP02-080",
-  "set": "OP02",
-  "number": 80,
-  "name": "Dobon",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Animal Kingdom Pirates", "SMILE"],
+  "cardName": "Dobon",
+  "cardId": "OP02-080",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 2,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "Animal Kingdom Pirates",
+    "SMILE"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-080.png",
-  "stats": {
-    "cost": 2,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "OP02",
+  "cardNumber": "080",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates",
+    "smile"
+  ]
 }

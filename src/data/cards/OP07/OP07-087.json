@@ -1,51 +1,66 @@
 {
-  "id": "OP07-087",
-  "set": "OP07",
-  "number": 87,
-  "name": "Baskerville",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "World Government"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-087.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Your Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn: If you opponent controls a character with cost 0, this character gains +3000 power.",
+  "cardName": "Baskerville",
+  "cardId": "OP07-087",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["World Government"],
+  "traits": ["worldGovernment"],
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "087",
+  "printedText": "[Your Turn] If your opponent controls a Character with a cost of 0, this Character gains +3000 power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "opponentCost0Character": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If you opponent controls a character with cost 0, this character gains +3000 power.",
-        "powerMod": null,
-        "conditions": [
-          "opponent controls a character with cost 0"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "selectorCount",
+            "selector": "opponentCost0Character",
+            "op": ">=",
+            "value": 1
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

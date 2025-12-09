@@ -1,37 +1,69 @@
 {
-  "id": "EB02-022",
-  "set": "EB02",
-  "number": 22,
-  "name": "Usopp",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Ranged",
-  "types": ["East Blue", "Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/EB02/EB02-022.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If you have 2 or fewer characters with 5000 or more power in play, play up to one power 6000 or lower character from your hand that has no abilities.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB02-022",
+  "printedText": "On Play If you have 2 or fewer characters with 5000 or more power in play, play up to one power 6000 or lower character from your hand that has no abilities.",
+  "cardNumber": "022",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 2 or fewer characters with 5000 or more power in play, play up to one power 6000 or lower character from your hand that has no abilities.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand:Character:power<=6000:noAbilities"],
-        "conditions": ["2orFewerCharactersWith5000OrMorePower"]
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "may": false,
+          "enterRested": false,
+          "type": "playCard",
+          "payCost": true,
+          "sourceZone": "hand",
+          "condition": {
+            "value": 2,
+            "field": "self.charactersWithPower5000OrMore",
+            "op": "<="
+          },
+          "target": {
+            "filters": [
+              {
+                "value": 6000,
+                "field": "power",
+                "op": "<="
+              },
+              {
+                "value": false,
+                "field": "hasAbilities",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "R",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Usopp",
+  "types": [
+    "East Blue",
+    "Straw Hat Crew"
+  ],
+  "cost": 4,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "eastBlue",
+    "strawHatCrew"
+  ]
 }

@@ -1,56 +1,87 @@
 {
-  "id": "OP03-090",
-  "set": "OP03",
-  "number": 90,
-  "name": "Blueno",
-  "category": "Character",
+  "cardName": "Blueno",
+  "cardId": "OP03-090",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
   "types": [
     "CP9"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-090.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "counter": 1000,
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "090",
+  "printedText": "[DON!! x1] This Character gains Blocker.\n[On K.O.] Play up to 1 Character card with a cost of 4 or less with {CP} in its type from your trash and rest it.",
   "keywords": [
-    "On K.O.",
-    "DON!!"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "DON!! x1 This Character gains Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. Play up to 1 Character card with a cost of 4 or less with (CP) in its type from your trash and rest it.",
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "static",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Play up to 1 Character card with a cost of 4 or less with (CP) in its type from your trash and rest it.",
-        "powerMod": null,
-        "targets": [
-          "oneCharacterCard<=cost4",
-          "from:trash"
-        ],
-        "conditions": [
-          "hasType:CP"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "blocker",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onKO",
+      "selectors": {
+        "cpTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            },
+            {
+              "field": "types",
+              "op": "=",
+              "value": "CP"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "cpToPlay"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "cpToPlay",
+          "enterRested": true,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "cp9"
+  ]
 }

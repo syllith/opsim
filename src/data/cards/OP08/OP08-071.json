@@ -1,53 +1,68 @@
 {
-  "id": "OP08-071",
-  "set": "OP08",
-  "number": 71,
-  "name": "Count Niwatori",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Big Mom Pirates"
-  ],
+  "cardName": "Count Niwatori",
+  "cardId": "OP08-071",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-071.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Activate: Main",
-    "When Attacking",
-    "Blocker",
-    "Rush",
-    "Trigger"
-  ],
-  "trigger": null,
-  "text": "Opponent's Turn On K.O. DON!! -1: Play up to 1 [Baron Tamago] with a cost of 4 or less from your deck, then shuffle your deck.",
+  "setId": "OP08",
+  "cardNumber": "071",
+  "printedText": "[Opponent's Turn] [On K.O.] DON!! −1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play up to 1 [Baron Tamago] with a cost of 4 or less from your deck. Then, shuffle your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "turnOwner",
+        "op": "=",
+        "value": "opponent"
       },
-      "effect": {
-        "text": "Opponent's Turn On K.O. DON!! -1: Play up to 1 [Baron Tamago] with a cost of 4 or less from your deck, then shuffle your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "donMinus",
+        "count": 1
+      },
+      "selectors": {
+        "tamagoFromDeck": {
+          "side": "self",
+          "type": "character",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Baron Tamago"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "tamagoFromDeck",
+          "reveal": false,
+          "addTo": "characterArea",
+          "ordering": "chosen",
+          "moveRemainingTo": "topOfDeck",
+          "remainingOrdering": "random",
+          "asPlay": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has a 'SAMPLE' watermark, which is not part of the official card data."
-  }
+  ]
 }

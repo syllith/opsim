@@ -1,49 +1,78 @@
 {
-  "id": "OP12-086",
-  "set": "OP12",
-  "number": 86,
-  "name": "Koala",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Dressrosa",
-    "Revolutionary Army"
-  ],
+  "cardName": "Koala",
+  "cardId": "OP12-086",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Dressrosa", "Revolutionary Army"],
+  "traits": ["dressrosa", "revolutionaryArmy"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-086.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the {Revolutionary Army} type, look at 3 cards from the top of your deck; reveal up to 1 [Nico Robin] or {Revolutionary Army} type card other than [Koala] and add it to your hand. Then, trash the rest.",
+  "setId": "OP12",
+  "cardNumber": "086",
+  "printedText": "[On Play] If your Leader has the {Revolutionary Army} type, look at 3 cards from the top of your deck; reveal up to 1 [Nico Robin] or {Revolutionary Army} type card other than [Koala] and add it to your hand. Then, trash the rest.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "revolutionaryArmy"
       },
-      "effect": {
-        "text": "If your Leader has the {Revolutionary Army} type, look at 3 cards from the top of your deck; reveal up to 1 [Nico Robin] or {Revolutionary Army} type card other than [Koala] and add it to your hand. Then, trash the rest.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "koalaSearchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Nico Robin"
+                },
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "field": "traits",
+                      "op": "=",
+                      "value": "revolutionaryArmy"
+                    },
+                    {
+                      "field": "cardName",
+                      "op": "!=",
+                      "value": "Koala"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "koalaSearchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 3,
+          "moveRemainingTo": "trash",
+          "remainingOrdering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

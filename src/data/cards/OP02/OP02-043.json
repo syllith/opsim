@@ -1,23 +1,30 @@
 {
-  "id": "OP02-043",
-  "set": "OP02",
-  "number": 43,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["FILM", "Supernovas", "Straw Hat Crew"],
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP02-043",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "FILM",
+    "Supernovas",
+    "Straw Hat Crew"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-043.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "OP02",
+  "cardNumber": "043",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "film",
+    "supernovas",
+    "strawHatCrew"
+  ]
 }

@@ -1,37 +1,51 @@
 {
-  "id": "ST12-008",
-  "set": "ST12",
-  "number": 8,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
+  "cardName": "Roronoa Zoro",
+  "cardId": "ST12-008",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 6000,
+  "attributes": ["slash"],
   "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/ST12/ST12-008.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-     "counter": null
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking Rest up to 1 of your opponent's cost 6 or lower characters.",
+  "setId": "ST12",
+  "cardNumber": "008",
+  "printedText": "[DON!! x1] [When Attacking] Rest up to 1 of your opponent's cost 6 or lower Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's cost 6 or lower characters.",
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=6:rest"],
-        "conditions": ["donAttached", "optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "donCountOnThis",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "oppCost6OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCost6OrLessChar"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

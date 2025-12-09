@@ -1,48 +1,69 @@
 {
-  "id": "OP12-047",
-  "set": "OP12",
-  "number": 47,
-  "name": "Sengoku",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Navy"
-  ],
+  "cardName": "Sengoku",
+  "cardId": "OP12-047",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Navy"],
+  "traits": ["navy"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-047.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may trash 1 card from your hand: Look at 5 cards from the top of your deck; reveal up to 2 (Navy) type cards other than [Sengoku] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP12",
+  "cardNumber": "047",
+  "printedText": "[On Play] You may trash 1 card from your hand: Look at 5 cards from the top of your deck; reveal up to 2 {Navy} type cards other than [Sengoku] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Look at 5 cards from the top of your deck; reveal up to 2 (Navy) type cards other than [Sengoku] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "searchHit": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "navy"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Sengoku"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchHit",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

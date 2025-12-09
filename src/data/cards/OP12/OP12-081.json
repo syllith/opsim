@@ -1,60 +1,76 @@
 {
-  "id": "OP12-081",
-  "set": "OP12",
-  "number": 81,
-  "name": "Koala",
-  "category": "Leader",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Revolutionary Army",
-    "Dressrosa"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP12/081.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Koala",
+  "cardId": "OP12-081",
+  "cardType": "leader",
+  "colors": ["black", "yellow"],
+  "power": 5000,
+  "life": 4,
+  "attributes": ["strike"],
+  "types": ["Revolutionary Army", "Dressrosa"],
+  "traits": ["revolutionaryArmy", "dressrosa"],
+  "rarity": "L",
+  "setId": "OP12",
+  "cardNumber": "081",
+  "printedText": "When this Leader attacks your opponent's Leader, if you have 2 or more Characters with a cost of 8 or more, draw 1 card.\n[Once Per Turn] When your opponent plays a Character with an original cost of 8 or more or when your opponent plays a Character through an effect of a Character, you may activate this effect. Your opponent adds the top card of their Life cards to their hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "When this Leader attacks your opponent's Leader, if you have 2 or more Characters with a cost of 8 or more, draw 1 card.\nOnce Per Turn When your opponent plays a Character with an original cost of 8 or more or when your opponent plays a Character through an effect of a Character, you may activate this effect. Your opponent adds the top card of their Life cards to their hand.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "selfBigCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 8
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "When this Leader attacks your opponent's Leader, if you have 2 or more Characters with a cost of 8 or more, draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfBigCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "afterOpponentPlaysCharacter",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "OR",
+        "any": [
+          {
+            "field": "eventTargetOriginalCost",
+            "op": ">=",
+            "value": 8
+          },
+          {
+            "field": "eventPlaySourceIsCharacterEffect",
+            "op": "=",
+            "value": true
+          }
+        ]
       },
-      "effect": {
-        "text": "When your opponent plays a Character with an original cost of 8 or more or when your opponent plays a Character through an effect of a Character, you may activate this effect. Your opponent adds the top card of their Life cards to their hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTopLifeCard",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,52 +1,74 @@
 {
-  "id": "OP07-065",
-  "set": "OP07",
-  "number": 65,
-  "name": "Gina",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
+  "cardName": "Gina",
+  "cardId": "OP07-065",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
   "types": [
     "Foxy Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-065.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "foxyPirates"
   ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the (Foxy Pirates) type and the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "065",
+  "printedText": "[On Play] If your Leader has the {Foxy Pirates} type and the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "leaderFoxy": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "foxyPirates"
+            }
+          ]
+        },
+        "selfDonInCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "opponentDonInCostArea": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"]
+        }
       },
-      "effect": {
-        "text": "If your Leader has the (Foxy Pirates) type and the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader:hasType(Foxy Pirates)",
-          "donCountOnYourField <= donCountOnOpponentField"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": "leaderFoxy",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCountCompare",
+            "selectorA": "selfDonInCostArea",
+            "selectorB": "opponentDonInCostArea",
+            "op": "<="
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a 'C' rarity symbol in the bottom right corner, which is likely a placeholder or error. The printed rarity is 'R' (Rare) as indicated by the 'R' in the bottom right corner."
-  }
+  ]
 }

@@ -1,49 +1,119 @@
 {
-  "id": "OP05-101",
-  "set": "OP05",
-  "number": 101,
-  "name": "Ohm",
-  "category": "Character",
+  "cardName": "Ohm",
+  "cardId": "OP05-101",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Sky Island",
     "God's Priest"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-101.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "If you have 2 or less Life, this character gains +1000 Power.\nOn Play: Look at the top 5 cards of your deck; reveal up to 1 [Holy] card and add it to your hand. Then, place the rest on the bottom of your deck in any order. Then, play up to 1 [Holy] from your hand.",
+  "setId": "OP05",
+  "cardNumber": "101",
+  "printedText": "If you have 2 or less Life, this character gains +1000 Power. On Play Look at the top 5 cards of your deck; reveal up to 1 [Holy] card and add it to your hand. Then, place the rest on the bottom of your deck in any order. Then, play up to 1 [Holy] from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ]
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck; reveal up to 1 [Holy] card and add it to your hand. Then, place the rest on the bottom of your deck in any order. Then, play up to 1 [Holy] from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "permanent",
+          "target": "thisCard",
+          "condition": {
+            "field": "life",
+            "op": "<=",
+            "value": 2
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "holyFromDeckTop5": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Holy"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "holyFromHand": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Holy"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "holyFromDeckTop5",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "holyFromHand",
+          "payCost": true,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "skyIsland",
+    "godSPriest"
+  ]
 }

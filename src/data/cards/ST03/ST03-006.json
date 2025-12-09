@@ -1,20 +1,26 @@
 {
-  "id": "ST03-006",
-  "set": "ST03",
-  "number": 6,
-  "name": "Jinbe",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["Fish-Man", "The Seven Warlords of the Sea", "Sun Pirates"],
-  "rarity": null,
-  "art": "/cards/ST03/ST03-006.png",
-  "stats": { "cost": 2, "power": 4000, "life": null, "counter": { "present": true, "value": 1000 } },
-  "keywords": [],
-  "trigger": null,
-  "text": "(Placeholder ability text)",
-  "abilities": [
-    {"timing": "Activate: Main", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Placeholder effect.", "grants": [], "powerMod": null, "targets": [], "conditions": []}}
+  "cardName": "Jinbe",
+  "cardId": "ST03-006",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": [
+    "Fish-Man",
+    "The Seven Warlords of the Sea",
+    "Sun Pirates"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "fishMan",
+    "theSevenWarlordsOfTheSea",
+    "sunPirates"
+  ],
+  "rarity": "C",
+  "setId": "ST03",
+  "cardNumber": "006",
+  "printedText": "",
+  "keywords": [],
+  "abilities": []
 }

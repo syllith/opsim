@@ -1,68 +1,109 @@
 {
-  "id": "OP06-039",
-  "set": "OP06",
-  "number": 39,
-  "name": "You couldn't even kill my boredom!!!",
-  "category": "Event",
+  "cardName": "You couldn't even kill my boredom!!!",
+  "cardId": "OP06-039",
+  "cardType": "event",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 4,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Straw Hat Crew"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-039.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "strawHatCrew"
   ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main: Choose 1 of the following effects:\n• Rest up to one of your opponent's characters with a cost of 6 or less.\n• K.O. up to one of your opponent's rested characters with a cost of 6 or less.\n\nTrigger: Activate this card's Main effect.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "039",
+  "printedText": "Main Choose 1 of the following effects:\n• Rest up to one of your opponent's characters with a cost of 6 or less.\n• K.O. up to one of your opponent's rested characters with a cost of 4 or less.\nTrigger Activate this card's Main effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "opponentCharCost6OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "opponentRestedCharCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Choose 1 of the following effects:\n• Rest up to one of your opponent's characters with a cost of 6 or less.\n• K.O. up to one of your opponent's rested characters with a cost of 6 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost6",
-          "oneOpponentCharacter<=cost6"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "setState",
+                  "state": "rested",
+                  "target": "opponentCharCost6OrLess"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "ko",
+                  "target": "opponentRestedCharCost4OrLess"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

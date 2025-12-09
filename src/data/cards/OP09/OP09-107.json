@@ -1,64 +1,75 @@
 {
-  "id": "OP09-107",
-  "set": "OP09",
-  "number": 107,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Nico Robin",
+  "cardId": "OP09-107",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 6,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-107.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Play up to one cost 3 or less yellow character from your hand."
-  },
-  "text": "On Play: If your opponent has 3 or more life cards, trash up to one of the top cards of your opponent's life. Trigger: Play up to one cost 3 or less yellow character from your hand.",
+  "setId": "OP09",
+  "cardNumber": "107",
+  "printedText": "[On Play] If your opponent has 3 or more Life cards, trash up to 1 of the top cards of your opponent's Life.\n[Trigger] Play up to 1 cost 3 or less yellow Character card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "opponentLifeTotal",
+        "op": ">=",
+        "value": 3
       },
-      "effect": {
-        "text": "If your opponent has 3 or more life cards, trash up to one of the top cards of your opponent's life.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTopLifeCard",
+          "destination": "trash",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "yellowCost3OrLessFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "colors",
+                  "op": "=",
+                  "value": "yellow"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 3
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Play up to one cost 3 or less yellow character from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "yellowCost3OrLessFromHand",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

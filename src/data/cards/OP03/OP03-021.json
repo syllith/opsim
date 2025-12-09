@@ -1,35 +1,105 @@
 {
-  "id": "OP03-021",
-  "set": "OP03",
-  "number": 21,
-  "name": "Kuro",
-  "category": "Leader",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["East Blue", "Black Cat Pirates"],
+  "cardName": "Kuro",
+  "cardId": "OP03-021",
+  "cardType": "leader",
+  "colors": [
+    "green"
+  ],
+  "cost": 5,
+  "power": 5000,
+  "life": 5,
+  "types": [
+    "East Blue",
+    "Black Cat Pirates"
+  ],
   "rarity": "L",
-  "art": "/cards/OP03/OP03-021.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": null
-  },
-  "keywords": ["Activate Main"],
-  "trigger": null,
-  "text": "[Activate: Main] (3) (You may rest the specified number of DON!! cards in your Cost Area): you may rest 2 of your Characters with the {East Blue} type: Set this Leader as active and rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "setId": "OP03",
+  "cardNumber": "021",
+  "printedText": "[Activate: Main] ③ (You may rest the specified number of DON!! cards in your cost area.) You may rest 2 of your {East Blue} type Characters: Set this Leader as active, and rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 3, "restTwoEastBlueCharacters": true },
-      "effect": {
-        "text": "Set this Leader as active and rest up to 1 of your opponent's Characters with a cost of 5 or less.",
-        "targets": ["thisLeader", "opponentCharacter"],
-        "conditions": ["costLessOrEqual5"]
-      }
+      "timing": "activateMain",
+      "frequency": "none",
+      "selectors": {
+        "eastBlueToRest": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "East Blue"
+            }
+          ]
+        },
+        "selfLeader": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "oppCharToRest": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
+      },
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 3
+          },
+          {
+            "type": "restFromField",
+            "selector": "eastBlueToRest"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfLeader"
+        },
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCharToRest"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "eastBlue",
+    "blackCatPirates"
+  ]
 }

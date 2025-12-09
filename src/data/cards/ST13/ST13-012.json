@@ -1,37 +1,38 @@
 {
-  "id": "ST13-012",
-  "set": "ST13",
-  "number": 12,
-  "name": "Makino",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Wisdom",
+  "cardName": "Makino",
+  "cardId": "ST13-012",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
   "types": ["Windmill Village"],
+  "traits": ["windmillVillage"],
   "rarity": "C",
-  "art": "/cards/ST13/ST13-012.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play You may add the top or bottom card of your life to your hand: Look at your life cards, then return them in any order.",
+  "setId": "ST13",
+  "cardNumber": "012",
+  "printedText": "[On Play] You may add the top or bottom card of your life to your hand: Look at your life cards, then return them in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may add the top or bottom card of your life to your hand: Look at your life cards, then return them in any order.",
-        "powerMod": null,
-        "targets": ["self:lifeTopOrBottom:hand:optional", "self:lifeAll:view", "self:lifeAll:returnOrder"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "revealLife",
+          "count": 1,
+          "side": "self",
+          "all": true,
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

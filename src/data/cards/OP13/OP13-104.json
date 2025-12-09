@@ -1,53 +1,41 @@
 {
-  "id": "OP13-104",
-  "set": "OP13",
-  "number": 104,
-  "name": "Kouzuki Hiyori",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Land of Wano",
-    "Kouzuki Clan"
-  ],
+  "cardName": "Kouzuki Hiyori",
+  "cardId": "OP13-104",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Land of Wano", "Kouzuki Clan"],
+  "traits": ["landOfWano", "kouzukiClan"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-104.png",
-  "stats": {
-    "cost": 4,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. You may trash 1 card from your hand: If your Leader is multicolored, add up to 1 card from the top of your deck to the top of your Life cards.",
+  "setId": "OP13",
+  "cardNumber": "104",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] You may trash 1 card from your hand: If your Leader is multicolored, add up to 1 card from the top of your deck to the top of your Life cards.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onKO",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: If your Leader is multicolored, add up to 1 card from the top of your deck to the top of your Life cards.",
-        "powerMod": null,
-        "conditions": [
-          "your Leader is multicolored"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderIsMulticolored",
+        "op": "=",
+        "value": true
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDeckCard",
+          "destination": "topOfLife",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

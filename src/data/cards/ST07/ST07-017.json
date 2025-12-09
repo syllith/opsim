@@ -1,32 +1,80 @@
 {
-  "id": "ST07-017",
-  "set": "ST07",
-  "number": 17,
-  "name": "Queen Mama Chanter",
-  "category": "Stage",
-  "colors": ["Yellow"],
-  "attribute": null,
-  "types": ["Big Mom Pirates", "Homies"],
-  "rarity": null,
-  "art": "/cards/ST07/ST07-017.png",
-  "stats": { "cost": 2, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Activate: Main"],
-  "trigger": { "text": "Play this card." },
-  "text": "Activate: Main: Rest this stage, you may add 1 card from the top or bottom of your Life area to your hand: Place up to 1 of your Characters with a cost of 3 on top of the owner's Life area face-up.",
+  "cardName": "Queen Mama Chanter",
+  "cardId": "ST07-017",
+  "cardType": "stage",
+  "colors": ["yellow"],
+  "cost": 2,
+  "types": [
+    "Big Mom Pirates",
+    "Homies"
+  ],
+  "traits": [
+    "bigMomPirates",
+    "homies"
+  ],
+  "rarity": "",
+  "setId": "ST07",
+  "cardNumber": "017",
+  "printedText": "[Activate: Main] Rest this Stage, you may add 1 card from the top or bottom of your Life area to your hand: Place up to 1 of your Characters with a cost of 3 on top of the owner's Life area face-up.\n[Trigger] Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Rest this stage, you may add 1 card from the top or bottom of your Life area to your hand: Place up to 1 of your Characters with a cost of 3 on top of the owner's Life area face-up.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["lifeArea", "oneCharacterCost3"],
-        "conditions": ["restThisStage", "chooseTopOrBottom", "placeCharacterOnTopOfLife"]
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "moveTopLifeCard",
+            "side": "self",
+            "destination": "hand",
+            "position": "topOrBottom",
+            "may": true
+          }
+        ],
+        "may": true
+      },
+      "selectors": {
+        "lifeStackTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "lifeStackTarget",
+          "destination": "topOfLife",
+          "ordering": "keep",
+          "faceUp": true
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

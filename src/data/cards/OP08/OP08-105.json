@@ -1,66 +1,93 @@
 {
-  "id": "OP08-105",
-  "set": "OP08",
-  "number": 105,
-  "name": "Jewelry Bonney",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Egghead",
-    "Bonney Pirates"
-  ],
+  "cardName": "Jewelry Bonney",
+  "cardId": "OP08-105",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Egghead", "Bonney Pirates"],
+  "traits": ["egghead", "bonneyPirates"],
   "rarity": "SR",
-  "art": "/cards/OP08/OP08-105.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "Once Per Turn",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 2 cards and discard one card from your hand."
-  },
-  "text": "DON!! x1 Your Turn Once Per Turn When your opponent loses a life, draw two cards and discard one card from your hand.",
+  "setId": "OP08",
+  "cardNumber": "105",
+  "printedText": "[DON!! x1] [Your Turn] [Once Per Turn] When a card is removed from your opponent's Life cards, draw 2 cards and trash 1 card from your hand.\n[Trigger] Draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenLifeCardRemoved",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isYourTurn",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "selectorCount",
+            "selector": "attachedDonToThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "lifeCardRemovedSide",
+            "op": "=",
+            "value": "opponent"
+          }
+        ]
       },
-      "effect": {
-        "text": "When your opponent loses a life, draw two cards and discard one card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "attachedDonToThis": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "attachedTo",
+              "op": "=",
+              "value": "thisCard"
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards and discard one card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

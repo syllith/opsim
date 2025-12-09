@@ -1,50 +1,62 @@
 {
-  "id": "OP10-053",
-  "set": "OP10",
-  "number": 53,
-  "name": "Bian",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Tontatta",
-    "Dressrosa"
-  ],
+  "cardName": "Bian",
+  "cardId": "OP10-053",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["The Tontattas", "Dressrosa"],
+  "traits": ["theTontattas", "dressrosa"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-053.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP10",
+  "cardNumber": "053",
+  "printedText": "If you have a {The Tontattas} type Character other than [Bian], this Character gains [Blocker].",
   "keywords": [],
-  "trigger": null,
-  "text": "If you have a character with the 'Tontatta Kingdom' type on your field other than 'Bian', this character gains Blocker.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "otherTontattasCharacter",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "If you have a character with the 'Tontatta Kingdom' type on your field other than 'Bian', this character gains Blocker.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "otherTontattasCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "theTontattas"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Bian"
+            }
+          ],
+          "min": 0,
+          "max": 10,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. All fields are inferred from visible text and standard card layout."
-  }
+  ]
 }

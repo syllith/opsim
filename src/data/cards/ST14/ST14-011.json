@@ -1,36 +1,59 @@
 {
-  "id": "ST14-011",
-  "set": "ST14",
-  "number": 11,
-  "name": "Heracles",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Wisdom",
+  "cardName": "Heracles",
+  "cardId": "ST14-011",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["wisdom"],
   "types": ["Boin Archipelago"],
+  "traits": ["boinArchipelago"],
   "rarity": "C",
-  "art": "/cards/ST14/ST14-011.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["Activate: Main", "Counter"],
-  "trigger": null,
-  "text": "Activate: Main You may rest this card: Give up to one of your black characters with the type {Straw Hat Pirates} +2 cost until the end of your opponents next turn.",
+  "setId": "ST14",
+  "cardNumber": "011",
+  "printedText": "[Activate: Main] You may rest this card: Give up to one of your black characters with the type {Straw Hat Pirates} +2 cost until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Rest this card: Give up to one of your black characters with the type {Straw Hat Pirates} +2 cost until the end of your opponents next turn.",
-        "powerMod": null,
-        "targets": ["oneAllyCharacter:type=Straw Hat Pirates;color=Black"],
-        "conditions": ["restThisCard"]
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 2,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "buffTarget"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

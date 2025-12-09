@@ -1,66 +1,49 @@
 {
-  "id": "OP09-062",
-  "set": "OP09",
-  "number": 62,
-  "name": "Nico Robin",
-  "category": "Leader",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-062.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": "Banish (When a character deals damage, the target card is trashed without activating its Trigger.) When Attacking: You may trash one card with a Trigger from your hand : Add up to one DON!! card from your DON!! deck and set it as rested.",
+  "cardName": "Nico Robin",
+  "cardId": "OP09-062",
+  "cardType": "leader",
+  "colors": ["purple"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "attributes": ["strike"],
+  "types": ["Straw hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "L",
+  "setId": "OP09",
+  "cardNumber": "062",
+  "printedText": "Banish (When a Character deals damage, the target card is trashed without activating its Trigger.)\n[When Attacking] You may trash 1 card with a Trigger from your hand: Add up to 1 DON!! card from your DON!! deck and set it as rested.",
+  "keywords": ["Banish"],
   "abilities": [
     {
-      "timing": "Banish",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": ["hasTrigger"],
+        "may": true
       },
-      "effect": {
-        "text": "When a character deals damage, the target card is trashed without activating its Trigger.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may trash one card with a Trigger from your hand : Add up to one DON!! card from your DON!! deck and set it as rested.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "DON!! deck",
-          "to": [
-            "self"
-          ]
+      "selectors": {
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "ordering": "keep",
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

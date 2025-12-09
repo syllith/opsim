@@ -1,49 +1,61 @@
 {
-  "id": "OP11-072",
-  "set": "OP11",
-  "number": 72,
-  "name": "Charlotte Montdor",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Big Mom Pirates"
-  ],
-  "rarity": "L",
-  "art": "/cards/OP11/OP11-072.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn DON!!-1, then rest this Character: Your opponent places 2 cards from their trash to the bottom of their deck in any order. Then, add the top card of your Life cards to your hand.",
+  "cardName": "Charlotte Mont-d'or",
+  "cardId": "OP11-072",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
+  "rarity": "UC",
+  "setId": "OP11",
+  "cardNumber": "072",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!! -1, You may rest this Character: Your opponent places 2 cards from their trash at the bottom of their deck in any order. Then, add 1 card from the top of your Life cards to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "donMinus",
+            "count": 1
+          },
+          {
+            "type": "restThis",
+            "may": true
+          }
+        ]
       },
-      "effect": {
-        "text": "Your opponent places 2 cards from their trash to the bottom of their deck in any order. Then, add the top card of your Life cards to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentTrashCards": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 0,
+          "max": 2,
+          "upTo": false,
+          "whoChooses": "opponent"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTrashCards",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        },
+        {
+          "type": "moveCard",
+          "target": "selfTopLifeCard",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

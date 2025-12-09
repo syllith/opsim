@@ -1,48 +1,57 @@
 {
-  "id": "OP12-099",
-  "set": "OP12",
-  "number": 99,
-  "name": "Kaligara",
-  "category": "Character",
+  "cardName": "Kalgara",
+  "cardId": "OP12-099",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Jaya",
     "Sky Island",
     "Shandian Warrior"
   ],
+  "traits": [
+    "jaya",
+    "skyIsland",
+    "shandianWarrior"
+  ],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-099.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "099",
+  "printedText": "[Your Turn] When a card is removed from your or your opponent's Life cards, draw 1 card. Then, you cannot draw cards using your own effects during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "Your Turn: When a card is removed from your or your opponent's Life cards, draw 1 card. Then, you cannot draw cards using your own effects during this turn.",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenLifeCardRemoved",
+      "condition": {
+        "field": "isYourTurn",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "When a card is removed from your or your opponent's Life cards, draw 1 card. Then, you cannot draw cards using your own effects during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "selfWouldDrawCardFromOwnEffect",
+          "target": "selfPlayer",
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,53 +1,95 @@
 {
-  "id": "ST22-012",
-  "set": "ST22",
-  "number": 12,
-  "name": "Marco",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": null,
+  "cardName": "Marco",
+  "cardId": "ST22-012",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Whitebeard Pirates"],
-  "rarity": "SR",
-  "art": "/cards/ST22/ST22-012.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Once Per Turn"],
-  "trigger": null,
-  "text": "[Once Per Turn] If this Character would be K.O'd by your opponents effects, you may instead trash 1 card from your hand.\n[When Attacking] Reveal the top card of your deck. If it has \"Whitebeard Pirates\" in its types, give this Character +1000 power until the end of your opponent's next turn",
+  "traits": ["whitebeardPirates"],
+  "rarity": "C",
+  "setId": "ST22",
+  "cardNumber": "012",
+  "printedText": "[Once Per Turn] If this Character would be K.O.'d by your opponent's effect, you may trash 1 card from your hand instead.\n[When Attacking] Reveal 1 card from the top of your deck. If that card's type includes \"Whitebeard Pirates\", this Character gains +1000 power until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If this Character would be K.O'd by your opponents effects, you may instead trash 1 card from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["koByOpponentEffect"]
-      }
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "thisWouldBeKOd",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "may": true,
+          "cost": {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          },
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "koCause",
+                "op": "=",
+                "value": "effect"
+              },
+              {
+                "field": "koSourceSide",
+                "op": "=",
+                "value": "opponent"
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              },
+              "sourceSide": "opponent",
+              "cause": "effect"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Reveal the top card of your deck. If it has \"Whitebeard Pirates\" in its types, give this Character +1000 power until the end of your opponent's next turn",
-        "grants": [],
-        "powerMod": {
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfTopDeckCard",
+        "op": ">=",
+        "value": 1,
+        "filters": [
+          {
+            "field": "traits",
+            "op": "=",
+            "value": "whitebeardPirates"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "untilEndOfOpponentsNextTurn"
-        },
-        "targets": ["self"],
-        "conditions": ["topDeckHasWhitebeardPirates"]
-      }
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,49 +1,18 @@
 {
-  "id": "OP10-012",
-  "set": "OP10",
-  "number": 12,
-  "name": "Dragon No.13",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Biological Weapon",
-    "Punk Hazard"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP10/OP10-012.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [
-    {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": "Card is a sample; no additional notes needed."
-  }
+  "cardName": "Dragon No.13",
+  "cardId": "OP10-012",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Biological Weapon", "Punk Hazard"],
+  "traits": ["biologicalWeapon", "punkHazard"],
+  "rarity": "C",
+  "setId": "OP10",
+  "cardNumber": "012",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": ["Blocker"],
+  "abilities": []
 }

@@ -1,200 +1,1916 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "One Piece TCG Card",
-  "type": "object",
-  "required": ["id", "set", "number", "name", "category", "colors", "types", "stats"],
-  "properties": {
-    "id": { "type": "string" },
-    "set": { "type": "string" },
-    "number": { "type": "integer" },
-    "name": { "type": "string" },
-    "verified": { "type": ["boolean", "null"] },
-    "category": { "enum": ["Leader", "Character", "Event", "Stage", "Don"] },
-    "colors": { "type": "array", "items": { "type": "string" } },
-    "attribute": { "type": ["string", "null"] },
-    "types": { "type": "array", "items": { "type": "string" } },
-    "rarity": { "type": ["string", "null"] },
-    "art": { "type": ["string", "null"] },
-    "stats": {
-      "type": "object",
-      "properties": {
-        "cost": { "type": ["integer", "null"] },
-        "power": { "type": ["integer", "null"] },
-        "life": { "type": ["integer", "null"] },
-        "counter": {
-          "type": "object",
-          "properties": {
-            "present": { "type": "boolean" },
-            "value": { "type": "integer" }
-          },
-          "required": ["present", "value"]
-        }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OnePieceTCGMasterAbilityEffectSchemaV2",
+  "version": 65,
+  "meta": {
+    "conventions": {
+      "overview": "This object documents non-structural authoring conventions for card JSON that cannot be fully enforced by the schema but SHOULD be followed by all tools and content authors.",
+      "attributes": {
+        "summary": "Leaders and Characters MUST have the `attributes` array with at least one entry. Events, Stages, and DON!! cards usually omit `attributes` entirely. The legacy singular `attribute` property is not allowed in v51+ data and should be removed by migration.",
+        "examples": [
+          "Single attribute: \"attributes\": [\"slash\"]",
+          "Multi-attribute (future-proof): \"attributes\": [\"slash\", \"wisdom\"]"
+        ]
       },
-      "required": ["cost", "power", "life", "counter"]
+      "traits": {
+        "summary": "Traits SHOULD be derived from `types` using a stable normalization algorithm so that the same printed type line always yields the same machine-friendly string.",
+        "normalizationAlgorithm": "1) Split the printed type string on non-alphanumeric characters. 2) Lowercase all parts. 3) First part -> lowerCamel (first letter lowercased, rest unchanged). 4) Remaining parts -> UpperCamel (first letter uppercased). 5) Concatenate. Examples: 'Red Hair Pirates' -> 'redHairPirates'; 'FILM' -> 'film'; 'Neo Navy' -> 'neoNavy'.",
+        "authoringRules": [
+          "If `traits` is omitted, tooling SHOULD populate it from `types` using the algorithm above.",
+          "If `traits` is present, tools SHOULD treat it as the source of truth and MAY ignore `types` when matching by trait."
+        ]
+      },
+      "keywords": {
+        "summary": "The top-level `keywords` array lists ONLY evergreen printed keywords the card intrinsically has (e.g. 'Blocker', 'Rush'). Temporary or conditional keyword changes are modelled via actions, not by editing this array at runtime.",
+        "dynamicKeywords": "Effects that grant or revoke keywords (e.g. 'This Character gains Double Attack during this turn.') MUST use ActionKeywordEffect with operation 'grant'/'revoke'. The `keywords` array MUST NOT be modified by such effects.",
+        "staticKeywords": "Cards that always have a keyword from print (e.g. Blocker) SHOULD list it in `keywords` and MAY also represent its rules text via ActionKeywordEffect(operation = 'static') if the engine benefits from a unified keyword pipeline."
+      },
+      "selectors": {
+        "summary": "When a selector can be expressed via a shared engine concept, card JSON SHOULD reference a global selector key (string) instead of inlining equivalent TargetSelector shapes.",
+        "globalSelectorRegistryExamples": [
+          "selfTopDeckCard",
+          "opponentTopDeckCard",
+          "selfTopLifeCard",
+          "opponentTopLifeCard",
+          "selfLeader",
+          "opponentLeader",
+          "selfThisCard",
+          "selfTriggerSourceCard"
+        ],
+        "thisCard": "Within abilities on the card itself, `TargetType` 'thisCard' SHOULD be used when targeting the physical card whose JSON is being evaluated. When referring to the source of a Trigger (e.g. a card revealed from Life), tools MAY instead use a global selector key such as 'selfTriggerSourceCard'."
+      },
+      "filtersAndExpressions": {
+        "summary": "Expression.field SHOULD use stable, well-known field identifiers that correspond to card or game state properties. Engines SHOULD document and reuse these identifiers across cards.",
+        "recommendedFields": [
+          "power",
+          "cost",
+          "counter",
+          "colors",
+          "traits",
+          "cardType",
+          "state",
+          "isGivenDon",
+          "hasKeyword"
+        ],
+        "fieldSemanticsExamples": [
+          "field='power', op='<=', value=2000   => cards with printed or modified power <= 2000.",
+          "field='colors', op='=', value='red' => cards that currently have red among their colors.",
+          "field='hasKeyword', op='=', value='Blocker' => cards that currently have the Blocker keyword."
+        ]
+      },
+      "keywordModelling": {
+        "summary": "Tools that generate card JSON SHOULD follow these patterns:",
+        "rules": [
+          "Use `keywords` for always-on, printed keywords.",
+          "Use ActionKeywordEffect with operation 'grant'/'revoke' for temporary keyword changes and include a Duration where applicable.",
+          "Use ActionKeywordEffect with operation 'static' ONLY when you need to express a permanent keyword in a rules-engine-friendly way (e.g. to centralize reminder text), and still keep the keyword in the top-level `keywords` array."
+        ]
+      },
+      "moveCardConventions": {
+        "summary": "All effects that move 'the top card of' a zone SHOULD use ActionMoveCard with a TargetSelectorRef pointing to a global selector representing that top card.",
+        "examples": [
+          "Top of deck: use ActionMoveCard with target='selfTopDeckCard' or 'opponentTopDeckCard'.",
+          "Top of life: use ActionMoveCard with target='selfTopLifeCard' or 'opponentTopLifeCard'."
+        ]
+      },
+      "abilityConventions": {
+        "summary": "Abilities model printed effect boxes. Timing and frequency SHOULD reflect the card’s zone and rules context, not engine internals.",
+        "frequencyDefaults": "If `frequency` is omitted, tools SHOULD treat it as 'none' (i.e. unrestricted use subject only to timing and costs). Abilities that are printed as '[Once Per Turn]' MUST explicitly set frequency='oncePerTurn'."
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "cardName": {"type": "string"},
+    "cardId": {"type": "string"},
+    "cardType": {
+      "type": "string",
+      "enum": [
+        "leader",
+        "character",
+        "event",
+        "stage",
+        "don"
+      ]
     },
-    "keywords": { "type": "array", "items": { "type": "string" } },
-    "trigger": {
-      "type": ["object", "null"],
-      "properties": { "text": { "type": "string" } },
-      "required": ["text"]
-    },
-    "text": { "type": ["string", "null"] },
-    "abilities": {
+    "colors": {
       "type": "array",
-      "description": "Array of card abilities that can be activated or are continuous effects",
       "items": {
-        "type": "object",
-        "properties": {
-          "type": { 
-            "type": "string",
-            "enum": [
-              "On Play",
-              "Activate Main",
-              "On Attack",
-              "On Block",
-              "Blocker",
-              "Rush",
-              "Double Attack",
-              "Critical",
-              "Counter",
-              "On KO",
-              "End of Turn",
-              "Trigger",
-              "Opponents Turn",
-              "Continuous"
-            ],
-            "description": "Canonical ability types. Use exactly these labels in JSON."
-          },
-            "autoResolve": {
-              "type": ["boolean", "null"],
-              "description": "If false, do not auto-resolve this ability when its timing occurs (e.g., optional On Play). Defaults to true for auto-timed abilities."
-            },
-          "frequency": { 
-            "type": ["string", "null"],
-            "enum": ["Once Per Turn", null],
-            "description": "Frequency restriction: 'Once Per Turn' or null for unlimited"
-          },
-          "condition": {
-            "type": ["object", "null"],
-            "description": "Conditions that must be met for ability to activate",
-            "properties": {
-              "don": {
-                "type": ["integer", "null"],
-                "description": "Number of DON!! that must be attached to this card (e.g., 1 for 'DON!! x1')"
-              },
-              "yourTurn": {
-                "type": ["boolean", "null"],
-                "description": "Must be during your turn"
-              },
-              "opponentTurn": {
-                "type": ["boolean", "null"],
-                "description": "Must be during opponent's turn"
-              },
-              "leaderHasType": {
-                "type": ["string", "null"],
-                "description": "Controller's Leader must include this type (e.g., 'Red Hair Pirates')"
-              },
-              "allyCharacterPower": {
-                "type": ["integer", "null"],
-                "description": "Requires you to control a Character with power >= this value (e.g., 10000 for 'If you have a Character with 10000 power or more')"
-              }
-            }
-          },
-          "cost": {
-            "type": ["object", "null"],
-            "description": "Cost to activate the ability (for manual activation abilities)",
-            "properties": {
-              "restThis": {
-                "type": ["boolean", "null"],
-                "description": "Must rest this card to activate"
-              },
-              "restDon": {
-                "type": ["integer", "null"],
-                "description": "Number of DON!! from cost area that must be rested"
-              },
-              "trash": {
-                "type": ["integer", "null"],
-                "description": "Number of cards to trash from hand"
-              },
-              "returnThisToDeck": {
-                "type": ["string", "null"],
-                "enum": ["top", "bottom", "shuffle", null],
-                "description": "Return this card to deck as part of the cost"
-              },
-              "trashThis": {
-                "type": ["boolean", "null"],
-                "description": "Trash this card as part of the cost"
-              },
-              "discardFromLife": {
-                "type": ["integer", "null"],
-                "description": "Discard X cards from life as part of the cost"
-              },
-              "payLife": {
-                "type": ["integer", "null"],
-                "description": "Pay X life as part of the cost"
-              }
-            }
-          },
-          "effect": {
-            "type": ["string", "object"],
-            "description": "The effect that occurs. Can be a simple string description or structured object for complex effects",
-            "properties": {
-              "text": {
-                "type": "string",
-                "description": "Human-readable description of the effect"
-              },
-              "actions": {
-                "type": ["array", "null"],
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": "string",
-                      "enum": ["draw", "ko", "powerMod", "costMod", "search", "addDon", "giveDon", "play", "return", "rest", "active", "grantKeyword", "disableKeyword"],
-                      "description": "Action type"
-                    },
-                          "mode": { "type": ["string", "null"], "enum": ["normal", "aura", null], "description": "Execution mode: 'aura' for passive continuous effects applied dynamically while source remains on field" },
-                    "targetSide": { "type": ["string", "null"], "enum": ["player", "opponent", "both", null] },
-                    "targetType": { "type": ["string", "null"], "enum": ["leader", "character", "don", "any", null] },
-                    "minTargets": { "type": ["integer", "null"] },
-                    "maxTargets": { "type": ["integer", "null"] },
-
-                    "amount": { "type": ["integer", "null"], "description": "Power change amount" },
-                    "duration": { "type": ["string", "null"], "enum": ["thisTurn", "untilEndOfBattle", "untilOpponentsNextTurn", "permanent", null] },
-                    "powerLimit": { "type": ["integer", "null"] },
-                    "costLimit": { "type": ["integer", "null"] },
-
-                    "quantity": { "type": ["integer", "null"] },
-
-                    "lookCount": { "type": ["integer", "null"] },
-                    "minSelect": { "type": ["integer", "null"] },
-                    "maxSelect": { "type": ["integer", "null"] },
-                    "destination": { "type": ["string", "null"], "enum": ["hand", "deck", "trash", "field", null] },
-                    "remainderLocation": { "type": ["string", "null"], "enum": ["top", "bottom", "shuffle", null] },
-                    "remainderOrder": { "type": ["string", "null"], "enum": ["any", "same", null] },
-                    "filterType": { "type": ["string", "null"] },
-                    "filterColor": { "type": ["string", "null"] },
-                    "filterAttribute": { "type": ["string", "null"] },
-                    "keyword": { "type": ["string", "null"], "description": "Keyword to grant (e.g., 'Rush', 'Blocker')" },
-                    "targetSelf": { "type": ["boolean", "null"], "description": "If true, apply to the action source card instead of selecting targets" },
-                    "onlyRested": { "type": ["boolean", "null"], "description": "For giveDon: whether to only use rested DON!! from cost area (default: true)" },
-                    "appliesToHand": { "type": ["boolean", "null"], "description": "For costMod: whether this cost modification applies to the card while it's in hand (e.g., cost reduction effects)" }
-                  },
-                  "required": ["type"]
-                }
-              }
-            }
-          }
-        },
-        "required": ["type", "effect"]
+        "type": "string",
+        "enum": [
+          "red",
+          "green",
+          "blue",
+          "purple",
+          "black",
+          "yellow"
+        ]
       }
     },
-    "meta": {
-      "type": "object",
-      "properties": {
-        "notes": { "type": ["string", "null"] }
+    "cost": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "power": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "life": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "counter": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "attributes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "slash",
+          "strike",
+          "special",
+          "wisdom",
+          "ranged",
+          "unknown"
+        ]
       },
-      "required": ["notes"]
+      "description": "One or more attributes of the card. For current cards this will typically be a single entry (e.g. ['slash'])."
+    },
+    "types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Printed type line / traits as they appear on the card (e.g. 'Fish-Man', 'Red Hair Pirates')."
+    },
+    "traits": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][A-Za-z0-9]*$"
+      },
+      "description": "Machine-friendly, normalized traits derived from `types` (e.g. 'Red Hair Pirates' -> 'redHairPirates'). Optional but recommended for all new and migrated cards."
+    },
+    "rarity": {"type": "string"},
+    "setId": {"type": "string"},
+    "cardNumber": {"type": "string"},
+    "printedText": {"type": "string"},
+    "keywords": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "abilities": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/Ability"}
+    },
+    "alsoTreatedAsNames": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Names this card is also treated as for card-name-based effects (e.g. cards that say 'Also treat this card's name as [Franky].')."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "cardType": {
+            "type": "string",
+            "enum": ["leader", "character"]
+          }
+        },
+        "required": ["cardType"]
+      },
+      "then": {
+        "required": ["attributes"],
+        "properties": {
+          "attributes": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "Timing": {
+      "type": "string",
+      "enum": [
+        "onPlay",
+        "whenAttacking",
+        "onBlock",
+        "onOpponentsAttack",
+        "endOfYourTurn",
+        "endOfOpponentsTurn",
+        "onKO",
+        "onWouldBeKO",
+        "whenCharacterIsKOd",
+        "activateMain",
+        "main",
+        "static",
+        "counter",
+        "whenDonReturned",
+        "trigger",
+        "afterOpponentActivatesEvent",
+        "afterYouActivateEvent",
+        "duringOpponentsTurn",
+        "whenBattleOpponentKOd",
+        "whenAttackingOrBlocking",
+        "whenCardRested",
+        "whenCharacterLeavesPlay",
+        "whenLifeCardRemoved",
+        "startOfYourTurn",
+        "whenAttackingOrOnOpponentsAttack",
+        "afterOpponentPlaysCharacter",
+        "startOfGame",
+        "afterOpponentActivatesBlocker"
+      ]
+    },
+    "AbilityTimingKind": {
+      "type": "string",
+      "enum": [
+        "main",
+        "counter",
+        "onPlay"
+      ]
+    },
+    "Frequency": {
+      "type": "string",
+      "enum": [
+        "oncePerTurn",
+        "oncePerGame",
+        "oncePerBattle",
+        "none"
+      ]
+    },
+    "TargetSide": {
+      "type": "string",
+      "enum": [
+        "self",
+        "opponent",
+        "both"
+      ]
+    },
+    "TargetType": {
+      "type": "string",
+      "enum": [
+        "leader",
+        "character",
+        "thisCard",
+        "any",
+        "deck",
+        "trash",
+        "stage",
+        "hand",
+        "don",
+        "leaderOrCharacter"
+      ]
+    },
+    "Duration": {
+      "type": "string",
+      "enum": [
+        "thisTurn",
+        "thisBattle",
+        "untilStartOfYourNextTurn",
+        "untilEndOfYourNextTurn",
+        "untilEndOfOpponentsNextTurn",
+        "permanent"
+      ]
+    },
+    "Logic": {
+      "type": "string",
+      "enum": [
+        "AND",
+        "OR"
+      ]
+    },
+    "Comparator": {
+      "type": "string",
+      "enum": [
+        "=",
+        "!=",
+        "<",
+        "<=",
+        ">",
+        ">="
+      ]
+    },
+    "TargetSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "type": {"$ref": "#/definitions/TargetType"},
+        "zones": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "leader",
+              "character",
+              "stage",
+              "hand",
+              "deck",
+              "donDeck",
+              "life",
+              "trash",
+              "costArea"
+            ]
+          }
+        },
+        "filters": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/Filter"}
+        },
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "upTo": {"type": "boolean"},
+        "whoChooses": {
+          "type": "string",
+          "enum": [
+            "self",
+            "opponent",
+            "system"
+          ]
+        },
+        "bindAs": {"type": "string"},
+        "distinctBy": {
+          "type": "string",
+          "description": "If set, all selected targets must have distinct values for this field (e.g. 'cardName')."
+        }
+      },
+      "required": [
+        "side",
+        "type"
+      ]
+    },
+    "TargetSelectorRef": {
+      "description": "A reference to a target selector: either (a) an inline TargetSelector object, (b) the string key of this ability's local selectors entry, or (c) a string key resolved by the engine against a global selector registry.",
+      "oneOf": [
+        {"$ref": "#/definitions/TargetSelector"},
+        {"type": "string"}
+      ]
+    },
+    "Expression": {
+      "description": "Generic expression tree used for Conditions and Filters",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "field": {"type": "string"},
+            "op": {"$ref": "#/definitions/Comparator"},
+            "value": {},
+            "fieldRef": {
+              "type": "string",
+              "description": "Name of another field to compare against"
+            }
+          },
+          "required": [
+            "field",
+            "op"
+          ],
+          "anyOf": [
+            {
+              "required": [
+                "value"
+              ]
+            },
+            {
+              "required": [
+                "fieldRef"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "logic": {"$ref": "#/definitions/Logic"},
+            "all": {
+              "type": "array",
+              "items": {"$ref": "#/definitions/Expression"}
+            },
+            "any": {
+              "type": "array",
+              "items": {"$ref": "#/definitions/Expression"}
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "logic",
+                "all"
+              ]
+            },
+            {
+              "required": [
+                "logic",
+                "any"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "field": {"const": "selectorCount"},
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "op": {"$ref": "#/definitions/Comparator"},
+            "value": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "filters": {
+              "type": "array",
+              "items": {"$ref": "#/definitions/Filter"}
+            }
+          },
+          "required": [
+            "field",
+            "selector",
+            "op",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "field": {"const": "battleOpponent"},
+            "attribute": {
+              "type": "string",
+              "enum": [
+                "slash",
+                "strike",
+                "special",
+                "wisdom",
+                "ranged",
+                "unknown"
+              ]
+            },
+            "op": {"$ref": "#/definitions/Comparator"},
+            "value": {"type": "boolean"}
+          },
+          "required": [
+            "field",
+            "attribute",
+            "op",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "field": {"const": "selectorCountCompare"},
+            "selectorA": {"$ref": "#/definitions/TargetSelectorRef"},
+            "selectorB": {"$ref": "#/definitions/TargetSelectorRef"},
+            "op": {"$ref": "#/definitions/Comparator"}
+          },
+          "required": [
+            "field",
+            "selectorA",
+            "selectorB",
+            "op"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "field": {"const": "selectorStatTotal"},
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "stat": {
+              "type": "string",
+              "enum": [
+                "power",
+                "cost",
+                "counter"
+              ]
+            },
+            "op": {"$ref": "#/definitions/Comparator"},
+            "value": {"type": "integer"}
+          },
+          "required": [
+            "field",
+            "selector",
+            "stat",
+            "op",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "field": {"const": "selectorCountDifference"},
+            "selectorA": {"$ref": "#/definitions/TargetSelectorRef"},
+            "selectorB": {"$ref": "#/definitions/TargetSelectorRef"},
+            "op": {"$ref": "#/definitions/Comparator"},
+            "value": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "field",
+            "selectorA",
+            "selectorB",
+            "op",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "field": {"const": "selfStatVsSelectorCount"},
+            "stat": {
+              "type": "string",
+              "enum": ["power", "cost", "counter"]
+            },
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "op": {"$ref": "#/definitions/Comparator"}
+          },
+          "required": ["field", "stat", "selector", "op"]
+        }
+      ]
+    },
+    "Condition": {
+      "$ref": "#/definitions/Expression"
+    },
+    "Filter": {
+      "$ref": "#/definitions/Expression"
+    },
+    "Cost": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "restDonFromCostArea"},
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "count"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "trashFromHand"},
+            "minCards": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxCards": {"type": "integer"},
+            "filters": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "bindAs": {"type": "string"},
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "restThis"},
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "trashThis"},
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "donMinus"},
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "count"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "powerModCost"},
+            "amount": {"type": "integer"},
+            "duration": {"$ref": "#/definitions/Duration"},
+            "target": {"$ref": "#/definitions/TargetSelectorRef"},
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "amount",
+            "duration",
+            "target"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "returnDon"},
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "count"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "trashTopDeck"},
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "count"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "bottomDeckFromField"},
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "selector"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "restFromField"},
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "selector"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "trashFromField"},
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "selector"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "moveFromField"},
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "destination": {
+              "type": "string",
+              "enum": [
+                "hand",
+                "topOfDeck",
+                "bottomOfDeck",
+                "trash",
+                "stage",
+                "characterArea",
+                "leaderArea",
+                "costArea",
+                "life",
+                "topOfLife",
+                "bottomOfLife",
+                "topOrBottomOfLife"
+              ]
+            },
+            "may": {"type": "boolean"},
+            "faceUp": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "selector",
+            "destination"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "moveTopLifeCard"},
+            "side": {"$ref": "#/definitions/TargetSide"},
+            "destination": {
+              "type": "string",
+              "enum": [
+                "hand",
+                "trash",
+                "topOfDeck",
+                "bottomOfDeck",
+                "topOfLife",
+                "bottomOfLife"
+              ]
+            },
+            "position": {
+              "type": "string",
+              "enum": [
+                "top",
+                "bottom",
+                "topOrBottom"
+              ]
+            },
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "side",
+            "destination"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "multiCost"},
+            "costs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"$ref": "#/definitions/Cost"}
+            },
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "costs"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "bottomDeckFromTrash"},
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "selector"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "shuffleFromTrashToDeck"},
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "count"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "playFromHand"},
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "payCost": {"type": "boolean"},
+            "may": {"type": "boolean"}
+          },
+          "required": [
+            "type",
+            "selector"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "revealFromHand"},
+            "minCards": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxCards": {
+              "type": "integer"
+            },
+            "filters": {
+              "type": "array",
+              "items": {"$ref": "#/definitions/Filter"}
+            },
+            "bindAs": {"type": "string"},
+            "may": {"type": "boolean"}
+          },
+          "required": ["type"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "attachDonFromCostArea"},
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "target": {"$ref": "#/definitions/TargetSelectorRef"},
+            "may": {"type": "boolean"}
+          },
+          "required": ["type", "count", "target"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "setTopLifeFace"},
+            "side": {"$ref": "#/definitions/TargetSide"},
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "faceUp": {"type": "boolean"},
+            "may": {"type": "boolean"}
+          },
+          "required": ["type", "side", "count", "faceUp"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "setLifeFace"},
+            "side": {"$ref": "#/definitions/TargetSide"},
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "faceUp": {"type": "boolean"},
+            "fromFaceUpOnly": {
+              "type": "boolean",
+              "description": "If true, only currently face-up Life cards can be chosen to flip. If false or omitted, any Life cards may be chosen."
+            },
+            "may": {"type": "boolean"}
+          },
+          "required": ["type", "side", "count", "faceUp"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "koFromField"},
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "may": {"type": "boolean"}
+          },
+          "required": ["type", "selector"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"const": "moveFromHand"},
+            "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+            "destination": {
+              "type": "string",
+              "enum": [
+                "hand",
+                "topOfDeck",
+                "bottomOfDeck",
+                "trash",
+                "stage",
+                "characterArea",
+                "leaderArea",
+                "costArea",
+                "life",
+                "topOfLife",
+                "bottomOfLife",
+                "topOrBottomOfLife"
+              ]
+            },
+            "may": {"type": "boolean"},
+            "faceUp": {"type": "boolean"}
+          },
+          "required": ["type", "selector", "destination"]
+        }
+      ]
+    },
+    "ActionModifyStat": {
+      "description": "Modify a numeric stat (power, cost, or counter) on one or more target cards. The 'mode' determines whether the effect adds to the current value, sets the base value, or scales based on a counted selector. Duration controls how long the modification applies.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "modifyStat"},
+        "stat": {
+          "type": "string",
+          "enum": [
+            "power",
+            "cost",
+            "counter"
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "add",
+            "setBase",
+            "perCount",
+            "setBaseFromSelector"
+          ]
+        },
+        "amount": {"type": "integer"},
+        "perCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "perAmount": {"type": "integer"},
+        "countSelector": {"$ref": "#/definitions/TargetSelectorRef"},
+        "sourceSelector": {"$ref": "#/definitions/TargetSelectorRef"},
+        "duration": {"$ref": "#/definitions/Duration"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "stat",
+        "mode"
+      ]
+    },
+    "ActionKO": {
+      "description": "K.O. (trash) the selected Character card(s) on the field, following the normal rules for K.O. resolution. Only Character targets should be selected by the attached selector.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "ko"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "condition": {"$ref": "#/definitions/Condition"},
+        "may": {"type": "boolean"}
+      },
+      "required": [
+        "type",
+        "target"
+      ]
+    },
+    "ActionPreventKO": {
+      "description": "Within a replacement-effect or similar context, prevent the targeted card from being K.O.'d for the current event if the specified cause (battle/effect/any) matches. The KO that would have happened is skipped instead.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "preventKO"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "condition": {"$ref": "#/definitions/Condition"},
+        "may": {"type": "boolean"},
+        "sourceSide": {"$ref": "#/definitions/TargetSide"},
+        "cause": {
+          "type": "string",
+          "enum": ["any", "battle", "effect"],
+          "description": "What kind of KO this prevention applies to. `any` = any KO, `battle` = battle damage KO, `effect` = card-effect-based KO. If omitted, treat as `any`."
+        }
+      },
+      "required": [
+        "type",
+        "target"
+      ]
+    },
+    "ActionSearch": {
+      "description": "Look at cards from a source zone (deck, trash, or hand), choose some matching the selector, optionally reveal them, move them to a destination zone (hand, field, trash, etc.), and move the remaining cards somewhere else. Supports top-of-deck searches via topCount and separate handling for the remaining cards.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "search"},
+        "sourceZone": {
+          "type": "string",
+          "enum": [
+            "deck",
+            "trash",
+            "hand"
+          ]
+        },
+        "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+        "reveal": {"type": "boolean"},
+        "addTo": {
+          "type": "string",
+          "enum": [
+            "hand",
+            "topOfDeck",
+            "bottomOfDeck",
+            "stage",
+            "trash",
+            "characterArea"
+          ]
+        },
+        "ordering": {
+          "type": "string",
+          "enum": [
+            "any",
+            "chosen",
+            "random"
+          ]
+        },
+        "topCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "moveRemainingTo": {
+          "type": "string",
+          "enum": [
+            "hand",
+            "topOfDeck",
+            "bottomOfDeck",
+            "trash",
+            "stage",
+            "characterArea",
+            "leaderArea",
+            "topOrBottomOfDeck"
+          ]
+        },
+        "remainingOrdering": {
+          "type": "string",
+          "enum": [
+            "any",
+            "chosen",
+            "random",
+            "keep"
+          ]
+        },
+        "may": {"type": "boolean"},
+        "asPlay": {
+          "type": "boolean",
+          "description": "If true and addTo is a field zone (characterArea, leaderArea, or stage), the cards moved by this action are treated as being played rather than simply moved/placed (so they can trigger 'On Play' etc. as appropriate)."
+        },
+        "payCost": {
+          "type": "boolean",
+          "description": "If asPlay is true, this determines whether the card's printed play cost is paid. true = pay the printed cost when playing the card. false = play the card without paying its printed cost. Defaults to false if omitted."
+        },
+        "enterRested": {
+          "type": "boolean",
+          "description": "If true and asPlay is true and addTo is a field zone (characterArea, leaderArea, or stage), cards moved by this search-and-play effect enter the field rested instead of their normal entry state."
+        }
+      },
+      "required": [
+        "type",
+        "sourceZone",
+        "addTo"
+      ]
+    },
+    "ActionTrashFromHand": {
+      "description": "Trash cards from a player's hand. The effect can specify a fixed min/max number of cards, filter by simple tag strings, restrict which side is affected, or shrink the hand to a target size (targetHandSize).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "trashFromHand"},
+        "minCards": {"type": "integer"},
+        "maxCards": {"type": "integer"},
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "targetHandSize": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "If present, trash cards from the specified side's hand until their hand size equals this value (or as close as possible if they have fewer cards available). Used for effects like 'Trash cards from your hand until you have 5 cards in your hand.'"
+        },
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "ActionGiveDon": {
+      "description": "Give DON!! cards from the acting player's cost area to cards on the field, increasing their power per DON!! as per the rules. The effect can specify how many DON!! to give, which side to give to, which cards to attach them to, and whether the DON!! must be in a specific state (active/rested/any).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "giveDon"},
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "enterRested": {"type": "boolean"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"},
+        "sourceDonState": {
+          "type": "string",
+          "enum": ["active", "rested", "any"],
+          "description": "Which DON!! state in the cost area this effect is allowed to give. If omitted, treat as \"active\" to match the normal rules for giving DON!! during the Main Phase."
+        }
+      },
+      "required": [
+        "type",
+        "count"
+      ]
+    },
+    "ActionAttachDon": {
+      "description": "Move or reassign DON!! cards to be attached to a specific target, typically taking them from a selector source. Used for effects that attach DON!! in non-standard ways (e.g. moving from one card to another).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "attachDon"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "selector": {"$ref": "#/definitions/TargetSelectorRef"},
+        "condition": {"$ref": "#/definitions/Condition"},
+        "may": {"type": "boolean"}
+      },
+      "required": [
+        "type",
+        "target"
+      ]
+    },
+    "ActionReturnDon": {
+      "description": "Return a specified number of DON!! cards attached to or controlled by a player (via the target selector) back to that player's DON!! deck, following the standard DON!! -X style resolution.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "returnDon"},
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "may": {"type": "boolean"}
+      },
+      "required": [
+        "type",
+        "count"
+      ]
+    },
+    "ActionMatchDonCount": {
+      "description": "Adjust the specified side's DON!! count in their cost area so that it matches the current DON!! count of the reference side. The engine decides whether to add or return DON!! to achieve parity, respecting normal DON!! movement rules.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "matchDonCount"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "referenceSide": {"$ref": "#/definitions/TargetSide"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "side",
+        "referenceSide"
+      ]
+    },
+    "ActionSwapBaseStat": {
+      "description": "Swap the base value of a given stat (power, cost, or counter) between the two selected sets of cards for a specified duration. Later effects that modify base stats are applied on top of this swapped base.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "swapBaseStat"},
+        "stat": {
+          "type": "string",
+          "enum": ["power", "cost", "counter"]
+        },
+        "selectorA": {"$ref": "#/definitions/TargetSelectorRef"},
+        "selectorB": {"$ref": "#/definitions/TargetSelectorRef"},
+        "duration": {"$ref": "#/definitions/Duration"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": ["type", "stat", "selectorA", "selectorB", "duration"]
+    },
+    "ActionDetachDon": {
+      "description": "Detach (remove) a specified number of DON!! cards from the target card(s) and move them back to the appropriate cost area, as per standard DON!! detachment rules.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "detachDon"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "may": {"type": "boolean"}
+      },
+      "required": [
+        "type",
+        "target",
+        "count"
+      ]
+    },
+    "ActionSetState": {
+      "description": "Set the state (active or rested) of the target card(s) on the field. If a card is already in the requested state, nothing happens to that card.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "setState"},
+        "state": {
+          "type": "string",
+          "enum": [
+            "active",
+            "rested"
+          ]
+        },
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "state",
+        "target"
+      ]
+    },
+    "ActionDraw": {
+      "description": "Have the specified side draw a number of cards from the top of their deck into their hand using the normal draw rules. If the deck runs out, defeat by deck-out is handled by rule processing.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "draw"},
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "count"
+      ]
+    },
+    "ActionShuffleHandIntoDeckThenDrawSame": {
+      "description": "For the controller of this effect: optionally (if 'may' is true and chosen), count the number of cards in that player's hand, move all of them into their deck, shuffle that deck, then draw the same number of cards. Intended as a shorthand for a full-hand mulligan-style action. Currently unused by v64 card JSON but kept for possible future cards.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "shuffleHandIntoDeckThenDrawSame"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "ActionBottomDeckHandThenDrawSame": {
+      "description": "For the controller of this effect: optionally (if 'may' is true and chosen), count the number of cards in that player's hand, place all those cards on the bottom of their deck in any order chosen by that player, then draw the same number of cards. Currently unused by v64 card JSON but kept for possible future cards.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "bottomDeckHandThenDrawSame"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "ActionMoveCard": {
+      "description": "Move the selected card(s) from their current zone to a destination zone (hand, deck, life, stage, character area, leader area, cost area, trash, etc.). Supports specifying ordering (keep/chosen/random), whether cards are placed face-up, and whether field entries enter rested.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "moveCard"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "destination": {
+          "type": "string",
+          "enum": [
+            "hand",
+            "topOfDeck",
+            "bottomOfDeck",
+            "topOrBottomOfDeck",
+            "trash",
+            "stage",
+            "characterArea",
+            "leaderArea",
+            "costArea",
+            "life",
+            "topOfLife",
+            "bottomOfLife",
+            "topOrBottomOfLife"
+          ]
+        },
+        "ordering": {
+          "type": "string",
+          "enum": [
+            "keep",
+            "chosen",
+            "random"
+          ]
+        },
+        "faceUp": {"type": "boolean"},
+        "enterRested": {
+          "type": "boolean",
+          "description": "If true and the destination is a field zone that supports rested/active states (leaderArea, characterArea, stage, costArea), cards moved by this action are placed in the rested state."
+        },
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "target",
+        "destination"
+      ]
+    },
+    "ActionRedirectAttack": {
+      "description": "Change the current battle's attack target to the selected card, following the rules for redirecting attacks (similar to Blocker-style targeting changes).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "redirectAttack"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "target"
+      ]
+    },
+    "ActionRestrict": {
+      "description": "Apply a continuous restriction to the target card(s) for a duration (e.g., cannot attack, cannot attack the Leader, cannot be used as a Blocker, or cannot be rested). The restrictionKind determines what is prohibited.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "restrict"},
+        "restrictionKind": {
+          "type": "string",
+          "enum": [
+            "attack",
+            "attackLeader",
+            "blocker",
+            "rest"
+          ]
+        },
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "duration": {"$ref": "#/definitions/Duration"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "restrictionKind",
+        "target",
+        "duration"
+      ]
+    },
+    "ActionKeywordEffect": {
+      "description": "Add, remove, or statically confer a keyword (such as Blocker, Rush, etc.) to or from the target card(s). 'grant' and 'revoke' are temporary/continuous effects with durations; 'static' is used for always-on modelling of printed keywords.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "keywordEffect"},
+        "operation": {
+          "type": "string",
+          "enum": [
+            "grant",
+            "revoke",
+            "static"
+          ]
+        },
+        "keyword": {"type": "string"},
+        "duration": {"$ref": "#/definitions/Duration"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "operation",
+        "keyword",
+        "target"
+      ]
+    },
+    "ActionNegateEffects": {
+      "description": "Make the text box / effects of the target card(s) invalid for a specified duration, effectively treating them as if their effects do not exist while the duration lasts.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "negateEffects"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "duration": {"$ref": "#/definitions/Duration"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "target",
+        "duration"
+      ]
+    },
+    "ActionRevealLife": {
+      "description": "Reveal one or more Life cards from the specified side, without moving them out of the Life area. Can reveal all Life or a subset, and optionally control the ordering of the revealed group.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "revealLife"},
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "may": {"type": "boolean"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "all": {"type": "boolean"},
+        "ordering": {
+          "type": "string",
+          "enum": [
+            "keep",
+            "chosen",
+            "random"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "count"
+      ]
+    },
+    "ActionRevealHand": {
+      "description": "Reveal the contents of the specified side's hand to the other player for information only, without moving the cards. After resolution, the hand returns to being a secret area.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "revealHand"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "side"
+      ]
+    },
+    "ActionPlayCard": {
+      "description": "Play the selected card(s) from a specified source zone (hand, life, trash, deck) onto the appropriate field area, optionally resting them on entry and optionally ignoring their printed play cost. This counts as 'play' for [On Play] and similar triggers.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "playCard"},
+        "sourceZone": {
+          "type": "string",
+          "enum": [
+            "hand",
+            "life",
+            "trash",
+            "deck"
+          ]
+        },
+        "target": {
+          "$ref": "#/definitions/TargetSelectorRef",
+          "description": "Cards to be played from the sourceZone"
+        },
+        "enterRested": {
+          "type": "boolean",
+          "description": "If true, cards enter the field rested instead of following their normal entry state"
+        },
+        "payCost": {
+          "type": "boolean",
+          "description": "If false, the cards are played without paying their printed cost"
+        },
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "sourceZone",
+        "target"
+      ]
+    },
+    "ActionRestrictPlay": {
+      "description": "Restrict what kinds of cards a side can play or where they can be played from for a duration. Restrictions can be based on card category (Leader/Character/Event/Stage/DON!!), additional filters, and source zones.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "restrictPlay"},
+        "cardTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "leader",
+              "character",
+              "event",
+              "stage",
+              "don"
+            ]
+          },
+          "minItems": 1
+        },
+        "duration": {"$ref": "#/definitions/Duration"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "filters": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/Filter"}
+        },
+        "condition": {"$ref": "#/definitions/Condition"},
+        "sourceZones": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "leader",
+              "character",
+              "stage",
+              "hand",
+              "deck",
+              "donDeck",
+              "life",
+              "trash",
+              "costArea"
+            ]
+          }
+        }
+      },
+      "required": [
+        "type",
+        "cardTypes",
+        "duration"
+      ]
+    },
+    "ActionActivateSelfAbility": {
+      "description": "Programmatically activate one of this card's own abilities with the specified timing kind (main/counter/onPlay), as if the player had manually activated it and paid its costs (subject to may/condition).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "activateSelfAbility"},
+        "abilityTiming": {"$ref": "#/definitions/AbilityTimingKind"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "abilityTiming"
+      ]
+    },
+    "ActionActivateAbilityFromCard": {
+      "description": "Programmatically activate an ability with the specified timing kind (main/counter/onPlay) from another card chosen by the target selector, as if that card's controller had activated it and paid its costs (subject to may/condition).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "activateAbilityFromCard"},
+        "abilityTiming": {"$ref": "#/definitions/AbilityTimingKind"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "abilityTiming",
+        "target"
+      ]
+    },
+    "ActionDealDamage": {
+      "description": "Deal a specified amount of damage to a player's Leader (via their Life) according to the normal damage processing rules. This causes Life to be removed and triggers [Trigger] as usual.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "dealDamage"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "side",
+        "count"
+      ]
+    },
+    "ActionSetHandSizeMax": {
+      "description": "Set or change the maximum hand size for the specified side to a given value. The engine enforces discarding down to this limit at the appropriate rule times, if such a rule exists for the format.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "setHandSizeMax"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "maxCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "side",
+        "maxCount"
+      ]
+    },
+    "ActionExtraTurn": {
+      "description": "Grant the specified side an extra turn after the current one (or according to the engine's extra-turn queue), following the normal rules for extra turns in this game.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "extraTurn"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "side"
+      ]
+    },
+    "ActionTrashTopDeck": {
+      "description": "Trash a number of cards from the top of the acting player's deck (or as dictated by surrounding context) directly to the trash, one by one, respecting deck-out rules.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "trashTopDeck"},
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "count"
+      ]
+    },
+    "ActionSetLifeFace": {
+      "description": "Flip Life cards for the specified side face-up or face-down without moving them, affecting how visible they are but not their position in the Life stack.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "setLifeFace"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "faceUp": {"type": "boolean"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "side",
+        "faceUp"
+      ]
+    },
+    "ActionWinGame": {
+      "description": "Cause the specified side to immediately win the game when this action resolves, in line with the rules for card-based wins and losses.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "winGame"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "side"
+      ]
+    },
+    "ActionChooseMode": {
+      "description": "Present one or more modes (each a list of actions) and have the indicated player (self/opponent/system) choose some number of them within the [min, max] bounds. Only the chosen mode(s) actions are then executed.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "chooseMode"},
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "whoChooses": {
+          "type": "string",
+          "enum": [
+            "self",
+            "opponent",
+            "system"
+          ]
+        },
+        "modes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "actions": {
+                "type": "array",
+                "items": {"$ref": "#/definitions/Action"},
+                "minItems": 1
+              }
+            },
+            "required": [
+              "actions"
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "modes"
+      ]
+    },
+    "ActionSetLifeTotal": {
+      "description": "Set a player's Life total to a specific value, adding or removing Life cards as needed according to the engine's life-handling rules (drawing or placing from the deck as appropriate).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "setLifeTotal"},
+        "side": {"$ref": "#/definitions/TargetSide"},
+        "value": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "may": {"type": "boolean"},
+        "condition": {"$ref": "#/definitions/Condition"}
+      },
+      "required": [
+        "type",
+        "side",
+        "value"
+      ]
+    },
+    "ActionReplacementEffect": {
+      "description": "Register a replacement effect that listens for a named event (e.g., 'wouldBeRemovedFromFieldByOpponentsEffect', 'wouldBeKOd', etc.) affecting the targeted objects. When the event would occur, the controller may optionally pay the specified cost; if they do, the original event is replaced and this action's nested actions resolve instead, for a limited duration and up to maxTriggers times.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "replacementEffect"},
+        "duration": {"$ref": "#/definitions/Duration"},
+        "event": {"type": "string"},
+        "target": {"$ref": "#/definitions/TargetSelectorRef"},
+        "may": {"type": "boolean"},
+        "cost": {"$ref": "#/definitions/Cost"},
+        "condition": {"$ref": "#/definitions/Condition"},
+        "maxTriggers": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "actions": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/Action"},
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "duration",
+        "event",
+        "target",
+        "actions"
+      ]
+    },
+    "ActionConditional": {
+      "description": "Evaluate a condition at resolution time and, if it is true, execute the nested actions. If the condition is false, the nested actions are skipped. If 'may' is true, the controller can choose whether to apply the branch even if the condition holds.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "conditional"},
+        "condition": {"$ref": "#/definitions/Condition"},
+        "actions": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/Action"},
+          "minItems": 1
+        },
+        "may": {"type": "boolean"}
+      },
+      "required": [
+        "type",
+        "condition",
+        "actions"
+      ]
+    },
+    "ActionNoop": {
+      "description": "Do nothing. Used as a placeholder in replacement effects or modes where the effect is fully represented by the replacement itself or by other actions.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"const": "noop"}
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "Action": {
+      "description": "All supported action variants",
+      "oneOf": [
+        {"$ref": "#/definitions/ActionModifyStat"},
+        {"$ref": "#/definitions/ActionKO"},
+        {"$ref": "#/definitions/ActionPreventKO"},
+        {"$ref": "#/definitions/ActionSearch"},
+        {"$ref": "#/definitions/ActionTrashFromHand"},
+        {"$ref": "#/definitions/ActionGiveDon"},
+        {"$ref": "#/definitions/ActionAttachDon"},
+        {"$ref": "#/definitions/ActionReturnDon"},
+        {"$ref": "#/definitions/ActionDetachDon"},
+        {"$ref": "#/definitions/ActionSetState"},
+        {"$ref": "#/definitions/ActionDraw"},
+        {"$ref": "#/definitions/ActionMoveCard"},
+        {"$ref": "#/definitions/ActionRedirectAttack"},
+        {"$ref": "#/definitions/ActionRestrict"},
+        {"$ref": "#/definitions/ActionKeywordEffect"},
+        {"$ref": "#/definitions/ActionNegateEffects"},
+        {"$ref": "#/definitions/ActionRevealLife"},
+        {"$ref": "#/definitions/ActionRevealHand"},
+        {"$ref": "#/definitions/ActionDealDamage"},
+        {"$ref": "#/definitions/ActionPlayCard"},
+        {"$ref": "#/definitions/ActionRestrictPlay"},
+        {"$ref": "#/definitions/ActionActivateSelfAbility"},
+        {"$ref": "#/definitions/ActionActivateAbilityFromCard"},
+        {"$ref": "#/definitions/ActionTrashTopDeck"},
+        {"$ref": "#/definitions/ActionSetLifeFace"},
+        {"$ref": "#/definitions/ActionChooseMode"},
+        {"$ref": "#/definitions/ActionSetLifeTotal"},
+        {"$ref": "#/definitions/ActionReplacementEffect"},
+        {"$ref": "#/definitions/ActionNoop"},
+        {"$ref": "#/definitions/ActionWinGame"},
+        {"$ref": "#/definitions/ActionShuffleHandIntoDeckThenDrawSame"},
+        {"$ref": "#/definitions/ActionBottomDeckHandThenDrawSame"},
+        {"$ref": "#/definitions/ActionSetHandSizeMax"},
+        {"$ref": "#/definitions/ActionExtraTurn"},
+        {"$ref": "#/definitions/ActionConditional"},
+        {"$ref": "#/definitions/ActionMatchDonCount"},
+        {"$ref": "#/definitions/ActionSwapBaseStat"}
+      ]
+    },
+    "Ability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "timing": {"$ref": "#/definitions/Timing"},
+        "frequency": {"$ref": "#/definitions/Frequency"},
+        "condition": {"$ref": "#/definitions/Condition"},
+        "cost": {"$ref": "#/definitions/Cost"},
+        "selectors": {
+          "description": "Local named selectors; values can be referenced in actions by string key.",
+          "type": "object",
+          "additionalProperties": {"$ref": "#/definitions/TargetSelector"}
+        },
+        "actions": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/Action"}
+        }
+      },
+      "required": [
+        "timing",
+        "actions"
+      ]
     }
   }
 }

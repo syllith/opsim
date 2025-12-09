@@ -1,39 +1,100 @@
 {
-  "id": "EB01-030",
-  "set": "EB01",
-  "number": 30,
-  "name": "Logue Town",
-  "category": "Stage",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["East Blue"],
-  "rarity": "UC",
-  "art": "/cards/EB01/EB01-030.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main", "Trigger"],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "[Activate: Main] You may place this card and one card from your hand on the bottom of your deck in any order: Draw 2 cards.\n[Trigger] Play this card.",
+  "power": 0,
+  "cardType": "stage",
+  "cardId": "EB01-030",
+  "printedText": "[Activate: Main] You may place this card and one card from your hand on the bottom of your deck in any order. Draw 2 cards.\n[Trigger] Play this card.",
+  "types": [
+    "East Blue"
+  ],
+  "cardNumber": "030",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may place this card and one card from your hand on the bottom of your deck in any order: Draw 2 cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self", "hand"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "may": true,
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": "EB01-030",
+                "field": "cardId",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "stage"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "stage",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "destination": "bottomOfDeck"
+        },
+        {
+          "may": true,
+          "type": "moveCard",
+          "target": {
+            "zones": [
+              "hand"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "hand",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "destination": "bottomOfDeck"
+        },
+        {
+          "count": 2,
+          "type": "draw"
+        }
+      ],
+      "frequency": "none"
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "destination": "stage",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": "EB01-030",
+                "field": "cardId",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "stage",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "ordering": "keep"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Logue Town",
+  "rarity": "C",
+  "cost": 2,
+  "colors": [
+    "blue"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

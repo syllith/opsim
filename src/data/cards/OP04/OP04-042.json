@@ -1,54 +1,62 @@
 {
-  "id": "OP04-042",
-  "set": "OP04",
-  "number": 42,
-  "name": "Ipponmatsu",
-  "category": "Character",
+  "cardName": "Ipponmatsu",
+  "cardId": "OP04-042",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 1000,
+  "counter": 1000,
   "types": [
     "East Blue"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-042.png",
-  "stats": {
-    "cost": 2,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play Up to 1 of your characters with the (Slash) attribute gain +3000 Power this turn. Then, trash 1 card from the top of your deck.",
+  "setId": "OP04",
+  "cardNumber": "042",
+  "printedText": "[On Play] Up to 1 of your Characters with the {Slash} attribute gains +3000 Power this turn. Then, trash 1 card from the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Up to 1 of your characters with the (Slash) attribute gain +3000 Power this turn. Then, trash 1 card from the top of your deck.",
-        "powerMod": {
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this turn"
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "attribute",
+                "op": "=",
+                "value": "slash"
+              }
+            ]
+          }
         },
-        "targets": [
-          "upTo1Character:ally:withAttribute:Slash"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "trashTopDeck",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card has a 'SAMPLE' watermark, but all other text is legible."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

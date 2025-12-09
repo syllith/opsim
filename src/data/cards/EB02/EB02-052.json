@@ -1,53 +1,106 @@
 {
-  "id": "EB02-052",
-  "set": "EB02",
-  "number": 52,
-  "name": "Enel",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Special",
-  "types": ["Sky Island"],
-  "rarity": "SR",
-  "art": "/cards/EB02/EB02-052.png",
-  "stats": {
-    "cost": 10,
-    "power": 11000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Rush", "When Attacking"],
-  "trigger": null,
-  "text": "If your leader has the {Sky Island} type, this character gains [Rush].\n[When Attacking] You may trash 1 card from your hand: If your life has 1 or less cards, place up to 1 card from the top of your deck onto your life. Then give this character +1000 power for this turn.",
+  "power": 11000,
+  "cardType": "character",
+  "cardId": "EB02-052",
+  "printedText": "If your leader has the {Sky Island} type, this character gains Rush.\n[When Attacking] You may trash 1 card from your hand: If your life has 1 or less cards, place up to 1 card from the top of your deck onto your life. Then, give this character +1000 power for this turn.",
+  "types": [
+    "Sky Island"
+  ],
+  "cardNumber": "052",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your leader has the {Sky Island} type, this character gains [Rush].",
-        "grants": ["Rush"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["leaderHasSkyIsland"]
-      }
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "keyword": "rush",
+          "target": {
+            "filters": [
+              {
+                "value": true,
+                "field": "this",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "condition": {
+            "value": true,
+            "field": "leaderHasSkyIslandType",
+            "op": "="
+          },
+          "type": "keywordEffect",
+          "operation": "static"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: If your life has 1 or less cards, place up to 1 card from the top of your deck onto your life. Then give this character +1000 power for this turn.",
-        "grants": [],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "forThisTurn"
+      "cost": {
+        "type": "trashFromHand",
+        "maxCards": 1,
+        "minCards": 1
+      },
+      "selectors": {},
+      "timing": "whenAttacking",
+      "actions": [
+        {
+          "may": true,
+          "type": "moveCard",
+          "condition": {
+            "value": 1,
+            "field": "lifeCount",
+            "op": "<="
+          },
+          "destination": "life",
+          "target": "selfTopDeckCard"
         },
-        "targets": ["self", "deck", "life"],
-        "conditions": ["mayTrash1FromHand", "yourLife1OrLess"]
-      }
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "amount": 1000,
+          "target": {
+            "filters": [
+              {
+                "value": true,
+                "field": "this",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "system"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 0,
+  "cardName": "Enel",
+  "rarity": "SR",
+  "cost": 10,
+  "colors": [
+    "yellow"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "skyIsland"
+  ]
 }

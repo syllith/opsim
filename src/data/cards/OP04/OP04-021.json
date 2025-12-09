@@ -1,51 +1,57 @@
 {
-  "id": "OP04-021",
-  "set": "OP04",
-  "number": 21,
-  "name": "Viola",
-  "category": "Character",
+  "cardName": "Viola",
+  "cardId": "OP04-021",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "green"
   ],
-  "attribute": "Special",
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
   "types": [
     "Donquixote Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP04/OP04-021.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": 2000,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "When opponent attack"
-  ],
-  "trigger": null,
-  "text": "When opponent attack 2 (You may rest the specified number of DON!! cards in your Cost Area) Rest up to 1 of your opponent's DON!!.",
+  "rarity": "C",
+  "setId": "OP04",
+  "cardNumber": "021",
+  "printedText": "[On Your Opponent's Attack] (2) (You may rest the specified number of DON!! cards in your cost area.): Rest up to 1 of your opponent's DON!! cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
+      "timing": "onOpponentsAttack",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restDonFromCostArea",
+        "count": 2,
+        "may": true
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's DON!!.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentDon"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentDon": {
+          "side": "opponent",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "opponentDon"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentDon"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample. The text 'SAMPLE' is overlaid on the image."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

@@ -1,68 +1,68 @@
 {
-  "id": "OP12-039",
-  "set": "OP12",
-  "number": 39,
-  "name": "Luffy Is The Man Who Will Become The Pirate King!!!",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Luffy Is The Man Who Will Become The Pirate King!!!",
+  "cardId": "OP12-039",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 3,
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-039.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Up to 1 of your Leader or Character cards gains +1000 power during this turn."
-  },
-  "text": "[Main] Set up to 1 of your [Roronoa Zoro] Leader as active.",
+  "setId": "OP12",
+  "cardNumber": "039",
+  "printedText": "[Main] Set up to 1 of your [Roronoa Zoro] Leader as active.\n[Trigger] Up to 1 of your Leader or Character cards gains +1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "zoroLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Roronoa Zoro"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to 1 of your [Roronoa Zoro] Leader as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "zoroLeader"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Character cards gains +1000 power during this turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

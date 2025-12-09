@@ -1,48 +1,62 @@
 {
-  "id": "OP09-095",
-  "set": "OP09",
-  "number": 95,
-  "name": "Laffitte",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Blackbeard Pirates"
-  ],
+  "cardName": "Laffitte",
+  "cardId": "OP09-095",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-095.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this character and one of your Don!!: Look at the top 5 cards of your deck, reveal up to one (Blackbeard Pirates) type card and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "setId": "OP09",
+  "cardNumber": "095",
+  "printedText": "[Activate: Main] You may rest this Character and 1 of your DON!!: Look at the top 5 cards of your deck, reveal up to 1 \"Blackbeard Pirates\" type card and add it to your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to one (Blackbeard Pirates) type card and put it into your hand. Then, place the rest of the cards on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "filters": [
+              {
+                "field": "traits",
+                "op": "=",
+                "value": "blackbeardPirates"
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "any"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,38 +1,86 @@
 {
-  "id": "OP01-063",
-  "set": "OP01",
-  "number": 63,
-  "name": "Arlong",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Fish-Man", "Arlong Crew"],
+  "cardName": "Arlong",
+  "cardId": "OP01-063",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "Fish-Man",
+    "Arlong Crew"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-063.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["DON!! x1", "Activate: Main"],
-  "trigger": null,
-  "text": "DON!! x1 | Activate: Main: You may rest this Character: Choose 1 card from your opponent's hand and reveal it. If the revealed card is an Event, place 1 card from your opponent's Life area at the bottom of the owner's deck.",
+  "setId": "OP01",
+  "cardNumber": "063",
+  "printedText": "DON!! x1 Activate: Main You may rest this Character: Choose 1 card from your opponent's hand and reveal it. If the revealed card is an Event, place 1 card from your opponent's Life area at the bottom of the owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Character: Choose 1 card from your opponent's hand and reveal it. If the revealed card is an Event, place 1 card from your opponent's Life area at the bottom of the owner's deck.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self", "oneOpponentHandCard", "oneOpponentLifeCard"],
-        "conditions": ["restSelf", "revealedCardIsEvent"],
-        "giveDon": null
-      }
+      "timing": "activateMain",
+      "frequency": "none",
+      "condition": {
+        "field": "this.attachedDon",
+        "op": ">=",
+        "value": 1
+      },
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "oppHandCard1": {
+          "side": "opponent",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "revealedCard"
+        },
+        "oppLifeCard1": {
+          "side": "opponent",
+          "type": "any",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppHandCard1",
+          "destination": "hand",
+          "ordering": "keep",
+          "faceUp": true
+        },
+        {
+          "type": "moveCard",
+          "target": "oppLifeCard1",
+          "destination": "bottomOfDeck",
+          "ordering": "keep",
+          "condition": {
+            "field": "selectorCardType",
+            "op": "=",
+            "value": "event",
+            "fieldRef": "revealedCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "fishMan",
+    "arlongCrew"
+  ]
 }

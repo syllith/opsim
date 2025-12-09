@@ -1,49 +1,71 @@
 {
-  "id": "OP09-111",
-  "set": "OP09",
-  "number": 111,
-  "name": "Brook",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Egghead",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Brook",
+  "cardId": "OP09-111",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Egghead", "Straw Hat Crew"],
+  "traits": ["egghead", "strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-111.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP09",
+  "cardNumber": "111",
+  "printedText": "[Trigger] If your Leader has the \"Egghead\" type and your opponent has 6 or more cards in their hand, your opponent discards 2 cards from their hand.",
   "keywords": [],
-  "trigger": {
-    "text": "If your leader has the (Egghead) type and your opponent has 6 or more cards in their hand, your opponent discards 2 cards from their hand."
-  },
-  "text": null,
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "leaderEgghead": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "egghead"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "opponentHand": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your leader has the (Egghead) type and your opponent has 6 or more cards in their hand, your opponent discards 2 cards from their hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": "leaderEgghead",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCount",
+            "selector": "opponentHand",
+            "op": ">=",
+            "value": 6
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "trashFromHand",
+          "side": "opponent",
+          "minCards": 2,
+          "maxCards": 2
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' in image, but rarity and ID are legible."
-  }
+  ]
 }

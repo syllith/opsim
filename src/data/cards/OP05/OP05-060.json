@@ -1,52 +1,76 @@
 {
-  "id": "OP05-060",
-  "set": "OP05",
-  "number": 60,
-  "name": "Monkey.D.Luffy",
-  "category": "Leader",
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "OP05-060",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
   "types": [
     "Straw Hat Crew"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-060.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may take the top card from your Life cards to your hand: If the amount of DON!! on your field is 0 or 3 or more, add up to 1 DON!! card from your DON!! deck as active.",
+  "rarity": "L",
+  "setId": "OP05",
+  "cardNumber": "060",
+  "printedText": "[Activate: Main] [Once Per Turn] You may take the top card from your Life cards to your hand: If the amount of DON!! on your field is 0 or 3 or more, add up to 1 DON!! card from your DON!! deck as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "top",
+        "may": true
       },
-      "effect": {
-        "text": "You may take the top card from your Life cards to your hand: If the amount of DON!! on your field is 0 or 3 or more, add up to 1 DON!! card from your DON!! deck as active.",
-        "powerMod": null,
-        "conditions": [
-          "amount of DON!! on your field is 0 or 3 or more"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "OR",
+        "any": [
+          {
+            "field": "donCountField",
+            "op": "=",
+            "value": 0
+          },
+          {
+            "field": "donCountField",
+            "op": ">=",
+            "value": 3
+          }
+        ]
+      },
+      "selectors": {
+        "donCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 0,
+          "whoChooses": "system",
+          "bindAs": "donCostArea"
+        }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "target": "donCostArea",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

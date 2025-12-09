@@ -1,64 +1,72 @@
 {
-  "id": "OP09-058",
-  "set": "OP09",
-  "number": 58,
-  "name": "Special Muggy Ball",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Buggy Pirates"
-  ],
+  "cardName": "Special Muggy Ball",
+  "cardId": "OP09-058",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 2,
+  "types": ["Buggy Pirates"],
+  "traits": ["buggyPirates"],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-058.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Return 1 character with a cost of 3 or less to the owner's hand."
-  },
-  "text": "Main: Your opponent returns 1 of their characters with a cost of 6 or less to the owner's hand. Trigger: Return 1 character with a cost of 3 or less to the owner's hand.",
+  "setId": "OP09",
+  "cardNumber": "058",
+  "printedText": "[Main] Your opponent returns 1 of their Characters with a cost of 6 or less to the owner's hand.\n[Trigger] Return 1 Character with a cost of 3 or less to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "oppCost6OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent"
+        }
       },
-      "effect": {
-        "text": "Your opponent returns 1 of their characters with a cost of 6 or less to the owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppCost6OrLess",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "anyCost3OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Return 1 character with a cost of 3 or less to the owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "anyCost3OrLess",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

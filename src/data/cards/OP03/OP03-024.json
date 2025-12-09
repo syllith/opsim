@@ -1,35 +1,65 @@
 {
-  "id": "OP03-024",
-  "set": "OP03",
-  "number": 24,
-  "name": "Gin",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
-  "types": ["East Blue", "Krieg Pirates"],
-  "rarity": "UC",
-  "art": "/cards/OP03/OP03-024.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If your Leader has the {East Blue} type, rest up to 2 of your opponent's Characters with a cost of 4 or less.",
+  "cardName": "Gin",
+  "cardId": "OP03-024",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "East Blue",
+    "Krieg Pirates"
+  ],
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "024",
+  "printedText": "[On Play] If your Leader has the {East Blue} type, rest up to 2 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {East Blue} type, rest up to 2 of your opponent's Characters with a cost of 4 or less.",
-        "targets": ["opponentCharacter"],
-        "conditions": ["leaderHasEastBlue", "costLessOrEqual4"]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderHasTypeEastBlue",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "restTargets": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTargets"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "eastBlue",
+    "kriegPirates"
+  ]
 }

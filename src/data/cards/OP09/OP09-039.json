@@ -1,74 +1,101 @@
 {
-  "id": "OP09-039",
-  "set": "OP09",
-  "number": 39,
-  "name": "Gum-Gum Quattro Mano Jet Cross Shock Bazooka",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "ODYSSEY",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Gum-Gum Quattro Mano Jet Cross Shock Bazooka",
+  "cardId": "OP09-039",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 1,
+  "types": ["ODYSSEY", "Straw Hat Crew"],
+  "traits": ["odyssey", "strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-039.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "KO up to one of your opponent's rested cost 4 or lower characters."
-  },
-  "text": "If your leader has the <<Odyssey>> type and you have two or more rested characters in play, up to one of your leader or characters gains +2000 power for this turn.",
+  "setId": "OP09",
+  "cardNumber": "039",
+  "printedText": "[Counter] If your Leader has the {ODYSSEY} type and you have 2 or more rested Characters in play, up to 1 of your Leader or Characters gains +2000 power during this turn.\n[Trigger] K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "leaderOrCharacterBuff": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your leader has the <<Odyssey>> type and you have two or more rested characters in play, up to one of your leader or characters gains +2000 power for this turn.",
-        "powerMod": null,
-        "conditions": [
-          "leader:hasType<<Odyssey>>",
-          "twoOrMore:restedCharactersInPlay"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "odyssey"
+          },
+          {
+            "field": "selectorCount",
+            "selector": "yourRestedCharacters",
+            "op": ">=",
+            "value": 2
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "leaderOrCharacterBuff"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "oppRestedCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "KO up to one of your opponent's rested cost 4 or lower characters.",
-        "powerMod": null,
-        "conditions": [
-          "oneOpponentCharacter",
-          "rested",
-          "cost<=4"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppRestedCost4OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

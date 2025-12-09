@@ -1,53 +1,127 @@
 {
-  "id": "EB03-049",
-  "set": "EB03",
-  "number": 49,
-  "name": "I Knew You People Were Behind This",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["Thriller Bark Pirates"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-049.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Counter"],
-  "trigger": null,
-  "text": "[Main] You may rest 7 of your DON!! cards: If your Leader is [Perona], play up to 1 {Thriller Bark Pirates} type Character card with a cost of 6 or less and up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your hand or trash.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB03-049",
+  "printedText": "Main You may rest 7 of your DON!! cards: If your Leader is {Perona}, play up to 1 {Thriller Bark Pirates} type Character card with a cost of 6 or less and up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your hand or trash.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "types": [
+    "Thriller Bark Pirates"
+  ],
+  "cardNumber": "049",
+  "keywords": [
+    "counter"
+  ],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 7 },
-      "effect": {
-        "text": "If your Leader is [Perona], play up to 1 {Thriller Bark Pirates} type Character card with a cost of 6 or less and up to 1 {Thriller Bark Pirates} type Character card with a cost of 4 or less from your hand or trash.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand", "trash"],
-        "conditions": ["leaderIsPerona", "thrillerBarkPiratesType", "characterCost<=6", "characterCost<=4"]
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "payCost": true,
+          "target": {
+            "filters": [
+              {
+                "op": "=",
+                "field": "types",
+                "value": "Thriller Bark Pirates"
+              },
+              {
+                "op": "<=",
+                "field": "cost",
+                "value": 6
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "type": "character",
+            "max": 1,
+            "min": 0,
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "enterRested": false
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "payCost": true,
+          "target": {
+            "filters": [
+              {
+                "op": "=",
+                "field": "types",
+                "value": "Thriller Bark Pirates"
+              },
+              {
+                "op": "<=",
+                "field": "cost",
+                "value": 4
+              }
+            ],
+            "zones": [
+              "hand",
+              "trash"
+            ],
+            "upTo": true,
+            "type": "character",
+            "max": 1,
+            "min": 0,
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "enterRested": false
+        }
+      ],
+      "condition": {
+        "op": "=",
+        "field": "leaderName",
+        "value": "Perona"
+      },
+      "frequency": "none",
+      "timing": "main",
+      "selectors": {},
+      "cost": {
+        "count": 7,
+        "type": "restDonFromCostArea",
+        "may": true
       }
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisBattle",
           "amount": 3000,
-          "duration": "duringThisBattle"
-        },
-        "targets": ["upTo1:self:Leader"],
-        "conditions": []
-      }
+          "target": {
+            "zones": [
+              "leader"
+            ],
+            "upTo": true,
+            "type": "leader",
+            "max": 1,
+            "min": 0,
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 0,
+  "cardName": "I Knew You People Were Behind This",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "yellow"
+  ],
+  "traits": [
+    "thrillerBarkPirates"
+  ]
 }

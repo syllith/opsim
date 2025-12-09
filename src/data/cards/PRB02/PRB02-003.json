@@ -1,62 +1,48 @@
 {
-  "id": "PRB02-003",
-  "set": "PRB02",
-  "number": 3,
-  "name": "Lucky.Roux",
-  "category": "Character",
+  "cardName": "Lucky.Roux",
+  "cardId": "PRB02-003",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Ranged",
+  "cost": 4,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": [
+    "ranged"
+  ],
   "types": [
     "Red-Haired Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/PRB02/PRB02-003.png",
-  "stats": {
-    "cost": 4,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
+  "traits": [
+    "redHairedPirates"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: You may trash 1 Character card with a power of 6000 or more from your hand: Draw 2 cards.",
+  "rarity": "R",
+  "setId": "PRB02",
+  "cardNumber": "003",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] You may trash 1 Character card with a power of 6000 or more from your hand: Draw 2 cards.",
+  "keywords": [
+    "Blocker"
+  ],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": [
+          "characterPower6000OrMore"
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may trash 1 Character card with a power of 6000 or more from your hand: Draw 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,64 +1,90 @@
 {
-  "id": "OP05-019",
-  "set": "OP05",
-  "number": 19,
-  "name": "Fire Fist",
-  "category": "Event",
+  "cardName": "Fire Fist",
+  "cardId": "OP05-019",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "L",
-  "art": "/cards/OP05/OP05-019.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main Give up to 1 of your opponent's characters ~4000 Power this turn. Then, if your life has 2 cards or less, K.O. up to 1 of your opponent's characters with 0 or less Power.",
+  "rarity": "R",
+  "setId": "OP05",
+  "cardNumber": "019",
+  "printedText": "[Main] Give up to 1 of your opponent's Characters -4000 power during this turn. Then, if you have 2 or less Life cards, K.O. up to 1 of your opponent's Characters with 0 power or less.\n[Trigger] Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "debuffTarget"
+        },
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 0
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's characters ~4000 Power this turn. Then, if your life has 2 cards or less, K.O. up to 1 of your opponent's characters with 0 or less Power.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -4000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        },
+        {
+          "type": "ko",
+          "target": "koTarget",
+          "condition": {
+            "field": "selfLife",
+            "op": "<=",
+            "value": 2
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "revolutionaryArmy"
+  ]
 }

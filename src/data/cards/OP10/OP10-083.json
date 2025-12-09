@@ -1,50 +1,72 @@
 {
-  "id": "OP10-083",
-  "set": "OP10",
-  "number": 83,
-  "name": "Kozuki Momonosuke",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Dressrosa",
-    "Wano",
-    "Kozuki Family"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP10/OP10-083.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this character and one of your Leader or Stages with the \"Dressrosa\" type. Give up to 1 of your opponent's characters cost -2 for the turn.",
+  "cardName": "Kozuki Momonosuke",
+  "cardId": "OP10-083",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Dressrosa", "Wano", "Kozuki Family"],
+  "traits": ["dressrosa", "wano", "kozukiFamily"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "083",
+  "printedText": "[Activate: Main] You may rest this Character and one of your Leader or Stages with the \"Dressrosa\" type: Give up to 1 of your opponent's Characters cost -2 for the turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "restFromField",
+            "selector": {
+              "side": "self",
+              "type": "any",
+              "zones": ["leader", "stage"],
+              "filters": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "dressrosa"
+                }
+              ],
+              "min": 1,
+              "max": 1,
+              "whoChooses": "self",
+              "bindAs": "dressrosaLeaderOrStage"
+            }
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this character and one of your Leader or Stages with the \"Dressrosa\" type. Give up to 1 of your opponent's characters cost -2 for the turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -2,
+          "duration": "thisTurn",
+          "target": "oppCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample with 'SAMPLE' watermark. Counter value is 2000 as printed."
-  }
+  ]
 }

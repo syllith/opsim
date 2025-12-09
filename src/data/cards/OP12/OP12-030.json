@@ -1,49 +1,77 @@
 {
-  "id": "OP12-030",
-  "set": "OP12",
-  "number": 30,
-  "name": "Dracule Mihawk",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "The Seven Warlords of the Sea/Muggy Kingdom"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP12/OP12-030.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Set up to 4 rested DON!! cards as active. Then, you may not play a Character with an original cost of 7 or more during this turn.",
+  "cardName": "Dracule Mihawk",
+  "cardId": "OP12-030",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 8,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["The Seven Warlords of the Sea", "Muggy Kingdom"],
+  "traits": ["theSevenWarlordsOfTheSea", "muggyKingdom"],
+  "rarity": "SR",
+  "setId": "OP12",
+  "cardNumber": "030",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Set up to 4 rested DON!! cards as active. Then, you may not play a Character with an original cost of 7 or more during this turn.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "donToActivate": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 4,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to 4 rested DON!! cards as active. Then, you may not play a Character with an original cost of 7 or more during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donToActivate"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "playCard",
+          "target": {
+            "side": "self",
+            "type": "any",
+            "zones": ["hand"],
+            "filters": [
+              {
+                "field": "cardType",
+                "op": "=",
+                "value": "character"
+              },
+              {
+                "field": "originalCost",
+                "op": ">=",
+                "value": 7
+              }
+            ],
+            "min": 0,
+            "max": 50,
+            "whoChooses": "system"
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

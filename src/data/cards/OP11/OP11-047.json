@@ -1,53 +1,55 @@
 {
-  "id": "OP11-047",
-  "set": "OP11",
-  "number": 47,
-  "name": "Vinsmoke Reiju",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Vinsmoke Family",
-    "GERMA 66"
-  ],
+  "cardName": "Vinsmoke Reiju",
+  "cardId": "OP11-047",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Vinsmoke Family", "GERMA 66"],
+  "traits": ["vinsmokeFamily", "germa66"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-047.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the (Vinsmoke Family) type, look at the top 5 cards of your deck, reveal up to 1 card with a type including \"GERMA\" and add it to your hand. Then, place the rest of the cards in your trash.",
+  "setId": "OP11",
+  "cardNumber": "047",
+  "printedText": "[On Play] If your Leader has the {Vinsmoke Family} type, look at the top 5 cards of your deck, reveal up to 1 card with a type including \"GERMA\" and add it to your hand. Then, place the rest of the cards in your trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "selfLeaderHasTrait",
+        "op": "=",
+        "value": "vinsmokeFamily"
       },
-      "effect": {
-        "text": "If your Leader has the (Vinsmoke Family) type, look at the top 5 cards of your deck, reveal up to 1 card with a type including \"GERMA\" and add it to your hand. Then, place the rest of the cards in your trash.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Vinsmoke Family"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": ["deck"],
+            "filters": [
+              {
+                "field": "traits",
+                "op": "=",
+                "value": "germa66"
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "trash",
+          "remainingOrdering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

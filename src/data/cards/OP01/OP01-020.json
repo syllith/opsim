@@ -1,59 +1,93 @@
 {
-  "id": "OP01-020",
-  "set": "OP01",
-  "number": 20,
-  "name": "Hyogoro",
-  "category": "Character",
+  "cardName": "Hyogoro",
+  "cardId": "OP01-020",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Wano Country"
   ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-020.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this Character: Your Leader or up to 1 of your Characters gains +2000 power during this turn.",
+  "setId": "OP01",
+  "cardNumber": "020",
+  "printedText": "Activate: Main You may rest this Character: Your Leader or up to 1 of your Characters gains +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character: Your Leader or up to 1 of your Characters gains +2000 power during this turn.",
-        "grants": [],
-        "powerMod": {
-          "amount": 2000,
-          "duration": "duringThisTurn"
+      "selectors": {
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "bindAs": "leaderTarget",
+          "whoChooses": "self"
         },
-        "targets": [
-          "self:Leader",
-          "upTo1:ally:Character"
-        ],
-        "conditions": [
-          "mayRestThisCharacter"
-        ]
-      }
+        "characterTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "bindAs": "characterTarget",
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 2000,
+                  "duration": "thisTurn",
+                  "target": "leaderTarget"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "stat": "power",
+                  "mode": "add",
+                  "amount": 2000,
+                  "duration": "thisTurn",
+                  "target": "characterTarget"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "wanoCountry"
+  ]
 }

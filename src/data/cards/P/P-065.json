@@ -1,53 +1,57 @@
 {
-  "id": "P-065",
-  "set": "P",
-  "number": 65,
-  "name": "Tony Tony Chopper",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Animal",
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-065.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Tony Tony Chopper",
+  "cardId": "P-065",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Animal", "Straw Hat Crew"],
+  "traits": ["animal", "strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-065",
+  "printedText": "[When Attacking] If your opponent has a cost 0 Character on the field, this Character gains +2000 power until the start of your next turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: If your opponent has a cost 0 character on the board, this character gains +2000 Power until the start of your next turn.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your opponent has a cost 0 character on the board, this character gains +2000 Power until the start of your next turn.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
+      "timing": "whenAttacking",
+      "selectors": {
+        "opponentCostZeroCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ],
+          "whoChooses": "system"
         },
-        "conditions": [
-          "opponent:hasCost0Character"
-        ],
-        "giveDon": null
-      }
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "opponentCostZeroCharacters",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "untilStartOfYourNextTurn",
+          "target": "thisCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

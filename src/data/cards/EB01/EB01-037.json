@@ -1,37 +1,58 @@
 {
-  "id": "EB01-037",
-  "set": "EB01",
-  "number": 37,
-  "name": "Mr.9",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Baroque Works"],
-  "rarity": "UC",
-  "art": "/cards/EB01/EB01-037.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On opponent's attack", "Once Per Turn", "DON!! -1"],
-  "trigger": null,
-  "text": "[On opponent's attack] [Once Per Turn] Don!! -1: (You may return the specified number of DON!! cards from your field to your DON!! deck) K.O. up to one of your opponent's cost 2 or less characters.",
+  "power": 4000,
+  "cardType": "character",
+  "attributes": [
+    "strike"
+  ],
+  "cardId": "EB01-037",
+  "printedText": "[On opponent's attack] [Once Per Turn] DON!! -1: K.O. up to one of your opponent's cost 2 or less characters.\n[Counter +1000]",
+  "types": [
+    "Baroque Works"
+  ],
+  "cardNumber": "037",
   "abilities": [
     {
-      "timing": "On opponent's attack",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Don!! -1: (You may return the specified number of DON!! cards from your field to your DON!! deck) K.O. up to one of your opponent's cost 2 or less characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["characterCost<=2"]
-      }
+      "cost": {
+        "count": 1,
+        "type": "donMinus"
+      },
+      "selectors": {},
+      "timing": "onOpponentsAttack",
+      "actions": [
+        {
+          "target": {
+            "filters": [
+              {
+                "value": 2,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "type": "ko"
+        }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Mr.9",
+  "rarity": "C",
+  "cost": 3,
+  "colors": [
+    "purple"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

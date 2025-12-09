@@ -1,23 +1,92 @@
 {
-  "id": "OP02-047",
-  "set": "OP02",
-  "number": 47,
-  "name": "Paradise Totsuka",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["Wano Country", "Kouzuki Family"],
+  "cardName": "Paradise Totsuka",
+  "cardId": "OP02-047",
+  "cardType": "event",
+  "colors": [
+    "green"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Wano Country",
+    "Kouzuki Family"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-047.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "K.O. up to 1 of your opponent’s rested Characters with a cost of 3 or less." },
-  "text": "Main: Rest up to 1 of your opponent’s Characters with a cost of 4 or less.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "setId": "OP02",
+  "cardNumber": "047",
+  "printedText": "[Main] Rest up to 1 of your opponent's Characters with a cost of 4 or less. [Trigger] K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "main",
+      "selectors": {
+        "totsukaMainRestTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "totsukaMainRestTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "totsukaMainRestTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "totsukaTriggerKoTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "totsukaTriggerKoTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "totsukaTriggerKoTarget"
+        }
+      ]
+    }
+  ],
+  "traits": [
+    "wanoCountry",
+    "kouzukiFamily"
+  ]
 }

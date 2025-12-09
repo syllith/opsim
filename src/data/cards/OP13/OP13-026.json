@@ -1,53 +1,41 @@
 {
-  "id": "OP13-026",
-  "set": "OP13",
-  "number": 26,
-  "name": "Sunny-Kun",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "FILM",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Sunny-Kun",
+  "cardId": "OP13-026",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["FILM", "Straw Hat Crew"],
+  "traits": ["film", "strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-026.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate:Main Once Per Turn You may rest 1 of your DON!! cards: This Character gains +2000 power until the end of your opponent's next turn.",
+  "setId": "OP13",
+  "cardNumber": "026",
+  "printedText": "[Activate:Main] [Once Per Turn] You may rest 1 of your DON!! cards: This Character gains +2000 power until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 1 of your DON!! cards: This Character gains +2000 power until the end of your opponent's next turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

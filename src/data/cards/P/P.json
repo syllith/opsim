@@ -1,37 +1,18 @@
 {
-  "id": "P",
-  "set": "P",
-  "number": null,
-  "name": "Monkey D. Luffy",
-  "category": "Leader",
-  "colors": [
-    "Red",
-    "Green",
-    "Blue",
-    "Purple",
-    "Black",
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Monkey D. Luffy",
+  "cardId": "P",
+  "cardType": "leader",
+  "colors": ["red", "green", "blue", "purple", "black", "yellow"],
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "P",
-  "art": "/cards/P/P.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "P",
+  "cardNumber": "P",
+  "printedText": "By rule, this leader can only be used in the specified event. According to the rules, this leader is a card with all the names, characteristics and attributes of the cards.",
   "keywords": [],
-  "trigger": null,
-  "text": "By rule, this leader can only be used in the specified event. According to the rules, this leader is a card with all the names, characteristics and attributes of the cards.",
-  "abilities": [],
-  "meta": {
-    "notes": "Event-exclusive leader card with special rules. Acts as a card with all names, characteristics and attributes."
-  }
+  "abilities": []
 }

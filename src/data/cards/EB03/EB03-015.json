@@ -1,43 +1,105 @@
 {
-  "id": "EB03-015",
-  "set": "EB03",
-  "number": 15,
-  "name": "Camie",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Wisdom",
-  "types": ["Merfolk", "Fish-Man Island"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-015.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this Character: Give up to 1 rested DON!! card to 1 of your {Fish-Man} or {Merfolk} type Leader or Character cards. Then, rest up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB03-015",
+  "printedText": "[Activate:Main] You may rest this Character: Give up to 1 rested DON!! card to 1 of your {Fish-Man} or {Merfolk} type Leader or Character cards. Then, rest up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "types": [
+    "Merfolk",
+    "Fish-Man Island"
+  ],
+  "cardNumber": "015",
+  "keywords": [
+    "Activate:Main"
+  ],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Character: Give up to 1 rested DON!! card to 1 of your {Fish-Man} or {Merfolk} type Leader or Character cards. Then, rest up to 1 of your opponent's Characters with a cost of 2 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:LeaderOrCharacter:FishManOrMerfolk", "upTo1:opponent:Character:cost<=2"],
-        "conditions": ["restSelf"],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["ally:LeaderOrCharacter:FishManOrMerfolk"]
+      "cost": {
+        "type": "restThis"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": {
+            "filters": [
+              {
+                "value": [
+                  "Fish-Man",
+                  "Merfolk"
+                ],
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "selector": {
+            "filters": [
+              {
+                "value": true,
+                "field": "rested",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "costArea"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        },
+        {
+          "type": "setState",
+          "target": {
+            "filters": [
+              {
+                "value": 2,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "state": "rested"
         }
-      }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Camie",
+  "rarity": "C",
+  "cost": 2,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "merfolk",
+    "fishManIsland"
+  ]
 }

@@ -1,49 +1,62 @@
 {
-  "id": "OP03-032",
-  "set": "OP03",
-  "number": 32,
-  "name": "Buggy",
-  "category": "Character",
+  "cardName": "Buggy",
+  "cardId": "OP03-032",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "East Blue",
     "Buggy Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-032.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "This character cannot be K.O'd in battle with (Slash) attribute cards.",
+  "setId": "OP03",
+  "cardNumber": "032",
+  "printedText": "This Character cannot be K.O.'d in battle with (Slash) attribute cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This character cannot be K.O'd in battle with (Slash) attribute cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "thisWouldBeKOdInBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          },
+          "may": false,
+          "condition": {
+            "field": "battleOpponent",
+            "attribute": "slash",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is indicated by 'C' in the bottom right corner. The card is a sample, so the artwork and text are for demonstration only."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "eastBlue",
+    "buggyPirates"
+  ]
 }

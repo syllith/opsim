@@ -1,65 +1,182 @@
 {
-  "id": "OP05-096",
-  "set": "OP05",
-  "number": 96,
-  "name": "I bid 500 million!!",
-  "category": "Event",
-  "colors": [],
-  "attribute": null,
+  "cardName": "I bid 500 million!!",
+  "cardId": "OP05-096",
+  "cardType": "event",
+  "colors": [
+    "yellow"
+  ],
+  "cost": 3,
   "types": [
     "Celestial Dragon"
   ],
-  "rarity": "C",
-  "art": "/cards/OP05/OP05-096.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's cost 6 or lower Characters, or return it to it's owners hand"
-  },
-  "text": "Main K.O. up to 1 of your opponent's cost 1 or lower Characters, or return it to it's owners hand or place it at the top or bottom of it's owner's life. Then, if you have a (Celestial Dragon) type character, draw 1 card. Trigger K.O. up to 1 of your opponent's cost 6 or lower Characters, or return it to it's owners hand",
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "096",
+  "printedText": "Main K.O. up to 1 of your opponent's cost 1 or lower Characters, or return it to it's owners hand or place it at the top or bottom of it's owner's life. Then, if you have a {Celestial Dragon} type character, draw 1 card. Trigger K.O. up to 1 of your opponent's cost 6 or lower Characters, or return it to it's owners hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "oppCost1OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "selfCelestialDragonCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Celestial Dragon"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's cost 1 or lower Characters, or return it to it's owners hand or place it at the top or bottom of it's owner's life. Then, if you have a (Celestial Dragon) type character, draw 1 card.",
-        "powerMod": null,
-        "conditions": [
-          "have a (Celestial Dragon) type character"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "ko",
+                  "target": "oppCost1OrLessCharacter"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "oppCost1OrLessCharacter",
+                  "destination": "hand",
+                  "ordering": "keep"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "chooseMode",
+                  "min": 1,
+                  "max": 1,
+                  "whoChooses": "self",
+                  "modes": [
+                    {
+                      "actions": [
+                        {
+                          "type": "moveCard",
+                          "target": "oppCost1OrLessCharacter",
+                          "destination": "topOfLife",
+                          "ordering": "keep"
+                        }
+                      ]
+                    },
+                    {
+                      "actions": [
+                        {
+                          "type": "moveCard",
+                          "target": "oppCost1OrLessCharacter",
+                          "destination": "bottomOfLife",
+                          "ordering": "keep"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "draw",
+          "count": 1,
+          "condition": {
+            "field": "selectorCount",
+            "selector": "selfCelestialDragonCharacter",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "oppCost6OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's cost 6 or lower Characters, or return it to it's owners hand",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "ko",
+                  "target": "oppCost6OrLessCharacter"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "oppCost6OrLessCharacter",
+                  "destination": "hand",
+                  "ordering": "keep"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "celestialDragon"
+  ]
 }

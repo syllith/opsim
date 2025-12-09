@@ -1,33 +1,27 @@
 {
-  "id": "OP06-105",
-  "set": "OP06",
-  "number": 105,
-  "name": "Genbo",
-  "category": "Character",
+  "cardName": "Genbo",
+  "cardId": "OP06-105",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Ranged",
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "ranged"
+  ],
   "types": [
     "Sky Island",
-    "Shandora Warrior"
+    "Shondora Warrior"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-105.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "traits": [
+    "skyIsland",
+    "shondoraWarrior"
+  ],
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "105",
+  "printedText": "",
+  "keywords": []
 }

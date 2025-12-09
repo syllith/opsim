@@ -1,65 +1,89 @@
 {
-  "id": "OP09-037",
-  "set": "OP09",
-  "number": 37,
-  "name": "Lim",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "ODYSSEY"
-  ],
+  "cardName": "Lim",
+  "cardId": "OP09-037",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["ODYSSEY"],
+  "traits": ["odyssey"],
   "rarity": "SR",
-  "art": "/cards/OP09/OP09-037.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "End of Your Turn"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck, reveal up to one card with the [Odyssey] type other than <Lim> and put it in your hand. Then, place the rest at the bottom of your deck in any order.\nEnd of Your Turn: If you have 3 or more rested characters in play, set this character as active.",
+  "setId": "OP09",
+  "cardNumber": "037",
+  "printedText": "[On Play] Look at the top 5 cards of your deck, reveal up to 1 card with the {ODYSSEY} type other than \"Lim\" and put it into your hand. Then, place the rest at the bottom of your deck in any order.\n[End of Your Turn] If you have 3 or more rested Characters in play, set this Character as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "odysseySearchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "odyssey"
+            },
+            {
+              "field": "name",
+              "op": "!=",
+              "value": "Lim"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to one card with the [Odyssey] type other than <Lim> and put it in your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "odysseySearchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If you have 3 or more rested characters in play, set this character as active.",
-        "powerMod": null,
-        "conditions": [
-          "3 or more rested characters in play"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedCharacters",
+        "op": ">=",
+        "value": 3
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "thisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

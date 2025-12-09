@@ -1,51 +1,92 @@
 {
-  "id": "OP07-058",
-  "set": "OP07",
-  "number": 58,
-  "name": "Isle Of Women",
-  "category": "Stage",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Amazon Lily"
-  ],
+  "cardName": "Isle Of Women",
+  "cardId": "OP07-058",
+  "cardType": "stage",
+  "colors": ["blue"],
+  "cost": 1,
+  "types": ["Amazon Lily"],
+  "traits": ["amazonLily"],
   "rarity": "C",
-  "art": "/cards/OP07/OP07-058.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may discard 1 card from your hand and rest this stage: If your leader has the (Kuja Pirates) type, return up to 1 of your Characters with the (Kuja Pirates) or (Amazon Lily) type to its owner's hand.",
+  "setId": "OP07",
+  "cardNumber": "058",
+  "printedText": "[Activate: Main] You may discard 1 card from your hand and rest this Stage: If your Leader has the [Kuja Pirates] type, return up to 1 of your [Amazon Lily] or [Kuja Pirates] type Characters to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may discard 1 card from your hand and rest this stage: If your leader has the (Kuja Pirates) type, return up to 1 of your Characters with the (Kuja Pirates) or (Amazon Lily) type to its owner's hand.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the (Kuja Pirates) type"
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          },
+          {
+            "type": "restThis"
+          }
         ],
-        "giveDon": null
-      }
+        "may": true
+      },
+      "selectors": {
+        "isleLeaderKuja": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "kujaPirates"
+            }
+          ]
+        },
+        "isleBounceTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "kujaPirates"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "amazonLily"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "isleLeaderKuja",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "isleBounceTarget",
+              "destination": "hand",
+              "ordering": "chosen"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,56 +1,63 @@
 {
-  "id": "OP01-011",
-  "set": "OP01",
-  "number": 11,
-  "name": "Gordon",
-  "category": "Character",
+  "cardName": "Gordon",
+  "cardId": "OP01-011",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
   "types": [
     "FILM"
   ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-011.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "011",
+  "printedText": "On Play: You may place 1 card from your hand at the bottom of your deck: Draw 1 card.",
   "keywords": [
-    "On Play"
+    "onPlay"
   ],
-  "trigger": null,
-  "text": "[On Play] You may place 1 card from your hand at the bottom of your deck: Draw 1 card.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "handCard": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may place 1 card from your hand at the bottom of your deck: Draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "hand",
-          "deck"
-        ],
-        "conditions": [
-          "mayPlaceHandToBottomOfDeck"
-        ]
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "handCard",
+          "destination": "bottomOfDeck",
+          "ordering": "keep",
+          "may": true
+        },
+        {
+          "type": "draw",
+          "count": 1,
+          "condition": {
+            "field": "selectorCount",
+            "selector": "handCard",
+            "op": "=",
+            "value": 1
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "film"
+  ]
 }

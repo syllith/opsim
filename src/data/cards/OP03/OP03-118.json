@@ -1,78 +1,66 @@
 {
-  "id": "OP03-118",
-  "set": "OP03",
-  "number": 118,
-  "name": "Ikoku Sovereignty",
-  "category": "Event",
+  "cardName": "Ikoku Sovereignty",
+  "cardId": "OP03-118",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 2,
   "types": [
     "The Four Emperors",
     "Big Mom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-118.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "118",
+  "printedText": "Counter Up to 1 of your Leader or Characters gains +5000 Power during this battle.\nTrigger You may discard 2 cards from your hand: Add up to 1 card from the top of your deck to the top of your life.",
   "keywords": [
     "Counter",
     "Trigger"
   ],
-  "trigger": {
-    "text": "You may discard 2 cards from your hand: Add up to 1 card from the top of your deck to the top of your life."
-  },
-  "text": "#Counter Up to 1 of your Leader or Characters gains +5000 Power during this battle.\n\nTrigger You may discard 2 cards from your hand: Add up to 1 card from the top of your deck to the top of your life.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Up to 1 of your Leader or Characters gains +5000 Power during this battle.",
-        "powerMod": {
+      "timing": "counter",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 5000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "oneAllyCharacter",
-          "oneAllyLeader"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "leaderOrCharacter",
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard 2 cards from your hand: Add up to 1 card from the top of your deck to the top of your life.",
-        "powerMod": null,
-        "targets": [
-          "oneCardFromDeck"
-        ],
-        "conditions": [
-          "discard2CardsFromHand"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "life",
+          "may": true,
+          "target": "selfTopDeckCard"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in a box in the bottom right corner. The card number is 118, and the set is OP03. The cost is 2, printed in the top-left corner. The Counter value is 1000, printed next to the Counter icon."
-  }
+  "traits": [
+    "theFourEmperors",
+    "bigMomPirates"
+  ]
 }

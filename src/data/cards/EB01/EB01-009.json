@@ -1,37 +1,64 @@
 {
-  "id": "EB01-009",
-  "set": "EB01",
-  "number": 9,
-  "name": "Shut Up and Come With Us!!",
-  "category": "Event",
-  "colors": ["Yellow"],
-  "attribute": null,
-  "types": ["Drum Kingdom", "Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/EB01/EB01-009.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": "[Counter] Look at the top 5 cards of your deck and put up to one cost 3 or less {Animal} type character into play. Then, place the rest on the bottom of your deck in any order.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB01-009",
+  "printedText": "Counter Look at the top 5 cards of your deck and put up to one cost 3 or less {Animal} type character into play. Then, place the rest on the bottom of your deck in any order.",
+  "types": [
+    "Drum Kingdom",
+    "Straw Hat Crew"
+  ],
+  "cardNumber": "009",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck and put up to one cost 3 or less {Animal} type character into play. Then, place the rest on the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["characterCost<=3", "characterTypeAnimal"]
-      }
+      "selectors": {},
+      "timing": "onOpponentsAttack",
+      "actions": [
+        {
+          "selector": {
+            "filters": [
+              {
+                "value": 3,
+                "field": "cost",
+                "op": "<="
+              },
+              {
+                "value": "Animal",
+                "field": "hasType",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 5,
+          "addTo": "characterArea",
+          "reveal": false,
+          "sourceZone": "deck",
+          "type": "search",
+          "ordering": "any",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Shut Up and Come With Us!!",
+  "rarity": "C",
+  "cost": 1,
+  "colors": [
+    "red"
+  ],
+  "traits": [
+    "drumKingdom",
+    "strawHatCrew"
+  ]
 }

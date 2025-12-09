@@ -1,40 +1,79 @@
 {
-  "id": "EB01-019",
-  "set": "EB01",
-  "number": 19,
-  "name": "Off White",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["The Seven Warlords", "Donquixote Pirates"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-019.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": "[Counter] Give up to 1 of your Leader or Characters Power +4000 for this battle. Then, look at the top 3 cards of your deck, reveal up to 1 [Donquixote Pirates] type Character card and add it to your hand. Then, return the remaining cards to the bottom of your deck in your desired order.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB01-019",
+  "printedText": "Counter Give up to 1 of your Leader or Characters Power +4000 for this battle. Then, look at the top 3 cards of your deck, reveal up to 1 [Donquixote Pirates] type Character card and add it to your hand. Then, return the remaining cards to the bottom of your deck in your desired order.",
+  "types": [
+    "The Seven Warlords",
+    "Donquixote Pirates"
+  ],
+  "cardNumber": "019",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your Leader or Characters Power +4000 for this battle. Then, look at the top 3 cards of your deck, reveal up to 1 [Donquixote Pirates] type Character card and add it to your hand. Then, return the remaining cards to the bottom of your deck in your desired order.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "onOpponentsAttack",
+      "actions": [
+        {
+          "type": "modifyStat",
           "amount": 4000,
-          "duration": "thisBattle"
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisBattle",
+          "may": true,
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "type": "leaderOrCharacter",
+            "max": 1,
+            "min": 0,
+            "side": "self"
+          }
         },
-        "targets": ["self:Leader", "ally:Character"],
-        "conditions": []
-      }
+        {
+          "selector": {
+            "filters": [
+              {
+                "value": "Donquixote Pirates",
+                "field": "hasType",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "may": false,
+          "topCount": 3,
+          "addTo": "hand",
+          "reveal": true,
+          "sourceZone": "deck",
+          "type": "search",
+          "ordering": "chosen",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Off White",
+  "rarity": "R",
+  "cost": 2,
+  "colors": [
+    "green"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "donquixotePirates"
+  ]
 }

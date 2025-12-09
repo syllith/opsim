@@ -1,53 +1,58 @@
 {
-  "id": "OP10-010",
-  "set": "OP10",
-  "number": 10,
-  "name": "Chadros Higelyges (Brown Beard)",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Punk Hazard",
-    "Brownbeard Pirates"
-  ],
+  "cardName": "Chadros Higelyges (Brown Beard)",
+  "cardId": "OP10-010",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["Punk Hazard", "Brownbeard Pirates"],
+  "traits": ["punkHazard", "brownbeardPirates"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-010.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP10",
+  "cardNumber": "010",
+  "printedText": "[When Attacking] If you have 1 or less Characters with 6000 or more power, this Character gets +1000 power during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: If you have 1 or less Characters with 6000 or more power, this character gets +1000 power during this turn.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If you have 1 or less Characters with 6000 or more power, this character gets +1000 power during this turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "timing": "whenAttacking",
+      "selectors": {
+        "chars6000OrMore": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": ">=",
+              "value": 6000
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
         },
-        "conditions": [
-          "you have 1 or less Characters with 6000 or more power"
-        ],
-        "giveDon": null
-      }
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "chars6000OrMore",
+        "op": "<=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "thisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

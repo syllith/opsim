@@ -1,37 +1,35 @@
 {
-  "id": "ST10-009",
-  "set": "ST10",
-  "number": 9,
-  "name": "Jean Bart",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
+  "cardName": "Jean Bart",
+  "cardId": "ST10-009",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Heart Pirates"],
+  "traits": ["heartPirates"],
   "rarity": "C",
-  "art": "/cards/ST10/ST10-009.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play — 1 (You may rest the specified number of DON!! cards in your Cost Area.) You may add up to 1 DON!! from your DON!! deck set as active.",
+  "setId": "ST10",
+  "cardNumber": "009",
+  "printedText": "[On Play] (1) (You may rest the specified number of DON!! cards in your Cost Area.) You may add up to 1 DON!! card from your DON!! deck set as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "You may add up to 1 DON!! from your DON!! deck set as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["donDeck"],
-        "conditions": []
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

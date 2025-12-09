@@ -1,65 +1,153 @@
 {
-  "id": "OP07-036",
-  "set": "OP07",
-  "number": 36,
-  "name": "Demonic Aura Nine-Sword Style Asura: Demon Nine Flash",
-  "category": "Event",
+  "cardName": "Demonic Aura Nine-Sword Style Asura: Demon Nine Flash",
+  "cardId": "OP07-036",
+  "cardType": "event",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
   "types": [
-    "Supernova",
+    "Supernovas",
     "Straw Hat Crew"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-036.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "supernovas",
+    "strawHatCrew"
   ],
-  "trigger": {
-    "text": "You may rest up to one of your opponent's cost 4 or less characters."
-  },
-  "text": "Main Up to one of your leader or character cards gains +3000 power during this turn. Then, you may rest one of your cost 3 or greater characters. If you did, rest up to one of your opponent's cost 5 or less characters.",
+  "rarity": "R",
+  "setId": "OP07",
+  "cardNumber": "036",
+  "printedText": "[Main] Up to 1 of your Leader or Character cards gains +3000 power during this turn. Then, you may rest 1 of your Characters with a cost of 3 or more. If you do, rest up to 1 of your opponent's Characters with a cost of 5 or less. [Trigger] Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "selfRestChar": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 3
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "oppRest5": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to one of your leader or character cards gains +3000 power during this turn. Then, you may rest one of your cost 3 or greater characters. If you did, rest up to one of your opponent's cost 5 or less characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        },
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "noop"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "setState",
+                  "state": "rested",
+                  "target": "selfRestChar"
+                },
+                {
+                  "type": "setState",
+                  "state": "rested",
+                  "target": "oppRest5"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "oppRest4": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may rest up to one of your opponent's cost 4 or less characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppRest4",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

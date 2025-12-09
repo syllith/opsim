@@ -1,53 +1,85 @@
 {
-  "id": "OP04-044",
-  "set": "OP04",
-  "number": 44,
-  "name": "Kaido",
-  "category": "Character",
+  "cardName": "Kaido",
+  "cardId": "OP04-044",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 10,
+  "power": 12000,
+  "counter": 0,
   "types": [
     "Animal Kingdom Pirates",
     "Four Emperors"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-044.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "[On Play] Return up to 1 Character that costs 8 or less and up to 1 Character that costs 3 or less to the owner's hand.",
+  "rarity": "SR",
+  "setId": "OP04",
+  "cardNumber": "044",
+  "printedText": "[On Play] Return up to 1 Character costing 8 or less and up to 1 Character costing 3 or less to its owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "cost8OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 8
+            }
+          ]
+        },
+        "cost3OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Return up to 1 Character that costs 8 or less and up to 1 Character that costs 3 or less to the owner's hand.",
-        "powerMod": null,
-        "targets": [
-          "upTo1Character<=cost8",
-          "upTo1Character<=cost3"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "cost8OrLess",
+          "destination": "hand",
+          "ordering": "keep"
+        },
+        {
+          "type": "moveCard",
+          "target": "cost3OrLess",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is inferred from the 'C' symbol in the bottom right corner. The card is a sample, so the artwork and text are not final."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates",
+    "theFourEmperors"
+  ]
 }

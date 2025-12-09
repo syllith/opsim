@@ -1,75 +1,101 @@
 {
-  "id": "OP13-077",
-  "set": "OP13",
-  "number": 77,
-  "name": "Head Straight for the Top!!!",
-  "category": "Event",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "Former Roger Pirates"
-  ],
+  "cardName": "Head Straight for the Top!!!",
+  "cardId": "OP13-077",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 1,
+  "types": ["Former Roger Pirates"],
+  "traits": ["formerRogerPirates"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-077.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main You may rest 3 of your DON!! cards: if you have a given DON!! card, K.O. up to 1 of your opponent's Characters with 4000 base power or less and up to 1 of your opponent's Characters with 3000 base power or less. \nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "setId": "OP13",
+  "cardNumber": "077",
+  "printedText": "[Main] You may rest 3 of your DON!! cards: If you have a given DON!! card, K.O. up to 1 of your opponent's Characters with 4000 base power or less and up to 1 of your opponent's Characters with 3000 base power or less.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 3
+        "type": "restDonFromCostArea",
+        "count": 3,
+        "may": true
       },
-      "effect": {
-        "text": "if you have a given DON!! card, K.O. up to 1 of your opponent's Characters with 4000 base power or less and up to 1 of your opponent's Characters with 3000 base power or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4",
-          "oneOpponentCharacter<=cost3"
-        ],
-        "conditions": [
-          "haveGivenDon"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "givenDonOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "upToOneOppBase4000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "upToOneOppBase3000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "givenDonOnField",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "upToOneOppBase4000OrLess"
+        },
+        {
+          "type": "ko",
+          "target": "upToOneOppBase3000OrLess"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "oneLeader"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "selfLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

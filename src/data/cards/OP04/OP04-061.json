@@ -1,62 +1,83 @@
 {
-  "id": "OP04-061",
-  "set": "OP04",
-  "number": 61,
-  "name": "Tom",
-  "category": "Character",
+  "cardName": "Tom",
+  "cardId": "OP04-061",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Fish-Man",
     "Water 7"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-061.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may trash this character. If your leader is {Water 7} type, add up to 1 DON!! from your DON!! deck and set it rested.",
+  "setId": "OP04",
+  "cardNumber": "061",
+  "printedText": "Activate: Main You may trash this Character: If your Leader has the {Water 7} type, add up to 1 DON!! card from your DON!! deck and set it rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may trash this character. If your leader is {Water 7} type, add up to 1 DON!! from your DON!! deck and set it rested.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "leader:Water 7"
-        ],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "donDeck",
-          "to": [
-            "donArea"
-          ]
+      "timing": "activateMain",
+      "frequency": "none",
+      "selectors": {
+        "water7Leader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Water 7"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "water7Leader"
+        },
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "system",
+          "bindAs": "donFromDeck"
         }
-      }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "water7Leader",
+        "op": ">=",
+        "value": 1
+      },
+      "cost": {
+        "type": "trashThis",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "enterRested": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample. The rarity 'C' is visible in the bottom right corner. The text is fully legible."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "fishMan",
+    "waterSeven"
+  ]
 }

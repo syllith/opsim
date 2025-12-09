@@ -1,37 +1,37 @@
 {
-  "id": "EB01-050",
-  "set": "EB01",
-  "number": 50,
-  "name": "I want to live!!!!",
-  "category": "Event",
-  "colors": ["Black"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
-  "rarity": "UC",
-  "art": "/cards/EB01/EB01-050.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": "[Counter] If the number of cards in your trash is 30 or greater, place the top card of your deck on top of your life pile.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If the number of cards in your trash is 30 or greater, place the top card of your deck on top of your life pile.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "life"],
-        "conditions": ["trashSize>=30"]
-      }
+      "selectors": {},
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "moveCard",
+          "condition": {
+            "value": 30,
+            "field": "self.trash.count",
+            "op": ">="
+          },
+          "destination": "life",
+          "target": "selfTopDeckCard"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "colors": [
+    "yellow"
+  ],
+  "rarity": "R",
+  "cardName": "I want to live!!!!",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "printedText": "[Counter] If the number of cards in your trash is 30 or greater, place the top card of your deck on top of your life pile.",
+  "setId": "EB01",
+  "cardType": "event",
+  "cardNumber": "050",
+  "cardId": "EB01-050",
+  "cost": 3,
+  "traits": [
+    "strawHatCrew"
+  ]
 }

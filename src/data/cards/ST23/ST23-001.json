@@ -1,57 +1,77 @@
 {
-  "id": "ST23-001",
-  "set": "ST23",
-  "number": 1,
-  "name": "Uta",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Special",
-  "types": [
-    "FILM"
-  ],
+  "cardName": "Uta",
+  "cardId": "ST23-001",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 6,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["FILM"],
+  "traits": ["film"],
   "rarity": "SR",
-  "art": "/cards/ST23/ST23-001.png",
-  "stats": {
-    "cost": 6,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "If you have a Character with 10000 power or more, give this card in your hand −4 cost.\n[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "setId": "ST23",
+  "cardNumber": "001",
+  "printedText": "If you have a Character with 10000 power or more, give this card in your hand -4 cost.\n[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "type": "Continuous",
-      "frequency": null,
-      "condition": {
-        "allyCharacterPower": 10000
+      "timing": "static",
+      "selectors": {
+        "selfCharacter10kOrMore": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": ">=",
+              "value": 10000
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        }
       },
-      "cost": null,
-      "effect": {
-        "text": "If you have a Character with 10000 power or more, give this card in your hand −4 cost.",
-        "actions": [
-          {
-            "type": "costMod",
-            "mode": "aura",
-            "targetSelf": true,
-            "amount": -4,
-            "duration": "permanent",
-            "appliesToHand": true
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -4,
+          "duration": "permanent",
+          "target": "thisCard",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "selectorCount",
+                "selector": "selfCharacter10kOrMore",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "selfZone",
+                "op": "=",
+                "value": "hand"
+              }
+            ]
           }
-        ]
-      }
+        }
+      ]
+    },
+    {
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "thisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Cost reduction applies while in hand if you control a Character with 10000+ power"
-  },
-  "verified": true
+  ]
 }

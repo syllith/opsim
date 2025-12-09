@@ -1,49 +1,59 @@
 {
-  "id": "OP07-025",
-  "set": "OP07",
-  "number": 25,
-  "name": "Coribou",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernova",
-    "Caribou Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-025.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Play up to 1 Cost 4 or lower [Caribou] from your hand rested.",
+  "cardName": "Coribou",
+  "cardId": "OP07-025",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Supernova", "Caribou Pirates"],
+  "traits": ["supernova", "caribouPirates"],
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "025",
+  "printedText": "On Play Play up to 1 cost 4 or lower Caribou from your hand rested.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Caribou"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Play up to 1 Cost 4 or lower [Caribou] from your hand rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget",
+          "enterRested": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

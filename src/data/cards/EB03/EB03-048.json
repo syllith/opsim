@@ -1,37 +1,93 @@
 {
-  "id": "EB03-048",
-  "set": "EB03",
-  "number": 48,
-  "name": "Rebecca",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["Dressrosa"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-048.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "[Blocker]\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Dressrosa} type Stage card and add it to your hand. Then, place the rest on the bottom of your deck in any order and play up to 1 {Dressrosa} type Stage card with a cost of 1 from your hand.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB03-048",
+  "printedText": "Blocker\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Dressrosa} type Stage card and add it to your hand. Then, place the rest at the bottom of your deck in any order and play up to 1 {Dressrosa} type Stage card with a cost of 1 from your hand.",
+  "types": [
+    "Dressrosa"
+  ],
+  "cardNumber": "048",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Dressrosa} type Stage card and add it to your hand. Then, place the rest on the bottom of your deck in any order and play up to 1 {Dressrosa} type Stage card with a cost of 1 from your hand.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["deck", "hand"],
-        "conditions": ["dressrosaType", "stageCost1"]
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "selector": {
+            "filters": [
+              {
+                "op": "=",
+                "field": "types",
+                "value": "Dressrosa"
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "upTo": true,
+            "type": "stage",
+            "max": 1,
+            "min": 0,
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 5,
+          "addTo": "hand",
+          "reveal": true,
+          "sourceZone": "deck",
+          "type": "search",
+          "ordering": "chosen",
+          "remainingOrdering": "chosen"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": {
+            "filters": [
+              {
+                "op": "=",
+                "field": "types",
+                "value": "Dressrosa"
+              },
+              {
+                "op": "=",
+                "field": "cost",
+                "value": 1
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "type": "stage",
+            "max": 1,
+            "min": 0,
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "payCost": true,
+          "enterRested": false
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Rebecca",
+  "rarity": "R",
+  "cost": 2,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "dressrosa"
+  ]
 }

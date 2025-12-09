@@ -1,33 +1,18 @@
 {
-  "id": "OP10-084",
-  "set": "OP10",
-  "number": 84,
-  "name": "San Juan Wolf",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Giants",
-    "Blackbeard Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP10/OP10-084.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "San Juan Wolf",
+  "cardId": "OP10-084",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Giants", "Blackbeard Pirates"],
+  "traits": ["giants", "blackbeardPirates"],
+  "rarity": "C",
+  "setId": "OP10",
+  "cardNumber": "084",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card is a sample and may not reflect final printed text or stats. Power is 7000, not 7000+ as might be misread. No text or abilities printed."
-  }
+  "abilities": []
 }

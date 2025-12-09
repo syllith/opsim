@@ -1,53 +1,33 @@
 {
-  "id": "OP14-050",
-  "set": "OP14",
-  "number": 50,
-  "name": "Chew",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Fish-Man",
-    "The Sun Pirates"
-  ],
+  "cardName": "Chew",
+  "cardId": "OP14-050",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 3000,
+  "attributes": ["ranged"],
+  "types": ["Fish-Man", "The Sun Pirates"],
+  "traits": ["fishMan", "theSunPirates"],
   "rarity": "UC",
-  "art": "/cards/OP14/OP14-050.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the (Fish-Man) type, draw 1 card.",
+  "setId": "OP14",
+  "cardNumber": "050",
+  "printedText": "[On Play] If your Leader has the {Fish-Man} type, draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderHasTrait",
+        "op": "=",
+        "value": "fishMan"
       },
-      "effect": {
-        "text": "If your Leader has the (Fish-Man) type, draw 1 card.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Fish-Man"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

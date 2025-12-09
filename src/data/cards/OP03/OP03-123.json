@@ -1,51 +1,90 @@
 {
-  "id": "OP03-123",
-  "set": "OP03",
-  "number": 123,
-  "name": "Charlotte Katakuri",
-  "category": "Character",
+  "cardName": "Charlotte Katakuri",
+  "cardId": "OP03-123",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 8,
+  "power": 8000,
+  "counter": 0,
   "types": [
     "Big Mom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-123.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "[On Play] Put up to 1 Character with a cost of 8 or less on the top or bottom of its owner's Life Area face-up.",
+  "rarity": "SR",
+  "setId": "OP03",
+  "cardNumber": "123",
+  "printedText": "On Play Put up to 1 Character with a cost of 8 or less on the top or bottom of its owner's Life Area face-up.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Put up to 1 Character with a cost of 8 or less on the top or bottom of its owner's Life Area face-up.",
-        "powerMod": null,
-        "targets": [
-          "Character<=cost8"
-        ],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": {
+                    "side": "both",
+                    "type": "character",
+                    "filters": [
+                      {
+                        "field": "cost",
+                        "op": "<=",
+                        "value": 8
+                      }
+                    ],
+                    "min": 0,
+                    "max": 1,
+                    "upTo": true,
+                    "whoChooses": "self"
+                  },
+                  "destination": "topOfLife",
+                  "faceUp": true,
+                  "may": true
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": {
+                    "side": "both",
+                    "type": "character",
+                    "filters": [
+                      {
+                        "field": "cost",
+                        "op": "<=",
+                        "value": 8
+                      }
+                    ],
+                    "min": 0,
+                    "max": 1,
+                    "upTo": true,
+                    "whoChooses": "self"
+                  },
+                  "destination": "bottomOfLife",
+                  "faceUp": true,
+                  "may": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "bigMomPirates"
+  ]
 }

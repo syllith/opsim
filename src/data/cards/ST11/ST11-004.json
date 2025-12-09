@@ -1,50 +1,93 @@
 {
-  "id": "ST11-004",
-  "set": "ST11",
-  "number": 4,
-  "name": "New Genesis",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
+  "cardName": "New Genesis",
+  "cardId": "ST11-004",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 1,
   "types": ["Song", "FILM"],
-  "rarity": "SR",
-  "art": "/cards/ST11/ST11-004.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
+  "traits": ["song", "film"],
+  "rarity": "C",
+  "setId": "ST11",
+  "cardNumber": "004",
+  "printedText": "[Main] If your Leader is [Uta], look at the top 3 cards of your deck, reveal up to 1 <FILM> type card other than [New Genesis] and add it to your hand. Return the remaining cards to the bottom of your deck in any order. Then, set up to 1 rested DON!! as active.",
   "keywords": [],
-  "trigger": null,
-  "text": "Main if your leader is Uta, look at the top 3 cards of your deck, reveal up to 1 <FILM> type card other than [New Genesis] and add it to your hand. Return the remaining cards to the bottom of your deck in any order. Then, set up to 1 rested DON!! as active.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your leader is Uta, look at the top 3 cards of your deck, reveal up to 1 <FILM> type card other than [New Genesis] and add it to your hand. Return the remaining cards to the bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": ["self:deckTop3", "self:hand"],
-        "conditions": ["leaderIs:Uta"],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Set up to 1 rested DON!! as active.",
-        "powerMod": null,
-        "targets": ["oneRestedDon"],
-        "conditions": [],
-        "giveDon": { "amount": 1, "to": "active" }
-      }
+      "timing": "main",
+      "selectors": {
+        "selfUtaLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Uta"
+            }
+          ]
+        },
+        "filmFromTop": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "film"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "New Genesis"
+            }
+          ]
+        },
+        "restedDonUpTo1": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfUtaLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "filmFromTop",
+          "reveal": true,
+          "addTo": "hand",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        },
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "restedDonUpTo1"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

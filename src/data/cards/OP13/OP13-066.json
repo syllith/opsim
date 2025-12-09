@@ -1,49 +1,83 @@
 {
-  "id": "OP13-066",
-  "set": "OP13",
-  "number": 66,
-  "name": "Silvers Rayleigh",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Roger Pirates"
-  ],
+  "cardName": "Silvers Rayleigh",
+  "cardId": "OP13-066",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 8,
+  "power": 9000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Roger Pirates"],
+  "traits": ["rogerPirates"],
   "rarity": "SR",
-  "art": "/cards/OP13/OP13-066.png",
-  "stats": {
-    "cost": 8,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 9000
-    }
-  },
-  "keywords": [
-    "Rush",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Rush\nOn Play: If you have any given DON!! cards, rest up to 1 of your opponent's Characters with a cost of 5 or less. Then, at the end of this turn, add up to 1 DON!! card from your DON!! deck as active.",
+  "setId": "OP13",
+  "cardNumber": "066",
+  "printedText": "Rush (This card can attack on the turn it is played.)\n[On Play] If you have any DON!! cards given, rest up to 1 of your opponent's Characters with a cost of 5 or less. Then, at the end of this turn, add up to 1 DON!! card from your DON!! deck as active.",
+  "keywords": ["Rush"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "givenDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "upToOneOppCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If you have any given DON!! cards, rest up to 1 of your opponent's Characters with a cost of 5 or less. Then, at the end of this turn, add up to 1 DON!! card from your DON!! deck as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "givenDon",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "upToOneOppCost5OrLess"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "endOfYourTurn",
+          "target": "selfTopDonDeckCard",
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "selfTopDonDeckCard",
+              "destination": "costArea",
+              "enterRested": false,
+              "may": true
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

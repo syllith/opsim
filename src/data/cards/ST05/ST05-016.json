@@ -1,21 +1,68 @@
 {
-  "id": "ST05-016",
-  "set": "ST05",
-  "number": 16,
-  "name": "Lion's Threat: Imperial Earth Bind",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
+  "cardName": "Lion's Threat: Imperial Earth Bind",
+  "cardId": "ST05-016",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 3,
   "types": ["FILM", "Golden Lion Pirates"],
-  "rarity": null,
-  "art": "/cards/ST05/ST05-016.png",
-  "stats": { "cost": 3, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Main", "Trigger"],
-  "trigger": "Add 1 DON!! card from your DON!! deck and set it as active.",
-  "text": "Main: DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck): K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "traits": ["film", "goldenLionPirates"],
+  "rarity": "",
+  "setId": "ST05",
+  "cardNumber": "016",
+  "printedText": "[Main] DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck): K.O. up to 1 of your opponent's Characters with a cost of 5 or less.\n[Trigger] Add 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
-    {"timing": "Main", "frequency": null, "donReq": 2, "cost": {"returnDonToDeck": 2}, "effect": {"text": "K.O. up to 1 opponent Character with cost 5 or less.", "grants": ["KO"], "powerMod": null, "targets": ["oneOpponentCharacter"], "conditions": ["cost5OrLess"]}},
-    {"timing": "Trigger", "frequency": null, "donReq": null, "cost": null, "effect": {"text": "Add 1 DON!! from DON deck and set as active.", "grants": ["addDonActive"], "powerMod": null, "targets": ["donDeck"], "conditions": []}}
-  ],
-  "meta": {"notes": null}
+    {
+      "timing": "main",
+      "cost": {
+        "type": "donMinus",
+        "count": 2
+      },
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "ordering": "keep"
+        }
+      ]
+    }
+  ]
 }

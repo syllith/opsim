@@ -1,35 +1,28 @@
 {
-  "id": "OP04-054",
-  "set": "OP04",
-  "number": 54,
-  "name": "Rokki",
-  "category": "Character",
+  "cardName": "Rokki",
+  "cardId": "OP04-054",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
   "types": [
     "Giant",
     "Animal Kingdom Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-054.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Counter"
-  ],
-  "trigger": null,
-  "text": null,
+  "setId": "OP04",
+  "cardNumber": "054",
+  "printedText": "",
+  "keywords": [],
   "abilities": [],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "giant",
+    "animalKingdomPirates"
+  ]
 }

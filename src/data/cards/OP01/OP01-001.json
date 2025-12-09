@@ -1,58 +1,72 @@
 {
-  "id": "OP01-001",
-  "set": "OP01",
-  "number": 1,
-  "name": "Roronoa Zoro",
-  "category": "Leader",
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP01-001",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
   "types": [
     "Supernovas",
     "Straw Hat Crew"
   ],
   "rarity": "L",
-  "art": "/cards/OP01/OP01-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "001",
+  "printedText": "DON!! x1 [Your Turn] All your Characters gain +1000 power.",
   "keywords": [
-    "DON!! x1",
-    "Your Turn"
+    "donX1",
+    "yourTurn"
   ],
-  "trigger": null,
-  "text": "[DON!! x1] [Your Turn] All your Characters gain +1000 power.",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "donAttachedToThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          }
+        ]
       },
-      "effect": {
-        "text": "All your Characters gain +1000 power.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {
+        "allMyCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "duringYourTurn"
-        },
-        "targets": [
-          "ally:Character"
-        ],
-        "conditions": []
-      }
+          "duration": "thisTurn",
+          "target": "allMyCharacters"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "supernovas",
+    "strawHatCrew"
+  ]
 }

@@ -1,23 +1,76 @@
 {
-  "id": "OP02-022",
-  "set": "OP02",
-  "number": 22,
-  "name": "Whitebeard Pirates",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Whitebeard Pirates",
+  "cardId": "OP02-022",
+  "cardType": "event",
+  "colors": [
+    "red"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-022.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Activate this card’s Main effect." },
-  "text": "Main: Look at 5 cards from the top of your deck; reveal up to 1 Character card with {Whitebeard Pirates} in its type and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "setId": "OP02",
+  "cardNumber": "022",
+  "printedText": "[Main] Look at 5 cards from the top of your deck; reveal up to 1 Character card with {Whitebeard Pirates} in its type and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Trigger] Activate this card's [Main] effect.",
+  "keywords": [
+    "main",
+    "trigger"
+  ],
+  "abilities": [
+    {
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "top5WhitebeardCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Whitebeard Pirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top5WhitebeardCharacter",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": false
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "may": false,
+          "abilityTiming": "main"
+        }
+      ]
+    }
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

@@ -1,50 +1,65 @@
 {
-  "id": "OP02-050",
-  "set": "OP02",
-  "number": 50,
-  "name": "Inazuma",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Impel Down", "Revolutionary Army"],
-  "rarity": "C",
-  "art": "/cards/OP02/OP02-050.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker"],
-  "trigger": null,
-  "text": "If you have 1 or less cards in your hand, this Character gains +2000 Power. Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "cardName": "Inazuma",
+  "cardId": "OP02-050",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "Impel Down",
+    "Revolutionary Army"
+  ],
+  "rarity": "R",
+  "setId": "OP02",
+  "cardNumber": "050",
+  "printedText": "If you have 1 or less cards in your hand, this Character gains +2000 Power. [Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": [
+    "Blocker"
+  ],
   "abilities": [
     {
-      "timing": "Continuous",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 1 or less cards in your hand, this Character gains +2000 Power.",
-        "grants": [],
-        "powerMod": { "amount": 2000, "duration": "Continuous" },
-        "targets": ["Character"],
-        "conditions": ["1 or less cards in hand"]
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "field": "ownerHandCount",
+            "op": "<=",
+            "value": 1
+          }
+        }
+      ]
     },
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": []
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "impelDown",
+    "revolutionaryArmy"
+  ]
 }

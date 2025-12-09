@@ -1,50 +1,60 @@
 {
-  "id": "OP10-090",
-  "set": "OP10",
-  "number": 90,
-  "name": "Franky",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Dressrosa",
-    "Straw Hat Pirates"
-  ],
+  "cardName": "Franky",
+  "cardId": "OP10-090",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Dressrosa", "Straw Hat Pirates"],
+  "traits": ["dressrosa", "strawHatPirates"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-090.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. Play up to one cost 3 or lower (Dressrosa) type character rested from your trash.",
+  "setId": "OP10",
+  "cardNumber": "090",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] Play up to 1 {Dressrosa} type Character card with a cost of 3 or less from your trash rested.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "dressrosaCost3OrLessFromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "dressrosa"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 3
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "dressrosaCost3OrLessFromTrash"
+        }
       },
-      "effect": {
-        "text": "Play up to one cost 3 or lower (Dressrosa) type character rested from your trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "dressrosaCost3OrLessFromTrash",
+          "enterRested": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. All fields are inferred from visible text and standard card layout."
-  }
+  ]
 }

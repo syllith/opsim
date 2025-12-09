@@ -1,37 +1,88 @@
 {
-  "id": "EB03-033",
-  "set": "EB03",
-  "number": 33,
-  "name": "Charlotte Brulee",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["Big Mom Pirates"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-033.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Opponent's Turn", "Once Per Turn"],
-  "trigger": null,
-  "text": "[Opponent's Turn] [Once Per Turn] If your Leader has the {Big Mom Pirates} type, when a DON!! card on your field is returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB03-033",
+  "printedText": "[Opponent's Turn] [Once Per Turn] If your Leader has the {Big Mom Pirates} type, when a DON!! card on your field is returned to your DON!! deck by your effect, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "types": [
+    "Big Mom Pirates"
+  ],
+  "cardNumber": "033",
+  "keywords": [
+    "opponentsTurn",
+    "oncePerTurn"
+  ],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Big Mom Pirates} type, when a DON!! card on your field is returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and rest it.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["donDeck"],
-        "conditions": ["leaderHasBigMomPirates", "donReturnedToDonDeck"]
-      }
+      "condition": {
+        "all": [
+          {
+            "value": true,
+            "field": "opponentsTurn",
+            "op": "="
+          },
+          {
+            "value": "self",
+            "field": "effectController",
+            "op": "="
+          }
+        ],
+        "logic": "AND"
+      },
+      "selectors": {},
+      "timing": "whenDonReturned",
+      "actions": [
+        {
+          "may": true,
+          "condition": {
+            "value": "Big Mom Pirates",
+            "field": "leaderHasType",
+            "op": "="
+          },
+          "destination": "costArea",
+          "type": "moveCard",
+          "ordering": "chosen",
+          "target": {
+            "zones": [
+              "donDeck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        },
+        {
+          "type": "setState",
+          "target": {
+            "zones": [
+              "costArea"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "state": "rested"
+        }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Charlotte Brulee",
+  "rarity": "C",
+  "cost": 5,
+  "colors": [
+    "purple"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "bigMomPirates"
+  ]
 }

@@ -1,63 +1,53 @@
 {
-  "id": "OP10-005",
-  "set": "OP10",
-  "number": 5,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Punk Hazard",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Sanji",
+  "cardId": "OP10-005",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Punk Hazard", "Straw Hat Crew"],
+  "traits": ["punkHazard", "strawHatCrew"],
   "rarity": "SR",
-  "art": "/cards/OP10/OP10-005.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "Your Turn: This character gain +3000 power. On K.O.: Draw a card.",
+  "setId": "OP10",
+  "cardNumber": "005",
+  "printedText": "[Your Turn] This Character gains +3000 power.\n[On K.O.] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "This character gain +3000 power.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisTurn",
+          "target": "thisCard",
+          "condition": {
+            "field": "currentTurnSide",
+            "op": "=",
+            "value": "self"
+          }
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw a card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

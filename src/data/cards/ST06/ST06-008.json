@@ -1,37 +1,43 @@
 {
-  "id": "ST06-008",
-  "set": "ST06",
-  "number": 8,
-  "name": "Hina",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
+  "cardName": "Hina",
+  "cardId": "ST06-008",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Navy"],
-  "rarity": null,
-  "art": "/cards/ST06/ST06-008.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
+  "traits": ["navy"],
+  "rarity": "SR",
+  "setId": "ST06",
+  "cardNumber": "008",
+  "printedText": "[On Play] Give up to 1 of your opponent's Characters −4 to their cost during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -4 to their cost during this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["reduceCost:-4","duration:turn"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "costDownTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -4,
+          "duration": "thisTurn",
+          "target": "costDownTarget"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

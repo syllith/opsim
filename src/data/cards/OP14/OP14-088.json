@@ -1,52 +1,69 @@
 {
-  "id": "OP14-088",
-  "set": "OP14",
-  "number": 88,
-  "name": "Miss.MerryChristmas(Droph)",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Baroque Works"
-  ],
+  "cardName": "Miss.MerryChristmas(Drophy)",
+  "cardId": "OP14-088",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Baroque Works"],
+  "traits": ["baroqueWorks"],
   "rarity": "C",
-  "art": "/cards/OP14/OP14-088.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. If your Leader has the {Baroque Works} type, draw 1 card. Then, K.O. up to 1 of your opponent's Stages with a cost of 1 or less.",
+  "setId": "OP14",
+  "cardNumber": "088",
+  "printedText": "[On K.O.] If your Leader has the {Baroque Works} type, draw 1 card. Then, K.O. up to 1 of your opponent's Stages with a cost of 1 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "selfLeaderBaroque": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "baroqueWorks"
+            }
+          ]
+        },
+        "oppStageCost1OrLess": {
+          "side": "opponent",
+          "type": "stage",
+          "zones": ["stage"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If your Leader has the {Baroque Works} type, draw 1 card. Then, K.O. up to 1 of your opponent's Stages with a cost of 1 or less.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Baroque Works"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfLeaderBaroque",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "ko",
+          "target": "oppStageCost1OrLess",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

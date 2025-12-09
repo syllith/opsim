@@ -1,49 +1,51 @@
 {
-  "id": "P-093",
-  "set": "P",
-  "number": 93,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Heart Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-093.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as rested.",
+  "cardName": "Trafalgar Law",
+  "cardId": "P-093",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Heart Pirates"],
+  "traits": ["heartPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-093",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as rested.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "yourDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "whoChooses": "system"
+        },
+        "opponentDon": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and set it as rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCountCompare",
+        "selectorA": "yourDon",
+        "selectorB": "opponentDon",
+        "op": "<="
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "enterRested": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

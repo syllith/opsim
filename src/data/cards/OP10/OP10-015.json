@@ -1,51 +1,43 @@
 {
-  "id": "OP10-015",
-  "set": "OP10",
-  "number": 15,
-  "name": "Mocha",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Punk Hazard"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-015.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Give up to 1 of your opponent's characters -1000 power during this turn.",
+  "cardName": "Mocha",
+  "cardId": "OP10-015",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["Punk Hazard"],
+  "traits": ["punkHazard"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "015",
+  "printedText": "[On Play] Give up to 1 of your opponent's Characters -1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "opponentCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's characters -1000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": "opponentCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

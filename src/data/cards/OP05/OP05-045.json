@@ -1,48 +1,73 @@
 {
-  "id": "OP05-045",
-  "set": "OP05",
-  "number": 45,
-  "name": "Stainless",
-  "category": "Character",
+  "cardName": "Stainless",
+  "cardId": "OP05-045",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Navy"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-045.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Discard 1 card from your hand, and rest this card. Return up to 1 cost 2 or lower character to the bottom of its owner's deck.",
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "045",
+  "printedText": "[Activate: Main] Discard 1 card from your hand, and rest this card: Return up to 1 cost 2 or lower Character to the bottom of its owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ]
       },
-      "effect": {
-        "text": "Discard 1 card from your hand, and rest this card. Return up to 1 cost 2 or lower character to the bottom of its owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "bounceTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bounceTarget",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

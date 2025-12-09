@@ -1,48 +1,71 @@
 {
-  "id": "OP06-050",
-  "set": "OP06",
-  "number": 50,
-  "name": "Tashigi",
-  "category": "Character",
+  "cardName": "Tashigi",
+  "cardId": "OP06-050",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 1,
+  "power": 2000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Navy"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-050.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "navy"
   ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck, reveal up to 1 {Navy} type card other than [Tashigi] and reveal it, then put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "050",
+  "printedText": "On Play Look at 5 cards from the top of your deck; reveal up to 1 \"Navy\" type card other than [Tashigi] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "navySearchTarget": {
+          "side": "self",
+          "type": "deck",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "hasTypeNavy",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Tashigi"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "chosenNavyCard"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to 1 {Navy} type card other than [Tashigi] and reveal it, then put it into your hand. Then, place the rest on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "navySearchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,48 +1,66 @@
 {
-  "id": "OP07-117",
-  "set": "OP07",
-  "number": 117,
-  "name": "Egghead",
-  "category": "Stage",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Egghead"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP07/OP07-117.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "cardName": "Egghead",
+  "cardId": "OP07-117",
+  "cardType": "stage",
+  "colors": ["yellow"],
+  "cost": 2,
+  "types": ["Egghead"],
+  "traits": ["egghead"],
+  "rarity": "R",
+  "setId": "OP07",
+  "cardNumber": "117",
+  "printedText": "[End of Your Turn] If your Life is 3 or less, set up to 1 of your cost 5 or less Characters with the {Egghead} type as active.\n[Trigger] Play this card.",
   "keywords": [],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "End of Your Turn: If your life is 3 or less, set up to one of your characters cost 5 or less with the type (Egghead) as active.",
   "abilities": [
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "condition": {
+        "field": "selfLife",
+        "op": "<=",
+        "value": 3
       },
-      "effect": {
-        "text": "If your life is 3 or less, set up to one of your characters cost 5 or less with the type (Egghead) as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "eggheadCost5OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Egghead"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "eggheadCost5OrLess"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

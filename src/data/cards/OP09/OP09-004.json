@@ -1,56 +1,40 @@
 {
-  "id": "OP09-004",
-  "set": "OP09",
-  "number": 4,
-  "name": "Shanks",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "The Four Emperors",
-    "Red Hair Pirates"
-  ],
+  "cardName": "Shanks",
+  "cardId": "OP09-004",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 10,
+  "power": 12000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["The Four Emperors", "Red-Haired Pirates"],
+  "traits": ["theFourEmperors", "redHairedPirates"],
   "rarity": "SR",
-  "art": "/cards/OP09/OP09-004.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "All of your opponent's Characters have -1000 power.\n[Rush] (This card can attack on the turn in which it is played)",
+  "setId": "OP09",
+  "cardNumber": "004",
+  "printedText": "Give all of your opponent's Characters -1000 power.\n[Rush] (This card can attack on the turn in which it is played.)",
+  "keywords": ["Rush"],
   "abilities": [
     {
-      "type": "Continuous",
-      "frequency": null,
-      "condition": null,
-      "cost": null,
-      "effect": {
-        "text": "All of your opponent's Characters have -1000 power.",
-        "actions": [
-          {
-            "type": "powerMod",
-            "amount": -1000,
-            "targetSide": "opponent",
-            "targetType": "character",
-            "mode": "aura",
-            "duration": "permanent"
-          }
-        ]
-      }
+      "timing": "static",
+      "selectors": {
+        "oppCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "permanent",
+          "target": "oppCharacters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Continuous aura: while Shanks is on your field, all opponent Characters get -1000 power. Rush is handled via keywords."
-  },
-  "verified": true
+  ]
 }

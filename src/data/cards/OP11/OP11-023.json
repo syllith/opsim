@@ -1,71 +1,120 @@
 {
-  "id": "OP11-023",
-  "set": "OP11",
-  "number": 23,
-  "name": "Arlong",
-  "category": "Character",
+  "cardName": "Arlong",
+  "cardId": "OP11-023",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 7,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Fishman",
     "Fishman Island",
     "Sun Pirates"
   ],
+  "traits": [
+    "fishMan",
+    "fishManIsland",
+    "sunPirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-023.png",
-  "stats": {
-    "cost": 7,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP11",
+  "cardNumber": "023",
+  "printedText": "If your Leader has the {Fishman} type, you have 3 or less Life cards in your Life area, and your opponent has 5 or more rested cards on their field, this card gains -3 cost while in hand.\n[Trigger] Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
   "keywords": [],
-  "trigger": {
-    "text": "Rest up to 1 of your opponent's Characters with a cost of 4 or less."
-  },
-  "text": "If your Leader has the (Fishman) type, you have 3 or less Life cards in your Life area, and your opponent has 5 or more rested cards on their field, this card gains -3 cost while in hand.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selfLeaderHasTrait",
+            "op": "=",
+            "value": "fishman"
+          },
+          {
+            "field": "selfLifeCount",
+            "op": "<=",
+            "value": 3
+          },
+          {
+            "field": "selectorCount",
+            "selector": "opponentRestedFieldCards",
+            "op": ">=",
+            "value": 5
+          },
+          {
+            "field": "selfZone",
+            "op": "=",
+            "value": "hand"
+          }
+        ]
       },
-      "effect": {
-        "text": "If your Leader has the (Fishman) type, you have 3 or less Life cards in your Life area, and your opponent has 5 or more rested cards on their field, this card gains -3 cost while in hand.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader:hasType(Fishman)",
-          "you:LifeCards <= 3",
-          "opponent:RestedCards >= 5"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentRestedFieldCards": {
+          "side": "opponent",
+          "type": "any",
+          "zones": [
+            "leader",
+            "character",
+            "stage",
+            "costArea"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -3,
+          "duration": "permanent",
+          "target": "selfThisCard"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponentCharacterCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCharacterCost4OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

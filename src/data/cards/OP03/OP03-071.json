@@ -1,53 +1,65 @@
 {
-  "id": "OP03-071",
-  "set": "OP03",
-  "number": 71,
-  "name": "Rob Lucci",
-  "category": "Character",
+  "cardName": "Rob Lucci",
+  "cardId": "OP03-071",
+  "cardType": "character",
   "colors": [
-    "Water"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Water 7",
-    "Galleyla Company"
+    "Galley-La Company"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-071.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "When Attacking DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "071",
+  "printedText": "[When Attacking] DON!! -1: Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "whenAttacking",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost5"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCharCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "charToRest"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCharCost5OrLess"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, but all fields are filled based on visible text."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "waterSeven",
+    "galleyLaCompany"
+  ]
 }

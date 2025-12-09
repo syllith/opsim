@@ -1,37 +1,60 @@
 {
-  "id": "ST14-003",
-  "set": "ST14",
-  "number": 3,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Strike",
+  "cardName": "Sanji",
+  "cardId": "ST14-003",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": "SR",
-  "art": "/cards/ST14/ST14-003.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-     "counter": null
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play If you have a cost 6 or greater character in play, KO up to one of your opponent's cost 5 or lower characters.",
+  "traits": ["strawHatCrew"],
+  "setId": "ST14",
+  "cardNumber": "003",
+  "printedText": "[On Play] If you have a cost 6 or greater character in play, KO up to one of your opponent's cost 5 or lower characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have a cost 6 or greater character in play, KO up to one of your opponent's cost 5 or lower characters.",
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=5:KO"],
-        "conditions": ["controlCharacter>=6", "optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "condition": {
+        "field": "selectorCount",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 6
+            }
+          ]
+        },
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": ["character"],
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 5
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,55 +1,72 @@
 {
-  "id": "OP03-067",
-  "set": "OP03",
-  "number": 67,
-  "name": "Peepley Lulu",
-  "category": "Character",
+  "cardName": "Peepley Lulu",
+  "cardId": "OP03-067",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Ranged",
+  "cost": 5,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Water 7",
     "Galley-La Company"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-067.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!!x1 When Attacking If your Leader has the (Galley-La Company) type, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "067",
+  "printedText": "[DON!! x1] [When Attacking] If your Leader has the {Galley-La Company} type, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderHasTypeGalleyLaCompany",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "thisAttachedDonCount",
+            "op": ">=",
+            "value": 1
+          }
+        ]
       },
-      "effect": {
-        "text": "If your Leader has the (Galley-La Company) type, add up to 1 DON!! card from your DON!! deck and rest it.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "leaderHasType:Galley-La Company"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "selfDonFromDonDeckUpTo1": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "donToAdd"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfDonFromDonDeckUpTo1",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "faceUp": false,
+          "enterRested": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is confirmed as 'C' from the bottom right corner. The card is a sample, but all printed text is legible."
-  }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "waterSeven",
+    "galleyLaCompany"
+  ]
 }

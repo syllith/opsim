@@ -1,52 +1,54 @@
 {
-  "id": "P-008",
-  "set": "P",
-  "number": 8,
-  "name": "Yamato",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
+  "cardName": "Yamato",
+  "cardId": "P-008",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 5000,
+  "attributes": ["strike"],
   "types": [
     "Wano Country"
   ],
-  "rarity": "C",
-  "art": "/cards/P/P-008.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
+  "traits": [
+    "wanoCountry"
   ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this Character. Rest up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "008",
+  "printedText": "[Activate: Main] You may rest this Character: Rest up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character. Rest up to 1 of your opponent's Characters with a cost of 2 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter",
-          "oneOpponentCharacter<=cost2"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharCost2OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCharCost2OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

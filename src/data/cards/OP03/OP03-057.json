@@ -1,71 +1,86 @@
 {
-  "id": "OP03-057",
-  "set": "OP03",
-  "number": 57,
-  "name": "Three Thousand Worlds",
-  "category": "Event",
+  "cardName": "Three Thousand Worlds",
+  "cardId": "OP03-057",
+  "cardType": "event",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 4,
   "types": [
     "East Blue",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-057.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Place up to 1 Character with a cost of 3 or less at the bottom of its owner's deck."
-  },
-  "text": "Main\nPlace up to 1 Character with a cost of 5 or less at the bottom of its owner's deck.\n\nTrigger\nPlace up to 1 Character with a cost of 3 or less at the bottom of its owner's deck.",
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "057",
+  "printedText": "[Main] Place up to 1 Character with a cost of 5 or less at the bottom of its owner's deck.\n[Trigger] Place up to 1 Character with a cost of 3 or less at the bottom of its owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "mainTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Place up to 1 Character with a cost of 5 or less at the bottom of its owner's deck.",
-        "powerMod": null,
-        "targets": [
-          "upTo1Character<=cost5"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "mainTarget",
+          "destination": "bottomOfDeck"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "triggerTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Place up to 1 Character with a cost of 3 or less at the bottom of its owner's deck.",
-        "powerMod": null,
-        "targets": [
-          "upTo1Character<=cost3"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "triggerTarget",
+          "destination": "bottomOfDeck"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
-  }
+  "traits": [
+    "eastBlue",
+    "strawHatCrew"
+  ]
 }

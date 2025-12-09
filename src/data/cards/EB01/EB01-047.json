@@ -1,37 +1,42 @@
 {
-  "id": "EB01-047",
-  "set": "EB01",
-  "number": 47,
-  "name": "Laboon",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Strike",
-  "types": ["Animal"],
-  "rarity": "C",
-  "art": "/cards/EB01/EB01-047.png",
-  "stats": {
-    "cost": 2,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Once Per Turn"],
-  "trigger": null,
-  "text": "[Once Per Turn] When a Character is K.O'd, draw 1 card and trash 1 card from your hand.",
+  "power": 4000,
+  "cardType": "character",
+  "cardId": "EB01-047",
+  "printedText": "[Once Per Turn] When a Character is K.O.'d, draw 1 card and trash 1 card from your hand.",
+  "types": [
+    "Animal"
+  ],
+  "cardNumber": "047",
   "abilities": [
     {
-      "timing": "When a Character is K.O'd",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When a Character is K.O'd, draw 1 card and trash 1 card from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "whenCharacterIsKOd",
+      "actions": [
+        {
+          "count": 1,
+          "type": "draw"
+        },
+        {
+          "type": "trashFromHand",
+          "maxCards": 1,
+          "minCards": 1
+        }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Laboon",
+  "rarity": "R",
+  "cost": 2,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animal"
+  ]
 }

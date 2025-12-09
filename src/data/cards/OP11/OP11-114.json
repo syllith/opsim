@@ -1,74 +1,82 @@
 {
-  "id": "OP11-114",
-  "set": "OP11",
-  "number": 114,
-  "name": "Gum-Gum Red Hawk",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Gum-Gum Red Hawk",
+  "cardId": "OP11-114",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 1,
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-114.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main: You may rest 3 DON!! cards: If both players' total amount of Life cards is 5 or more, K.O. up to 1 of your opponent's Characters with an original cost of 5 or less. \nCounter: Up to 1 of your Leaders gains +3000 power during this battle.",
+  "setId": "OP11",
+  "cardNumber": "114",
+  "printedText": "[Main] You may rest 3 DON!! cards: If both players' total Life cards are 5 or more, K.O. up to 1 of your opponent's Characters with an original cost of 5 or less.\n[Counter] Up to 1 of your Leaders gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 3,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 3
+        "type": "restDonFromCostArea",
+        "count": 3,
+        "may": true
       },
-      "effect": {
-        "text": "If both players' total amount of Life cards is 5 or more, K.O. up to 1 of your opponent's Characters with an original cost of 5 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost5"
-        ],
-        "conditions": [
-          "bothPlayersLifeCards>=5"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterOrigCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "totalLifeBothPlayers",
+            "op": ">=",
+            "value": 5
+          },
+          "actions": [
+            {
+              "type": "ko",
+              "target": "opponentCharacterOrigCost5OrLess"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leaders gains +3000 power during this battle.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "oneYourLeader"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "leaderTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

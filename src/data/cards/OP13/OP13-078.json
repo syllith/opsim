@@ -1,47 +1,53 @@
 {
-  "id": "OP13-078",
-  "set": "OP13",
-  "number": 78,
-  "name": "Oro Jackson",
-  "category": "Stage",
-  "colors": [],
-  "attribute": null,
-  "types": [
-    "Roger Pirates"
-  ],
+  "cardName": "Oro Jackson",
+  "cardId": "OP13-078",
+  "cardType": "stage",
+  "colors": ["purple"],
+  "cost": 1,
+  "types": ["Roger Pirates"],
+  "traits": ["rogerPirates"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-078.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "078",
+  "printedText": "[Once Per Turn] If your Character with a type including \"Roger Pirates\" would be removed from the field by your opponent's effect, add up to 1 DON!! card from your DON!! deck and rest it.",
   "keywords": [],
-  "trigger": null,
-  "text": "Once Per Turn If your Character with a type including \"Roger Pirates\" would be removed from the field by your opponent's effect, add up to 1 DON!! card from your DON!! deck and rest it.",
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "rogerCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "rogerPirates"
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your Character with a type including \"Roger Pirates\" would be removed from the field by your opponent's effect, add up to 1 DON!! card from your DON!! deck and rest it.",
-        "powerMod": null,
-        "conditions": [
-          "your Character with a type including \"Roger Pirates\" would be removed from the field by your opponent's effect"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeRemovedFromFieldByOpponentsEffect",
+          "target": "rogerCharacter",
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "selfTopDonDeckCard",
+              "destination": "costArea",
+              "enterRested": true
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

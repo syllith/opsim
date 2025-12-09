@@ -1,52 +1,48 @@
 {
-  "id": "OP13-032",
-  "set": "OP13",
-  "number": 32,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "FILM",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Nico Robin",
+  "cardId": "OP13-032",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 7,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["FILM", "Straw Hat Crew"],
+  "traits": ["film", "strawHatCrew"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-032.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Up to 1 of your opponent's Characters with a cost of 8 or less cannot be rested until the end of your opponent's next turn.",
+  "setId": "OP13",
+  "cardNumber": "032",
+  "printedText": "[On Play] Up to 1 of your opponent's Characters with a cost of 8 or less cannot be rested until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "upToOneOppCharacterCost8OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 8
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your opponent's Characters with a cost of 8 or less cannot be rested until the end of your opponent's next turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost8"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "rest",
+          "target": "upToOneOppCharacterCost8OrLess",
+          "duration": "untilEndOfOpponentsNextTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

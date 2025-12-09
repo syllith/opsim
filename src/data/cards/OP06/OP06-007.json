@@ -1,57 +1,62 @@
 {
-  "id": "OP06-007",
-  "set": "OP06",
-  "number": 7,
-  "name": "Shanks",
-  "category": "Character",
+  "cardName": "Shanks",
+  "cardId": "OP06-007",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 10,
+  "power": 12000,
+  "counter": 0,
   "types": [
     "FILM",
     "Four Emperors",
     "Red Hair Pirates"
   ],
   "rarity": "SR",
-  "art": "/cards/OP06/OP06-007.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    
-  ],
-  "trigger": null,
-  "text": "[On Play] K.O. up to 1 of your opponent's Characters with 10000 power or less.",
+  "setId": "OP06",
+  "cardNumber": "007",
+  "printedText": "[On Play] K.O. up to 1 of your opponent's Characters with 10000 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "type": "On Play",
-      "frequency": null,
-      "condition": null,
-      "cost": null,
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with 10000 power or less.",
-        "actions": [
-          {
-            "type": "ko",
-            "targetSide": "opponent",
-            "targetType": "character",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "powerLimit": 10000
-          }
-        ]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "oppCharacter10000OrLessUpTo1": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 10000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "targetCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharacter10000OrLessUpTo1"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "film",
+    "theFourEmperors",
+    "redHairedPirates"
+  ]
 }

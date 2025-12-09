@@ -1,77 +1,73 @@
 {
-  "id": "OP04-069",
-  "set": "OP04",
-  "number": 69,
-  "name": "Mr.2 (Bon Clay)",
-  "category": "Character",
+  "cardName": "Mr.2 (Bon Clay)",
+  "cardId": "OP04-069",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Baroque Works"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-069.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When opponent attack",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "DON!! -1: You may play this card"
-  },
-  "text": "When opponent attack DON!! -1: This character's original power becomes the attacking character or leader's power until the end of the turn.\nTrigger DON!! -1: You may play this card",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "069",
+  "printedText": "When Opponent Attacks DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): This Character's original Power becomes the attacking Character or Leader's Power until the end of the turn.\n\nTrigger DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): You may play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When opponent attack",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "onOpponentsAttack",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "This character's original power becomes the attacking character or leader's power until the end of the turn.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "attackingCharacter",
-          "leader"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "setBaseFromSelector",
+          "sourceSelector": "battleOpponent",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may play this card",
-        "grants": [
-          "Play"
-        ],
-        "powerMod": null,
-        "targets": [
-          "thisCard"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ]
+          },
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is marked as a sample."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

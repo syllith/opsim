@@ -1,50 +1,113 @@
 {
-  "id": "OP01-051",
-  "set": "OP01",
-  "number": 51,
-  "name": "Eustass\"Captain\"Kid",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Special",
-  "types": ["Supernovas", "Kid Pirates"],
+  "cardName": "Eustass\"Captain\"Kid",
+  "cardId": "OP01-051",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 8,
+  "power": 8000,
+  "counter": 0,
+  "types": [
+    "Supernovas",
+    "Kid Pirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP01/OP01-051.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["DON!! x1", "Opponent's Turn", "Activate Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "[DON!! x1] [Opponent's Turn] If this Character is rested, your opponent cannot attack anything other than Characters named [Captain Kid].\n[Activate: Main] [Once Per Turn] You may rest this Character: Play up to 1 Character card with a cost of 3 or less from your hand.",
+  "setId": "OP01",
+  "cardNumber": "051",
+  "printedText": "[DON!! x1] Opponent's Turn If this Character is rested, your opponent cannot attack any card other than the Character [Eustass\"Captain\"Kid].\nActivate: Main Once Per Turn You may rest this Character: Play up to 1 Character card with a cost of 3 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If this Character is rested, your opponent cannot attack anything other than Characters named [Captain Kid].",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["thisCharacterRested"]
-      }
+      "timing": "duringOpponentsTurn",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "thisState",
+            "op": "=",
+            "value": "rested"
+          }
+        ]
+      },
+      "selectors": {
+        "protectedTargets": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "name",
+              "op": "!=",
+              "value": "Eustass\"Captain\"Kid"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "protectedTargets"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "target": "protectedTargets",
+          "duration": "thisTurn",
+          "restrictionKind": "attack"
+        }
+      ]
     },
     {
-      "timing": "Activate Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Character: Play up to 1 Character card with a cost of 3 or less from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand"],
-        "conditions": ["mayRestThisCharacter", "characterCost<=3"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "playTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "supernovas",
+    "kidPirates"
+  ]
 }

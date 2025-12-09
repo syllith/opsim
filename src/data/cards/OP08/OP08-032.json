@@ -1,56 +1,52 @@
 {
-  "id": "OP08-032",
-  "set": "OP08",
-  "number": 32,
-  "name": "Milky",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Minks"
-  ],
+  "cardName": "Milky",
+  "cardId": "OP08-032",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Minks"],
+  "traits": ["minks"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-032.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this character: If your leader has the \"Minks\" type, set up to 1 of your rested DON!! active.",
+  "setId": "OP08",
+  "cardNumber": "032",
+  "printedText": "[Activate: Main] You may rest this character: If your leader has the \"Minks\" type, set up to 1 of your rested DON!! active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this character: If your leader has the \"Minks\" type, set up to 1 of your rested DON!! active.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the \"Minks\" type"
-        ],
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "rested",
-          "to": []
+      "condition": {
+        "field": "leaderTypes",
+        "op": "=",
+        "value": "Minks"
+      },
+      "selectors": {
+        "restedDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "filters": [
+            { "field": "state", "op": "=", "value": "rested" }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "restedDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, but ID and stats are read from printed text."
-  }
+  ]
 }

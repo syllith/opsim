@@ -1,49 +1,73 @@
 {
-  "id": "OP11-030",
-  "set": "OP11",
-  "number": 30,
-  "name": "Shirahoshi",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Merfolk",
-    "Fishman Island"
-  ],
+  "cardName": "Shirahoshi",
+  "cardId": "OP11-030",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Merfolk", "Fish-Man Island"],
+  "traits": ["merfolk", "fishManIsland"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-030.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest 1 DON!! card and this Character: Look at the top 5 cards of your deck, reveal up to 1 {Sea King} or {Fishman Island} type card and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+  "setId": "OP11",
+  "cardNumber": "030",
+  "printedText": "[Activate: Main] You may rest 1 of your DON!! cards and this Character: Look at 5 cards from the top of your deck; reveal up to 1 {Neptunian} or {Fish-Man Island} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, reveal up to 1 {Sea King} or {Fishman Island} type card and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": ["deck"],
+            "filters": [
+              {
+                "logic": "OR",
+                "any": [
+                  {
+                    "field": "traits",
+                    "op": "=",
+                    "value": "seaKings"
+                  },
+                  {
+                    "field": "traits",
+                    "op": "=",
+                    "value": "fishManIsland"
+                  }
+                ]
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

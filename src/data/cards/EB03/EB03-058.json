@@ -1,39 +1,78 @@
 {
-  "id": "EB03-058",
-  "set": "EB03",
-  "number": 58,
-  "name": "Lilith",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
-  "types": ["Scientist", "Egghead"],
+  "cardName": "Lilith",
+  "cardId": "EB03-058",
+  "cardType": "character",
+  "colors": [
+    "yellow"
+  ],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "Scientist",
+    "Egghead"
+  ],
   "rarity": "R",
-  "art": "/cards/EB03/EB03-058.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Your Turn", "On Play"],
-  "trigger": {
-    "text": "If your Leader is [Vegapunk], play this card."
-  },
-  "text": "[Your Turn] [On Play] If you have 2 or less Life cards, draw 1 card.",
+  "setId": "EB03",
+  "cardNumber": "058",
+  "printedText": "Your Turn On Play If you have 2 or less Life cards, draw 1 card.\nTrigger If your Leader is [Vegapunk], play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "[On Play] If you have 2 or less Life cards, draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["yourTurn", "onPlay", "has2OrLessLife"]
-      }
+      "timing": "onPlay",
+      "condition": {
+        "field": "selfLifeCount",
+        "op": "<=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Vegapunk"
+      },
+      "selectors": {
+        "thisCardInHand": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "cardId",
+              "op": "=",
+              "value": "EB03-058"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "thisCardInHand",
+          "payCost": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "scientist",
+    "egghead"
+  ]
 }

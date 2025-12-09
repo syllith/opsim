@@ -1,35 +1,60 @@
 {
-  "id": "OP02-103",
-  "set": "OP02",
-  "number": 103,
-  "name": "Sengoku",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Wisdom",
-  "types": ["Navy"],
-  "rarity": "UC",
-  "art": "/cards/OP02/OP02-103.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["DON!! x1", "When Attacking"],
-  "trigger": null,
-  "text": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+  "cardName": "Sengoku",
+  "cardId": "OP02-103",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "setId": "OP02",
+  "cardNumber": "103",
+  "printedText": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -2 to their cost during this turn.",
-        "targets": ["upTo1:opponent:Character"],
-        "conditions": []
-      }
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonsOnThis",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "oppCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "costDownTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -2,
+          "duration": "thisTurn",
+          "target": "oppCharacterUpToOne"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

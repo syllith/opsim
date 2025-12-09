@@ -1,56 +1,43 @@
 {
-  "id": "EB01-022",
-  "set": "EB01",
-  "number": 22,
-  "name": "Inazuma",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB01-022",
+  "printedText": "End of Your Turn If you have 2 or less cards in hand, draw 2 cards.",
   "types": [
     "Impel Down",
     "Revolutionary Army"
   ],
-  "rarity": "SR",
-  "art": "/cards/EB01/EB01-022.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "End of Your Turn"
-  ],
-  "trigger": null,
-  "text": "[End of Your Turn] If you have 2 or less cards in hand, draw 2 cards.",
+  "cardNumber": "022",
   "abilities": [
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "value": 2,
+        "field": "hand.size",
+        "op": "<="
       },
-      "effect": {
-        "text": "If you have 2 or less cards in hand, draw 2 cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "handSize<=2"
-        ]
-      }
+      "selectors": {},
+      "timing": "endOfYourTurn",
+      "actions": [
+        {
+          "count": 2,
+          "type": "draw"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": false
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Inazuma",
+  "rarity": "SR",
+  "cost": 6,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "impelDown",
+    "revolutionaryArmy"
+  ]
 }

@@ -1,53 +1,68 @@
 {
-  "id": "OP10-023",
-  "set": "OP10",
-  "number": 23,
-  "name": "Issho",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Dressrosa",
-    "Navy"
-  ],
+  "cardName": "Issho",
+  "cardId": "OP10-023",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Dressrosa", "Navy"],
+  "traits": ["dressrosa", "navy"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-023.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your leader has the \"Navy\" type, Rest up to 2 of your opponent's characters with cost 5 or below.",
+  "setId": "OP10",
+  "cardNumber": "023",
+  "printedText": "[On Play] If your Leader has the \"Navy\" type, rest up to 2 of your opponent's Characters with a cost of 5 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "leaderNavy": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "navy"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "opponentCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your leader has the \"Navy\" type, Rest up to 2 of your opponent's characters with cost 5 or below.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Navy"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderNavy",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCost5OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

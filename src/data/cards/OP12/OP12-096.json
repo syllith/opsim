@@ -1,64 +1,128 @@
 {
-  "id": "OP12-096",
-  "set": "OP12",
-  "number": 96,
-  "name": "Ursus Shock",
-  "category": "Event",
+  "cardName": "Ursus Shock",
+  "cardId": "OP12-096",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": null,
+  "cost": 4,
   "types": [
-    "The Seven Warlords of the Sea/Revolutionary Army"
+    "The Seven Warlords of the Sea",
+    "Revolutionary Army"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "revolutionaryArmy"
   ],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-096.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 1 card. Then, trash the top card of your deck."
-  },
-  "text": "Main K.O. up to 1 of your opponent's Characters with a cost of 4 or less. If you have a Character with a cost of 8 or more, you may instead K.O. up to 1 of your opponent's Characters with a cost of 6 or lower.",
+  "setId": "OP12",
+  "cardNumber": "096",
+  "printedText": "[Main] K.O. up to 1 of your opponent's Characters with a cost of 4 or less. If you have a Character with a cost of 8 or more, you may instead K.O. up to 1 of your opponent's Characters with a cost of 6 or lower.\n[Trigger] Draw 1 card. Then, trash the top card of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "opponentCharCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "opponentCharCost6OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "selfHighCostCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 8
+            }
+          ],
+          "min": 1,
+          "max": 10,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 4 or less. If you have a Character with a cost of 8 or more, you may instead K.O. up to 1 of your opponent's Characters with a cost of 6 or lower.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "ko",
+                  "target": "opponentCharCost4OrLess"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "ko",
+                  "target": "opponentCharCost6OrLess",
+                  "condition": {
+                    "field": "selectorCount",
+                    "selector": "selfHighCostCharacter",
+                    "op": ">=",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card. Then, trash the top card of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

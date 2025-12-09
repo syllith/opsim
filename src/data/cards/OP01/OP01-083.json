@@ -1,38 +1,87 @@
 {
-  "id": "OP01-083",
-  "set": "OP01",
-  "number": 83,
-  "name": "Mr. 1 (Daz Bones)",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Baroque Works"],
+  "cardName": "Mr. 1 (Daz Bones)",
+  "cardId": "OP01-083",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
+  "types": [
+    "Baroque Works"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-083.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["DON!! x1", "Your Turn"],
-  "trigger": null,
-  "text": "DON!! x1 | Your Turn: If your Leader has the {Baroque Works} type, this Character gains +1000 power for every 2 Event cards in your trash.",
+  "setId": "OP01",
+  "cardNumber": "083",
+  "printedText": "[DON!! x1] [Your Turn] If your Leader has the {Baroque Works} type, this Character gains +1000 power for every 2 Event cards in your trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Baroque Works} type, this Character gains +1000 power for every 2 Event cards in your trash.",
-        "grants": [],
-        "powerMod": { "amount": 1000, "duration": "while in play per 2 event cards in trash" },
-        "targets": ["self"],
-        "conditions": ["leaderHasBaroqueWorks", "per2EventCardsInTrash"],
-        "giveDon": null
-      }
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "yourTurn",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "attachedDonToThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "leaderTypes",
+            "op": "=",
+            "value": "Baroque Works"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 2,
+          "perAmount": 1000,
+          "countSelector": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "trash"
+            ],
+            "filters": [
+              {
+                "field": "cardType",
+                "op": "=",
+                "value": "event"
+              }
+            ],
+            "min": 0,
+            "max": 999,
+            "whoChooses": "system"
+          },
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "baroqueWorks"
+  ]
 }

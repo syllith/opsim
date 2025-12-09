@@ -1,63 +1,53 @@
 {
-  "id": "OP11-014",
-  "set": "OP11",
-  "number": 14,
-  "name": "Borsalino",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "FILM",
-    "Navy"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP11/OP11-014.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nActivate: Main You may rest this Character: Up to 1 of your (Navy) type Leaders or Characters can attack active Characters during this turn.",
+  "cardName": "Borsalino",
+  "cardId": "OP11-014",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["FILM", "Navy"],
+  "traits": ["film", "navy"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "014",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Activate: Main] You may rest this Character: Up to 1 of your {Navy} type Leaders or Characters can attack active Characters during this turn.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "navyLeaderOrCharacterUpToOne": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "navy"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may rest this Character: Up to 1 of your (Navy) type Leaders or Characters can attack active Characters during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "mayAttackActiveCharacters",
+          "duration": "thisTurn",
+          "target": "navyLeaderOrCharacterUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

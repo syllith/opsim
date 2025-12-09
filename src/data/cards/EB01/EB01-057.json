@@ -1,50 +1,46 @@
 {
-  "id": "EB01-057",
-  "set": "EB01",
-  "number": 57,
-  "name": "Shirahoshi",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Special",
-  "types": ["Merfolk"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-057.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker"],
-  "trigger": null,
-  "text": "When this character is KO'd by your opponent's effects, place up to one card from the top of your deck onto your life.\n[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB01-057",
+  "printedText": "When this Character is K.O.'d by your opponent's effects, place up to 1 card from the top of your deck on top of your Life.\n[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "types": [
+    "Merfolk"
+  ],
+  "cardNumber": "057",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "When KO'd by opponent's effects",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When this character is KO'd by your opponent's effects, place up to one card from the top of your deck onto your life.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck", "life"],
-        "conditions": []
-      }
-    },
-    {
-      "timing": "Block Step",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onKO",
+      "actions": [
+        {
+          "may": true,
+          "type": "moveCard",
+          "condition": {
+            "value": "opponentsEffect",
+            "field": "koSource",
+            "op": "="
+          },
+          "destination": "life",
+          "target": "selfTopDeckCard"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Shirahoshi",
+  "rarity": "SR",
+  "cost": 2,
+  "colors": [
+    "yellow"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "merfolk"
+  ]
 }

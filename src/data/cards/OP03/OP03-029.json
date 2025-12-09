@@ -1,35 +1,91 @@
 {
-  "id": "OP03-029",
-  "set": "OP03",
-  "number": 29,
-  "name": "Choo",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Ranged",
-  "types": ["Fish-Man", "East Blue", "Arlong Crew"],
+  "cardName": "Choo",
+  "cardId": "OP03-029",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 4,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Fish-Man",
+    "East Blue",
+    "Arlong Crew"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP03/OP03-029.png",
-  "stats": {
-    "cost": 4,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": "Play this card.",
-  "text": "[On Play] K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+  "setId": "OP03",
+  "cardNumber": "029",
+  "printedText": "[On Play] K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.\n[Trigger] Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
-        "targets": ["opponentCharacter"],
-        "conditions": ["rested", "costLessOrEqual4"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "state",
+                  "op": "=",
+                  "value": "rested"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          },
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "fishMan",
+    "eastBlue",
+    "arlongCrew"
+  ]
 }

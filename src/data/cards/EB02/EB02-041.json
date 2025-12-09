@@ -1,53 +1,76 @@
 {
-  "id": "EB02-041",
-  "set": "EB02",
-  "number": 41,
-  "name": "Going Merry",
-  "category": "Stage",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-041.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "Activate: Main"],
-  "trigger": null,
-  "text": "[On Play] If your leader has the type {Straw Hat Crew}, draw 1 card.\n[Activate: Main] You may rest this stage: If the number of DON!! cards in your field is equal or less to the number of DON!! cards on your opponent's field, give up to 1 of your {Straw Hat Crew} type characters +2 cost until the end of your opponent's next turn.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB02-041",
+  "printedText": "On Play If your leader has the type {Straw Hat Crew}, draw 1 card.\n\nActivate: Main You may rest this stage: If the number of DON!! cards in your field is equal or less to the number of DON!! cards on your opponent's field, give up to 1 of your {Straw Hat Crew} type characters +2000 power until the end of your next turn.",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "cardNumber": "041",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your leader has the type {Straw Hat Crew}, draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["leaderHasStrawHatCrew"]
-      }
+      "condition": {
+        "value": "Straw Hat Crew",
+        "field": "leaderType",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "count": 1,
+          "type": "draw"
+        }
+      ],
+      "frequency": "none"
     },
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this stage: If the number of DON!! cards in your field is equal or less to the number of DON!! cards on your opponent's field, give up to 1 of your {Straw Hat Crew} type characters +2 cost until the end of your opponent's next turn.",
-        "grants": [],
-        "powerMod": {
-          "amount": 2,
-          "duration": "untilEndOfOpponentsNextTurn"
-        },
-        "targets": ["upTo1:ally:Character:StrawHatCrew"],
-        "conditions": ["restSelf", "yourDonEqualOrLessThanOpponent"]
-      }
+      "cost": {
+        "type": "restThis"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "amount": 2000,
+          "mode": "add",
+          "stat": "power",
+          "duration": "untilStartOfYourNextTurn",
+          "condition": {
+            "value": true,
+            "field": "donSelfLessOrEqualOpponent",
+            "op": "="
+          },
+          "target": {
+            "filters": [
+              {
+                "value": "Straw Hat Crew",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "side": "self",
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": "Cost modification ability is unusual - should be +2000 power based on typical card text patterns" }
+  "setId": "EB02",
+  "counter": 0,
+  "cardName": "Going Merry",
+  "rarity": "R",
+  "cost": 1,
+  "colors": [
+    "blue"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

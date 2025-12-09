@@ -1,48 +1,78 @@
 {
-  "id": "ST14-017",
-  "set": "ST14",
-  "number": 17,
-  "name": "Thousand Sunny",
-  "category": "Stage",
-  "colors": ["Black"],
-  "attribute": null,
+  "cardName": "Thousand Sunny",
+  "cardId": "ST14-017",
+  "cardType": "stage",
+  "colors": ["black"],
+  "cost": 1,
   "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/ST14/ST14-017.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "Your black characters with the {Straw Hat Crew} type have +1 cost. On Play: If your leader has the {Straw Hat Crew} type, draw 1 card.",
+  "setId": "ST14",
+  "cardNumber": "017",
+  "printedText": "All of your black {Straw Hat Crew} type Characters gain +1 cost.\n[On Play] If your Leader has the {Straw Hat Crew} type, draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your black characters with the {Straw Hat Crew} type have +1 cost.",
-        "powerMod": null,
-        "targets": ["allAllyCharacter:type=Straw Hat Crew;color=Black"],
-        "conditions": []
-      }
+      "timing": "static",
+      "selectors": {
+        "buffTargets": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 1,
+          "duration": "permanent",
+          "target": "buffTargets"
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your leader has the {Straw Hat Crew} type, draw 1 card.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["leaderType=Straw Hat Crew"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "strawHatLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            }
+          ]
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "strawHatLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

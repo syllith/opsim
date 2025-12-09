@@ -42,7 +42,8 @@ export function useDeckInitializer({
   initializeDonDecks, // NOTE: passed from parent AFTER DON hook init if needed
   openingHandRef,
   demoConfig: { HARDCODED, DEMO_LEADER, DEMO_DECK_ITEMS },
-  cardBackUrl
+  cardBackUrl,
+  gameMode // Game mode must be selected before initialization
 }) {
   //. Card back factory
   const createCardBacks = useCallback((count) => {
@@ -74,8 +75,8 @@ export function useDeckInitializer({
   const gameInitializedRef = useRef(false);
 
   useEffect(() => {
-    //. Guard: must be logged in and card list loaded
-    if (!isLoggedIn || !allCards.length || gameInitializedRef.current) { return; }
+    //. Guard: must be logged in, have a game mode selected, and card list loaded
+    if (!isLoggedIn || !gameMode || !allCards.length || gameInitializedRef.current) { return; }
 
     //. Guard: already initialized if any library has entries
     if (library.length || oppLibrary.length) { return; }
@@ -91,7 +92,7 @@ export function useDeckInitializer({
           const libO = shuffle(ids.slice());
           const leaderAsset = getAssetForId(DEMO_LEADER);
 
-          //. Setup areas: leaders, decks, and opponent opening hand
+          //. Setup areas: leaders, decks (but NOT opponent hand - both hands selected during setup)
           setAreas(prev => {
             const next = _.cloneDeep(prev);
 
@@ -101,16 +102,7 @@ export function useDeckInitializer({
             }
 
             next.player.middle.deck = createCardBacks(libP.length);
-
-            const oppHandIds = libO.slice(-5);
-            const oppHand = oppHandIds
-              .map((id) => getAssetForId(id))
-              .filter(Boolean);
-
-            next.opponent.top.hand = oppHand;
-            next.opponent.middle.deck = createCardBacks(
-              Math.max(0, libO.length - oppHand.length)
-            );
+            next.opponent.middle.deck = createCardBacks(libO.length);
 
             return next;
           });
@@ -124,8 +116,8 @@ export function useDeckInitializer({
           setLibrary(libP);
           setOppLibrary(libO);
 
-          //. Initialize opening hand UI
-          openingHandRef?.current?.initialize(libP);
+          //. NOTE: Opening hand is now initialized by the game setup flow (dice roll -> hand selection)
+          //. Do not call openingHandRef?.current?.initialize here
 
           return;
         }
@@ -196,9 +188,10 @@ export function useDeckInitializer({
           return next;
         });
 
-        //. Store library and initialize opening hand
+        //. Store library (do not initialize opening hand - game setup flow handles it)
         setLibrary(lib);
-        openingHandRef?.current?.initialize(lib);
+        //. Also set opponent library for vs-self mode
+        setOppLibrary(shuffle(ids.slice()));
       } catch (e) {
         console.error('Init game failed:', e);
 
@@ -213,6 +206,7 @@ export function useDeckInitializer({
     })();
   }, [
     isLoggedIn,
+    gameMode,
     allCards.length,
     library.length,
     oppLibrary.length,
@@ -229,9 +223,15 @@ export function useDeckInitializer({
     getAssetForId
   ]);
 
+  //. Reset function to allow re-initialization when starting a new game
+  const resetGameInit = useCallback(() => {
+    gameInitializedRef.current = false;
+  }, []);
+
   return {
     createCardBacks,
-    getAssetForId
+    getAssetForId,
+    resetGameInit
   };
 }
 

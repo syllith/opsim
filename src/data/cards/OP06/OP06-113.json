@@ -1,63 +1,87 @@
 {
-  "id": "OP06-113",
-  "set": "OP06",
-  "number": 113,
-  "name": "Raki",
-  "category": "Character",
+  "cardName": "Raki",
+  "cardId": "OP06-113",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Ranged",
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": [
+    "ranged"
+  ],
   "types": [
     "Sky Island",
     "Shandora Warrior"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-113.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": "If you have a [Shandora Warrior] type character other than [Raki], this Character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "traits": [
+    "skyIsland",
+    "shandoraWarrior"
+  ],
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "113",
+  "printedText": "If you have a [Shandora Warrior] type character other than [Raki], this Character gains [Blocker]. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": [
+    "blocker",
+    "conditional"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "otherShandoraWarrior",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "If you have a [Shandora Warrior] type character other than [Raki], this Character gains Blocker.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "After Attack Declared",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "otherShandoraWarrior": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 50,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "card.traits",
+                  "op": "=",
+                  "value": "shandoraWarrior"
+                },
+                {
+                  "field": "card.name",
+                  "op": "!=",
+                  "value": "Raki"
+                }
+              ]
+            }
+          ],
+          "bindAs": "otherShandora"
+        }
       },
-      "effect": {
-        "text": "You may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but this is not a game error. The card ID, set, number, and other fields are read from the printed text."
-  }
+  ]
 }

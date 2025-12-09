@@ -1,72 +1,92 @@
 {
-  "id": "OP08-097",
-  "set": "OP08",
-  "number": 97,
-  "name": "Heliceratops",
-  "category": "Event",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Animal Kingdom Pirates"
-  ],
+  "cardName": "Heliceratops",
+  "cardId": "OP08-097",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 3,
+  "types": ["Animal Kingdom Pirates"],
+  "traits": ["animalKingdomPirates"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-097.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less."
-  },
-  "text": "Main If your Leader has the {Animal Kingdom Pirates} type, give up to 1 of your opponent's Characters -2 Cost during this turn. Then, K.O. up to 1 of your opponents Characters with a cost of 0.",
+  "setId": "OP08",
+  "cardNumber": "097",
+  "printedText": "[Main] If your Leader has the {Animal Kingdom Pirates} type, give up to 1 of your opponent's Characters -2 cost during this turn. Then, K.O. up to 1 of your opponent's Characters with a cost of 0.\n[Trigger] K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "animalKingdomPirates"
       },
-      "effect": {
-        "text": "If your Leader has the {Animal Kingdom Pirates} type, give up to 1 of your opponent's Characters -2 Cost during this turn. Then, K.O. up to 1 of your opponents Characters with a cost of 0.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Animal Kingdom Pirates"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterForCostReduction": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "opponentCostZeroCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -2,
+          "duration": "thisTurn",
+          "target": "opponentCharacterForCostReduction"
+        },
+        {
+          "type": "ko",
+          "target": "opponentCostZeroCharacter"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponentCharacterCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "conditions": [
-          "oneOpponentCharacter",
-          "cost<=3"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacterCost3OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a 'BANZA MADE IN JAPAN' watermark, which may indicate it's not an official release. Rarity is 'C' as printed."
-  }
+  ]
 }

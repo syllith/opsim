@@ -1,38 +1,64 @@
 {
-  "id": "OP02-009",
-  "set": "OP02",
-  "number": 9,
-  "name": "Squard",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
-  "types": ["Whitebeard Pirates Subordinates"],
+  "cardName": "Squard",
+  "cardId": "OP02-009",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "types": [
+    "Whitebeard Pirates Subordinates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-009.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "On Play"],
-  "trigger": null,
-  "text": "On Play If your Leader has the {Whitebeard Pirates} type, give up to 1 of your opponent's Characters -4000 Power during this turn, then add the top card from your Life area to your hand.",
+  "setId": "OP02",
+  "cardNumber": "009",
+  "printedText": "[On Play] If your Leader has the {Whitebeard Pirates} type, give up to 1 of your opponent's Characters -4000 Power during this turn, then add the top card from your Life area to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Whitebeard Pirates} type, give up to 1 of your opponent's Characters -4000 Power during this turn, then add the top card from your Life area to your hand.",
-        "grants": [],
-        "powerMod": { "amount": -4000, "duration": "this turn" },
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["leaderHasType:Whitebeard Pirates", "optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderHasWhitebeardPiratesType",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "oppCharMinus4000": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -4000,
+          "duration": "thisTurn",
+          "target": "oppCharMinus4000"
+        },
+        {
+          "type": "moveCard",
+          "destination": "hand",
+          "target": "selfTopLifeCard"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "whitebeardPiratesSubordinates"
+  ]
 }

@@ -1,23 +1,18 @@
 {
-  "id": "ST07-002",
-  "set": "ST07",
-  "number": 2,
-  "name": "Charlotte Anana",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Wisdom",
+  "cardName": "Charlotte Anana",
+  "cardId": "ST07-002",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
   "types": ["Big Mom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST07/ST07-002.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["bigMomPirates"],
+  "rarity": "C",
+  "setId": "ST07",
+  "cardNumber": "002",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": []
 }

@@ -1,37 +1,81 @@
 {
-  "id": "ST02-016",
-  "set": "ST02",
-  "number": 16,
-  "name": "Repel",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
+  "cardName": "Repel",
+  "cardId": "ST02-016",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
+  "attributes": ["unknown"],
   "types": ["Supernovas", "Kid Pirates"],
-  "rarity": null,
-  "art": "/cards/ST02/ST02-016.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": "Counter: Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, set up to 1 of your DON!! cards as active.",
+  "traits": ["supernovas", "kidPirates"],
+  "rarity": "common",
+  "setId": "ST02",
+  "cardNumber": "016",
+  "printedText": "[Counter] Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, set up to 1 of your DON!! cards as active.\n[Trigger] Set up to 1 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 2 },
-      "effect": {
-        "text": "Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, set up to 1 of your DON!! cards as active.",
-        "grants": [],
-        "powerMod": { "amount": 4000, "duration": "this battle" },
-        "targets": ["ally:Leader", "oneAllyCharacter"],
-        "conditions": ["then:setUpTo1DonActive"]
-      }
+      "timing": "counter",
+      "selectors": {
+        "buffTargetBattle": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "donToReadyOne": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "buffTargetBattle"
+        },
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donToReadyOne",
+          "may": true
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "donToReadyTrigger": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donToReadyTrigger",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

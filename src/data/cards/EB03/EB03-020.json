@@ -1,42 +1,114 @@
 {
-  "id": "EB03-020",
-  "set": "EB03",
-  "number": 20,
-  "name": "There You Go, Being a Sore Loser Again!",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["FILM"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-020.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": {
-    "text": "Set up to 1 of your Characters as active."
-  },
-  "text": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have 2 or more {FILM} type Characters on your field, that card gains an additional +2000 power.\n[Trigger] Set up to 1 of your Characters as active.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have 2 or more {FILM} type Characters on your field, that card gains an additional +2000 power.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisBattle",
           "amount": 2000,
-          "duration": "duringThisBattle"
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          }
         },
-        "targets": ["upTo1:ally:LeaderOrCharacter"],
-        "conditions": ["conditionalBonus2OrMoreFILM"]
-      }
+        {
+          "type": "modifyStat",
+          "amount": 2000,
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisBattle",
+          "condition": {
+            "value": 2,
+            "field": "selectorCount",
+            "op": ">=",
+            "selector": {
+              "filters": [
+                {
+                  "value": "FILM",
+                  "field": "types",
+                  "op": "="
+                }
+              ],
+              "zones": [
+                "character"
+              ],
+              "min": 0,
+              "max": 5,
+              "type": "character",
+              "side": "self",
+              "whoChooses": "system"
+            }
+          },
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "none"
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "setState",
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "state": "active"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "colors": [
+    "green"
+  ],
+  "rarity": "C",
+  "printedText": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have 2 or more {FILM} type Characters on your field, that card gains an additional +2000 power.\n[Trigger] Set up to 1 of your Characters as active.",
+  "cardNumber": "020",
+  "types": [
+    "FILM"
+  ],
+  "keywords": [
+    "counter",
+    "trigger"
+  ],
+  "setId": "EB03",
+  "cardType": "event",
+  "cardName": "There You Go, Being a Sore Loser Again!",
+  "cardId": "EB03-020",
+  "cost": 1,
+  "traits": [
+    "film"
+  ]
 }

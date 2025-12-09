@@ -1,48 +1,47 @@
 {
-  "id": "ST22-003",
-  "set": "ST22",
-  "number": 3,
-  "name": "Edward.Newgate",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
+  "cardName": "Edward.Newgate",
+  "cardId": "ST22-003",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 9,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["strike"],
   "types": ["The Four Emperors", "Whitebeard Pirates"],
-  "rarity": "C",
-  "art": "/cards/ST22/ST22-003.png",
-  "stats": {
-    "cost": 9,
-    "power": 10000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["Double Attack", "On Play"],
-  "trigger": null,
-  "text": "Double Attack (This card deals 2 damage.) On Play Reveal the top card of your deck. If that card has 'Whitebeard Pirates' in its types, draw 2 cards.",
+  "traits": ["theFourEmperors", "whitebeardPirates"],
+  "rarity": "starter",
+  "setId": "ST22",
+  "cardNumber": "003",
+  "printedText": "Double Attack (This card deals 2 damage.)\n[On Play] Reveal the top card of your deck. If that card has \"Whitebeard Pirates\" in its types, draw 2 cards.",
+  "keywords": ["Double Attack"],
   "abilities": [
     {
-      "timing": "Double Attack",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This card deals 2 damage.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["doubleAttack"]
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Reveal the top card of your deck. If that card has 'Whitebeard Pirates' in its types, draw 2 cards.",
-        "powerMod": null,
-        "targets": ["deckTop1"],
-        "conditions": ["ifWhitebeardPiratesDraw2"]
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "selfTopDeckCard",
+            "filters": [
+              {
+                "field": "types",
+                "op": "=",
+                "value": "Whitebeard Pirates"
+              }
+            ],
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 2,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

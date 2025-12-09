@@ -1,64 +1,79 @@
 {
-  "id": "OP14-115",
-  "set": "OP14",
-  "number": 115,
-  "name": "Rindo",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Ranged",
+  "cardName": "Rindo",
+  "cardId": "OP14-115",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["ranged"],
   "types": [
     "Kuja Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP14/OP14-115.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
+  "traits": [
+    "kujaPirates"
   ],
-  "trigger": {
-    "text": "If your Leader has the {Kuja Pirates} type, play this card."
-  },
-  "text": "Opponent's Turn On K.O. Add up to 1 card from the top of your deck to the top of your Life cards. Then, you take 1 damage.",
+  "rarity": "R",
+  "setId": "OP14",
+  "cardNumber": "115",
+  "printedText": "[Opponent's Turn] [On K.O.] Add up to 1 card from the top of your deck to the top of your Life cards. Then, you take 1 damage.\n[Trigger] If your Leader has the {Kuja Pirates} type, play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "isOpponentsTurn",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "Opponent's Turn On K.O. Add up to 1 card from the top of your deck to the top of your Life cards. Then, you take 1 damage.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDeckCard",
+          "destination": "topOfLife",
+          "ordering": "keep",
+          "may": true
+        },
+        {
+          "type": "dealDamage",
+          "side": "self",
+          "count": 1
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "selfKujaLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "kujaPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your Leader has the {Kuja Pirates} type, play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfKujaLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

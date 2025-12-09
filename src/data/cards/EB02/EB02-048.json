@@ -1,50 +1,94 @@
 {
-  "id": "EB02-048",
-  "set": "EB02",
-  "number": 48,
-  "name": "Brook",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Slash",
-  "types": ["Straw Hat Crew"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-048.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "On K.O"],
-  "trigger": null,
-  "text": "[On Play] You may add up to one {Laboon} from your trash to your hand.\n[On K.O] You may play up to one 4 Cost or lower {Laboon} from your hand.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB02-048",
+  "printedText": "[On Play] You may add up to one {Laboon} from your trash to your hand.\n[On K.O.] You may play up to one cost 4 or lower {Laboon} from your hand.",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "cardNumber": "048",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may add up to one {Laboon} from your trash to your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["trash:Laboon"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "may": true,
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": "Laboon",
+                "field": "name",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "trash"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ],
+      "frequency": "none"
     },
     {
-      "timing": "On K.O",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may play up to one 4 Cost or lower {Laboon} from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand:Laboon:cost<=4"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onKO",
+      "actions": [
+        {
+          "enterRested": false,
+          "type": "playCard",
+          "payCost": true,
+          "sourceZone": "hand",
+          "may": true,
+          "target": {
+            "filters": [
+              {
+                "value": 4,
+                "field": "cost",
+                "op": "<="
+              },
+              {
+                "value": "Laboon",
+                "field": "name",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Brook",
+  "rarity": "R",
+  "cost": 5,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

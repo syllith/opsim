@@ -1,46 +1,89 @@
 {
-  "id": "OP05-037",
-  "set": "OP05",
-  "number": 37,
-  "name": "Whoever wins this war becomes justice!!!",
-  "category": "Event",
-  "colors": [],
-  "attribute": null,
+  "cardName": "Whoever wins this war becomes justice!!!",
+  "cardId": "OP05-037",
+  "cardType": "event",
+  "colors": [
+    "green"
+  ],
+  "cost": 0,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Donquixote Pirates"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-037.png",
-  "stats": {
-    "cost": 0,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "037",
+  "printedText": "[Counter] You may trash 1 card from your hand: Your Leader or one of your Characters gains +3000 power during this battle.\n[Trigger] Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
   "keywords": [],
-  "trigger": {
-    "text": "Rest an opponent's character with a cost of 4 or less."
-  },
-  "text": "Whoever wins this war becomes justice!!!",
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "counter",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "Rest an opponent's character with a cost of 4 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "buffTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "restTargetTrigger": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "restTargetTrigger"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTargetTrigger"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "donquixotePirates"
+  ]
 }

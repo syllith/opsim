@@ -1,20 +1,39 @@
 {
-  "id": "ST05-006",
-  "set": "ST05",
-  "number": 6,
-  "name": "Gild Tesoro",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["FILM", "Gran Tesoro"],
-  "rarity": null,
-  "art": "/cards/ST05/ST05-006.png",
-  "stats": { "cost": 5, "power": 6000, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["When Attacking", "DON!! -2"],
-  "trigger": null,
-  "text": "When Attacking — DON!! -2: Draw 2 cards.",
-  "abilities": [
-    {"timing": "When Attacking", "frequency": null, "donReq": 2, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Draw 2 cards.", "grants": [], "powerMod": null, "targets": ["self"], "conditions": ["donAttached"]}}
+  "cardName": "Gild Tesoro",
+  "cardId": "ST05-006",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": [
+    "FILM",
+    "Gran Tesoro"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "film",
+    "granTesoro"
+  ],
+  "rarity": "",
+  "setId": "ST05",
+  "cardNumber": "006",
+  "printedText": "[When Attacking] DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck): Draw 2 cards.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "whenAttacking",
+      "cost": {
+        "type": "donMinus",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        }
+      ]
+    }
+  ]
 }

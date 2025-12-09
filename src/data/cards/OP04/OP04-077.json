@@ -1,54 +1,28 @@
 {
-  "id": "OP04-077",
-  "set": "OP04",
-  "number": 77,
-  "name": "Ideo",
-  "category": "Character",
+  "cardName": "Ideo",
+  "cardId": "OP04-077",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Dressrosa"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-077.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "077",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "keywords": [
-    "Blocker"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "(Blocker) (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [
-    {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
-    }
+  "abilities": [],
+  "attributes": [
+    "strike"
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner."
-  }
+  "traits": [
+    "dressrosa"
+  ]
 }

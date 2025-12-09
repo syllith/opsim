@@ -1,52 +1,72 @@
 {
-  "id": "OP04-092",
-  "set": "OP04",
-  "number": 92,
-  "name": "Rebecca",
-  "category": "Character",
+  "cardName": "Rebecca",
+  "cardId": "OP04-092",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Dressrosa"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-092.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "092",
+  "printedText": "[On Play] Look at the top 3 cards of your deck, reveal 1 {Dressrosa} type card other than [Rebecca] and add it to your hand. Then, trash the remaining cards.",
   "keywords": [
-    "On Play"
+    "onPlay"
   ],
-  "trigger": null,
-  "text": "On Play Look at the top 3 cards of your deck, reveal 1 (Dressrosa) type card other than [Rebecca] and add it to your hand. Then trash the remaining cards.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at the top 3 cards of your deck, reveal 1 (Dressrosa) type card other than [Rebecca] and add it to your hand. Then trash the remaining cards.",
-        "powerMod": null,
-        "targets": [
-          "top3CardsOfDeck",
-          "oneDressrosaCardOtherThanRebecca"
-        ],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "deck"
+            ],
+            "filters": [
+              {
+                "logic": "AND",
+                "all": [
+                  {
+                    "field": "types",
+                    "op": "=",
+                    "value": "Dressrosa"
+                  },
+                  {
+                    "field": "cardName",
+                    "op": "!=",
+                    "value": "Rebecca"
+                  }
+                ]
+              }
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 3,
+          "moveRemainingTo": "trash",
+          "remainingOrdering": "keep",
+          "may": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "dressrosa"
+  ]
 }

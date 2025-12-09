@@ -1,52 +1,111 @@
 {
-  "id": "OP13-119",
-  "set": "OP13",
-  "number": 119,
-  "name": "Portgas.D.Ace",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Whitebeard Pirates"
-  ],
+  "cardName": "Portgas.D.Ace",
+  "cardId": "OP13-119",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 6,
+  "power": 7000,
+  "attributes": ["special"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "SEC",
-  "art": "/cards/OP13/OP13-119.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "If you have 3 or less Life cards, this Character gains Rush. On Play: Give up to 1 rested DON!! card to your Leader. Then, return up to 1 of your opponent's Characters with a cost of 5 or less to the owner's hand. If you do, your opponent may play up to 1 Character card with a cost of 4 or less from their hand.",
+  "setId": "OP13",
+  "cardNumber": "119",
+  "printedText": "If you have 3 or less Life cards, this Character gains Rush.\n[On Play] Give up to 1 rested DON!! card to your Leader. Then, return up to 1 of your opponent's Characters with a cost of 5 or less to the owner's hand. If you do, your opponent may play up to 1 Character card with a cost of 4 or less from their hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          },
+          "condition": {
+            "field": "selfLife",
+            "op": "<=",
+            "value": 3
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "selectors": {
+        "opponentCost5OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        },
+        "opponentHandCost4OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "opponent",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Give up to 1 rested DON!! card to your Leader. Then, return up to 1 of your opponent's Characters with a cost of 5 or less to the owner's hand. If you do, your opponent may play up to 1 Character card with a cost of 4 or less from their hand.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "side": "self",
+          "target": {
+            "side": "self",
+            "type": "leader",
+            "zones": ["leader"],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "self"
+          },
+          "may": true
+        },
+        {
+          "type": "moveCard",
+          "target": "opponentCost5OrLessCharacter",
+          "destination": "hand"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "opponentHandCost4OrLessCharacter",
+          "payCost": true,
+          "may": true,
+          "condition": {
+            "field": "selectorCount",
+            "selector": "opponentCost5OrLessCharacter",
+            "op": ">",
+            "value": 0
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

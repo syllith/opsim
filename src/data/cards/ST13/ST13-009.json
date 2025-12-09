@@ -1,37 +1,55 @@
 {
-  "id": "ST13-009",
-  "set": "ST13",
-  "number": 9,
-  "name": "Shanks",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Slash",
-  "types": ["Four Emperors", "Red Hair Pirates"],
-  "rarity": "C",
-  "art": "/cards/ST13/ST13-009.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-     "counter": null
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play Flip one of your face up life cards face down; if your opponent has 7 or more cards in their hand, send up to 1 card from their top of their life to the trash.",
+  "cardName": "Shanks",
+  "cardId": "ST13-009",
+  "cardType": "character",
+  "colors": [
+    "yellow"
+  ],
+  "cost": 7,
+  "power": 7000,
+  "attributes": [
+    "slash"
+  ],
+  "types": [
+    "Four Emperors",
+    "Red Hair Pirates"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "redHairedPirates"
+  ],
+  "setId": "ST13",
+  "cardNumber": "009",
+  "printedText": "[On Play] Flip one of your face up Life cards face down: If your opponent has 7 or more cards in their hand, send up to 1 card from the top of their Life to the trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Flip one of your face up life cards face down; if your opponent has 7 or more cards in their hand, send up to 1 card from their top of their life to the trash.",
-        "powerMod": null,
-        "targets": ["self:lifeFaceUp:flipFaceDown", "opponent:handSize>=7", "oneOpponentLifeTop:trash:optional"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "setLifeFace",
+        "side": "self",
+        "count": 1,
+        "faceUp": false,
+        "fromFaceUpOnly": true
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "opponentHandSize",
+            "op": ">=",
+            "value": 7
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "opponentTopLifeCard",
+              "destination": "trash",
+              "may": true
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

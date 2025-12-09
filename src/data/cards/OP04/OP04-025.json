@@ -1,54 +1,63 @@
 {
-  "id": "OP04-025",
-  "set": "OP04",
-  "number": 25,
-  "name": "Giolla",
-  "category": "Character",
+  "cardName": "Giolla",
+  "cardId": "OP04-025",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Donquixote Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-025.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "opponent attack"
-  ],
-  "trigger": null,
-  "text": "[opponent attack] 2 (You may rest the specified number of DON!! cards in your Cost Area): Rest up to 1 of your opponent's cost 4 or lower characters.",
+  "setId": "OP04",
+  "cardNumber": "025",
+  "printedText": "[On Your Opponent's Attack] (2) (You may rest the specified number of DON!! cards in your Cost Area.): Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "opponent attack",
-      "frequency": "Once Per Turn",
-      "donReq": 2,
+      "timing": "onOpponentsAttack",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restDonFromCostArea",
+        "count": 2,
+        "may": true
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's cost 4 or lower characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "conditions": [
-          "opponentAttack"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCost4OrLessCharUpTo1": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "bindAs": "oppCost4OrLessCharUpTo1"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCost4OrLessCharUpTo1"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, but all printed text is legible."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

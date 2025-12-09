@@ -1,38 +1,37 @@
 {
-  "id": "OP01-080",
-  "set": "OP01",
-  "number": 80,
-  "name": "Miss Double Finger (Zala)",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Baroque Works"],
+  "cardName": "Miss Double Finger (Zala)",
+  "cardId": "OP01-080",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
+  "types": [
+    "Baroque Works"
+  ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-080.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On K.O."],
-  "trigger": null,
-  "text": "On K.O.: Draw 1 card.",
+  "setId": "OP01",
+  "cardNumber": "080",
+  "printedText": "[On K.O.] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw 1 card.",
-        "grants": ["Draw 1 Card"],
-        "powerMod": null,
-        "targets": ["player"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "baroqueWorks"
+  ]
 }

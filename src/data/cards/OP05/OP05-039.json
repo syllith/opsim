@@ -1,50 +1,117 @@
 {
-  "id": "OP05-039",
-  "set": "OP05",
-  "number": 39,
-  "name": "Beta Betton Meteora",
-  "category": "Event",
+  "cardName": "Beta Betton Meteora",
+  "cardId": "OP05-039",
+  "cardType": "event",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Donquixote Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-039.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 4000
-    }
-  },
-  "keywords": [
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "KO up to 1 of your opponent's rested Characters with a cost of 5 or less."
-  },
-  "text": "Up to 1 of your Leader or Characters gains +4000 power during this battle. Then, KO up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+  "setId": "OP05",
+  "cardNumber": "039",
+  "printedText": "[Counter] Up to 1 of your Leader or Characters gains +4000 power during this battle. Then, K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.\n[Trigger] K.O. up to 1 of your opponent's rested Characters with a cost of 5 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "frequency": "none",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "buffTarget"
+        },
+        "koTargetCounter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTargetCounter"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Characters gains +4000 power during this battle. Then, KO up to 1 of your opponent's rested Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        },
+        {
+          "type": "ko",
+          "target": "koTargetCounter"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "koTargetTrigger": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTargetTrigger"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTargetTrigger"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "donquixotePirates"
+  ]
 }

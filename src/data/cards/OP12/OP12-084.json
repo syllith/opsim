@@ -1,66 +1,33 @@
 {
-  "id": "OP12-084",
-  "set": "OP12",
-  "number": 84,
-  "name": "Emporio Ivankov",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Revolutionary Army"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP12/OP12-084.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play If your Leader has the (Revolutionary Army) type, trash 3 cards from the top of your deck.",
+  "cardName": "Emporio Ivankov",
+  "cardId": "OP12-084",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Revolutionary Army"],
+  "traits": ["revolutionaryArmy"],
+  "rarity": "UC",
+  "setId": "OP12",
+  "cardNumber": "084",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If your Leader has the {Revolutionary Army} type, trash 3 cards from the top of your deck.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "revolutionaryArmy"
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your Leader has the (Revolutionary Army) type, trash 3 cards from the top of your deck.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Revolutionary Army"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "trashTopDeck",
+          "count": 3
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

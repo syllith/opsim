@@ -1,49 +1,111 @@
 {
-  "id": "P-084",
-  "set": "P",
-  "number": 84,
-  "name": "Buggy",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Cross Guild",
-    "Four Emperors"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-084.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "This character cannot attack. If your leader is [Buggy], all cost 3 and 4 characters cannot attack. \nOn Play: Play up to one cost 6 or lower (Cross Guild) type character from your hand.",
+  "cardName": "Buggy",
+  "cardId": "P-084",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 7,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Cross Guild", "Four Emperors"],
+  "traits": ["crossGuild", "theFourEmperors"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-084",
+  "printedText": "This Character cannot attack.\nIf your Leader is [Buggy], all cost 3 and 4 Characters cannot attack.\n[On Play] Play up to 1 cost 6 or lower {Cross Guild} type Character card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "Play up to one cost 6 or lower (Cross Guild) type character from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "attack",
+          "target": "thisCharacter",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "timing": "static",
+      "condition": {
+        "field": "leaderCardName",
+        "op": "=",
+        "value": "Buggy"
+      },
+      "selectors": {
+        "costThreeOrFourCharacters": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cost",
+                  "op": "=",
+                  "value": 3
+                },
+                {
+                  "field": "cost",
+                  "op": "=",
+                  "value": 4
+                }
+              ]
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "attack",
+          "target": "costThreeOrFourCharacters",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "selectors": {
+        "crossGuildHandCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "crossGuild"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "crossGuildHandCharacter",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

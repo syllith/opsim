@@ -1,23 +1,19 @@
 {
-  "id": "ST01-008",
-  "set": "ST01",
-  "number": 8,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Wisdom",
+  "cardName": "Nico Robin",
+  "cardId": "ST01-008",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
   "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST01/ST01-008.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["strawHatCrew"],
+  "rarity": "common",
+  "setId": "ST01",
+  "cardNumber": "008",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": "Effect text not visible in the provided image; add once confirmed." }
+  "alsoTreatedAsNames": []
 }

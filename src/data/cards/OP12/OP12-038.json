@@ -1,71 +1,77 @@
 {
-  "id": "OP12-038",
-  "set": "OP12",
-  "number": 38,
-  "name": "Two-Sword Style Iai Rashomon",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Two-Sword Style Iai Rashomon",
+  "cardId": "OP12-038",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 1,
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP12/OP12-038.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main: You may rest 2 of your DON!! cards: K.O. up to 2 rested Characters with a original cost of 4 or less. \nCounter: Up to 1 of your Leader gains +3000 power during this battle.",
+  "setId": "OP12",
+  "cardNumber": "038",
+  "printedText": "[Main] You may rest 2 of your DON!! cards: K.O. up to 2 rested Characters with an original cost of 4 or less.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restDonFromCostArea",
+        "count": 2,
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 2 of your DON!! cards: K.O. up to 2 rested Characters with a original cost of 4 or less.",
-        "powerMod": null,
-        "targets": [
-          "up to 2 rested Characters with a original cost of 4 or less"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "koTargets": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 4
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTargets"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "up to 1 of your Leader"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "leaderTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

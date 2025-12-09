@@ -1,49 +1,46 @@
 {
-  "id": "OP11-027",
-  "set": "OP11",
-  "number": 27,
-  "name": "Gyoro-me",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Sea Kings"
-  ],
+  "cardName": "Gyoro-me",
+  "cardId": "OP11-027",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Sea Kings"],
+  "traits": ["seaKings"],
   "rarity": "C",
-  "art": "/cards/OP11/OP11-027.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
+  "setId": "OP11",
+  "cardNumber": "027",
+  "printedText": "If your Leader is [Shirahoshi], this Character can attack Characters the same turn it is played.",
   "keywords": [],
-  "trigger": null,
-  "text": "If your Leader is [Shirahoshi], this Character can attack Characters the same turn it is played.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selfLeaderName",
+            "op": "=",
+            "value": "Shirahoshi"
+          },
+          {
+            "field": "selfZone",
+            "op": "=",
+            "value": "characterArea"
+          }
+        ]
       },
-      "effect": {
-        "text": "If your Leader is [Shirahoshi], this Character can attack Characters the same turn it is played.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Shirahoshi]"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "rushCharactersOnly",
+          "duration": "permanent",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

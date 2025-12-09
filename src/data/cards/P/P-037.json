@@ -1,54 +1,57 @@
 {
-  "id": "P-037",
-  "set": "P",
-  "number": 37,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-037.png",
-  "stats": {
-    "cost": 2,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking: If you have 2 or more rested Characters, this Character gains +1000 power during the turn.",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "P-037",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-037",
+  "printedText": "[When Attacking] If you have 2 or more rested Characters, this Character gains +1000 power during the turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If you have 2 or more rested Characters, this Character gains +1000 power during the turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "timing": "whenAttacking",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
         },
-        "conditions": [
-          "have 2 or more rested Characters"
-        ],
-        "giveDon": null
-      }
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "thisCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,38 +1,69 @@
 {
-  "id": "OP01-061",
-  "set": "OP01",
-  "number": 61,
-  "name": "Kaido",
-  "category": "Leader",
-  "colors": ["Purple", "Blue"],
-  "attribute": "Strike",
-  "types": ["The Four Emperors", "Animal Kingdom Pirates"],
-  "rarity": null,
-  "art": "/cards/OP01/OP01-061.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["DON!! x1", "Your Turn", "Once Per Turn"],
-  "trigger": null,
-  "text": "DON!! x1 | Your Turn | Once Per Turn: When 1 of your opponent's Characters is K.O.'d, you may add 1 DON!! card from your DON!! deck and set it as active.",
+  "cardName": "Kaido",
+  "cardId": "OP01-061",
+  "cardType": "leader",
+  "colors": [
+    "purple",
+    "blue"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "types": [
+    "The Four Emperors",
+    "Animal Kingdom Pirates"
+  ],
+  "rarity": "L",
+  "setId": "OP01",
+  "cardNumber": "061",
+  "printedText": "DON!! x1 Your Turn Once Per Turn When 1 of your opponent's Characters is K.O.'d, you may add 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When 1 of your opponent's Characters is K.O.'d, you may add 1 DON!! card from your DON!! deck and set it as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacterKOd"],
-        "conditions": [],
-        "giveDon": { "quantity": 1, "state": "active", "from": "costArea", "to": ["player"] }
-      }
+      "timing": "whenCharacterIsKOd",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonToThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "koCardController",
+            "op": "=",
+            "value": "opponent"
+          },
+          {
+            "field": "koCardType",
+            "op": "=",
+            "value": "character"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "enterRested": false,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "animalKingdomPirates"
+  ]
 }

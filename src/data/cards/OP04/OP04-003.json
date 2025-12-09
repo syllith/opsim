@@ -1,52 +1,58 @@
 {
-  "id": "OP04-003",
-  "set": "OP04",
-  "number": 3,
-  "name": "Usopp",
-  "category": "Character",
+  "cardName": "Usopp",
+  "cardId": "OP04-003",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Wisdom",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Alabasta Kingdom",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-003.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. K.O. up to one of your opponent's Characters with an original power of 5000 or less.",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "003",
+  "printedText": "[On K.O.] K.O. up to one of your opponent's Characters with an original power of 5000 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "oppCharOriginal5000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "originalPower",
+              "op": "<=",
+              "value": 5000
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "K.O. up to one of your opponent's Characters with an original power of 5000 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=power5000"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharOriginal5000OrLess"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "alabastaKingdom",
+    "strawHatCrew"
+  ]
 }

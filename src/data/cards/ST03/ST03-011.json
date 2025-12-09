@@ -1,18 +1,25 @@
 {
-  "id": "ST03-011",
-  "set": "ST03",
-  "number": 11,
-  "name": "Buggy",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["The Seven Warlords of the Sea", "Buggy's Delivery"],
-  "rarity": null,
-  "art": "/cards/ST03/ST03-011.png",
-  "stats": { "cost": 1, "power": 3000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "cardName": "Buggy",
+  "cardId": "ST03-011",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 3000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Buggy's Delivery"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "buggySDelivery"
+  ],
+  "rarity": "C",
+  "setId": "ST03",
+  "cardNumber": "011",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {"notes": null}
+  "abilities": []
 }

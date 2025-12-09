@@ -1,37 +1,68 @@
 {
-  "id": "OP02-032",
-  "set": "OP02",
-  "number": 32,
-  "name": "Shishilian",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Mink Tribe"],
+  "cardName": "Shishilian",
+  "cardId": "OP02-032",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Mink Tribe"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-032.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play 2 (You may rest the specified number of DON!! cards in your Cost Area): Set up to 1 of your {Mink Tribe} type Characters with a cost of 5 or less as active.",
+  "setId": "OP02",
+  "cardNumber": "032",
+  "printedText": "[On Play] (2) (You may rest the specified number of DON!! cards in your Cost Area.): Set up to 1 of your [Mink Tribe] type Characters with a cost of 5 or less as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 2 },
-      "effect": {
-        "text": "Set up to 1 of your {Mink Tribe} type Characters with a cost of 5 or less as active.",
-        "grants": ["active"],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["Mink Tribe type", "cost 5 or less"]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 2
+      },
+      "selectors": {
+        "minkTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Mink Tribe"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "targetMink"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "minkTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "minkTribe"
+  ]
 }

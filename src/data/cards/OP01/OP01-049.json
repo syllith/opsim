@@ -1,37 +1,76 @@
 {
-  "id": "OP01-049",
-  "set": "OP01",
-  "number": 49,
-  "name": "Bepo",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
-  "types": ["Mink Tribe", "Heart Pirates"],
-  "rarity": "UC",
-  "art": "/cards/OP01/OP01-049.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["DON!! x1", "When Attacking"],
-  "trigger": null,
-  "text": "[DON!! x1] [When Attacking] Play up to 1 {Heart Pirates} type Character card other than [Bepo] with a cost of 4 or less from your hand.",
+  "cardName": "Bepo",
+  "cardId": "OP01-049",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "types": [
+    "Mink Tribe",
+    "Heart Pirates"
+  ],
+  "rarity": "R",
+  "setId": "OP01",
+  "cardNumber": "049",
+  "printedText": "[DON!! x1] When Attacking Play up to 1 {Heart Pirates} type Character card other than [Bepo] with a cost of 4 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 {Heart Pirates} type Character card other than [Bepo] with a cost of 4 or less from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand"],
-        "conditions": ["heartPiratesType", "notBepo", "characterCost<=4"]
-      }
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Heart Pirates"
+            },
+            {
+              "field": "name",
+              "op": "!=",
+              "value": "Bepo"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "playTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "minkTribe",
+    "heartPirates"
+  ]
 }

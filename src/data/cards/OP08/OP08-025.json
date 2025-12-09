@@ -1,48 +1,53 @@
 {
-  "id": "OP08-025",
-  "set": "OP08",
-  "number": 25,
-  "name": "Shishilian",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Minks"
-  ],
+  "cardName": "Shishilian",
+  "cardId": "OP08-025",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Minks"],
+  "traits": ["minks"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-025.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Up to 1 of your opponent's rested cost 3 or lower characters cannot be set active during their next Refresh Phase.",
+  "setId": "OP08",
+  "cardNumber": "025",
+  "printedText": "[On Play] Up to 1 of your opponent's rested cost 3 or lower characters cannot be set active during their next Refresh Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "freezeTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                { "field": "state", "op": "=", "value": "rested" },
+                { "field": "cost", "op": "<=", "value": 3 }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your opponent's rested cost 3 or lower characters cannot be set active during their next Refresh Phase.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "setActiveDuringOwnersRefreshPhase",
+          "target": "freezeTarget",
+          "actions": [
+            { "type": "noop" }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,52 +1,53 @@
 {
-  "id": "P-044",
-  "set": "P",
-  "number": 44,
-  "name": "Sabo",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Revolutionary Army"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-044.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Sabo",
+  "cardId": "P-044",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Revolutionary Army"],
+  "traits": ["revolutionaryArmy"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-044",
+  "printedText": "[DON!! x1] If you have 4 or less cards in your hand, this Character gains +2000 power.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1: If you have 4 or less cards in your hand, this character gains +2000 power.",
   "abilities": [
     {
-      "timing": "DON!!",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isGivenDon",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "handSize",
+            "op": "<=",
+            "value": 4
+          }
+        ]
       },
-      "effect": {
-        "text": "If you have 4 or less cards in your hand, this character gains +2000 power.",
-        "powerMod": {
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "conditions": [
-          "you:hand<=4"
-        ],
-        "giveDon": null
-      }
+          "duration": "permanent",
+          "target": "thisCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

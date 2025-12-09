@@ -1,52 +1,97 @@
 {
-  "id": "PRB02-013",
-  "set": "PRB02",
-  "number": 13,
-  "name": "Gecko Moria",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
+  "cardName": "Gecko Moria",
+  "cardId": "PRB02-013",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 0,
+  "attributes": ["special"],
   "types": [
     "Thriller Bark Pirates",
     "The Seven Warlords of the Sea"
   ],
-  "rarity": "SP",
-  "art": "/cards/PRB02/PRB02-013.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "thrillerBarkPirates",
+    "theSevenWarlordsOfTheSea"
   ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the (Thriller Bark Pirates) type, play up to 1 Character with a cost of 4 or less from your trash rested. Then, give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+  "setId": "PRB02",
+  "cardNumber": "013",
+  "printedText": "[On Play] If your Leader has the {Thriller Bark Pirates} type, play up to 1 Character with a cost of 4 or less from your trash rested. Then, give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderThrillerBarkPirates",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "If your Leader has the (Thriller Bark Pirates) type, play up to 1 Character with a cost of 4 or less from your trash rested. Then, give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
-        "powerMod": null,
-        "conditions": [
-          "your Leader has the (Thriller Bark Pirates) type"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "leaderThrillerBarkPirates": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "thrillerBarkPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "trashCharacterCost4OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "cardType",
+              "op": "=",
+              "value": "character"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "donRecipient": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "trashCharacterCost4OrLess",
+          "enterRested": true,
+          "payCost": false
+        },
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "target": "donRecipient",
+          "may": true,
+          "sourceDonState": "rested"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "alsoTreatedAsNames": []
 }

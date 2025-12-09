@@ -1,50 +1,64 @@
 {
-  "id": "ST20-002",
-  "set": "ST20",
-  "number": 2,
-  "name": "Charlotte Cracker",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Slash",
+  "cardName": "Charlotte Cracker",
+  "cardId": "ST20-002",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Big Mom Pirates"],
-  "rarity": "C",
-  "art": "/cards/ST20/ST20-002.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Once Per Turn", "Trigger", "Counter +1000"],
-  "trigger": { "text": "You may trash 1 card from your hand: Play this card." },
-  "text": "Once Per Turn When this character would be KO'd by an effect, you may instead trash the top card of your life.",
+  "traits": ["bigMomPirates"],
+  "rarity": "starter",
+  "setId": "ST20",
+  "cardNumber": "002",
+  "printedText": "[Once Per Turn] When this Character would be KO'd by an effect, you may instead trash the top card of your Life. Trigger You may trash 1 card from your hand: Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When this character would be KO'd by an effect, you may instead trash the top card of your life.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["koByEffect"],
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "thisWouldBeKOByEffect",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "may": true,
+          "cost": {
+            "type": "moveTopLifeCard",
+            "side": "self",
+            "destination": "trash",
+            "position": "top",
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Play this card.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["optionalTrashHandCard:Any:Any"],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

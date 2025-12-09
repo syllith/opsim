@@ -1,65 +1,76 @@
 {
-  "id": "OP14-063",
-  "set": "OP14",
-  "number": 63,
-  "name": "Sugar",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Donquixote Pirates"
-  ],
+  "cardName": "Sugar",
+  "cardId": "OP14-063",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-063.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On Play: Add up to 1 DON!! card from your DON!! deck and set it as active. On K.O.: If your opponent has 6 or more DON!! cards on their field, play up to 1 {Donquixote Pirates} type Character card with a cost of 5 or less from your hand.",
+  "setId": "OP14",
+  "cardNumber": "063",
+  "printedText": "[On Play] Add up to 1 DON!! card from your DON!! deck and set it as active. [On K.O.] If your opponent has 6 or more DON!! cards on their field, play up to 1 {Donquixote Pirates} type Character card with a cost of 5 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "enterRested": false,
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "opponentFieldDon": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "selfHandDonquixoteChar": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "donquixotePirates"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If your opponent has 6 or more DON!! cards on their field, play up to 1 {Donquixote Pirates} type Character card with a cost of 5 or less from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "opponent has 6 or more DON!! cards on their field"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "opponentFieldDon",
+        "op": ">=",
+        "value": 6
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "selfHandDonquixoteChar",
+          "payCost": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

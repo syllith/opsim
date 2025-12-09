@@ -1,49 +1,69 @@
 {
-  "id": "OP09-034",
-  "set": "OP09",
-  "number": 34,
-  "name": "Perona",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Shikkearu Kingdom",
-    "Thriller Bark Pirates"
-  ],
+  "cardName": "Perona",
+  "cardId": "OP09-034",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Shikkeau Kingdom", "Thriller Bark Pirates"],
+  "traits": ["shikkeauKingdom", "thrillerBarkPirates"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-034.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck and reveal up to 1 [Thriller Bark Pirates] type card or a \"Dracule Mihawk\" and put it into your hand. Then, place the rest on the bottom of your deck in any order. Then, discard 1 card from your hand.",
+  "setId": "OP09",
+  "cardNumber": "034",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck and reveal up to 1 {Thriller Bark Pirates} type card or 1 \"Dracule Mihawk\" card and add it to your hand. Then, place the rest at the bottom of your deck in any order. Then, discard 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "peronaSearchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "thrillerBarkPirates"
+                },
+                {
+                  "field": "name",
+                  "op": "=",
+                  "value": "Dracule Mihawk"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck and reveal up to 1 [Thriller Bark Pirates] type card or a \"Dracule Mihawk\" and put it into your hand. Then, place the rest on the bottom of your deck in any order. Then, discard 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "peronaSearchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

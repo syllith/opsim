@@ -1,56 +1,60 @@
 {
-  "id": "OP01-007",
-  "set": "OP01",
-  "number": 7,
-  "name": "Caribou",
-  "category": "Character",
+  "cardName": "Caribou",
+  "cardId": "OP01-007",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Special",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Supernovas",
     "Caribou Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-007.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "007",
+  "printedText": "On K.O.: K.O. up to 1 of your opponent's Characters with 4000 power or less.",
   "keywords": [
-    "On K.O."
+    "onKO"
   ],
-  "trigger": null,
-  "text": "[On K.O.] K.O. up to 1 of your opponent's Characters with 4000 power or less.",
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "oppChar4000": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with 4000 power or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "upTo1:opponent:Character"
-        ],
-        "conditions": [
-          "opponentCharacterPower<=4000"
-        ]
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppChar4000"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "supernovas",
+    "caribouPirates"
+  ]
 }

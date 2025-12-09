@@ -1,65 +1,63 @@
 {
-  "id": "OP13-058",
-  "set": "OP13",
-  "number": 58,
-  "name": "Phoenix Pyreapple",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Former Whitebeard Pirates"
-  ],
+  "cardName": "Phoenix Pyreapple",
+  "cardId": "OP13-058",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 1,
+  "types": ["Former Whitebeard Pirates"],
+  "traits": ["formerWhitebeardPirates"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-058.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main: You may rest 1 of your DON!! cards: Place up to 1 of your opponent's Characters with 3000 power or less at the bottom of the owner's deck. \nCounter: Up to 1 of your Leader gains +3000 power during this battle.",
+  "setId": "OP13",
+  "cardNumber": "058",
+  "printedText": "[Main] You may rest 1 of your DON!! cards: Place up to 1 of your opponent's Characters with 3000 power or less at the bottom of the owner's deck.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "Place up to 1 of your opponent's Characters with 3000 power or less at the bottom of the owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "upToOneOppPower3000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "upToOneOppPower3000OrLess",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "selfLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

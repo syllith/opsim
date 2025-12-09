@@ -1,76 +1,88 @@
 {
-  "id": "OP04-108",
-  "set": "OP04",
-  "number": 108,
-  "name": "Charlotte Moscato",
-  "category": "Character",
+  "cardName": "Charlotte Moscato",
+  "cardId": "OP04-108",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Big Mom Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP04/OP04-108.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "108",
+  "printedText": "[DON!! x1] This Character gains [Banish]. (When this card deals damage, the target card is trashed without activating its Trigger.)\n[Trigger] You may trash 1 card from your hand: Play this card.",
   "keywords": [
-    "DON!!",
-    "Trigger"
+    "banish",
+    "trigger"
   ],
-  "trigger": {
-    "text": "You may trash one card from your hand: Play this card."
-  },
-  "text": "DON!! x1 This character gains Banish. (When a character deals damage, the target card is trashed without activating its Trigger.)",
   "abilities": [
     {
-      "timing": "DON!!",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "attachedDonCount:this",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "This character gains Banish. (When a character deals damage, the target card is trashed without activating its Trigger.)",
-        "grants": [
-          "Banish"
-        ],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "self": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "banish",
+          "duration": "permanent",
+          "target": "self"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash one card from your hand: Play this card.",
-        "powerMod": null,
-        "targets": [
-          "thisCard"
-        ],
-        "conditions": [
-          "hand"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "selfFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfFromLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is UC as printed in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "bigMomPirates"
+  ]
 }

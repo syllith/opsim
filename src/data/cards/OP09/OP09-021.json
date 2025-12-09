@@ -1,51 +1,57 @@
 {
-  "id": "OP09-021",
-  "set": "OP09",
-  "number": 21,
-  "name": "Red Force",
-  "category": "Stage",
+  "cardName": "Red Force",
+  "cardId": "OP09-021",
+  "cardType": "stage",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 2,
   "types": [
     "Red Hair Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP09/OP09-021.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
+  "traits": [
+    "redHairedPirates"
   ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this stage: If your leader has the (Red Hair Pirates) type, give up to one of your opponent's characters -1000 power for this turn.",
+  "rarity": "C",
+  "setId": "OP09",
+  "cardNumber": "021",
+  "printedText": "[Activate: Main] You may rest this Stage: If your Leader has the {Red Hair Pirates} type, give up to 1 of your opponent's Characters -1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this stage: If your leader has the (Red Hair Pirates) type, give up to one of your opponent's characters -1000 power for this turn.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the (Red Hair Pirates) type"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "redHairPirates"
+      },
+      "selectors": {
+        "oppCharMinus1000": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": "oppCharMinus1000"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

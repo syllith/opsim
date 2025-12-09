@@ -1,64 +1,92 @@
 {
-  "id": "OP08-096",
-  "set": "OP08",
-  "number": 96,
-  "name": "People's Dreams... Don't Ever End!!",
-  "category": "Event",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Blackbeard Pirates"
-  ],
+  "cardName": "People's Dreams... Don't Ever End!!",
+  "cardId": "OP08-096",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
+  "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-096.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Play up to 1 black Character card with a cost of 3 or less from your trash."
-  },
-  "text": "Counter: Trash 1 card from the top of your deck. If that card has a cost of 6 or greater, up to 1 of your Leader or Character cards gains +5000 power during this battle.",
+  "setId": "OP08",
+  "cardNumber": "096",
+  "printedText": "[Counter] Trash 1 card from the top of your deck. If the trashed card has a cost of 6 or more, up to 1 of your Leader or Character cards gains +5000 power during this battle.\n[Trigger] Play up to 1 black Character card with a cost of 3 or less from your trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "selfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Trash 1 card from the top of your deck. If that card has a cost of 6 or greater, up to 1 of your Leader or Character cards gains +5000 power during this battle.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "trashTopDeck",
+          "count": 1
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "lastTrashedCardCost",
+            "op": ">=",
+            "value": 6
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 5000,
+              "duration": "thisBattle",
+              "target": "selfLeaderOrCharacter"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "blackCharacterFromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Play up to 1 black Character card with a cost of 3 or less from your trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "blackCharacterFromTrash",
+          "payCost": false,
+          "enterRested": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

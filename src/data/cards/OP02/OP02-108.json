@@ -1,23 +1,30 @@
 {
-  "id": "OP02-108",
-  "set": "OP02",
-  "number": 108,
-  "name": "Donquixote Rosinante",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Navy", "Donquixote Pirates"],
+  "cardName": "Donquixote Rosinante",
+  "cardId": "OP02-108",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "types": [
+    "Navy",
+    "Donquixote Pirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-108.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker"],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "setId": "OP02",
+  "cardNumber": "108",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy",
+    "donquixotePirates"
+  ]
 }

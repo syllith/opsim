@@ -1,37 +1,91 @@
 {
-  "id": "EB03-013",
-  "set": "EB03",
-  "number": 13,
-  "name": "Carrot",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Special",
-  "types": ["Minks"],
-  "rarity": "SR",
-  "art": "/cards/EB03/EB03-013.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "[Activate: Main] [Once Per Turn] If this Character was played on this turn, K.O. up to 1 of your opponent's rested Characters with a cost of 5 or less. Then, play up to 1 [Zou] from your hand.",
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB03-013",
+  "printedText": "[Activate:Main] [Once Per Turn] If this Character was played on this turn, K.O. up to 1 of your opponent's rested Characters with a cost of 5 or less. Then, play up to 1 [Zou] from your hand.",
+  "types": [
+    "Minks"
+  ],
+  "cardNumber": "013",
+  "keywords": [
+    "Activate:Main"
+  ],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If this Character was played on this turn, K.O. up to 1 of your opponent's rested Characters with a cost of 5 or less. Then, play up to 1 [Zou] from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:opponent:restedCharacter:cost<=5", "hand:Zou"],
-        "conditions": ["thisCharacterPlayedThisTurn"]
-      }
+      "condition": {
+        "value": true,
+        "field": "wasPlayedThisTurn",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "target": {
+            "filters": [
+              {
+                "value": true,
+                "field": "rested",
+                "op": "="
+              },
+              {
+                "value": 5,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "type": "ko"
+        },
+        {
+          "payCost": true,
+          "sourceZone": "hand",
+          "type": "playCard",
+          "target": {
+            "filters": [
+              {
+                "value": "Zou",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "enterRested": false
+        }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Carrot",
+  "rarity": "R",
+  "cost": 6,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "minks"
+  ]
 }

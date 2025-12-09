@@ -1,50 +1,76 @@
 {
-  "id": "EB03-055",
-  "set": "EB03",
-  "number": 55,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
-  "types": ["Straw Hat Crew"],
+  "cardName": "Nico Robin",
+  "cardId": "EB03-055",
+  "cardType": "character",
+  "colors": [
+    "yellow"
+  ],
+  "cost": 7,
+  "power": 8000,
+  "counter": 1000,
+  "types": [
+    "Straw Hat Crew"
+  ],
   "rarity": "SR",
-  "art": "/cards/EB03/EB03-055.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "Opponent's Turn", "On K.O."],
-  "trigger": null,
-  "text": "[On Play] You may trash 1 card from the top of your Life cards: If your Leader has the {Straw Hat Crew} type, add up to 2 cards from the top of your deck to the top of your Life cards.\n[Opponent's Turn] [On K.O.] You may deal 1 damage to your opponent.",
+  "setId": "EB03",
+  "cardNumber": "055",
+  "printedText": "On Play You may trash 1 card from the top of your Life cards: If your Leader has the {Straw Hat Crew} type, add up to 2 cards from the top of your deck to the top of your Life cards.\nOpponent's Turn On K.O. You may deal 1 damage to your opponent.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from the top of your Life cards: If your Leader has the {Straw Hat Crew} type, add up to 2 cards from the top of your deck to the top of your Life cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["life", "deck"],
-        "conditions": ["mayTrashFromLifeTop", "leaderHasStrawHatCrew"]
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "trash",
+          "may": true,
+          "target": "selfTopLifeCard"
+        },
+        {
+          "type": "moveCard",
+          "destination": "life",
+          "may": true,
+          "condition": {
+            "field": "leaderHasType",
+            "op": "=",
+            "value": "Straw Hat Crew"
+          },
+          "target": "selfTopDeckCard"
+        },
+        {
+          "type": "moveCard",
+          "destination": "life",
+          "may": true,
+          "condition": {
+            "field": "leaderHasType",
+            "op": "=",
+            "value": "Straw Hat Crew"
+          },
+          "target": "selfTopDeckCard"
+        }
+      ]
     },
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "[On K.O.] You may deal 1 damage to your opponent.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent"],
-        "conditions": ["onKO"]
-      }
+      "timing": "onKO",
+      "condition": {
+        "field": "turnPlayer",
+        "op": "=",
+        "value": "opponent"
+      },
+      "actions": [
+        {
+          "type": "dealDamage",
+          "side": "opponent",
+          "count": 1,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

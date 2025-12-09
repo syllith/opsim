@@ -1,57 +1,59 @@
 {
-  "id": "OP13-110",
-  "set": "OP13",
-  "number": 110,
-  "name": "Stussy",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Egghead",
-    "CP0"
-  ],
+  "cardName": "Stussy",
+  "cardId": "OP13-110",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 7,
+  "power": 7000,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": ["Egghead", "CP0"],
+  "traits": ["egghead", "cp0"],
   "rarity": "SR",
-  "art": "/cards/OP13/OP13-110.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "If your Leader has the (Egghead) type, play up to 1 Character card with a cost of 5 or less with a from your hand."
-  },
-  "text": "If your Leader has the (Egghead) type, play up to 1 Character card with a cost of 5 or less with a from your hand.",
+  "setId": "OP13",
+  "cardNumber": "110",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If your Leader has the {Egghead} type, play up to 1 Character card with a cost of 5 or less with a Trigger from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "egghead"
       },
-      "effect": {
-        "text": "If your Leader has the (Egghead) type, play up to 1 Character card with a cost of 5 or less with a from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType(Egghead)"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "playableTriggerCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            },
+            {
+              "field": "hasTrigger",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playableTriggerCharacter",
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

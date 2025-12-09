@@ -1,40 +1,80 @@
 {
-  "id": "EB03-037",
-  "set": "EB03",
-  "number": 37,
-  "name": "Lim",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Wisdom",
-  "types": ["ODYSSEY"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-037.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If you have 7 or more DON!! cards on your field, your Leader and all of your Characters with the {ODYSSEY} type gain +1000 power until the end of your opponent's next turn.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB03-037",
+  "printedText": "[On Play] If you have 7 or more DON!! cards on your field, your Leader and all of your Characters with the {ODYSSEY} type gain +1000 power until the end of your opponent's next turn.",
+  "types": [
+    "ODYSSEY"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 7 or more DON!! cards on your field, your Leader and all of your Characters with the {ODYSSEY} type gain +1000 power until the end of your opponent's next turn.",
-        "grants": [],
-        "powerMod": {
+      "condition": {
+        "op": ">=",
+        "field": "selfDonOnField",
+        "value": 7
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "untilEndOfOpponentsNextTurn",
           "amount": 1000,
-          "duration": "untilEndOfOpponentsNextTurn"
+          "target": {
+            "zones": [
+              "leader"
+            ],
+            "type": "leader",
+            "max": 1,
+            "min": 1,
+            "side": "self",
+            "whoChooses": "system"
+          }
         },
-        "targets": ["self:Leader", "ally:allCharacters:ODYSSEY"],
-        "conditions": ["7orMoreDonOnField"]
-      }
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "amount": 1000,
+          "target": {
+            "filters": [
+              {
+                "op": "=",
+                "field": "types",
+                "value": "ODYSSEY"
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "type": "character",
+            "max": 999,
+            "min": 0,
+            "side": "self",
+            "whoChooses": "system"
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 2000,
+  "cardNumber": "037",
+  "cardName": "Lim",
+  "rarity": "R",
+  "cost": 4,
+  "colors": [
+    "purple"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "odyssey"
+  ]
 }

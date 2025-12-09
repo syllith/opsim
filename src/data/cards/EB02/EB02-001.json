@@ -1,23 +1,26 @@
 {
-  "id": "EB02-001",
-  "set": "EB02",
-  "number": 1,
-  "name": "Karoo",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
-  "types": ["Animal", "Alabasta"],
+  "power": 7000,
+  "cardType": "character",
+  "cardId": "EB02-001",
+  "printedText": "",
+  "cardNumber": "001",
   "rarity": "C",
-  "art": "/cards/EB02/EB02-001.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": "",
-  "abilities": [],
-  "meta": { "notes": "Vanilla character with counter" }
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Karoo",
+  "types": [
+    "Animal",
+    "Alabasta"
+  ],
+  "cost": 5,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animal",
+    "alabasta"
+  ]
 }

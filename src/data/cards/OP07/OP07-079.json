@@ -1,44 +1,49 @@
 {
-  "id": "OP07-079",
-  "set": "OP07",
-  "number": 79,
-  "name": "Rob Lucci",
-  "category": "Leader",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [],
-  "rarity": "C",
-  "art": "/cards/OP07/OP07-079.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "cardName": "Rob Lucci",
+  "cardId": "OP07-079",
+  "cardType": "leader",
+  "colors": ["black"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["CP0"],
+  "traits": ["cp0"],
+  "rarity": "L",
+  "setId": "OP07",
+  "cardNumber": "079",
+  "printedText": "[When Attacking] You may trash 2 cards from the top of your deck: Give up to 1 of your opponent's Characters -1 cost during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: You may trash the top 2 cards of your deck. Give up to one of your opponents characters -1 cost for this turn.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashTopDeck",
+        "count": 2,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash the top 2 cards of your deck. Give up to one of your opponents characters -1 cost for this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "robLucciCostDownTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -1,
+          "duration": "thisTurn",
+          "target": "robLucciCostDownTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

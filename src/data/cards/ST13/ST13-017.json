@@ -1,63 +1,67 @@
 {
-  "id": "ST13-017",
-  "set": "ST13",
-  "number": 17,
-  "name": "Flaming Dragon King",
-  "category": "Event",
-  "colors": ["Yellow"],
-  "attribute": null,
+  "cardName": "Flaming Dragon King",
+  "cardId": "ST13-017",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 2,
   "types": ["Revolutionary Army", "Dressrosa"],
+  "traits": ["revolutionaryArmy", "dressrosa"],
   "rarity": "C",
-  "art": "/cards/ST13/ST13-017.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-     "counter": null
-  },
-  "keywords": ["Counter"],
-  "trigger": { "text": "You may add the top or bottom card of your life to your hand: Place one card from your hand to the top of your life." },
-  "text": "Counter Give up to 1 of your leader or characters +4000 Power for this battle. Then, look at all your life cards, and return them in your desired order. Trigger You may add the top or bottom card of your life to your hand: Place one card from your hand to the top of your life.",
+  "setId": "ST13",
+  "cardNumber": "017",
+  "printedText": "[Counter] Give up to 1 of your leader or characters +4000 Power for this battle. Then, look at all your life cards, and return them in your desired order.\n[Trigger] You may add the top or bottom card of your life to your hand: Place one card from your hand to the top of your life.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your leader or characters +4000 Power for this battle.",
-        "powerMod": { "amount": 4000, "duration": "this battle" },
-        "targets": ["ally:Leader", "oneAllyCharacter"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "leaderOrCharacter",
+            "zones": ["leader", "character"],
+            "min": 0,
+            "max": 1,
+            "upTo": true
+          }
+        },
+        {
+          "type": "revealLife",
+          "count": 1,
+          "side": "self",
+          "all": true,
+          "ordering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at all your life cards, and return them in your desired order.",
-        "powerMod": null,
-        "targets": ["self:lifeAll:view", "self:lifeAll:returnOrder"],
-        "conditions": [],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may add the top or bottom card of your life to your hand: Place one card from your hand to the top of your life.",
-        "powerMod": null,
-        "targets": ["self:lifeTopOrBottom:hand:optional", "self:hand:lifeTop"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "cost": {
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": {
+            "side": "self",
+            "type": "any",
+            "zones": ["hand"],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "self"
+          },
+          "destination": "topOfLife"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

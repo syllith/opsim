@@ -1,49 +1,70 @@
 {
-  "id": "OP11-048",
-  "set": "OP11",
-  "number": 48,
-  "name": "Capone\"Gang\"Bege",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Supernovas",
-    "Firetank Pirates"
-  ],
+  "cardName": "Capone\"Gang\"Bege",
+  "cardId": "OP11-048",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Supernovas", "Fire Tank Pirates"],
+  "traits": ["supernovas", "fireTankPirates"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-048.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at 4 cards from the top of your deck; reveal up to 1 (Firetank Pirates) or (Straw Hat Crew) type card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP11",
+  "cardNumber": "048",
+  "printedText": "[On Play] Look at 4 cards from the top of your deck; reveal up to 1 {Fire Tank Pirates} or {Straw Hat Crew} type card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at 4 cards from the top of your deck; reveal up to 1 (Firetank Pirates) or (Straw Hat Crew) type card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": ["deck"],
+            "filters": [
+              {
+                "logic": "AND",
+                "all": [
+                  {
+                    "logic": "OR",
+                    "any": [
+                      {
+                        "field": "traits",
+                        "op": "=",
+                        "value": "fireTankPirates"
+                      },
+                      {
+                        "field": "traits",
+                        "op": "=",
+                        "value": "strawHatCrew"
+                      }
+                    ]
+                  },
+                  {
+                    "field": "cost",
+                    "op": ">=",
+                    "value": 2
+                  }
+                ]
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 4,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

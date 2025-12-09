@@ -1,48 +1,76 @@
 {
-  "id": "OP06-079",
-  "set": "OP06",
-  "number": 79,
-  "name": "Germa Kingdom",
-  "category": "Stage",
+  "cardName": "Germa Kingdom",
+  "cardId": "OP06-079",
+  "cardType": "stage",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Germa Kingdom"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-079.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main"
+  "traits": [
+    "germaKingdom"
   ],
-  "trigger": null,
-  "text": "Activate: Main You may discard 1 card, then rest this stage: Look at the top 3 cards of your deck, reveal up to 1 card with [GERMA] in its types and add it to your hand. Then, send the remaining cards to the bottom of your deck in any order.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "079",
+  "printedText": "Activate: Main You may discard 1 card, then rest this stage: Look at the top 3 cards of your deck, reveal up to 1 card with [GERMA] in its types and add it to your hand. Then, send the remaining cards to the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1,
+            "may": true
+          },
+          {
+            "type": "restThis"
+          }
+        ]
       },
-      "effect": {
-        "text": "You may discard 1 card, then rest this stage: Look at the top 3 cards of your deck, reveal up to 1 card with [GERMA] in its types and add it to your hand. Then, send the remaining cards to the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "germaCardTop3": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "hasTypeGerma",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "germaCardTop3",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

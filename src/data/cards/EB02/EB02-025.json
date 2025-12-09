@@ -1,37 +1,70 @@
 {
-  "id": "EB02-025",
-  "set": "EB02",
-  "number": 25,
-  "name": "Donquixote Rosinante",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
+  "cardName": "Donquixote Rosinante",
+  "cardId": "EB02-025",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Navy", "Donquixote Pirates"],
+  "traits": ["navy", "donquixotePirates"],
   "rarity": "R",
-  "art": "/cards/EB02/EB02-025.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest 1 of your DON!! cards and this Character: If your Leader is [Donquixote Rosinante], look at 5 cards from the top of your deck and play up to 1 Character card with a cost of 2 or less rested. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "EB02",
+  "cardNumber": "025",
+  "printedText": "Activate: Main You may rest 1 of your DON!! cards and this Character: If your Leader is [Donquixote Rosinante], look at 5 cards from the top of your deck; play up to 1 Character card with a cost of 2 or less rested. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "You may rest 1 of your DON!! cards and this Character: If your Leader is [Donquixote Rosinante], look at 5 cards from the top of your deck and play up to 1 Character card with a cost of 2 or less rested. Then, place the rest at the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["restSelf", "leaderIsDonquixoteRosinante"]
-      }
+      "timing": "activateMain",
+      "frequency": "none",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ],
+        "may": true
+      },
+      "condition": {
+        "field": "leaderCardName",
+        "op": "=",
+        "value": "Donquixote Rosinante"
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "character",
+            "zones": ["deck"],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 2
+              }
+            ]
+          },
+          "addTo": "characterArea",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "asPlay": true,
+          "payCost": false,
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,49 +1,122 @@
 {
-  "id": "OP06-033",
-  "set": "OP06",
-  "number": 33,
-  "name": "Vander Decken IX",
-  "category": "Character",
+  "cardName": "Vander Decken IX",
+  "cardId": "OP06-033",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Ranged",
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
   "types": [
-    "Fishman",
+    "Fish-Man",
     "Flying Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-033.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may trash a <Fishman> type card from your hand or trash a \"Noa's Ark\" from your hand or field. K.O. up to one of your opponent's rested characters.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "033",
+  "printedText": "[On Play] You may trash a <Fishman> type card from your hand or trash a \"Noa's Ark\" from your hand or field: K.O. up to one of your opponent's rested characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "trashForCost": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand",
+            "stage"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "field": "zone",
+                      "op": "=",
+                      "value": "hand"
+                    },
+                    {
+                      "field": "types",
+                      "op": "=",
+                      "value": "Fishman"
+                    }
+                  ]
+                },
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "logic": "OR",
+                      "any": [
+                        {
+                          "field": "zone",
+                          "op": "=",
+                          "value": "hand"
+                        },
+                        {
+                          "field": "zone",
+                          "op": "=",
+                          "value": "stage"
+                        }
+                      ]
+                    },
+                    {
+                      "field": "cardName",
+                      "op": "=",
+                      "value": "Noa's Ark"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "opponentRestedCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may trash a <Fishman> type card from your hand or trash a \"Noa's Ark\" from your hand or field. K.O. up to one of your opponent's rested characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "trashFromField",
+        "selector": "trashForCost",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentRestedCharacter"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "fishMan",
+    "flyingPirates"
+  ]
 }

@@ -1,37 +1,67 @@
 {
-  "id": "EB01-031",
-  "set": "EB01",
-  "number": 31,
-  "name": "Khalifa",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Wisdom",
-  "types": ["Water 7", "Galley-la Company"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-031.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "DON!! -1"],
-  "trigger": null,
-  "text": "[On Play] Don!! -1: If your leader has the {Water 7} type, return up to 2 cost 4 or less character cards from your trash to your hand.",
+  "power": 5000,
+  "cardType": "character",
+  "attributes": [
+    "wisdom"
+  ],
+  "cardId": "EB01-031",
+  "printedText": "[On Play] Don!! -1: If your leader has the {Water 7} type, return up to 2 cost 4 or less character cards from your trash to your hand.\n[Counter +1000]",
+  "types": [
+    "Water 7",
+    "Galley-la Company"
+  ],
+  "cardNumber": "031",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Don!! -1: If your leader has the {Water 7} type, return up to 2 cost 4 or less character cards from your trash to your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["trash"],
-        "conditions": ["leaderTypeWater7", "characterCost<=4"]
+      "actions": [
+        {
+          "destination": "hand",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 4,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "trash"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 2,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        }
+      ],
+      "condition": {
+        "value": "Water 7",
+        "field": "leader.types",
+        "op": "="
+      },
+      "frequency": "none",
+      "timing": "onPlay",
+      "selectors": {},
+      "cost": {
+        "count": 1,
+        "type": "donMinus"
       }
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Khalifa",
+  "rarity": "R",
+  "cost": 5,
+  "colors": [
+    "purple"
+  ],
+  "traits": [
+    "waterSeven",
+    "galleyLaCompany"
+  ]
 }

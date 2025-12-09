@@ -1,39 +1,81 @@
 {
-  "id": "EB02-030",
-  "set": "EB02",
-  "number": 30,
-  "name": "That Time is When your Friend's Dreams are Laughed at!",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Straw Hat Crew", "Alabasta"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-030.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": {
-    "text": "Draw 1 card."
-  },
-  "text": "[Counter] This turn, when one of your characters would be KO'd in battle, you may instead discard 1 card from your hand.\n[Trigger] Draw 1 card.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB02-030",
+  "printedText": "[Counter] This turn, when one of your characters would be KO'd in battle, you may instead discard 1 card from your hand.\n[Trigger] Draw 1 card.",
+  "types": [
+    "Straw Hat Crew",
+    "Alabasta"
+  ],
+  "cardNumber": "030",
+  "keywords": [
+    "counter",
+    "trigger"
+  ],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This turn, when one of your characters would be KO'd in battle, you may instead discard 1 card from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:Character"],
-        "conditions": ["characterWouldBeKOdInBattle"]
-      }
+      "selectors": {},
+      "timing": "counter",
+      "actions": [
+        {
+          "cost": {
+            "type": "trashFromHand",
+            "maxCards": 1,
+            "minCards": 1
+          },
+          "type": "replacementEffect",
+          "actions": [
+            {
+              "target": {
+                "zones": [
+                  "character"
+                ],
+                "min": 1,
+                "max": 1,
+                "type": "character",
+                "side": "self",
+                "whoChooses": "self"
+              },
+              "type": "preventKO"
+            }
+          ],
+          "event": "characterBattleKO",
+          "duration": "thisTurn",
+          "may": true,
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ]
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "count": 1,
+          "type": "draw"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 0,
+  "cardName": "That Time is When your Friend's Dreams are Laughed at!",
+  "rarity": "C",
+  "cost": 2,
+  "colors": [
+    "blue"
+  ],
+  "traits": [
+    "strawHatCrew",
+    "alabasta"
+  ]
 }

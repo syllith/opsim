@@ -1,61 +1,87 @@
 {
-  "id": "OP04-033",
-  "set": "OP04",
-  "number": 33,
-  "name": "Machvise",
-  "category": "Character",
+  "cardName": "Machvise",
+  "cardId": "OP04-033",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Donquixote Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-033.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your leader is the (Donquixote Pirates) type, rest up to one of your opponent's 5 cost or lower characters. Then, at the end of the turn, set up to 1 of your DON!! as active.",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "033",
+  "printedText": "[On Play] If your Leader is the {Donquixote Pirates} type, rest up to 1 of your opponent's 5 cost or lower Characters. Then, at the end of the turn, set up to 1 of your DON!! as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "yourLeaderHasType",
+        "op": "=",
+        "value": "Donquixote Pirates"
       },
-      "effect": {
-        "text": "If your leader is the (Donquixote Pirates) type, rest up to one of your opponent's 5 cost or lower characters. Then, at the end of the turn, set up to 1 of your DON!! as active.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "conditions": [
-          "yourLeader:DonquixotePirates"
-        ],
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "costArea",
-          "to": [
-            "yourDon"
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        },
+        "donTargets": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "endOfYourTurn",
+          "target": "donTargets",
+          "actions": [
+            {
+              "type": "setState",
+              "state": "active",
+              "target": "donTargets"
+            }
           ]
         }
-      }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in a box in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

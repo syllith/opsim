@@ -1,55 +1,53 @@
 {
-  "id": "OP13-055",
-  "set": "OP13",
-  "number": 55,
-  "name": "Rakuyo",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Whitebeard Pirates"
-  ],
+  "cardName": "Rakuyo",
+  "cardId": "OP13-055",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-055.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking: If you have 4 or less cards in your hand, all of your Characters with a type including \"Whitebeard Pirates\" gain +1000 power during this turn.",
+  "setId": "OP13",
+  "cardNumber": "055",
+  "printedText": "[When Attacking] If you have 4 or less cards in your hand, all of your Characters with a type including \"Whitebeard Pirates\" gain +1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "handCount",
+        "op": "<=",
+        "value": 4
       },
-      "effect": {
-        "text": "If you have 4 or less cards in your hand, all of your Characters with a type including \"Whitebeard Pirates\" gain +1000 power during this turn.",
-        "powerMod": {
+      "selectors": {
+        "whitebeardCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "whitebeardPirates"
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "conditions": [
-          "you have 4 or less cards in your hand",
-          "ally:Character with a type including \"Whitebeard Pirates\""
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "whitebeardCharacters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

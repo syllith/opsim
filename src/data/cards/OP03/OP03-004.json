@@ -1,34 +1,55 @@
 {
-  "id": "OP03-004",
-  "set": "OP03",
-  "number": 4,
-  "name": "Curiel",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Ranged",
+  "cardName": "Curiel",
+  "cardId": "OP03-004",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["ranged"],
   "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-004.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Rush", "DON!! x1"],
-  "trigger": null,
-  "text": "This Character cannot attack your opponent's Leader during the turn this Character is played.\n[DON!! x1] [When Attacking] This Character gains [Rush] during this turn.\n(This card may attack on the turn in which it is played.)",
+  "setId": "OP03",
+  "cardNumber": "004",
+  "printedText": "This Character cannot attack the Leader on the turn in which it is played.\n[DON!! x1] This Character gains Rush. (This card can attack on the turn in which it is played.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character gains [Rush] during this turn. (This card may attack on the turn in which it is played.)",
-        "giveDon": { "rushUntilEOT": true }
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "attackLeader",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "duration": "thisTurn"
+        }
+      ]
+    },
+    {
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "field": "isGivenDon",
+        "op": "=",
+        "value": true
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": "Cannot attack opponent's Leader during the turn this Character is played." }
+  ]
 }

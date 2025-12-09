@@ -1,50 +1,62 @@
 {
-  "id": "OP05-071",
-  "set": "OP05",
-  "number": 71,
-  "name": "Bepo",
-  "category": "Character",
+  "cardName": "Bepo",
+  "cardId": "OP05-071",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
   "types": [
-    "mink tribe",
-    "Heart pirates"
+    "Mink Tribe",
+    "Heart Pirates"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-071.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "071",
+  "printedText": "[When Attacking] If you have less DON!! cards on your field than your opponent, give up to 1 of your opponent's Characters -2000 power until the end of this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: If you have less DON!! cards on your field than your opponent, give up to 1 of your opponent's Characters -2000 power until the end of this turn.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "donCountSelf",
+        "op": "<",
+        "fieldRef": "donCountOpponent"
       },
-      "effect": {
-        "text": "If you have less DON!! cards on your field than your opponent, give up to 1 of your opponent's Characters -2000 power until the end of this turn.",
-        "powerMod": null,
-        "conditions": [
-          "you have less DON!! cards on your field than your opponent"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "debuffTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "minkTribe",
+    "heartPirates"
+  ]
 }

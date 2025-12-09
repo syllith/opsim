@@ -1,49 +1,108 @@
 {
-  "id": "OP11-110",
-  "set": "OP11",
-  "number": 110,
-  "name": "Fukaboshi",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Merfolk",
-    "Fish-Man Island"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-110.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "If this Character would be K.O.d, you may rest your [Shirahoshi] Leader or your [Fish-Man Island] instead.\nOn Play: You may add 1 card from the top or bottom of your Life cards to your hand; K.O. up to 1 of your opponent's Characters with a cost or 1 or less.",
+  "cardName": "Fukaboshi",
+  "cardId": "OP11-110",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Merfolk", "Fish-Man Island"],
+  "traits": ["merfolk", "fishManIsland"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "110",
+  "printedText": "If this Character would be K.O.'d, you may rest your [Shirahoshi] Leader or your [Fish-Man Island] instead.\n[On Play] You may add 1 card from the top or bottom of your Life cards to your hand: K.O. up to 1 of your opponent's Characters with a cost of 1 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "shirahoshiLeaderOrFishManIsland": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "stage"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Shirahoshi"
+                },
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Fish-Man Island"
+                }
+              ]
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "You may add 1 card from the top or bottom of your Life cards to your hand; K.O. up to 1 of your opponent's Characters with a cost or 1 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKOd",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "cost": {
+            "type": "restFromField",
+            "selector": "shirahoshiLeaderOrFishManIsland",
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "cost": {
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
+      },
+      "selectors": {
+        "opponentCharacterCost1OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacterCost1OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

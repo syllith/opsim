@@ -1,50 +1,94 @@
 {
-  "id": "ST19-004",
-  "set": "ST19",
-  "number": 4,
-  "name": "Hina",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Special",
+  "cardName": "Hina",
+  "cardId": "ST19-004",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Navy"],
-  "rarity": "SR",
-  "art": "/cards/ST19/ST19-004.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["DON!! x1", "Opponent's Turn", "Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "DON!! x1 Opponent's Turn This character has +4 cost. Activate: Main Once Per Turn You may place one card from your trash on the bottom of your deck: Give your leader or up to one of your characters up to 1 rested Don!!.",
+  "traits": ["navy"],
+  "rarity": "starter",
+  "setId": "ST19",
+  "cardNumber": "004",
+  "printedText": "[DON!! x1] [Opponent's Turn] This character has +4 cost.\n[Activate: Main] [Once Per Turn] You may place one card from your trash on the bottom of your deck: Give your leader or up to one of your characters up to 1 rested DON!!.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "This character has +4 cost.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "duringOpponentsTurn",
+      "condition": {
+        "field": "isGivenDon",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "thisCardTarget": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 4,
+          "duration": "thisTurn",
+          "target": "thisCardTarget"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may place one card from your trash on the bottom of your deck: Give your leader or up to one of your characters up to 1 rested Don!!.",
-        "powerMod": null,
-        "targets": ["ally:Leader", "upToOneAllyCharacter"],
-        "conditions": ["optionalMoveTrashCardToDeckBottom"],
-        "giveDon": { "amount": 1, "state": "rested" }
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "bottomDeckFromTrash",
+        "selector": "trashCostCard",
+        "may": true
+      },
+      "selectors": {
+        "trashCostCard": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "leaderOrCharacterTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "restedDonToAttach": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": "leaderOrCharacterTarget",
+          "selector": "restedDonToAttach"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

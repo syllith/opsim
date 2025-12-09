@@ -23,10 +23,14 @@ const OpeningHand = forwardRef(({
   setHovered,
   openingHandShown,
   setOpeningHandShown,
+  currentHandSide, // 'player' or 'opponent' - which side is currently selecting
+  onHandSelected, // Called when a hand is confirmed - for multi-hand flow
+  firstPlayer, // Who goes first (for determining turn start after both hands selected)
   CARD_W = 120
 }, ref) => {
   const [allowMulligan, setAllowMulligan] = useState(true);
   const [openingHand, setOpeningHand] = useState([]);
+  const [activeSide, setActiveSide] = useState('player'); // Track which side is selecting
 
   //. Resolves an array of ids into card assets
   const resolveAssets = useCallback((ids) => {
@@ -36,14 +40,16 @@ const OpeningHand = forwardRef(({
       .value();
   }, [getAssetForId]);
 
-  //. Initialize opening hand (called from parent when game is ready)
-  const initialize = useCallback((playerLibrary) => {
-    const lastFiveIds = _.takeRight(playerLibrary, 5);
+  //. Initialize opening hand for a specific side
+  const initialize = useCallback((sideLibrary, side = 'player') => {
+    //. Use the passed library directly (it should already be the correct one for the side)
+    const lastFiveIds = _.takeRight(sideLibrary, 5);
     const assets = _.take(resolveAssets(lastFiveIds), 5);
 
     setOpeningHand(assets);
     setOpeningHandShown(true);
     setAllowMulligan(true);
+    setActiveSide(side);
   }, [resolveAssets, setOpeningHandShown]);
 
   //. Check if opening hand is currently shown
@@ -59,12 +65,26 @@ const OpeningHand = forwardRef(({
     [initialize, isOpen]
   );
 
+  //. Get the current library based on active side
+  const getCurrentLibrary = useCallback(() => {
+    return activeSide === 'player' ? library : oppLibrary;
+  }, [activeSide, library, oppLibrary]);
+
+  //. Get the set library function based on active side
+  const setCurrentLibrary = useCallback((updater) => {
+    if (activeSide === 'player') {
+      setLibrary(updater);
+    } else {
+      setOppLibrary(updater);
+    }
+  }, [activeSide, setLibrary, setOppLibrary]);
+
   //. Handle mulligan
   const handleMulligan = useCallback(() => {
     if (!allowMulligan) { return; }
 
     //. Put current 5 to bottom, draw new 5, must keep
-    setLibrary((prev) => {
+    setCurrentLibrary((prev) => {
       const cur5 = _.takeRight(prev, 5);
       const rest = _.dropRight(prev, 5);
       const lib = [...cur5, ...rest]; //. bottom is front, top is end
@@ -77,82 +97,81 @@ const OpeningHand = forwardRef(({
 
       return lib;
     });
-  }, [allowMulligan, setLibrary, resolveAssets]);
+  }, [allowMulligan, setCurrentLibrary, resolveAssets]);
 
-  //. Handle keep
+  //. Handle keep for current side
   const handleKeep = useCallback(() => {
-    //. Close opening hand immediately to allow game actions
-    setOpeningHandShown(false);
+    const side = currentHandSide || activeSide;
+    const currentLib = getCurrentLibrary();
 
-    //. Move openingHand to player's hand; set Life (5) for both players; shrink deck stacks accordingly
+    //. Move openingHand to this side's hand and set up life
     setAreas((prev) => {
       const next = _.cloneDeep(prev);
 
-      //. Player hand gets opening 5
-      next.player.bottom.hand = _.take(openingHand, 5);
+      if (side === 'player') {
+        //. Player hand gets opening 5
+        next.player.bottom.hand = _.take(openingHand, 5);
 
-      //. Compute top 5 (life) for each side from current libraries
-      //. Rule 5-2-1-7: "the card at the top of their deck is at the bottom in their Life area"
-      //. Opening hand are the last 5; life should be the next 5 below that
-      const pLifeIds = library.slice(-10, -5);
-      const oLifeIds = oppLibrary.slice(-5);
+        //. Life is next 5 cards below hand (positions -10 to -5)
+        const lifeIds = currentLib.slice(-10, -5);
+        const life = _.chain(lifeIds)
+          .map((id) => getAssetForId(id))
+          .filter(Boolean)
+          .reverse()
+          .value();
+        next.player.life = life;
 
-      //. Reverse so top of deck (last element) becomes bottom of life area (first element)
-      const pLife = _.chain(pLifeIds)
-        .map((id) => getAssetForId(id))
-        .filter(Boolean)
-        .reverse()
-        .value();
+        //. Shrink deck visual: -10 (5 hand, 5 life)
+        const remain = Math.max(0, (next.player.middle.deck || []).length - 10);
+        next.player.middle.deck = createCardBacks(remain);
+      } else {
+        //. Opponent hand gets opening 5
+        next.opponent.top.hand = _.take(openingHand, 5);
 
-      const oLife = _.chain(oLifeIds)
-        .map((id) => getAssetForId(id))
-        .filter(Boolean)
-        .reverse()
-        .value();
+        //. Life is next 5 cards below hand
+        const lifeIds = currentLib.slice(-10, -5);
+        const life = _.chain(lifeIds)
+          .map((id) => getAssetForId(id))
+          .filter(Boolean)
+          .reverse()
+          .value();
+        next.opponent.life = life;
 
-      next.player.life = pLife;
-      next.opponent.life = oLife;
-
-      //. Shrink deck visuals: player's deck -10 (5 hand, 5 life)
-      const pRemain = Math.max(0, (next.player.middle.deck || []).length - 10);
-      next.player.middle.deck = createCardBacks(pRemain);
-
-      //. Opponent deck already -5 (hand), so -5 more (life)
-      const oRemain = Math.max(0, (next.opponent.middle.deck || []).length - 5);
-      next.opponent.middle.deck = createCardBacks(oRemain);
+        //. Shrink deck visual: -10 (5 hand, 5 life)
+        const remain = Math.max(0, (next.opponent.middle.deck || []).length - 10);
+        next.opponent.middle.deck = createCardBacks(remain);
+      }
 
       return next;
     });
 
-    //. Remove 10 from player's library (5 to hand, 5 to life), and 5 from opponent's (life)
-    setLibrary((prev) => prev.slice(0, -10));
-    setOppLibrary((prev) => prev.slice(0, -5));
+    //. Remove 10 from this side's library (5 to hand, 5 to life)
+    setCurrentLibrary((prev) => prev.slice(0, -10));
 
-    //. Initialize turn state
-    setTurnSide('player');
-    setTurnNumber(1);
+    //. Close the opening hand UI
+    setOpeningHandShown(false);
 
-    //. Execute Refresh Phase for first turn (rule 6-2)
-    executeRefreshPhase('player');
-
-    setPhase('Draw');
+    //. Notify parent that this hand selection is complete
+    if (onHandSelected) {
+      onHandSelected(side);
+    }
   }, [
+    currentHandSide,
+    activeSide,
     openingHand,
-    library,
-    oppLibrary,
+    getCurrentLibrary,
     setAreas,
-    setLibrary,
-    setOppLibrary,
+    setCurrentLibrary,
     getAssetForId,
     createCardBacks,
-    setTurnSide,
-    setTurnNumber,
-    executeRefreshPhase,
-    setPhase,
-    setOpeningHandShown
+    setOpeningHandShown,
+    onHandSelected
   ]);
 
   if (!openingHandShown) { return null; }
+
+  const side = currentHandSide || activeSide;
+  const sideLabel = side === 'player' ? 'Bottom Player' : 'Top Player';
 
   return (
     <Paper
@@ -167,7 +186,7 @@ const OpeningHand = forwardRef(({
         flexDirection: 'column',
         userSelect: 'none',
         borderWidth: 2,
-        borderColor: '#90caf9'
+        borderColor: side === 'player' ? '#90caf9' : '#f48fb1'
       }}
     >
       {/* Header with title and buttons */}
@@ -178,7 +197,7 @@ const OpeningHand = forwardRef(({
             fontWeight={700}
             sx={{ fontSize: 15, lineHeight: 1.1 }}
           >
-            Opening Hand {allowMulligan ? '' : '(Mulligan used)'}
+            {sideLabel} - Opening Hand {allowMulligan ? '' : '(Mulligan used)'}
           </Typography>
           <Typography
             variant='caption'

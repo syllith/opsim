@@ -1,48 +1,75 @@
 {
-  "id": "OP12-043",
-  "set": "OP12",
-  "number": 43,
-  "name": "Kuzan",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Navy"
-  ],
+  "cardName": "Kuzan",
+  "cardId": "OP12-043",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Navy"],
+  "traits": ["navy"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-043.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "If you have 5 or more cards in your hand, this Character gains +1 cost.\nOn Play You may trash 1 card from your hand: Up to 1 of your opponent's Characters cannot attack until the end of your opponent's next turn.",
+  "setId": "OP12",
+  "cardNumber": "043",
+  "printedText": "If you have 5 or more cards in your hand, this Character gains +1 cost.\n[On Play] You may trash 1 card from your hand: Up to 1 of your opponent's Characters cannot attack until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Up to 1 of your opponent's Characters cannot attack until the end of your opponent's next turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 1,
+          "duration": "permanent",
+          "target": "thisCharacter",
+          "condition": {
+            "field": "handCount",
+            "op": ">=",
+            "value": 5
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "frozenCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "attack",
+          "target": "frozenCharacter",
+          "duration": "untilEndOfOpponentsNextTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

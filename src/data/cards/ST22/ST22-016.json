@@ -1,42 +1,66 @@
 {
-  "id": "ST22-016",
-  "set": "ST22",
-  "number": 16,
-  "name": "Take Back... What You Just Said!!!",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
+  "cardName": "Take That Back!! Take Back What You Said!!",
+  "cardId": "ST22-016",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
   "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/ST22/ST22-016.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
+  "setId": "ST22",
+  "cardNumber": "016",
+  "printedText": "[Counter] Reveal 1 card from the top of your deck. If that card's type includes \"Whitebeard Pirates\", up to 1 of your Leader or Character cards gains +4000 power during this battle.\n[Trigger] Draw 1 card.",
   "keywords": [],
-  "trigger": {
-    "text": "Draw 1 card."
-  },
-  "text": "[Counter] Reveal the top card of your deck. If that card has \"Whitebeard Pirates\" in its types, give up to 1 of your Leader or Character card +4000 power during this battle.\n[Trigger] Draw 1 card.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Reveal the top card of your deck. If that card has \"Whitebeard Pirates\" in its types, give up to 1 of your Leader or Character card +4000 power during this battle.",
-        "grants": [],
-        "powerMod": {
-          "amount": 4000,
-          "duration": "duringThisBattle"
+      "timing": "counter",
+      "selectors": {
+        "leaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "reveal": true,
+          "addTo": "topOfDeck",
+          "topCount": 1,
+          "moveRemainingTo": "topOfDeck",
+          "remainingOrdering": "keep"
         },
-        "targets": ["ally:Leader", "ally:Character"],
-        "conditions": ["topDeckHasWhitebeardPirates"]
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "leaderOrCharacter",
+          "condition": {
+            "field": "topDeckCardTraits",
+            "op": "=",
+            "value": "whitebeardPirates"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

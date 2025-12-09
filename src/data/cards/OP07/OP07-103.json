@@ -1,56 +1,54 @@
 {
-  "id": "OP07-103",
-  "set": "OP07",
-  "number": 103,
-  "name": "Chopper",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Animal",
-    "Egghead",
-    "Strawhat pirates"
-  ],
+  "cardName": "Chopper",
+  "cardId": "OP07-103",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Animal", "Egghead", "Straw Hat Pirates"],
+  "traits": ["animal", "egghead", "strawHatPirates"],
   "rarity": "C",
-  "art": "/cards/OP07/OP07-103.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP07",
+  "cardNumber": "103",
+  "printedText": "[Trigger] Choose 1 of your Characters with the {Egghead} type. During this turn, it gains Blocker. Then, add this card to your hand.",
   "keywords": [],
-  "trigger": {
-    "text": "choose 1 of your chara with <egghead>, during this turn, it gains Blocker. Then add this card to your hand."
-  },
-  "text": null,
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "eggheadCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Egghead"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "choose 1 of your chara with <egghead>, during this turn, it gains Blocker. Then add this card to your hand.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "thisTurn",
+          "target": "eggheadCharacter"
+        },
+        {
+          "type": "moveCard",
+          "target": "selfTriggerSourceCard",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

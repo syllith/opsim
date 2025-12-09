@@ -1,52 +1,81 @@
 {
-  "id": "OP01-071",
-  "set": "OP01",
-  "number": 71,
-  "name": "Jinbe",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["Fish-Man", "Straw Hat Crew"],
+  "cardName": "Jinbe",
+  "cardId": "OP01-071",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 4,
+  "power": 2000,
+  "counter": 0,
+  "attributes": [
+    "strike"
+  ],
+  "types": [
+    "Fish-Man",
+    "Straw Hat Crew"
+  ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-071.png",
-  "stats": {
-    "cost": 4,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "Trigger"],
-  "trigger": { "text": "Play this card." },
-  "text": "On Play: Place 1 Character with a cost of 3 or less at the bottom of the owner's deck.\nTrigger: Play this card.",
+  "setId": "OP01",
+  "cardNumber": "071",
+  "printedText": "[On Play] Place 1 Character with a cost of 3 or less at the bottom of the owner's deck.\n[Trigger] Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Place 1 Character with a cost of 3 or less at the bottom of the owner's deck.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneCharacter<=3"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": {
+            "side": "both",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 3
+              }
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "self"
+          },
+          "destination": "bottomOfDeck",
+          "ordering": "chosen",
+          "faceUp": false
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play this card.",
-        "grants": ["Play this card"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "self"
+          },
+          "enterRested": false,
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "fishMan",
+    "strawHatCrew"
+  ]
 }

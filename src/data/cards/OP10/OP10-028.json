@@ -1,50 +1,62 @@
 {
-  "id": "OP10-028",
-  "set": "OP10",
-  "number": 28,
-  "name": "Kozuki Momonosuke",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Punk Hazard",
-    "Land of Wano",
-    "Kozuki Clan"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP10/OP10-028.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest two of your Don!! and place this character into your trash: Look at the top 5 cards of your deck. Reveal up to two \"The Akazaya 9\" type cards and put them into your hand. Then bottom the rest in any order.",
+  "cardName": "Kozuki Momonosuke",
+  "cardId": "OP10-028",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Punk Hazard", "Land of Wano", "Kozuki Clan"],
+  "traits": ["punkHazard", "landOfWano", "kozukiClan"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "028",
+  "printedText": "[Activate: Main] You may rest 2 of your DON!! and place this Character into your trash: Look at the top 5 cards of your deck. Reveal up to 2 \"The Akazaya 9\" type cards and put them into your hand. Then bottom the rest in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "multiCost",
+        "may": true,
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 2
+          },
+          {
+            "type": "trashThis"
+          }
+        ]
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck. Reveal up to two \"The Akazaya 9\" type cards and put them into your hand. Then bottom the rest in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "filters": [
+              {
+                "field": "traits",
+                "op": "=",
+                "value": "theAkazaya9"
+              }
+            ],
+            "min": 0,
+            "max": 2,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "any"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

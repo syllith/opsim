@@ -1,20 +1,65 @@
 {
-  "id": "ST04-003",
-  "set": "ST04",
-  "number": 3,
-  "name": "Kaido",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["The Four Emperors", "Animal Kingdom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST04/ST04-003.png",
-  "stats": { "cost": 9, "power": 10000, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["On Play", "DON!! -5", "Rush"],
-  "trigger": null,
-  "text": "On Play — DON!! -5: K.O. 1 of your opponent's Characters with a cost of 6 or less. This Character gains Rush during this turn.",
-  "abilities": [
-    {"timing": "On Play", "frequency": null, "donReq": 5, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "K.O. 1 opponent Character with cost 6 or less; this gains Rush this turn.", "grants": ["Rush"], "powerMod": null, "targets": ["oneOpponentCharacter"], "conditions": ["donAttached"]}}
+  "cardName": "Kaido",
+  "cardId": "ST04-003",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 9,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": [
+    "The Four Emperors",
+    "Animal Kingdom Pirates"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "theFourEmperors",
+    "animalKingdomPirates"
+  ],
+  "rarity": "SR",
+  "setId": "ST04",
+  "cardNumber": "003",
+  "printedText": "[On Play] DON!! -5 (You may return the specified number of DON!! cards from your field to your DON!! deck.): K.O. 1 of your opponent's Characters with a cost of 6 or less. This Character gains [Rush] during this turn. (This card can attack on the turn in which it is played.)",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "onPlay",
+      "cost": {
+        "type": "donMinus",
+        "count": 5
+      },
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Rush",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    }
+  ]
 }

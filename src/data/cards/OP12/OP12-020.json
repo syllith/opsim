@@ -1,52 +1,74 @@
 {
-  "id": "OP12-020",
-  "set": "OP12",
-  "number": 20,
-  "name": "Roronoa Zoro",
-  "category": "Leader",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP12-020",
+  "cardType": "leader",
+  "colors": ["green"],
+  "power": 5000,
+  "life": 5,
+  "attributes": ["slash"],
+  "types": ["Supernovas", "Straw Hat Crew"],
+  "traits": ["supernovas", "strawHatCrew"],
   "rarity": "L",
-  "art": "/cards/OP12/OP12-020.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "DON!! x3",
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "[DON!! x3] [Activate: Main] [Once Per Turn] If this Leader has battled your opponent's Character during this turn, set this Leader as active. Then, this card cannot attack Characters with an original cost of 7 or less during this turn.",
+  "setId": "OP12",
+  "cardNumber": "020",
+  "printedText": "DON!! x3 [Activate: Main] [Once Per Turn] If this Leader has battled your opponent's Character during this turn, set this Leader as active. Then, this card cannot attack Characters with an original cost of 7 or less during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 3,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "leaderBattledOpponentsCharacterThisTurn",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If this Leader has battled your opponent's Character during this turn, set this Leader as active. Then, this card cannot attack Characters with an original cost of 7 or less during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 3
+      },
+      "selectors": {
+        "thisLeader": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["leader"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "thisLeader"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "declareAttack",
+          "target": "thisLeader",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "attackTargetCardType",
+                "op": "=",
+                "value": "character"
+              },
+              {
+                "field": "attackTargetOriginalCost",
+                "op": "<=",
+                "value": 7
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

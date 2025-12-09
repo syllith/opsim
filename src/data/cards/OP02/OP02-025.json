@@ -1,37 +1,92 @@
 {
-  "id": "OP02-025",
-  "set": "OP02",
-  "number": 25,
-  "name": "Kin'emon",
-  "category": "Leader",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Wano Country", "Nine Red Scabbards"],
+  "cardName": "Kin'emon",
+  "cardId": "OP02-025",
+  "cardType": "leader",
+  "colors": [
+    "green"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "types": [
+    "Wano Country",
+    "Nine Red Scabbards"
+  ],
   "rarity": "L",
-  "art": "/cards/OP02/OP02-025.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "Activate: Main | Once Per Turn: When you have 1 or less Characters in play, reduce the play cost of the next 3 cost or higher {Wano Country} type Character card you play from your hand by 1 during this turn.",
+  "setId": "OP02",
+  "cardNumber": "025",
+  "printedText": "[Activate: Main] [Once Per Turn] When you have 1 or less Characters in play, reduce the play cost of the next 3 cost or higher {Wano Country} type Character card you play from your hand by 1 during this turn.",
+  "keywords": [
+    "activateMain",
+    "oncePerTurn"
+  ],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When you have 1 or less Characters in play, reduce the play cost of the next 3 cost or higher {Wano Country} type Character card you play from your hand by 1 during this turn.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["You have 1 or less Characters in play"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfCharactersInPlay",
+        "op": "<=",
+        "value": 1
+      },
+      "selectors": {
+        "selfCharactersInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "whoChooses": "system"
+        },
+        "wanoCharacterFromHandCost3OrMore": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Wano Country"
+            },
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 3
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "playCharacterFromHand",
+          "target": "wanoCharacterFromHandCost3OrMore",
+          "may": false,
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "cost",
+              "mode": "add",
+              "amount": -1,
+              "duration": "thisTurn",
+              "target": "wanoCharacterFromHandCost3OrMore"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "wanoCountry",
+    "nineRedScabbards"
+  ]
 }

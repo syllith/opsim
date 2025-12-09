@@ -1,72 +1,97 @@
 {
-  "id": "OP14-016",
-  "set": "OP14",
-  "number": 16,
-  "name": "X.Drake",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Navy",
-    "Supernovas",
-    "Drake Pirates"
-  ],
+  "cardName": "X.Drake",
+  "cardId": "OP14-016",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Navy", "Supernovas", "Drake Pirates"],
+  "traits": ["navy", "supernovas", "drakePirates"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-016.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "Opponent's Turn",
-    "Once Per Turn",
-    "DON!!",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "Opponent's Turn Once Per Turn If your (Supernovas) type Character would be removed from the field by your opponent's effect, you may give your 1 Leader -2000 power during this turn instead. DON!! x1 When Attacking Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "setId": "OP14",
+  "cardNumber": "016",
+  "printedText": "[Opponent's Turn] [Once Per Turn] If your {Supernovas} type Character would be removed from the field by your opponent's effect, you may give your Leader -2000 power during this turn instead.\n[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "selfSupernovasCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernovas"
+            }
+          ]
+        },
+        "selfLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your (Supernovas) type Character would be removed from the field by your opponent's effect, you may give your 1 Leader -2000 power during this turn instead.",
-        "powerMod": null,
-        "conditions": [
-          "your (Supernovas) type Character would be removed from the field by your opponent's effect"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "selfSupernovasCharacterWouldBeRemovedFromFieldByOpponentsEffect",
+          "target": "selfSupernovasCharacter",
+          "may": true,
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": -2000,
+              "duration": "thisTurn",
+              "target": "selfLeader"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "selfDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "opponentCharacterUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

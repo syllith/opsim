@@ -1,20 +1,96 @@
 {
-  "id": "ST03-010",
-  "set": "ST03",
-  "number": 10,
-  "name": "Bartholomew Kuma",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["The Seven Warlords of the Sea", "Revolutionary Army"],
-  "rarity": null,
-  "art": "/cards/ST03/ST03-010.png",
-  "stats": { "cost": 2, "power": 3000, "life": null, "counter": null },
-  "keywords": ["On Play"],
-  "trigger": {"text": "Play this card."},
-  "text": "On Play: Look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order.",
-  "abilities": [
-    {"timing": "On Play", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Look at top 3 cards; reorder placing any on top or bottom in any order.", "grants": [], "powerMod": null, "targets": ["top3Deck"], "conditions": []}}
+  "cardName": "Bartholomew Kuma",
+  "cardId": "ST03-010",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 3000,
+  "life": 0,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Revolutionary Army"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "revolutionaryArmy"
+  ],
+  "rarity": "C",
+  "setId": "ST03",
+  "cardNumber": "010",
+  "printedText": "[On Play] Look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order.\n[Trigger] Play this card.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "onPlay",
+      "selectors": {
+        "kumaTopCards": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "search",
+                  "sourceZone": "deck",
+                  "selector": "kumaTopCards",
+                  "reveal": false,
+                  "addTo": "topOfDeck",
+                  "ordering": "chosen",
+                  "topCount": 3
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "search",
+                  "sourceZone": "deck",
+                  "selector": "kumaTopCards",
+                  "reveal": false,
+                  "addTo": "bottomOfDeck",
+                  "ordering": "chosen",
+                  "topCount": 3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "selfFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["life"]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfFromLife",
+          "enterRested": false,
+          "payCost": false,
+          "may": true
+        }
+      ]
+    }
+  ]
 }

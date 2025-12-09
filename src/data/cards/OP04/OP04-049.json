@@ -1,48 +1,37 @@
 {
-  "id": "OP04-049",
-  "set": "OP04",
-  "number": 49,
-  "name": "Jack",
-  "category": "Character",
+  "cardName": "Jack",
+  "cardId": "OP04-049",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Animal Kingdom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-049.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O.: Draw 1 card.",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "049",
+  "printedText": "[On K.O.] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onKO",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

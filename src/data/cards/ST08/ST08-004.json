@@ -1,37 +1,50 @@
 {
-  "id": "ST08-004",
-  "set": "ST08",
-  "number": 4,
-  "name": "Koby",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Wisdom",
+  "cardName": "Koby",
+  "cardId": "ST08-004",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Navy"],
-  "rarity": null,
-  "art": "/cards/ST08/ST08-004.png",
-  "stats": {
-    "cost": 4,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "Activate: Main: You may rest this Character: K.O. up to 1 of your opponent's Character with a cost of 2 or less.",
+  "traits": ["navy"],
+  "rarity": "",
+  "setId": "ST08",
+  "cardNumber": "004",
+  "printedText": "[Activate: Main] You may rest this Character: K.O. up to 1 of your opponent's Character with a cost of 2 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Character: K.O. up to 1 of your opponent's Character with a cost of 2 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["targetCost<=2", "restSelf"]
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

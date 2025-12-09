@@ -1,78 +1,94 @@
 {
-  "id": "OP03-108",
-  "set": "OP03",
-  "number": 108,
-  "name": "Charlotte Cracker",
-  "category": "Character",
+  "cardName": "Charlotte Cracker",
+  "cardId": "OP03-108",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Big Mom Pirates"
   ],
   "rarity": "SR",
-  "art": "/cards/OP03/OP03-108.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "108",
+  "printedText": "[DON!! x1] While you have less Life than your opponent, this Character gains Double Attack and +1000 Power.\nTrigger You may discard 1 card from your hand: Play this card.",
   "keywords": [
+    "DON!! x1",
     "Trigger"
   ],
-  "trigger": {
-    "text": "You may discard 1 card from your hand: Play this card."
-  },
-  "text": "DON!!x1 While you have less Life than your opponent, this character gains Double Attack and +1000 Power. (This card deals 2 damage.)",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "donAttached",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selfLife",
+            "op": "<",
+            "fieldRef": "opponentLife"
+          }
+        ]
       },
-      "effect": {
-        "text": "While you have less Life than your opponent, this character gains Double Attack and +1000 Power.",
-        "grants": [
-          "Double Attack"
-        ],
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this battle"
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
         },
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "lessLifeThanOpponent"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "doubleAttack",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard 1 card from your hand: Play this card.",
-        "powerMod": null,
-        "targets": [
-          "thisCard"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample image. The text 'SAMPLE' is overlaid on the card. The rarity is SR, as indicated by the 'SR' symbol in the bottom right corner."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "bigMomPirates"
+  ]
 }

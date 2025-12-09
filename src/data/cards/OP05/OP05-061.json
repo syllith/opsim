@@ -1,55 +1,73 @@
 {
-  "id": "OP05-061",
-  "set": "OP05",
-  "number": 61,
-  "name": "Usohachi",
-  "category": "Character",
+  "cardName": "Usohachi",
+  "cardId": "OP05-061",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": "Ranged",
+  "cost": 3,
+  "power": 4000,
+  "counter": 2000,
   "types": [
     "Straw Hat Crew"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-061.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "On attack"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 On attack If you have 8 or more DON!! on your field, rest an opponent's character with a cost of 4 or less.",
+  "setId": "OP05",
+  "cardNumber": "061",
+  "printedText": "[DON!! x1] [When Attacking] If you have 8 or more DON!! on your field, rest an opponent's Character with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On attack",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "thisDonAttached",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "donCountField",
+            "op": ">=",
+            "value": 8
+          }
+        ]
       },
-      "effect": {
-        "text": "If you have 8 or more DON!! on your field, rest an opponent's character with a cost of 4 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "conditions": [
-          "haveDon>=8"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "restTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

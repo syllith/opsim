@@ -1,37 +1,53 @@
 {
-  "id": "EB03-023",
-  "set": "EB03",
-  "number": 23,
-  "name": "Kaya",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Wisdom",
-  "types": ["East Blue"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-023.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Look at 5 cards from the top of your deck and place them at the top or bottom of the deck in any order.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB03-023",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck and place them at the top or bottom of the deck in any order.",
+  "types": [
+    "East Blue"
+  ],
+  "cardNumber": "023",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck and place them at the top or bottom of the deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "selector": {
+            "zones": [
+              "deck"
+            ],
+            "min": 0,
+            "max": 5,
+            "type": "deck",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 5,
+          "addTo": "topOfDeck",
+          "reveal": false,
+          "sourceZone": "deck",
+          "type": "search",
+          "ordering": "any",
+          "remainingOrdering": "any"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 2000,
+  "cardName": "Kaya",
+  "rarity": "C",
+  "cost": 2,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

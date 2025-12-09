@@ -1,71 +1,93 @@
 {
-  "id": "OP07-105",
-  "set": "OP07",
-  "number": 105,
-  "name": "Pythagoras",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Egghead",
-    "Scientist"
-  ],
+  "cardName": "Pythagoras",
+  "cardId": "OP07-105",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Egghead", "Scientist"],
+  "traits": ["egghead", "scientist"],
   "rarity": "UC",
-  "art": "/cards/OP07/OP07-105.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O.",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "If your leader is \"Vegapunk\", play this card."
-  },
-  "text": "On K.O. If you have 2 or less life, Summon a 4 cost or below character with <Egghead> from your trash, rested.",
+  "setId": "OP07",
+  "cardNumber": "105",
+  "printedText": "[On K.O.] If you have 2 or less Life, play 1 cost 4 or less Character card with the {Egghead} type from your trash rested.\n[Trigger] If your Leader is [Vegapunk], play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "selfLife",
+        "op": "<=",
+        "value": 2
       },
-      "effect": {
-        "text": "If you have 2 or less life, Summon a 4 cost or below character with <Egghead> from your trash, rested.",
-        "powerMod": null,
-        "conditions": [
-          "self:life<=2"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "eggheadFromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Egghead"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "eggheadFromTrash",
+          "enterRested": true,
+          "payCost": false
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "vegapunkLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Vegapunk"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your leader is \"Vegapunk\", play this card.",
-        "powerMod": null,
-        "conditions": [
-          "leader:isVegapunk"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "vegapunkLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' in image, but rarity is confirmed as UC from printed text."
-  }
+  ]
 }

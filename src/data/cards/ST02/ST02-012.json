@@ -1,23 +1,19 @@
 {
-  "id": "ST02-012",
-  "set": "ST02",
-  "number": 12,
-  "name": "Bepo",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
+  "cardName": "Bepo",
+  "cardId": "ST02-012",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Mink Tribe", "Heart Pirates"],
-  "rarity": null,
-  "art": "/cards/ST02/ST02-012.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["minkTribe", "heartPirates"],
+  "rarity": "common",
+  "setId": "ST02",
+  "cardNumber": "012",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

@@ -1,57 +1,80 @@
 {
-  "id": "OP04-008",
-  "set": "OP04",
-  "number": 8,
-  "name": "Chaka",
-  "category": "Character",
+  "cardName": "Chaka",
+  "cardId": "OP04-008",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Alabasta Kingdom"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-008.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking If your leader is \"Nefertari Vivi\", give up to 1 of your opponent's characters -3000 Power for the turn. Then, K.O. up to 1 of your opponent's characters with 0 Power or less.",
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "008",
+  "printedText": "[DON!! x1] [When Attacking] If your leader is \"Nefertari Vivi\", give up to 1 of your opponent's characters -3000 Power for the turn. Then, K.O. up to 1 of your opponent's characters with 0 Power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Nefertari Vivi"
       },
-      "effect": {
-        "text": "If your leader is \"Nefertari Vivi\", give up to 1 of your opponent's characters -3000 Power for the turn. Then, K.O. up to 1 of your opponent's characters with 0 Power or less.",
-        "powerMod": {
-          "amount": -3000,
-          "duration": "this turn"
+      "selectors": {
+        "oppCharMinus3000": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         },
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "conditions": [
-          "leaderIsNefertariVivi"
-        ],
-        "giveDon": null
-      }
+        "oppCharZeroPower": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 0
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -3000,
+          "duration": "thisTurn",
+          "target": "oppCharMinus3000"
+        },
+        {
+          "type": "ko",
+          "target": "oppCharZeroPower"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "alabastaKingdom"
+  ]
 }

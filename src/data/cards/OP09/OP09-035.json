@@ -1,49 +1,66 @@
 {
-  "id": "OP09-035",
-  "set": "OP09",
-  "number": 35,
-  "name": "Portgas.D.Ace",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "ODYSSEY",
-    "Whitebeard Pirates"
-  ],
+  "cardName": "Portgas D. Ace",
+  "cardId": "OP09-035",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["ODYSSEY", "Whitebeard Pirates"],
+  "traits": ["odyssey", "whitebeardPirates"],
   "rarity": "UC",
-  "art": "/cards/OP09/OP09-035.png",
-  "stats": {
-    "cost": 5,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have two or more rested characters in play, rest up to one of your opponents cost 5 or lower characters.",
+  "setId": "OP09",
+  "cardNumber": "035",
+  "printedText": "[On Play] If you have 2 or more rested Characters in play, rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "oppCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If you have two or more rested characters in play, rest up to one of your opponents cost 5 or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCost5OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

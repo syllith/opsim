@@ -1,48 +1,70 @@
 {
-  "id": "OP05-015",
-  "set": "OP05",
-  "number": 15,
-  "name": "Bello Betty",
-  "category": "Character",
+  "cardName": "Bello Betty",
+  "cardId": "OP05-015",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-015.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck; reveal up to 1 (Revolutionary Army) type card other than [Bello Betty] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "rarity": "R",
+  "setId": "OP05",
+  "cardNumber": "015",
+  "printedText": "[On Play] Look at the top 5 cards of your deck; reveal up to 1 {Revolutionary Army} type card other than [Bello Betty] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "searchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Revolutionary Army"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Bello Betty"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "searchTarget"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck; reveal up to 1 (Revolutionary Army) type card other than [Bello Betty] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "revolutionaryArmy"
+  ]
 }

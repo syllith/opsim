@@ -1,48 +1,58 @@
 {
-  "id": "OP09-050",
-  "set": "OP09",
-  "number": 50,
-  "name": "Nami",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "East Blue"
-  ],
+  "cardName": "Nami",
+  "cardId": "OP09-050",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["East Blue"],
+  "traits": ["eastBlue"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-050.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking: Look at the top 5 cards of your deck and reveal up to one blue event card and put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+  "setId": "OP09",
+  "cardNumber": "050",
+  "printedText": "[When Attacking] Look at the top 5 cards of your deck and reveal up to 1 blue Event card and put it into your hand. Then, place the rest on the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "blueEventSearchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "blue"
+            },
+            {
+              "field": "cardType",
+              "op": "=",
+              "value": "event"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck and reveal up to one blue event card and put it into your hand. Then, place the rest on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "blueEventSearchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

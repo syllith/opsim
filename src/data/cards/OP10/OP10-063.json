@@ -1,49 +1,63 @@
 {
-  "id": "OP10-063",
-  "set": "OP10",
-  "number": 63,
-  "name": "Vinsmoke Sanji",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Germa Kingdom",
-    "Vinsmoke Family"
-  ],
-  "rarity": "L",
-  "art": "/cards/OP10/OP10-063.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your leader has (Germa) included in its types, look at the top 5 cards of your deck. Reveal up to one card with (Germa) included in its types and put it into your hand. Place the rest on the bottom of your deck in any order.",
+  "cardName": "Vinsmoke Sanji",
+  "cardId": "OP10-063",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Germa Kingdom", "Vinsmoke Family"],
+  "traits": ["germaKingdom", "vinsmokeFamily"],
+  "rarity": "R",
+  "setId": "OP10",
+  "cardNumber": "063",
+  "printedText": "[On Play] If your Leader has {Germa} included in its types, look at the top 5 cards of your deck. Reveal up to 1 card with {Germa} included in its types and put it into your hand. Place the rest on the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "top5GermaCard": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "germaKingdom"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "top5GermaCard"
+        }
       },
-      "effect": {
-        "text": "If your leader has (Germa) included in its types, look at the top 5 cards of your deck. Reveal up to one card with (Germa) included in its types and put it into your hand. Place the rest on the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "germaKingdom"
+          },
+          "actions": [
+            {
+              "type": "search",
+              "sourceZone": "deck",
+              "selector": "top5GermaCard",
+              "reveal": true,
+              "addTo": "hand",
+              "topCount": 5,
+              "moveRemainingTo": "bottomOfDeck",
+              "remainingOrdering": "chosen"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

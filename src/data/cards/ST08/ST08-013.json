@@ -1,45 +1,57 @@
 {
-  "id": "ST08-013",
-  "set": "ST08",
-  "number": 13,
-  "name": "Gum Gum Pistol",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST08/ST08-013.png",
-  "stats": { "cost": 3, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Draw 1 card." },
-  "text": "Main: K.O. up to 1 of your opponent's Characters with a cost of 2 or less. Trigger: Draw 1 card.",
+  "cardName": "Mr. 2 Bon Clay (Bentham)",
+  "cardId": "ST08-013",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 5,
+  "power": 6000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Former Baroque Works"],
+  "traits": ["formerBaroqueWorks"],
+  "rarity": "",
+  "setId": "ST08",
+  "cardNumber": "013",
+  "printedText": "DON!! x1 At the end of the battle in which this Character battles an opponent's Character, you may K.O. your opponent's Character that battled. If you do, K.O. this Character.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["targetCost<=2"]
-      }
-    },
-    {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": null,
-      "effect": {
-        "text": "Draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["draw:1"]
-      }
+      "timing": "static",
+      "selectors": {
+        "selfThisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "endOfBattleThisCardBattlesCharacter",
+          "target": "selfThisCard",
+          "may": true,
+          "condition": {
+            "field": "givenDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "ko",
+              "target": "battleOpponentOfThisCard"
+            },
+            {
+              "type": "ko",
+              "target": "selfThisCard"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

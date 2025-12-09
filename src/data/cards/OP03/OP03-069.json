@@ -1,55 +1,50 @@
 {
-  "id": "OP03-069",
-  "set": "OP03",
-  "number": 69,
-  "name": "Minorhinoceros",
-  "category": "Character",
+  "cardName": "Minorhinoceros",
+  "cardId": "OP03-069",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 5000,
+  "counter": 0,
   "types": [
     "Impel Down",
-    "Jailer Beasts"
+    "Jailer Beast"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-069.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O.: If your Leader has the {Impel Down} type, draw 2 cards and discard 1 card from your hand.",
+  "setId": "OP03",
+  "cardNumber": "069",
+  "printedText": "[On K.O.] If your Leader has the {Impel Down} type, draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "frequency": "none",
+      "condition": {
+        "field": "leaderHasTypeImpelDown",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your Leader has the {Impel Down} type, draw 2 cards and discard 1 card from your hand.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "leaderHasType:Impel Down"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "may": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is indicated by 'C' in the bottom right corner. The card is a sample, as indicated by the watermark."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "impelDown",
+    "jailerBeast"
+  ]
 }

@@ -1,48 +1,37 @@
 {
-  "id": "P-071",
-  "set": "P",
-  "number": 71,
-  "name": "Marco",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Whitebeard Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-071.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. You may put this character card into your hand.",
+  "cardName": "Marco",
+  "cardId": "P-071",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-071",
+  "printedText": "[On K.O.] You may put this Character card into your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "You may put this character card into your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "thisCharacter",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

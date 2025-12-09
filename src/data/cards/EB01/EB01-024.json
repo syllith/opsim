@@ -1,58 +1,61 @@
 {
-  "id": "EB01-024",
-  "set": "EB01",
-  "number": 24,
-  "name": "Hamlet",
-  "category": "Character",
-  "colors": [
-    "Blue"
+  "power": 4000,
+  "cardType": "character",
+  "attributes": [
+    "slash"
   ],
-  "attribute": "Slash",
+  "cardId": "EB01-024",
+  "printedText": "If you have 4 or less cards in your hand, all of your <SMILE> characters get +1000 power.\n[Counter +1000]",
   "types": [
     "Animal Kingdom Pirates",
     "SMILE"
   ],
-  "rarity": "C",
-  "art": "/cards/EB01/EB01-024.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": "If you have 4 or less cards in your hand, all of your <SMILE> characters get +1000 power.",
+  "cardNumber": "024",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "value": 4,
+        "field": "selfHandCount",
+        "op": "<="
       },
-      "effect": {
-        "text": "If you have 4 or less cards in your hand, all of your <SMILE> characters get +1000 power.",
-        "grants": [],
-        "powerMod": {
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "permanent",
           "amount": 1000,
-          "duration": "whileConditionMet"
-        },
-        "targets": [
-          "ally:Character"
-        ],
-        "conditions": [
-          "handSize<=4",
-          "characterTypeSMILE"
-        ]
-      }
+          "target": {
+            "type": "character",
+            "side": "self",
+            "filters": [
+              {
+                "value": "SMILE",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": false
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Hamlet",
+  "rarity": "C",
+  "cost": 3,
+  "colors": [
+    "blue"
+  ],
+  "traits": [
+    "animalKingdomPirates",
+    "smile"
+  ]
 }

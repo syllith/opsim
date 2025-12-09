@@ -1,50 +1,78 @@
 {
-  "id": "OP11-074",
-  "set": "OP11",
-  "number": 74,
-  "name": "Streusen",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Big Mom Pirates"
-  ],
+  "cardName": "Streusen",
+  "cardId": "OP11-074",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
   "rarity": "C",
-  "art": "/cards/OP11/OP11-074.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn",
-    "DON!!-1"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn DON!!-1, then rest this Character: Declare a cost of your choice and reveal 1 card from the top of your opponent's deck. If the revealed cost is the same as the declared cost, rest up to one of your opponent's Characters with a cost of 4 or less.",
+  "setId": "OP11",
+  "cardNumber": "074",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!! -1, You may rest this Character: Choose a cost and reveal 1 card from the top of your opponent's deck. If the revealed card has the chosen cost, rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "donMinus",
+            "count": 1
+          },
+          {
+            "type": "restThis",
+            "may": true
+          }
+        ]
       },
-      "effect": {
-        "text": "Declare a cost of your choice and reveal 1 card from the top of your opponent's deck. If the revealed cost is the same as the declared cost, rest up to one of your opponent's Characters with a cost of 4 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharactersCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTopDeckCard",
+          "destination": "topOfDeck",
+          "ordering": "keep",
+          "faceUp": true
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "topDeckCardCostMatchesChosenCost",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": "opponentCharactersCost4OrLess"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

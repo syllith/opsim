@@ -1,51 +1,58 @@
 {
-  "id": "OP12-104",
-  "set": "OP12",
-  "number": 104,
-  "name": "Sentomaru",
-  "category": "Character",
+  "cardName": "Sentomaru",
+  "cardId": "OP12-104",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Egghead",
     "Navy"
   ],
-  "rarity": "R",
-  "art": "/cards/OP12/OP12-104.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Trigger"
+  "traits": [
+    "egghead",
+    "navy"
   ],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's Characters with a cost 4 or less."
-  },
-  "text": null,
+  "rarity": "R",
+  "setId": "OP12",
+  "cardNumber": "104",
+  "printedText": "[Trigger] K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponentCharCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost 4 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharCost4OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

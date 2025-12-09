@@ -1,37 +1,47 @@
 {
-  "id": "OP02-038",
-  "set": "OP02",
-  "number": 38,
-  "name": "Cat Viper",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Mink Tribe", "Wano Country", "Nine Red Scabbards"],
+  "cardName": "Cat Viper",
+  "cardId": "OP02-038",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "Mink Tribe",
+    "Wano Country",
+    "Nine Red Scabbards"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-038.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Blocker"],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "setId": "OP02",
+  "cardNumber": "038",
+  "printedText": "Blocker",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "Continuous",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": []
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "blocker",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "minkTribe",
+    "wanoCountry",
+    "nineRedScabbards"
+  ]
 }

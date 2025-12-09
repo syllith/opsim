@@ -1,64 +1,127 @@
 {
-  "id": "OP05-038",
-  "set": "OP05",
-  "number": 38,
-  "name": "Charlestone",
-  "category": "Event",
+  "cardName": "Charlestone",
+  "cardId": "OP05-038",
+  "cardType": "event",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Donquixote Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-038.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 4000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Rest up to 1 of your opponent's Leader or Characters with a cost of 3 or less."
-  },
-  "text": "Up to 1 of your Leader or Characters gains +4000 power during this battle. Then, you may discard a card. If you did, set up to 3 of your Don!! as active.",
+  "setId": "OP05",
+  "cardNumber": "038",
+  "printedText": "[Counter] Up to 1 of your Leader or Characters gains +4000 power during this battle. Then, you may discard 1 card. If you did, set up to 3 of your DON!! cards as active.\n[Trigger] Rest up to 1 of your opponent's Leader or Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "frequency": "none",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "buffTarget"
+        },
+        "donTargets": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "donTargets"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Characters gains +4000 power during this battle. Then, you may discard a card. If you did, set up to 3 of your Don!! as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        },
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "trashFromHand",
+                  "minCards": 1,
+                  "maxCards": 1
+                },
+                {
+                  "type": "setState",
+                  "state": "active",
+                  "target": "donTargets"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "noop"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "restTargetTrigger": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "restTargetTrigger"
+        }
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Leader or Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTargetTrigger"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "donquixotePirates"
+  ]
 }

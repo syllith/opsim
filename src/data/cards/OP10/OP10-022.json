@@ -1,48 +1,101 @@
 {
-  "id": "OP10-022",
-  "set": "OP10",
-  "number": 22,
-  "name": "Trafalgar Law",
-  "category": "Leader",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Heart Pirates",
-    "Supernovas",
-    "Dressrosa"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-022.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Trafalgar Law",
+  "cardId": "OP10-022",
+  "cardType": "leader",
+  "colors": ["green"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["Heart Pirates", "Supernovas", "Dressrosa"],
+  "traits": ["heartPirates", "supernovas", "dressrosa"],
+  "rarity": "L",
+  "setId": "OP10",
+  "cardNumber": "022",
+  "printedText": "[DON!! x1] [Activate: Main] [Once Per Turn] If the total cost of your Characters is 5 or more, you may return 1 of your Characters to your hand; then reveal the top card of your Life, and if that card is a \"Supernovas\" type Character card with a cost of 5 or less, you may play it.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!!x1 Activate: Main Once Per Turn If the total cost of your characters is 5 or more, you can return 1 of your characters to the hand: Reveal the top of your life, and if that card is a {Supernova} type character card with a cost of 5 or less, you can play it.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "yourCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "characterToReturn": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If the total cost of your characters is 5 or more, you can return 1 of your characters to the hand: Reveal the top of your life, and if that card is a {Supernova} type character card with a cost of 5 or less, you can play it.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "donAttachedCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorStatTotal",
+            "selector": "yourCharacters",
+            "stat": "cost",
+            "op": ">=",
+            "value": 5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "characterToReturn",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        },
+        {
+          "type": "revealLife",
+          "count": 1,
+          "side": "self",
+          "ordering": "keep"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTopLifeCard",
+          "payCost": false,
+          "may": true,
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "topLifeCardCardType",
+                "op": "=",
+                "value": "character"
+              },
+              {
+                "field": "topLifeCardTrait",
+                "op": "=",
+                "value": "supernovas"
+              },
+              {
+                "field": "topLifeCardCost",
+                "op": "<=",
+                "value": 5
+              }
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

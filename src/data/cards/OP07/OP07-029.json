@@ -1,73 +1,93 @@
 {
-  "id": "OP07-029",
-  "set": "OP07",
-  "number": 29,
-  "name": "Basil Hawkins",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Supernova",
-    "Hawkins Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-029.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "If you leader has \"Supernova\" in its types, This character gains (Blocker) (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) Once Per Turn: If this character were to be removed from play by one of your opponents effects, you may instead rest one of your opponents characters.",
+  "cardName": "Basil Hawkins",
+  "cardId": "OP07-029",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Supernova", "Hawkins Pirates"],
+  "traits": ["supernova", "hawkinsPirates"],
+  "rarity": "SR",
+  "setId": "OP07",
+  "cardNumber": "029",
+  "printedText": "If your Leader has \"Supernova\" in its types, this Character gains Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [Once Per Turn] If this Character were to be removed from play by one of your opponent's effects, you may instead rest 1 of your opponent's Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "supernovaLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernova"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "If you leader has \"Supernova\" in its types, This character gains (Blocker) (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "thisCard",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "supernovaLeader",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     },
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard"
+        },
+        "oppRestTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If this character were to be removed from play by one of your opponents effects, you may instead rest one of your opponents characters.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": [
-            "oneOpponentCharacter"
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeRemovedFromPlayByOpponentsEffect",
+          "target": "thisCard",
+          "may": true,
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": "oppRestTarget"
+            }
           ]
         }
-      }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

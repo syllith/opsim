@@ -1,65 +1,82 @@
 {
-  "id": "OP11-081",
-  "set": "OP11",
-  "number": 81,
-  "name": "Cognac: Mama-Mash",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "The Four Emperors",
-    "Big Mom Pirates"
-  ],
+  "cardName": "Cognac Mama-Mash",
+  "cardId": "OP11-081",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 6,
+  "types": ["The Four Emperors", "Big Mom Pirates"],
+  "traits": ["theFourEmperors", "bigMomPirates"],
   "rarity": "C",
-  "art": "/cards/OP11/OP11-081.png",
-  "stats": {
-    "cost": 6,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Add up to 1 DON!! card from your DON!! deck and set it as active."
-  },
-  "text": "Main: Declare a cost of your choice and reveal 1 card from the top of your opponent's deck. If the revealed card has the same cost as the declared cost, K.O. up to 1 of your opponent's Character with an original cost of 8 or less.\nTrigger: Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "setId": "OP11",
+  "cardNumber": "081",
+  "printedText": "[Main] Choose a cost and reveal 1 card from the top of your opponent's deck. If the revealed card has the chosen cost, K.O. up to 1 of your opponent's Characters with a base cost of 8 or less. [Trigger] Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "opponentCharacterBaseCost8OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 8
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Declare a cost of your choice and reveal 1 card from the top of your opponent's deck. If the revealed card has the same cost as the declared cost, K.O. up to 1 of your opponent's Character with an original cost of 8 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTopDeckCard",
+          "destination": "topOfDeck",
+          "ordering": "keep",
+          "faceUp": true
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "topDeckCardCostMatchesChosenCost",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "ko",
+              "target": "opponentCharacterBaseCost8OrLess"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "donFromDonDeckActive": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDonDeckActive",
+          "destination": "costArea",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

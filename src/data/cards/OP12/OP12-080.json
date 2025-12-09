@@ -1,54 +1,70 @@
 {
-  "id": "OP12-080",
-  "set": "OP12",
-  "number": 80,
-  "name": "Baratie",
-  "category": "Stage",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "East Blue"
-  ],
+  "cardName": "Baratie",
+  "cardId": "OP12-080",
+  "cardType": "stage",
+  "colors": ["purple"],
+  "cost": 1,
+  "types": ["East Blue"],
+  "traits": ["eastBlue"],
   "rarity": "C",
-  "art": "/cards/OP12/OP12-080.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "Activate: Main You may place this Stage to the bottom of it's owner's deck: If your Leader is [Sanji], look at 3 cards from the top of your deck; reveal up to 1 Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP12",
+  "cardNumber": "080",
+  "printedText": "[Activate: Main] You may place this Stage at the bottom of its owner's deck: If your Leader is [Sanji], look at 3 cards from the top of your deck; reveal up to 1 Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Trigger] Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveFromField",
+        "selector": "selfThisCard",
+        "destination": "bottomOfDeck",
+        "may": true
       },
-      "effect": {
-        "text": "You may place this Stage to the bottom of it's owner's deck: If your Leader is [Sanji], look at 3 cards from the top of your deck; reveal up to 1 Event card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Sanji]"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Sanji"
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": ["deck"],
+            "filters": [
+              {
+                "field": "cardType",
+                "op": "=",
+                "value": "event"
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

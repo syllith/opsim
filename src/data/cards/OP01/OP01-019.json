@@ -1,61 +1,69 @@
 {
-  "id": "OP01-019",
-  "set": "OP01",
-  "number": 19,
-  "name": "Bartolomeo",
-  "category": "Character",
+  "cardName": "Bartolomeo",
+  "cardId": "OP01-019",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Special",
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Supernovas",
     "Barto Club"
   ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-019.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "019",
+  "printedText": "Blocker\n[DON!! x2] Opponent’s Turn This Character gains +3000 Power.",
   "keywords": [
-    "Blocker",
-    "DON!! x2",
-    "Opponent's Turn"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[DON!! x2] [Opponent's Turn] This Character gains +3000 Power.",
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {},
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 2
+          },
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "opponent"
+          }
+        ]
       },
-      "effect": {
-        "text": "This Character gains +3000 Power.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "duringOpponentsTurn"
-        },
-        "targets": [
-          "self"
-        ],
-        "conditions": []
-      }
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "bindAs": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "supernovas",
+    "bartoClub"
+  ]
 }

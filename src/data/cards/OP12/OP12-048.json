@@ -1,46 +1,76 @@
 {
-  "id": "OP12-048",
-  "set": "OP12",
-  "number": 48,
-  "name": "Donquixote Rosinante",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Navy"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP12/OP12-048.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Donquixote Rosinante",
+  "cardId": "OP12-048",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Navy"],
+  "traits": ["navy"],
+  "rarity": "C",
+  "setId": "OP12",
+  "cardNumber": "048",
+  "printedText": "[Opponent's Turn] If 1 of your blue {Navy} type Characters would be removed from the field by your opponent's effect, you may rest this Character and trash 1 card from your hand instead.",
   "keywords": [],
-  "trigger": null,
-  "text": "Opponent's Turn: If 1 of your blue (Navy) type Characters would be removed from the field by your opponent's effect, you may rest this Character and trash 1 card from your hand instead.",
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "selectors": {
+        "protectedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "colors",
+                  "op": "=",
+                  "value": "blue"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "navy"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If 1 of your blue (Navy) type Characters would be removed from the field by your opponent's effect, you may rest this Character and trash 1 card from your hand instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "removeFromFieldByOpponentsEffect",
+          "target": "protectedCharacters",
+          "cost": {
+            "type": "multiCost",
+            "costs": [
+              {
+                "type": "restThis"
+              },
+              {
+                "type": "trashFromHand",
+                "minCards": 1,
+                "maxCards": 1
+              }
+            ],
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

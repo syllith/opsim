@@ -1,32 +1,18 @@
 {
-  "id": "OP11-033",
-  "set": "OP11",
-  "number": 33,
-  "name": "Tori",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Sea Kings"
-  ],
+  "cardName": "Tori",
+  "cardId": "OP11-033",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["Sea Kings"],
+  "traits": ["seaKings"],
   "rarity": "UC",
-  "art": "/cards/OP11/OP11-033.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP11",
+  "cardNumber": "033",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Life value not printed on card. No text or keywords visible. Counter value is 2000."
-  }
+  "abilities": []
 }

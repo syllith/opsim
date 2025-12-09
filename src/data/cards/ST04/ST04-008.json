@@ -1,20 +1,46 @@
 {
-  "id": "ST04-008",
-  "set": "ST04",
-  "number": 8,
-  "name": "Jack",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
+  "cardName": "Jack",
+  "cardId": "ST04-008",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Animal Kingdom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST04/ST04-008.png",
-  "stats": { "cost": 3, "power": 4000, "life": null, "counter": { "present": true, "value": 1000 } },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: You may trash 1 card from your hand: Add 1 card from your DON!! deck and set it as active.",
+  "traits": ["animalKingdomPirates"],
+  "rarity": "C",
+  "setId": "ST04",
+  "cardNumber": "008",
+  "printedText": "[On Play] You may trash 1 card from your hand: Add 1 card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
-    {"timing": "On Play", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Optional: trash 1 card from hand; then add 1 DON!! from DON deck set active.", "grants": [], "powerMod": null, "targets": ["self", "donDeck"], "conditions": []}}
-  ],
-  "meta": {"notes": null}
+    {
+      "timing": "onPlay",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "ordering": "keep"
+        }
+      ]
+    }
+  ]
 }

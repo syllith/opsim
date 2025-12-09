@@ -1,52 +1,98 @@
 {
-  "id": "OP02-089",
-  "set": "OP02",
-  "number": 89,
-  "name": "Hell's Judgement",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Impel Down"],
+  "cardName": "Hell's Judgement",
+  "cardId": "OP02-089",
+  "cardType": "event",
+  "colors": [
+    "purple"
+  ],
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Impel Down"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-089.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "DON!! -1"],
-  "trigger": {
-    "text": "If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck."
-  },
-  "text": "[Counter] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Give up to 2 of your opponent's Leader or Characters -3000 Power during this turn.\n[Trigger] If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck.",
+  "setId": "OP02",
+  "cardNumber": "089",
+  "printedText": "[Counter] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Give up to a total of 2 of your opponent's Leader or Character cards -3000 power during this turn. [Trigger] If your opponent has 6 or more DON!! cards on their field, your opponent returns 1 DON!! card from their field to their DON!! deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 2 of your opponent's Leader or Characters -3000 Power during this turn.",
-        "powerMod": {
-          "amount": -3000,
-          "duration": "this turn"
+      "timing": "counter",
+      "frequency": "none",
+      "cost": {
+        "type": "donMinus",
+        "count": 1,
+        "may": true
+      },
+      "selectors": {
+        "oppLeaderOrCharacterUpToTwo": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "affectedCards"
         },
-        "targets": ["upTo2:opponent:Leader", "upTo2:opponent:Character"],
-        "conditions": []
-      }
+        "opponentDonFieldOne": {
+          "side": "opponent",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent",
+          "bindAs": "returnedDon"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -3000,
+          "duration": "thisTurn",
+          "target": "oppLeaderOrCharacterUpToTwo"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your opponent has 6 or more DON!! cards, your opponent returns 1 of their DON!! cards to their DON!! deck.",
-        "targets": ["opponent:Don"],
-        "conditions": ["opponentHas6OrMoreDon"]
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "condition": {
+        "field": "opponentDonOnField",
+        "op": ">=",
+        "value": 6
+      },
+      "selectors": {
+        "opponentDonFieldOne": {
+          "side": "opponent",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent",
+          "bindAs": "returnedDon"
+        }
+      },
+      "actions": [
+        {
+          "type": "returnDon",
+          "count": 1,
+          "target": "opponentDonFieldOne"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "impelDown"
+  ]
 }

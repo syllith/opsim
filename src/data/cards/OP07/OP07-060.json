@@ -1,60 +1,74 @@
 {
-  "id": "OP07-060",
-  "set": "OP07",
-  "number": 60,
-  "name": "Itomimizu",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Foxy Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-060.png",
-  "stats": {
-    "cost": 3,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn If your leader has the (Foxy Pirates) type and you do not have any other characters in play named [Itomimizu], add up to one rested Don!! from your Don!! deck.",
+  "cardName": "Itomimizu",
+  "cardId": "OP07-060",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Foxy Pirates"],
+  "traits": ["foxyPirates"],
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "060",
+  "printedText": "[Activate: Main] [Once Per Turn] If your Leader has the {Foxy Pirates} type and you have no other [Itomimizu], add up to 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your leader has the (Foxy Pirates) type and you do not have any other characters in play named [Itomimizu], add up to one rested Don!! from your Don!! deck.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the (Foxy Pirates) type",
-          "you do not have any other characters in play named [Itomimizu]"
-        ],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "Don!! deck",
-          "to": [
-            "self"
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "leaderFoxy": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "foxyPirates"
+            }
+          ]
+        },
+        "itomimizuInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Itomimizu"
+            }
           ]
         }
-      }
+      },
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": "leaderFoxy",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCount",
+            "selector": "itomimizuInPlay",
+            "op": "<=",
+            "value": 1
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

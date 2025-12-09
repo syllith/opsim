@@ -1,59 +1,105 @@
 {
-  "id": "EB01-013",
-  "set": "EB01",
-  "number": 13,
-  "name": "Kozuki Hiyori",
-  "category": "Character",
-  "colors": [
-    "Green"
+  "power": 0,
+  "cardType": "character",
+  "attributes": [
+    "wisdom"
   ],
-  "attribute": "Wisdom",
+  "cardId": "EB01-013",
+  "printedText": "[Activate: Main] You may place this card into your trash: Place up to one cost 5 or less {Land of Wano} type character other than [Kozuki Hiyori] from your hand into play. Then, draw one card.\n[Counter +1000]",
   "types": [
     "Land of Wano",
-    "Kozuki Clan"
+    "Kouzuki Clan"
   ],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-013.png",
-  "stats": {
-    "cost": 4,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "[Activate: Main] You may place this card into your trash: Place up to one cost 5 or less {Land of Wano} type character (other than [Kozuki Hiyori]) from your hand into play. Then, draw one card.",
+  "cardNumber": "013",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may place this card into your trash: Place up to one cost 5 or less {Land of Wano} type character (other than [Kozuki Hiyori]) from your hand into play. Then, draw one card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "self",
-          "hand"
-        ],
-        "conditions": [
-          "characterCost<=5",
-          "characterTypeLandOfWano",
-          "notKozukiHiyori"
-        ]
-      }
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "may": true,
+          "destination": "trash",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": "EB01-013",
+                "field": "cardId",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        },
+        {
+          "condition": {
+            "value": "trash",
+            "field": "thisCardZone",
+            "op": "="
+          },
+          "destination": "characterArea",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 5,
+                "field": "cost",
+                "op": "<="
+              },
+              {
+                "value": "Land of Wano",
+                "field": "types",
+                "op": "="
+              },
+              {
+                "value": "Kozuki Hiyori",
+                "field": "cardName",
+                "op": "!="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        },
+        {
+          "count": 1,
+          "type": "draw",
+          "condition": {
+            "value": "trash",
+            "field": "thisCardZone",
+            "op": "="
+          }
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": false
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Kozuki Hiyori",
+  "rarity": "R",
+  "cost": 4,
+  "colors": [
+    "green"
+  ],
+  "traits": [
+    "landOfWano",
+    "kouzukiClan"
+  ]
 }

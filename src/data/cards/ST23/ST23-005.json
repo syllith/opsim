@@ -1,43 +1,43 @@
 {
-  "id": "ST23-005",
-  "set": "ST23",
-  "number": 5,
-  "name": "Yasopp",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": null,
+  "cardName": "Yasopp",
+  "cardId": "ST23-005",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["ranged"],
   "types": ["Red-Haired Pirates"],
+  "traits": ["redHairedPirates"],
   "rarity": "C",
-  "art": "/cards/ST23/ST23-005.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Once Per Turn"],
-  "trigger": null,
-  "text": "[Activate:Main] [Once Per Turn] Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+  "setId": "ST23",
+  "cardNumber": "005",
+  "printedText": "[Activate:Main] [Once Per Turn] Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self:Leader", "ally:Character"],
-        "conditions": [],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["self:Leader", "oneAllyCharacter"]
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "leaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self",
+          "target": "leaderOrCharacter",
+          "sourceDonState": "rested"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

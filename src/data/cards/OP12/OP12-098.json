@@ -1,57 +1,103 @@
 {
-  "id": "OP12-098",
-  "set": "OP12",
-  "number": 98,
-  "name": "Waxing Fist",
-  "category": "Event",
+  "cardName": "Waxing Fist",
+  "cardId": "OP12-098",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
+    "Impel Down",
     "Revolutionary Army"
   ],
-  "rarity": "R",
-  "art": "/cards/OP12/OP12-098.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Trigger"
+  "traits": [
+    "impelDown",
+    "revolutionaryArmy"
   ],
-  "trigger": {
-    "text": "Draw 1 Card. Then, trash the top card of your deck."
-  },
-  "text": "Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have a {Revolutionary Army} type Character with a cost of 8 or more, that card gains an additional +2000 power.",
+  "rarity": "UC",
+  "setId": "OP12",
+  "cardNumber": "098",
+  "printedText": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have a {Revolutionary Army} type Character with a cost of 8 or more, that card gains an additional +2000 power.\n[Trigger] Draw 1 card. Then, trash the top card of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "boostTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "selfHighCostRevoCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "revolutionaryArmy"
+            },
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 8
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have a {Revolutionary Army} type Character with a cost of 8 or more, that card gains an additional +2000 power.",
-        "powerMod": null,
-        "targets": [
-          "oneOf:ally:Leader",
-          "oneOf:ally:Character"
-        ],
-        "conditions": [
-          "{Revolutionary Army} type Character with a cost of 8 or more"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "boostTarget"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "selfHighCostRevoCharacter",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 2000,
+              "duration": "thisBattle",
+              "target": "boostTarget"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

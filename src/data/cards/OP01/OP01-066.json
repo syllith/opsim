@@ -1,23 +1,26 @@
 {
-  "id": "OP01-066",
-  "set": "OP01",
-  "number": 66,
-  "name": "Krieg",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Krieg Pirates"],
+  "cardName": "Krieg",
+  "cardId": "OP01-066",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
+  "types": [
+    "Krieg Pirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-066.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "OP01",
+  "cardNumber": "066",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "traits": [
+    "kriegPirates"
+  ]
 }

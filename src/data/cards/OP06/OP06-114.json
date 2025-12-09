@@ -1,49 +1,103 @@
 {
-  "id": "OP06-114",
-  "set": "OP06",
-  "number": 114,
-  "name": "Wiper",
-  "category": "Character",
+  "cardName": "Wiper",
+  "cardId": "OP06-114",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Ranged",
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": [
+    "ranged"
+  ],
   "types": [
     "Sky Island",
     "Shandora Warrior"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-114.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "skyIsland",
+    "shandoraWarrior"
   ],
-  "trigger": null,
-  "text": "On Play: You may return 1 Cost 1 stage to the bottom of its owner's deck. Look at the top 5 cards of your deck, reveal up to 1 \"Upper Yard\" or [Shandora Warrior] type card and add it to your hand. Then, send the remaining cards to the bottom of your deck in any order.",
+  "rarity": "U",
+  "setId": "OP06",
+  "cardNumber": "114",
+  "printedText": "[On Play] You may return 1 cost Stage to the bottom of its owner's deck: Look at the top 5 cards of your deck, reveal up to 1 \"Upper Yard\" or \"Shandora Warrior\" type card and add it to your hand. Then, send the remaining cards to the bottom of your deck in any order.",
+  "keywords": [
+    "onPlay",
+    "search"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromField",
+        "selector": "anyCost1StageOnField",
+        "may": true
       },
-      "effect": {
-        "text": "You may return 1 Cost 1 stage to the bottom of its owner's deck. Look at the top 5 cards of your deck, reveal up to 1 \"Upper Yard\" or [Shandora Warrior] type card and add it to your hand. Then, send the remaining cards to the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "anyCost1StageOnField": {
+          "side": "both",
+          "type": "stage",
+          "zones": [
+            "stage"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "card.cost",
+              "op": "=",
+              "value": 1
+            }
+          ],
+          "bindAs": "stageToBottom"
+        },
+        "top5UpperYardOrShandora": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "card.traits",
+                  "op": "=",
+                  "value": "upperYard"
+                },
+                {
+                  "field": "card.traits",
+                  "op": "=",
+                  "value": "shandoraWarrior"
+                }
+              ]
+            }
+          ],
+          "bindAs": "cardToHand"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top5UpperYardOrShandora",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample and has 'SAMPLE' watermark. All values are read from the card image."
-  }
+  ]
 }

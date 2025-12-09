@@ -1,51 +1,76 @@
 {
-  "id": "OP04-006",
-  "set": "OP04",
-  "number": 6,
-  "name": "Koza",
-  "category": "Character",
+  "cardName": "Koza",
+  "cardId": "OP04-006",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
   "types": [
     "Alabasta Kingdom"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-006.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking: You may give one of your active Leaders -5000 power this turn. This character has +2000 power until your next start of turn.",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "006",
+  "printedText": "[When Attacking] You may give one of your active Leaders -5000 power this turn: This Character has +2000 power until the start of your next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "powerModCost",
+        "amount": -5000,
+        "duration": "thisTurn",
+        "target": "ownActiveLeader",
+        "may": true
       },
-      "effect": {
-        "text": "You may give one of your active Leaders -5000 power this turn. This character has +2000 power until your next start of turn.",
-        "powerMod": null,
-        "targets": [
-          "oneActiveLeader"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "ownActiveLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            }
+          ]
+        },
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "untilStartOfYourNextTurn",
+          "target": "thisCardSelector"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "alabastaKingdom"
+  ]
 }

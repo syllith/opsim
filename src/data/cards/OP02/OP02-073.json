@@ -1,35 +1,58 @@
 {
-  "id": "OP02-073",
-  "set": "OP02",
-  "number": 73,
-  "name": "Sadi",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Wisdom",
-  "types": ["Impel Down"],
-  "rarity": "UC",
-  "art": "/cards/OP02/OP02-073.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Play up to 1 {Jailer Beast} type Character card from your hand.",
+  "cardName": "Sadi",
+  "cardId": "OP02-073",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "types": [
+    "Impel Down"
+  ],
+  "rarity": "R",
+  "setId": "OP02",
+  "cardNumber": "073",
+  "printedText": "[On Play] Play up to 1 {Jailer Beast} type Character card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 {Jailer Beast} type Character card from your hand.",
-        "targets": ["upTo1:hand:Character"],
-        "conditions": ["typeJailerBeast"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "sadiJailerBeast": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Jailer Beast"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "sadiJailerBeast"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "sadiJailerBeast"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "impelDown"
+  ]
 }

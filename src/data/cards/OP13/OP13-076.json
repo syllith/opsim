@@ -1,74 +1,95 @@
 {
-  "id": "OP13-076",
-  "set": "OP13",
-  "number": 76,
-  "name": "Divine Departure",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Pirate King/Roger Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP13/OP13-076.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main: You may rest 5 of your DON!! cards: If you have any given DON!! cards, give up to 1 of your opponent's Characters -8000 power during this turn. Counter: You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +3000 power during this battle.",
+  "cardName": "Divine Departure",
+  "cardId": "OP13-076",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 0,
+  "types": ["Pirate King", "Roger Pirates"],
+  "traits": ["pirateKing", "rogerPirates"],
+  "rarity": "R",
+  "setId": "OP13",
+  "cardNumber": "076",
+  "printedText": "[Main] You may rest 5 of your DON!! cards: If you have any given DON!! cards, give up to 1 of your opponent's Characters -8000 power during this turn.\n[Counter] You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 5
+        "type": "restDonFromCostArea",
+        "count": 5,
+        "may": true
       },
-      "effect": {
-        "text": "If you have any given DON!! cards, give up to 1 of your opponent's Characters -8000 power during this turn.",
-        "powerMod": null,
-        "conditions": [
-          "any given DON!! cards"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "givenDonOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "upToOneOppCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "givenDonOnField",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -8000,
+          "duration": "thisTurn",
+          "target": "upToOneOppCharacter"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
+      "timing": "counter",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +3000 power during this battle.",
-        "powerMod": {
+      "selectors": {
+        "upToOneSelfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "up to 1 of your Leader or Character cards"
-        ],
-        "conditions": [
-          "You may trash 1 card from your hand"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "upToOneSelfLeaderOrCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

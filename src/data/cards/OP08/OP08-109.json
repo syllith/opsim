@@ -1,53 +1,62 @@
 {
-  "id": "OP08-109",
-  "set": "OP08",
-  "number": 109,
-  "name": "Montblanc Norland",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Jaya",
-    "Botanist"
-  ],
+  "cardName": "Mont Blanc Noland",
+  "cardId": "OP08-109",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Jaya", "Botanist"],
+  "traits": ["jaya", "botanist"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-109.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your leader has the <Shandoran Warrior> type and you have a \"Kalgara\" character in play, add up to 1 card from the top of your deck to the top of your life.",
+  "setId": "OP08",
+  "cardNumber": "109",
+  "printedText": "[On Play] If your Leader has the {Shandian Warrior} type and you have a [Kalgara] Character, add up to 1 card from the top of your deck to the top of your Life cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "shandianWarrior"
+          },
+          {
+            "field": "selectorCount",
+            "selector": "kalgaraInPlay",
+            "op": ">=",
+            "value": 1
+          }
+        ]
       },
-      "effect": {
-        "text": "If your leader has the <Shandoran Warrior> type and you have a \"Kalgara\" character in play, add up to 1 card from the top of your deck to the top of your life.",
-        "powerMod": null,
-        "conditions": [
-          "leader:hasType<Shandoran Warrior>",
-          "haveCharacter:Kalgara"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "kalgaraInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Kalgara"
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDeckCard",
+          "destination": "topOfLife",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

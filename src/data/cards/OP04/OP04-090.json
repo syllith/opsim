@@ -1,53 +1,92 @@
 {
-  "id": "OP04-090",
-  "set": "OP04",
-  "number": 90,
-  "name": "Monkey D. Luffy",
-  "category": "Character",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP04-090",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 7,
+  "power": 7000,
+  "counter": 1000,
   "types": [
     "Dressrosa",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-090.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "SR",
+  "setId": "OP04",
+  "cardNumber": "090",
+  "printedText": "This Character can attack active Characters.\n[Activate: Main] [Once Per Turn] You may return 7 cards from your trash to the bottom of your deck in any order: Set this Character to active. Then, during your next Refresh Phase, this Character cannot be set to active.",
   "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
+    "canAttackActiveCharacters",
+    "activateMain",
+    "oncePerTurn"
   ],
-  "trigger": null,
-  "text": "Activate: Main [Once Per Turn] You may return 7 cards from your trash to the bottom of your deck in any order. Set this Character to active. Then, during your next Refresh Phase, this Character cannot be set to active.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "canAttackActiveCharacters",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromTrash",
+        "selector": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "trash"
+          ],
+          "min": 7,
+          "max": 7,
+          "whoChooses": "self",
+          "bindAs": "returnedCards"
+        },
+        "may": true
       },
-      "effect": {
-        "text": "You may return 7 cards from your trash to the bottom of your deck in any order. Set this Character to active. Then, during your next Refresh Phase, this Character cannot be set to active.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "untilStartOfYourNextTurn",
+          "event": "wouldSetActiveDuringRefresh",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "may": false,
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card. The card is marked as a sample."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "dressrosa",
+    "strawHatCrew"
+  ]
 }

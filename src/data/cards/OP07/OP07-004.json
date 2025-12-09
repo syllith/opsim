@@ -1,48 +1,70 @@
 {
-  "id": "OP07-004",
-  "set": "OP07",
-  "number": 4,
-  "name": "Curly Dadan",
-  "category": "Character",
+  "cardName": "Curly Dadan",
+  "cardId": "OP07-004",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 2,
+  "power": 3000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
-    "Mountain bandits"
+    "Mountain Bandits"
   ],
-  "rarity": "C",
-  "art": "/cards/OP07/OP07-004.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "mountainBandits"
   ],
-  "trigger": null,
-  "text": "On Play: You may trash one card from your hand: Look at the top 5 cards of your deck, reveal and add one card with power 2000 or less to your hand. Then, return the rest of the cards to the bottom of your deck.",
+  "rarity": "R",
+  "setId": "OP07",
+  "cardNumber": "004",
+  "printedText": "[On Play] You may trash 1 card from your hand: Look at 5 cards from the top of your deck; reveal up to 1 Character card with 2000 power or less and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash one card from your hand: Look at the top 5 cards of your deck, reveal and add one card with power 2000 or less to your hand. Then, return the rest of the cards to the bottom of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "searchCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 2000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchCharacter",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

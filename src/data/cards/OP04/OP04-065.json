@@ -1,73 +1,105 @@
 {
-  "id": "OP04-065",
-  "set": "OP04",
-  "number": 65,
-  "name": "Miss Golden Week (Marianne)",
-  "category": "Character",
+  "cardName": "Miss Golden Week (Marianne)",
+  "cardId": "OP04-065",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Baroque Works"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-065.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card."
-  },
-  "text": "[On Play] If your Leader's type includes \"Baroque Works\", up to 1 of your opponent's Characters with a cost of 5 or less cannot attack until the start of your next turn.\n[Trigger] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card.",
+  "setId": "OP04",
+  "cardNumber": "065",
+  "printedText": "On Play If your Leader's type includes {Baroque Works}, up to 1 of your opponent's Characters with a cost of 5 or less cannot attack until the start of your next turn.\n\nTrigger DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "baroqueLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Baroque Works"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "baroqueLeader"
+        }
       },
-      "effect": {
-        "text": "If your Leader's type includes \"Baroque Works\", up to 1 of your opponent's Characters with a cost of 5 or less cannot attack until the start of your next turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost5"
-        ],
-        "conditions": [
-          "yourLeader:Baroque Works"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "baroqueLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 5
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "duration": "untilStartOfYourNextTurn",
+          "restrictionKind": "attack"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "Play this card.",
-        "powerMod": null,
-        "targets": [
-          "thisCard"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ]
+          },
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a Character with a cost of 2, power of 3000, and a Counter of 1000. The Trigger effect requires 1 DON!! to be returned from the field to the DON!! deck to play the card."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

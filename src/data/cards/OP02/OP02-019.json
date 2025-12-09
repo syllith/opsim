@@ -1,38 +1,71 @@
 {
-  "id": "OP02-019",
-  "set": "OP02",
-  "number": 19,
-  "name": "Rakuyo",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Rakuyo",
+  "cardId": "OP02-019",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-019.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter", "DON!!", "Your Turn"],
-  "trigger": null,
-  "text": "DON!! x1 Your Turn All of your Characters with {Whitebeard Pirates} in their types gain +1000 Power.",
+  "setId": "OP02",
+  "cardNumber": "019",
+  "printedText": "[DON!! x1] [Your Turn] All of your Characters with {Whitebeard Pirates} in their types gain +1000 Power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "All of your Characters with {Whitebeard Pirates} in their types gain +1000 Power.",
-        "grants": [],
-        "powerMod": { "amount": 1000, "duration": "this turn" },
-        "targets": ["allAllyCharacters:Whitebeard Pirates"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "this.attachedDon",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "filters": [
+              {
+                "field": "typeIncludes",
+                "op": "=",
+                "value": "Whitebeard Pirates"
+              }
+            ],
+            "min": 0,
+            "max": 99,
+            "whoChooses": "system"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

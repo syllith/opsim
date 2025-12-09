@@ -1,52 +1,56 @@
 {
-  "id": "OP08-101",
-  "set": "OP08",
-  "number": 101,
-  "name": "Charlotte Angel",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Big Mom Pirates"
-  ],
+  "cardName": "Charlotte Angel",
+  "cardId": "OP08-101",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-101.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may trash 1 card from the top of your Life cards: If your Leader has the (Big Mom Pirates) type, add up to 1 card from the top of your deck to the top of your Life cards at the end of this turn.",
+  "setId": "OP08",
+  "cardNumber": "101",
+  "printedText": "[Activate: Main] [Once Per Turn] You may trash 1 card from the top of your Life cards: If your Leader has the {Big Mom Pirates} type, add 1 card from the top of your deck to the top of your Life cards at the end of this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "trash",
+        "position": "top",
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from the top of your Life cards: If your Leader has the (Big Mom Pirates) type, add up to 1 card from the top of your deck to the top of your Life cards at the end of this turn.",
-        "powerMod": null,
-        "conditions": [
-          "your Leader has the (Big Mom Pirates) type"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "bigMomPirates"
+          },
+          "actions": [
+            {
+              "type": "replacementEffect",
+              "duration": "thisTurn",
+              "event": "endOfYourTurn",
+              "target": "selfPlayer",
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "selfTopDeckCard",
+                  "destination": "topOfLife",
+                  "ordering": "keep"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample; no additional notes needed."
-  }
+  ]
 }

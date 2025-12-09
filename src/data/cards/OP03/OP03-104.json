@@ -1,72 +1,66 @@
 {
-  "id": "OP03-104",
-  "set": "OP03",
-  "number": 104,
-  "name": "Sharley",
-  "category": "Character",
+  "cardName": "Sharley",
+  "cardId": "OP03-104",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Mermaid"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-104.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "104",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play Look at the top of your or your opponent's Life, and place it at the top or bottom of its owner's Life.",
   "keywords": [
     "Blocker",
     "On Play"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play Look at the top of your or your opponent's Life, and place it at the top or bottom of its owner's Life.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at the top of your or your opponent's Life, and place it at the top or bottom of its owner's Life.",
-        "powerMod": null,
-        "targets": [
-          "yourLife",
-          "opponentLife"
-        ],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "self",
+                  "all": false,
+                  "ordering": "chosen"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "opponent",
+                  "all": false,
+                  "ordering": "chosen"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is visible in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "mermaid"
+  ]
 }

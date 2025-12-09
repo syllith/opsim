@@ -1,52 +1,63 @@
 {
-  "id": "OP11-109",
-  "set": "OP11",
-  "number": 109,
-  "name": "Pappag",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Animal",
-    "Fish-Man Island"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-109.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have a [Camie] in play, draw 2 cards and trash 2 cards from your hand.",
+  "cardName": "Pappag",
+  "cardId": "OP11-109",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Animal", "Fish-Man Island"],
+  "traits": ["animal", "fishManIsland"],
+  "rarity": "C",
+  "setId": "OP11",
+  "cardNumber": "109",
+  "printedText": "[On Play] If you have a [Camie] in play, draw 2 cards and trash 2 cards from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "camieInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 10,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Camie"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If you have a [Camie] in play, draw 2 cards and trash 2 cards from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "have a [Camie] in play"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "camieInPlay",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 2,
+              "side": "self"
+            },
+            {
+              "type": "trashFromHand",
+              "minCards": 2,
+              "maxCards": 2,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

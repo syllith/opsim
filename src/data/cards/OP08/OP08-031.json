@@ -1,48 +1,49 @@
 {
-  "id": "OP08-031",
-  "set": "OP08",
-  "number": 31,
-  "name": "Miyagi",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Minks"
-  ],
+  "cardName": "Miyagi",
+  "cardId": "OP08-031",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Minks"],
+  "traits": ["minks"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-031.png",
-  "stats": {
-    "cost": 3,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Set up to 1 of your cost 2 or lower \"Minks\" type characters active.",
+  "setId": "OP08",
+  "cardNumber": "031",
+  "printedText": "[On Play] Set up to 1 of your cost 2 or lower {Minks} type characters active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "targetMinks": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                { "field": "types", "op": "=", "value": "Minks" },
+                { "field": "cost", "op": "<=", "value": 2 }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to 1 of your cost 2 or lower \"Minks\" type characters active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "targetMinks"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

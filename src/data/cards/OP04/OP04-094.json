@@ -1,72 +1,121 @@
 {
-  "id": "OP04-094",
-  "set": "OP04",
-  "number": 94,
-  "name": "Destructive Sword of Thunder",
-  "category": "Event",
+  "cardName": "Destructive Sword of Thunder",
+  "cardId": "OP04-094",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
-  "types": [],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-094.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "cost": 4,
+  "types": [
+    "Dressrosa"
+  ],
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "094",
+  "printedText": "[Main] Choose up to 1 of your opponent's Characters with a cost of 4 or less and K.O. that Character. If your trash has at least 15 cards, choose a Character with a cost of 6 or less instead.\n[Trigger] You may rest your Leader: K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
   "keywords": [
-    "Main",
-    "Trigger"
+    "main",
+    "trigger"
   ],
-  "trigger": {
-    "text": "You may rest your leader: K.O. up to one of your opponent's cost 5 or lower characters."
-  },
-  "text": "Main Choose up to one of your opponent's cost 4 or lower characters and K.O. that character. If your trash has at least 15 cards, choose a 6 cost or lower character instead.\nTrigger You may rest your leader: K.O. up to one of your opponent's cost 5 or lower characters.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "oppCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                },
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "field": "cost",
+                      "op": "<=",
+                      "value": 6
+                    },
+                    {
+                      "field": "trashCount",
+                      "op": ">=",
+                      "value": 15
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
       },
-      "effect": {
-        "text": "Choose up to one of your opponent's cost 4 or lower characters and K.O. that character. If your trash has at least 15 cards, choose a 6 cost or lower character instead.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4",
-          "oneOpponentCharacter<=cost6"
-        ],
-        "conditions": [
-          "trash>=15"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharacter"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "yourLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "restLeader"
+        },
+        "oppCost5OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
       },
-      "effect": {
-        "text": "You may rest your leader: K.O. up to one of your opponent's cost 5 or lower characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost5"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "restFromField",
+        "selector": "yourLeader",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost5OrLess"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card name is 'Destructive Sword of Thunder' and the artist is Dressrosa. The rarity is C, visible in the bottom right corner. The cost is 4, visible in the top left corner. The attribute is Strike, visible in the top right corner. The card is an Event."
-  }
+  "traits": [
+    "dressrosa"
+  ]
 }

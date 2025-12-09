@@ -1,37 +1,74 @@
 {
-  "id": "OP02-063",
-  "set": "OP02",
-  "number": 63,
-  "name": "Mr.1 (Daz.Bonez)",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Impel Down", "Former Baroque Works"],
-  "rarity": "UG",
-  "art": "/cards/OP02/OP02-063.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Add up to 1 blue Event card with a cost of 1 from your trash to your hand.",
+  "cardName": "Mr.1 (Daz.Bonez)",
+  "cardId": "OP02-063",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "types": [
+    "Impel Down",
+    "Former Baroque Works"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "063",
+  "printedText": "[On Play] Add up to 1 blue Event card with a cost of 1 from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Add up to 1 blue Event card with a cost of 1 from your trash to your hand.",
-        "grants": ["draw"],
-        "powerMod": null,
-        "targets": ["Player"],
-        "conditions": ["blue Event card", "cost 1", "from trash"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "mr1EventFromTrash": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "cardType",
+              "op": "=",
+              "value": "event"
+            },
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "blue"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "mr1EventFromTrash"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "mr1EventFromTrash",
+          "reveal": false,
+          "addTo": "hand",
+          "ordering": "any",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "impelDown",
+    "formerBaroqueWorks"
+  ]
 }

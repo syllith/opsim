@@ -1,34 +1,18 @@
 {
-  "id": "OP11-017",
-  "set": "OP11",
-  "number": 17,
-  "name": "X.Drake",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Navy",
-    "SWORD",
-    "Drake Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-017.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "cardName": "X.Drake",
+  "cardId": "OP11-017",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Navy", "SWORD", "Drake Pirates"],
+  "traits": ["navy", "sword", "drakePirates"],
+  "rarity": "UC",
+  "setId": "OP11",
+  "cardNumber": "017",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "abilities": []
 }

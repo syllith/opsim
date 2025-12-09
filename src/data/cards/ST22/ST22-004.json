@@ -1,36 +1,18 @@
 {
-  "id": "ST22-004",
-  "set": "ST22",
-  "number": 4,
-  "name": "Elmy",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
+  "cardName": "Elmy",
+  "cardId": "ST22-004",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Whitebeard Pirates Allies"],
-  "rarity": "C",
-  "art": "/cards/ST22/ST22-004.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": "Counter +1000",
-  "abilities": [
-    {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Counter +1000",
-        "powerMod": { "amount": 1000, "duration": "this battle" },
-        "targets": ["self"],
-        "conditions": []
-      }
-    }
-  ],
-  "meta": { "notes": null }
+  "traits": ["whitebeardPiratesAllies"],
+  "rarity": "starter",
+  "setId": "ST22",
+  "cardNumber": "004",
+  "printedText": "",
+  "keywords": [],
+  "abilities": []
 }

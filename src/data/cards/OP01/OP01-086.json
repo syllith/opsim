@@ -1,52 +1,105 @@
 {
-  "id": "OP01-086",
-  "set": "OP01",
-  "number": 86,
-  "name": "Overheat",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["The Seven Warlords of the Sea", "Donquixote Pirates"],
+  "cardName": "Overheat",
+  "cardId": "OP01-086",
+  "cardType": "event",
+  "colors": [
+    "blue"
+  ],
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Donquixote Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-086.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": { "text": "Return up to 1 Character with a cost of 4 or less to the owner's hand." },
-  "text": "Counter: Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, return up to 1 active Character with a cost of 3 or less to the owner's hand.\nTrigger: Return up to 1 Character with a cost of 4 or less to the owner's hand.",
+  "setId": "OP01",
+  "cardNumber": "086",
+  "printedText": "[Counter] Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, return up to 1 active Character with a cost of 3 or less to the owner's hand.\n[Trigger] Return up to 1 Character with a cost of 4 or less to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your Leader or up to 1 of your Characters gains +4000 power during this battle. Then, return up to 1 active Character with a cost of 3 or less to the owner's hand.",
-        "grants": [],
-        "powerMod": { "amount": 4000, "duration": "this battle" },
-        "targets": ["ally:Leader", "oneAllyCharacter", "oneActiveCharacter<=3"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "counter",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "leaderOrCharacter",
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "self"
+          }
+        },
+        {
+          "type": "moveCard",
+          "target": {
+            "side": "both",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 3
+              },
+              {
+                "field": "state",
+                "op": "=",
+                "value": "active"
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "destination": "hand",
+          "ordering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Return up to 1 Character with a cost of 4 or less to the owner's hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneCharacter<=4"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": {
+            "side": "both",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 4
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "destination": "hand",
+          "ordering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "donquixotePirates"
+  ]
 }

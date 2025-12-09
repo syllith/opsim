@@ -1,76 +1,90 @@
 {
-  "id": "OP14-037",
-  "set": "OP14",
-  "number": 37,
-  "name": "For Fun",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "East Blue",
-    "The Seven Warlords of the Sea"
-  ],
+  "cardName": "For Fun",
+  "cardId": "OP14-037",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 1,
+  "types": ["East Blue", "The Seven Warlords of the Sea"],
+  "traits": ["eastBlue", "theSevenWarlordsOfTheSea"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-037.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main You may rest 3 of your cards: K.O. up to 1 of your opponent's rested Characters with 7000 base power or less. \nCounter Up to 1 of your Leader gains +3000 power during this battle.",
+  "setId": "OP14",
+  "cardNumber": "037",
+  "printedText": "[Main] You may rest 3 of your cards: K.O. up to 1 of your opponent's rested Characters with 7000 base power or less.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restFromField",
+        "selector": "threeCardsToRestForCost",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 3 of your cards: K.O. up to 1 of your opponent's rested Characters with 7000 base power or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter",
-          "oneOpponentCharacter<=cost4"
-        ],
-        "conditions": [
-          "rested"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "threeCardsToRestForCost": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "character", "stage", "costArea"],
+          "min": 3,
+          "max": 3,
+          "whoChooses": "self"
+        },
+        "opponentRestedBase7000OrLessUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "state",
+                  "op": "=",
+                  "value": "rested"
+                },
+                {
+                  "field": "basePower",
+                  "op": "<=",
+                  "value": 7000
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentRestedBase7000OrLessUpToOne"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "selfLeaderUpToOne": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "oneLeader"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "selfLeaderUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

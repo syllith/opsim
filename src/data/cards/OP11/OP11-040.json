@@ -1,46 +1,55 @@
 {
-  "id": "OP11-040",
-  "set": "OP11",
-  "number": 40,
-  "name": "Monkey.D.Luffy",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-040.png",
-  "stats": {
-    "cost": 3,
-    "power": 6000,
-    "life": 3,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "OP11-040",
+  "cardType": "leader",
+  "colors": ["blue", "purple"],
+  "power": 6000,
+  "life": 3,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "L",
+  "setId": "OP11",
+  "cardNumber": "040",
+  "printedText": "You may activate this effect at the start of your turn. If you have 8 or more DON!! cards on your field, look at 5 cards from the top of your deck; reveal up to 1 {Straw Hat Crew} type card and add it to your hand. Then, place the remaining cards at the top or bottom of your deck in any order.",
   "keywords": [],
-  "trigger": null,
-  "text": "You may activate this effect at the start of your turn. If you have 8 or more DON!! cards on the field, look at the top 5 cards of your deck, reveal up to 1 (Straw Hat Crew) type card and add it to your hand. Then, place the remaining cards at the top or bottom of your deck in any order.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 8,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "startOfYourTurn",
+      "condition": {
+        "field": "selfDonOnFieldCount",
+        "op": ">=",
+        "value": 8
       },
-      "effect": {
-        "text": "If you have 8 or more DON!! cards on the field, look at the top 5 cards of your deck, reveal up to 1 (Straw Hat Crew) type card and add it to your hand. Then, place the remaining cards at the top or bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": ["deck"],
+            "filters": [
+              {
+                "field": "traits",
+                "op": "=",
+                "value": "strawHatCrew"
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "topOrBottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,48 +1,49 @@
 {
-  "id": "OP06-087",
-  "set": "OP06",
-  "number": 87,
-  "name": "Cerberus",
-  "category": "Character",
+  "cardName": "Cerberus",
+  "cardId": "OP06-087",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 2000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Thriller Bark Pirates"
   ],
+  "traits": [
+    "thrillerBarkPirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP06/OP06-087.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP06",
+  "cardNumber": "087",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "keywords": [
     "Blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "abilities": [
     {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

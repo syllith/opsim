@@ -1,63 +1,66 @@
 {
-  "id": "PRB02-006",
-  "set": "PRB02",
-  "number": 6,
-  "name": "Marco",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Land of Wano",
-    "Former Whitebeard Pirates"
-  ],
-  "rarity": "SR",
-  "art": "/cards/PRB02/PRB02-006.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. Draw 2 cards.",
+  "cardName": "Roronoa Zoro",
+  "cardId": "PRB02-006",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Supernovas", "Straw Hat Crew"],
+  "traits": ["supernovas", "strawHatCrew"],
+  "rarity": "R",
+  "setId": "PRB02",
+  "cardNumber": "006",
+  "printedText": "[Opponent's Turn] If this Character would be rested by your opponent's effects, you may rest 1 of your other Characters instead.\nBlocker",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "otherCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "isThisCard",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "beforeThisRestedByOpponentsEffect",
+          "target": "thisCard",
+          "may": true,
+          "cost": {
+            "type": "restFromField",
+            "selector": "otherCharacters",
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

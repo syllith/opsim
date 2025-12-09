@@ -1,66 +1,80 @@
 {
-  "id": "OP06-043",
-  "set": "OP06",
-  "number": 43,
-  "name": "Aramaki",
-  "category": "Character",
+  "cardName": "Aramaki",
+  "cardId": "OP06-043",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Special",
+  "cost": 8,
+  "power": 8000,
+  "life": 0,
+  "counter": 0,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Navy"
   ],
-  "rarity": "SR",
-  "art": "/cards/OP06/OP06-043.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "Activate: Main",
-    "Once Per Turn"
+  "traits": [
+    "navy"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nActivate: Main Once Per Turn Discard one card from your hand and return 1 cost 2 or lower character to the bottom of its owner's deck. This character gains +3000 power for this turn.",
+  "rarity": "SR",
+  "setId": "OP06",
+  "cardNumber": "043",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nActivate: Main Once Per Turn You may trash 1 card from your hand and place 1 Character with a cost of 2 or less at the bottom of the owner's deck: This Character gains +3000 power during this turn.",
+  "keywords": [
+    "Blocker"
+  ],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          },
+          {
+            "type": "bottomDeckFromField",
+            "selector": {
+              "side": "both",
+              "type": "character",
+              "zones": [
+                "character"
+              ],
+              "filters": [
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 2
+                }
+              ],
+              "min": 1,
+              "max": 1,
+              "whoChooses": "self"
+            }
+          }
+        ]
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Discard one card from your hand and return 1 cost 2 or lower character to the bottom of its owner's deck. This character gains +3000 power for this turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

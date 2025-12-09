@@ -1,54 +1,66 @@
 {
-  "id": "OP04-041",
-  "set": "OP04",
-  "number": 41,
-  "name": "Apis",
-  "category": "Character",
+  "cardName": "Apis",
+  "cardId": "OP04-041",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
   "types": [
     "East Blue"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-041.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play You may trash 2 cards in your hand: Look at the top 5 cards of your deck, reveal up to 1 card with the \"East Blue\" type and add it to your hand. Place the remaining cards at the bottom of your deck in any order.",
+  "setId": "OP04",
+  "cardNumber": "041",
+  "printedText": "[On Play] You may trash 2 cards in your hand: Look at the top 5 cards of your deck, reveal up to 1 card with the \"East Blue\" type and add it to your hand. Place the remaining cards at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 2 cards in your hand: Look at the top 5 cards of your deck, reveal up to 1 card with the \"East Blue\" type and add it to your hand. Place the remaining cards at the bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": [
-          "oneCardWithEastBlueType"
-        ],
-        "conditions": [
-          "2CardsInHand"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "deck"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "hasType",
+                "op": "=",
+                "value": "East Blue"
+              }
+            ]
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

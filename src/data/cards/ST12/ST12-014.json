@@ -1,50 +1,44 @@
 {
-  "id": "ST12-014",
-  "set": "ST12",
-  "number": 14,
-  "name": "Duval",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
+  "cardName": "Duval",
+  "cardId": "ST12-014",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Flying Fish Riders"],
+  "traits": ["flyingFishRiders"],
   "rarity": "C",
-  "art": "/cards/ST12/ST12-014.png",
-  "stats": {
-    "cost": 2,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On Play Look at 3 cards from the top of your deck and place them at the top or bottom of the deck in any order.",
+  "setId": "ST12",
+  "cardNumber": "014",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Look at 3 cards from the top of your deck and place them at the top or bottom of the deck in any order.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentAttackDeclared"],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at 3 cards from the top of your deck and place them at the top or bottom of the deck in any order.",
-        "powerMod": null,
-        "targets": ["self:deckTop3", "self:deckTopOrBottom"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "top3Look": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 0,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top3Look",
+          "reveal": false,
+          "addTo": "topOfDeck",
+          "topCount": 3,
+          "moveRemainingTo": "topOrBottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,53 +1,96 @@
 {
-  "id": "OP12-028",
-  "set": "OP12",
-  "number": 28,
-  "name": "Kouzuki Hiyori",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Land of Wano",
-    "Kouzuki Clan"
-  ],
+  "cardName": "Kouzuki Hiyori",
+  "cardId": "OP12-028",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Land of Wano", "Kouzuki Clan"],
+  "traits": ["landOfWano", "kouzukiClan"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-028.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest 1 DON!! card and this Character: If your Leader is [Roronoa Zoro], look at the top 5 cards of your deck, reveal up to 1 <Slash> attribute card or a green Event card and add it to your hand. Then, place the rest to the bottom of your deck in any order.",
+  "setId": "OP12",
+  "cardNumber": "028",
+  "printedText": "[Activate: Main] You may rest 1 DON!! card and this Character: If your Leader is [Roronoa Zoro], look at the top 5 cards of your deck, reveal up to 1 <Slash> attribute card or a green Event card and add it to your hand. Then, place the rest to the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "If your Leader is [Roronoa Zoro], look at the top 5 cards of your deck, reveal up to 1 <Slash> attribute card or a green Event card and add it to your hand. Then, place the rest to the bottom of your deck in any order.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Roronoa Zoro]"
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          }
         ],
-        "giveDon": null
-      }
+        "may": true
+      },
+      "selectors": {
+        "searchHit": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "attributes",
+                  "op": "=",
+                  "value": "slash"
+                },
+                {
+                  "logic": "AND",
+                  "all": [
+                    {
+                      "field": "cardType",
+                      "op": "=",
+                      "value": "event"
+                    },
+                    {
+                      "field": "colors",
+                      "op": "=",
+                      "value": "green"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderName",
+            "op": "=",
+            "value": "Roronoa Zoro"
+          },
+          "actions": [
+            {
+              "type": "search",
+              "sourceZone": "deck",
+              "selector": "searchHit",
+              "reveal": true,
+              "addTo": "hand",
+              "ordering": "any",
+              "topCount": 5,
+              "moveRemainingTo": "bottomOfDeck",
+              "remainingOrdering": "chosen"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

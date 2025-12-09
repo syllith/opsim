@@ -1,64 +1,95 @@
 {
-  "id": "OP05-058",
-  "set": "OP05",
-  "number": 58,
-  "name": "It's a Waste of Human Life!",
-  "category": "Event",
+  "cardName": "It's a Waste of Human Life!",
+  "cardId": "OP05-058",
+  "cardType": "event",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 8,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Navy"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-058.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Place all cost 2 or less characters on the bottom of their owner's decks."
-  },
-  "text": "Main: Place all cost 3 or lower characters on the bottom of their owner's decks. Then, until there are 5 cards in each players' hands, discard cards.",
+  "setId": "OP05",
+  "cardNumber": "058",
+  "printedText": "[Main] Place all cost 3 or lower Characters on the bottom of their owners' decks. Then, until there are 5 cards in each player's hand, discard cards.\n[Trigger] Place all cost 2 or lower Characters on the bottom of their owners' decks.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "allCost3Chars": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "upTo": true,
+          "whoChooses": "system",
+          "bindAs": "allCost3Chars"
+        }
       },
-      "effect": {
-        "text": "Place all cost 3 or lower characters on the bottom of their owner's decks. Then, until there are 5 cards in each players' hands, discard cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "allCost3Chars",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        },
+        {
+          "type": "setHandSizeMax",
+          "side": "both",
+          "maxCount": 5
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "allCost2Chars": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "upTo": true,
+          "whoChooses": "system",
+          "bindAs": "allCost2Chars"
+        }
       },
-      "effect": {
-        "text": "Place all cost 2 or less characters on the bottom of their owner's decks.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "allCost2Chars",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "navy"
+  ]
 }

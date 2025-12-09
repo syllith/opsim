@@ -1,37 +1,125 @@
 {
-  "id": "OP02-062",
-  "set": "OP02",
-  "number": 62,
-  "name": "Monkey. D. Luffy",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["Impel Down", "Straw Hat Crew"],
+  "cardName": "Monkey. D. Luffy",
+  "cardId": "OP02-062",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "types": [
+    "Impel Down",
+    "Straw Hat Crew"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP02/OP02-062.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "When Attacking", "Double Attack"],
-  "trigger": null,
-  "text": "On Play / When Attacking: You may trash 2 cards from your hand: Return up to 1 Character with a cost of 4 or less to the owner's hand. Then, this Character gains Double Attack during this turn.",
+  "setId": "OP02",
+  "cardNumber": "062",
+  "printedText": "[On Play] / [When Attacking] You may trash 2 cards from your hand: Return up to 1 Character with a cost of 4 or less to the owner's hand. Then, this Character gains [Double Attack] during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play / When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 2 cards from your hand: Return up to 1 Character with a cost of 4 or less to the owner's hand. Then, this Character gains Double Attack during this turn.",
-        "grants": ["Double Attack", "trash"],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["cost 4 or less"]
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "may": true
+      },
+      "selectors": {
+        "luffyBounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "luffyBounceTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "luffyBounceTarget",
+          "destination": "hand",
+          "ordering": "keep"
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Double Attack",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "whenAttacking",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "may": true
+      },
+      "selectors": {
+        "luffyBounceTargetAtk": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "luffyBounceTargetAtk"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "luffyBounceTargetAtk",
+          "destination": "hand",
+          "ordering": "keep"
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Double Attack",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "impelDown",
+    "strawHatCrew"
+  ]
 }

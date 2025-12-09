@@ -1,47 +1,74 @@
 {
-  "id": "P-066",
-  "set": "P",
-  "number": 66,
-  "name": "Boa Hancock",
-  "category": "Character",
+  "cardName": "Boa Hancock",
+  "cardId": "P-066",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Seven Warlords of the Sea",
     "Kuja Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/P/P-066.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "kujaPirates"
+  ],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-066",
+  "printedText": "[Your Turn] If your hand has 5 or fewer cards in it, your Characters with the type {Kuja Pirates} all gain +1000 power.",
   "keywords": [],
-  "trigger": null,
-  "text": "Your Turn: If your hand has 5 or less cards in it, your characters with the type (Kuja Pirates) all have +1000 power.",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isYourTurn",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "handSize",
+            "op": "<=",
+            "value": 5
+          }
+        ]
       },
-      "effect": {
-        "text": "If your hand has 5 or less cards in it, your characters with the type (Kuja Pirates) all have +1000 power.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "yourKujaPirates": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "kujaPirates"
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "yourKujaPirates"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

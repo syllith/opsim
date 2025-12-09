@@ -1,52 +1,54 @@
 {
-  "id": "OP10-066",
-  "set": "OP10",
-  "number": 66,
-  "name": "Giolla",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "Donquixote Pirates"
-  ],
-  "rarity": "L",
-  "art": "/cards/OP10/OP10-066.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "When Opponent Attack",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "When opponent attack Once Per Turn You may rest 2 of your DON!! Rest up to 1 of your opponent's Characters with a cost of 4 or lower.",
+  "cardName": "Giolla",
+  "cardId": "OP10-066",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "066",
+  "printedText": "[When your opponent attacks] [Once Per Turn] You may rest 2 of your DON!!: Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Opponent Attack",
-      "frequency": "Once Per Turn",
-      "donReq": 2,
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restDonFromCostArea",
+        "count": 2,
+        "may": true
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's Characters with a cost of 4 or lower.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCost4OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppCost4OrLessChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCost4OrLessChar"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample with 'SAMPLE' watermark. Rarity is 'L' as printed in the bottom right corner."
-  }
+  ]
 }

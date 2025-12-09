@@ -1,37 +1,68 @@
 {
-  "id": "OP02-044",
-  "set": "OP02",
-  "number": 44,
-  "name": "Wanda",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Mink Tribe"],
+  "cardName": "Wanda",
+  "cardId": "OP02-044",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Minks"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-044.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: Play up to 1 {Mink Tribe} type Character card other than [Wanda] with a cost of 3 or less from your hand.",
+  "setId": "OP02",
+  "cardNumber": "044",
+  "printedText": "[On Play] Play up to 1 {Minks} Character other than [Wanda] with a cost of 3 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 {Mink Tribe} type Character card other than [Wanda] with a cost of 3 or less from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["Mink Tribe type", "other than Wanda", "cost 3 or less"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "wandaOnPlayTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Minks"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Wanda"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "wandaPlayFromHand"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "wandaOnPlayTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "minks"
+  ]
 }

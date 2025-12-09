@@ -1,53 +1,54 @@
 {
-  "id": "OP03-102",
-  "set": "OP03",
-  "number": 102,
-  "name": "Sanji",
-  "category": "Character",
+  "cardName": "Sanji",
+  "cardId": "OP03-102",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "counter": 2000,
   "types": [
     "Vinsmoke Family"
   ],
   "rarity": "R",
-  "art": "/cards/OP03/OP03-102.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "102",
+  "printedText": "[DON!! x2] [When Attacking] You may add the top or bottom card of your Life to your hand: Add up to 1 card from the top of your deck to your Life.",
   "keywords": [
+    "DON!! x2",
     "When Attacking"
   ],
-  "trigger": null,
-  "text": "DON!! x2 When Attacking: You may add the top or bottom card of your Life to your hand: Add up to 1 card from the top of your deck to your Life.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "donAttached",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "You may add the top or bottom card of your Life to your hand: Add up to 1 card from the top of your deck to your Life.",
-        "powerMod": null,
-        "targets": [
-          "yourLife",
-          "topOrBottomCardOfYourLife",
-          "topCardOfYourDeck"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "may": true,
+        "position": "topOrBottom"
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "life",
+          "may": true,
+          "target": "selfTopDeckCard"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'R' in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "vinsmokeFamily"
+  ]
 }

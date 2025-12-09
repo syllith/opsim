@@ -1,64 +1,89 @@
 {
-  "id": "OP09-106",
-  "set": "OP09",
-  "number": 106,
-  "name": "Nico Olvia",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Ohara"
-  ],
+  "cardName": "Nico Olivia",
+  "cardId": "OP09-106",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Ohara"],
+  "traits": ["ohara"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-106.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "If your leader is \"Nico Robin\", draw 3 cards, then discard 2 cards."
-  },
-  "text": "On Play: Give up to 1 of your leader \"Nico Robin\" Power +3000 for the turn. Trigger: If your leader is \"Nico Robin\", draw 3 cards, then discard 2 cards.",
+  "setId": "OP09",
+  "cardNumber": "106",
+  "printedText": "[On Play] Give up to 1 of your Leader \"Nico Robin\" +3000 power during this turn.\n[Trigger] If your Leader is \"Nico Robin\", draw 3 cards, then discard 2 cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "leaderNicoRobin": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Nico Robin"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your leader \"Nico Robin\" Power +3000 for the turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisTurn",
+          "target": "leaderNicoRobin"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "leaderNicoRobin": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Nico Robin"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your leader is \"Nico Robin\", draw 3 cards, then discard 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderNicoRobin",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 3,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "side": "self",
+          "minCards": 2,
+          "maxCards": 2
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

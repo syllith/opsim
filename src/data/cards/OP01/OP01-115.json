@@ -1,57 +1,84 @@
 {
-  "id": "OP01-115",
-  "set": "OP01",
-  "number": 115,
-  "name": "Elephant's Marchoo",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Animal Kingdom Pirates", "Smile"],
+  "cardName": "Elephant's Marchoo",
+  "cardId": "OP01-115",
+  "cardType": "event",
+  "colors": [
+    "purple"
+  ],
+  "cost": 4,
+  "types": [
+    "Animal Kingdom Pirates",
+    "Smile"
+  ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-115.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Activate this card's Main effect." },
-  "text": "Main K.O. up to 1 of your opponent's Characters with a cost of 2 or less, then add 1 DON!! card from your DON!! deck and set it as active. Trigger Activate this card's Main effect.",
+  "setId": "OP01",
+  "cardNumber": "115",
+  "printedText": "[Main] K.O. up to 1 of your opponent's Characters with a cost of 2 or less, then add 1 DON!! card from your DON!! deck and set it as active.\n[Trigger] Activate this card's [Main] effect.",
+  "keywords": [
+    "main",
+    "trigger"
+  ],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 2 or less, then add 1 DON!! card from your DON!! deck and set it as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=2"],
-        "conditions": [],
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "costArea",
-          "to": ["field"]
+      "timing": "main",
+      "selectors": {
+        "cost2OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "donTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 0
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "cost2OrLess"
+        },
+        {
+          "type": "giveDon",
+          "count": 1,
+          "target": "donTarget"
+        },
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["activateMainEffect"],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "animalKingdomPirates",
+    "smile"
+  ]
 }

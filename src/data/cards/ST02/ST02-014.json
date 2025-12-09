@@ -1,37 +1,92 @@
 {
-  "id": "ST02-014",
-  "set": "ST02",
-  "number": 14,
-  "name": "X.Drake",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
+  "cardName": "X.Drake",
+  "cardId": "ST02-014",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Navy", "Supernovas", "Drake Pirates"],
-  "rarity": null,
-  "art": "/cards/ST02/ST02-014.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["navy", "supernovas", "drakePirates"],
+  "rarity": "common",
+  "setId": "ST02",
+  "cardNumber": "014",
+  "printedText": "[DON!! x1] [Your Turn] If this Character is rested, your {Supernovas} or {Navy} type Leaders and Characters gain +1000 power.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 — Your Turn: If this Character is rested, your {Supernovas} or {Navy} type Leaders and Characters gain +1000 power.",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If this Character is rested, your {Supernovas} or {Navy} type Leaders and Characters gain +1000 power.",
-        "grants": [],
-        "powerMod": { "amount": 1000, "duration": "your turn" },
-        "targets": ["ally:LeaderType(Supernovas|Navy)", "ally:CharacterType(Supernovas|Navy)"],
-        "conditions": ["selfRested"]
-      }
+      "timing": "static",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "givenDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "selectorCount",
+            "selector": "restedThisCard",
+            "op": ">=",
+            "value": 1
+          }
+        ]
+      },
+      "selectors": {
+        "restedThisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "supernovaOrNavyLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "supernovas"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "navy"
+                }
+              ]
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "supernovaOrNavyLeaderOrCharacter"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

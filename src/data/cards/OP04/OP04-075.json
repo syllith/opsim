@@ -1,84 +1,89 @@
 {
-  "id": "OP04-075",
-  "set": "OP04",
-  "number": 75,
-  "name": "Nose Fancy Cannon",
-  "category": "Event",
+  "cardName": "Nose Fancy Cannon",
+  "cardId": "OP04-075",
+  "cardType": "event",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 3,
   "types": [
     "Baroque Works"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-075.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "075",
+  "printedText": "[Counter] Give up to 1 of your Leaders or Characters +6000 Power for this battle. Then, if your Life is 2 or less, add up to 1 DON!! card from your DON!! deck and set it as rested.\n[Trigger] Add up to 1 DON!! card from your DON!! deck and set it as active.",
   "keywords": [
-    "Counter",
-    "Trigger"
+    "counter",
+    "trigger"
   ],
-  "trigger": {
-    "text": "Add up to 1 DON!! from your DON!! deck set as active."
-  },
-  "text": "#Counter Give up to 1 of your leaders or characters +6000 Power for this battle. Then, if your life is 2 or less, add up to 1 DON!! from your DON!! deck set as rested.\n\nTrigger Add up to 1 DON!! from your DON!! deck set as active.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "ownLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "buffTarget"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your leaders or characters +6000 Power for this battle. Then, if your life is 2 or less, add up to 1 DON!! from your DON!! deck set as rested.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 6000,
-          "duration": "this battle"
+          "duration": "thisBattle",
+          "target": "ownLeaderOrCharacter"
         },
-        "targets": [
-          "oneAllyLeader",
-          "oneAllyCharacter"
-        ],
-        "conditions": [
-          "life<=2"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "target": {
+            "side": "self",
+            "type": "don",
+            "zones": [
+              "costArea"
+            ]
+          },
+          "may": true,
+          "condition": {
+            "field": "self.life",
+            "op": "<=",
+            "value": 2
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Add up to 1 DON!! from your DON!! deck set as active.",
-        "powerMod": null,
-        "targets": [
-          "active"
-        ],
-        "giveDon": {
-          "quantity": 1,
-          "state": "active",
-          "from": "donDeck",
-          "to": [
-            "active"
-          ]
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "target": {
+            "side": "self",
+            "type": "don",
+            "zones": [
+              "costArea"
+            ]
+          },
+          "may": true
         }
-      }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
-  }
+  "traits": [
+    "baroqueWorks"
+  ]
 }

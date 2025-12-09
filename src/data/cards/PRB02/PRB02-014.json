@@ -1,61 +1,60 @@
 {
-  "id": "PRB02-014",
-  "set": "PRB02",
-  "number": 14,
-  "name": "Sabo",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
+  "cardName": "Sabo",
+  "cardId": "PRB02-014",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 6,
+  "power": 6000,
+  "counter": 2000,
+  "attributes": ["special"],
   "types": [
-    "Dressrosa/Revolutionary Army"
+    "Dressrosa",
+    "Revolutionary Army"
   ],
-  "rarity": "SP",
-  "art": "/cards/PRB02/PRB02-014.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Blocker"
+  "traits": [
+    "dressrosa",
+    "revolutionaryArmy"
   ],
-  "trigger": null,
-  "text": "If you have 15 or more cards in your trash, give this card in your hand -6 cost.\nBlocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "setId": "PRB02",
+  "cardNumber": "014",
+  "printedText": "If you have 15 or more cards in your trash, give this card in your hand -3 cost.\n[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfTrashCards",
+        "op": ">=",
+        "value": 15
       },
-      "effect": {
-        "text": "If you have 15 or more cards in your trash, give this card in your hand -6 cost.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "selfTrashCards": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "whoChooses": "system"
+        },
+        "thisCardInHand": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -3,
+          "duration": "permanent",
+          "target": "thisCardInHand"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "alsoTreatedAsNames": []
 }

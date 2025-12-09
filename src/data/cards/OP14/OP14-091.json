@@ -1,48 +1,108 @@
 {
-  "id": "OP14-091",
-  "set": "OP14",
-  "number": 91,
-  "name": "Mr.2.Bon.Kurei(Bentham)",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Baroque Works"
-  ],
+  "cardName": "Mr.2.Bon.Kurei(Bentham)",
+  "cardId": "OP14-091",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Baroque Works"],
+  "traits": ["baroqueWorks"],
   "rarity": "SR",
-  "art": "/cards/OP14/OP14-091.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. Play up to 1 Character card with a type including \"Baroque Works\" and a cost of 5 or less other than [Mr.2.Bon.Kurei(Bentham)] from your hand or trash.",
+  "setId": "OP14",
+  "cardNumber": "091",
+  "printedText": "[On K.O.] Play up to 1 Character card with a type including \"Baroque Works\" and a cost of 5 or less other than [Mr.2.Bon.Kurei(Bentham)] from your hand or trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "handBaroqueCost5OrLessNotSelf": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "baroqueWorks"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Mr.2.Bon.Kurei(Bentham)"
+            }
+          ]
+        },
+        "trashBaroqueCost5OrLessNotSelf": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "baroqueWorks"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Mr.2.Bon.Kurei(Bentham)"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Play up to 1 Character card with a type including \"Baroque Works\" and a cost of 5 or less other than [Mr.2.Bon.Kurei(Bentham)] from your hand or trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "playCard",
+                  "sourceZone": "hand",
+                  "target": "handBaroqueCost5OrLessNotSelf",
+                  "payCost": false,
+                  "may": true
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "playCard",
+                  "sourceZone": "trash",
+                  "target": "trashBaroqueCost5OrLessNotSelf",
+                  "payCost": false,
+                  "may": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

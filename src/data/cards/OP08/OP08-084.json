@@ -1,0 +1,82 @@
+{
+  "cardName": "Jack",
+  "cardId": "OP08-084",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 7,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Animal Kingdom Pirates"],
+  "traits": ["animalKingdomPirates"],
+  "rarity": "SR",
+  "setId": "OP08",
+  "cardNumber": "084",
+  "printedText": "This Character gains +4 cost. [Activate: Main] You may rest this Character: Draw 1 card and trash 1 card from your hand. Then, K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "static",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 4,
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "activateMain",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "side": "self",
+          "minCards": 1,
+          "maxCards": 1,
+          "condition": {
+            "field": "selfHandSize",
+            "op": ">",
+            "value": 0
+          }
+        },
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
+    }
+  ]
+}

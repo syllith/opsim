@@ -1,49 +1,73 @@
 {
-  "id": "P-082",
-  "set": "P",
-  "number": 82,
-  "name": "Crocodile",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Cross Guild",
-    "Former Baroque Works"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-082.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "During Your Turn On Play: If your leader's type includes (Cross-guild) or (Baroque Works), place up to one of your opponents power 2000 or lower characters on the bottom of its owner's deck.",
+  "cardName": "Crocodile",
+  "cardId": "P-082",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Cross Guild", "Former Baroque Works"],
+  "traits": ["crossGuild", "formerBaroqueWorks"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-082",
+  "printedText": "[During Your Turn] [On Play] If your Leader's type includes {Cross Guild} or {Baroque Works}, place up to 1 of your opponent's Characters with 2000 power or less at the bottom of its owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isYourTurn",
+            "op": "=",
+            "value": true
+          },
+          {
+            "logic": "OR",
+            "any": [
+              {
+                "field": "leaderTraits",
+                "op": "=",
+                "value": "crossGuild"
+              },
+              {
+                "field": "leaderTraits",
+                "op": "=",
+                "value": "baroqueWorks"
+              }
+            ]
+          }
+        ]
       },
-      "effect": {
-        "text": "If your leader's type includes (Cross-guild) or (Baroque Works), place up to one of your opponents power 2000 or lower characters on the bottom of its owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentLowPowerCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 2000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentLowPowerCharacter",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,65 +1,90 @@
 {
-  "id": "OP14-029",
-  "set": "OP14",
-  "number": 29,
-  "name": "Tashigi",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Navy"
-  ],
+  "cardName": "Tashigi",
+  "cardId": "OP14-029",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Navy"],
+  "traits": ["navy"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-029.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Opponent's Turn: If this Character would be removed from the field by your opponent's effect, you may rest 1 of your cards instead.\nActivate: Main Once Per Turn: You may rest 2 of your cards: This Character gains +2000 power until the end of your opponent's next End Phase.",
+  "setId": "OP14",
+  "cardNumber": "029",
+  "printedText": "[Opponent's Turn] If this Character would be removed from the field by your opponent's effect, you may rest 1 of your cards instead.\n[Activate:Main] [Once Per Turn] You may rest 2 of your cards: This Character gains +2000 power until the end of your opponent's next End Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "selectors": {
+        "cardToRestInstead": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "character", "stage", "costArea"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If this Character would be removed from the field by your opponent's effect, you may rest 1 of your cards instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "thisCardWouldBeRemovedFromFieldByOpponentsEffect",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          },
+          "may": true,
+          "condition": {
+            "field": "isOpponentsTurn",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": "cardToRestInstead"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 2
+        "type": "restFromField",
+        "selector": "twoCardsToRestForCost",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 2 of your cards: This Character gains +2000 power until the end of your opponent's next End Phase.",
-        "powerMod": {
+      "selectors": {
+        "twoCardsToRestForCost": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "character", "stage", "costArea"],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "until the end of your opponent's next End Phase"
-        },
-        "giveDon": null
-      }
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

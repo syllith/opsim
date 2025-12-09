@@ -1,66 +1,96 @@
 {
-  "id": "OP08-111",
-  "set": "OP08",
-  "number": 111,
-  "name": "S-Shark",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Egghead",
-    "Seraphim"
-  ],
-  "rarity": "US",
-  "art": "/cards/OP08/OP08-111.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "When Attacking",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "You may trash 1 card from your hand: if you have 2 or less Life cards, play this card."
-  },
-  "text": "DON!!x1 When Attacking Your opponent cannot activate during this battle. Trigger You may trash 1 card from your hand: if you have 2 or less Life cards, play this card.",
+  "cardName": "S-Shark",
+  "cardId": "OP08-111",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Egghead", "Seraphim"],
+  "traits": ["egghead", "seraphim"],
+  "rarity": "UC",
+  "setId": "OP08",
+  "cardNumber": "111",
+  "printedText": "[DON!! x1] [When Attacking] Your opponent cannot activate [Blocker] during this battle.\n[Trigger] You may trash 1 card from your hand: If you have 2 or less Life cards, play this card.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "attachedDonToThis",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Your opponent cannot activate during this battle.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "attachedDonToThis": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "attachedTo",
+              "op": "=",
+              "value": "thisCard"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "opponentBlockers": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "field": "hasKeyword",
+              "op": "=",
+              "value": "Blocker"
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "blocker",
+          "target": "opponentBlockers",
+          "duration": "thisBattle"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: if you have 2 or less Life cards, play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfLifeCount",
+            "op": "<=",
+            "value": 2
+          },
+          "actions": [
+            {
+              "type": "playCard",
+              "sourceZone": "life",
+              "target": "selfTriggerSourceCard",
+              "payCost": false
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and 'SPECIAL' on image; these are not part of the card's official printed data and are ignored. Rarity is 'US' as printed in the bottom right corner."
-  }
+  ]
 }

@@ -1,23 +1,97 @@
 {
-  "id": "OP02-046",
-  "set": "OP02",
-  "number": 46,
-  "name": "Diable Jambe Venaisson Shoot",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["FILM", "Straw Hat Crew"],
-  "rarity": "UG",
-  "art": "/cards/OP02/OP02-046.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Play up to 1 Character with a cost of 4 or less without an effect from your hand." },
-  "text": "Main: K.O. up to 1 of your opponent’s rested Characters with a cost of 4 or less.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "cardName": "Diable Jambe Venaison Shoot",
+  "cardId": "OP02-046",
+  "cardType": "event",
+  "colors": [
+    "green"
+  ],
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "046",
+  "printedText": "[Main] K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less. [Trigger] Play up to 1 Character card with a cost of 4 or less and no base effect from your hand.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "main",
+      "selectors": {
+        "venaisonKoTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "venaisonKoTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "venaisonKoTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "venaisonTriggerPlayTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            },
+            {
+              "field": "hasEffectText",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "venaisonPlayFromHand"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "venaisonTriggerPlayTarget"
+        }
+      ]
+    }
+  ],
+  "traits": [
+    "film",
+    "strawHatCrew"
+  ]
 }

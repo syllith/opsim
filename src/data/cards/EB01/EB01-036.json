@@ -1,50 +1,77 @@
 {
-  "id": "EB01-036",
-  "set": "EB01",
-  "number": 36,
-  "name": "Minochihuahua",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Impel Down", "Jailer Beast"],
-  "rarity": "C",
-  "art": "/cards/EB01/EB01-036.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Rush", "On K.O."],
-  "trigger": null,
-  "text": "[Rush] (This card can attack on the turn in which it is played.)\n[On K.O.] If your Leader has the {Impel Down} type, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "power": 5000,
+  "cardType": "character",
+  "attributes": [
+    "strike"
+  ],
+  "cardId": "EB01-036",
+  "printedText": "[Rush]\n[On K.O.] If your Leader has the {Impel Down} type, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "types": [
+    "Impel Down",
+    "Jailer Beast"
+  ],
+  "cardNumber": "036",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This card can attack on the turn in which it is played.",
-        "grants": ["Rush"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
-    },
-    {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Impel Down} type, add up to 1 DON!! card from your DON!! deck and rest it.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["don"],
-        "conditions": ["leaderTypeImpelDown"]
-      }
+      "condition": {
+        "value": "Impel Down",
+        "field": "leader.types",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "onKO",
+      "actions": [
+        {
+          "count": 1,
+          "type": "giveDon",
+          "target": {
+            "bindAs": "generatedDon",
+            "zones": [
+              "costArea"
+            ],
+            "upTo": true,
+            "min": 1,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "system"
+          }
+        },
+        {
+          "type": "setState",
+          "target": {
+            "filters": [
+              {
+                "value": "generatedDon",
+                "field": "bindAs",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "costArea"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "state": "rested"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Minochihuahua",
+  "rarity": "C",
+  "cost": 4,
+  "colors": [
+    "purple"
+  ],
+  "traits": [
+    "impelDown",
+    "jailerBeast"
+  ]
 }

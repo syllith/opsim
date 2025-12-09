@@ -1,54 +1,69 @@
 {
-  "id": "OP04-034",
-  "set": "OP04",
-  "number": 34,
-  "name": "Lao G",
-  "category": "Character",
+  "cardName": "Lao G",
+  "cardId": "OP04-034",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Donquixote Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-034.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On End of Turn"
-  ],
-  "trigger": null,
-  "text": "End of Your Turn If you have 3 or more active DON!!, K.O. up to 1 of your opponent's rested characters of 3 or less.",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "034",
+  "printedText": "[End of Your Turn] If you have 3 or more active DON!!, K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On End of Turn",
-      "frequency": null,
-      "donReq": 3,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "frequency": "none",
+      "condition": {
+        "field": "activeDonInYourCostArea",
+        "op": ">=",
+        "value": 3
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's rested characters of 3 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost3"
-        ],
-        "conditions": [
-          "rested"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "logic": "AND",
+                "all": [
+                  {
+                    "field": "cost",
+                    "op": "<=",
+                    "value": 3
+                  },
+                  {
+                    "field": "state",
+                    "op": "=",
+                    "value": "rested"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is confirmed as 'C' from the bottom right corner of the card."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

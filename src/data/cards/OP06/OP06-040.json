@@ -1,68 +1,72 @@
 {
-  "id": "OP06-040",
-  "set": "OP06",
-  "number": 40,
-  "name": "Shark Arrows",
-  "category": "Event",
+  "cardName": "Shark Arrows",
+  "cardId": "OP06-040",
+  "cardType": "event",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
-    "Fishman",
-    "New Fishman Pirates"
+    "Fish-Man",
+    "New Fish-Man Pirates"
+  ],
+  "traits": [
+    "fishMan",
+    "newFishManPirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP06/OP06-040.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main K.O. up to 2 of your opponent's rested characters with a cost of 3 or less.",
+  "setId": "OP06",
+  "cardNumber": "040",
+  "printedText": "Main K.O. up to 2 of your opponent's rested characters with a cost of 3 or less.\nTrigger Activate this card's Main effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "opponentRestedCharCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "K.O. up to 2 of your opponent's rested characters with a cost of 3 or less.",
-        "powerMod": null,
-        "targets": [
-          "up to 2 of your opponent's rested characters with a cost of 3 or less"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentRestedCharCost3OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

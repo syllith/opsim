@@ -1,49 +1,30 @@
 {
-  "id": "OP04-014",
-  "set": "OP04",
-  "number": 14,
-  "name": "Monkey D. Luffy",
-  "category": "Character",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP04-014",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 8,
+  "power": 9000,
+  "counter": 1000,
   "types": [
     "Alabasta Kingdom",
     "Straw Hat Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-014.png",
-  "stats": {
-    "cost": 8,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "SR",
+  "setId": "OP04",
+  "cardNumber": "014",
+  "printedText": "Banish (When this Character deals damage, the target card is trashed without activating its Trigger.)",
   "keywords": [
-    "Banish"
+    "banish"
   ],
-  "trigger": null,
-  "text": "(Banish) (When a character deals damage, the target card is trashed without activating its Trigger.)",
-  "abilities": [
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "(Banish) (When a character deals damage, the target card is trashed without activating its Trigger.)",
-        "powerMod": null,
-        "giveDon": null
-      }
-    }
+  "abilities": [],
+  "attributes": [
+    "strike"
   ],
-  "meta": {
-    "notes": "Rarity is inferred from the 'C' symbol in the bottom right corner. The card is a sample, so the art path is a placeholder."
-  }
+  "traits": [
+    "alabastaKingdom",
+    "strawHatPirates"
+  ]
 }

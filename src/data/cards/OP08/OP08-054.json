@@ -1,48 +1,79 @@
 {
-  "id": "OP08-054",
-  "set": "OP08",
-  "number": 54,
-  "name": "You Can't Take Our King This Early On",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Whitebeard Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-054.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Counter: Give your leader or up to one of your characters +3000 power for this battle. Then, reveal the top card of your deck and play up to one cost 3 or less character with {Whitebeard Pirates} included in its types. Place the remaining on the top or bottom of your deck.",
+  "cardName": "You Can't Take Our King This Early On",
+  "cardId": "OP08-054",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 3,
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
+  "rarity": "C",
+  "setId": "OP08",
+  "cardNumber": "054",
+  "printedText": "[Counter] Up to 1 of your Leader or Character cards gains +3000 power during this battle. Then, reveal 1 card from the top of your deck and play up to 1 Character card with a type including \"Whitebeard Pirates\" and a cost of 3 or less. Then, place the rest at the top or bottom of your deck.",
+  "keywords": ["Counter"],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "topDeckCandidate": {
+          "side": "self",
+          "type": "character",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 3
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "whitebeardPirates"
+                }
+              ]
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Give your leader or up to one of your characters +3000 power for this battle. Then, reveal the top card of your deck and play up to one cost 3 or less character with {Whitebeard Pirates} included in its types. Place the remaining on the top or bottom of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        },
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "topDeckCandidate",
+          "reveal": true,
+          "addTo": "characterArea",
+          "ordering": "any",
+          "topCount": 1,
+          "moveRemainingTo": "topOrBottomOfDeck",
+          "remainingOrdering": "keep",
+          "asPlay": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

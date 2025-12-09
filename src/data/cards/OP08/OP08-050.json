@@ -1,63 +1,46 @@
 {
-  "id": "OP08-050",
-  "set": "OP08",
-  "number": 50,
-  "name": "Namule",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Fish-man",
-    "Whitebeard Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-050.png",
-  "stats": {
-    "cost": 3,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: Draw two cards, then return two cards from your hand to the top or bottom of the deck in the order of your choice.",
+  "cardName": "Namule",
+  "cardId": "OP08-050",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 3,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Fish-man", "Whitebeard Pirates"],
+  "traits": ["fishMan", "whitebeardPirates"],
+  "rarity": "C",
+  "setId": "OP08",
+  "cardNumber": "050",
+  "printedText": "Blocker\n[On Play] Draw two cards, then return two cards from your hand to the top or bottom of the deck in the order of your choice.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "cardsToReturn": {
+          "side": "self",
+          "type": "hand",
+          "zones": ["hand"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw two cards, then return two cards from your hand to the top or bottom of the deck in the order of your choice.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "moveCard",
+          "target": "cardsToReturn",
+          "destination": "topOrBottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

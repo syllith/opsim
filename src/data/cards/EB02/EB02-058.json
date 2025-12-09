@@ -1,39 +1,67 @@
 {
-  "id": "EB02-058",
-  "set": "EB02",
-  "number": 58,
-  "name": "Us!",
-  "category": "Event",
-  "colors": ["Yellow"],
-  "attribute": null,
-  "types": ["Music"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-058.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": {
-    "text": "Activate this card's [Main] effect."
-  },
-  "text": "[Main] Look at the top 4 cards of your deck, reveal 1 card with a cost of 4 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Trigger] Activate this card's [Main] effect.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top 4 cards of your deck, reveal 1 card with a cost of 4 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "main",
+      "actions": [
+        {
+          "selector": {
+            "filters": [
+              {
+                "value": 4,
+                "field": "cost",
+                "op": ">="
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "any",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 4,
+          "addTo": "hand",
+          "reveal": true,
+          "sourceZone": "deck",
+          "type": "search",
+          "ordering": "chosen",
+          "remainingOrdering": "chosen"
+        }
+      ],
+      "frequency": "none"
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "colors": [
+    "yellow"
+  ],
+  "rarity": "C",
+  "cardName": "Us!",
+  "types": [
+    "Music"
+  ],
+  "printedText": "Main Look at the top 4 cards of your deck, reveal 1 card with a cost of 4 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.\nTrigger Activate this card's Main effect.",
+  "setId": "EB02",
+  "cardType": "event",
+  "cardNumber": "058",
+  "cardId": "EB02-058",
+  "cost": 2,
+  "traits": [
+    "music"
+  ]
 }

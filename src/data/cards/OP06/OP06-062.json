@@ -1,64 +1,112 @@
 {
-  "id": "OP06-062",
-  "set": "OP06",
-  "number": 62,
-  "name": "Vinsmoke Judge",
-  "category": "Character",
+  "cardName": "Vinsmoke Judge",
+  "cardId": "OP06-062",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": "Slash",
+  "cost": 8,
+  "power": 8000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Vinsmoke Family",
     "Germa 66"
   ],
-  "rarity": "SR",
-  "art": "/cards/OP06/OP06-062.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Activate: Main",
-    "Once Per Turn"
+  "traits": [
+    "vinsmokeFamily",
+    "germa66"
   ],
-  "trigger": null,
-  "text": "On Play DON!!-1: You may trash 2 cards from your hand: Play up to 4 (Germa 66) type Character cards with 4000 power or less from your trash with different names. Activate: Main Once Per Turn DON!!-1: Rest up to 1 of your opponent's DON!! cards.",
+  "rarity": "SR",
+  "setId": "OP06",
+  "cardNumber": "062",
+  "printedText": "On Play DON!!-1: You may trash 2 cards from your hand: Play up to 4 {Germa 66} type Character cards with 4000 power or less from your trash with different names.\nActivate: Main Once Per Turn DON!!-1: Rest up to 1 of your opponent's DON!! cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "returnDon",
+            "count": 1
+          },
+          {
+            "type": "trashFromHand",
+            "minCards": 2,
+            "maxCards": 2,
+            "may": true
+          }
+        ]
       },
-      "effect": {
-        "text": "You may trash 2 cards from your hand: Play up to 4 (Germa 66) type Character cards with 4000 power or less from your trash with different names.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "germaTrashChars4000OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "hasTraitGerma66",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 4,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "germaTrashChars4000OrLess",
+          "enterRested": false,
+          "payCost": false,
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's DON!! cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentDon": {
+          "side": "opponent",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,56 +1,61 @@
 {
-  "id": "OP07-106",
-  "set": "OP07",
-  "number": 106,
-  "name": "Fuza",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Animal",
-    "Sky Island"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-106.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!!x1 When Attacking: If you have 1 or less Life cards, K.O. up to 1 of your opponent's Cost 3 or less Characters.",
+  "cardName": "Fuza",
+  "cardId": "OP07-106",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Animal", "Sky Island"],
+  "traits": ["animal", "skyIsland"],
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "106",
+  "printedText": "[DON!! x1] [When Attacking] If you have 1 or less Life cards, K.O. up to 1 of your opponent's cost 3 or less Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isGivenDon",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "selfLife",
+            "op": "<=",
+            "value": 1
+          }
+        ]
       },
-      "effect": {
-        "text": "If you have 1 or less Life cards, K.O. up to 1 of your opponent's Cost 3 or less Characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost3"
-        ],
-        "conditions": [
-          "self",
-          "you have 1 or less Life cards"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCost3OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCost3OrLessCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

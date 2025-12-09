@@ -1,50 +1,95 @@
 {
-  "id": "ST25-005",
-  "set": "ST25",
-  "number": 5,
-  "name": "Mohji",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": null,
+  "cardName": "Mohji",
+  "cardId": "ST25-005",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 1000,
+  "counter": 2000,
+  "attributes": ["wisdom"],
   "types": ["Cross Guild"],
+  "traits": ["crossGuild"],
   "rarity": "C",
-  "art": "/cards/ST25/ST25-005.png",
-  "stats": {
-    "cost": 4,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["Blocker", "On K.O."],
-  "trigger": null,
-  "text": "If you have 2 or more Characters with a base cost of 5 or more, this Character gains [Blocker] and +1 cost.\n(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] If your Leader is [Buggy] and you have 3 or less cards in your hand, draw 1 card.",
+  "setId": "ST25",
+  "cardNumber": "005",
+  "printedText": "If you have 2 or more Characters with a base cost of 5 or more, this Character gains [Blocker] and +1 cost. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] If your Leader is [Buggy] and you have 3 or less cards in your hand, draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 2 or more Characters with a base cost of 5 or more, this Character gains [Blocker] and +1 cost.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["allyCharactersBaseCost>=5Count>=2"]
-      }
+      "timing": "static",
+      "selectors": {
+        "highCostCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "baseCost",
+              "op": ">=",
+              "value": 5
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 1,
+          "duration": "permanent",
+          "target": "thisCardSelector",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "highCostCharacters",
+            "op": ">=",
+            "value": 2
+          }
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "thisCardSelector",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "highCostCharacters",
+            "op": ">=",
+            "value": 2
+          }
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader is [Buggy] and you have 3 or less cards in your hand, draw 1 card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["leaderIsBuggy", "handSize<=3"]
-      }
+      "timing": "onKO",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderCardName",
+            "op": "=",
+            "value": "Buggy"
+          },
+          {
+            "field": "selfHandSize",
+            "op": "<=",
+            "value": 3
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

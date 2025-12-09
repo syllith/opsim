@@ -1,48 +1,55 @@
 {
-  "id": "OP08-040",
-  "set": "OP08",
-  "number": 40,
-  "name": "Atmos",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Whitebeard Pirates"
-  ],
-  "rarity": "US",
-  "art": "/cards/OP08/OP08-040.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may reveal 2 cards from your hand with (Whitebeard Pirates) included in their types: Return up to one of your opponents characters with a cost of 4 or less to its owner's hand.",
+  "cardName": "Atmos",
+  "cardId": "OP08-040",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
+  "rarity": "R",
+  "setId": "OP08",
+  "cardNumber": "040",
+  "printedText": "[On Play] You may reveal 2 cards with a type including \"Whitebeard Pirates\" from your hand: If your Leader's type includes \"Whitebeard Pirates\", return up to 1 of your opponent's Characters with a cost of 4 or less to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "filters": ["type:Whitebeard Pirates"],
+        "may": true
       },
-      "effect": {
-        "text": "You may reveal 2 cards from your hand with (Whitebeard Pirates) included in their types: Return up to one of your opponents characters with a cost of 4 or less to its owner's hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderTypes",
+        "op": "=",
+        "value": "Whitebeard Pirates"
+      },
+      "selectors": {
+        "oppCost4orLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            { "field": "cost", "op": "<=", "value": 4 }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppCost4orLess",
+          "destination": "hand"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

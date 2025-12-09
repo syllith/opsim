@@ -1,74 +1,93 @@
 {
-  "id": "OP03-055",
-  "set": "OP03",
-  "number": 55,
-  "name": "Gum-Gum Giant Gavel",
-  "category": "Event",
+  "cardName": "Gum-Gum Giant Gavel",
+  "cardId": "OP03-055",
+  "cardType": "event",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "East Blue",
     "Straw Hat Crew"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-055.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Return up to 1 Character with a cost of 4 or less to its owner's hand."
-  },
-  "text": "#Counter You may trash 1 card from your hand: Up to 1 of your Leader gains +4000 power during this battle. Then you may trash the top 2 cards of your deck.",
+  "setId": "OP03",
+  "cardNumber": "055",
+  "printedText": "[Counter] You may trash 1 card from your hand: Up to 1 of your Leader gains +4000 Power during this battle. Then you may trash the top 2 cards of your deck.\n[Trigger] Return up to 1 Character with a cost of 4 or less to its owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
+      "timing": "counter",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Up to 1 of your Leader gains +4000 power during this battle. Then you may trash the top 2 cards of your deck.",
-        "powerMod": {
+      "selectors": {
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 4000,
-          "duration": "this battle"
+          "duration": "thisBattle",
+          "target": "leaderTarget"
         },
-        "targets": [
-          "oneLeader"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "trashTopDeck",
+          "count": 2,
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Return up to 1 Character with a cost of 4 or less to its owner's hand.",
-        "powerMod": null,
-        "targets": [
-          "oneCharacter<=cost4"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bounceTarget",
+          "destination": "hand"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "traits": [
+    "eastBlue",
+    "strawHatCrew"
+  ]
 }

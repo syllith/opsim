@@ -1,66 +1,126 @@
 {
-  "id": "OP06-068",
-  "set": "OP06",
-  "number": 68,
-  "name": "Vinsmoke Reiju",
-  "category": "Character",
+  "cardName": "Vinsmoke Reiju",
+  "cardId": "OP06-068",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 2000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Vinsmoke Family",
     "Germa 66"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP06/OP06-068.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "DON!!-1"
+  "traits": [
+    "vinsmokeFamily",
+    "germa66"
   ],
-  "trigger": null,
-  "text": "Activate: Main DON!!-1 (You may return the specified number of DON!! cards from your field to your DON!! deck), You may trash this character: if your leader has the <<GERMA 66>> Type, you may play up to 1 Cost 4 \"Vinsmoke Reiju\" from your hand or trash.",
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "068",
+  "printedText": "Activate: Main DON!!-1 (You may return the specified number of DON!! cards from your field to your DON!! deck.) You may trash this character: if your leader has the {Germa 66} type, you may play up to 1 cost 4 \"Vinsmoke Reiju\" from your hand or trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "You may return the specified number of DON!! cards from your field to your DON!! deck",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "field": "leaderHasTraitGerma66",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "You may trash this character: if your leader has the <<GERMA 66>> Type, you may play up to 1 Cost 4 \"Vinsmoke Reiju\" from your hand or trash.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the <<GERMA 66>> Type"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "reiju4FromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Vinsmoke Reiju"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "reiju4FromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Vinsmoke Reiju"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "thisCardSelector",
+          "destination": "trash",
+          "ordering": "keep",
+          "may": true
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "reiju4FromHand",
+          "enterRested": false,
+          "payCost": false,
+          "may": true
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "reiju4FromTrash",
+          "enterRested": false,
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,54 +1,71 @@
 {
-  "id": "OP13-034",
-  "set": "OP13",
-  "number": 34,
-  "name": "Brook",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "FILM",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Brook",
+  "cardId": "OP13-034",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["FILM", "Straw Hat Crew"],
+  "traits": ["film", "strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-034.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 1 of your DON!! cards as active.",
+  "setId": "OP13",
+  "cardNumber": "034",
+  "printedText": "[On Play] If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 1 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "leaderWithFilmOrStrawHatCrew": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "film"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "strawHatCrew"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "upToOneDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 1 of your DON!! cards as active.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:FILM",
-          "hasType:Straw Hat Crew"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "leaderWithFilmOrStrawHatCrew",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "upToOneDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

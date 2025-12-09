@@ -1,58 +1,70 @@
 {
-  "id": "OP05-075",
-  "set": "OP05",
-  "number": 75,
-  "name": "Mr.1 (Daz Bones)",
-  "category": "Character",
+  "cardName": "Mr.1 (Daz Bones)",
+  "cardId": "OP05-075",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": "Slash",
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
   "types": [
     "Baroque Works"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-075.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Opponent's Attack",
-    "Once Per Turn",
-    "Don -1"
-  ],
-  "trigger": null,
-  "text": "On Opponent's Attack Once Per Turn Don -1: Play up to 1 Baroque Works type Character Card with a cost of 3 or less from your hand.",
+  "setId": "OP05",
+  "cardNumber": "075",
+  "printedText": "[On Opponent's Attack] [Once Per Turn] DON!! -1: Play up to 1 {Baroque Works} type Character card with a cost of 3 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Opponent's Attack",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "donMinus",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "Play up to 1 Baroque Works type Character Card with a cost of 3 or less from your hand.",
-        "powerMod": null,
-        "targets": [
-          "oneCharacter",
-          "from:hand"
-        ],
-        "conditions": [
-          "type:Baroque Works",
-          "cost<=3"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "bwPlayTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Baroque Works"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "bwPlayTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "bwPlayTarget",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

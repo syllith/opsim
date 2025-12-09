@@ -1,49 +1,58 @@
 {
-  "id": "P-038",
-  "set": "P",
-  "number": 38,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Heart Pirates",
-    "Dressrosa"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-038.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may rest 1 of your Leaders: K.O. up to 1 of your opponent's characters that costs 1 or less.",
+  "cardName": "Trafalgar Law",
+  "cardId": "P-038",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Heart Pirates", "Dressrosa"],
+  "traits": ["heartPirates", "dressrosa"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-038",
+  "printedText": "[On Play] You may rest 1 of your Leaders: K.O. up to 1 of your opponent's Characters that costs 1 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restFromField",
+        "selector": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "may": true
       },
-      "effect": {
-        "text": "You may rest 1 of your Leaders: K.O. up to 1 of your opponent's characters that costs 1 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentLowCostCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentLowCostCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

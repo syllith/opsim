@@ -1,69 +1,95 @@
 {
-  "id": "OP04-055",
-  "set": "OP04",
-  "number": 55,
-  "name": "Plague Shot",
-  "category": "Event",
+  "cardName": "Plague Shot",
+  "cardId": "OP04-055",
+  "cardType": "event",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 2,
   "types": [
     "Animal Kingdom Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-055.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main You may trash 1 \"Ice Oni\" card from your hand and place 1 character of 4 cost or lower on the bottom of the owner's deck: Play 1 \"Ice Oni\" card from your trash.",
+  "setId": "OP04",
+  "cardNumber": "055",
+  "printedText": "[Main] You may trash 1 \"Ice Oni\" card from your hand and place 1 Character of cost 4 or lower on the bottom of the owner's deck: Play 1 \"Ice Oni\" card from your trash.\n[Trigger] Activate this card's [Main] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may trash 1 \"Ice Oni\" card from your hand and place 1 character of 4 cost or lower on the bottom of the owner's deck: Play 1 \"Ice Oni\" card from your trash.",
-        "powerMod": null,
-        "targets": [
-          "oneCharacter<=cost4",
-          "oneIceOniCardFromHand",
-          "oneIceOniCardFromTrash"
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1,
+            "filters": [
+              "name=Ice Oni"
+            ]
+          },
+          {
+            "type": "bottomDeckFromField",
+            "selector": {
+              "side": "both",
+              "type": "character",
+              "zones": [
+                "character"
+              ],
+              "min": 1,
+              "max": 1,
+              "whoChooses": "self",
+              "filters": [
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                }
+              ]
+            }
+          }
         ],
-        "giveDon": null
-      }
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "trash"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "name",
+                "op": "=",
+                "value": "Ice Oni"
+              }
+            ]
+          },
+          "payCost": false
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card's cost is indicated by the number '2' in the top-left corner. The rarity 'C' is printed in the bottom-right corner."
-  }
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

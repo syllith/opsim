@@ -1,48 +1,94 @@
 {
-  "id": "ST22-005",
-  "set": "ST22",
-  "number": 5,
-  "name": "Kouzuki Oden",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
+  "cardName": "Kouzuki Oden",
+  "cardId": "ST22-005",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 7,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Land of Wano", "Whitebeard Pirates"],
-  "rarity": "SR",
-  "art": "/cards/ST22/ST22-005.png",
-  "stats": {
-    "cost": 7,
-    "power": 8000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "If this Character would be removed from the field by your opponent's effects, you may instead trash 2 cards from your hand. Activate: Main Once Per Turn You may rest 3 of your DON!! cards and return 1 of your other Characters to your hand: Set this Character as active.",
+  "traits": ["landOfWano", "whitebeardPirates"],
+  "rarity": "starter",
+  "setId": "ST22",
+  "cardNumber": "005",
+  "printedText": "If this Character would be removed from the field by your opponent's effects, you may instead trash 2 cards from your hand.\n[Activate: Main] [Once Per Turn] You may rest 3 of your DON!! cards and return 1 of your other Characters to your hand: Set this Character as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Field Removal",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If this Character would be removed from the field by your opponent's effects, you may instead trash 2 cards from your hand.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentEffectRemoval", "trash2FromHandInstead"]
-      }
+      "timing": "static",
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "thisWouldLeaveFieldByOppEffect",
+          "target": "thisCardSelector",
+          "may": true,
+          "cost": {
+            "type": "trashFromHand",
+            "minCards": 2,
+            "maxCards": 2,
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 3 },
-      "effect": {
-        "text": "Return 1 of your other Characters to your hand: Set this Character as active.",
-        "powerMod": null,
-        "targets": ["oneAllyCharacterOtherThanSelf"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 3
+          },
+          {
+            "type": "moveFromField",
+            "selector": {
+              "side": "self",
+              "type": "character",
+              "zones": ["character"],
+              "min": 1,
+              "max": 1,
+              "whoChooses": "self",
+              "filters": [
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Kouzuki Oden"
+                }
+              ]
+            },
+            "destination": "hand"
+          }
+        ],
+        "may": true
+      },
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "thisCardSelector"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

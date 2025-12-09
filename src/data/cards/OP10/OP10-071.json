@@ -1,63 +1,91 @@
 {
-  "id": "OP10-071",
-  "set": "OP10",
-  "number": 71,
-  "name": "Donquixote Doflamingo",
-  "category": "Character",
+  "cardName": "Donquixote Doflamingo",
+  "cardId": "OP10-071",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Special",
+  "cost": 8,
+  "power": 9000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "The Seven Warlords",
     "Donquixote Pirates"
   ],
-  "rarity": "SR",
-  "art": "/cards/OP10/OP10-071.png",
-  "stats": {
-    "cost": 8,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 9000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Opponent's Turn"
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "donquixotePirates"
   ],
-  "trigger": null,
-  "text": "On Play DON!!-1: Play up to one 5 cost or lower [Donquixote Pirates] type character card from your hand.\nOpponent's Turn Once Per Turn You may rest one of your DON!!: add up to 1 Active DON!! from your DON!! deck.",
+  "rarity": "SR",
+  "setId": "OP10",
+  "cardNumber": "071",
+  "printedText": "[On Play] DON!! -1: Play up to one 5 cost or lower [Donquixote Pirates] type Character card from your hand.\n[Opponent's Turn] [Once Per Turn] You may rest 1 of your DON!!; add up to 1 Active DON!! from your DON!! deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "Play up to one 5 cost or lower [Donquixote Pirates] type character card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "handDonquixoteCost5OrLessChar": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "donquixotePirates"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 5
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "handDonquixoteCost5OrLessChar"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "handDonquixoteCost5OrLessChar",
+          "payCost": false
+        }
+      ]
     },
     {
-      "timing": "Opponent's Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "duringOpponentsTurn",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "add up to 1 Active DON!! from your DON!! deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

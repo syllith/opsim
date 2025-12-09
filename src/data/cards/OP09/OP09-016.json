@@ -1,32 +1,26 @@
 {
-  "id": "OP09-016",
-  "set": "OP09",
-  "number": 16,
-  "name": "Rockstar",
-  "category": "Character",
+  "cardName": "Rockstar",
+  "cardId": "OP09-016",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Red Hair Pirates"
   ],
+  "traits": [
+    "redHairedPirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-016.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP09",
+  "cardNumber": "016",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a 'BANDAI MADE IN JAPAN' watermark, which is not part of the card's official printed text. The rarity is 'C' as printed in the bottom right corner."
-  }
+  "abilities": []
 }

@@ -1,23 +1,94 @@
 {
-  "id": "OP02-021",
-  "set": "OP02",
-  "number": 21,
-  "name": "Seaquake",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["The Four Emperors", "Whitebeard Pirates"],
+  "cardName": "Seaquake",
+  "cardId": "OP02-021",
+  "cardType": "event",
+  "colors": [
+    "red"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "The Four Emperors",
+    "Whitebeard Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-021.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Give up to 1 of your opponent’s Leader or Character cards -3000 power during this turn." },
-  "text": "Main: If your Leader has {Whitebeard Pirates} in its type, K.O. up to 1 of your opponent’s Characters with 3000 power or less.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "setId": "OP02",
+  "cardNumber": "021",
+  "printedText": "[Main] If your Leader has {Whitebeard Pirates} in its type, K.O. up to 1 of your opponent's Characters with 3000 power or less.\n[Trigger] Give up to 1 of your opponent's Leader or Character cards -3000 power during this turn.",
+  "keywords": [
+    "main",
+    "trigger"
+  ],
+  "abilities": [
+    {
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "oppChar3000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppChar3000OrLess",
+          "condition": {
+            "field": "selfLeaderHasTypeWhitebeardPirates",
+            "op": "=",
+            "value": true
+          },
+          "may": false
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "oppLeaderOrCharacter": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -3000,
+          "duration": "thisTurn",
+          "target": "oppLeaderOrCharacter",
+          "may": false
+        }
+      ]
+    }
+  ],
+  "traits": [
+    "theFourEmperors",
+    "whitebeardPirates"
+  ]
 }

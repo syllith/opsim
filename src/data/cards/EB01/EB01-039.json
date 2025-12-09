@@ -1,39 +1,75 @@
 {
-  "id": "EB01-039",
-  "set": "EB01",
-  "number": 39,
-  "name": "Ragnarok",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["The Four Emperors", "Animal Kingdom"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-039.png",
-  "stats": {
-    "cost": 5,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "DON!! -1", "Trigger"],
-  "trigger": {
-    "text": "Set up to one Don!! from your Don!! deck into play as active."
-  },
-  "text": "[Main] Don!! -1: KO up to one of your opponents cost 8 or less characters.\n[Trigger] Set up to one Don!! from your Don!! deck into play as active.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Don!! -1: KO up to one of your opponents cost 8 or less characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["characterCost<=8"]
-      }
+      "cost": {
+        "count": 1,
+        "type": "donMinus"
+      },
+      "selectors": {},
+      "timing": "main",
+      "actions": [
+        {
+          "target": {
+            "filters": [
+              {
+                "value": 8,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "type": "ko"
+        }
+      ]
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": {
+            "zones": [
+              "donDeck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "destination": "costArea"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "colors": [
+    "purple"
+  ],
+  "rarity": "R",
+  "cardName": "Ragnarok",
+  "types": [
+    "The Four Emperors",
+    "Animal Kingdom"
+  ],
+  "printedText": "[Main] DON!! -1: K.O. up to 1 of your opponent's Characters with a cost of 8 or less.\n[Trigger] Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "setId": "EB01",
+  "cardType": "event",
+  "cardNumber": "039",
+  "cardId": "EB01-039",
+  "cost": 5,
+  "traits": [
+    "theFourEmperors",
+    "animalKingdom"
+  ]
 }

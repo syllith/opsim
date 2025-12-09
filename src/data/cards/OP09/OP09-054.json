@@ -1,49 +1,18 @@
 {
-  "id": "OP09-054",
-  "set": "OP09",
-  "number": 54,
-  "name": "Richie",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animal",
-    "Cross Guild"
-  ],
+  "cardName": "Richie",
+  "cardId": "OP09-054",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Animal", "Cross Guild"],
+  "traits": ["animal", "crossGuild"],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-054.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [
-    {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "setId": "OP09",
+  "cardNumber": "054",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "keywords": ["Blocker"],
+  "abilities": []
 }

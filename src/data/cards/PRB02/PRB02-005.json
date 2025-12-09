@@ -1,53 +1,70 @@
 {
-  "id": "PRB02-005",
-  "set": "PRB02",
-  "number": 5,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "PRB02-005",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Supernovas", "Straw Hat Crew"],
+  "traits": ["supernovas", "strawHatCrew"],
   "rarity": "SR",
-  "art": "/cards/PRB02/PRB02-005.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Your Turn On Play: If your Leader is multicolored and your opponent has 7 or less DON!! cards on their field, your opponent rests 1 active DON!! card at the start of your opponent's Main Phase.",
+  "setId": "PRB02",
+  "cardNumber": "005",
+  "printedText": "[Your Turn] [On Play] If your Leader is multicolored and your opponent has 7 or less DON!! cards on their field, your opponent rests 1 active DON!! card at the start of your opponent's Main Phase.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderIsMulticolored",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "opponentDonFieldCount",
+            "op": "<=",
+            "value": 7
+          }
+        ]
       },
-      "effect": {
-        "text": "If your Leader is multicolored and your opponent has 7 or less DON!! cards on their field, your opponent rests 1 active DON!! card at the start of your opponent's Main Phase.",
-        "powerMod": null,
-        "conditions": [
-          "your Leader is multicolored",
-          "your opponent has 7 or less DON!! cards on their field"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppActiveDon": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilEndOfOpponentsNextTurn",
+          "event": "startOfOpponentsMainPhase",
+          "target": "oppActiveDon",
+          "maxTriggers": 1,
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": "oppActiveDon"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

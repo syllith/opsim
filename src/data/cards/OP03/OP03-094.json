@@ -1,74 +1,103 @@
 {
-  "id": "OP03-094",
-  "set": "OP03",
-  "number": 94,
-  "name": "Air Door",
-  "category": "Event",
+  "cardName": "Air Door",
+  "cardId": "OP03-094",
+  "cardType": "event",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": null,
+  "cost": 4,
   "types": [
-    "CP"
+    "CP9"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-094.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Play up to 1 black Character card with a cost of 3 or less from your trash."
-  },
-  "text": "Main If your Leader has {CP} in its types, look at 5 cards from the top of your deck, play up to 1 Character with a cost of 5 or less with {CP} in its types. Then, put the rest in the trash.\n\nTrigger Play up to 1 black Character card with a cost of 3 or less from your trash.",
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "094",
+  "printedText": "Main If your Leader has {CP} in its types, look at 5 cards from the top of your deck, play up to 1 Character with a cost of 5 or less with {CP} in its types. Then, put the rest into the trash.\nTrigger Play up to 1 black Character card with a cost of 3 or less from your trash.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "condition": {
+        "field": "leader.types",
+        "op": "=",
+        "value": "CP"
       },
-      "effect": {
-        "text": "If your Leader has {CP} in its types, look at 5 cards from the top of your deck, play up to 1 Character with a cost of 5 or less with {CP} in its types. Then, put the rest in the trash.",
-        "powerMod": null,
-        "targets": [
-          "oneCharacter<=cost5",
-          "self"
-        ],
-        "conditions": [
-          "leaderHasCP"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "cpPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            },
+            {
+              "field": "types",
+              "op": "=",
+              "value": "CP"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "chosenToPlay"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "topCount": 5,
+          "selector": "cpPlay",
+          "addTo": "characterArea",
+          "moveRemainingTo": "trash",
+          "remainingOrdering": "keep"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "blackCost3": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "black"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "bindAs": "charToPlay"
+        }
       },
-      "effect": {
-        "text": "Play up to 1 black Character card with a cost of 3 or less from your trash.",
-        "powerMod": null,
-        "targets": [
-          "oneBlackCharacter<=cost3"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "charToPlay",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is printed in the bottom right corner. The card ID 'OP03-094' is printed in the bottom right corner. The cost '4' is printed in the top left corner. The card name 'Air Door' is printed in the bottom center. The card type 'EVENT' is printed above the name. The card's text is split into 'Main' and 'Trigger' sections."
-  }
+  "traits": [
+    "cp9"
+  ]
 }

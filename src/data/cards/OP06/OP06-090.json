@@ -1,48 +1,84 @@
 {
-  "id": "OP06-090",
-  "set": "OP06",
-  "number": 90,
-  "name": "Doctor Hogback",
-  "category": "Character",
+  "cardName": "Doctor Hogback",
+  "cardId": "OP06-090",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Wisdom",
+  "cost": 4,
+  "power": 5000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "wisdom"
+  ],
   "types": [
     "Thriller Bark Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-090.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "thrillerBarkPirates"
   ],
-  "trigger": null,
-  "text": "On Play: Return 2 cards from your trash to the bottom of your deck in any order: put up to one (Thriller Bark) card other than \"Doctor Hogback\" from your trash to your hand.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "090",
+  "printedText": "On Play Return 2 cards from your trash to the bottom of your deck in any order: put up to one {Thriller Bark} card other than \"Doctor Hogback\" from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "returnTwoFromTrash": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "trash"
+          ],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        },
+        "thrillerBarkOtherHogback": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "typeIncludesThrillerBark",
+              "op": "=",
+              "value": true
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Doctor Hogback"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Return 2 cards from your trash to the bottom of your deck in any order: put up to one (Thriller Bark) card other than \"Doctor Hogback\" from your trash to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "returnTwoFromTrash",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        },
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "thrillerBarkOtherHogback",
+          "reveal": false,
+          "addTo": "hand",
+          "ordering": "any",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

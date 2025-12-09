@@ -1,33 +1,24 @@
 {
-  "id": "P-012",
-  "set": "P",
-  "number": 12,
-  "name": "Jellyfish Pirates",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
+  "cardName": "Jellyfish Pirates",
+  "cardId": "P-012",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": [
     "FILM",
     "Jellyfish Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/P/P-012.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "traits": [
+    "film",
+    "jellyfishPirates"
+  ],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "012",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or abilities, only stats and counter."
-  }
+  "abilities": []
 }

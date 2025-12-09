@@ -1,55 +1,84 @@
 {
-  "id": "OP12-115",
-  "set": "OP12",
-  "number": 115,
-  "name": "I Love You!!",
-  "category": "Event",
+  "cardName": "I Love You!!",
+  "cardId": "OP12-115",
+  "cardType": "event",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
-    "Navy/Donquixote Pirates"
+    "Navy",
+    "Donquixote Pirates"
+  ],
+  "traits": [
+    "navy",
+    "donquixotePirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP12/OP12-115.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Up to 1 of your Leader or Characters gains +2000 power during this battle. Then, if you have 2 or less cards in you Life area, add up to 1 [Trafalgar Law] from your trash to your hand.",
+  "setId": "OP12",
+  "cardNumber": "115",
+  "printedText": "[Counter] Up to 1 of your Leader or Characters gains +2000 power during this battle. Then, if you have 2 or less cards in your Life area, add up to 1 [Trafalgar Law] from your trash to your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "boostTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "trafalgarLawInTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Trafalgar Law"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Characters gains +2000 power during this battle. Then, if you have 2 or less cards in you Life area, add up to 1 [Trafalgar Law] from your trash to your hand.",
-        "powerMod": null,
-        "targets": [
-          "upTo1:ally:Leader",
-          "upTo1:ally:Character"
-        ],
-        "conditions": [
-          "you:LifeArea:<=2"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "boostTarget"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "lifeTotalSelf",
+            "op": "<=",
+            "value": 2
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "trafalgarLawInTrash",
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

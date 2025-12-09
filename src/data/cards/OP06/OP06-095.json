@@ -1,53 +1,170 @@
 {
-  "id": "OP06-095",
-  "set": "OP06",
-  "number": 95,
-  "name": "Shadow's Asgard",
-  "category": "Event",
+  "cardName": "Shadow's Asgard",
+  "cardId": "OP06-095",
+  "cardType": "event",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Seven Warlords of the Sea",
     "Thriller Bark Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-095.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter",
-    "Trigger"
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "thrillerBarkPirates"
   ],
-  "trigger": {
-    "text": "Draw two cards and trash one from your hand."
-  },
-  "text": "Main / Counter Your Leader gains +1000 power during this turn. Then, you may K.O. any number of your cost 2 or less characters with the \"Thriller Bark Pirates\" type. For each K.O.d character, your leader gains +1000 during this turn.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "095",
+  "printedText": "[Main] / [Counter] Your Leader gains +1000 power during this turn. Then, you may K.O. any number of your cost 2 or less characters with the \"Thriller Bark Pirates\" type. For each K.O.'d character, your Leader gains +1000 during this turn.\n[Trigger] Draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "selfLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "selfThrillerBarkCost2OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "trait",
+              "op": "=",
+              "value": "thrillerBarkPirates"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 10,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Your Leader gains +1000 power during this turn. Then, you may K.O. any number of your cost 2 or less characters with the \"Thriller Bark Pirates\" type. For each K.O.d character, your leader gains +1000 during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "selfLeader"
+        },
+        {
+          "type": "ko",
+          "target": "selfThrillerBarkCost2OrLess",
+          "may": true
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 1,
+          "perAmount": 1000,
+          "countSelector": "selfThrillerBarkCost2OrLess",
+          "duration": "thisTurn",
+          "target": "selfLeader"
+        }
+      ]
+    },
+    {
+      "timing": "counter",
+      "frequency": "none",
+      "selectors": {
+        "selfLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "selfThrillerBarkCost2OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "trait",
+              "op": "=",
+              "value": "thrillerBarkPirates"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 10,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "selfLeader"
+        },
+        {
+          "type": "ko",
+          "target": "selfThrillerBarkCost2OrLess",
+          "may": true
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 1,
+          "perAmount": 1000,
+          "countSelector": "selfThrillerBarkCost2OrLess",
+          "duration": "thisTurn",
+          "target": "selfLeader"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

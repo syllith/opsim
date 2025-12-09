@@ -1,52 +1,60 @@
 {
-  "id": "OP05-014",
-  "set": "OP05",
-  "number": 14,
-  "name": "Pell",
-  "category": "Character",
+  "cardName": "Pell",
+  "cardId": "OP05-014",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Alabasta Kingdom"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-014.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking: Give up to 1 of your opponent's characters power -2000 for this turn.",
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "014",
+  "printedText": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's characters -2000 power for this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "thisDonAttached",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's characters power -2000 for this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "debuffTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "alabastaKingdom"
+  ]
 }

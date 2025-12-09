@@ -1,48 +1,77 @@
 {
-  "id": "OP07-080",
-  "set": "OP07",
-  "number": 80,
-  "name": "Kaku",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "CP0"
-  ],
+  "cardName": "Kaku",
+  "cardId": "OP07-080",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["CP0"],
+  "traits": ["cp0"],
   "rarity": "R",
-  "art": "/cards/OP07/OP07-080.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may place two cards with a type including \"CP\" from your trash to the bottom of your deck in any order. Give up to one of your opponents characters -3 Cost for the turn.",
+  "setId": "OP07",
+  "cardNumber": "080",
+  "printedText": "[On Play] You may place 2 cards with a type including \"CP\" from your trash at the bottom of your deck in any order: Give up to 1 of your opponent's Characters -3 cost during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromTrash",
+        "selector": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "CP0"
+                },
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "CP9"
+                },
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "CP"
+                }
+              ]
+            }
+          ]
+        },
+        "may": true
       },
-      "effect": {
-        "text": "You may place two cards with a type including \"CP\" from your trash to the bottom of your deck in any order. Give up to one of your opponents characters -3 Cost for the turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "kakuCostDownTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -3,
+          "duration": "thisTurn",
+          "target": "kakuCostDownTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

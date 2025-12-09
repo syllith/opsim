@@ -1,52 +1,103 @@
 {
-  "id": "OP01-078",
-  "set": "OP01",
-  "number": 78,
-  "name": "Boa Hancock",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["The Seven Warlords of the Sea", "Kuja Pirates"],
+  "cardName": "Boa Hancock",
+  "cardId": "OP01-078",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Kuja Pirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP01/OP01-078.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "DON!! x1", "When Attacking", "On Block"],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) | DON!! x1 | When Attacking | On Block: Draw 1 card if there are 5 or less cards in your hand.",
+  "setId": "OP01",
+  "cardNumber": "078",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[DON!! x1] [When Attacking] / [On Block] Draw 1 card if there are 5 or less cards in your hand.",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["opponentAttackDeclared", "restSelf"],
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          }
+        }
+      ]
     },
     {
-      "timing": "When Attacking / On Block",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw 1 card if there are 5 or less cards in your hand.",
-        "grants": ["Draw 1 Card"],
-        "powerMod": null,
-        "targets": ["player"],
-        "conditions": ["handSize<=5"],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonToThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "handSizeSelf",
+            "op": "<=",
+            "value": 5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "timing": "onBlock",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonToThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "handSizeSelf",
+            "op": "<=",
+            "value": 5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "kujaPirates"
+  ]
 }

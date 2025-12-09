@@ -1,5 +1,26 @@
 import _ from 'lodash';
 
+// Map schema timing to UI labels without a translation file
+export function getAbilityTypeLabel(ability) {
+  const t = _.get(ability, 'timing');
+  if (!t) return String(_.get(ability, 'type', 'Unknown'));
+  switch (t) {
+    case 'onPlay': return 'On Play';
+    case 'activateMain':
+    case 'main': return 'Activate Main';
+    case 'whenAttacking': return 'On Attack';
+    case 'whenAttackingOrOnOpponentsAttack': return 'On Attack or Opponents Attack';
+    case 'onOpponentsAttack': return 'On Opponents Attack';
+    case 'counter': return 'Counter';
+    case 'static': return 'Continuous';
+    default: return String(t);
+  }
+}
+
+function getAbilityActions(ability) {
+  return Array.isArray(ability?.actions) ? ability.actions : [];
+}
+
 //. Returns valid targets for a given side and type based on current board state
 export function listValidTargets(
   areas,
@@ -68,7 +89,8 @@ export function listValidTargets(
             if (typeof getTotalPower === 'function') {
               livePower = getTotalPower(side, 'middle', 'leader', 0, leader.id);
             } else if (typeof getCardMeta === 'function') {
-              livePower = _.get(getCardMeta(leader.id), 'stats.power', 0);
+              const meta = getCardMeta(leader.id);
+              livePower = _.get(meta, 'power', _.get(meta, 'stats.power', 0));
             }
             const effectivePower = livePower + getPendingDelta(ctx);
             if (effectivePower > powerLimit) {
@@ -106,9 +128,10 @@ export function listValidTargets(
         if (requireRested && !c.rested) return;
 
         if (powerLimit !== null) {
+          const meta = getCardMeta?.(c.id);
           const livePower = getTotalPower
             ? getTotalPower(side, 'char', 'char', idx, c.id)
-            : _.get(getCardMeta?.(c.id), 'stats.power', 0);
+            : _.get(meta, 'power', _.get(meta, 'stats.power', 0));
 
           const effectivePower = livePower + getPendingDelta(ctx);
           if (effectivePower > powerLimit) return;
@@ -148,29 +171,25 @@ export function evaluateAbilityTargetAvailability(
 
   if (!ability) return result;
 
-  const effect = _.get(ability, 'effect');
-  const actions = _.isPlainObject(effect) ? _.get(effect, 'actions', []) : [];
+  const actions = getAbilityActions(ability);
 
-  //. Extract targeting parameters from a structured action
+  //. Extract targeting parameters from a structured action (new schema only)
   const getActionTargetParams = (action) => {
-    const targetingTypes = {
-      powerMod: { type: 'any', side: 'opponent', min: 1 },
-      ko: { type: 'character', side: 'opponent', min: 1 },
-      rest: { type: 'any', side: 'opponent', min: 1 },
-      active: { type: 'any', side: 'player', min: 1 }
-    };
-
-    const defaults = targetingTypes[action.type];
-    if (!defaults) return null;
-
-    return {
-      targetType: action.targetType || defaults.type,
-      relativeSide: action.targetSide || defaults.side,
-      min: action.minTargets !== undefined ? action.minTargets : defaults.min,
-      powerLimit: _.isNumber(action.powerLimit) ? action.powerLimit : null,
-      requireActive: action.type === 'rest',
-      requireRested: action.type === 'active'
-    };
+    // Schema action: modifyStat (power only)
+    if (action?.type === 'modifyStat') {
+      if (action.stat && action.stat !== 'power') return null;
+      let sel = typeof action.target === 'object' ? action.target : {};
+      if (typeof action.target === 'string' && _.get(ability, ['selectors', action.target])) {
+        sel = _.get(ability, ['selectors', action.target]);
+      }
+      const targetType = sel.type === 'leaderOrCharacter' ? 'any' : (sel.type || 'any');
+      const side = sel.side === 'self' ? 'player' : 'opponent';
+      const min = _.isNumber(sel.min) ? sel.min : 1;
+      const requireActive = false;
+      const requireRested = false;
+      return { targetType, relativeSide: side, min, requireActive, requireRested };
+    }
+    return null;
   };
 
   //. Evaluate a single action for target availability
@@ -214,8 +233,7 @@ export function abilityHasAnySelectableTargets(
   actionSource
 ) {
   try {
-    const effect = _.get(ability, 'effect');
-    const actions = _.isPlainObject(effect) ? _.get(effect, 'actions', []) : [];
+    const actions = getAbilityActions(ability);
 
     //. No structured actions yet -> treat as no selectable targets
     if (!_.isArray(actions) || _.isEmpty(actions)) {
@@ -229,56 +247,32 @@ export function abilityHasAnySelectableTargets(
       // Non-targeting actions always pass
       if (actionType === 'search') return true;
 
-      const targetingConfigs = {
-        powerMod: {
-          targetType: 'any',
-          targetSide: 'opponent',
-          powerLimit: action.powerLimit
-        },
-        ko: {
-          targetType: 'character',
-          targetSide: 'opponent',
-          powerLimit: action.powerLimit
-        },
-        disableKeyword: {
-          targetType: 'character',
-          targetSide: 'opponent',
-          powerLimit: action.powerLimit
-        },
-        rest: {
-          targetType: 'any',
-          targetSide: 'opponent',
-          requireActive: true
-        },
-        active: {
-          targetType: 'any',
-          targetSide: 'player',
-          requireRested: true
+      if (actionType === 'modifyStat') {
+        const sel = _.get(action, 'target');
+        let selector = typeof sel === 'object' ? sel : null;
+        if (typeof sel === 'string' && _.get(ability, ['selectors', sel])) {
+          selector = _.get(ability, ['selectors', sel]);
         }
-      };
+        const targetType = selector?.type === 'leaderOrCharacter' ? 'any' : selector?.type || 'any';
+        const sideRel = selector?.side === 'self' ? 'player' : 'opponent';
 
-      const config = targetingConfigs[actionType];
-      if (!config) return true; // Unknown actions treated as non-blocking
+        const pFilter = Array.isArray(selector?.filters)
+          ? selector.filters.find(f => f.field === 'power' && (f.op === '<=' || f.op === '<'))
+          : null;
+        const powerLimit = _.isNumber(pFilter?.value) ? pFilter.value : undefined;
 
-      const side = resolveActionTargetSide(
-        actionSource,
-        _.get(action, 'targetSide', config.targetSide)
-      );
+        const side = resolveActionTargetSide(actionSource, sideRel);
+        const candidates = listValidTargets(
+          areas,
+          getCardMeta,
+          getTotalPower,
+          side,
+          targetType,
+          { powerLimit }
+        );
 
-      const candidates = listValidTargets(
-        areas,
-        getCardMeta,
-        getTotalPower,
-        side,
-        _.get(action, 'targetType', config.targetType),
-        {
-          powerLimit: config.powerLimit,
-          requireActive: config.requireActive,
-          requireRested: config.requireRested
-        }
-      );
-
-      if (candidates.length > 0) return true;
+        if (candidates.length > 0) return true;
+      }
     }
 
     return false;
@@ -290,26 +284,75 @@ export function abilityHasAnySelectableTargets(
 
 //. Computes which abilities can currently be activated based on game state
 export function evaluateActivatableAbilities(abilities, params) {
-  const {
-    phase,
-    isYourTurn,
-    battle,
-    cardId,
-    abilityUsed,
-    isOnField,
-    wasJustPlayed,
-    areas,
-    actionSource,
-    getCardMeta,
-    getTotalPower,
-    resolvingAbilityIndex = null
-  } = params;
+    const {
+      phase,
+      isYourTurn,
+      battle,
+      cardId,
+      abilityUsed,
+      isOnField,
+      wasJustPlayed,
+      areas,
+      actionSource,
+      getCardMeta,
+      getTotalPower,
+      resolvingAbilityIndex = null
+    } = params;
 
   return abilities.map((ability, index) => {
-    const typeLabel = _.get(ability, 'type', 'Unknown');
+    //. Detect unsupported action types to report clearly in the UI
+    const supportedTypes = new Set([
+      'conditional',
+      'modifyStat',
+      'grantKeyword',
+      'disableKeyword',
+      'keywordEffect',
+      'restrict',
+      'giveDon',
+      'draw',
+      'setState',
+      'trashFromHand',
+      'ko',
+      'rest',
+      'active',
+      'search',
+      'replacementEffect',
+      'noop',
+      'preventKO'
+    ]);
+
+    const collectUnsupported = (actions = []) => {
+      const out = [];
+      try {
+        actions.forEach((a) => {
+          const t = _.get(a, 'type');
+          if (t === 'conditional' || t === 'replacementEffect') {
+            //. Recurse into nested actions for conditional and replacementEffect
+            out.push(...collectUnsupported(_.get(a, 'actions', [])));
+          }
+          if (!supportedTypes.has(String(t))) {
+            out.push(String(t || 'unknown'));
+          }
+        });
+      } catch { /* noop */ }
+      return _.uniq(out);
+    };
+
+    const rawActions = Array.isArray(ability.actions) ? ability.actions : [];
+    const unsupportedActions = collectUnsupported(rawActions);
+    const typeLabel = getAbilityTypeLabel(ability);
     const type = String(typeLabel);
     const condition = _.get(ability, 'condition', {});
-    const frequency = _.toLower(_.get(ability, 'frequency', ''));
+    const rawFreq = _.get(ability, 'frequency', '');
+    let frequency = '';
+    if (rawFreq) {
+      if (rawFreq === 'oncePerTurn' || rawFreq === 'once per turn') {
+        frequency = 'Once Per Turn';
+      } else {
+        const lower = String(rawFreq).toLowerCase().replace(/_/g, ' ');
+        frequency = lower.replace(/\b\w/g, (m) => m.toUpperCase());
+      }
+    }
     const costCfg = _.get(ability, 'cost', {});
 
     let canActivate = false;
@@ -369,11 +412,14 @@ export function evaluateActivatableAbilities(abilities, params) {
         const isMain = _.toLower(phase || '') === 'main';
         canActivate = isMain && isYourTurn && !battle && isOnField;
 
+        //. New schema uses cost.type
+        const requiresRest = costCfg?.type === 'restThis';
+
         if (!isOnField) {
           reason = 'Card must be on the field to activate';
         } else if (!canActivate) {
           reason = 'Only during your Main Phase';
-        } else if (costCfg?.restThis && fieldRested) {
+        } else if (requiresRest && fieldRested) {
           canActivate = false;
           reason = 'Card is rested';
         }
@@ -421,6 +467,54 @@ export function evaluateActivatableAbilities(abilities, params) {
         reason = 'Triggers automatically when KO\'d';
         break;
 
+      case 'On Opponents Attack': {
+        //. Can activate when opponent declares an attack
+        if (battle && actionSource?.side) {
+          const controllerSide = actionSource.side;
+          const opponentSide = controllerSide === 'player' ? 'opponent' : 'player';
+          const attackerSide = _.get(battle, 'attacker.side');
+          const opponentIsAttacking = attackerSide === opponentSide;
+          
+          if (opponentIsAttacking && isOnField) {
+            const step = _.get(battle, 'step');
+            //. Can activate during declaring, block, or counter steps
+            canActivate = step === 'declaring' || step === 'block' || step === 'counter';
+          } else {
+            canActivate = false;
+          }
+        } else {
+          canActivate = false;
+        }
+        reason = canActivate ? '' : 'Only when opponent attacks';
+        break;
+      }
+
+      case 'On Attack or Opponents Attack': {
+        const step = _.get(battle, 'step');
+        const attackerId = _.get(battle, 'attacker.id');
+        const blockerUsed = _.get(battle, 'blockerUsed');
+
+        let attackSideOk = false;
+        if (!!battle && attackerId === cardId) {
+          attackSideOk = step === 'declaring' || step === 'attack' || (step === 'block' && !blockerUsed);
+        }
+
+        let opponentAttackOk = false;
+        if (battle && actionSource?.side && isOnField) {
+          const controllerSide = actionSource.side;
+          const opponentSide = controllerSide === 'player' ? 'opponent' : 'player';
+          const attackerSide = _.get(battle, 'attacker.side');
+          const opponentIsAttacking = attackerSide === opponentSide;
+          if (opponentIsAttacking) {
+            opponentAttackOk = step === 'declaring' || step === 'block' || step === 'counter';
+          }
+        }
+
+        canActivate = attackSideOk || opponentAttackOk;
+        reason = canActivate ? '' : 'Only when attacking or opponent attacks';
+        break;
+      }
+
       case 'End of Turn':
         canActivate = false;
         reason = 'Triggers at end of turn';
@@ -462,6 +556,12 @@ export function evaluateActivatableAbilities(abilities, params) {
     // ========================================================================
     // ADDITIONAL ACTIVATION REQUIREMENTS
     // ========================================================================
+
+    //. If there are unsupported actions, report and block activation
+    if (unsupportedActions.length > 0) {
+      canActivate = false;
+      reason = `Unimplemented action: ${unsupportedActions.join(', ')}`;
+    }
 
     //. Target availability checks (structured actions)
     try {
@@ -571,12 +671,13 @@ export function evaluateActivatableAbilities(abilities, params) {
       reason,
       type: typeLabel,
       typeKey: type,
-      condition
+      condition,
+      frequency
     };
   });
 }
 
-//. Creates a validator for targeting based on action config and target type
+  //. Creates a validator for targeting based on action config and target type
 export function createTargetValidator(
   targetType,
   action = {},
@@ -628,7 +729,7 @@ export function createTargetValidator(
       return false;
     }
 
-    //. Apply power limit, if specified
+    //. Apply power limit, if specified (new schema uses filters; engine passes powerLimit)
     if (action.powerLimit !== null && action.powerLimit !== undefined) {
       const pendingDelta = Array.isArray(pendingPowerDeltas)
         ? _.reduce(
@@ -659,7 +760,8 @@ export function createTargetValidator(
         );
         if (totalPower + pendingDelta > action.powerLimit) return false;
       } else if (getCardMeta) {
-        const basePower = _.get(getCardMeta(card.id), 'stats.power', 0);
+        const meta = getCardMeta(card.id);
+        const basePower = _.get(meta, 'power', _.get(meta, 'stats.power', 0));
         if (basePower + pendingDelta > action.powerLimit) return false;
       }
     }
@@ -698,7 +800,7 @@ export function createStateValidator(
   };
 }
 
-//. Completes ability activation: mark used flags and pay costs post-resolution
+  //. Completes ability activation: mark used flags and pay costs post-resolution (new schema costs)
 export function completeAbilityActivation(params) {
   const {
     ability,
@@ -711,13 +813,15 @@ export function completeAbilityActivation(params) {
     removeCardByEffect,
     restCard,
     payLife,
-    markAbilityUsed
+    markAbilityUsed,
+    lockCurrentAttack
   } = params;
 
   const typeKey = _.get(ability, 'typeKey', '');
   const isOnPlay = typeKey === 'On Play';
   const freqLabel = _.toLower(_.get(ability, 'frequency', ''));
   const isOncePerTurn = freqLabel === 'once per turn';
+  const isWhenAttacking = typeKey === 'On Attack' || typeKey === 'On Attack or Opponents Attack';
 
   //. Mark as used for Once Per Turn abilities and On Play
   if (isOncePerTurn || isOnPlay) {
@@ -731,19 +835,35 @@ export function completeAbilityActivation(params) {
 
   //. Pay costs after effect resolution
   if (cost) {
-    //. returnThisToDeck: move card to deck (top/bottom/shuffle)
-    if (cost.returnThisToDeck && returnCardToDeck && actionSource) {
+    const costType = _.get(cost, 'type', '');
+
+    //. moveFromField: move this card from field to deck
+    if (costType === 'moveFromField' && returnCardToDeck && actionSource) {
+      const destination = cost.destination || 'bottomOfDeck';
+      const position = destination === 'bottomOfDeck' ? 'bottom' : (destination === 'topOfDeck' ? 'top' : 'shuffle');
       returnCardToDeck(
         actionSource.side,
         actionSource.section,
         actionSource.keyName,
         actionSource.index ?? cardIndex,
-        cost.returnThisToDeck
+        position
+      );
+    }
+
+    //. returnThisToDeck: move card to deck (top/bottom/shuffle)
+    if (costType === 'returnThisToDeck' && returnCardToDeck && actionSource) {
+      const position = cost.position || 'top';
+      returnCardToDeck(
+        actionSource.side,
+        actionSource.section,
+        actionSource.keyName,
+        actionSource.index ?? cardIndex,
+        position
       );
     }
 
     //. trashThis: move card to trash
-    if (cost.trashThis && actionSource && removeCardByEffect) {
+    if (costType === 'trashThis' && actionSource && removeCardByEffect) {
       removeCardByEffect(
         actionSource.side,
         actionSource.section,
@@ -754,7 +874,7 @@ export function completeAbilityActivation(params) {
     }
 
     //. restThis: rest/tap this card
-    if (cost.restThis && actionSource && typeof restCard === 'function') {
+    if (costType === 'restThis' && actionSource && typeof restCard === 'function') {
       restCard(
         actionSource.side,
         actionSource.section,
@@ -764,13 +884,22 @@ export function completeAbilityActivation(params) {
     }
 
     //. payLife: move Life cards to hand without Trigger
-    if (_.isNumber(cost.payLife) && cost.payLife > 0) {
+    const lifeAmount = costType === 'payLife' ? (cost.amount || 1) : 0;
+    if (lifeAmount > 0) {
       try {
         const side = _.get(actionSource, 'side', 'player');
         if (typeof payLife === 'function') {
-          payLife(side, cost.payLife);
+          payLife(side, lifeAmount);
         }
       } catch { /* noop */ }
     }
+  }
+
+  //. Lock current attack only when a When Attacking ability actually applied an effect
+  const effectApplied = _.get(params, 'effectApplied', false);
+  if (isWhenAttacking && effectApplied && typeof lockCurrentAttack === 'function') {
+    try {
+      lockCurrentAttack(actionSource, abilityIndex);
+    } catch { /* noop */ }
   }
 }

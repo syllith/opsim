@@ -1,66 +1,58 @@
 {
-  "id": "OP05-022",
-  "set": "OP05",
-  "number": 22,
-  "name": "Donquixote Roscinante",
-  "category": "Leader",
+  "cardName": "Donquixote Rosinante",
+  "cardId": "OP05-022",
+  "cardType": "leader",
   "colors": [
-    "Green"
+    "green",
+    "blue"
   ],
-  "attribute": null,
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
   "types": [
     "Navy",
     "Donquixote Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-022.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "rarity": "L",
+  "setId": "OP05",
+  "cardNumber": "022",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[End of Your Turn] If you have 6 or less cards in your hand, set this Leader as active.",
   "keywords": [
-    "Blocker",
-    "End of Your Turn"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nEnd of Your Turn: If your hand is 6 cards or less, set this leader as active.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "frequency": "none",
+      "condition": {
+        "field": "handCount",
+        "op": "<=",
+        "value": 6
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your hand is 6 cards or less, set this leader as active.",
-        "powerMod": null,
-        "conditions": [
-          "hand<=6"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "leader",
+            "zones": [
+              "leader"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy",
+    "donquixotePirates"
+  ]
 }

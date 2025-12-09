@@ -1,43 +1,77 @@
 {
-  "id": "OP01-101",
-  "set": "OP01",
-  "number": 101,
-  "name": "Sasaki",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Slash",
-  "types": ["Animal Kingdom Pirates"],
+  "cardName": "Sasaki",
+  "cardId": "OP01-101",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 2000,
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-101.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["Counter", "When Attacking", "DON!!"],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking You may trash 1 card from your hand: Add 1 DON!! card from your DON!! deck and rest it.",
+  "setId": "OP01",
+  "cardNumber": "101",
+  "printedText": "[DON!! x1] [When Attacking] You may trash 1 card from your hand: Add 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [
+    "whenAttacking"
+  ],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Add 1 DON!! card from your DON!! deck and rest it.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["trashCardFromHand"],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["field"]
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "selectorCount",
+        "selector": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "filters": [
+            {
+              "field": "attachedTo",
+              "op": "=",
+              "value": "thisCard"
+            }
+          ]
+        },
+        "op": ">=",
+        "value": 1
+      },
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "donTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 0,
+          "whoChooses": "system"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "target": "donTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

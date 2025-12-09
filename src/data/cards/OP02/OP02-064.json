@@ -1,37 +1,92 @@
 {
-  "id": "OP02-064",
-  "set": "OP02",
-  "number": 64,
-  "name": "Mr.2 Bon Clay (Bentham)",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
-  "types": ["Impel Down", "Former Baroque Works"],
+  "cardName": "Mr. 2 Bon Clay (Bentham)",
+  "cardId": "OP02-064",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 5,
+  "power": 5000,
+  "counter": 2000,
+  "types": [
+    "Impel Down",
+    "Former Baroque Works"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-064.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["DON!! x1", "When Attacking"],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking: You may trash 1 card from your hand: Return up to 1 Character with a cost of 2 or less to the bottom of its owner's deck. Then, when this battle ends, return this Character to the bottom of its owner's deck.",
+  "setId": "OP02",
+  "cardNumber": "064",
+  "printedText": "[DON!! x1] [When Attacking] You may trash 1 card from your hand: Return up to 1 Character with a cost of 2 or less to the bottom of its owner's deck. Then, when this battle ends, return this Character to the bottom of its owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Return up to 1 Character with a cost of 2 or less to the bottom of its owner's deck. Then, when this battle ends, return this Character to the bottom of its owner's deck.",
-        "grants": ["trash"],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["cost 2 or less"]
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "bonClayBounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "bonClayBounceTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bonClayBounceTarget",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "thisBattle",
+          "event": "thisBattleEnds",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              },
+              "destination": "bottomOfDeck",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "impelDown",
+    "formerBaroqueWorks"
+  ]
 }

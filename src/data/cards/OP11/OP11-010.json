@@ -1,69 +1,83 @@
 {
-  "id": "OP11-010",
-  "set": "OP11",
-  "number": 10,
-  "name": "Hibari",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Navy",
-    "SWORD"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-010.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "On Play: Give up to 1 of your opponents Characters -2000 power during this turn. When Attacking: This Character gains +1000 power during this turn. Then, if your Leader has the (Navy) type, up to 1 of your Leaders may attack active Characters during this turn.",
+  "cardName": "Hibari",
+  "cardId": "OP11-010",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 5,
+  "power": 6000,
+  "attributes": ["ranged"],
+  "types": ["Navy", "SWORD"],
+  "traits": ["navy", "sword"],
+  "rarity": "SR",
+  "setId": "OP11",
+  "cardNumber": "010",
+  "printedText": "[On Play] Give up to 1 of your opponent's Characters -2000 power during this turn.\n[When Attacking] This Character gains +1000 power during this turn. Then, if your Leader has the {Navy} type, up to 1 of your Leaders may attack active Characters during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "opponentCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your opponents Characters -2000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "opponentCharacterUpToOne"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "selfLeaderUpToOne": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "This Character gains +1000 power during this turn. Then, if your Leader has the (Navy) type, up to 1 of your Leaders may attack active Characters during this turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
+          "duration": "thisTurn",
+          "target": "selfThisCard"
         },
-        "conditions": [
-          "your Leader has the (Navy) type"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfLeaderHasTrait",
+            "op": "=",
+            "value": "navy"
+          },
+          "actions": [
+            {
+              "type": "keywordEffect",
+              "operation": "grant",
+              "keyword": "mayAttackActiveCharacters",
+              "duration": "thisTurn",
+              "target": "selfLeaderUpToOne"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

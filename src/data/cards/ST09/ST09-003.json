@@ -1,23 +1,18 @@
 {
-  "id": "ST09-003",
-  "set": "ST09",
-  "number": 3,
-  "name": "Ulti",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
+  "cardName": "Ulti",
+  "cardId": "ST09-003",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "rarity": "C",
   "types": ["Animal Kingdom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST09/ST09-003.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["animalKingdomPirates"],
+  "setId": "ST09",
+  "cardNumber": "003",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": []
 }

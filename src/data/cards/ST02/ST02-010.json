@@ -1,37 +1,64 @@
 {
-  "id": "ST02-010",
-  "set": "ST02",
-  "number": 10,
-  "name": "Basil Hawkins",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
+  "cardName": "Basil Hawkins",
+  "cardId": "ST02-010",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["Supernovas", "Hawkins Pirates"],
-  "rarity": null,
-  "art": "/cards/ST02/ST02-010.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Once Per Turn"],
-  "trigger": null,
-  "text": "DON!! x1 — Once Per Turn — Your Turn: If this Character battles your opponent's Character, set this card as active.",
+  "traits": ["supernovas", "hawkinsPirates"],
+  "rarity": "common",
+  "setId": "ST02",
+  "cardNumber": "010",
+  "printedText": "[DON!! x1] [Once Per Turn] [Your Turn] If this Character battles your opponent's Character, set this card as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If this Character battles your opponent's Character, set this card as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["battledOpponentCharacter"]
-      }
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "givenDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "turnPlayer",
+            "op": "=",
+            "value": "self"
+          }
+        ]
+      },
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "afterThisBattlesOpponentCharacter",
+          "target": "thisCharacter",
+          "actions": [
+            {
+              "type": "setState",
+              "state": "active",
+              "target": "thisCharacter"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

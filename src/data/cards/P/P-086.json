@@ -1,35 +1,83 @@
 {
-  "id": "P-086",
-  "set": "P",
-  "number": 86,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernovas",
-    "Heart Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-086.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "cardName": "Trafalgar Law",
+  "cardId": "P-086",
+  "cardType": "leader",
+  "colors": ["red", "black"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["Heart Pirates"],
+  "traits": ["heartPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-086",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!! -3: Send 1 of your 3000 Power or higher Characters to the bottom of your deck: Play up to 1 cost 4 or lower {Heart Pirates} type Character card from your hand.",
   "keywords": [],
-  "trigger": {
-    "text": "If your leader has the (Supernovas) type, and your and your opponent's life total to 5 or less, play this card"
-  },
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "This is a sample card with 'SAMPLE' watermark. The text field is null because the card's rules text is not present in the image. The counter value is 2000 as printed."
-  }
+  "abilities": [
+    {
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "donMinus",
+            "count": 3
+          },
+          {
+            "type": "moveFromField",
+            "selector": {
+              "side": "self",
+              "type": "character",
+              "zones": ["character"],
+              "filters": [
+                {
+                  "field": "power",
+                  "op": ">=",
+                  "value": 3000
+                }
+              ],
+              "min": 1,
+              "max": 1,
+              "whoChooses": "self"
+            },
+            "destination": "bottomOfDeck"
+          }
+        ]
+      },
+      "selectors": {
+        "heartPiratesHandCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "heartPirates"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "heartPiratesHandCharacter",
+          "payCost": false
+        }
+      ]
+    }
+  ]
 }

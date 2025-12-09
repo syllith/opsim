@@ -1,33 +1,18 @@
 {
-  "id": "OP08-011",
-  "set": "OP08",
-  "number": 11,
-  "name": "Mashuru",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "FILM",
-    "Drum Kingdom"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP08/OP08-011.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Mashuru",
+  "cardId": "OP08-011",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["FILM", "Drum Kingdom"],
+  "traits": ["film", "drumKingdom"],
+  "rarity": "C",
+  "setId": "OP08",
+  "cardNumber": "011",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card is marked as a SAMPLE. Power value is clearly printed as 8000. Rarity is SP (Special)."
-  }
+  "abilities": []
 }

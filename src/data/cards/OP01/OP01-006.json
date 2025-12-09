@@ -1,55 +1,55 @@
 {
-  "id": "OP01-006",
-  "set": "OP01",
-  "number": 6,
-  "name": "Otama",
-  "category": "Character",
+  "cardName": "Otama",
+  "cardId": "OP01-006",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Special",
+  "cost": 1,
+  "power": 0,
+  "counter": 2000,
   "types": [
     "Wano Country"
   ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-006.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [],
-  "trigger": null,
-  "text": "[On Play] Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "setId": "OP01",
+  "cardNumber": "006",
+  "printedText": "On Play: Give up to 1 of your opponent's Characters -2000 power during this turn.",
+  "keywords": [
+    "onPlay"
+  ],
   "abilities": [
     {
-      "type": "On Play",
-      "autoResolve": false,
-      "frequency": null,
-      "condition": null,
-      "cost": null,
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -2000 power during this turn.",
-        "actions": [
-          {
-            "type": "powerMod",
-            "amount": -2000,
-            "targetSide": "opponent",
-            "targetType": "character",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "duration": "thisTurn"
-          }
-        ]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "oppChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "oppChar"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "wanoCountry"
+  ]
 }

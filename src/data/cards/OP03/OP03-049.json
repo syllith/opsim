@@ -1,54 +1,64 @@
 {
-  "id": "OP03-049",
-  "set": "OP03",
-  "number": 49,
-  "name": "Patty",
-  "category": "Character",
+  "cardName": "Patty",
+  "cardId": "OP03-049",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 5000,
+  "counter": 0,
   "types": [
     "East Blue"
   ],
   "rarity": "UC",
-  "art": "/cards/OP03/OP03-049.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play If your deck has 20 cards or less, you may return up to 1 Character with a cost of 3 or less to its owner's hand.",
+  "setId": "OP03",
+  "cardNumber": "049",
+  "printedText": "[On Play] If your deck has 20 cards or less, you may return up to 1 Character with a cost of 3 or less to its owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "deckCountSelf",
+        "op": "<=",
+        "value": 20
       },
-      "effect": {
-        "text": "If your deck has 20 cards or less, you may return up to 1 Character with a cost of 3 or less to its owner's hand.",
-        "powerMod": null,
-        "targets": [
-          "oneCharacter<=cost3"
-        ],
-        "conditions": [
-          "deckSize<=20"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bounceTarget",
+          "destination": "hand",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'UC' confirmed from the 'UC' symbol next to the card number. Power value is clearly 5000. Cost is clearly 3. The card is a Character with the attribute Slash and the type East Blue."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

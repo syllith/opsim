@@ -1,70 +1,74 @@
 {
-  "id": "OP03-098",
-  "set": "OP03",
-  "number": 98,
-  "name": "Enies Lobby",
-  "category": "Stage",
+  "cardName": "Enies Lobby",
+  "cardId": "OP03-098",
+  "cardType": "stage",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": null,
+  "cost": 2,
   "types": [
     "World Government"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-098.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "Activate: Main You may rest this Stage: If your Leader has (CP) in its types, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "098",
+  "printedText": "Activate: Main You may rest this Stage: If your Leader has {CP} in its types, give up to 1 of your opponent's Characters -2 to their cost during this turn.\nTrigger Play this card.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis"
       },
-      "effect": {
-        "text": "You may rest this Stage: If your Leader has (CP) in its types, give up to 1 of your opponent's Characters -2 to their cost during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "yourLeaderHasCPInTypes"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leader.types",
+        "op": "=",
+        "value": "CP"
+      },
+      "selectors": {
+        "oppOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "bindAs": "chosenOpp"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -2,
+          "duration": "thisTurn",
+          "target": "chosenOpp"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "thisStage": {
+          "side": "self",
+          "type": "thisCard",
+          "bindAs": "selfStage"
+        }
       },
-      "effect": {
-        "text": "Play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfStage",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
-  }
+  "traits": [
+    "worldGovernment"
+  ]
 }

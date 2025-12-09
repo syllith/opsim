@@ -1,51 +1,36 @@
 {
-  "id": "OP04-048",
-  "set": "OP04",
-  "number": 48,
-  "name": "Sasaki",
-  "category": "Character",
+  "cardName": "Sasaki",
+  "cardId": "OP04-048",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 4000,
+  "counter": 2000,
   "types": [
     "Animal Kingdom Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP04/OP04-048.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": 2000,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play Return all cards in your hand to your deck, and shuffle your deck. Then, draw cards equal to the number of cards returned to the deck.",
+  "setId": "OP04",
+  "cardNumber": "048",
+  "printedText": "[On Play] Return all cards in your hand to your deck, and shuffle your deck. Then, draw cards equal to the number of cards returned to the deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Return all cards in your hand to your deck, and shuffle your deck. Then, draw cards equal to the number of cards returned to the deck.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "shuffleHandIntoDeckThenDrawSame"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'UC' as printed in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

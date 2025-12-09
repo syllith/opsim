@@ -1,62 +1,93 @@
 {
-  "id": "OP01-003",
-  "set": "OP01",
-  "number": 3,
-  "name": "Monkey. D. Luffy",
-  "category": "Leader",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "OP01-003",
+  "cardType": "leader",
   "colors": [
-    "Red",
-    "Green"
+    "red",
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
   "types": [
     "Supernovas",
     "Straw Hat Crew"
   ],
   "rarity": "L",
-  "art": "/cards/OP01/OP01-003.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "003",
+  "printedText": "Activate: Main Once Per Turn DON!! x4 (You may rest the specified number of DON!! cards in your Cost Area): Set up to 1 of your {Supernovas} or {Straw Hat Crew} type Character cards with a cost of 5 or less as active. It gains +1000 power during this turn.",
   "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
+    "activateMain",
+    "oncePerTurn",
+    "donX4"
   ],
-  "trigger": null,
-  "text": "[Activate: Main] [Once Per Turn] ④ (You may rest the specified number of DON!! cards in your Cost Area): Set up to 1 of your {Supernovas} or {Straw Hat Crew} type Character cards with a cost of 5 or less as active. It gains +1000 power during this turn.",
   "abilities": [
     {
-      "timing": "Activate Main",
-      "frequency": "Once Per Turn",
-      "donReq": 4,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 4
+        "type": "restDonFromCostArea",
+        "count": 4
       },
-      "effect": {
-        "text": "Set up to 1 of your {Supernovas} or {Straw Hat Crew} type Character cards with a cost of 5 or less as active. It gains +1000 power during this turn.",
-        "grants": [],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "duringThisTurn"
+      "selectors": {
+        "chooseChar": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Supernovas"
+                },
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Straw Hat Crew"
+                }
+              ]
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "chooseChar"
         },
-        "targets": [
-          "upTo1:ally:Character"
-        ],
-        "conditions": [
-          "supernovasOrStrawHatCrew",
-          "characterCost<=5"
-        ]
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "chooseChar"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "supernovas",
+    "strawHatCrew"
+  ]
 }

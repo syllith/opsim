@@ -1,23 +1,28 @@
 {
-  "id": "OP02-039",
-  "set": "OP02",
-  "number": 39,
-  "name": "Franky",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Special",
-  "types": ["FILM", "Straw Hat Crew"],
+  "cardName": "Franky",
+  "cardId": "OP02-039",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 5,
+  "power": 7000,
+  "counter": 1000,
+  "types": [
+    "FILM",
+    "Straw Hat Crew"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-039.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "OP02",
+  "cardNumber": "039",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "film",
+    "strawHatCrew"
+  ]
 }

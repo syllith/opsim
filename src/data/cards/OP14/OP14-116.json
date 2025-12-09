@@ -1,70 +1,91 @@
 {
-  "id": "OP14-116",
-  "set": "OP14",
-  "number": 116,
-  "name": "Salamander",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
+  "cardName": "Salamander",
+  "cardId": "OP14-116",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 4,
   "types": [
     "Kuja Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP14/OP14-116.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
+  "traits": [
+    "kujaPirates"
   ],
-  "trigger": {
-    "text": "Draw 1 card."
-  },
-  "text": "Counter Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, play up to 1 {Amazon Lily} or {Kuja Pirates} type Character card with a cost of 4 or less from your hand.",
+  "rarity": "C",
+  "setId": "OP14",
+  "cardNumber": "116",
+  "printedText": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, play up to 1 {Amazon Lily} or {Kuja Pirates} type Character card with a cost of 4 or less from your hand.\n[Trigger] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Up to 1 of your Leader or Character cards gains +2000 power during this battle.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this battle"
+      "timing": "counter",
+      "selectors": {
+        "selfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         },
-        "targets": [
-          "oneOfYourLeaderOrCharacter"
-        ],
-        "giveDon": null
-      }
+        "handAmazonOrKujaCharCost4OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "amazonLily"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "kujaPirates"
+                }
+              ]
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "selfLeaderOrCharacter"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "handAmazonOrKujaCharCost4OrLess",
+          "payCost": false
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

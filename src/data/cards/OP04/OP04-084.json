@@ -1,55 +1,78 @@
 {
-  "id": "OP04-084",
-  "set": "OP04",
-  "number": 84,
-  "name": "Stussy",
-  "category": "Character",
+  "cardName": "Stussy",
+  "cardId": "OP04-084",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "CP0"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-084.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "084",
+  "printedText": "[On Play] Look at the top 3 cards of your deck, play up to 1 cost 2 or lower Character card with the {CP} type other than \"Stussy\". Then, trash the rest.",
   "keywords": [
-    "On Play"
+    "onPlay"
   ],
-  "trigger": null,
-  "text": "On Play Look at the top 3 cards of your deck, play up to one 2 cost or lower character that contains the (CP) type other than \"Stussy\". Then, trash the rest.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Look at the top 3 cards of your deck, play up to one 2 cost or lower character that contains the (CP) type other than \"Stussy\". Then, trash the rest.",
-        "powerMod": null,
-        "targets": [
-          "oneCharacter<=cost2",
-          "characterWithCPType"
-        ],
-        "conditions": [
-          "notName:Stussy"
-        ],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "deck"
+            ],
+            "filters": [
+              {
+                "logic": "AND",
+                "all": [
+                  {
+                    "field": "types",
+                    "op": "=",
+                    "value": "CP"
+                  },
+                  {
+                    "field": "cost",
+                    "op": "<=",
+                    "value": 2
+                  },
+                  {
+                    "field": "cardName",
+                    "op": "!=",
+                    "value": "Stussy"
+                  }
+                ]
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": false,
+          "addTo": "characterArea",
+          "ordering": "any",
+          "topCount": 3,
+          "moveRemainingTo": "trash",
+          "remainingOrdering": "keep",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is inferred from the 'C' symbol in the bottom right corner. The card is a Character type, and the 'CP0' type is printed below the name."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "cp0"
+  ]
 }

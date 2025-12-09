@@ -1,54 +1,75 @@
 {
-  "id": "OP04-046",
-  "set": "OP04",
-  "number": 46,
-  "name": "Queen",
-  "category": "Character",
+  "cardName": "Queen",
+  "cardId": "OP04-046",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Animal Kingdom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-046.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play If your Leader has the (Animal Kingdom Pirates) type, look at up to 7 cards from the top of your deck, reveal up to 2 total [Plague Rounds] or [Ice Oni] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "046",
+  "printedText": "[On Play] If your Leader has the {Animal Kingdom Pirates} type, look at 7 cards from the top of your deck; reveal up to 2 [Plague Rounds] or [Ice Oni], add them to your hand, then bottom deck the rest in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "yourLeaderHasType",
+        "op": "=",
+        "value": "Animal Kingdom Pirates"
       },
-      "effect": {
-        "text": "If your Leader has the (Animal Kingdom Pirates) type, look at up to 7 cards from the top of your deck, reveal up to 2 total [Plague Rounds] or [Ice Oni] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "leaderHasType:Animal Kingdom Pirates"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "deck"
+            ],
+            "min": 0,
+            "max": 2,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "logic": "OR",
+                "any": [
+                  {
+                    "field": "name",
+                    "op": "=",
+                    "value": "Plague Rounds"
+                  },
+                  {
+                    "field": "name",
+                    "op": "=",
+                    "value": "Ice Oni"
+                  }
+                ]
+              }
+            ]
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "topCount": 7,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is marked as a sample."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

@@ -1,58 +1,50 @@
 {
-  "id": "OP13-094",
-  "set": "OP13",
-  "number": 94,
-  "name": "York",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Scientist",
-    "Egghead"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP13/OP13-094.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Up to 1 of your (Celestial Dragons) Characters gains +2000 power during this turn.",
+  "cardName": "York",
+  "cardId": "OP13-094",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Scientist", "Egghead"],
+  "traits": ["scientist", "egghead"],
+  "rarity": "R",
+  "setId": "OP13",
+  "cardNumber": "094",
+  "printedText": "[On Play] Up to 1 of your {Celestial Dragons} type Characters gains +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "upToOneCelestialCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "celestialDragons"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your (Celestial Dragons) Characters gains +2000 power during this turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOfYourCharacters"
-        ],
-        "conditions": [
-          "(Celestial Dragons)"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "upToOneCelestialCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

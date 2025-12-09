@@ -1,49 +1,57 @@
 {
-  "id": "OP09-060",
-  "set": "OP09",
-  "number": 60,
-  "name": "Karai Bari Island",
-  "category": "Stage",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Cross Guild"
-  ],
+  "cardName": "Karai Bari Island",
+  "cardId": "OP09-060",
+  "cardType": "stage",
+  "colors": ["blue"],
+  "cost": 1,
+  "types": ["Cross Guild"],
+  "traits": ["crossGuild"],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-060.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP09",
+  "cardNumber": "060",
+  "printedText": "[Activate: Main] Send 2 cards from your hand to the bottom of your deck and rest this Stage: If your Leader has the {Cross Guild} type, draw 2 cards.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate: Main Send 2 cards from your hand to the bottom of your deck and rest this stage: If your leader has <Cross Guild> Draw 2 cards.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "selectors": {
+        "handToBottom2": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Send 2 cards from your hand to the bottom of your deck and rest this stage: If your leader has <Cross Guild> Draw 2 cards.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has <Cross Guild>"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "handToBottom2",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        },
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "thisCard"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "crossGuild"
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 2,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but ID and other fields are legible."
-  }
+  ]
 }

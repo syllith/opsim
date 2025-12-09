@@ -1,49 +1,71 @@
 {
-  "id": "OP09-051",
-  "set": "OP09",
-  "number": 51,
-  "name": "Buggy",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Cross Guild",
-    "Four Emperors"
-  ],
+  "cardName": "Buggy",
+  "cardId": "OP09-051",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 10,
+  "power": 12000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["Cross Guild", "Four Emperors"],
+  "traits": ["crossGuild", "theFourEmperors"],
   "rarity": "R",
-  "art": "/cards/OP09/OP09-051.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 12000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Return up to one of your opponents characters to the bottom of the deck, then if you do not control 5 characters with a cost of 5 or more, return this character to the bottom of the deck.",
+  "setId": "OP09",
+  "cardNumber": "051",
+  "printedText": "[On Play] Return up to 1 of your opponent's Characters to the bottom of their deck. Then, if you do not control 5 Characters with a cost of 5 or more, return this Character to the bottom of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "oppCharacterToBottom": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "yourCost5OrMoreChars": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 5
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Return up to one of your opponents characters to the bottom of the deck, then if you do not control 5 characters with a cost of 5 or more, return this character to the bottom of the deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppCharacterToBottom",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "yourCost5OrMoreChars",
+            "op": "<",
+            "value": 5
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "thisCard",
+              "destination": "bottomOfDeck",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, so stats may not reflect final version. Power value is 12000 as printed."
-  }
+  ]
 }

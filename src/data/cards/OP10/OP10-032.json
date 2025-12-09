@@ -1,47 +1,68 @@
 {
-  "id": "OP10-032",
-  "set": "OP10",
-  "number": 32,
-  "name": "Tashigi",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Punk Hazard",
-    "Navy"
-  ],
+  "cardName": "Tashigi",
+  "cardId": "OP10-032",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Punk Hazard", "Navy"],
+  "traits": ["punkHazard", "navy"],
   "rarity": "SR",
-  "art": "/cards/OP10/OP10-032.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP10",
+  "cardNumber": "032",
+  "printedText": "When one of your green Characters other than [Tashigi] would be removed from play due to your opponent's effects, you may instead rest this Character.",
   "keywords": [],
-  "trigger": null,
-  "text": "When one of your green characters other than [Tashigi] would be removed from play due to your opponent's effects, you may instead rest this character.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "otherGreenCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "colors",
+                  "op": "=",
+                  "value": "green"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Tashigi"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "When one of your green characters other than [Tashigi] would be removed from play due to your opponent's effects, you may instead rest this character.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "removeFromPlayByOpponentsEffect",
+          "target": "otherGreenCharacters",
+          "may": true,
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": "thisCard"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' with large overlay text; power value is 4000 as printed. Rarity is SR as printed. No attribute icon present."
-  }
+  ]
 }

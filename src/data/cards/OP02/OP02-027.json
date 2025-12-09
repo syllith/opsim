@@ -1,37 +1,98 @@
 {
-  "id": "OP02-027",
-  "set": "OP02",
-  "number": 27,
-  "name": "Dog Storm",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["Mink Tribe", "Wano Country", "Nine Red Scabbards"],
+  "cardName": "Dog Storm",
+  "cardId": "OP02-027",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "Mink Tribe",
+    "Wano Country",
+    "Nine Red Scabbards"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-027.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "OP02",
+  "cardNumber": "027",
+  "printedText": "If all your DON!! cards are rested, this Character cannot leave the field due to your opponent's effects.",
   "keywords": [],
-  "trigger": null,
-  "text": "If all your DON!! cards are rested, this Character cannot leave the field due to your opponent’s effects.",
   "abilities": [
     {
-      "timing": "Continuous",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If all your DON!! cards are rested, this Character cannot leave the field due to your opponent’s effects.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["Character"],
-        "conditions": ["All DON!! cards are rested"]
-      }
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "allYourDon": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "whoChooses": "system"
+        },
+        "allYourRestedDon": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "thisCardOnField": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "leaveField",
+          "target": "thisCardOnField",
+          "may": false,
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "selectorCountCompare",
+                "selectorA": "allYourRestedDon",
+                "selectorB": "allYourDon",
+                "op": "="
+              },
+              {
+                "field": "eventSourceSide",
+                "op": "=",
+                "value": "opponent"
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "minkTribe",
+    "wanoCountry",
+    "nineRedScabbards"
+  ]
 }

@@ -1,36 +1,85 @@
 {
-  "id": "ST17-005",
-  "set": "ST17",
-  "number": 5,
-  "name": "Marshall D. Teach",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Seven Warlords of the Sea", "Blackbeard Pirates"],
-  "rarity": "C",
-  "art": "/cards/ST17/ST17-005.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn", "Counter"],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn: Place 1 card from your hand at the top of your deck: attach up to 2 rested DON!! to one of your leader or characters.",
+  "cardName": "Marshall D. Teach",
+  "cardId": "ST17-005",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
+  "types": [
+    "Seven Warlords of the Sea",
+    "Blackbeard Pirates"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "blackbeardPirates"
+  ],
+  "rarity": "starter",
+  "setId": "ST17",
+  "cardNumber": "005",
+  "printedText": "[Activate: Main] [Once Per Turn] Place 1 card from your hand at the top of your deck: attach up to 2 rested DON!! to one of your leader or characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Place 1 card from your hand at the top of your deck: attach up to 2 rested DON!! to one of your leader or characters.",
-        "powerMod": null,
-        "targets": ["ally:Leader", "oneAllyCharacter"],
-        "conditions": ["placeCardFromHandOnTopDeck", "giveDon:rested:2"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "moveFromHand",
+        "selector": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "destination": "topOfDeck"
+      },
+      "selectors": {
+        "leaderOrCharacterTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "restedDonsToAttach": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": "leaderOrCharacterTarget",
+          "selector": "restedDonsToAttach"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

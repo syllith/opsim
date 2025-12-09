@@ -1,35 +1,111 @@
 {
-  "id": "OP03-027",
-  "set": "OP03",
-  "number": 27,
-  "name": "Sham",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["East Blue", "Black Cat Pirates"],
-  "rarity": "UC",
-  "art": "/cards/OP03/OP03-027.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If your Leader has the {East Blue} type, rest up to 1 of your opponent's Characters with a cost of 2 or less, and if you don't have [Butchie] in play, play up to 1 [Butchie] card from your hand.",
+  "cardName": "Sham",
+  "cardId": "OP03-027",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "East Blue",
+    "Black Cat Pirates"
+  ],
+  "rarity": "C",
+  "setId": "OP03",
+  "cardNumber": "027",
+  "printedText": "[On Play] If your Leader has the {East Blue} type, rest up to 1 of your opponent's Characters with a cost of 2 or less, and if you don't have [Butchie] in play, play up to 1 [Butchie] card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {East Blue} type, rest up to 1 of your opponent's Characters with a cost of 2 or less, and if you don't have [Butchie] in play, play up to 1 [Butchie] card from your hand.",
-        "targets": ["opponentCharacter", "hand"],
-        "conditions": ["leaderHasEastBlue", "costLessOrEqual2", "nameButchie", "noButchieInPlay"]
-      }
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderHasTypeEastBlue",
+        "op": "=",
+        "value": true
+      },
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ]
+        },
+        "butchieInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 10,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Butchie"
+            }
+          ]
+        },
+        "butchieFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Butchie"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "butchieFromHand",
+          "payCost": false,
+          "condition": {
+            "field": "selectorCount",
+            "selector": "butchieInPlay",
+            "op": "=",
+            "value": 0
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "eastBlue",
+    "blackCatPirates"
+  ]
 }

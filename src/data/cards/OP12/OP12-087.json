@@ -1,51 +1,76 @@
 {
-  "id": "OP12-087",
-  "set": "OP12",
-  "number": 87,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Nico Robin",
+  "cardId": "OP12-087",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "SR",
-  "art": "/cards/OP12/OP12-087.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "If your Leader is [Koala] or [Monkey.D.Luffy] this Character gains Blocker and +3 cost.\nOn Play: You may trash 1 card from your hand: If your opponent has 5 or more cards in their hand, your opponent trashes 2 cards from their hand.",
+  "setId": "OP12",
+  "cardNumber": "087",
+  "printedText": "If your Leader is [Koala] or [Monkey.D.Luffy] this Character gains Blocker and +3 cost.\n[On Play] You may trash 1 card from your hand: If your opponent has 5 or more cards in their hand, your opponent trashes 2 cards from their hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "logic": "OR",
+        "any": [
+          {
+            "field": "leaderName",
+            "op": "=",
+            "value": "Koala"
+          },
+          {
+            "field": "leaderName",
+            "op": "=",
+            "value": "Monkey.D.Luffy"
+          }
+        ]
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: If your opponent has 5 or more cards in their hand, your opponent trashes 2 cards from their hand.",
-        "powerMod": null,
-        "conditions": [
-          "yourOpponentHand>=5"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "selfThisCard"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 3,
+          "duration": "permanent",
+          "target": "selfThisCard"
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "condition": {
+        "field": "opponentHandCount",
+        "op": ">=",
+        "value": 5
+      },
+      "actions": [
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2,
+          "side": "opponent"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

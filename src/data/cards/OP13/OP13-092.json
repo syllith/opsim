@@ -1,51 +1,63 @@
 {
-  "id": "OP13-092",
-  "set": "OP13",
-  "number": 92,
-  "name": "Saint Mjosgard",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Celestial Dragons"
-  ],
+  "cardName": "Saint Mjosgard",
+  "cardId": "OP13-092",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 2,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Celestial Dragons"],
+  "traits": ["celestialDragons"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-092.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have 3 or less Life cards, play up to 1 {Mary Geoise} type Stage card with a cost of 1 from your trash.",
+  "setId": "OP13",
+  "cardNumber": "092",
+  "printedText": "[On Play] If you have 3 or less Life cards, play up to 1 {Mary Geoise} type Stage card with a cost of 1 from your trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "maryGeoiseStageFromTrash": {
+          "side": "self",
+          "type": "stage",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Mary Geoise"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If you have 3 or less Life cards, play up to 1 {Mary Geoise} type Stage card with a cost of 1 from your trash.",
-        "powerMod": null,
-        "conditions": [
-          "self:Life <= 3"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "lifeCount",
+        "op": "<=",
+        "value": 3
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "trash",
+          "selector": "maryGeoiseStageFromTrash",
+          "reveal": false,
+          "addTo": "stage",
+          "ordering": "chosen",
+          "may": true,
+          "asPlay": true,
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

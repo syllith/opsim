@@ -1,63 +1,63 @@
 {
-  "id": "EB01-007",
-  "set": "EB01",
-  "number": 7,
-  "name": "Yamato",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB01-007",
+  "printedText": "Activate: Main Once Per Turn Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
   "types": [
     "Land of Wano"
   ],
-  "rarity": "C",
-  "art": "/cards/EB01/EB01-007.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main [Once Per Turn] Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+  "cardNumber": "007",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "self:Leader",
-          "ally:Character"
-        ],
-        "conditions": [],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": [
-            "self",
-            "oneAllyCharacter"
-          ]
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": {
+            "min": 1,
+            "type": "leaderOrCharacter",
+            "side": "self",
+            "max": 1,
+            "zones": [
+              "leader",
+              "character"
+            ]
+          },
+          "selector": {
+            "filters": [
+              {
+                "value": true,
+                "field": "isRested",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "costArea"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "don",
+            "side": "self"
+          }
         }
-      }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "setId": "EB01",
+  "counter": 2000,
+  "cardName": "Yamato",
+  "rarity": "R",
+  "cost": 5,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "landOfWano"
+  ]
 }

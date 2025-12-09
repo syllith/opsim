@@ -1,43 +1,53 @@
 {
-  "id": "EB02-009",
-  "set": "EB02",
-  "number": 9,
-  "name": "Thousand Sunny",
-  "category": "Stage",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-009.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this Stage: Give up to 1 currently attached DON!! card's to 1 of your {Straw Hat Crew} type Characters.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Stage: Give up to 1 currently attached DON!! card's to 1 of your {Straw Hat Crew} type Characters.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:oneCharacter:StrawHatCrew"],
-        "conditions": ["restSelf"],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["oneAllyCharacter:StrawHatCrew"]
+      "cost": {
+        "type": "restThis"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "may": true,
+          "type": "giveDon",
+          "target": {
+            "filters": [
+              {
+                "value": "Straw Hat Crew",
+                "field": "types",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "count": 1
         }
-      }
+      ]
     }
   ],
-  "meta": { "notes": "Card text mentions 'currently attached' but ability should give from cost area based on typical mechanics" }
+  "colors": [
+    "red"
+  ],
+  "rarity": "C",
+  "cardName": "Thousand Sunny",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "printedText": "Activate: Main You may rest this Stage: Give up to 1 currently attached DON!! card to 1 of your {Straw Hat Crew} type Characters.",
+  "setId": "EB02",
+  "cardType": "stage",
+  "cardNumber": "009",
+  "cardId": "EB02-009",
+  "cost": 2,
+  "traits": [
+    "strawHatCrew"
+  ]
 }

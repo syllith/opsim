@@ -1,38 +1,54 @@
 {
-  "id": "OP01-104",
-  "set": "OP01",
-  "number": 104,
-  "name": "Speed",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Animal Kingdom Pirates", "Smile"],
+  "cardName": "Speed",
+  "cardId": "OP01-104",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Animal Kingdom Pirates",
+    "Smile"
+  ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-104.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": { "text": "Play this card." },
-  "text": "Trigger Play this card.",
+  "setId": "OP01",
+  "cardNumber": "104",
+  "printedText": "[Trigger] Play this card.",
+  "keywords": [
+    "trigger"
+  ],
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play this card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "selectors": {
+        "thisCardFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardFromLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates",
+    "smile"
+  ]
 }

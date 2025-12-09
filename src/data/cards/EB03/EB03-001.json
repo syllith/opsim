@@ -1,53 +1,136 @@
 {
-  "id": "EB03-001",
-  "set": "EB03",
-  "number": 1,
-  "name": "Nefeltari Vivi",
-  "category": "Leader",
-  "colors": ["Red", "Blue"],
-  "attribute": null,
-  "types": ["Alabasta"],
-  "rarity": "L",
-  "art": "/cards/EB03/EB03-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Once Per Turn", "Activate: Main"],
-  "trigger": null,
-  "text": "[Once Per Turn] If your Character with a base cost of 4 or more would be K.O'd, you may trash 1 card from your hand instead.\n[Activate: Main] You may rest this Leader: Give up to 1 of your opponent's Characters -2000 power during this turn. Then, up to 1 of your Characters without a [When Attacking] effect gains [Rush] during this turn.",
+  "power": 5000,
+  "cardType": "leader",
+  "cardId": "EB03-001",
+  "printedText": "Once Per Turn If your Character with a base cost of 4 or more would be K.O.'d, you may trash 1 card from your hand instead. Activate: Main You may rest this Leader: Give up to 1 of your opponent's Characters -2000 power during this turn. Then, up to 1 of your Characters without a When Attacking effect gains Rush during this turn.",
+  "life": 4,
+  "types": [
+    "Alabasta"
+  ],
+  "cardNumber": "001",
+  "keywords": [
+    "oncePerTurn",
+    "activateMain",
+    "rush"
+  ],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Character with a base cost of 4 or more would be K.O'd, you may trash 1 card from your hand instead.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["ally:Character:baseCost>=4"],
-        "conditions": ["characterWouldBeKOd"]
-      }
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "cost": {
+            "type": "trashFromHand",
+            "maxCards": 1,
+            "minCards": 1
+          },
+          "type": "replacementEffect",
+          "actions": [
+            {
+              "target": {
+                "type": "character",
+                "side": "self",
+                "filters": [
+                  {
+                    "value": 4,
+                    "field": "baseCost",
+                    "op": ">="
+                  }
+                ],
+                "zones": [
+                  "character"
+                ]
+              },
+              "type": "preventKO"
+            }
+          ],
+          "event": "characterWouldBeKOd",
+          "duration": "permanent",
+          "may": true,
+          "target": {
+            "type": "character",
+            "side": "self",
+            "filters": [
+              {
+                "value": 4,
+                "field": "baseCost",
+                "op": ">="
+              }
+            ],
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ],
+      "frequency": "oncePerTurn"
     },
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Leader: Give up to 1 of your opponent's Characters -2000 power during this turn. Then, up to 1 of your Characters without a [When Attacking] effect gains [Rush] during this turn.",
-        "grants": ["Rush"],
-        "powerMod": {
+      "cost": {
+        "type": "restThis"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
           "amount": -2000,
-          "duration": "duringThisTurn"
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
         },
-        "targets": ["upTo1:opponent:Character", "upTo1:ally:Character:noWhenAttacking"],
-        "conditions": ["restSelf"]
-      }
+        {
+          "keyword": "rush",
+          "target": {
+            "filters": [
+              {
+                "value": false,
+                "field": "hasWhenAttackingEffect",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "type": "keywordEffect",
+          "operation": "grant",
+          "duration": "thisTurn"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 0,
+  "cardName": "Nefeltari Vivi",
+  "rarity": "L",
+  "cost": 0,
+  "colors": [
+    "red",
+    "blue"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "alabasta"
+  ]
 }

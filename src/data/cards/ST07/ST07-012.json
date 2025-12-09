@@ -1,23 +1,18 @@
 {
-  "id": "ST07-012",
-  "set": "ST07",
-  "number": 12,
-  "name": "Baron Tamago",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
+  "cardName": "Baron Tamago",
+  "cardId": "ST07-012",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Big Mom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST07/ST07-012.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["bigMomPirates"],
+  "rarity": "",
+  "setId": "ST07",
+  "cardNumber": "012",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": []
 }

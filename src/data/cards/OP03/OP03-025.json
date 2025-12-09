@@ -1,45 +1,105 @@
 {
-  "id": "OP03-025",
-  "set": "OP03",
-  "number": 25,
-  "name": "Krieg",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Special",
-  "types": ["East Blue", "Krieg Pirates"],
+  "cardName": "Krieg",
+  "cardId": "OP03-025",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "types": [
+    "East Blue",
+    "Krieg Pirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP03/OP03-025.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["On Play", "DON!! x1"],
-  "trigger": null,
-  "text": "[On Play] You may trash 1 card from your hand: K.O. up to 2 of your opponent's rested Characters with a cost of 4 or less.\n[DON!! x1] This Character gains [Double Attack].\n(This card deals 2 damage.)",
+  "setId": "OP03",
+  "cardNumber": "025",
+  "printedText": "[On Play] You may trash 1 card from your hand: K.O. up to 2 of your opponent's rested Characters with a cost of 4 or less.\nDON!! x1 This Character gains Double Attack. (This card deals 2 damage.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0, "trashCardFromHand": true },
-      "effect": {
-        "text": "K.O. up to 2 of your opponent's rested Characters with a cost of 4 or less.",
-        "targets": ["opponentCharacter"],
-        "conditions": ["rested", "costLessOrEqual4"]
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "koTargets": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                },
+                {
+                  "field": "state",
+                  "op": "=",
+                  "value": "rested"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTargets"
+        }
+      ]
     },
     {
-      "timing": null,
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character gains [Double Attack]. (This card deals 2 damage.)",
-        "giveDon": { "doubleAttack": true }
-      }
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "selfCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Double Attack",
+          "duration": "permanent",
+          "target": "selfCard"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "eastBlue",
+    "kriegPirates"
+  ]
 }

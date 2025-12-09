@@ -1,36 +1,50 @@
 {
-  "id": "ST22-001",
-  "set": "ST22",
-  "number": 1,
-  "name": "Portgas.D.Ace & Edward.Newgate",
-  "category": "Leader",
-  "colors": ["Blue"],
-  "attribute": "Special",
+  "cardName": "Portgas.D.Ace & Edward.Newgate",
+  "cardId": "ST22-001",
+  "cardType": "leader",
+  "colors": ["blue"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "attributes": ["special"],
   "types": ["The Four Emperors", "Whitebeard Pirates"],
-  "rarity": "C",
-  "art": "/cards/ST22/ST22-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": { "present": false, "value": null }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may reveal 1 card with a type including 'Whitebeard Pirates' from your hand: Draw 1 card and add the revealed card to the top of your deck.",
+  "traits": ["theFourEmperors", "whitebeardPirates"],
+  "rarity": "starter",
+  "setId": "ST22",
+  "cardNumber": "001",
+  "printedText": "[Activate: Main] [Once Per Turn] You may reveal 1 card with a type including \"Whitebeard Pirates\" from your hand: Draw 1 card and add the revealed card to the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may reveal 1 card with a type including 'Whitebeard Pirates' from your hand: Draw 1 card and add the revealed card to the top of your deck.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["revealWhitebeardPiratesCardFromHand"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "revealFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "filters": [
+          {
+            "field": "types",
+            "op": "=",
+            "value": "Whitebeard Pirates"
+          }
+        ],
+        "bindAs": "revealedWhitebeardCard",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "moveCard",
+          "target": "revealedWhitebeardCard",
+          "destination": "topOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

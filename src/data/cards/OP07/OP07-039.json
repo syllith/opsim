@@ -1,48 +1,47 @@
 {
-  "id": "OP07-039",
-  "set": "OP07",
-  "number": 39,
-  "name": "Edward Weevil",
-  "category": "Character",
+  "cardName": "Edward Weevil",
+  "cardId": "OP07-039",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Seven Warlords of the Sea"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-039.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
+  "traits": [
+    "theSevenWarlordsOfTheSea"
   ],
-  "trigger": null,
-  "text": "DON!!x1 When Attacking: Look at the top 3 cards of your deck and then place them in any order you like at the top or bottom of your deck.",
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "039",
+  "printedText": "[DON!! x1] [When Attacking] Look at the top 3 cards of your deck, then place them in any order at the top or bottom of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "isGivenDon",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "Look at the top 3 cards of your deck and then place them in any order you like at the top or bottom of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "reveal": false,
+          "addTo": "topOfDeck",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "topOrBottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

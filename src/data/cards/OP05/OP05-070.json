@@ -1,49 +1,68 @@
 {
-  "id": "OP05-070",
-  "set": "OP05",
-  "number": 70,
-  "name": "Franosuke",
-  "category": "Character",
+  "cardName": "Franosuke",
+  "cardId": "OP05-070",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 4000,
+  "counter": 2000,
   "types": [
     "Straw Hat Crew"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-070.png",
-  "stats": {
-    "cost": 5,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "070",
+  "printedText": "[DON!! x1] If you have 8 or more DON!! on your field, this Character gains [Rush]. (This card can attack on the turn in which it is played.)",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!!x1 If you have 8 or more DON!! on your field, this character gains Rush. (This card can attack on the turn in which it is played.)",
   "abilities": [
     {
-      "timing": "DON!!x1",
-      "frequency": null,
-      "donReq": 8,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "thisDonAttached",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "donCountField",
+            "op": ">=",
+            "value": 8
+          }
+        ]
       },
-      "effect": {
-        "text": "this character gains Rush",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCardSelector"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "rush",
+          "duration": "permanent",
+          "target": "thisCardSelector"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

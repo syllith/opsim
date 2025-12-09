@@ -1,50 +1,70 @@
 {
-  "id": "OP10-043",
-  "set": "OP10",
-  "number": 43,
-  "name": "Ucy",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Dressrosa",
-    "Animal"
-  ],
+  "cardName": "Ucy",
+  "cardId": "OP10-043",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["Dressrosa", "Animal"],
+  "traits": ["dressrosa", "animal"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-043.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Banish"
-  ],
-  "trigger": null,
-  "text": "On Play: You may rest up to 1 of your \"Dressrosa\" type Leaders or Stages: Up to one of your character [Monkey D. Luffy] Banish until the end of turn.",
+  "setId": "OP10",
+  "cardNumber": "043",
+  "printedText": "[On Play] You may rest up to 1 of your {Dressrosa} type Leaders or Stages: Up to 1 of your Characters [Monkey D. Luffy] gains \"Banish\" until the end of turn.\n\"Banish\" (When this card deals damage, the target card is trashed without activating its Trigger.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restFromField",
+        "selector": "dressrosaLeaderOrStageForCost",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest up to 1 of your \"Dressrosa\" type Leaders or Stages: Up to one of your character [Monkey D. Luffy] Banish until the end of turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "dressrosaLeaderOrStageForCost": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "stage"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "dressrosa"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "monkeyLuffyCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Monkey D. Luffy"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Banish",
+          "duration": "thisTurn",
+          "target": "monkeyLuffyCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has a SAMPLE watermark. Attribute is Strike. Rarity is C. Power and Life are not printed on the card."
-  }
+  ]
 }

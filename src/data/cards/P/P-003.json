@@ -1,52 +1,42 @@
 {
-  "id": "P-003",
-  "set": "P",
-  "number": 3,
-  "name": "Eustass\"Captain\"Kid",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
+  "cardName": "Eustass\"Captain\"Kid",
+  "cardId": "P-003",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": [
     "Supernovas",
     "Kid Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/P/P-003.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!!x2"
+  "traits": [
+    "supernovas",
+    "kidPirates"
   ],
-  "trigger": null,
-  "text": "DON!!x2 This Character gains Double Attack (This card deals 2 damage.)",
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "003",
+  "printedText": "[DON!! x2] This Character gains Double Attack. (This card deals 2 damage.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This Character gains Double Attack (This card deals 2 damage.)",
-        "grants": [
-          "Double Attack"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "Double Attack",
+          "duration": "permanent",
+          "target": "selfThisCard",
+          "condition": {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 2
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample and has 'SAMPLE' text overlaid. 'Double Attack' is a keyword, not an attribute."
-  }
+  ]
 }

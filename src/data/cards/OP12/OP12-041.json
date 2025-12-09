@@ -1,67 +1,78 @@
 {
-  "id": "OP12-041",
-  "set": "OP12",
-  "number": 41,
-  "name": "Sanji",
-  "category": "Leader",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew",
-    "The Vinsmoke Family"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP12/OP12-041.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Sanji",
+  "cardId": "OP12-041",
+  "cardType": "leader",
+  "colors": ["blue", "purple"],
+  "power": 5000,
+  "life": 4,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew", "The Vinsmoke Family"],
+  "traits": ["strawHatCrew", "theVinsmokeFamily"],
+  "rarity": "L",
+  "setId": "OP12",
+  "cardNumber": "041",
+  "printedText": "[Activate: Main] [Once Per Turn] DON!!-1: Activate up to 1 {Straw Hat Crew} type Event card from your hand with an original cost of 3 or less.\n[When Attacking] If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and rest it.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn DON!!-1: Activate up to 1 {Straw Hat Crew} type Event card from your hand with an original cost of 3 or less. When Attacking If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and rest it.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "Activate up to 1 {Straw Hat Crew} type Event card from your hand with an original cost of 3 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "eventToActivate": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "cardType",
+              "op": "=",
+              "value": "event"
+            },
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            },
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "eventToActivate",
+          "payCost": false
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "selfDonCount",
+        "op": "<=",
+        "fieldRef": "opponentDonCount"
       },
-      "effect": {
-        "text": "If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, add up to 1 DON!! card from your DON!! deck and rest it.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "DON!! deck",
-          "to": [
-            "self"
-          ]
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "may": true
         }
-      }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

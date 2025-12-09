@@ -1,37 +1,72 @@
 {
-  "id": "EB03-031",
-  "set": "EB03",
-  "number": 31,
-  "name": "Vinsmoke Reiju",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["The Vinsmoke Family", "GERMA 66"],
-  "rarity": "SR",
-  "art": "/cards/EB03/EB03-031.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Your Turn", "On Play", "DON!! -1"],
-  "trigger": null,
-  "text": "[Your Turn] [On Play] [DON!! -1]: If your Leader is [Sanji], activate the [Main] effect of up to 1 Event with a cost of 7 or less from your trash.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB03-031",
+  "printedText": "[Your Turn][On Play] DON!! -1: If your Leader is [Sanji], activate the Main effect of up to 1 Event with a cost of 7 or less from your trash.",
+  "types": [
+    "The Vinsmoke Family",
+    "GERMA 66"
+  ],
+  "cardNumber": "031",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader is [Sanji], activate the [Main] effect of up to 1 Event with a cost of 7 or less from your trash.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["trash:Event:cost<=7"],
-        "conditions": ["leaderIsSanji", "onPlay"]
-      }
+      "cost": {
+        "may": true,
+        "type": "donMinus",
+        "count": 1
+      },
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "may": true,
+          "type": "activateAbilityFromCard",
+          "condition": {
+            "value": "Sanji",
+            "field": "leaderName",
+            "op": "="
+          },
+          "target": {
+            "filters": [
+              {
+                "value": "event",
+                "field": "cardType",
+                "op": "="
+              },
+              {
+                "value": 7,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "trash"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "any",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "abilityTiming": "main"
+        }
+      ]
     }
   ],
-  "meta": { "notes": "DON!! -1 means return 1 DON!! from field to DON!! deck as cost" }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Vinsmoke Reiju",
+  "rarity": "SR",
+  "cost": 5,
+  "colors": [
+    "purple"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "theVinsmokeFamily",
+    "germa66"
+  ]
 }

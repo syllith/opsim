@@ -1,77 +1,66 @@
 {
-  "id": "OP14-057",
-  "set": "OP14",
-  "number": 57,
-  "name": "Don't Worry!! I'm Here!! Leave Things to Me!!",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Fish-Man",
-    "The Seven Warlords of the Sea",
-    "The Sun Pirates"
-  ],
+  "cardName": "Don't Worry!! I'm Here!! Leave Things to Me!!",
+  "cardId": "OP14-057",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 2,
+  "types": ["Fish-Man", "The Seven Warlords of the Sea", "The Sun Pirates"],
+  "traits": ["fishMan", "theSevenWarlordsOfTheSea", "theSunPirates"],
   "rarity": "C",
-  "art": "/cards/OP14/OP14-057.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 2 cards."
-  },
-  "text": "Main All of your (Fish-Man) or (Merfolk) type Leader and Characters gain +1000 power during this turn.",
+  "setId": "OP14",
+  "cardNumber": "057",
+  "printedText": "[Main] All of your {Fish-Man} or {Merfolk} type Leader and Character cards gain +1000 power during this turn.\n[Trigger] Draw 2 cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "fishManOrMerfolkLeadersAndCharacters": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "fishMan"
+                },
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "merfolk"
+                }
+              ]
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "All of your (Fish-Man) or (Merfolk) type Leader and Characters gain +1000 power during this turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "all:Leader",
-          "all:Character"
-        ],
-        "conditions": [
-          "type:Fish-Man",
-          "type:Merfolk"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "fishManOrMerfolkLeadersAndCharacters"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

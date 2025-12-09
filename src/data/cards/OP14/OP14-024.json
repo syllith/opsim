@@ -1,63 +1,67 @@
 {
-  "id": "OP14-024",
-  "set": "OP14",
-  "number": 24,
-  "name": "Kin'emon",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Land of Wano",
-    "The Akazaya Nine"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP14/OP14-024.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On Play: Set up to 3 of your DON!! cards as active. Then, you cannot play any Character cards on your field during this turn. On K.O.: Rest up to 1 of your opponent's cards.",
+  "cardName": "Kin'emon",
+  "cardId": "OP14-024",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Land of Wano", "The Akazaya Nine"],
+  "traits": ["landOfWano", "theAkazayaNine"],
+  "rarity": "R",
+  "setId": "OP14",
+  "cardNumber": "024",
+  "printedText": "[On Play] Set up to 3 of your DON!! cards as active. Then, you cannot play any Character cards on your field during this turn.\n[On K.O.] Rest up to 1 of your opponent's cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "selfDonUpToThree": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to 3 of your DON!! cards as active. Then, you cannot play any Character cards on your field during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfDonUpToThree"
+        },
+        {
+          "type": "restrictPlay",
+          "cardTypes": ["character"],
+          "duration": "thisTurn",
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "opponentCardUpToOne": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["leader", "character", "stage", "costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCardUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

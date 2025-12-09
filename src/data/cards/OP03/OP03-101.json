@@ -1,34 +1,25 @@
 {
-  "id": "OP03-101",
-  "set": "OP03",
-  "number": 101,
-  "name": "Camie",
-  "category": "Character",
+  "cardName": "Camie",
+  "cardId": "OP03-101",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 3000,
   "types": [
     "Mermaid"
   ],
+  "counter": 1000,
   "rarity": "C",
-  "art": "/cards/OP03/OP03-101.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Counter"
-  ],
-  "trigger": null,
-  "text": null,
+  "setId": "OP03",
+  "cardNumber": "101",
+  "printedText": "",
   "abilities": [],
-  "meta": {
-    "notes": "The card is a sample card, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "mermaid"
+  ]
 }

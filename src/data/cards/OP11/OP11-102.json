@@ -1,53 +1,53 @@
 {
-  "id": "OP11-102",
-  "set": "OP11",
-  "number": 102,
-  "name": "Camie",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Mefolk",
-    "Fish-Man Island"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-102.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn When your opponent activates an event or Trigger, you may activate this effect. If your opponent has 2 or more Life cards, trash the top card of both players' Life area.",
+  "cardName": "Camie",
+  "cardId": "OP11-102",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 2000,
+  "attributes": ["wisdom"],
+  "types": ["Merfolk", "Fish-Man Island"],
+  "traits": ["merfolk", "fishManIsland"],
+  "rarity": "UC",
+  "setId": "OP11",
+  "cardNumber": "102",
+  "printedText": "[Your Turn] [Once Per Turn] This effect can be activated when your opponent activates an Event or [Trigger]. If your opponent has 2 or more Life cards, trash 1 card from the top of each of your and your opponent's Life cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "afterOpponentActivatesEvent",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "isYourTurn",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "When your opponent activates an event or Trigger, you may activate this effect. If your opponent has 2 or more Life cards, trash the top card of both players' Life area.",
-        "powerMod": null,
-        "conditions": [
-          "opponent has 2 or more Life cards"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "may": true,
+          "condition": {
+            "field": "opponentLife",
+            "op": ">=",
+            "value": 2
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "selfTopLifeCard",
+              "destination": "trash",
+              "ordering": "keep"
+            },
+            {
+              "type": "moveCard",
+              "target": "opponentTopLifeCard",
+              "destination": "trash",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

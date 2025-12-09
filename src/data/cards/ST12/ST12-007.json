@@ -1,37 +1,62 @@
 {
-  "id": "ST12-007",
-  "set": "ST12",
-  "number": 7,
-  "name": "Rika",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Wisdom",
+  "cardName": "Rika",
+  "cardId": "ST12-007",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 0,
+  "counter": 2000,
+  "attributes": ["wisdom"],
   "types": ["East Blue"],
+  "traits": ["eastBlue"],
   "rarity": "C",
-  "art": "/cards/ST12/ST12-007.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play 2 (You may rest the specified number of DON!! cards in your Cost Area) If your opponent has 3 or more lives, set up to 1 of your 'Slash' trait character with a cost of 4 or less active.",
+  "setId": "ST12",
+  "cardNumber": "007",
+  "printedText": "[On Play] (2) (You may rest the specified number of DON!! cards in your Cost Area.) If your opponent has 3 or more Life, set up to 1 of your \"Slash\" trait Characters with a cost of 4 or less as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 2 },
-      "effect": {
-        "text": "If your opponent has 3 or more lives, set up to 1 of your 'Slash' trait character with a cost of 4 or less active.",
-        "powerMod": null,
-        "targets": ["oneAllyCharacter<=4:trait=Slash:active"],
-        "conditions": ["opponentLife>=3"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 2,
+        "may": true
+      },
+      "selectors": {
+        "selfSlashCost4OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "slash"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
+      },
+      "condition": {
+        "field": "opponentLifeCount",
+        "op": ">=",
+        "value": 3
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfSlashCost4OrLess"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

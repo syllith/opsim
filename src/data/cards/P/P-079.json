@@ -1,65 +1,59 @@
 {
-  "id": "P-079",
-  "set": "P",
-  "number": 79,
-  "name": "Lim",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "ODYSSEY"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-079.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "End of Your Turn"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nEnd of Your Turn If you have 2 or more {ODYSSEY} type rested Characters, set this Character as active.",
+  "cardName": "Lim",
+  "cardId": "P-079",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["ODYSSEY"],
+  "traits": ["odyssey"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-079",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[End of Your Turn] If you have 2 or more {ODYSSEY} type rested Characters, set this Character as active.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "selectors": {
+        "yourRestedOdysseyCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "odyssey"
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        },
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedOdysseyCharacters",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "If you have 2 or more {ODYSSEY} type rested Characters, set this Character as active.",
-        "powerMod": null,
-        "conditions": [
-          "2 or more {ODYSSEY} type rested Characters"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "thisCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has '知 WISDOM' in top right corner, which is likely a placeholder or error. Card ID is P-079, which is not a standard One Piece TCG card ID format. The rarity is C (common) as printed in the bottom right corner."
-  }
+  ]
 }

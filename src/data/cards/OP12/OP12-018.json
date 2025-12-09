@@ -1,46 +1,106 @@
 {
-  "id": "OP12-018",
-  "set": "OP12",
-  "number": 18,
-  "name": "Conqueror's Haki",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Former Roger Pirates"
-  ],
+  "cardName": "Conqueror's Haki",
+  "cardId": "OP12-018",
+  "cardType": "event",
+  "colors": ["red"],
+  "cost": 0,
+  "types": ["Former Roger Pirates"],
+  "traits": ["formerRogerPirates"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-018.png",
-  "stats": {
-    "cost": 0,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "018",
+  "printedText": "[Counter] Give up to 1 of your Character or your [Silvers Rayleigh] +2000 power during this battle. Then, you may rest 1 of your DON!! cards. If you did, give all of your opponent's Characters and Leader -1000 power during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "#Counter Give up to 1 of your Character or your [Silvers Rayleigh]+2000 power during this battle. Then, you may rest 1 of your DON!! cards. If you did, give all of your opponent's Characters and Leader -1000 power during this turn.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "counter",
+      "selectors": {
+        "boostTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "cardType",
+                  "op": "=",
+                  "value": "character"
+                },
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Silvers Rayleigh"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "donToRest": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "active"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "oppLeaderAndCharacters": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your Character or your [Silvers Rayleigh]+2000 power during this battle. Then, you may rest 1 of your DON!! cards. If you did, give all of your opponent's Characters and Leader -1000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "boostTarget"
+        },
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "donToRest",
+          "may": true
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "donToRest",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": -1000,
+              "duration": "thisTurn",
+              "target": "oppLeaderAndCharacters"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,53 +1,56 @@
 {
-  "id": "OP11-077",
-  "set": "OP11",
-  "number": 77,
-  "name": "Randolph",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Homies",
-    "Big Mom Pirates"
-  ],
+  "cardName": "Randolph",
+  "cardId": "OP11-077",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Homies", "Big Mom Pirates"],
+  "traits": ["homies", "bigMomPirates"],
   "rarity": "C",
-  "art": "/cards/OP11/OP11-077.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn When a DON!! card is returned to your DON!! deck, up to 1 of your (Big Mom Pirates) type Characters gain +2 cost until the end of your opponent's next turn.",
+  "setId": "OP11",
+  "cardNumber": "077",
+  "printedText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, up to 1 of your {Big Mom Pirates} type Characters gains +2 cost until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenDonReturned",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "isYourTurn",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "When a DON!! card is returned to your DON!! deck, up to 1 of your (Big Mom Pirates) type Characters gain +2 cost until the end of your opponent's next turn.",
-        "powerMod": null,
-        "targets": [
-          "up to 1 of your (Big Mom Pirates) type Characters"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "bigMomPiratesCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "bigMomPirates"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 2,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "bigMomPiratesCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

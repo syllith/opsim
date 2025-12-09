@@ -1,55 +1,70 @@
 {
-  "id": "OP05-023",
-  "set": "OP05",
-  "number": 23,
-  "name": "Vergo",
-  "category": "Character",
+  "cardName": "Vergo",
+  "cardId": "OP05-023",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
-    "Navy/Donquixote Pirates"
+    "Navy",
+    "Donquixote Pirates"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-023.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!!x1 When Attacking K.O. up to 1 of your opponent's rested characters with a cost of 3 or less.",
+  "setId": "OP05",
+  "cardNumber": "023",
+  "printedText": "[DON!! x1] [When Attacking] K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "thisDonAttached",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's rested characters with a cost of 3 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter",
-          "rested"
-        ],
-        "conditions": [
-          "cost<=3"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "navy",
+    "donquixotePirates"
+  ]
 }

@@ -1,55 +1,77 @@
 {
-  "id": "OP11-034",
-  "set": "OP11",
-  "number": 34,
-  "name": "Hatchan",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Fish-Man",
-    "Fish-Man Island",
-    "Former Arolng Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-034.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this Character: If your Leader has the (Fish-Man) or (Merfolk) type, up to 1 of your opponent's Characters with a cost of 3 or less may not be rested until the end of your opponent's next turn.",
+  "cardName": "Hatchan",
+  "cardId": "OP11-034",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Fish-Man", "Fish-Man Island", "Former Arlong Pirates"],
+  "traits": ["fishMan", "fishManIsland", "formerArlongPirates"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "034",
+  "printedText": "[Activate: Main] You may rest this Character: If your Leader has the {Fish-Man} or {Merfolk} type, up to 1 of your opponent's Characters with a cost of 3 or less may not be rested until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character: If your Leader has the (Fish-Man) or (Merfolk) type, up to 1 of your opponent's Characters with a cost of 3 or less may not be rested until the end of your opponent's next turn.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Fish-Man",
-          "hasType:Merfolk"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterCost3OrLessUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "logic": "OR",
+            "any": [
+              {
+                "field": "selfLeaderHasTrait",
+                "op": "=",
+                "value": "fishMan"
+              },
+              {
+                "field": "selfLeaderHasTrait",
+                "op": "=",
+                "value": "merfolk"
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "replacementEffect",
+              "duration": "untilEndOfOpponentsNextTurn",
+              "event": "wouldBeRested",
+              "target": "opponentCharacterCost3OrLessUpToOne",
+              "actions": [
+                {
+                  "type": "noop"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

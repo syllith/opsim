@@ -1,33 +1,18 @@
 {
-  "id": "OP13-010",
-  "set": "OP13",
-  "number": 10,
-  "name": "Lord of the Coast",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Neptunian",
-    "East Blue"
-  ],
+  "cardName": "Lord of the Coast",
+  "cardId": "OP13-010",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Neptunian", "East Blue"],
+  "traits": ["neptunian", "eastBlue"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-010.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "010",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, and no abilities. Power is 8000, cost is 6, and counter is +1000. Rarity is C."
-  }
+  "abilities": []
 }

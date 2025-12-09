@@ -1,64 +1,114 @@
 {
-  "id": "OP10-098",
-  "set": "OP10",
-  "number": 98,
-  "name": "Liberation",
-  "category": "Event",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Blackbeard Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP10/OP10-098.png",
-  "stats": {
-    "cost": 6,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Choose up to 1 of your opponent's leaders and characters, negate its effect for this turn."
-  },
-  "text": "Main: If you have 2 or more characters less than your opponent, KO up to 1 of your opponent's characters with an original cost of 6 or less and one with an original cost of 4 or less. Trigger: Choose up to 1 of your opponent's leaders and characters, negate its effect for this turn.",
+  "cardName": "Liberation",
+  "cardId": "OP10-098",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 6,
+  "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
+  "rarity": "R",
+  "setId": "OP10",
+  "cardNumber": "098",
+  "printedText": "[Main] If you have 2 or more Characters less than your opponent, K.O. up to 1 of your opponent's Characters with an original cost of 6 or less and one with an original cost of 4 or less.\n[Trigger] Choose up to 1 of your opponent's Leaders or Characters, negate its effect for this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "selfChars": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 999,
+          "upTo": true,
+          "whoChooses": "system",
+          "bindAs": "selfChars"
+        },
+        "oppChars": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 999,
+          "upTo": true,
+          "whoChooses": "system",
+          "bindAs": "oppChars"
+        },
+        "oppOriginalCost6OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppOriginalCost6OrLess"
+        },
+        "oppOriginalCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppOriginalCost4OrLess"
+        }
       },
-      "effect": {
-        "text": "If you have 2 or more characters less than your opponent, KO up to 1 of your opponent's characters with an original cost of 6 or less and one with an original cost of 4 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCountDifference",
+        "selectorA": "oppChars",
+        "selectorB": "selfChars",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppOriginalCost6OrLess"
+        },
+        {
+          "type": "ko",
+          "target": "oppOriginalCost4OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "oppLeaderOrCharacter": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppLeaderOrCharacter"
+        }
       },
-      "effect": {
-        "text": "Choose up to 1 of your opponent's leaders and characters, negate its effect for this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "negateEffects",
+          "target": "oppLeaderOrCharacter",
+          "duration": "thisTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

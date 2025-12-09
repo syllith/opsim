@@ -1,55 +1,61 @@
 {
-  "id": "OP04-028",
-  "set": "OP04",
-  "number": 28,
-  "name": "Diamante",
-  "category": "Character",
+  "cardName": "Diamante",
+  "cardId": "OP04-028",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Donquixote Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-028.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "R",
+  "setId": "OP04",
+  "cardNumber": "028",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nDON!! x1 [End of Turn] If you have 2 or more active DON!!, set this Character as active.",
   "keywords": [
-    "Blocker",
-    "DON!!"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nDON!! End of Turn If you have 2 or more active DON!!, set this character as active.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "donAttachedToThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "activeDonInYourCostArea",
+            "op": ">=",
+            "value": 2
+          }
+        ]
       },
-      "effect": {
-        "text": "If you have 2 or more active DON!!, set this character as active.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "activeDON>=2"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ]
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample. The text 'SAMPLE' is overlaid on the image."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

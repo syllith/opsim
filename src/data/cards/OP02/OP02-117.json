@@ -1,48 +1,83 @@
 {
-  "id": "OP02-117",
-  "set": "OP02",
-  "number": 117,
-  "name": "Ice Age",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Navy"],
-  "rarity": "C",
-  "art": "/cards/OP02/OP02-117.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main"],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less."
-  },
-  "text": "[Main] Give up to 1 of your opponent's Characters -5 to their cost during this turn.\n[Trigger] K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "cardName": "Ice Age",
+  "cardId": "OP02-117",
+  "cardType": "event",
+  "colors": [
+    "black"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "UC",
+  "setId": "OP02",
+  "cardNumber": "117",
+  "printedText": "[Main] Give up to 1 of your opponent's Characters -5 to their cost during this turn.\n[Trigger] K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -5 to their cost during this turn.",
-        "targets": ["upTo1:opponent:Character"],
-        "conditions": []
-      }
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "oppCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "costDownTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -5,
+          "duration": "thisTurn",
+          "target": "oppCharacterUpToOne"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "targets": ["upTo1:opponent:Character<=3"],
-        "conditions": []
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "oppCharCost3OrLessUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCharCost3OrLessUpToOne"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "navy"
+  ]
 }

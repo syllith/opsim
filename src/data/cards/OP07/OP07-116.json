@@ -1,84 +1,176 @@
 {
-  "id": "OP07-116",
-  "set": "OP07",
-  "number": 116,
-  "name": "Flame Split",
-  "category": "Event",
+  "cardName": "Flame Split",
+  "cardId": "OP07-116",
+  "cardType": "event",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Land of Wano",
     "Nine Red Scabbards"
   ],
-  "rarity": "C",
-  "art": "/cards/OP07/OP07-116.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
+  "traits": [
+    "landOfWano",
+    "nineRedScabbards"
   ],
-  "trigger": {
-    "text": "Rest up to one of your opponents 4 cost or lower characters."
-  },
-  "text": "Main / Counter: Give up to one Leader or Character +1000 Power for the turn. After this, if your opponent has 2 life or less, rest up to one of your opponents 4 cost or lower characters.",
+  "rarity": "R",
+  "setId": "OP07",
+  "cardNumber": "116",
+  "printedText": "[Main] / [Counter] Up to 1 of your Leader or Character cards gains +1000 power during this turn. Then, if your opponent has 2 or less Life cards, rest up to 1 of your opponent's Characters with a cost of 4 or less.\n[Trigger] Rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Give up to one Leader or Character +1000 Power for the turn. After this, if your opponent has 2 life or less, rest up to one of your opponents 4 cost or lower characters.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "turn"
+      "timing": "main",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         },
-        "giveDon": null
-      }
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "opponentLife",
+            "op": "<=",
+            "value": 2
+          },
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": "restTarget"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Give up to one Leader or Character +1000 Power for the turn. After this, if your opponent has 2 life or less, rest up to one of your opponents 4 cost or lower characters.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "turn"
+      "timing": "counter",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
         },
-        "giveDon": null
-      }
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "opponentLife",
+            "op": "<=",
+            "value": 2
+          },
+          "actions": [
+            {
+              "type": "setState",
+              "state": "rested",
+              "target": "restTarget"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "triggerRestTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to one of your opponents 4 cost or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "triggerRestTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

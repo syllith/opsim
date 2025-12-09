@@ -1,58 +1,70 @@
 {
-  "id": "OP01-005",
-  "set": "OP01",
-  "number": 5,
-  "name": "Uta",
-  "category": "Character",
+  "cardName": "Uta",
+  "cardId": "OP01-005",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Special",
+  "cost": 4,
+  "power": 4000,
+  "counter": 0,
   "types": [
     "FILM"
   ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-005.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "005",
+  "printedText": "On Play: Return up to 1 red Character card other than [Uta] with a cost of 3 or less from your trash to your hand.",
   "keywords": [
-    "On Play"
+    "onPlay"
   ],
-  "trigger": null,
-  "text": "[On Play] Return up to 1 red Character card other than [Uta] with a cost of 3 or less from your trash to your hand.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "chooseRedChar": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "red"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Uta"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Return up to 1 red Character card other than [Uta] with a cost of 3 or less from your trash to your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "trash",
-          "hand"
-        ],
-        "conditions": [
-          "redCharacter",
-          "notUta",
-          "characterCost<=3"
-        ]
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "chooseRedChar",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "film"
+  ]
 }

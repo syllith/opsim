@@ -1,37 +1,67 @@
 {
-  "id": "EB03-005",
-  "set": "EB03",
-  "number": 5,
-  "name": "Sugar",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Special",
-  "types": ["Donquixote Pirates"],
-  "rarity": "R",
-  "art": "/cards/EB03/EB03-005.png",
-  "stats": {
-    "cost": 3,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] If your Leader is [Sugar], play up to 1 {Donquixote Pirates} type Character card with 6000 power or less from your hand rested.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB03-005",
+  "printedText": "On Play If your Leader is [Sugar], play up to 1 {Donquixote Pirates} type Character card with 6000 power or less from your hand rested.",
+  "types": [
+    "Donquixote Pirates"
+  ],
+  "cardNumber": "005",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader is [Sugar], play up to 1 {Donquixote Pirates} type Character card with 6000 power or less from your hand rested.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand:Character:DonquixotePirates:power<=6000"],
-        "conditions": ["leaderIsSugar"]
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "may": true,
+          "enterRested": true,
+          "type": "playCard",
+          "payCost": true,
+          "sourceZone": "hand",
+          "condition": {
+            "value": "Sugar",
+            "field": "leaderName",
+            "op": "="
+          },
+          "target": {
+            "filters": [
+              {
+                "value": "Donquixote Pirates",
+                "field": "types",
+                "op": "="
+              },
+              {
+                "value": 6000,
+                "field": "power",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Sugar",
+  "rarity": "R",
+  "cost": 3,
+  "colors": [
+    "red"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

@@ -1,36 +1,57 @@
 {
-  "id": "ST21-011",
-  "set": "ST21",
-  "number": 11,
-  "name": "Franky",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Franky",
+  "cardId": "ST21-011",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": "C",
-  "art": "/cards/ST21/ST21-011.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Opponent's Turn"],
-  "trigger": null,
-  "text": "DON!! x2 Opponent's Turn All of your {Straw Hat Crew} type Characters with an original base power of 4000 or less gain +1000 power.",
+  "traits": ["strawHatCrew"],
+  "rarity": "starter",
+  "setId": "ST21",
+  "cardNumber": "011",
+  "printedText": "[DON!! x2] [Opponent's Turn] All of your {Straw Hat Crew} type Characters with an original base power of 4000 or less gain +1000 power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "All of your {Straw Hat Crew} type Characters with an original base power of 4000 or less gain +1000 power.",
-        "powerMod": { "amount": 1000, "duration": "this turn" },
-        "targets": ["allAllyCharacters:StrawHatCrew<=4000"],
-        "conditions": ["donAttached"]
-      }
+      "timing": "duringOpponentsTurn",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 2
+      },
+      "selectors": {
+        "buffTargets": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Straw Hat Crew"
+            },
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 4000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "buffTargets"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

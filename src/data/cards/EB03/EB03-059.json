@@ -1,39 +1,117 @@
 {
-  "id": "EB03-059",
-  "set": "EB03",
-  "number": 59,
-  "name": "S-Snake",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Special",
-  "types": ["Seraphim", "Egghead"],
-  "rarity": "SR",
-  "art": "/cards/EB03/EB03-059.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "Trigger"],
-  "trigger": {
-    "text": "Up to 1 of your opponent's Characters with a cost of 6 or less other than [Monkey.D.Luffy] cannot attack during this turn."
-  },
-  "text": "[On Play] If your Leader has the {Egghead} type and you have 2 or more Life cards, you may add up to 1 Character card with a [Trigger] from your hand to the top of your Life cards face-up.",
+  "cardName": "S-Snake",
+  "cardId": "EB03-059",
+  "cardType": "character",
+  "colors": [
+    "yellow"
+  ],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "types": [
+    "Seraphim",
+    "Egghead"
+  ],
+  "rarity": "R",
+  "setId": "EB03",
+  "cardNumber": "059",
+  "printedText": "On Play If your Leader has the {Egghead} type and you have 2 or more Life cards, you may add up to 1 Character card with a Trigger from your hand to the top of your Life cards face-up.\nTrigger Up to 1 of your opponent's Characters with a cost of 6 or less other than [Monkey·D·Luffy] cannot attack during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {Egghead} type and you have 2 or more Life cards, you may add up to 1 Character card with a [Trigger] from your hand to the top of your Life cards face-up.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand", "life"],
-        "conditions": ["leaderHasEgghead", "has2OrMoreLife", "characterWithTrigger"]
-      }
+      "timing": "onPlay",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderHasType",
+            "op": "=",
+            "value": "Egghead"
+          },
+          {
+            "field": "selfLifeCount",
+            "op": ">=",
+            "value": 2
+          }
+        ]
+      },
+      "selectors": {
+        "triggerCharInHand": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "keywords",
+              "op": "=",
+              "value": "trigger"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "triggerCharInHand",
+          "destination": "topOfLife",
+          "faceUp": true,
+          "may": true
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "oppCost6NonLuffy": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            },
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "name",
+                  "op": "!=",
+                  "value": "Monkey·D·Luffy"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "target": "oppCost6NonLuffy",
+          "duration": "thisTurn",
+          "restrictionKind": "attack"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "seraphim",
+    "egghead"
+  ]
 }

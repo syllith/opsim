@@ -1,47 +1,65 @@
 {
-  "id": "OP07-038",
-  "set": "OP07",
-  "number": 38,
-  "name": "Boa Hancock",
-  "category": "Leader",
+  "cardName": "Boa Hancock",
+  "cardId": "OP07-038",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Seven Warlords of the Sea",
     "Kuja Pirates"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP07/OP07-038.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "kujaPirates"
+  ],
+  "rarity": "L",
+  "setId": "OP07",
+  "cardNumber": "038",
+  "printedText": "[Your Turn] [Once Per Turn] This effect can be activated when a Character is removed from the field by your effect. If you have 5 or less cards in your hand, draw 1 card.",
   "keywords": [],
-  "trigger": null,
-  "text": "During Your Turn Once Per Turn You may activate this when a character leaves play from one of your abilities. If you have 5 or less cards in hand, draw 1 card.",
   "abilities": [
     {
-      "timing": "During Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenCharacterLeavesPlay",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isYourTurn",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "event.effectController",
+            "op": "=",
+            "value": "self"
+          }
+        ]
       },
-      "effect": {
-        "text": "You may activate this when a character leaves play from one of your abilities. If you have 5 or less cards in hand, draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "handCount",
+            "op": "<=",
+            "value": 5
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 1
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,59 +1,70 @@
 {
-  "id": "OP05-041",
-  "set": "OP05",
-  "number": 41,
-  "name": "Sakazuki",
-  "category": "Leader",
+  "cardName": "Sakazuki",
+  "cardId": "OP05-041",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "blue"
   ],
-  "attribute": "Special",
+  "power": 5000,
+  "life": 4,
   "types": [
     "Navy"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-041.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "L",
+  "setId": "OP05",
+  "cardNumber": "041",
+  "printedText": "[Activate: Main] [Once Per Turn] You may trash 1 card from your hand: Draw 1 card.\n[When Attacking] Give up to 1 of your opponent's Characters -1 cost during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may discard one card: Draw one card. When Attacking Give up to one opponent character cost -1.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard one card: Draw one card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "selectors": {
+        "costDownTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "costDownTarget"
+        }
       },
-      "effect": {
-        "text": "Give up to one opponent character cost -1.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -1,
+          "duration": "thisTurn",
+          "target": "costDownTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

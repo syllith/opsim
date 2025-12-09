@@ -1,47 +1,76 @@
 {
-  "id": "OP09-012",
-  "set": "OP09",
-  "number": 12,
-  "name": "Monster",
-  "category": "Character",
+  "cardName": "Monster",
+  "cardId": "OP09-012",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Animal",
     "Red Hair Pirates"
   ],
+  "traits": [
+    "animal",
+    "redHairedPirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-012.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP09",
+  "cardNumber": "012",
+  "printedText": "If your Character [Bonk Punch] would be K.O.'d by an effect, you may trash this Character instead.",
   "keywords": [],
-  "trigger": null,
-  "text": "If your character \"Bonk Punch\" would be KO'd by an effect, you may instead send this character to the trash.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "bonkPunchCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Bonk Punch"
+            }
+          ]
+        },
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ]
+        }
       },
-      "effect": {
-        "text": "If your character \"Bonk Punch\" would be KO'd by an effect, you may instead send this character to the trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKO",
+          "target": "bonkPunchCharacter",
+          "may": true,
+          "condition": {
+            "field": "koCause",
+            "op": "=",
+            "value": "effect"
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "thisCard",
+              "destination": "trash"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

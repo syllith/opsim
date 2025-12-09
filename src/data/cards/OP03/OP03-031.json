@@ -1,58 +1,30 @@
 {
-  "id": "OP03-031",
-  "set": "OP03",
-  "number": 31,
-  "name": "Pearl",
-  "category": "Character",
+  "cardName": "Pearl",
+  "cardId": "OP03-031",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "East Blue",
     "Krieg Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-031.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP03",
+  "cardNumber": "031",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "keywords": [
     "Blocker"
   ],
-  "trigger": null,
-  "text": "(Blocker) (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-  "abilities": [
-    {
-      "timing": "Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "afterOpponentDeclaresAttack"
-        ],
-        "giveDon": null
-      }
-    }
+  "abilities": [],
+  "attributes": [
+    "strike"
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "traits": [
+    "eastBlue",
+    "kriegPirates"
+  ]
 }

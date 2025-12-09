@@ -1,37 +1,50 @@
 {
-  "id": "ST12-011",
-  "set": "ST12",
-  "number": 11,
-  "name": "Sanji",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
+  "cardName": "Sanji",
+  "cardId": "ST12-011",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/ST12/ST12-011.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-     "counter": null
-  },
-  "keywords": ["When Attacking"],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking If you have 5 or less cards in your hand, this character gains +2000 power until the start of your next turn.",
+  "setId": "ST12",
+  "cardNumber": "011",
+  "printedText": "[DON!! x1] [When Attacking] If you have 5 or less cards in your hand, this Character gains +2000 Power until the start of your next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 5 or less cards in your hand, this character gains +2000 power until the start of your next turn.",
-        "powerMod": { "amount": 2000, "duration": "startOfNextTurn" },
-        "targets": ["self"],
-        "conditions": ["donAttached", "handSize<=5"],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "donCountOnThis",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selfHandCount",
+            "op": "<=",
+            "value": 5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "untilStartOfYourNextTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

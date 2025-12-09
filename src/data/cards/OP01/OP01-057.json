@@ -1,42 +1,108 @@
 {
-  "id": "OP01-057",
-  "set": "OP01",
-  "number": 57,
-  "name": "Paradise Waterfall",
-  "category": "Event",
-  "colors": ["Green"],
-  "attribute": null,
-  "types": ["Wano Country", "Kozuki Family"],
+  "cardName": "Paradise Waterfall",
+  "cardId": "OP01-057",
+  "cardType": "event",
+  "colors": [
+    "green"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Wano Country",
+    "Kozuki Family"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-057.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter"],
-  "trigger": {
-    "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less."
-  },
-  "text": "[Counter] Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, set up to 1 of your Characters as active.",
+  "setId": "OP01",
+  "cardNumber": "057",
+  "printedText": "Counter Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, set up to 1 of your Characters as active.\nTrigger K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, set up to 1 of your Characters as active.",
-        "grants": [],
-        "powerMod": {
-          "amount": 2000,
-          "duration": "duringThisBattle"
+      "timing": "counter",
+      "frequency": "none",
+      "selectors": {
+        "powerTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "powerTarget"
         },
-        "targets": ["self:Leader", "upTo1:ally:Character"],
-        "conditions": []
-      }
+        "untapTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "untapTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "powerTarget"
+        },
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "untapTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "triggerKoTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "triggerKoTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "triggerKoTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "wanoCountry",
+    "kozukiFamily"
+  ]
 }

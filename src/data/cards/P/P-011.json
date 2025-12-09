@@ -1,52 +1,58 @@
 {
-  "id": "P-011",
-  "set": "P",
-  "number": 11,
-  "name": "Uta",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Special",
+  "cardName": "Uta",
+  "cardId": "P-011",
+  "cardType": "leader",
+  "colors": ["red"],
+  "power": 5000,
+  "life": 5,
+  "attributes": ["special"],
   "types": [
     "FILM"
   ],
-  "rarity": "L",
-  "art": "/cards/P/P-011.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "traits": [
+    "film"
+  ],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "011",
+  "printedText": "[Activate: Main] [Once Per Turn] (1) (You may rest the specified number of DON!! cards in your Cost Area.): Up to 1 of your Characters with no base effect gains +2000 power during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn (You may rest the specified number of DON!! cards in your Cost Area; Up to 1 of your Characters without effects gains +2000 power during this turn.)",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restDonFromCostArea",
+        "count": 1
       },
-      "effect": {
-        "text": "You may rest the specified number of DON!! cards in your Cost Area; Up to 1 of your Characters without effects gains +2000 power during this turn.",
-        "powerMod": {
+      "selectors": {
+        "selfCharsNoBaseEffect": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "hasBaseEffect",
+              "op": "=",
+              "value": false
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "Up to 1 of your Characters without effects"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "selfCharsNoBaseEffect"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

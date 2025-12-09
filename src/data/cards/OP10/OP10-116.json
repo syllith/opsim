@@ -1,65 +1,90 @@
 {
-  "id": "OP10-116",
-  "set": "OP10",
-  "number": 116,
-  "name": "Damned Punk: Electromagnetic Cannon",
-  "category": "Event",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Supernova",
-    "Kid Pirates"
-  ],
+  "cardName": "Damned Punk: Electromagnetic Cannon",
+  "cardId": "OP10-116",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 4,
+  "types": ["Supernova", "Kid Pirates"],
+  "traits": ["supernova", "kidPirates"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-116.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 2 cards and discard 1 card from your hand."
-  },
-  "text": "Main Look at up to 1 card from the top of you or your opponent's Life cards and place it at the top or bottom of the Life cards. Then, K.O. up to 1 of your opponent's characters with a cost of 5 or less.",
+  "setId": "OP10",
+  "cardNumber": "116",
+  "printedText": "[Main] Look at up to 1 card from the top of your or your opponent's Life cards and place it at the top or bottom of those Life cards. Then, K.O. up to 1 of your opponent's Characters with a cost of 5 or less.\n[Trigger] Draw 2 cards and discard 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "oppCost5OrLessChar": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "oppCost5OrLessChar"
+        }
       },
-      "effect": {
-        "text": "Look at up to 1 card from the top of you or your opponent's Life cards and place it at the top or bottom of the Life cards. Then, K.O. up to 1 of your opponent's characters with a cost of 5 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "selfTopLifeCard",
+                  "destination": "topOrBottomOfLife",
+                  "ordering": "keep",
+                  "may": true
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "opponentTopLifeCard",
+                  "destination": "topOrBottomOfLife",
+                  "ordering": "keep",
+                  "may": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "ko",
+          "target": "oppCost5OrLessChar"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 2 cards and discard 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "side": "self",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

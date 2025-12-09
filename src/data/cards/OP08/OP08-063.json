@@ -1,48 +1,50 @@
 {
-  "id": "OP08-063",
-  "set": "OP08",
-  "number": 63,
-  "name": "Charlotte Katakuri",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Big Mom Pirates"
-  ],
+  "cardName": "Charlotte Katakuri",
+  "cardId": "OP08-063",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-063.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may flip the top card of your Life facedown: Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "setId": "OP08",
+  "cardNumber": "063",
+  "printedText": "[On Play] You may turn 1 card from the top of your Life cards face-down: Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "setTopLifeFace",
+        "side": "self",
+        "count": 1,
+        "faceUp": false,
+        "may": true
       },
-      "effect": {
-        "text": "You may flip the top card of your Life facedown: Add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "faceUp": true,
+          "enterRested": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

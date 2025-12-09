@@ -1,51 +1,63 @@
 {
-  "id": "OP05-063",
-  "set": "OP05",
-  "number": 63,
-  "name": "Orobi",
-  "category": "Character",
+  "cardName": "Orobi",
+  "cardId": "OP05-063",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Straw Hat Crew"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-063.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have 8 or more DON!! cards on your field, K.O. up to one of your opponent's Characters that costs 3 or less.",
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "063",
+  "printedText": "[On Play] If you have 8 or more DON!! cards on your field, K.O. up to 1 of your opponent's Characters that costs 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 8,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "condition": {
+        "field": "donCountField",
+        "op": ">=",
+        "value": 8
       },
-      "effect": {
-        "text": "If you have 8 or more DON!! cards on your field, K.O. up to one of your opponent's Characters that costs 3 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost3"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "strawHatCrew"
+  ]
 }

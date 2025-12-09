@@ -1,52 +1,59 @@
 {
-  "id": "OP13-071",
-  "set": "OP13",
-  "number": 71,
-  "name": "Nekomamushi",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Minks",
-    "Roger Pirates"
-  ],
+  "cardName": "Nekomamushi",
+  "cardId": "OP13-071",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Minks", "Roger Pirates"],
+  "traits": ["minks", "rogerPirates"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-071.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you have 8 or more DON!! cards on your field, K.O. up to 1 of your opponent's Characters with 3000 base power or less.",
+  "setId": "OP13",
+  "cardNumber": "071",
+  "printedText": "[On Play] If you have 8 or more DON!! cards on your field, K.O. up to 1 of your opponent's Characters with 3000 base power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 8,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "selfDonsOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "whoChooses": "system"
+        },
+        "upToOneOppBase3000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "If you have 8 or more DON!! cards on your field, K.O. up to 1 of your opponent's Characters with 3000 base power or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=power3000"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfDonsOnField",
+        "op": ">=",
+        "value": 8
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "upToOneOppBase3000OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,59 +1,56 @@
 {
-  "id": "OP04-070",
-  "set": "OP04",
-  "number": 70,
-  "name": "Mr.3 (Galdino)",
-  "category": "Character",
+  "cardName": "Mr.3 (Galdino)",
+  "cardId": "OP04-070",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Special",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Baroque Works"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-070.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Opponent attack",
-    "Once Per Turn",
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "Once Per Turn, DON!!-1: Give up to 1 of your opponent's characters -1000 Power for this turn.",
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "070",
+  "printedText": "When Opponent Attacks Once Per Turn DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Give up to 1 of your opponent's Characters -1000 Power for this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's characters -1000 Power for this turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "opponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": [
+              "character"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, but all fields are based on the visible text and layout."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

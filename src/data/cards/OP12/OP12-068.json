@@ -1,49 +1,18 @@
 {
-  "id": "OP12-068",
-  "set": "OP12",
-  "number": 68,
-  "name": "Gin",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "East Blue/Krieg Pirates"
-  ],
+  "cardName": "Gin",
+  "cardId": "OP12-068",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["East Blue", "Krieg Pirates"],
+  "traits": ["eastBlue", "kriegPirates"],
   "rarity": "UC",
-  "art": "/cards/OP12/OP12-068.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "068",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "When this card is played, you may rest 1 DON!! from your cost area. If you do, this card gains +2000 power until end of turn.",
-  "abilities": [
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "When this card is played, you may rest 1 DON!! from your cost area. If you do, this card gains +2000 power until end of turn.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "abilities": []
 }

@@ -1,53 +1,76 @@
 {
-  "id": "OP04-088",
-  "set": "OP04",
-  "number": 88,
-  "name": "Hajrudin",
-  "category": "Character",
+  "cardName": "Hajrudin",
+  "cardId": "OP04-088",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
   "types": [
     "Giant",
     "Dressrosa",
     "New Giant Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-088.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "088",
+  "printedText": "[Activate: Main] You may rest 1 of your Leaders: Reduce the cost of up to 1 of your opponent's Characters by -4 during this turn.",
   "keywords": [
-    "Activate: Main"
+    "activateMain"
   ],
-  "trigger": null,
-  "text": "Activate: Main\nYou may rest 1 of your Leaders: Reduce the cost of up to 1 of your opponent's Characters by -4 during this turn.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "activateMain",
+      "selectors": {
+        "yourLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "restLeader"
+        },
+        "oppCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "costTarget"
+        }
       },
-      "effect": {
-        "text": "Reduce the cost of up to 1 of your opponent's Characters by -4 during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "restFromField",
+        "selector": "yourLeader",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -4,
+          "duration": "thisTurn",
+          "target": "oppCharacter"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, but all fields are extracted from the visible text and layout."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "giant",
+    "dressrosa",
+    "newGiantPirates"
+  ]
 }

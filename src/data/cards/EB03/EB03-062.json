@@ -1,37 +1,85 @@
 {
-  "id": "EB03-062",
-  "set": "EB03",
-  "number": 62,
-  "name": "Trafalgar Law",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Heart Pirates"],
+  "cardName": "Trafalgar Law",
+  "cardId": "EB03-062",
+  "cardType": "character",
+  "colors": [
+    "yellow"
+  ],
+  "cost": 8,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "Heart Pirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/EB03/EB03-062.png",
-  "stats": {
-    "cost": 8,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Rush", "Activate Main"],
-  "trigger": null,
-  "text": "[Rush]\n[Activate:Main] You may trash 1 card from your hand and trash this Character: Add up to 1 card from the top of your deck to the top of your Life cards. Then, play up to 1 [Trafalgar Law] with a cost of 7 or less from your hand.",
+  "setId": "EB03",
+  "cardNumber": "062",
+  "printedText": "Rush\nActivate:Main You may trash 1 card from your hand and trash this Character: Add up to 1 card from the top of your deck to the top of your Life cards. Then, play up to 1 [Trafalgar Law] with a cost of 7 or less from your hand.",
+  "keywords": [
+    "Rush"
+  ],
   "abilities": [
     {
-      "timing": "Activate Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand and trash this Character: Add up to 1 card from the top of your deck to the top of your Life cards. Then, play up to 1 [Trafalgar Law] with a cost of 7 or less from your hand.",
-        "grants": ["Rush"],
-        "powerMod": null,
-        "targets": ["hand", "deck", "life"],
-        "conditions": ["mayTrash1FromHand", "mayTrashThisCharacter", "trafalgarLawCost<=7"]
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "multiCost",
+        "may": true,
+        "costs": [
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          },
+          {
+            "type": "trashThis"
+          }
+        ]
+      },
+      "selectors": {
+        "lawInHandCost7OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Trafalgar Law"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "life",
+          "may": true,
+          "target": "selfTopDeckCard"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "lawInHandCost7OrLess",
+          "payCost": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "heartPirates"
+  ]
 }

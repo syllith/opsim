@@ -1,37 +1,73 @@
 {
-  "id": "ST27-003",
-  "set": "ST27",
-  "number": 3,
-  "name": "Kuzan",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": null,
+  "cardName": "Kuzan",
+  "cardId": "ST27-003",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 6,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Blackbeard Pirates", "Former Navy"],
+  "traits": ["blackbeardPirates", "formerNavy"],
   "rarity": "SR",
-  "art": "/cards/ST27/ST27-003.png",
-  "stats": {
-    "cost": 6,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On K.O."],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] Play up to 1 {Blackbeard Pirates} type Character card with a cost of 5 or less from your trash rested.",
+  "setId": "ST27",
+  "cardNumber": "003",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On K.O.] Play up to 1 {Blackbeard Pirates} type Character card with a cost of 5 or less from your trash rested.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 {Blackbeard Pirates} type Character card with a cost of 5 or less from your trash rested.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["characterTypeBlackbeardPirates", "characterCost<=5"]
-      }
+      "timing": "static",
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": "thisCardSelector"
+        }
+      ]
+    },
+    {
+      "timing": "onKO",
+      "selectors": {
+        "blackbeardCharacterFromTrash": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "blackbeardPirates"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "blackbeardCharacterFromTrash",
+          "enterRested": true,
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,62 +1,72 @@
 {
-  "id": "OP05-112",
-  "set": "OP05",
-  "number": 112,
-  "name": "Captain McKinley",
-  "category": "Character",
+  "cardName": "Captain McKinley",
+  "cardId": "OP05-112",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Sky Island"
   ],
   "rarity": "C",
-  "art": "/cards/OP05/OP05-112.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "112",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) On K.O. Play up to 1 cost 1 [Sky Island] type character card from your hand.",
   "keywords": [
-    "Blocker",
-    "On K.O."
+    "blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn K.O. Play up 1 cost 1 [Sky Island] type character card from your hand.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "frequency": "none",
+      "selectors": {
+        "skyIslandCost1FromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cost",
+                  "op": "=",
+                  "value": 1
+                },
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Sky Island"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Play up 1 cost 1 [Sky Island] type character card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "skyIslandCost1FromHand",
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "skyIsland"
+  ]
 }

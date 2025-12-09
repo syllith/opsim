@@ -1,50 +1,56 @@
 {
-  "id": "P-029",
-  "set": "P",
-  "number": 29,
-  "name": "Bartolomeo",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "FILM",
-    "Supernovas",
-    "Barto Club"
-  ],
-  "rarity": "L",
-  "art": "/cards/P/P-029.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "End of Your Turn"
-  ],
-  "trigger": null,
-  "text": "End of Your Turn: You may rest this Character. Set up to 1 of your (FILM) type Characters other than [Bartolomeo] as active.",
+  "cardName": "Bartolomeo",
+  "cardId": "P-029",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["FILM", "Supernovas", "Barto Club"],
+  "traits": ["film", "supernovas", "bartoClub"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-029",
+  "printedText": "[End of Your Turn] You may rest this Character: Set up to 1 of your [FILM] type Characters other than [Bartolomeo] as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
+      "timing": "endOfYourTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character. Set up to 1 of your (FILM) type Characters other than [Bartolomeo] as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "otherFilmCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "film"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Bartolomeo"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "otherFilmCharacters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and 'NOT FOR SALE IN JAPAN'."
-  }
+  ]
 }

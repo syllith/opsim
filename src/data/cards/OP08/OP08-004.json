@@ -1,51 +1,68 @@
 {
-  "id": "OP08-004",
-  "set": "OP08",
-  "number": 4,
-  "name": "Kuromarimo",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Drum Kingdom"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-004.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If you control a \"Chess\", KO up to 1 of your opponent's characters with 3000 Power or less.",
+  "cardName": "Kuromarimo",
+  "cardId": "OP08-004",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Drum Kingdom"],
+  "traits": ["drumKingdom"],
+  "rarity": "C",
+  "setId": "OP08",
+  "cardNumber": "004",
+  "printedText": "[On Play] If you control a [Chess], K.O. up to 1 of your opponent's Characters with 3000 power or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourChessOnField",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "If you control a \"Chess\", KO up to 1 of your opponent's characters with 3000 Power or less.",
-        "powerMod": null,
-        "conditions": [
-          "control a \"Chess\""
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "yourChessOnField": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Chess"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system"
+        },
+        "opponentCharacter3000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacter3000OrLess",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

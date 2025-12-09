@@ -1,46 +1,58 @@
 {
-  "id": "OP06-002",
-  "set": "OP06",
-  "number": 2,
-  "name": "Inazuma",
-  "category": "Character",
+  "cardName": "Inazuma",
+  "cardId": "OP06-002",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-002.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "002",
+  "printedText": "When this Character has 7000 power or more, they gain Banish (When a Character deals damage, the target card is trashed without activating its Trigger.)",
   "keywords": [],
-  "trigger": null,
-  "text": "When this Character has 7000 power or more, they gain Banish (When a character deals damage, the target card is trashed without activating its Trigger.)",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCharacter"
+        }
       },
-      "effect": {
-        "text": "When this Character has 7000 power or more, they gain Banish (When a character deals damage, the target card is trashed without activating its Trigger.)",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Banish",
+          "duration": "permanent",
+          "target": "thisCharacter",
+          "condition": {
+            "field": "this.power",
+            "op": ">=",
+            "value": 7000
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. Power value is 5000, not 7000 as stated in the trigger condition. The trigger text is printed as 'Banish (When a character deals damage, the target card is trashed without activating its Trigger.)' which is a standard Banish effect."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "revolutionaryArmy"
+  ]
 }

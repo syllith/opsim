@@ -1,69 +1,53 @@
 {
-  "id": "OP13-063",
-  "set": "OP13",
-  "number": 63,
-  "name": "Kouzuki Oden",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Land of Wano",
-    "Kouzuki Clan",
-    "Roger Pirates"
-  ],
+  "cardName": "Kouzuki Oden",
+  "cardId": "OP13-063",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Land of Wano", "Kouzuki Clan", "Roger Pirates"],
+  "traits": ["landOfWano", "kouzukiClan", "rogerPirates"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-063.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: If you have any DON!! cards given, add up to 1 DON!! card from your DON!! deck as rested.",
+  "setId": "OP13",
+  "cardNumber": "063",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If you have any DON!! cards given, add up to 1 DON!! card from your DON!! deck as rested.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If you have any DON!! cards given, add up to 1 DON!! card from your DON!! deck as rested.",
-        "powerMod": null,
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "DON!! deck",
-          "to": []
+      "timing": "onPlay",
+      "selectors": {
+        "givenDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "isGivenDon",
+              "op": "=",
+              "value": true
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
         }
-      }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "givenDon",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDonDeckCard",
+          "destination": "costArea",
+          "enterRested": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,37 +1,56 @@
 {
-  "id": "OP01-037",
-  "set": "OP01",
-  "number": 37,
-  "name": "Kawamatsu",
-  "category": "Character",
+  "cardName": "Kawamatsu",
+  "cardId": "OP01-037",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Fish-Man",
     "Wano Country",
     "Nine Red Scabbards"
   ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-037.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "037",
+  "printedText": "Trigger Play this card.",
   "keywords": [],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "",
-  "abilities": [],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "abilities": [
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "thisCardFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "thisCardFromLife"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardFromLife",
+          "payCost": false
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "fishMan",
+    "wanoCountry",
+    "nineRedScabbards"
+  ]
 }

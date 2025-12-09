@@ -1,0 +1,66 @@
+{
+  "cardName": "Guernica",
+  "cardId": "OP08-081",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["CP0"],
+  "traits": ["cp0"],
+  "rarity": "C",
+  "setId": "OP08",
+  "cardNumber": "081",
+  "printedText": "[When Attacking] You may place 3 cards with a type including \"CP\" from your trash at the bottom of your deck in any order: K.O. up to 1 of your opponent's Characters with a cost of 0.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "whenAttacking",
+      "cost": {
+        "type": "bottomDeckFromTrash",
+        "selector": "cpFromTrash",
+        "may": true
+      },
+      "selectors": {
+        "cpFromTrash": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 3,
+          "max": 3,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "CP"
+            }
+          ]
+        },
+        "oppCost0": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost0"
+        }
+      ]
+    }
+  ]
+}

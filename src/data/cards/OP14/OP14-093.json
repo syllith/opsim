@@ -1,49 +1,54 @@
 {
-  "id": "OP14-093",
-  "set": "OP14",
-  "number": 93,
-  "name": "Mr.4(Babe)",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Baroque Works"
-  ],
+  "cardName": "Mr.4(Babe)",
+  "cardId": "OP14-093",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Baroque Works"],
+  "traits": ["baroqueWorks"],
   "rarity": "C",
-  "art": "/cards/OP14/OP14-093.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. Add up to 1 Character card with a cost of 8 or less with a type including \"Baroque Works\" from your trash to your hand.",
+  "setId": "OP14",
+  "cardNumber": "093",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [On K.O.] Add up to 1 Character card with a cost of 8 or less with a type including \"Baroque Works\" from your trash to your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "trashBaroqueCost8OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "baroqueWorks"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 8
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Add up to 1 Character card with a cost of 8 or less with a type including \"Baroque Works\" from your trash to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "trashBaroqueCost8OrLess",
+          "destination": "hand",
+          "ordering": "keep",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,48 +1,83 @@
 {
-  "id": "OP11-066",
-  "set": "OP11",
-  "number": 66,
-  "name": "Charlotte Oven",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Big Mom Pirates"
-  ],
+  "cardName": "Charlotte Oven",
+  "cardId": "OP11-066",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-066.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main You may rest this Character: Declare a cost of your choice and reveal the top card of your opponent's deck. If the revealed card has the same cost as the declared cost, KO up to 1 of your opponent's Characters with an original cost of 3 or less. Then, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "setId": "OP11",
+  "cardNumber": "066",
+  "printedText": "[Activate: Main] You may rest this Character: Declare a cost of your choice and reveal the top card of your opponent's deck. If the revealed card has the same cost as the declared cost, KO up to 1 of your opponent's Characters with an original cost of 3 or less. Then, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character: Declare a cost of your choice and reveal the top card of your opponent's deck. If the revealed card has the same cost as the declared cost, KO up to 1 of your opponent's Characters with an original cost of 3 or less. Then, add up to 1 DON!! card from your DON!! deck and rest it.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterOrigCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 3
+            }
+          ]
+        },
+        "donFromDonDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "opponentTopDeckCard",
+          "destination": "topOfDeck",
+          "ordering": "keep",
+          "faceUp": true
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "topDeckCardCostMatchesDeclaredCost",
+            "op": "=",
+            "value": true
+          },
+          "actions": [
+            {
+              "type": "ko",
+              "target": "opponentCharacterOrigCost3OrLess"
+            }
+          ]
+        },
+        {
+          "type": "moveCard",
+          "target": "donFromDonDeck",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

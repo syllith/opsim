@@ -1,21 +1,53 @@
 {
-  "id": "ST04-005",
-  "set": "ST04",
-  "number": 5,
-  "name": "Queen",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
+  "cardName": "Queen",
+  "cardId": "ST04-005",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Animal Kingdom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST04/ST04-005.png",
-  "stats": { "cost": 5, "power": 6000, "life": null, "counter": { "present": true, "value": 1000 } },
-  "keywords": ["Blocker", "On Play", "DON!! -1"],
-  "trigger": null,
-  "text": "Blocker. On Play — DON!! -1: Draw 2 cards and trash 1 card from your hand.",
+  "traits": ["animalKingdomPirates"],
+  "rarity": "R",
+  "setId": "ST04",
+  "cardNumber": "005",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Draw 2 cards and trash 1 card from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
-    {"timing": "Block", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "After opponent declares an attack you may rest this to become new target.", "grants": [], "powerMod": null, "targets": ["self"], "conditions": ["opponentDeclaredAttack"]}},
-    {"timing": "On Play", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Draw 2 cards then discard 1 card.", "grants": [], "powerMod": null, "targets": [], "conditions": ["donAttached"]}}
-  ],
-  "meta": {"notes": null}
+    {
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onPlay",
+      "cost": {
+        "type": "donMinus",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
+    }
+  ]
 }

@@ -1,64 +1,60 @@
 {
-  "id": "OP05-086",
-  "set": "OP05",
-  "number": 86,
-  "name": "Nefertari Vivi",
-  "category": "Character",
+  "cardName": "Nefeltari Vivi",
+  "cardId": "OP05-086",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
   "types": [
     "Alabasta Kingdom"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-086.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "086",
+  "printedText": "If you have 10 or more cards in your trash, this Character gains [Blocker]. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "keywords": [
-    "Blocker"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "If your trash has 10 cards or more, this character gains Blocker. (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "selfTrash": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "trash"
+          ]
+        }
       },
-      "effect": {
-        "text": "If your trash has 10 cards or more, this character gains Blocker.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfTrash",
+        "op": ">=",
+        "value": 10
       },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "alabastaKingdom"
+  ]
 }

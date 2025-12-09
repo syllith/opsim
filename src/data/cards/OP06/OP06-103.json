@@ -1,66 +1,125 @@
 {
-  "id": "OP06-103",
-  "set": "OP06",
-  "number": 103,
-  "name": "Kawamatsu",
-  "category": "Character",
+  "cardName": "Kawamatsu",
+  "cardId": "OP06-103",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Slash",
+  "cost": 3,
+  "power": 5000,
+  "counter": 0,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Fishman",
     "Land of wano",
     "Akazaya Nine"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-103.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "Trigger"
+  "traits": [
+    "fishMan",
+    "landOfWano",
+    "akazayaNine"
   ],
-  "trigger": {
-    "text": "If your opponent's life is at 3 or less, play this card."
-  },
-  "text": "When Attacking: You may discard 2 cards; return up to 1 of your power 0 characters to the top or bottom of its owner's life face up.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "103",
+  "printedText": "[When Attacking] You may discard 2 cards: return up to 1 of your power 0 Characters to the top or bottom of its owner's Life face up.\n[Trigger] If your opponent's Life is at 3 or less, play this card.",
+  "keywords": [
+    "whenAttacking",
+    "trigger"
+  ],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard 2 cards; return up to 1 of your power 0 characters to the top or bottom of its owner's life face up.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "selfPower0Character": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "card.power",
+              "op": "=",
+              "value": 0
+            }
+          ],
+          "bindAs": "characterToReturn"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "selfPower0Character",
+                  "destination": "topOfLife",
+                  "faceUp": true
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "selfPower0Character",
+                  "destination": "bottomOfLife",
+                  "faceUp": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "condition": {
+        "field": "opponentLifeCount",
+        "op": "<=",
+        "value": 3
       },
-      "effect": {
-        "text": "If your opponent's life is at 3 or less, play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCardFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardFromLife",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

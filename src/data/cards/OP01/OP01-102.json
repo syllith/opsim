@@ -1,38 +1,57 @@
 {
-  "id": "OP01-102",
-  "set": "OP01",
-  "number": 102,
-  "name": "Jack",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
-  "types": ["Animal Kingdom Pirates"],
+  "cardName": "Jack",
+  "cardId": "OP01-102",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP01/OP01-102.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter", "When Attacking", "DON!!"],
-  "trigger": null,
-  "text": "When Attacking DON!! -1 Your opponent trashes 1 card from their hand.",
+  "setId": "OP01",
+  "cardNumber": "102",
+  "printedText": "[When Attacking] DON!! −1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Your opponent trashes 1 card from their hand.",
+  "keywords": [
+    "whenAttacking"
+  ],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "Your opponent trashes 1 card from their hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponentHand:oneCard"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "cost": {
+        "type": "returnDon",
+        "count": 1
+      },
+      "selectors": {
+        "oppHandCard": {
+          "side": "opponent",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppHandCard",
+          "destination": "trash",
+          "ordering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

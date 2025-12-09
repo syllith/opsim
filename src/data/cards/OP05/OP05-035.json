@@ -1,32 +1,26 @@
 {
-  "id": "OP05-035",
-  "set": "OP05",
-  "number": 35,
-  "name": "Bellamy",
-  "category": "Character",
+  "cardName": "Bellamy",
+  "cardId": "OP05-035",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Donquixote Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-035.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "035",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": {
-    "notes": "Card has no printed text or keywords, so abilities and text fields are null."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "donquixotePirates"
+  ]
 }

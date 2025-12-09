@@ -1,35 +1,62 @@
 {
-  "id": "OP02-110",
-  "set": "OP02",
-  "number": 110,
-  "name": "Hina",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Navy"],
-  "rarity": "SR",
-  "art": "/cards/OP02/OP02-110.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Block"],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Block] Choose up to 1 of your opponent's Characters with a cost of 6 or less. The chosen Character cannot attack during this turn.",
+  "cardName": "Hina",
+  "cardId": "OP02-110",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "Navy"
+  ],
+  "rarity": "R",
+  "setId": "OP02",
+  "cardNumber": "110",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [On Block] Choose up to 1 of your opponent's Characters with a cost of 6 or less. The chosen Character cannot attack during this turn.",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Block",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Choose up to 1 of your opponent's Characters with a cost of 6 or less. The chosen Character cannot attack during this turn.",
-        "targets": ["upTo1:opponent:Character<=6"],
-        "conditions": []
-      }
+      "timing": "onBlock",
+      "frequency": "none",
+      "selectors": {
+        "oppCharCost6OrLessUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "cantAttackTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "restrict",
+          "target": "oppCharCost6OrLessUpToOne",
+          "duration": "thisTurn",
+          "restrictionKind": "attack"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

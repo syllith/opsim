@@ -1,68 +1,94 @@
 {
-  "id": "OP09-019",
-  "set": "OP09",
-  "number": 19,
-  "name": "I won't forgive anyone who messes with my friends!!!",
-  "category": "Event",
+  "cardName": "I won't forgive anyone who messes with my friends!!!!",
+  "cardId": "OP09-019",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 2,
   "types": [
     "Red Hair Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP09/OP09-019.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "redHairedPirates"
   ],
-  "trigger": {
-    "text": "Draw a card."
-  },
-  "text": "Main If your leader has the {Red Hair Pirates} type, give up to one of your opponents' characters -3000 power for this turn. Then if your opponent has a character with power 5000 or greater in play, draw a card.",
+  "rarity": "C",
+  "setId": "OP09",
+  "cardNumber": "019",
+  "printedText": "[Main] If your Leader has the {Red Hair Pirates} type, give up to 1 of your opponent's Characters -3000 power during this turn. Then, if your opponent has a Character with 5000 or more power in play, draw 1 card.\n[Trigger] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "redHairPirates"
       },
-      "effect": {
-        "text": "If your leader has the {Red Hair Pirates} type, give up to one of your opponents' characters -3000 power for this turn. Then if your opponent has a character with power 5000 or greater in play, draw a card.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Red Hair Pirates"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppMinus3000": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "oppChar5000OrMore": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": ">=",
+              "value": 5000
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -3000,
+          "duration": "thisTurn",
+          "target": "oppMinus3000"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "oppChar5000OrMore",
+            "op": ">=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 1,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw a card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

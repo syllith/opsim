@@ -1,37 +1,53 @@
 {
-  "id": "ST01-017",
-  "set": "ST01",
-  "number": 17,
-  "name": "Thousand Sunny",
-  "category": "Stage",
-  "colors": ["Red"],
-  "attribute": null,
+  "cardName": "Thousand Sunny",
+  "cardId": "ST01-017",
+  "cardType": "stage",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 0,
   "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST01/ST01-017.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
+  "traits": ["strawHatCrew"],
+  "rarity": "common",
+  "setId": "ST01",
+  "cardNumber": "017",
+  "printedText": "[Activate: Main] You may rest this Stage: Up to 1 {Straw Hat Crew} type Leader or Character card on your field gains +1000 Power during this turn.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate: Main — You may rest this Stage: Up to 1 {Straw Hat Crew} type Leader or Character on your field gains +1000 Power during this turn.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0, "restSelf": true },
-      "effect": {
-        "text": "Up to 1 Straw Hat Crew Leader or Character you control gets +1000 Power this turn.",
-        "grants": [],
-        "powerMod": { "amount": 1000, "duration": "this turn" },
-        "targets": ["ally:one(LeaderOrCharacter:Straw Hat Crew)"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "restThis",
+        "may": true
+      },
+      "selectors": {
+        "strawHatLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "strawHatCrew"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "strawHatLeaderOrCharacter"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

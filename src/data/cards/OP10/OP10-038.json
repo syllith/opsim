@@ -1,54 +1,54 @@
 {
-  "id": "OP10-038",
-  "set": "OP10",
-  "number": 38,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Odyssey",
-    "Supernova",
-    "Straw Hat Pirates"
-  ],
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP10-038",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Odyssey", "Supernova", "Straw Hat Pirates"],
+  "traits": ["odyssey", "supernova", "strawHatPirates"],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-038.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP10",
+  "cardNumber": "038",
+  "printedText": "[Opponent's Turn] If you have 2 or more rested characters, this character gains +2000 power.",
   "keywords": [],
-  "trigger": null,
-  "text": "Opponent's Turn: If you have 2 or more rested characters, this character gains +2000 power.",
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If you have 2 or more rested characters, this character gains +2000 power.",
-        "powerMod": {
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedCharacters",
+        "op": ">=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "conditions": [
-          "you have 2 or more rested characters"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "selfThisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample; 'SAMPLE' watermark is present. Power value is 6000, not 6000+2000 as might be inferred from the effect. Counter value is 1000 as printed."
-  }
+  ]
 }

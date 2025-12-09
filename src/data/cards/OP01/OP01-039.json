@@ -1,60 +1,70 @@
 {
-  "id": "OP01-039",
-  "set": "OP01",
-  "number": 39,
-  "name": "Killer",
-  "category": "Character",
+  "cardName": "Killer",
+  "cardId": "OP01-039",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 2,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Supernovas",
     "Kid Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-039.png",
-  "stats": {
-    "cost": 2,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "039",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[DON!! x1] On Block If you have 3 or more Characters, draw 1 card.",
   "keywords": [
-    "Blocker",
-    "DON!! x1",
-    "On Block"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[DON!! x1] [On Block] If you have 3 or more Characters, draw 1 card.",
   "abilities": [
     {
-      "timing": "On Block",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onBlock",
+      "frequency": "none",
+      "selectors": {
+        "myCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "myCharacters"
+        }
       },
-      "effect": {
-        "text": "If you have 3 or more Characters, draw 1 card.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "deck"
-        ],
-        "conditions": [
-          "has3OrMoreCharacters"
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "selectorCount",
+            "selector": "myCharacters",
+            "op": ">=",
+            "value": 3
+          }
         ]
-      }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "supernovas",
+    "kidPirates"
+  ]
 }

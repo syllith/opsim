@@ -1,52 +1,57 @@
 {
-  "id": "OP04-027",
-  "set": "OP04",
-  "number": 27,
-  "name": "Daddy Masterson",
-  "category": "Character",
+  "cardName": "Daddy Masterson",
+  "cardId": "OP04-027",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Ranged",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "East Blue",
     "Former Navy"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-027.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "DON!!: x1 [End of Your Turn] Set this Character as active.",
+  "setId": "OP04",
+  "cardNumber": "027",
+  "printedText": "[DON!! x1] [End of Your Turn] Set this Character as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "endOfYourTurn",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Set this Character as active.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCardSelector"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "thisCardSelector"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. The card is a sample, but all fields are based on visible text."
-  }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "eastBlue",
+    "formerNavy"
+  ]
 }

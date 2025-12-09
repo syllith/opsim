@@ -1,52 +1,95 @@
 {
-  "id": "OP01-087",
-  "set": "OP01",
-  "number": 87,
-  "name": "Officer Agents",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Baroque Works"],
-  "rarity": "R",
-  "art": "/cards/OP01/OP01-087.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": { "text": "Activate this card's Counter effect." },
-  "text": "Counter: Play up to 1 {Baroque Works} type Character card with a cost of 3 or less from your hand.\nTrigger: Activate this card's Counter effect.",
+  "cardName": "Officer Agents",
+  "cardId": "OP01-087",
+  "cardType": "event",
+  "colors": [
+    "blue"
+  ],
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Baroque Works"
+  ],
+  "rarity": "UC",
+  "setId": "OP01",
+  "cardNumber": "087",
+  "printedText": "[Counter] Play up to 1 {Baroque Works} type Character card with a cost of 3 or less from your hand.\n[Trigger] Activate this card's [Counter] effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to 1 {Baroque Works} type Character card with a cost of 3 or less from your hand.",
-        "grants": ["Play Character"],
-        "powerMod": null,
-        "targets": ["oneBaroqueWorksCharacterFromHand<=3"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "counter",
+      "selectors": {
+        "baroquePlay": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Baroque Works"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "baroquePlay",
+          "enterRested": false,
+          "payCost": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Activate this card's Counter effect.",
-        "grants": ["Activate Counter"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "hand"
+            ],
+            "filters": [
+              {
+                "field": "types",
+                "op": "=",
+                "value": "Baroque Works"
+              },
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 3
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "enterRested": false,
+          "payCost": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "baroqueWorks"
+  ]
 }

@@ -1,0 +1,70 @@
+{
+  "cardName": "Nami",
+  "cardId": "OP11-041",
+  "cardType": "leader",
+  "colors": ["blue", "yellow"],
+  "power": 5000,
+  "life": 4,
+  "attributes": ["special"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "L",
+  "setId": "OP11",
+  "cardNumber": "041",
+  "printedText": "[Your Turn] [Once Per Turn] This effect can be activated when a card is removed from your or your opponent's Life cards. If you have 7 or less cards in your hand, draw 1 card.\n[DON!! x1] [On Your Opponent's Attack] [Once Per Turn] You may trash 1 card from your hand: This Leader gains +2000 power during this turn.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "whenLifeCardRemoved",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "currentTurnSide",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "selfHandCount",
+            "op": "<=",
+            "value": 7
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self",
+          "may": true
+        }
+      ]
+    },
+    {
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "selfGivenDonCount",
+        "op": ">=",
+        "value": 1
+      },
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "selfThisCard"
+        }
+      ]
+    }
+  ]
+}

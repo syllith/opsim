@@ -1,50 +1,68 @@
 {
-  "id": "OP07-112",
-  "set": "OP07",
-  "number": 112,
-  "name": "Lucy",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Dressrosa",
-    "Revolutionary Army"
-  ],
+  "cardName": "Lucy",
+  "cardId": "OP07-112",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Dressrosa", "Revolutionary Army"],
+  "traits": ["dressrosa", "revolutionaryArmy"],
   "rarity": "R",
-  "art": "/cards/OP07/OP07-112.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "When Attacking (Once Per Turn) You may put the top or bottom card of your life pile into your hand. Rest up to one of your opponents cost 4 or less characters. Then, if your life total is 1 or less, place the top card of your deck onto the top of your life.",
+  "setId": "OP07",
+  "cardNumber": "112",
+  "printedText": "[When Attacking] [Once Per Turn] You may put the top or bottom card of your Life cards into your hand: Rest up to 1 of your opponent's Characters with a cost of 4 or less. Then, if your Life total is 1 or less, place the top card of your deck on top of your Life.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
       },
-      "effect": {
-        "text": "You may put the top or bottom card of your life pile into your hand. Rest up to one of your opponents cost 4 or less characters. Then, if your life total is 1 or less, place the top card of your deck onto the top of your life.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": {
+            "side": "opponent",
+            "type": "character",
+            "zones": ["character"],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 4
+              }
+            ]
+          }
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfLifeCards",
+            "op": "<=",
+            "value": 1
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "selfTopDeckCard",
+              "destination": "topOfLife",
+              "ordering": "keep"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

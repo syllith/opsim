@@ -1,48 +1,64 @@
 {
-  "id": "OP05-033",
-  "set": "OP05",
-  "number": 33,
-  "name": "Baby 5",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Donquixote Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-033.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main (You may rest the specified number of DON!! cards in your Cost Area) You may rest this card: Play up to 1 (Donquixote Pirates) Character with a cost of 2 or less from your hand.",
+  "cardName": "Baby 5",
+  "cardId": "OP05-033",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "033",
+  "printedText": "Activate: Main ① (You may rest the specified number of DON!! cards in your Cost Area) You may rest this card: Play up to 1 {Donquixote Pirates} Character with a cost of 2 or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this card: Play up to 1 (Donquixote Pirates) Character with a cost of 2 or less from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": ["hand"],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "traits",
+                "op": "=",
+                "value": "donquixotePirates"
+              },
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 2
+              }
+            ]
+          },
+          "payCost": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

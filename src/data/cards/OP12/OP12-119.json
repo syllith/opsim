@@ -1,62 +1,70 @@
 {
-  "id": "OP12-119",
-  "set": "OP12",
-  "number": 119,
-  "name": "Bartholomew Kuma",
-  "category": "Character",
+  "cardName": "Bartholomew Kuma",
+  "cardId": "OP12-119",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
-    "The Straw Hats of the Sea Revolutionary Army"
+    "The Seven Warlords of the Sea",
+    "Revolutionary Army"
   ],
-  "rarity": "ED",
-  "art": "/cards/OP12/OP12-119ED.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "On K.O."
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "revolutionaryArmy"
   ],
-  "trigger": null,
-  "text": "On Play: You may trash 1 card from your hand. Add the top card of your deck to your top of your Life cards. Then, this Character gains +2 cost until the end of your opponent's next turn. \nOpponent's Turn: On K.O. Add the top card of your deck to the top of your Life cards.",
+  "rarity": "SEC",
+  "setId": "OP12",
+  "cardNumber": "119",
+  "printedText": "[On Play] You may trash 1 card from your hand: Add up to 1 card from the top of your deck to the top of your Life cards. Then, this Character gains +2 cost until the end of your opponent's next End Phase.\n[Opponent's Turn] [On K.O.] Add up to 1 card from the top of your deck to the top of your Life cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand. Add the top card of your deck to your top of your Life cards. Then, this Character gains +2 cost until the end of your opponent's next turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDeckCard",
+          "destination": "topOfLife",
+          "may": true
+        },
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 2,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "selfThisCard"
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "condition": {
+        "field": "isOpponentsTurn",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "Add the top card of your deck to the top of your Life cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDeckCard",
+          "destination": "topOfLife",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

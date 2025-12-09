@@ -1,64 +1,89 @@
 {
-  "id": "OP05-073",
-  "set": "OP05",
-  "number": 73,
-  "name": "Miss Doublefinger",
-  "category": "Character",
+  "cardName": "Miss Doublefinger",
+  "cardId": "OP05-073",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
   "types": [
     "Baroque Works"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-073.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card."
-  },
-  "text": "On Play: You may trash 1 card from your hand: Add up to 1 DON!! card from your DON!! deck and rest it.",
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "073",
+  "printedText": "[On Play] You may trash 1 card from your hand: Add up to 1 DON!! card from your DON!! deck and rest it.\n[Trigger] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Add up to 1 DON!! card from your DON!! deck and rest it.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "donCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 0,
+          "whoChooses": "system",
+          "bindAs": "donCostArea"
+        }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "target": "donCostArea",
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may return the specified number of DON!! cards from your field to your DON!! deck: Play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "thisFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisFromLife"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisFromLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

@@ -1,65 +1,107 @@
 {
-  "id": "OP05-020",
-  "set": "OP05",
-  "number": 20,
-  "name": "4000 Brick Fist",
-  "category": "Event",
+  "cardName": "4000 Brick Fist",
+  "cardId": "OP05-020",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Fish-Man",
     "Revolutionary Army"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-020.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Up to 1 of your Leader or Characters gains +1000 power during this turn."
-  },
-  "text": "Main: During this turn, up to 1 of your Leader or Characters gains +2000 power. Then, KO up to 1 of your opponent's characters with 2000 power or less.",
+  "setId": "OP05",
+  "cardNumber": "020",
+  "printedText": "[Main] Up to 1 of your Leader or Character cards gains +2000 power during this turn. Then, K.O. up to 1 of your opponent's Characters with 2000 power or less.\n[Trigger] Up to 1 of your Leader or Character cards gains +1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "buffTarget"
+        },
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 2000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
       },
-      "effect": {
-        "text": "During this turn, up to 1 of your Leader or Characters gains +2000 power. Then, KO up to 1 of your opponent's characters with 2000 power or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        },
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "triggerBuffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "triggerBuffTarget"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader or Characters gains +1000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "triggerBuffTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "fishMan",
+    "revolutionaryArmy"
+  ]
 }

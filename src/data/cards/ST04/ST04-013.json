@@ -1,18 +1,26 @@
 {
-  "id": "ST04-013",
-  "set": "ST04",
-  "number": 13,
-  "name": "X.Drake",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Slash",
-  "types": ["Navy", "Drake Pirates", "Animal Kingdom Pirates"],
-  "rarity": null,
-  "art": "/cards/ST04/ST04-013.png",
-  "stats": { "cost": 3, "power": 5000, "life": null, "counter": { "present": true, "value": 1000 } },
+  "cardName": "X.Drake",
+  "cardId": "ST04-013",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": [
+    "Navy",
+    "Drake Pirates",
+    "Animal Kingdom Pirates"
+  ],
+  "traits": [
+    "navy",
+    "drakePirates",
+    "animalKingdomPirates"
+  ],
+  "rarity": "C",
+  "setId": "ST04",
+  "cardNumber": "013",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {"notes": null}
+  "abilities": []
 }

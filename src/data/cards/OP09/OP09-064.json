@@ -1,52 +1,47 @@
 {
-  "id": "OP09-064",
-  "set": "OP09",
-  "number": 64,
-  "name": "Killer",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Kid Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-064.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Don-1"
-  ],
-  "trigger": null,
-  "text": "On Play Don-1: Choose one leader with <Kid Pirates> type and activate it.",
+  "cardName": "Killer",
+  "cardId": "OP09-064",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Kid Pirates"],
+  "traits": ["kidPirates"],
+  "rarity": "UC",
+  "setId": "OP09",
+  "cardNumber": "064",
+  "printedText": "[On Play] DON!! -1: Choose 1 Leader with the {Kid Pirates} type and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "Choose one leader with <Kid Pirates> type and activate it.",
-        "powerMod": null,
-        "targets": [
-          "oneLeaderWith<Kid Pirates>"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "leader",
+            "zones": ["leader"],
+            "filters": [
+              {
+                "field": "traits",
+                "op": "=",
+                "value": "kidPirates"
+              }
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is a sample image with 'SAMPLE' watermark. Rarity is 'R' as printed. Power is 5000. Cost is 5. Counter is +1000. Text is 'On Play Don-1: Choose one leader with <Kid Pirates> type and activate it.'"
-  }
+  ]
 }

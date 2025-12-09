@@ -1,64 +1,41 @@
 {
-  "id": "PRB02-004",
-  "set": "PRB02",
-  "number": 4,
-  "name": "Jewelry Bonney",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Supernovas",
-    "Bonney Pirates"
-  ],
+  "cardName": "Jewelry Bonney",
+  "cardId": "PRB02-004",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Supernovas", "Bonney Pirates"],
+  "traits": ["supernovas", "bonneyPirates"],
   "rarity": "R",
-  "art": "/cards/PRB02/PRB02-004.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Your Opponent's Attack",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Your Opponent's Attack Once Per Turn Set up to 1 of your DON!! cards as active.",
+  "setId": "PRB02",
+  "cardNumber": "004",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Your Opponent's Attack] [Once Per Turn] Set up to 1 of your DON!! cards as active.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "yourDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Your Opponent's Attack",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Set up to 1 of your DON!! cards as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "yourDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,66 +1,38 @@
 {
-  "id": "OP10-011",
-  "set": "OP10",
-  "number": 11,
-  "name": "Tony Tony Chopper",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Punk Hazard",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Tony Tony Chopper",
+  "cardId": "OP10-011",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["Punk Hazard", "Straw Hat Crew"],
+  "traits": ["punkHazard", "strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-011.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "Opponent's Turn"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOpponent's Turn: This character has +2000 power.",
+  "setId": "OP10",
+  "cardNumber": "011",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Opponent's Turn] This Character has +2000 power.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard"
+        }
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This character has +2000 power.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "thisCard"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

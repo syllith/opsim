@@ -1,78 +1,95 @@
 {
-  "id": "OP01-038",
-  "set": "OP01",
-  "number": 38,
-  "name": "Kanjuro",
-  "category": "Character",
+  "cardName": "Kanjuro",
+  "cardId": "OP01-038",
+  "cardType": "character",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Wano Country",
     "Nine Red Scabbards"
   ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-038.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x1",
-    "When Attacking",
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "[DON!! x1] [When Attacking] K.O. up to 1 of your opponent's rested Characters with a cost of 2 or less.\n[On K.O.] Your opponent chooses 1 card from your hand; trash that card.",
+  "setId": "OP01",
+  "cardNumber": "038",
+  "printedText": "[DON!! x1] When Attacking K.O. up to 1 of your opponent's rested Characters with a cost of 2 or less.\nOn K.O. Your opponent chooses 1 card from your hand; trash that card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's rested Characters with a cost of 2 or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "upTo1:opponent:Character"
-        ],
-        "conditions": [
-          "restedCharacter",
-          "opponentCharacterCost<=2"
-        ]
-      }
+      "selectors": {
+        "attackKoTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "attackKoTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "attackKoTarget"
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "frequency": "none",
+      "selectors": {
+        "handChoice": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "hand"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent",
+          "bindAs": "handChoice"
+        }
       },
-      "effect": {
-        "text": "Your opponent chooses 1 card from your hand; trash that card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "hand"
-        ],
-        "conditions": [
-          "opponentChooses"
-        ]
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "handChoice",
+          "destination": "trash",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "wanoCountry",
+    "nineRedScabbards"
+  ]
 }

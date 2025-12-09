@@ -1,36 +1,68 @@
 {
-  "id": "ST22-011",
-  "set": "ST22",
-  "number": 11,
-  "name": "Whitey Bay",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
+  "cardName": "Whitey Bay",
+  "cardId": "ST22-011",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 2000,
+  "attributes": ["slash"],
   "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "C",
-  "art": "/cards/ST22/ST22-011.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["Your Turn", "On Play"],
-  "trigger": null,
-  "text": "Your Turn On Play You may reveal 2 cards with a type including 'Whitebeard Pirates' from your hand: Give up to 1 of your Leader with a type including 'Whitebeard Pirates' +2000 power during this turn.",
+  "setId": "ST22",
+  "cardNumber": "011",
+  "printedText": "[Your Turn] [On Play] You may reveal 2 cards with a type including \"Whitebeard Pirates\" from your hand: Up to 1 of your Leader with a type including \"Whitebeard Pirates\" gains +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may reveal 2 cards with a type including 'Whitebeard Pirates' from your hand: Give up to 1 of your Leader with a type including 'Whitebeard Pirates' +2000 power during this turn.",
-        "powerMod": { "amount": 2000, "duration": "this turn" },
-        "targets": ["oneAllyLeader:WhitebeardPirates"],
-        "conditions": ["optionalTarget", "reveal2WhitebeardPiratesCardsFromHand"]
-      }
+      "timing": "onPlay",
+      "condition": {
+        "field": "isYourTurn",
+        "op": "=",
+        "value": true
+      },
+      "cost": {
+        "type": "revealFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "filters": [
+          {
+            "field": "traits",
+            "op": "=",
+            "value": "whitebeardPirates"
+          }
+        ],
+        "may": true
+      },
+      "selectors": {
+        "targetLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "whitebeardPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "targetLeader"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

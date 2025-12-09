@@ -1,56 +1,94 @@
 {
-  "id": "OP04-040",
-  "set": "OP04",
-  "number": 40,
-  "name": "Queen",
-  "category": "Leader",
+  "cardName": "Queen",
+  "cardId": "OP04-040",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "yellow",
+    "blue"
   ],
-  "attribute": "Ranged",
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
   "types": [
     "Animal Kingdom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-040.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "DON!!",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking: If your hand and life total is 4 or less, draw one card. If you have a cost 8 or higher character, you may place up to 1 card from the top of your deck on top of your Life instead of drawing 1 card.",
+  "rarity": "L",
+  "setId": "OP04",
+  "cardNumber": "040",
+  "printedText": "DON!! x1 [When Attacking] If your hand and Life total is 4 or less, draw 1 card. If you have a cost 8 or higher Character, you may place up to 1 card from the top of your deck on top of your Life instead of drawing 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "handAndLifeTotal",
+        "op": "<=",
+        "value": 4
       },
-      "effect": {
-        "text": "If your hand and life total is 4 or less, draw one card. If you have a cost 8 or higher character, you may place up to 1 card from the top of your deck on top of your Life instead of drawing 1 card.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "handAndLifeTotal<=4",
-          "cost8OrHigherCharacterInHand"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 1
+      },
+      "selectors": {
+        "highCostCharactersYouControl": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 10,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 8
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "draw",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "destination": "life",
+                  "may": true,
+                  "condition": {
+                    "field": "selectorCount",
+                    "selector": "highCostCharactersYouControl",
+                    "op": ">=",
+                    "value": 1
+                  },
+                  "target": "selfTopDeckCard"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is confirmed as 'C' from the bottom right corner of the card."
-  }
+  "attributes": [
+    "ranged"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

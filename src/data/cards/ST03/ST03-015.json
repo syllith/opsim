@@ -1,20 +1,60 @@
 {
-  "id": "ST03-015",
-  "set": "ST03",
-  "number": 15,
-  "name": "Sables",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
-  "rarity": null,
-  "art": "/cards/ST03/ST03-015.png",
-  "stats": { "cost": 4, "power": null, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Main"],
-  "trigger": {"text": "Activate this card's Main effect."},
-  "text": "Main: Return up to 1 Character with a cost of 7 or less to the owner's hand. Trigger: Activate this card's Main effect.",
-  "abilities": [
-    {"timing": "Main", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Return up to 1 target Character cost 7 or less to owner's hand.", "grants": [], "powerMod": null, "targets": ["oneCharacter"], "conditions": []}}
+  "cardName": "Sables",
+  "cardId": "ST03-015",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 4,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
+  ],
+  "rarity": "C",
+  "setId": "ST03",
+  "cardNumber": "015",
+  "printedText": "[Main] Return up to 1 Character with a cost of 7 or less to the owner's hand.\n[Trigger] Activate this card's [Main] effect.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "main",
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bounceTarget",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
+    }
+  ]
 }

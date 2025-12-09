@@ -1,51 +1,60 @@
 {
-  "id": "P-104",
-  "set": "P",
-  "number": 104,
-  "name": "Shanks",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "The Four Emperors",
-    "Red-Haired Pirates",
-    "Former Roger Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-104.png",
-  "stats": {
-    "cost": 8,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 10000
-    }
-  },
+  "cardName": "Shanks",
+  "cardId": "P-104",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 8,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["The Four Emperors", "Red-Haired Pirates", "Former Roger Pirates"],
+  "traits": ["theFourEmperors", "redHairedPirates", "formerRogerPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-104",
+  "printedText": "If either you or your opponent has 10 DON!! cards on the field, this Character cannot be removed from the field by your opponent's effects.",
   "keywords": [],
-  "trigger": null,
-  "text": "If either you or your opponent has 10 DON!! cards on the field, this Character cannot be removed from the field by your opponent's effects.",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If either you or your opponent has 10 DON!! cards on the field, this Character cannot be removed from the field by your opponent's effects.",
-        "powerMod": null,
-        "conditions": [
-          "either you or your opponent has 10 DON!! cards on the field"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "beforeThisRemovedByOpponentsEffect",
+          "target": "thisCard",
+          "condition": {
+            "logic": "OR",
+            "all": [
+              {
+                "field": "selfDonCount",
+                "op": ">=",
+                "value": 10
+              },
+              {
+                "field": "opponentDonCount",
+                "op": ">=",
+                "value": 10
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

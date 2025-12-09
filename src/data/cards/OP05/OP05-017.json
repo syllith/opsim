@@ -1,65 +1,99 @@
 {
-  "id": "OP05-017",
-  "set": "OP05",
-  "number": 17,
-  "name": "Lindberg",
-  "category": "Character",
+  "cardName": "Lindbergh",
+  "cardId": "OP05-017",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Minks",
     "Revolutionary Army"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-017.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "You may discard a card: If your leader is multi-coloured, play this card."
-  },
-  "text": "When Attacking: If this character has 7000 power or more, KO up to 1 of your opponent's characters with 3000 power or less.",
+  "setId": "OP05",
+  "cardNumber": "017",
+  "printedText": "[When Attacking] If this Character has 7000 power or more, K.O. up to 1 of your opponent's Characters with 3000 power or less.\n[Trigger] You may trash 1 card from your hand: If your Leader is multicolored, play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "thisCardPower",
+        "op": ">=",
+        "value": 7000
       },
-      "effect": {
-        "text": "If this character has 7000 power or more, KO up to 1 of your opponent's characters with 3000 power or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may discard a card: If your leader is multi-coloured, play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "leaderColorCount",
+        "op": ">=",
+        "value": 2
+      },
+      "selectors": {
+        "thisCardInLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "whoChooses": "system",
+          "bindAs": "thisCardInLife"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardInLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "minks",
+    "revolutionaryArmy"
+  ]
 }

@@ -1,54 +1,48 @@
 {
-  "id": "OP03-060",
-  "set": "OP03",
-  "number": 60,
-  "name": "Kalifa",
-  "category": "Character",
+  "cardName": "Kalifa",
+  "cardId": "OP03-060",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
   "types": [
     "Water 7",
     "Galley-La Company"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-060.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": 2000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "When Attacking DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Draw 2 cards and discard 1 card from your hand.",
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "060",
+  "printedText": "[When Attacking] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Draw 2 cards and discard 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "whenAttacking",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "Draw 2 cards and discard 1 card from your hand.",
-        "powerMod": null,
-        "targets": [
-          "draw2",
-          "discard1"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is C, confirmed by the 'C' in the bottom right corner of the card."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "waterSeven",
+    "galleyLaCompany"
+  ]
 }

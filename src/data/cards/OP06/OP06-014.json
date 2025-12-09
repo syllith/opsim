@@ -1,49 +1,67 @@
 {
-  "id": "OP06-014",
-  "set": "OP06",
-  "number": 14,
-  "name": "Ratchet",
-  "category": "Character",
+  "cardName": "Ratchet",
+  "cardId": "OP06-014",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "FILM",
     "Mecha Island"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-014.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Opponent's Attack"
-  ],
-  "trigger": null,
-  "text": "On Opponent's Attack: You may discard any number of [FILM] type cards from your hand. For each card discarded this way, give 1 of your leader or characters +1000 Power for this battle.",
+  "rarity": "C",
+  "setId": "OP06",
+  "cardNumber": "014",
+  "printedText": "[On Your Opponent's Attack] You may trash any number of {FILM} type cards from your hand. Your Leader or 1 of your Characters gains +1000 power during this battle for every card trashed.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Opponent's Attack",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onOpponentsAttack",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 0,
+        "filters": [
+          "type:FILM"
+        ],
+        "bindAs": "trashedFilm",
+        "may": true
       },
-      "effect": {
-        "text": "You may discard any number of [FILM] type cards from your hand. For each card discarded this way, give 1 of your leader or characters +1000 Power for this battle.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "perCount",
+          "perCount": 1,
+          "perAmount": 1000,
+          "countSelector": "trashedFilm",
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "film",
+    "mechaIsland"
+  ]
 }

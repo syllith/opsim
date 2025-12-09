@@ -1,52 +1,56 @@
 {
-  "id": "OP06-084",
-  "set": "OP06",
-  "number": 84,
-  "name": "Jigorou of the Wind",
-  "category": "Character",
+  "cardName": "Jigorou of the Wind",
+  "cardId": "OP06-084",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Slash",
+  "cost": 2,
+  "power": 3000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Thriller Bark Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP06/OP06-084.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On K.O."
+  "traits": [
+    "thrillerBarkPirates"
   ],
-  "trigger": null,
-  "text": "On K.O. Give up to 1 of your leaders or characters +1000 power for this turn.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "084",
+  "printedText": "On K.O. Give up to 1 of your leaders or characters +1000 power for this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "frequency": "none",
+      "selectors": {
+        "selfLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to 1 of your leaders or characters +1000 power for this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOfYourLeaders",
-          "oneOfYourCharacters"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "selfLeaderOrCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

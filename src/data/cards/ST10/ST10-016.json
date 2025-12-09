@@ -1,50 +1,65 @@
 {
-  "id": "ST10-016",
-  "set": "ST10",
-  "number": 16,
-  "name": "Gum-Gum Kong Gatling",
-  "category": "Event",
-  "colors": ["Red"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
+  "cardName": "Gum Gum Kong Gatling",
+  "cardId": "ST10-016",
+  "cardType": "event",
+  "colors": ["red"],
+  "cost": 5,
+  "types": ["Straw Hat Pirates"],
+  "traits": ["strawHatPirates"],
   "rarity": "C",
-  "art": "/cards/ST10/ST10-016.png",
-  "stats": {
-    "cost": 5,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": { "text": "Until the end of your next turn, up to 1 of your Leaders gains +1000 Power." },
-  "text": "Main: K.O. up to 1 of your opponent's Characters with 7000 Power or less. Trigger: Until the end of your next turn, up to 1 of your Leaders gains +1000 Power.",
+  "setId": "ST10",
+  "cardNumber": "016",
+  "printedText": "[Main] K.O. up to 1 of your opponent's Characters with 7000 Power or less. [Trigger] Up to 1 of your Leader gains +1000 Power until the end of your next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 5 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with 7000 Power or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=7000"],
-        "conditions": ["optionalTarget"]
-      }
+      "timing": "main",
+      "selectors": {
+        "oppChar7000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 7000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppChar7000OrLess"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Until the end of your next turn, up to 1 of your Leaders gains +1000 Power.",
-        "grants": [],
-        "powerMod": { "amount": 1000, "duration": "untilStartOfYourNextTurn" },
-        "targets": ["ally:Leader"],
-        "conditions": ["optionalTarget", "lifeTrigger"]
-      }
+      "timing": "trigger",
+      "selectors": {
+        "selfLeaderUpTo1": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "untilEndOfYourNextTurn",
+          "target": "selfLeaderUpTo1"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

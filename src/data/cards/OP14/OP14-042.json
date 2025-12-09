@@ -1,53 +1,58 @@
 {
-  "id": "OP14-042",
-  "set": "OP14",
-  "number": 42,
-  "name": "Arlong",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Fish-Man",
-    "The Sun Pirates"
-  ],
+  "cardName": "Arlong",
+  "cardId": "OP14-042",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 3000,
+  "attributes": ["slash"],
+  "types": ["Fish-Man", "The Sun Pirates"],
+  "traits": ["fishMan", "theSunPirates"],
   "rarity": "R",
-  "art": "/cards/OP14/OP14-042.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: If your Leader has the {Fish-Man} type, look at 4 cards from the top of your deck; reveal up to 1 card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP14",
+  "cardNumber": "042",
+  "printedText": "[On Play] If your Leader has the {Fish-Man} type, look at 4 cards from the top of your deck; reveal up to 1 card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderHasTrait",
+        "op": "=",
+        "value": "fishMan"
       },
-      "effect": {
-        "text": "If your Leader has the {Fish-Man} type, look at 4 cards from the top of your deck; reveal up to 1 card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeader",
-          "hasType:Fish-Man"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "cost2OrMoreFromTopFour": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 2
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "cost2OrMoreFromTopFour",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 4,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

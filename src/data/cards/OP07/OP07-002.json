@@ -1,52 +1,56 @@
 {
-  "id": "OP07-002",
-  "set": "OP07",
-  "number": 2,
-  "name": "Ain",
-  "category": "Character",
+  "cardName": "Ain",
+  "cardId": "OP07-002",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 7,
+  "power": 6000,
+  "life": 0,
+  "counter": 0,
+  "attributes": [
+    "special"
+  ],
   "types": [
-    "Film",
+    "FILM",
     "Neo Navy"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP07/OP07-002.png",
-  "stats": {
-    "cost": 7,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "film",
+    "neoNavy"
   ],
-  "trigger": null,
-  "text": "On Play: Set up to one of your opponents characters power to 0 for the turn.",
+  "rarity": "R",
+  "setId": "OP07",
+  "cardNumber": "002",
+  "printedText": "[On Play] Set the power of up to 1 of your opponent's Characters to 0 during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "oppCharUpTo1": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to one of your opponents characters power to 0 for the turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "setBase",
+          "amount": 0,
+          "duration": "thisTurn",
+          "target": "oppCharUpTo1"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has 'SPECIAL' rarity indicator, but ID is OP07-002. Rarity is SP as printed on card."
-  }
+  ]
 }

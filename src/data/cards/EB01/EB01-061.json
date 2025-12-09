@@ -1,0 +1,80 @@
+{
+  "power": 1000,
+  "cardType": "character",
+  "cardId": "EB01-061",
+  "printedText": "On Play Add up to 1 DON!! card from your DON!! deck and set it active.\nWhen Attacking Select up to 1 of your opponent's Characters. This Character's base power becomes the same as the selected Character's power during this turn.",
+  "types": [
+    "Former Baroque Works"
+  ],
+  "cardNumber": "061",
+  "abilities": [
+    {
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": {
+            "zones": [
+              "donDeck"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "destination": "costArea"
+        }
+      ]
+    },
+    {
+      "selectors": {},
+      "timing": "whenAttacking",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "setBaseFromSelector",
+          "stat": "power",
+          "duration": "thisTurn",
+          "sourceSelector": {
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          },
+          "target": {
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "system"
+          }
+        }
+      ]
+    }
+  ],
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Mr.2.Bon.Kurei(Bentham)",
+  "rarity": "SR",
+  "cost": 4,
+  "colors": [
+    "purple"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "formerBaroqueWorks"
+  ]
+}

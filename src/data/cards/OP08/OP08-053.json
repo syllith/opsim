@@ -1,64 +1,76 @@
 {
-  "id": "OP08-053",
-  "set": "OP08",
-  "number": 53,
-  "name": "Thank you... For Loving me!!!",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Whitebeard Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP08/OP08-053.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Draw 1 card."
-  },
-  "text": "Main If your leader's type includes {Whitebeard Pirates} in it, look at the top 3 cards of your deck, reveal up to one card with {Whitebeard Pirates} included in its types, or [Monkey D. Luffy] and put it into your hand. Then, place the rest of the cards on the top or bottom of your deck in any order.",
+  "cardName": "Thank you... For Loving me!!!",
+  "cardId": "OP08-053",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 1,
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
+  "rarity": "R",
+  "setId": "OP08",
+  "cardNumber": "053",
+  "printedText": "[Main] If your Leader's type includes {Whitebeard Pirates} in it, look at the top 3 cards of your deck, reveal up to 1 card with {Whitebeard Pirates} included in its types, or {Monkey D. Luffy} and put it into your hand. Then, place the rest of the cards on the top or bottom of your deck in any order.\n[Trigger] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "whitebeardPirates"
       },
-      "effect": {
-        "text": "If your leader's type includes {Whitebeard Pirates} in it, look at the top 3 cards of your deck, reveal up to one card with {Whitebeard Pirates} included in its types, or [Monkey D. Luffy] and put it into your hand. Then, place the rest of the cards on the top or bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "searchChoice": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "whitebeardPirates"
+                },
+                {
+                  "field": "cardName",
+                  "op": "=",
+                  "value": "Monkey D. Luffy"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "chosenCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "searchChoice",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "topOrBottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,36 +1,66 @@
 {
-  "id": "ST16-003",
-  "set": "ST16",
-  "number": 3,
-  "name": "Charlotte Katakuri",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
+  "cardName": "Charlotte Katakuri",
+  "cardId": "ST16-003",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["FILM", "Big Mom Pirates"],
+  "traits": ["film", "bigMomPirates"],
   "rarity": "C",
-  "art": "/cards/ST16/ST16-003.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": "If your Leader has the {FILM} type and you have 6 or more rested cards, this Character gains +2000 power.",
+  "setId": "ST16",
+  "cardNumber": "003",
+  "printedText": "If your Leader has the {FILM} type and you have 6 or more rested cards, this Character gains +2000 power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has the {FILM} type and you have 6 or more rested cards, this Character gains +2000 power.",
-        "powerMod": { "amount": 2000, "duration": "static" },
-        "targets": ["self"],
-        "conditions": ["leaderType=FILM", "restedCards>=6"]
-      }
+      "timing": "static",
+      "selectors": {
+        "restedCards": {
+          "side": "self",
+          "type": "any",
+          "zones": ["leader", "character", "stage", "costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          },
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "leaderHasTrait",
+                "op": "=",
+                "value": "film"
+              },
+              {
+                "field": "selectorCount",
+                "selector": "restedCards",
+                "op": ">=",
+                "value": 6
+              }
+            ]
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

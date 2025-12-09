@@ -1,23 +1,19 @@
 {
-  "id": "ST01-003",
-  "set": "ST01",
-  "number": 3,
-  "name": "Karoo",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Karoo",
+  "cardId": "ST01-003",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["Animal", "Alabasta"],
-  "rarity": null,
-  "art": "/cards/ST01/ST01-003.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["animal", "alabasta"],
+  "rarity": "common",
+  "setId": "ST01",
+  "cardNumber": "003",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
   "abilities": [],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

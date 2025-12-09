@@ -1,64 +1,78 @@
 {
-  "id": "OP09-112",
-  "set": "OP09",
-  "number": 112,
-  "name": "Belo Betty",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Revolutionary Army"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-112.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "If your Leader has the {{Revolutionary Army}} type and the total of your and your opponent's Life cards is 5 or less, play this card."
-  },
-  "text": "On Play: If you have 2 or less life, draw 1 card. Trigger: If your Leader has the {{Revolutionary Army}} type and the total of your and your opponent's Life cards is 5 or less, play this card.",
+  "cardName": "Belo Betty",
+  "cardId": "OP09-112",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Revolutionary Army"],
+  "traits": ["revolutionaryArmy"],
+  "rarity": "C",
+  "setId": "OP09",
+  "cardNumber": "112",
+  "printedText": "[On Play] If you have 2 or less Life, draw 1 card.\n[Trigger] If your Leader has the \"Revolutionary Army\" type and the total of your and your opponent's Life cards is 5 or less, play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "selfLifeTotal",
+        "op": "<=",
+        "value": 2
       },
-      "effect": {
-        "text": "If you have 2 or less life, draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "leaderRevolutionary": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "revolutionaryArmy"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your Leader has the {{Revolutionary Army}} type and the total of your and your opponent's Life cards is 5 or less, play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "selectorCount",
+            "selector": "leaderRevolutionary",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "combinedLifeTotal",
+            "op": "<=",
+            "value": 5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "payCost": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' in image, but rarity and ID are read from printed text."
-  }
+  ]
 }

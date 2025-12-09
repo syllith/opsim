@@ -1,48 +1,49 @@
 {
-  "id": "OP08-058",
-  "set": "OP08",
-  "number": 58,
-  "name": "Charlotte Pudding",
-  "category": "Leader",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Big Mom Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-058.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking: You may turn the top 2 life cards of your life face up: Add up to one Don!! card from your Don!! deck as rested.",
+  "cardName": "Charlotte Pudding",
+  "cardId": "OP08-058",
+  "cardType": "leader",
+  "colors": ["purple", "yellow"],
+  "power": 5000,
+  "life": 4,
+  "attributes": ["wisdom"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
+  "rarity": "L",
+  "setId": "OP08",
+  "cardNumber": "058",
+  "printedText": "[When Attacking] You may turn 2 cards from the top of your Life cards face-up: Add up to 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "setTopLifeFace",
+        "side": "self",
+        "count": 2,
+        "faceUp": true,
+        "may": true
       },
-      "effect": {
-        "text": "You may turn the top 2 life cards of your life face up: Add up to one Don!! card from your Don!! deck as rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "faceUp": true,
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

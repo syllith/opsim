@@ -1,44 +1,46 @@
 {
-  "id": "ST10-006",
-  "set": "ST10",
-  "number": 6,
-  "name": "Monkey. D. Luffy",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Monkey.D.Luffy",
+  "cardId": "ST10-006",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 10,
+  "power": 11000,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST10/ST10-006.png",
-  "stats": {
-    "cost": 10,
-    "power": 11000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Rush", "Once Per Turn"],
-  "trigger": null,
-  "text": "Rush. Once Per Turn — After your opponent activates Blocker: K.O. up to 1 of your opponent's Characters with 8000 Power or less.",
+  "traits": ["strawHatCrew"],
+  "rarity": "SR",
+  "setId": "ST10",
+  "cardNumber": "006",
+  "printedText": "Rush (This card can attack on the turn in which it is played.) [Once Per Turn] After your opponent activates Blocker, K.O. up to 1 of your opponent's Characters with 8000 Power or less.",
+  "keywords": ["Rush"],
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": { "text": "This card has Rush.", "grants": ["Rush"], "powerMod": null, "targets": ["self"], "conditions": [] }
-    },
-    {
-      "timing": "After Opponent Activates Blocker",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with 8000 Power or less.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter"],
-        "conditions": ["opponentActivatedBlocker", "opponentCharacterPower<=8000"]
-      }
+      "timing": "afterOpponentActivatesBlocker",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "oppChar8000OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 8000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppChar8000OrLess"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": "Rush reminder text applies." }
+  ]
 }

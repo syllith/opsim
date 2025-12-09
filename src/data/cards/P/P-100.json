@@ -1,49 +1,37 @@
 {
-  "id": "P-100",
-  "set": "P",
-  "number": 100,
-  "name": "Marshall.D.Teach",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "The Four Emperors",
-    "Blackbeard Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/P/P-100.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 12000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking: Negate the effects of all of your opponent's Characters and Leader during this turn.",
+  "cardName": "Marshall.D.Teach",
+  "cardId": "P-100",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 10,
+  "power": 12000,
+  "counter": 0,
+  "attributes": ["special"],
+  "types": ["The Four Emperors", "Blackbeard Pirates"],
+  "traits": ["theFourEmperors", "blackbeardPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-100",
+  "printedText": "[When Attacking] Negate the effects of all of your opponent's Characters and Leader during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "selectors": {
+        "opponentLeaderAndCharacters": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Negate the effects of all of your opponent's Characters and Leader during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "negateEffects",
+          "target": "opponentLeaderAndCharacters",
+          "duration": "thisTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

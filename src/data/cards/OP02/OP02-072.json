@@ -1,39 +1,76 @@
 {
-  "id": "OP02-072",
-  "set": "OP02",
-  "number": 72,
-  "name": "Z",
-  "category": "Leader",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["FILM", "Neo Navy"],
+  "cardName": "Z",
+  "cardId": "OP02-072",
+  "cardType": "leader",
+  "colors": [
+    "purple"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "types": [
+    "FILM",
+    "Neo Navy"
+  ],
   "rarity": "L",
-  "art": "/cards/OP02/OP02-072.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["When Attacking", "DON!! -4"],
-  "trigger": null,
-  "text": "[When Attacking] DON!! -4 (You may return the specified number of DON!! cards from your field to your DON!! deck): K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, this Leader gains +1000 Power during this turn.",
+  "setId": "OP02",
+  "cardNumber": "072",
+  "printedText": "[When Attacking] DON!! -4 (You may return the specified number of DON!! cards from your field to your DON!! deck): K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, this Leader gains +1000 Power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 4,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, this Leader gains +1000 Power during this turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "timing": "whenAttacking",
+      "cost": {
+        "type": "donMinus",
+        "count": 4,
+        "may": true
+      },
+      "selectors": {
+        "zKoTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "zKoTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "zKoTarget"
         },
-        "targets": ["upTo1:opponent:Character<=3"],
-        "conditions": []
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "film",
+    "neoNavy"
+  ]
 }

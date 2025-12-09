@@ -1,43 +1,78 @@
 {
-  "id": "EB03-014",
-  "set": "EB03",
-  "number": 14,
-  "name": "Kuina",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Slash",
-  "types": ["East Blue", "Frost Moon Village"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-014.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this Character: Give up to 2 rested DON!! cards to your <Slash> attribute Leader.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB03-014",
+  "printedText": "[Activate:Main] You may rest this Character: Give up to 2 rested DON!! cards to your <Slash> attribute Leader.",
+  "types": [
+    "East Blue",
+    "Frost Moon Village"
+  ],
+  "cardNumber": "014",
+  "keywords": [
+    "Activate:Main"
+  ],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may rest this Character: Give up to 2 rested DON!! cards to your <Slash> attribute Leader.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self:Leader:attributeSlash"],
-        "conditions": ["restSelf"],
-        "giveDon": {
-          "quantity": 2,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["self:Leader:attributeSlash"]
+      "cost": {
+        "type": "restThis"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": {
+            "filters": [
+              {
+                "value": "slash",
+                "field": "attribute",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "leader"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "leader",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "selector": {
+            "filters": [
+              {
+                "value": true,
+                "field": "rested",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "costArea"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 2,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "self"
+          }
         }
-      }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Kuina",
+  "rarity": "C",
+  "cost": 2,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "eastBlue",
+    "frostMoonVillage"
+  ]
 }

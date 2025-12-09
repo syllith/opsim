@@ -1,49 +1,49 @@
 {
-  "id": "OP08-067",
-  "set": "OP08",
-  "number": 67,
-  "name": "Charlotte Pudding",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Big Mom Pirates"
-  ],
+  "cardName": "Charlotte Pudding",
+  "cardId": "OP08-067",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-067.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Your Turn",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn When your Don!! is returned to your Don!! deck, set up to one Don!! from your Don!! deck onto your field as rested.",
+  "setId": "OP08",
+  "cardNumber": "067",
+  "printedText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenDonReturned",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "turnOwner",
+        "op": "=",
+        "value": "self"
       },
-      "effect": {
-        "text": "When your Don!! is returned to your Don!! deck, set up to one Don!! from your Don!! deck onto your field as rested.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "donFromDeck": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeck",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "faceUp": true,
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

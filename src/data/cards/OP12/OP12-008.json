@@ -1,69 +1,50 @@
 {
-  "id": "OP12-008",
-  "set": "OP12",
-  "number": 8,
-  "name": "Shanks",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "The Four Emperors",
-    "Red-Haired Pirates"
-  ],
+  "cardName": "Shanks",
+  "cardId": "OP12-008",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["The Four Emperors", "Red-Haired Pirates"],
+  "traits": ["theFourEmperors", "redHairedPirates"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-008.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Your Opponent's Attack",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "[Blocker]\n[On Your Opponent's Attack] [Once Per Turn] You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this turn.",
+  "setId": "OP12",
+  "cardNumber": "008",
+  "printedText": "[Blocker]\n[On Your Opponent's Attack] [Once Per Turn] You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this turn.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "type": "Opponents Turn",
-      "timing": "On Your Opponent's Attack",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: Give up to 1 of your opponent's Leader or Characters -2000 power during this turn.",
-        "actions": [
-          {
-            "type": "trashFromHand",
-            "minCards": 0,
-            "maxCards": 1
-          },
-          {
-            "type": "powerMod",
-            "amount": -2000,
-            "targetSide": "opponent",
-            "targetType": "any",
-            "minTargets": 0,
-            "maxTargets": 1,
-            "duration": "thisTurn"
-          }
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentLeaderOrCharacter": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "thisTurn",
+          "target": "opponentLeaderOrCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

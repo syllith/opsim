@@ -1,25 +1,45 @@
 {
-  "id": "ST28-003",
-  "set": "ST28",
-  "number": 3,
-  "name": "Kin'emon",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": null,
+  "cardName": "Kin'emon",
+  "cardId": "ST28-003",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["slash"],
   "types": ["Land of Wano", "The Akazaya Nine"],
-  "rarity": "C",
-  "art": "/cards/ST28/ST28-003.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
+  "traits": ["landOfWano", "theAkazayaNine"],
+  "rarity": "SR",
+  "setId": "ST28",
+  "cardNumber": "003",
+  "printedText": "[Trigger] If your Leader has the {Land of Wano} type and your opponent has 3 or less Life cards, play this card.",
   "keywords": [],
-  "trigger": {
-    "text": "If your Leader has the {Land of Wano} type and your opponent has 3 or less Life cards, play this card."
-  },
-  "text": "[Trigger] If your Leader has the {Land of Wano} type and your opponent has 3 or less Life cards, play this card.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "abilities": [
+    {
+      "timing": "trigger",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "landOfWano"
+          },
+          {
+            "field": "opponentLifeCount",
+            "op": "<=",
+            "value": 3
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfTriggerSourceCard",
+          "payCost": false
+        }
+      ]
+    }
+  ]
 }

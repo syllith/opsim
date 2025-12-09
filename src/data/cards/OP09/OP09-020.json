@@ -1,65 +1,77 @@
 {
-  "id": "OP09-020",
-  "set": "OP09",
-  "number": 20,
-  "name": "Come on!! We'll fight you!!",
-  "category": "Event",
+  "cardName": "Come on!! We'll fight you!!",
+  "cardId": "OP09-020",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "The Four Emperors",
     "Red Hair Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-020.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Trigger"
+  "traits": [
+    "theFourEmperors",
+    "redHairedPirates"
   ],
-  "trigger": {
-    "text": "Draw one card."
-  },
-  "text": "Activate: Main You may look at the top 5 cards of your deck, reveal and add one card with the type [Red Hair Pirates] that is not \"Come on!! We'll fight you!!\" to your hand. Then place the rest at the bottom of the deck in the order. Trigger Draw one card.",
+  "rarity": "R",
+  "setId": "OP09",
+  "cardNumber": "020",
+  "printedText": "[Activate: Main] Look at 5 cards from the top of your deck; reveal up to 1 card with the {Red Hair Pirates} type other than \"Come on!! We'll fight you!!\" and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Trigger] Draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "selectors": {
+        "redHairSearchTarget": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "redHairPirates"
+            },
+            {
+              "field": "name",
+              "op": "!=",
+              "value": "Come on!! We'll fight you!!"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "redHairSearchTarget"
+        }
       },
-      "effect": {
-        "text": "You may look at the top 5 cards of your deck, reveal and add one card with the type [Red Hair Pirates] that is not \"Come on!! We'll fight you!!\" to your hand. Then place the rest at the bottom of the deck in the order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "redHairSearchTarget",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw one card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

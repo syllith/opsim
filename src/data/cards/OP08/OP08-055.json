@@ -1,48 +1,58 @@
 {
-  "id": "OP08-055",
-  "set": "OP08",
-  "number": 55,
-  "name": "Phoenix Brand",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Former Whitebeard Pirates"
-  ],
+  "cardName": "Phoenix Brand",
+  "cardId": "OP08-055",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 4,
+  "types": ["Former Whitebeard Pirates"],
+  "traits": ["formerWhitebeardPirates"],
   "rarity": "UC",
-  "art": "/cards/OP08/OP08-055.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main"
-  ],
-  "trigger": null,
-  "text": "Main You may reveal two cards that include {Whitebeard Pirates} typing from your hand: Place up to one cost 6 or lower character on the bottom of its owner's deck.",
+  "setId": "OP08",
+  "cardNumber": "055",
+  "printedText": "[Main] You may reveal 2 cards that include {Whitebeard Pirates} in their types from your hand: Place up to 1 cost 6 or lower Character on the bottom of its owner's deck.",
+  "keywords": ["Main"],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "revealFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "filters": [
+          {
+            "field": "traits",
+            "op": "=",
+            "value": "whitebeardPirates"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may reveal two cards that include {Whitebeard Pirates} typing from your hand: Place up to one cost 6 or lower character on the bottom of its owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "bottomTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bottomTarget",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

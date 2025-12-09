@@ -1,49 +1,50 @@
 {
-  "id": "OP07-119",
-  "set": "OP07",
-  "number": 119,
-  "name": "Portgas D. Ace",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Special",
-  "types": [
-    "Whitebeard Pirates"
-  ],
+  "cardName": "Portgas D. Ace",
+  "cardId": "OP07-119",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 10,
+  "power": 10000,
+  "attributes": ["special"],
+  "types": ["Whitebeard Pirates"],
+  "traits": ["whitebeardPirates"],
   "rarity": "SR",
-  "art": "/cards/OP07/OP07-119.png",
-  "stats": {
-    "cost": 10,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "On Play: You may add up to 1 card from the top of your deck to the top of your Life. Then, if you have 2 life cards or less, this character gains {Rush} for this turn.\n\n(This card can attack on the turn in which it is played.)",
+  "setId": "OP07",
+  "cardNumber": "119",
+  "printedText": "[On Play] You may add up to 1 card from the top of your deck to the top of your Life. Then, if you have 2 Life cards or less, this Character gains Rush for this turn. (This card can attack on the turn in which it is played.)",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may add up to 1 card from the top of your deck to the top of your Life. Then, if you have 2 life cards or less, this character gains {Rush} for this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDeckCard",
+          "destination": "topOfLife",
+          "ordering": "keep",
+          "may": true
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfLife",
+            "op": "<=",
+            "value": 2
+          },
+          "actions": [
+            {
+              "type": "keywordEffect",
+              "operation": "grant",
+              "keyword": "Rush",
+              "duration": "thisTurn",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              }
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

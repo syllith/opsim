@@ -1,37 +1,54 @@
 {
-  "id": "EB02-023",
-  "set": "EB02",
-  "number": 23,
-  "name": "Crocodile",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
-  "rarity": "SR",
-  "art": "/cards/EB02/EB02-023.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Your Turn", "Once Per Turn"],
-  "trigger": null,
-  "text": "[Your Turn] [Once Per Turn] When an opponent's Character is returned to its owner's hand by your effect, look at 3 cards from the top of your deck and place them at the top or bottom of your deck in any order.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB02-023",
+  "printedText": "Your Turn Once Per Turn When an opponent's Character is returned to its owner's hand by your effect, look at 3 cards from the top of your deck and place them at the top or bottom of your deck in any order.",
+  "cardNumber": "023",
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "When an opponent's Character is returned to its owner's hand by your effect, look at 3 cards from the top of your deck and place them at the top or bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["opponentCharacterReturnedToHandByYourEffect"]
-      }
+      "condition": {
+        "value": true,
+        "field": "yourEffectReturnedOpponentCharacterToHand",
+        "op": "="
+      },
+      "selectors": {},
+      "timing": "static",
+      "actions": [
+        {
+          "selector": {
+            "type": "any",
+            "side": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 3,
+          "addTo": "topOfDeck",
+          "reveal": false,
+          "sourceZone": "deck",
+          "type": "search",
+          "ordering": "chosen",
+          "remainingOrdering": "chosen"
+        }
+      ],
+      "frequency": "oncePerTurn"
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "C",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Crocodile",
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
+  "cost": 4,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
+  ]
 }

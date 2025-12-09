@@ -1,57 +1,66 @@
 {
-  "id": "EB01-021",
-  "set": "EB01",
-  "number": 21,
-  "name": "Hannyabal",
-  "category": "Leader",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
+  "power": 5000,
+  "cardType": "leader",
+  "cardId": "EB01-021",
+  "printedText": "At the end of your turn You may return one of your cost 2 or greater {Impel Down} characters to your hand: Set up to one Don!! card from your Don!! deck as active.",
+  "life": 4,
   "types": [
     "Impel Down"
   ],
-  "rarity": "L",
-  "art": "/cards/EB01/EB01-021.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "At the end of your turn"
-  ],
-  "trigger": null,
-  "text": "[At the end of your turn] You may return one of your cost 2 or greater {Impel Down} characters to your hand: Set up to one Don!! card from your Don!! deck as active.",
+  "cardNumber": "021",
   "abilities": [
     {
-      "timing": "At the end of your turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "You may return one of your cost 2 or greater {Impel Down} characters to your hand: Set up to one Don!! card from your Don!! deck as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "ally:Character",
-          "don"
-        ],
-        "conditions": [
-          "characterCost>=2",
-          "characterTypeImpelDown"
-        ]
-      }
+      "selectors": {},
+      "timing": "endOfYourTurn",
+      "actions": [
+        {
+          "may": true,
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": 2,
+                "field": "cost",
+                "op": ">="
+              },
+              {
+                "value": "Impel Down",
+                "field": "hasType",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "character",
+            "side": "self"
+          },
+          "destination": "hand",
+          "ordering": "keep"
+        },
+        {
+          "may": true,
+          "type": "giveDon",
+          "count": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": false
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Hannyabal",
+  "rarity": "L",
+  "cost": 0,
+  "colors": [
+    "blue",
+    "purple"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "impelDown"
+  ]
 }

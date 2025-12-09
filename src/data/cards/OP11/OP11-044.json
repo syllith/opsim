@@ -1,53 +1,54 @@
 {
-  "id": "OP11-044",
-  "set": "OP11",
-  "number": 44,
-  "name": "Vinsmoke Judge",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Vinsmoke Family",
-    "GERMA 66"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-044.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 8000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may trash 1 card from your hand: All of your (GERMA 66) type Characters gain +1000 power during this turn.",
+  "cardName": "Vinsmoke Judge",
+  "cardId": "OP11-044",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Vinsmoke Family", "GERMA 66"],
+  "traits": ["vinsmokeFamily", "germa66"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "044",
+  "printedText": "[Activate: Main] [Once Per Turn] You may trash 1 card from your hand: All of your {GERMA 66} type Characters gain +1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: All of your (GERMA 66) type Characters gain +1000 power during this turn.",
-        "powerMod": {
+      "selectors": {
+        "allGerma66Characters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "germa66"
+            }
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "allGerma66Characters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

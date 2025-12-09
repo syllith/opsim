@@ -1,49 +1,75 @@
 {
-  "id": "OP07-062",
-  "set": "OP07",
-  "number": 62,
-  "name": "Reiju",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Strike",
+  "cardName": "Reiju",
+  "cardId": "OP07-062",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": [
     "Germa Kingdom",
     "Vinsmoke Family"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-062.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "germaKingdom",
+    "vinsmokeFamily"
   ],
-  "trigger": null,
-  "text": "On Play: If you have less or equal DON!! than your opponent, return 1 of your 1 cost <Vinsmoke Family> character back to your hand.",
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "062",
+  "printedText": "[On Play] If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, return up to 1 of your {Vinsmoke Family} type Characters with a cost of 1 to the owner's hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "selfDonInCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "opponentDonInCostArea": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"]
+        },
+        "vinsmokeCost1Character": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "vinsmokeFamily"
+            },
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 1
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If you have less or equal DON!! than your opponent, return 1 of your 1 cost <Vinsmoke Family> character back to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCountCompare",
+        "selectorA": "selfDonInCostArea",
+        "selectorB": "opponentDonInCostArea",
+        "op": "<="
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "vinsmokeCost1Character",
+          "destination": "hand",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

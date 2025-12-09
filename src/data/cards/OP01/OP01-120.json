@@ -1,52 +1,71 @@
 {
-  "id": "OP01-120",
-  "set": "OP01",
-  "number": 120,
-  "name": "Shanks",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
-  "types": ["Four Emperors", "Red Haired Pirates"],
+  "cardName": "Shanks",
+  "cardId": "OP01-120",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 9,
+  "power": 10000,
+  "counter": 0,
+  "types": [
+    "Four Emperors",
+    "Red Haired Pirates"
+  ],
   "rarity": "SEC",
-  "art": "/cards/OP01/OP01-120.png",
-  "stats": {
-    "cost": 9,
-    "power": 10000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Rush", "When Attacking", "Blocker"],
-  "trigger": null,
-  "text": "Rush (This card can attack on the turn in which it is played.) When Attacking Your opponent cannot activate a Blocker Character that has 2000 or less power during this battle.",
+  "setId": "OP01",
+  "cardNumber": "120",
+  "printedText": "Rush (This card can attack on the turn in which it is played.)\n[When Attacking] Your opponent cannot activate a Blocker Character that has 2000 or less power during this battle.",
+  "keywords": [
+    "rush"
+  ],
   "abilities": [
     {
-      "timing": "Rush",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This card can attack on the turn in which it is played.",
-        "grants": ["canAttackOnPlay"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your opponent cannot activate a Blocker Character that has 2000 or less power during this battle.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponentBlockerCharacter<=2000"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "selectors": {
+        "oppSmallBlockers": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasKeyword",
+              "op": "=",
+              "value": "blocker"
+            },
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 2000
+            }
+          ],
+          "min": 0,
+          "max": 99,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisBattle",
+          "event": "activateBlocker",
+          "target": "oppSmallBlockers",
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "redHairedPirates"
+  ]
 }

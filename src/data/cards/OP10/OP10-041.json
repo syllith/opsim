@@ -1,66 +1,102 @@
 {
-  "id": "OP10-041",
-  "set": "OP10",
-  "number": 41,
-  "name": "Radio Knife",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Dressrosa",
-    "Supernova",
-    "Heart Pirates"
-  ],
+  "cardName": "Radio Knife",
+  "cardId": "OP10-041",
+  "cardType": "event",
+  "colors": ["green"],
+  "cost": 4,
+  "types": ["Dressrosa", "Supernova", "Heart Pirates"],
+  "traits": ["dressrosa", "supernova", "heartPirates"],
   "rarity": "R",
-  "art": "/cards/OP10/OP10-041.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Rest up to 1 of your opponent's 4 cost characters."
-  },
-  "text": "Main Rest up to 1 of your opponent's cost 6 or lower characters. Then, KO up to 1 of your opponent's rested 5 cost or lower characters.",
+  "setId": "OP10",
+  "cardNumber": "041",
+  "printedText": "[Main] Rest up to 1 of your opponent's cost 6 or lower Characters. Then, K.O. up to 1 of your opponent's rested 5 cost or lower Characters.\n[Trigger] Rest up to 1 of your opponent's 4 cost Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "opponentCost6OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "opponentRestedCost5OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "state",
+                  "op": "=",
+                  "value": "rested"
+                },
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 5
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's cost 6 or lower characters. Then, KO up to 1 of your opponent's rested 5 cost or lower characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCost6OrLessCharacter"
+        },
+        {
+          "type": "ko",
+          "target": "opponentRestedCost5OrLessCharacter"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponentCost4Character": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to 1 of your opponent's 4 cost characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCost4Character"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

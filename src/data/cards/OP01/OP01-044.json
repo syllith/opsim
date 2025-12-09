@@ -1,37 +1,84 @@
 {
-  "id": "OP01-044",
-  "set": "OP01",
-  "number": 44,
-  "name": "Shachi",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Strike",
-  "types": ["Heart Pirates"],
+  "cardName": "Shachi",
+  "cardId": "OP01-044",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "types": [
+    "Heart Pirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-044.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On Play"],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] If you do not have [Penguin] in play, play up to 1 [Penguin] card from your hand.",
+  "setId": "OP01",
+  "cardNumber": "044",
+  "printedText": "Blocker\nOn Play If you do not have [Penguin] in play, play up to 1 [Penguin] card from your hand.",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you do not have [Penguin] in play, play up to 1 [Penguin] card from your hand.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["hand"],
-        "conditions": ["notHavePenguinInPlay"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "penguinsInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Penguin"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "whoChooses": "system",
+          "bindAs": "penguinsInPlay"
+        },
+        "penguinFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Penguin"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "penguinFromHand"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "penguinsInPlay",
+        "op": "=",
+        "value": 0
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "penguinFromHand"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "heartPirates"
+  ]
 }

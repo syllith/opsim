@@ -1,62 +1,65 @@
 {
-  "id": "OP07-053",
-  "set": "OP07",
-  "number": 53,
-  "name": "Portgas.D.Ace",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
+  "cardName": "Portgas.D.Ace",
+  "cardId": "OP07-053",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 6000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": [
     "Whitebeard Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-053.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Play"
+  "traits": [
+    "whitebeardPirates"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play: Draw two cards, then return two cards from your hand to the top or bottom of the deck in the order of your choice.",
+  "rarity": "R",
+  "setId": "OP07",
+  "cardNumber": "053",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [On Play] Draw 2 cards and place 2 cards from your hand at the top or bottom of your deck in any order.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": ["character"]
+          }
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "selfHandCardsToDeck": {
+          "side": "self",
+          "type": "any",
+          "zones": ["hand"],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Draw two cards, then return two cards from your hand to the top or bottom of the deck in the order of your choice.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "moveCard",
+          "target": "selfHandCardsToDeck",
+          "destination": "topOrBottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

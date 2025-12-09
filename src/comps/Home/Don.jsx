@@ -383,6 +383,77 @@ export const useDonManagement = ({
         });
     }, [setAreas, appendLog, getSideLocationFromNext, getHandCostLocationFromNext]);
 
+    //. Return up to N DON from a card to the DON deck (schema: ActionReturnDon)
+    const returnDonToDonDeckFromCard = useCallback((side, section, keyName, index, count = 1) => {
+        let moved = 0;
+        setAreas((prev) => {
+            const next = cloneAreas(prev);
+            const sideLoc = getSideLocationFromNext(next, side);
+            const handCostLoc = getHandCostLocationFromNext(next, side);
+
+            //. Determine attached DON array
+            let attachedArrRef = null;
+            if (section === 'middle' && keyName === 'leader') {
+                attachedArrRef = sideLoc?.middle?.leaderDon;
+            } else if (section === 'char' && keyName === 'char') {
+                attachedArrRef = sideLoc?.charDon?.[index];
+            }
+
+            if (!attachedArrRef || attachedArrRef.length === 0) {
+                return prev;
+            }
+
+            //. Remove up to count DON from attached array
+            const toReturn = Math.min(count, attachedArrRef.length);
+            const removed = attachedArrRef.splice(attachedArrRef.length - toReturn, toReturn);
+            moved = removed.length;
+
+            //. Push DON_BACK entries into DON deck (maintain deck count semantics)
+            const donDeckArr = handCostLoc.don || [];
+            for (let i = 0; i < moved; i++) {
+                donDeckArr.push({ ...DON_BACK_CONSTANT });
+            }
+            handCostLoc.don = donDeckArr;
+
+            appendLog(`[DON Return] Returned ${moved} DON!! to ${side} DON deck.`);
+            return next;
+        });
+        return moved;
+    }, [setAreas, appendLog, getSideLocationFromNext, getHandCostLocationFromNext]);
+
+    //. Detach up to N DON from a card to the cost area (schema: ActionDetachDon)
+    const detachDonFromCard = useCallback((side, section, keyName, index, count = 1) => {
+        let moved = 0;
+        setAreas((prev) => {
+            const next = cloneAreas(prev);
+            const sideLoc = getSideLocationFromNext(next, side);
+            const costLoc = getHandCostLocationFromNext(next, side);
+
+            //. Determine attached DON array
+            let attachedArrRef = null;
+            if (section === 'middle' && keyName === 'leader') {
+                attachedArrRef = sideLoc?.middle?.leaderDon;
+            } else if (section === 'char' && keyName === 'char') {
+                attachedArrRef = sideLoc?.charDon?.[index];
+            }
+
+            if (!attachedArrRef || attachedArrRef.length === 0) {
+                return prev;
+            }
+
+            //. Remove up to count DON from attached array
+            const toDetach = Math.min(count, attachedArrRef.length);
+            const removed = attachedArrRef.splice(attachedArrRef.length - toDetach, toDetach);
+            moved = removed.length;
+
+            //. Move removed DON to cost area
+            costLoc.cost = [...(costLoc.cost || []), ...removed];
+            appendLog(`[DON Detach] Moved ${moved} DON!! from card to cost area.`);
+            return next;
+        });
+        return moved;
+    }, [setAreas, appendLog, getSideLocationFromNext, getHandCostLocationFromNext]);
+
     //. Initialize DON decks for both sides (10 each)
     const initializeDonDecks = useCallback(() => {
         setAreas((prev) => {
@@ -416,6 +487,8 @@ export const useDonManagement = ({
         returnAllGivenDon,
         getDonPowerBonus,
         returnDonFromCard,
+            returnDonToDonDeckFromCard,
+            detachDonFromCard,
         initializeDonDecks,
         getDonDeckArray,
         hasEnoughDonFor

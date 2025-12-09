@@ -1,48 +1,106 @@
 {
-  "id": "OP05-111",
-  "set": "OP05",
-  "number": 111,
-  "name": "Hotori",
-  "category": "Character",
+  "cardName": "Hotori",
+  "cardId": "OP05-111",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 3,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Sky Island"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-111.png",
-  "stats": {
-    "cost": 3,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may play 1 [Kotori] from your hand: Add up to 1 of your opponent's Characters with a cost of 3 or less to the top or bottom of the owner's Life cards face-up.",
+  "setId": "OP05",
+  "cardNumber": "111",
+  "printedText": "On Play You may play 1 [Kotori] from your hand: Add up to 1 of your opponent's Characters with a cost of 3 or less to the top or bottom of the owner's Life cards face-up.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "playFromHand",
+        "selector": "kotoriFromHand",
+        "payCost": true,
+        "may": true
       },
-      "effect": {
-        "text": "You may play 1 [Kotori] from your hand: Add up to 1 of your opponent's Characters with a cost of 3 or less to the top or bottom of the owner's Life cards face-up.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "kotoriFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Kotori"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "oppCost3OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "oppCost3OrLessCharacter",
+                  "destination": "topOfLife",
+                  "ordering": "keep",
+                  "faceUp": true
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "oppCost3OrLessCharacter",
+                  "destination": "bottomOfLife",
+                  "ordering": "keep",
+                  "faceUp": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "skyIsland"
+  ]
 }

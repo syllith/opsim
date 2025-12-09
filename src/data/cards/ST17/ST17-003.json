@@ -1,36 +1,57 @@
 {
-  "id": "ST17-003",
-  "set": "ST17",
-  "number": 3,
-  "name": "Buggy",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["The Seven Warlords of the Sea", "Buggy's delivery"],
+  "cardName": "Buggy",
+  "cardId": "ST17-003",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 1,
+  "power": 2000,
+  "counter": 2000,
+  "attributes": [
+    "slash"
+  ],
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Buggy's Delivery"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "buggySDelivery"
+  ],
   "rarity": "C",
-  "art": "/cards/ST17/ST17-003.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
-  "keywords": ["On Play", "Counter"],
-  "trigger": null,
-  "text": "On Play: Look at the top 3 cards of your deck, then place them in any order on the top of your deck.",
+  "setId": "ST17",
+  "cardNumber": "003",
+  "printedText": "[On Play] Look at the top 3 cards of your deck, then place them in any order on the top of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top 3 cards of your deck, then place them in any order on the top of your deck.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["lookTopDeck:3", "reorderTopDeck:3"]
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "topThree": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "min": 3,
+          "max": 3,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "topCount": 3,
+          "selector": "topThree",
+          "reveal": false,
+          "addTo": "topOfDeck",
+          "ordering": "chosen",
+          "moveRemainingTo": "topOfDeck",
+          "remainingOrdering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

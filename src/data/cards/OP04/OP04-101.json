@@ -1,67 +1,94 @@
 {
-  "id": "OP04-101",
-  "set": "OP04",
-  "number": 101,
-  "name": "Carmel",
-  "category": "Character",
+  "cardName": "Carmel",
+  "cardId": "OP04-101",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 2,
+  "power": 1000,
+  "counter": 1000,
   "types": [
     "Sheep's House"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-101.png",
-  "stats": {
-    "cost": 2,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "101",
+  "printedText": "[Your Turn] [On Play] Draw 1 card.\n[Trigger] Play this card. Then, K.O. up to 1 opponent's 2 cost or less Character.",
   "keywords": [
-    "On Play",
-    "Trigger"
+    "trigger"
   ],
-  "trigger": {
-    "text": "Play this card. Then, K.O. up to 1 opponent's 2 cost or less character."
-  },
-  "text": "Your Turn [On Play] Draw 1 card.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "isYourTurn",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "selfFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        },
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Play this card. Then, K.O. up to 1 opponent's 2 cost or less character.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost2"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "selfFromLife",
+          "payCost": false
+        },
+        {
+          "type": "ko",
+          "target": "koTarget",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "selfFromLife",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample. The text 'SAMPLE' is overlaid on the image."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "sheepSHouse"
+  ]
 }

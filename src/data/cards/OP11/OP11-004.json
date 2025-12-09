@@ -1,69 +1,92 @@
 {
-  "id": "OP11-004",
-  "set": "OP11",
-  "number": 4,
-  "name": "Kujiyaku",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy",
-    "SWORD"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP11/OP11-004.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at 5 cards from the top of your deck; reveal up to 1 {Navy} type card other than [Kujiyaku] and add it to your hand. Then, place the rest at the bottom of your deck in any order.\nActivate: Main: You may trash this Character: Up to 1 of your Characters gains +1000 power during this turn.",
+  "cardName": "Kujyaku",
+  "cardId": "OP11-004",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Navy", "SWORD"],
+  "traits": ["navy", "sword"],
+  "rarity": "R",
+  "setId": "OP11",
+  "cardNumber": "004",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Navy} type card other than [Kujyaku] and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Activate: Main] You may trash this Character: Up to 1 of your Characters gains +1000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "top5NavyNonSelf": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "navy"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Kujyaku"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "top5NavyNonSelf"
+        }
       },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Navy} type card other than [Kujiyaku] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top5NavyNonSelf",
+          "reveal": true,
+          "addTo": "hand",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may trash this Character: Up to 1 of your Characters gains +1000 power during this turn.",
-        "powerMod": {
+      "selectors": {
+        "selfCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "selfCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 1000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOfYourCharacters"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "selfCharacter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

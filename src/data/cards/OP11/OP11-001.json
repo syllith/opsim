@@ -1,64 +1,108 @@
 {
-  "id": "OP11-001",
-  "set": "OP11",
-  "number": 1,
-  "name": "Koby",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy",
-    "SWORD"
-  ],
+  "cardName": "Koby",
+  "cardId": "OP11-001",
+  "cardType": "leader",
+  "colors": ["red", "black"],
+  "power": 5000,
+  "life": 4,
+  "attributes": ["strike"],
+  "types": ["Navy", "SWORD"],
+  "traits": ["navy", "sword"],
   "rarity": "L",
-  "art": "/cards/OP11/OP11-001.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "setId": "OP11",
+  "cardNumber": "001",
+  "printedText": "Your {SWORD} type Characters can attack Characters the turn they are played.\n[Once Per Turn] When one of your {Navy} type Characters with an original power of 7000 or less is removed from play by your opponent's effects, instead you may place 3 cards from your trash at the bottom of your deck in any order.",
   "keywords": [],
-  "trigger": null,
-  "text": "Your (SWORD) type Characters can attack Characters the turn they are played.\nOnce Per Turn When one of your (Navy) type Characters with an original power of 7000 or less is removed from play by your opponent's effects, instead you may place three cards from your trash to the bottom of your deck in any order.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "selfSwordCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "sword"
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "upTo": true,
+          "whoChooses": "system",
+          "bindAs": "selfSwordCharacters"
+        }
       },
-      "effect": {
-        "text": "Your (SWORD) type Characters can attack Characters the turn they are played.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "canAttackCharactersTheTurnTheyArePlayed",
+          "target": "selfSwordCharacters"
+        }
+      ]
     },
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "navyCharUpTo7000": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "traits",
+                  "op": "=",
+                  "value": "navy"
+                },
+                {
+                  "field": "originalPower",
+                  "op": "<=",
+                  "value": 7000
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 50,
+          "upTo": true,
+          "whoChooses": "system",
+          "bindAs": "navyCharUpTo7000"
+        },
+        "trashCardsForKoby": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 3,
+          "max": 3,
+          "whoChooses": "self",
+          "bindAs": "trashCardsForKoby"
+        }
       },
-      "effect": {
-        "text": "When one of your (Navy) type Characters with an original power of 7000 or less is removed from play by your opponent's effects, instead you may place three cards from your trash to the bottom of your deck in any order.",
-        "powerMod": null,
-        "conditions": [
-          "oneOpponentCharacter",
-          "oneOpponentCharacter<=cost4"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "whenSelfNavyCharacterUpTo7000WouldBeRemovedByOpponentsEffect",
+          "target": "navyCharUpTo7000",
+          "cost": {
+            "type": "bottomDeckFromTrash",
+            "selector": "trashCardsForKoby",
+            "may": true
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

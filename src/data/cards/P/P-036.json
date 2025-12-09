@@ -1,52 +1,62 @@
 {
-  "id": "P-036",
-  "set": "P",
-  "number": 36,
-  "name": "Monkey.D.Luffy",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Land of Wano",
-    "Straw Hat Pirates"
-  ],
-  "rarity": "L",
-  "art": "/cards/P/P-036.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "When Attacking: You may add the top or bottom card of your Life area to your hand. This Character and up to 1 of your Leader gains +1000 Power during this turn.",
+  "cardName": "Monkey. D. Luffy",
+  "cardId": "P-036",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Land of Wano", "Straw Hat Pirates"],
+  "traits": ["landOfWano", "strawHatPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-036",
+  "printedText": "[When Attacking] You may add the top or bottom card of your Life area to your hand: This Character and up to 1 of your Leaders gains +1000 Power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
       },
-      "effect": {
-        "text": "You may add the top or bottom card of your Life area to your hand. This Character and up to 1 of your Leader gains +1000 Power during this turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this turn"
+      "selectors": {
+        "thisCharacter": {
+          "side": "self",
+          "type": "thisCard"
         },
-        "giveDon": null
-      }
+        "yourLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "thisCharacter"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "yourLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as SAMPLE, so no actual rarity or set number is confirmed. Using P-036 as ID based on visible text."
-  }
+  ]
 }

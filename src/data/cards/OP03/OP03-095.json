@@ -1,68 +1,70 @@
 {
-  "id": "OP03-095",
-  "set": "OP03",
-  "number": 95,
-  "name": "Soap Sheep",
-  "category": "Event",
+  "cardName": "Soap Sheep",
+  "cardId": "OP03-095",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": null,
-  "types": [],
+  "cost": 1,
+  "types": [
+    "CP9"
+  ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-095.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Your opponent discards 1 card from their hand."
-  },
-  "text": "Main: Give up to 2 of your opponent's Characters -2 to their cost during this turn.\nTrigger: Your opponent discards 1 card from their hand.",
+  "setId": "OP03",
+  "cardNumber": "095",
+  "printedText": "Main Give up to 2 of your opponent's Characters -2 to their cost during this turn.\nTrigger Your opponent discards 1 card from their hand.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "selectors": {
+        "oppChars": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "bindAs": "targets"
+        }
       },
-      "effect": {
-        "text": "Give up to 2 of your opponent's Characters -2 to their cost during this turn.",
-        "powerMod": null,
-        "targets": [
-          "upTo2OpponentCharacters"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -2,
+          "duration": "thisTurn",
+          "target": "targets"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "oppHandDiscard": {
+          "side": "opponent",
+          "type": "hand",
+          "zones": [
+            "hand"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "opponent",
+          "bindAs": "discardTarget"
+        }
       },
-      "effect": {
-        "text": "Your opponent discards 1 card from their hand.",
-        "powerMod": null,
-        "targets": [
-          "opponent"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "discardTarget",
+          "destination": "trash"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' confirmed from the bottom right corner of the card."
-  }
+  "traits": [
+    "cp9"
+  ]
 }

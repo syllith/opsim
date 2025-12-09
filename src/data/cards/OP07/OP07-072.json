@@ -1,48 +1,86 @@
 {
-  "id": "OP07-072",
-  "set": "OP07",
-  "number": 72,
-  "name": "Porche",
-  "category": "Character",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Foxy Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-072.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Don!!-1: Look at the top 5 cards of your deck, you may add up to one card with the type [Foxy Pirates] to hand, place the remainder on the bottom of your deck, in any order. Then you may play up to one 4000 Power or lower purple character from hand.",
+  "cardName": "Porche",
+  "cardId": "OP07-072",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 0,
+  "attributes": ["wisdom"],
+  "types": ["Foxy Pirates"],
+  "traits": ["foxyPirates"],
+  "rarity": "SR",
+  "setId": "OP07",
+  "cardNumber": "072",
+  "printedText": "[On Play] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Look at 5 cards from the top of your deck; reveal up to 1 {Foxy Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order and play up to 1 purple Character card with 4000 power or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, you may add up to one card with the type [Foxy Pirates] to hand, place the remainder on the bottom of your deck, in any order. Then you may play up to one 4000 Power or lower purple character from hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "foxyFromTopFive": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "foxyPirates"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "purple4000OrLessFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "colors",
+              "op": "=",
+              "value": "purple"
+            },
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 4000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "foxyFromTopFive",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "purple4000OrLessFromHand",
+          "enterRested": false,
+          "payCost": false,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

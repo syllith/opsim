@@ -1,69 +1,67 @@
 {
-  "id": "OP05-047",
-  "set": "OP05",
-  "number": 47,
-  "name": "Basil Hawkins",
-  "category": "Character",
+  "cardName": "Basil Hawkins",
+  "cardId": "OP05-047",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Animal Kingdom Pirates",
     "Hawkins Pirates"
   ],
   "rarity": "R",
-  "art": "/cards/OP05/OP05-047.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "047",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[When Blocking] If you have 3 or less cards in your hand, draw 1 card. Then, this Character gains +1000 power for this battle.",
   "keywords": [
-    "Blocker",
-    "When Blocking"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) When Blocking: If you have 3 or less cards in your hand, draw 1 card. Then, this character gains +1000 power for this battle.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onBlock",
+      "frequency": "none",
+      "condition": {
+        "field": "handCount",
+        "op": "<=",
+        "value": 3
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "When Blocking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "selectors": {
+        "thisCardSelector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "bindAs": "thisCardSelector"
+        }
       },
-      "effect": {
-        "text": "If you have 3 or less cards in your hand, draw 1 card. Then, this character gains +1000 power for this battle.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this battle"
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
         },
-        "conditions": [
-          "self:hand<=3"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisBattle",
+          "target": "thisCardSelector"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "animalKingdomPirates",
+    "hawkinsPirates"
+  ]
 }

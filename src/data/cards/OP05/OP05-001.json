@@ -1,46 +1,72 @@
 {
-  "id": "OP05-001",
-  "set": "OP05",
-  "number": 1,
-  "name": "Sabo",
-  "category": "Leader",
+  "cardName": "Sabo",
+  "cardId": "OP05-001",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "red",
+    "black"
   ],
-  "attribute": null,
+  "power": 5000,
+  "life": 4,
   "types": [
     "Revolutionary Army"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "rarity": "L",
+  "setId": "OP05",
+  "cardNumber": "001",
+  "printedText": "[DON!! x1] [Opponent's Turn] [Once Per Turn] If your Character with 5000 power or more would be K.O.'d, you may give that Character -1000 power during this turn instead of that Character being K.O.'d.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 Opponent's Turn Once Per Turn If one of your characters with 5000 Power or more were to be KO'd, you may instead give that character power -1000 for the turn.",
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "thisDonAttached",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "If one of your characters with 5000 Power or more were to be KO'd, you may instead give that character power -1000 for the turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "protectedChars": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "power",
+              "op": ">=",
+              "value": 5000
+            }
+          ],
+          "whoChooses": "system",
+          "bindAs": "protectedChars"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "wouldBeKOd",
+          "target": "protectedChars",
+          "may": true,
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": -1000,
+              "duration": "thisTurn"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "revolutionaryArmy"
+  ]
 }

@@ -1,48 +1,64 @@
 {
-  "id": "OP05-034",
-  "set": "OP05",
-  "number": 34,
-  "name": "Baby 5",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Donquixote Pirates"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-034.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main (You may rest the specified number of DON!! cards in your Cost Area) You may rest this character: Look at the top 5 cards of your deck, reveal up to 1 card with the (Donquixote Pirates) type and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+  "cardName": "Baby 5",
+  "cardId": "OP05-034",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
+  "rarity": "R",
+  "setId": "OP05",
+  "cardNumber": "034",
+  "printedText": "Activate: Main ① (You may rest the specified number of DON!! cards in your Cost Area) You may rest this character: Look at the top 5 cards of your deck, reveal up to 1 card with the {Donquixote Pirates} type and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this character: Look at the top 5 cards of your deck, reveal up to 1 card with the (Donquixote Pirates) type and add it to your hand. Then, place the remaining cards at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": ["deck"],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "traits",
+                "op": "=",
+                "value": "donquixotePirates"
+              }
+            ]
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

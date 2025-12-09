@@ -1,37 +1,67 @@
 {
-  "id": "ST02-007",
-  "set": "ST02",
-  "number": 7,
-  "name": "Jewelry Bonney",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Special",
+  "cardName": "Jewelry Bonney",
+  "cardId": "ST02-007",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["Supernovas", "Bonney Pirates"],
-  "rarity": null,
-  "art": "/cards/ST02/ST02-007.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "traits": ["supernovas", "bonneyPirates"],
+  "rarity": "common",
+  "setId": "ST02",
+  "cardNumber": "007",
+  "printedText": "[Activate: Main] [Once Per Turn] (1) (You may rest the specified number of DON!! cards in your Cost Area.) You may rest this card: Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate: Main [1]: You may rest this card: Look at up to 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "You may rest this card: Look at up to 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deckTop:5"],
-        "conditions": ["restThisCard"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restDonFromCostArea",
+            "count": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ]
+      },
+      "selectors": {
+        "supernovasFromTop": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernovas"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "supernovasFromTop",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "alsoTreatedAsNames": []
 }

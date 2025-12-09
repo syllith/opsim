@@ -1,55 +1,86 @@
 {
-  "id": "OP04-091",
-  "set": "OP04",
-  "number": 91,
-  "name": "Leo",
-  "category": "Character",
+  "cardName": "Leo",
+  "cardId": "OP04-091",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Tontatta",
     "Dressrosa"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-091.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "UC",
+  "setId": "OP04",
+  "cardNumber": "091",
+  "printedText": "[On Play] You may rest 1 of your Leaders: If your Leader has the {Dressrosa} type, K.O. up to 1 of your opponent's cost 1 or lower Characters. Then, trash 2 cards from the top of your deck.",
   "keywords": [
-    "On Play"
+    "onPlay"
   ],
-  "trigger": null,
-  "text": "On Play: You may rest 1 of your Leader. If your Leader has the {Dressrosa} type, KO up to 1 of your opponents Cost 1 or lower Characters. Then, trash 2 cards from the top of your deck.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "onPlay",
+      "condition": {
+        "field": "leaderTypesIncludes",
+        "op": "=",
+        "value": "Dressrosa"
       },
-      "effect": {
-        "text": "You may rest 1 of your Leader. If your Leader has the {Dressrosa} type, KO up to 1 of your opponents Cost 1 or lower Characters. Then, trash 2 cards from the top of your deck.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost1"
-        ],
-        "conditions": [
-          "leaderHasType:Dressrosa"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "yourLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "restLeader"
+        },
+        "oppCost1Character": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "koTarget"
+        }
+      },
+      "cost": {
+        "type": "restFromField",
+        "selector": "yourLeader",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "oppCost1Character"
+        },
+        {
+          "type": "trashTopDeck",
+          "count": 2
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "tontatta",
+    "dressrosa"
+  ]
 }

@@ -1,61 +1,82 @@
 {
-  "id": "OP05-077",
-  "set": "OP05",
-  "number": 77,
-  "name": "Gamma Knife",
-  "category": "Event",
+  "cardName": "Gamma Knife",
+  "cardId": "OP05-077",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Heart Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP05/OP05-077.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "R",
+  "setId": "OP05",
+  "cardNumber": "077",
+  "printedText": "[Main] DON!! -1 Give up to 1 of your opponent's Characters -5000 power for this turn.\n[Trigger] Add up to 1 DON!! card from your DON!! deck and set it as active.",
   "keywords": [],
-  "trigger": {
-    "text": "Add up to 1 DON!! from your deck as active."
-  },
-  "text": "Main DON!!-1 Give up to one of your opponent's characters Power -5000.",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
+      "timing": "main",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 1
+        "type": "donMinus",
+        "count": 1
       },
-      "effect": {
-        "text": "Give up to one of your opponent's characters Power -5000.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "debuffTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -5000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "donCostArea": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "min": 0,
+          "max": 0,
+          "whoChooses": "system",
+          "bindAs": "donCostArea"
+        }
       },
-      "effect": {
-        "text": "Add up to 1 DON!! from your deck as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": false,
+          "target": "donCostArea",
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "traits": [
+    "heartPirates"
+  ]
 }

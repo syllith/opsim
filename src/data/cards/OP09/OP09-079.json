@@ -1,68 +1,88 @@
 {
-  "id": "OP09-079",
-  "set": "OP09",
-  "number": 79,
-  "name": "Gum Gum Jump-Rope",
-  "category": "Event",
+  "cardName": "Gum Gum Jump-Rope",
+  "cardId": "OP09-079",
+  "cardType": "event",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": null,
+  "cost": 2,
   "types": [
     "Four Emperors",
     "Straw Hat Crew"
   ],
-  "rarity": "C",
-  "art": "/cards/OP09/OP09-079.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "theFourEmperors",
+    "strawHatCrew"
   ],
-  "trigger": {
-    "text": "Set up to one Don!! from your Don!! deck as active."
-  },
-  "text": "Main Don!!-2: Rest up to one of your opponent's cost 5 or lower characters. Then, draw a card.",
+  "rarity": "R",
+  "setId": "OP09",
+  "cardNumber": "079",
+  "printedText": "[Main] Don!!-2: Rest up to 1 of your opponent's cost 5 or less Characters. Then, draw 1 card.\n[Trigger] Set up to 1 DON!! from your DON!! deck as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 2,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "donMinus",
+        "count": 2
       },
-      "effect": {
-        "text": "Rest up to one of your opponent's cost 5 or lower characters. Then, draw a card.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost5"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCost5OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "opponentCost5OrLessCharacter"
+        },
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "donFromDeckUpToOne": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "donDeck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to one Don!! from your Don!! deck as active.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "donFromDeckUpToOne",
+          "destination": "costArea",
+          "ordering": "keep",
+          "enterRested": false
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but this is not a real card. The printed ID is OP09-079, set OP09, number 79, rarity C, and the text is legible."
-  }
+  ]
 }

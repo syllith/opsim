@@ -1,51 +1,55 @@
 {
-  "id": "OP08-051",
-  "set": "OP08",
-  "number": 51,
-  "name": "Buckin",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "Former Rocks Pirates"
-  ],
+  "cardName": "Buckin",
+  "cardId": "OP08-051",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
+  "types": ["Former Rocks Pirates"],
+  "traits": ["formerRocksPirates"],
   "rarity": "C",
-  "art": "/cards/OP08/OP08-051.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Your Turn On Play: Up to 1 of your [Edward Weevil] cards gains +2000 power during this turn.",
+  "setId": "OP08",
+  "cardNumber": "051",
+  "printedText": "[Your Turn] [On Play] Up to 1 of your [Edward Weevil] cards gains +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "condition": {
+        "field": "currentTurnSide",
+        "op": "=",
+        "value": "self"
       },
-      "effect": {
-        "text": "Up to 1 of your [Edward Weevil] cards gains +2000 power during this turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOfYourCharacters"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "weevilTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Edward Weevil"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "weevilTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

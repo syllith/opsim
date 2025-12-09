@@ -1,37 +1,36 @@
 {
-  "id": "EB01-023",
-  "set": "EB01",
-  "number": 23,
-  "name": "Edward Weevil",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Seven Warlords of the Sea"],
-  "rarity": "R",
-  "art": "/cards/EB01/EB01-023.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Draw a card.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB01-023",
+  "printedText": "[On Play] Draw a card.",
+  "cardNumber": "023",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw a card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "count": 1,
+          "type": "draw"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "R",
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Edward Weevil",
+  "types": [
+    "Seven Warlords of the Sea"
+  ],
+  "cost": 4,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea"
+  ]
 }

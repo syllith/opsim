@@ -1,49 +1,55 @@
 {
-  "id": "OP03-079",
-  "set": "OP03",
-  "number": 79,
-  "name": "Vergo",
-  "category": "Character",
+  "cardName": "Vergo",
+  "cardId": "OP03-079",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 5000,
   "types": [
     "Navy",
     "Donquixote Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-079.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 This Character cannot be K.O.ed by battle.",
+  "rarity": "UC",
+  "setId": "OP03",
+  "cardNumber": "079",
+  "printedText": "[DON!! x1] This Character cannot be K.O.ed by battle.",
   "abilities": [
     {
-      "timing": "Static",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "This Character cannot be K.O.ed by battle.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKObyBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the 'SAMPLE' watermark."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "navy",
+    "donquixotePirates"
+  ]
 }

@@ -1,52 +1,57 @@
 {
-  "id": "OP04-053",
-  "set": "OP04",
-  "number": 53,
-  "name": "Page One",
-  "category": "Character",
+  "cardName": "Page One",
+  "cardId": "OP04-053",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "Animal Kingdom Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP04/OP04-053.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "DON!!",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 [Once Per Turn] When one of your events activate, draw 1 card. Then, place 1 card on bottom of your deck from your hand.",
+  "setId": "OP04",
+  "cardNumber": "053",
+  "printedText": "DON!! x1 [Once Per Turn] When one of your Events activate, draw 1 card. Then, place 1 card on the bottom of your deck from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "afterYouActivateEvent",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "donAttachedToThis",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "When one of your events activate, draw 1 card. Then, place 1 card on bottom of your deck from your hand.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "moveCard",
+          "target": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "hand"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "self"
+          },
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is UC, confirmed by 'U' and 'C' printed together in the bottom right corner."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

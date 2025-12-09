@@ -1,48 +1,101 @@
 {
-  "id": "OP11-095",
-  "set": "OP11",
-  "number": 95,
-  "name": "Monkey.D.Garp",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-095.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may place 3 cards with the (Navy) type from your trash to the bottom of your deck in any order. Give up to 1 of your Leaders 1 rested DON!! card. Then, if there is a Character in play with a cost of 9 or more, K.O. up to 1 of your opponent's characters with a cost of 7 or less.",
+  "cardName": "Monkey.D.Garp",
+  "cardId": "OP11-095",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 8,
+  "power": 8000,
+  "attributes": ["strike"],
+  "types": ["Navy"],
+  "traits": ["navy"],
+  "rarity": "SR",
+  "setId": "OP11",
+  "cardNumber": "095",
+  "printedText": "[On Play] You may place 3 {Navy} type cards from your trash at the bottom of your deck in any order: Give up to 1 rested DON!! card to 1 of your Leader. Then, if there is a Character with a cost of 9 or more, K.O. up to 1 of your opponent's Characters with a cost of 7 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
+      "timing": "onPlay",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromTrash",
+        "selector": "navyCardsInTrashForCost",
+        "may": true
       },
-      "effect": {
-        "text": "You may place 3 cards with the (Navy) type from your trash to the bottom of your deck in any order. Give up to 1 of your Leaders 1 rested DON!! card. Then, if there is a Character in play with a cost of 9 or more, K.O. up to 1 of your opponent's characters with a cost of 7 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "navyCardsInTrashForCost": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "navy"
+            }
+          ],
+          "min": 3,
+          "max": 3,
+          "whoChooses": "self"
+        },
+        "yourLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "anyCharacterCost9OrMore": {
+          "side": "both",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 9
+            }
+          ],
+          "min": 0,
+          "max": 20,
+          "whoChooses": "system"
+        },
+        "opponentCharacterCost7OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "enterRested": true,
+          "target": "yourLeader"
+        },
+        {
+          "type": "ko",
+          "target": "opponentCharacterCost7OrLess",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "anyCharacterCost9OrMore",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,50 +1,56 @@
 {
-  "id": "EB03-028",
-  "set": "EB03",
-  "number": 28,
-  "name": "Yu",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Wisdom",
-  "types": ["East Blue"],
-  "rarity": "C",
-  "art": "/cards/EB03/EB03-028.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "Activate: Main"],
-  "trigger": null,
-  "text": "[On Play] Trash 1 card from your hand.\n[Activate: Main] You may trash this Character: If you have 4 or less cards in your hand, draw 2 cards.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB03-028",
+  "printedText": "On Play Trash 1 card from your hand.\nActivate:Main You may trash this Character: If you have 4 or less cards in your hand, draw 2 cards.",
+  "types": [
+    "East Blue"
+  ],
+  "cardNumber": "028",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Trash 1 card from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "trashFromHand",
+          "maxCards": 1,
+          "minCards": 1
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash this Character: If you have 4 or less cards in your hand, draw 2 cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": ["trashSelf", "4OrLessCardsInHand"]
-      }
+      "cost": {
+        "may": true,
+        "type": "trashThis"
+      },
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "count": 2,
+          "type": "draw",
+          "condition": {
+            "value": 4,
+            "field": "selfHandCards",
+            "op": "<="
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB03",
+  "counter": 1000,
+  "cardName": "Yu",
+  "rarity": "C",
+  "cost": 2,
+  "colors": [
+    "blue"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

@@ -1,51 +1,66 @@
 {
-  "id": "OP11-103",
-  "set": "OP11",
-  "number": 103,
-  "name": "Shakure",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Sea Kings"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-103.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "Activate: Main If your Leader is [Shirahoshi], you may rest this Character and turn 1 card from the top of your Life cards face-down: K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "cardName": "Shakure",
+  "cardId": "OP11-103",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 5,
+  "power": 7000,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["Sea Kings"],
+  "traits": ["seaKings"],
+  "rarity": "C",
+  "setId": "OP11",
+  "cardNumber": "103",
+  "printedText": "[Activate: Main] If your Leader is [Shirahoshi], you may rest this Character and turn 1 card from the top of your Life cards face-down: K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "condition": {
+        "field": "leaderIs_shirahoshi",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your Leader is [Shirahoshi], you may rest this Character and turn 1 card from the top of your Life cards face-down: K.O. up to 1 of your opponent's Characters with a cost of 3 or less.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Shirahoshi]"
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "restThis"
+          },
+          {
+            "type": "setTopLifeFace",
+            "side": "self",
+            "count": 1,
+            "faceUp": false
+          }
         ],
-        "giveDon": null
-      }
+        "may": true
+      },
+      "selectors": {
+        "opponentCharacterCost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCharacterCost3OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

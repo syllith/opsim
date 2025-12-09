@@ -1,59 +1,81 @@
 {
-  "id": "P-117",
-  "set": "P",
-  "number": 117,
-  "name": "Nami",
-  "category": "Leader",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Wisdom",
-  "types": [
-    "East Blue"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-117.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 5,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
+  "cardName": "Nami",
+  "cardId": "P-117",
+  "cardType": "leader",
+  "colors": ["blue"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": ["wisdom"],
+  "types": ["East Blue"],
+  "traits": ["eastBlue"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-117",
+  "printedText": "Under the rules of this game, you can only include cards with the {East Blue} type in your deck. Also, when your deck is reduced to 0, you win the game instead of losing, according to the rules.\nDON!! x1 When this Leader's attack deals damage to your opponent's Life, you may trash 1 card from the top of your deck.",
   "keywords": [],
-  "trigger": null,
-  "text": "Under the rules of this game, you can only include cards with the (East Blue) type in your deck. Also, when your deck is reduced to 0, you win the game instead of losing, according to the rules.\nDON!! x1 When this Leader's attack deals damage to your opponent's Life, you may trash 1 card from the top of your deck.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Under the rules of this game, you can only include cards with the (East Blue) type in your deck. Also, when your deck is reduced to 0, you win the game instead of losing, according to the rules.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "restrictPlay",
+          "cardTypes": ["leader", "character", "event", "stage"],
+          "duration": "permanent",
+          "side": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "!=",
+              "value": "eastBlue"
+            }
+          ],
+          "sourceZones": ["hand"]
+        },
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "beforeSelfDeckOutLose",
+          "target": "selfLeader",
+          "actions": [
+            {
+              "type": "winGame",
+              "side": "self"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenLifeCardRemoved",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "damageSourceIsThisCard",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "damageRecipient",
+            "op": "=",
+            "value": "opponent"
+          }
+        ]
       },
-      "effect": {
-        "text": "When this Leader's attack deals damage to your opponent's Life, you may trash 1 card from the top of your deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "trashTopDeck",
+          "count": 1,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

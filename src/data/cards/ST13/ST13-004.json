@@ -1,37 +1,66 @@
 {
-  "id": "ST13-004",
-  "set": "ST13",
-  "number": 4,
-  "name": "Edward Newgate",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Special",
-  "types": ["Four Emperors", "Whitebeard Pirates"],
+  "cardName": "Edward Newgate",
+  "cardId": "ST13-004",
+  "cardType": "character",
+  "colors": [
+    "yellow"
+  ],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
+  "types": [
+    "Four Emperors",
+    "Whitebeard Pirates"
+  ],
+  "traits": [
+    "theFourEmperors",
+    "whitebeardPirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/ST13/ST13-004.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play Add the top card of your deck to the top of your life cards. Then, look at all your life cards, place 1 of the cards on the top of your deck. Return your remaining life cards in your desired order.",
+  "setId": "ST13",
+  "cardNumber": "004",
+  "printedText": "[On Play] Add the top card of your deck to the top of your Life cards. Then, look at all your Life cards, place 1 of the cards on the top of your deck. Return your remaining Life cards in your desired order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Add the top card of your deck to the top of your life cards. Then, look at all your life cards, place 1 of the cards on the top of your deck. Return your remaining life cards in your desired order.",
-        "powerMod": null,
-        "targets": ["self:deckTop:lifeTop", "self:lifeAll:view", "self:lifeOne:deckTop", "self:lifeRest:order"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "newgateLifeChoice": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "life"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "selfTopDeckCard",
+          "destination": "topOfLife",
+          "ordering": "keep"
+        },
+        {
+          "type": "revealLife",
+          "count": 1,
+          "side": "self",
+          "all": true,
+          "ordering": "chosen"
+        },
+        {
+          "type": "moveCard",
+          "target": "newgateLifeChoice",
+          "destination": "topOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

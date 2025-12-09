@@ -1,49 +1,40 @@
 {
-  "id": "OP13-033",
-  "set": "OP13",
-  "number": 33,
-  "name": "Franky",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "FILM",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Franky",
+  "cardId": "OP13-033",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["FILM", "Straw Hat Crew"],
+  "traits": ["film", "strawHatCrew"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-033.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "On K.O."
-  ],
-  "trigger": null,
-  "text": "On K.O. Rest up to a total of 2 of your opponent's Characters or DON!! cards.",
+  "setId": "OP13",
+  "cardNumber": "033",
+  "printedText": "[On K.O.] Rest up to a total of 2 of your opponent's Characters or DON!! cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "selectors": {
+        "upToTwoOppCharactersOrDon": {
+          "side": "opponent",
+          "type": "any",
+          "zones": ["character", "costArea"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Rest up to a total of 2 of your opponent's Characters or DON!! cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "upToTwoOppCharactersOrDon"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

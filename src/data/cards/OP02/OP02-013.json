@@ -1,52 +1,68 @@
 {
-  "id": "OP02-013",
-  "set": "OP02",
-  "number": 13,
-  "name": "Portgas. D. Ace",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Special",
-  "types": ["Whitebeard Pirates"],
+  "cardName": "Portgas. D. Ace",
+  "cardId": "OP02-013",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 7,
+  "power": 7000,
+  "counter": 1000,
+  "types": [
+    "Whitebeard Pirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP02/OP02-013.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "Rush"],
-  "trigger": null,
-  "text": "On Play Give up to 2 of your opponent's Characters -3000 Power during this turn. Then, if your Leader has [Whitebeard Pirates] in its types, this Character gains Rush during this turn.",
+  "setId": "OP02",
+  "cardNumber": "013",
+  "printedText": "[On Play] Give up to 2 of your opponent's Characters -3000 Power during this turn. Then, if your Leader has {Whitebeard Pirates} in its types, this Character gains [Rush] during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 2 of your opponent's Characters -3000 Power during this turn.",
-        "grants": [],
-        "powerMod": { "amount": -3000, "duration": "this turn" },
-        "targets": ["twoOpponentCharacters"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If your Leader has [Whitebeard Pirates] in its types, this Character gains Rush during this turn.",
-        "grants": ["rush"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["leaderHasType:Whitebeard Pirates"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "oppUpToTwo": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -3000,
+          "duration": "thisTurn",
+          "target": "oppUpToTwo"
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "rush",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "field": "leaderHasWhitebeardPiratesType",
+            "op": "=",
+            "value": true
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "whitebeardPirates"
+  ]
 }

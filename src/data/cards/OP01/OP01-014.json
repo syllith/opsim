@@ -1,61 +1,71 @@
 {
-  "id": "OP01-014",
-  "set": "OP01",
-  "number": 14,
-  "name": "Jinbe",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
+  "cost": 4,
+  "setId": "OP01",
   "types": [
     "Fish-Man",
     "Straw Hat Crew"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP01/OP01-014.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "DON!! x1",
-    "On Block"
+  "cardName": "Jinbe",
+  "cardType": "character",
+  "cardNumber": "014",
+  "cardId": "OP01-014",
+  "rarity": "R",
+  "counter": 1000,
+  "colors": [
+    "red"
   ],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[DON!! x1] [On Block] Play up to 1 red Character card with a cost of 2 or less from your hand.",
+  "power": 5000,
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[DON!! x1] [On Block] Play up to 1 red Character card with a cost of 2 or less from your hand.",
+  "keywords": [
+    "blocker"
+  ],
   "abilities": [
     {
-      "timing": "On Block",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onBlock",
+      "selectors": {},
+      "condition": {
+        "field": "selfDonAttached",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Play up to 1 red Character card with a cost of 2 or less from your hand.",
-        "grants": [
-          "Blocker"
-        ],
-        "powerMod": null,
-        "targets": [
-          "hand"
-        ],
-        "conditions": [
-          "redCharacter",
-          "characterCost<=2"
-        ]
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "enterRested": false,
+          "payCost": true,
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": [
+              "hand"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self",
+            "filters": [
+              {
+                "field": "colors",
+                "op": "=",
+                "value": "red"
+              },
+              {
+                "field": "cost",
+                "op": "<=",
+                "value": 2
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "fishMan",
+    "strawHatCrew"
+  ]
 }

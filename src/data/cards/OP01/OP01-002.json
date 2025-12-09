@@ -1,61 +1,98 @@
 {
-  "id": "OP01-002",
-  "set": "OP01",
-  "number": 2,
-  "name": "Trafalgar Law",
-  "category": "Leader",
+  "cardName": "Trafalgar Law",
+  "cardId": "OP01-002",
+  "cardType": "leader",
   "colors": [
-    "Red",
-    "Green"
+    "red",
+    "green"
   ],
-  "attribute": "Slash",
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
   "types": [
     "Supernovas",
     "Heart Pirates"
   ],
   "rarity": "L",
-  "art": "/cards/OP01/OP01-002.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "002",
+  "printedText": "Activate: Main Once Per Turn DON!! x2 (You may rest the specified number of DON!! cards in your Cost Area): If you have 5 Characters, return 1 of your Characters to the owner's hand, then play up to 1 Character with a cost of 5 or less of a different color as the returned Character from your hand.",
   "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
+    "activateMain",
+    "oncePerTurn",
+    "donX2"
   ],
-  "trigger": null,
-  "text": "[Activate: Main] [Once Per Turn] ② (You may rest the specified number of DON!! cards in your Cost Area): If you have 5 Characters, return 1 of your Characters to the owner's hand, then play up to 1 Character with a cost of 5 or less of a different color as the returned Character from your hand.",
   "abilities": [
     {
-      "timing": "Activate Main",
-      "frequency": "Once Per Turn",
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 2
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "myCharacterCount",
+        "op": ">=",
+        "value": 5
       },
-      "effect": {
-        "text": "If you have 5 Characters, return 1 of your Characters to the owner's hand, then play up to 1 Character with a cost of 5 or less of a different color as the returned Character from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": [
-          "ally:Character",
-          "hand"
-        ],
-        "conditions": [
-          "has5Characters",
-          "characterCost<=5",
-          "differentColor"
-        ]
-      }
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 2
+      },
+      "selectors": {
+        "chooseCharToReturn": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "returnedChar"
+        },
+        "playCandidate": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            },
+            {
+              "field": "color",
+              "op": "!=",
+              "fieldRef": "returnedChar.color"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "chooseCharToReturn",
+          "destination": "hand",
+          "ordering": "keep"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playCandidate",
+          "enterRested": false,
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "supernovas",
+    "heartPirates"
+  ]
 }

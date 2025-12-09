@@ -1,39 +1,69 @@
 {
-  "id": "EB02-040",
-  "set": "EB02",
-  "number": 40,
-  "name": "BRAND NEW WORLD",
-  "category": "Event",
-  "colors": ["Purple"],
-  "attribute": null,
-  "types": ["Music"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-040.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Main", "Trigger"],
-  "trigger": {
-    "text": "Activate this card's [Main] effect."
-  },
-  "text": "[Main] Look at the top 4 cards of your deck, reveal 1 card with a cost of 4 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Trigger] Activate this card's [Main] effect.",
+  "power": 0,
+  "cardType": "event",
+  "cardId": "EB02-040",
+  "printedText": "Main Look at the top 4 cards of your deck, reveal 1 card with a cost of 4 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n\nTrigger Activate this card's Main effect.",
+  "types": [
+    "Music"
+  ],
+  "cardNumber": "040",
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top 4 cards of your deck, reveal 1 card with a cost of 4 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["deck"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "main",
+      "actions": [
+        {
+          "selector": {
+            "filters": [
+              {
+                "value": 4,
+                "field": "cost",
+                "op": ">="
+              }
+            ],
+            "zones": [
+              "deck"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "any",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "moveRemainingTo": "bottomOfDeck",
+          "topCount": 4,
+          "addTo": "hand",
+          "reveal": true,
+          "sourceZone": "deck",
+          "type": "search",
+          "ordering": "chosen",
+          "remainingOrdering": "chosen"
+        }
+      ],
+      "frequency": "none"
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "may": true,
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 0,
+  "cardName": "Brand New World",
+  "rarity": "C",
+  "cost": 2,
+  "colors": [
+    "purple"
+  ],
+  "traits": [
+    "music"
+  ]
 }

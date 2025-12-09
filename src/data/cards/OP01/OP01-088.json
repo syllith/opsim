@@ -1,52 +1,88 @@
 {
-  "id": "OP01-088",
-  "set": "OP01",
-  "number": 88,
-  "name": "Desert Spada",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
+  "cardName": "Desert Spada",
+  "cardId": "OP01-088",
+  "cardType": "event",
+  "colors": [
+    "blue"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-088.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": { "text": "Draw 2 cards and trash 1 card from your hand." },
-  "text": "Counter: Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order.\nTrigger: Draw 2 cards and trash 1 card from your hand.",
+  "setId": "OP01",
+  "cardNumber": "088",
+  "printedText": "[Counter] Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order.\n[Trigger] Draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Your Leader or up to 1 of your Characters gains +2000 power during this battle. Then, look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order.",
-        "grants": [],
-        "powerMod": { "amount": 2000, "duration": "this battle" },
-        "targets": ["ally:Leader", "oneAllyCharacter", "top3DeckCards"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "counter",
+      "selectors": {
+        "top3": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "leaderOrCharacter",
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "self"
+          }
+        },
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top3",
+          "reveal": false,
+          "addTo": "topOfDeck",
+          "ordering": "chosen",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Draw 2 cards and trash 1 card from your hand.",
-        "grants": ["Draw 2 Cards", "Trash 1 Card"],
-        "powerMod": null,
-        "targets": ["player"],
-        "conditions": ["trashHandCard"],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "may": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
+  ]
 }

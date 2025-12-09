@@ -1,58 +1,82 @@
 {
-  "id": "OP04-095",
-  "set": "OP04",
-  "number": 95,
-  "name": "Baaaarrier!!",
-  "category": "Event",
+  "cardName": "Baaaaarrier!!",
+  "cardId": "OP04-095",
+  "cardType": "event",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": null,
+  "cost": 1,
   "types": [
     "Dressrosa",
-    "Bart Club"
+    "Barto Club"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-095.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "095",
+  "printedText": "[Counter] Up to 1 of your Leaders or Characters gains +2000 Power for this battle. If your trash has at least 15 cards, that card gains an additional +2000 Power.\n[Trigger] Draw 2 cards, then trash 1 card from your hand.",
   "keywords": [
-    "On Play",
-    "Trigger"
+    "counter",
+    "trigger"
   ],
-  "trigger": {
-    "text": "Draw 2, trash 1."
-  },
-  "text": "#Counter Up to one of your leaders or characters gains +2000 Power for this battle. If your trash has at least 15 cards, gain another +2000 Power.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "ownLeaderOrCharacter": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "buffTarget"
+        }
       },
-      "effect": {
-        "text": "Up to one of your leaders or characters gains +2000 Power for this battle. If your trash has at least 15 cards, gain another +2000 Power.",
-        "powerMod": null,
-        "targets": [
-          "oneAllyLeaderOrCharacter"
-        ],
-        "conditions": [
-          "trash>=15"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "ownLeaderOrCharacter"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "ownLeaderOrCharacter",
+          "condition": {
+            "field": "trashCount",
+            "op": ">=",
+            "value": 15
+          }
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is confirmed as 'C' from the bottom right corner of the card."
-  }
+  "traits": [
+    "dressrosa",
+    "bartoClub"
+  ]
 }

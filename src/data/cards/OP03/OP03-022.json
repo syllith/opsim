@@ -1,35 +1,82 @@
 {
-  "id": "OP03-022",
-  "set": "OP03",
-  "number": 22,
-  "name": "Arlong",
-  "category": "Leader",
-  "colors": ["Green", "Yellow"],
-  "attribute": "Slash",
-  "types": ["Fish-Man", "East Blue", "Arlong Crew"],
+  "cardName": "Arlong",
+  "cardId": "OP03-022",
+  "cardType": "leader",
+  "colors": [
+    "green",
+    "blue"
+  ],
+  "power": 5000,
+  "life": 4,
+  "types": [
+    "Fish-Man",
+    "East Blue",
+    "Arlong Crew"
+  ],
   "rarity": "L",
-  "art": "/cards/OP03/OP03-022.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": null
-  },
-  "keywords": ["DON!! x2", "When Attacking"],
-  "trigger": null,
-  "text": "[DON!! x2] [When Attacking] (1) (You may rest the specified number of DON!! cards in your Cost Area): Play up to 1 Character card with a cost of 4 or less with [Trigger] from your hand.",
+  "setId": "OP03",
+  "cardNumber": "022",
+  "printedText": "DON!! x2 [When Attacking] (1) (You may rest the specified number of DON!! cards in your Cost Area): Play up to 1 Character card with a cost of 4 or less with Trigger from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": { "restDonFromCostArea": 1 },
-      "effect": {
-        "text": "Play up to 1 Character card with a cost of 4 or less with [Trigger] from your hand.",
-        "targets": ["hand"],
-        "conditions": ["categoryCharacter", "costLessOrEqual4", "hasTrigger"]
-      }
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonCount",
+        "op": ">=",
+        "value": 2
+      },
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 1,
+        "may": true
+      },
+      "selectors": {
+        "playTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "cost",
+                  "op": "<=",
+                  "value": 4
+                },
+                {
+                  "field": "hasTrigger",
+                  "op": "=",
+                  "value": true
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "playTarget"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "fishMan",
+    "eastBlue",
+    "arlongCrew"
+  ]
 }

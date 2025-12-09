@@ -1,75 +1,73 @@
 {
-  "id": "OP12-059",
-  "set": "OP12",
-  "number": 59,
-  "name": "Concasser",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Sky Island",
-    "Straw Hat Crew"
-  ],
+  "cardName": "Concasser",
+  "cardId": "OP12-059",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 1,
+  "types": ["Sky Island", "Straw Hat Crew"],
+  "traits": ["skyIsland", "strawHatCrew"],
   "rarity": "UC",
-  "art": "/cards/OP12/OP12-059.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 4000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main: If your Leader is [Sanji], draw 1 card. \nCounter: If you have 4 or more Event cards in your trash, up to 1 of your Leader gains +4000 power during this battle.",
+  "setId": "OP12",
+  "cardNumber": "059",
+  "printedText": "[Main] If your Leader is [Sanji], draw 1 card.\n[Counter] If you have 4 or more Event cards in your trash, up to 1 of your Leader gains +4000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Sanji"
       },
-      "effect": {
-        "text": "If your Leader is [Sanji], draw 1 card.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIs[Sanji]"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If you have 4 or more Event cards in your trash, up to 1 of your Leader gains +4000 power during this battle.",
-        "powerMod": {
-          "amount": 4000,
-          "duration": "this battle"
+      "timing": "counter",
+      "selectors": {
+        "selfTrashEvents": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "filters": [
+            {
+              "field": "cardType",
+              "op": "=",
+              "value": "event"
+            }
+          ]
         },
-        "targets": [
-          "upTo1OfYourLeader"
-        ],
-        "conditions": [
-          "youHave4OrMoreEventCardsInYourTrash"
-        ],
-        "giveDon": null
-      }
+        "selfLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "selfTrashEvents",
+        "op": ">=",
+        "value": 4
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 4000,
+          "duration": "thisBattle",
+          "target": "selfLeader"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

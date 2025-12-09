@@ -1,55 +1,68 @@
 {
-  "id": "OP03-092",
-  "set": "OP03",
-  "number": 92,
-  "name": "Rob Lucci",
-  "category": "Character",
+  "cardName": "Rob Lucci",
+  "cardId": "OP03-092",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 6,
+  "power": 7000,
   "types": [
     "CP9"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-092.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Rush"
-  ],
-  "trigger": null,
-  "text": "On Play You may return 2 cards with (CP9) in its type from your trash to the bottom of your deck in any order. This Character gains Rush during this turn. (This card can attack on the turn in which it is played.)",
+  "rarity": "SR",
+  "setId": "OP03",
+  "cardNumber": "092",
+  "printedText": "[On Play] You may return 2 cards with {CP9} in their type from your trash to the bottom of your deck in any order: This Character gains Rush during this turn.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "cp9Trash": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "trash"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "CP9"
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "returnedCards"
+        }
       },
-      "effect": {
-        "text": "You may return 2 cards with (CP9) in its type from your trash to the bottom of your deck in any order. This Character gains Rush during this turn.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "returnedCards",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen",
+          "may": true
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "rush",
+          "duration": "thisTurn",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is confirmed as 'C' from the bottom right corner of the card."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "cp9"
+  ]
 }

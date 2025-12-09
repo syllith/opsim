@@ -1,40 +1,178 @@
 {
-  "id": "EB02-059",
-  "set": "EB02",
-  "number": 59,
-  "name": "Without you... I can't become King of the Pirates!!!!",
-  "category": "Event",
-  "colors": ["Yellow"],
-  "attribute": null,
-  "types": ["Straw Hat Crew"],
-  "rarity": "R",
-  "art": "/cards/EB02/EB02-059.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter"],
-  "trigger": null,
-  "text": "[Counter] Give your Leader or up to one of your Characters +1000 power for this battle. Then, if your life total is 1 or less, play up to one yellow cost 5 or lower {Straw Hat Crew} type or \"Sanji\" Character from your hand.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give your Leader or up to one of your Characters +1000 power for this battle. Then, if your life total is 1 or less, play up to one yellow cost 5 or lower {Straw Hat Crew} type or \"Sanji\" Character from your hand.",
-        "grants": [],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "forThisBattle"
+      "selectors": {},
+      "timing": "counter",
+      "actions": [
+        {
+          "min": 1,
+          "type": "chooseMode",
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "mode": "add",
+                  "stat": "power",
+                  "duration": "thisBattle",
+                  "amount": 1000,
+                  "target": {
+                    "zones": [
+                      "leader"
+                    ],
+                    "min": 1,
+                    "max": 1,
+                    "type": "leader",
+                    "side": "self",
+                    "whoChooses": "system"
+                  }
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "modifyStat",
+                  "mode": "add",
+                  "stat": "power",
+                  "duration": "thisBattle",
+                  "amount": 1000,
+                  "target": {
+                    "zones": [
+                      "character"
+                    ],
+                    "upTo": true,
+                    "min": 0,
+                    "max": 1,
+                    "type": "character",
+                    "side": "self",
+                    "whoChooses": "self"
+                  }
+                }
+              ]
+            }
+          ],
+          "max": 1
         },
-        "targets": ["ally:LeaderOrCharacter", "hand:yellow:Character:cost<=5:StrawHatCrewOrSanji"],
-        "conditions": ["yourLife1OrLess"]
-      }
+        {
+          "min": 0,
+          "type": "chooseMode",
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "may": true,
+                  "enterRested": false,
+                  "type": "playCard",
+                  "payCost": true,
+                  "sourceZone": "hand",
+                  "condition": {
+                    "value": 1,
+                    "field": "life",
+                    "op": "<="
+                  },
+                  "target": {
+                    "filters": [
+                      {
+                        "value": "yellow",
+                        "field": "colors",
+                        "op": "="
+                      },
+                      {
+                        "value": 5,
+                        "field": "cost",
+                        "op": "<="
+                      },
+                      {
+                        "value": "Straw Hat Crew",
+                        "field": "types",
+                        "op": "="
+                      }
+                    ],
+                    "zones": [
+                      "hand"
+                    ],
+                    "upTo": true,
+                    "min": 0,
+                    "max": 1,
+                    "type": "character",
+                    "side": "self",
+                    "whoChooses": "self"
+                  }
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "may": true,
+                  "enterRested": false,
+                  "type": "playCard",
+                  "payCost": true,
+                  "sourceZone": "hand",
+                  "condition": {
+                    "value": 1,
+                    "field": "life",
+                    "op": "<="
+                  },
+                  "target": {
+                    "filters": [
+                      {
+                        "value": "yellow",
+                        "field": "colors",
+                        "op": "="
+                      },
+                      {
+                        "value": 5,
+                        "field": "cost",
+                        "op": "<="
+                      },
+                      {
+                        "value": "Sanji",
+                        "field": "name",
+                        "op": "="
+                      }
+                    ],
+                    "zones": [
+                      "hand"
+                    ],
+                    "upTo": true,
+                    "min": 0,
+                    "max": 1,
+                    "type": "character",
+                    "side": "self",
+                    "whoChooses": "self"
+                  }
+                }
+              ]
+            }
+          ],
+          "max": 1
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "colors": [
+    "yellow"
+  ],
+  "rarity": "C",
+  "printedText": "Counter Give your Leader or up to one of your Characters +1000 power for this battle. Then, if your life total is 1 or less, play up to one yellow cost 5 or lower {Straw Hat Crew} type or \"Sanji\" Character from your hand.",
+  "cardNumber": "059",
+  "types": [
+    "Straw Hat Crew"
+  ],
+  "keywords": [
+    "Counter"
+  ],
+  "setId": "EB02",
+  "cardType": "event",
+  "cardName": "Without you... I can't become King of the Pirates!!!!",
+  "cardId": "EB02-059",
+  "cost": 4,
+  "traits": [
+    "strawHatCrew"
+  ]
 }

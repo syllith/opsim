@@ -1,48 +1,41 @@
 {
-  "id": "OP09-088",
-  "set": "OP09",
-  "number": 88,
-  "name": "Shiryuu",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Blackbeard Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP09/OP09-088.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! X1 When Attacking: You may trash 2 cards from your hand: Draw 2 cards.",
+  "cardName": "Shiryu",
+  "cardId": "OP09-088",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 4000,
+  "life": 0,
+  "counter": 2000,
+  "attributes": ["slash"],
+  "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
+  "rarity": "UC",
+  "setId": "OP09",
+  "cardNumber": "088",
+  "printedText": "[DON!! x1] [When Attacking] You may trash 2 cards from your hand: Draw 2 cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "isGivenDon",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "You may trash 2 cards from your hand: Draw 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a '4000' power value. The rarity is 'R' as printed in the bottom right corner."
-  }
+  ]
 }

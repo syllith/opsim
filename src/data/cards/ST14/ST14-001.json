@@ -1,50 +1,69 @@
 {
-  "id": "ST14-001",
-  "set": "ST14",
-  "number": 1,
-  "name": "Monkey. D. Luffy",
-  "category": "Leader",
-  "colors": ["Black"],
-  "attribute": "Strike",
-  "types": ["Straw hat Crew"],
-  "rarity": "L",
-  "art": "/cards/ST14/ST14-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 5,
-    "counter": { "present": false, "value": null }
-  },
+  "cardName": "Monkey D. Luffy",
+  "cardId": "ST14-001",
+  "cardType": "leader",
+  "colors": ["black"],
+  "cost": 0,
+  "power": 5000,
+  "life": 5,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "setId": "ST14",
+  "cardNumber": "001",
+  "printedText": "DON!! x1 Give all of your characters +1 Cost. If you control a Cost 8 or higher character this Leader gains +1000 Power.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 Give all of your characters +1 Cost. If you control a Cost 8 or higher character this leader gains +1000 Power.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give all of your characters +1 Cost.",
-        "powerMod": null,
-        "targets": ["allAllyCharacters:cost+1"],
-        "conditions": ["donAttached"],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you control a Cost 8 or higher character this leader gains +1000 Power.",
-        "powerMod": { "amount": 1000, "duration": "whileConditionMet" },
-        "targets": ["self"],
-        "conditions": ["donAttached", "controlCharacter>=8"],
-        "giveDon": null
-      }
+      "timing": "static",
+      "condition": {
+        "field": "attachedDonCountThis",
+        "op": ">=",
+        "value": 1
+      },
+      "selectors": {
+        "highCostSelfCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 8
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 1,
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "character",
+            "zones": ["character"]
+          }
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "permanent",
+          "target": "thisCard",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "highCostSelfCharacters",
+            "op": ">=",
+            "value": 1
+          }
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

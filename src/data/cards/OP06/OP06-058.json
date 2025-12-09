@@ -1,64 +1,89 @@
 {
-  "id": "OP06-058",
-  "set": "OP06",
-  "number": 58,
-  "name": "Gravity Blade Raging Tiger",
-  "category": "Event",
+  "cardName": "Gravity Blade Raging Tiger",
+  "cardId": "OP06-058",
+  "cardType": "event",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 7,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Navy"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-058.png",
-  "stats": {
-    "cost": 7,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "navy"
   ],
-  "trigger": {
-    "text": "Place up to one cost 5 or less character on the bottom of its owner's deck."
-  },
-  "text": "Main: Place up to 2 cost 6 or less characters in any order on the bottom of their owner's deck. Trigger: Place up to one cost 5 or less character on the bottom of its owner's deck.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "058",
+  "printedText": "Main Place up to 2 cost 6 or less characters in any order on the bottom of their owner's deck.\nTrigger Place up to 1 cost 5 or less character on the bottom of its owner's deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "charCost6OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Place up to 2 cost 6 or less characters in any order on the bottom of their owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "charCost6OrLess",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "charCost5OrLess": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Place up to one cost 5 or less character on the bottom of its owner's deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "charCost5OrLess",
+          "destination": "bottomOfDeck",
+          "ordering": "keep"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

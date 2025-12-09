@@ -1,48 +1,67 @@
 {
-  "id": "OP11-067",
-  "set": "OP11",
-  "number": 67,
-  "name": "Charlotte Katakuri",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Big Mom Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-067.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Blocker"
-  ],
-  "trigger": null,
-  "text": "End of Your Turn: Set up to 2 of your (Big Mom Pirates) type Characters with a cost of 3 or more as active. Then, add up to 1 DON!! cards from your DON!! deck and rest it.",
+  "cardName": "Charlotte Katakuri",
+  "cardId": "OP11-067",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 8,
+  "power": 8000,
+  "attributes": ["strike"],
+  "types": ["Big Mom Pirates"],
+  "traits": ["bigMomPirates"],
+  "rarity": "SR",
+  "setId": "OP11",
+  "cardNumber": "067",
+  "printedText": "[Blocker] [End of Your Turn] Set up to 2 of your {Big Mom Pirates} type Characters with a cost of 3 or more as active. Then, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "selectors": {
+        "bigMomPiratesCharactersCost3Plus": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "bigMomPirates"
+            },
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 3
+            }
+          ]
+        },
+        "donFromDonDeckRested": {
+          "side": "self",
+          "type": "don",
+          "zones": ["donDeck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Set up to 2 of your (Big Mom Pirates) type Characters with a cost of 3 or more as active. Then, add up to 1 DON!! cards from your DON!! deck and rest it.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "bigMomPiratesCharactersCost3Plus"
+        },
+        {
+          "type": "moveCard",
+          "target": "donFromDonDeckRested",
+          "destination": "costArea",
+          "ordering": "chosen",
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

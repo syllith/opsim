@@ -1,34 +1,30 @@
 {
-  "id": "OP10-014",
-  "set": "OP10",
-  "number": 14,
-  "name": "Franky",
-  "category": "Character",
+  "cardName": "Franky",
+  "cardId": "OP10-014",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Animal",
-    "punk Hazard",
+    "Punk Hazard",
     "Straw Hat Pirates"
   ],
+  "traits": [
+    "animal",
+    "punkHazard",
+    "strawHatPirates"
+  ],
   "rarity": "C",
-  "art": "/cards/OP10/OP10-014.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP10",
+  "cardNumber": "014",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card has 'SAMPLE' watermark, but fields are read from printed text."
-  }
+  "abilities": []
 }

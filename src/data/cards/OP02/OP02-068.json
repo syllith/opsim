@@ -1,23 +1,91 @@
 {
-  "id": "OP02-068",
-  "set": "OP02",
-  "number": 68,
-  "name": "Gum Gum Rain",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Impel Down", "Straw Hat Pirates"],
+  "cardName": "Gum Gum Rain",
+  "cardId": "OP02-068",
+  "cardType": "event",
+  "colors": [
+    "blue"
+  ],
+  "cost": 0,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Impel Down",
+    "Straw Hat Pirates"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-068.png",
-  "stats": {
-    "cost": 0,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": { "text": "Return up to 1 Character with a cost of 2 or less to the owner's hand." },
-  "text": "Counter: You may trash 1 card from your hand: Your Leader or up to 1 of your Characters gains +3000 Power during this battle.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "setId": "OP02",
+  "cardNumber": "068",
+  "printedText": "[Counter] You may trash 1 card from your hand: Your Leader or up to 1 of your Characters gains +3000 Power during this battle. [Trigger] Return up to 1 Character with a cost of 2 or less to the owner's hand.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "counter",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
+      },
+      "selectors": {
+        "gumGumRainBuffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "gumGumRainBuffTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "gumGumRainBuffTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "gumGumRainBounce": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "gumGumRainBounce"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "gumGumRainBounce",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
+    }
+  ],
+  "traits": [
+    "impelDown",
+    "strawHatPirates"
+  ]
 }

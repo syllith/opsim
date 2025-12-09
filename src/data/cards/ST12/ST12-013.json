@@ -1,50 +1,81 @@
 {
-  "id": "ST12-013",
-  "set": "ST12",
-  "number": 13,
-  "name": "Zeff",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Strike",
+  "cardName": "Zeff",
+  "cardId": "ST12-013",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
   "types": ["East Blue"],
+  "traits": ["eastBlue"],
   "rarity": "C",
-  "art": "/cards/ST12/ST12-013.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "When Attacking"],
-  "trigger": null,
-  "text": "On Play Look at the top 3 cards of your deck, and place them at the top or bottom of your deck in any order. When Attacking Reveal the top card of your deck, you may play up to one cost 2 character card rested. Then, return the remaining card to the top or bottom of your deck.",
+  "setId": "ST12",
+  "cardNumber": "013",
+  "printedText": "[On Play] Look at the top 3 cards of your deck, and place them at the top or bottom of your deck in any order.\n[When Attacking] Reveal the top card of your deck, you may play up to one cost 2 Character card rested. Then, return the remaining card to the top or bottom of your deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Look at the top 3 cards of your deck, and place them at the top or bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": ["self:deckTop3", "self:deckTopOrBottom"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "top3Look": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 0,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "top3Look",
+          "reveal": false,
+          "addTo": "topOfDeck",
+          "topCount": 3,
+          "moveRemainingTo": "topOrBottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Reveal the top card of your deck, you may play up to one cost 2 character card rested. Then, return the remaining card to the top or bottom of your deck.",
-        "powerMod": null,
-        "targets": ["self:deckTop", "oneAllyCharacter=2:play:rested", "self:deckTopOrBottom"],
-        "conditions": ["optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "selectors": {
+        "topCost2CharacterFromDeck": {
+          "side": "self",
+          "type": "character",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 2
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "topCost2CharacterFromDeck",
+          "reveal": true,
+          "addTo": "characterArea",
+          "topCount": 1,
+          "moveRemainingTo": "topOrBottomOfDeck",
+          "remainingOrdering": "chosen",
+          "may": true,
+          "asPlay": true,
+          "payCost": true,
+          "enterRested": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

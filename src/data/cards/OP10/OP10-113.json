@@ -1,70 +1,62 @@
 {
-  "id": "OP10-113",
-  "set": "OP10",
-  "number": 113,
-  "name": "Roronoa Zoro",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Supernova",
-    "Straw Hat Crew"
-  ],
-  "rarity": "US",
-  "art": "/cards/OP10/OP10-113.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 5000
-    }
-  },
-  "keywords": [
-    "Rush"
-  ],
-  "trigger": {
-    "text": "You may trash 1 card from your hand: if your leader has the {Supernova} type, play this character."
-  },
-  "text": "If your life total is fewer than your opponent's, this character gains Rush. Trigger: You may trash 1 card from your hand: if your leader has the {Supernova} type, play this character.",
+  "cardName": "Roronoa Zoro",
+  "cardId": "OP10-113",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Supernova", "Straw Hat Crew"],
+  "traits": ["supernova", "strawHatCrew"],
+  "rarity": "UC",
+  "setId": "OP10",
+  "cardNumber": "113",
+  "printedText": "If your life total is fewer than your opponent's, this Character gains [Rush].\n[Trigger] You may trash 1 card from your hand: If your Leader has the {Supernova} type, play this Character.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If your life total is fewer than your opponent's, this character gains Rush.",
-        "grants": [
-          "Rush"
-        ],
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Rush",
+          "target": "selfThisCard",
+          "condition": {
+            "field": "selfLifeCount",
+            "op": "<",
+            "fieldRef": "opponentLifeCount"
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "trigger",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashFromHand",
+        "minCards": 1,
+        "maxCards": 1,
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand: if your leader has the {Supernova} type, play this character.",
-        "powerMod": null,
-        "conditions": [
-          "your leader has the {Supernova} type"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "leaderTraits",
+            "op": "=",
+            "value": "supernova"
+          },
+          "actions": [
+            {
+              "type": "playCard",
+              "sourceZone": "life",
+              "target": "selfTriggerSourceCard",
+              "payCost": false
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and 'US' rarity. 'US' is likely a misprint or placeholder for 'UC' (Ultra Common) or 'R' (Rare)."
-  }
+  ]
 }

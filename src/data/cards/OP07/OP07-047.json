@@ -1,49 +1,71 @@
 {
-  "id": "OP07-047",
-  "set": "OP07",
-  "number": 47,
-  "name": "Trafalgar Law",
-  "category": "Character",
+  "cardName": "Trafalgar Law",
+  "cardId": "OP07-047",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": [
+    "slash"
+  ],
   "types": [
     "Seven Warlords of the Sea",
     "Heart Pirates"
   ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-047.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "heartPirates"
   ],
-  "trigger": null,
-  "text": "Activate: Main You may return this Character to its owner's hand: If your opponent has 6 or more cards in their hand, they place 1 card from hand on the bottom of their deck.",
+  "rarity": "R",
+  "setId": "OP07",
+  "cardNumber": "047",
+  "printedText": "[Activate: Main] You may return this Character to its owner's hand: If your opponent has 6 or more cards in their hand, they place 1 card from hand on the bottom of their deck.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveFromField",
+        "selector": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ]
+        },
+        "destination": "hand",
+        "may": true
       },
-      "effect": {
-        "text": "You may return this Character to its owner's hand: If your opponent has 6 or more cards in their hand, they place 1 card from hand on the bottom of their deck.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "opponentHandCount",
+            "op": ">=",
+            "value": 6
+          },
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": {
+                "side": "opponent",
+                "type": "any",
+                "zones": [
+                  "hand"
+                ],
+                "min": 1,
+                "max": 1,
+                "whoChooses": "opponent"
+              },
+              "destination": "bottomOfDeck",
+              "ordering": "chosen"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

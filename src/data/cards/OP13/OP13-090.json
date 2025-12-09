@@ -1,51 +1,18 @@
 {
-  "id": "OP13-090",
-  "set": "OP13",
-  "number": 90,
-  "name": "Hack",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Fish-Man",
-    "Dressrosa",
-    "Revolutionary Army"
-  ],
+  "cardName": "Hack",
+  "cardId": "OP13-090",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 2000,
+  "attributes": ["strike"],
+  "types": ["Fish-Man", "Dressrosa", "Revolutionary Army"],
+  "traits": ["fishMan", "dressrosa", "revolutionaryArmy"],
   "rarity": "UC",
-  "art": "/cards/OP13/OP13-090.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP13",
+  "cardNumber": "090",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": "When Attacking: If this character is attacking, you may rest 1 DON!! from your cost area. If you do, this character gains +2000 power until end of turn.",
-  "abilities": [
-    {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "If this character is attacking, you may rest 1 DON!! from your cost area. If you do, this character gains +2000 power until end of turn.",
-        "powerMod": {
-          "amount": 2000,
-          "duration": "until end of turn"
-        },
-        "giveDon": null
-      }
-    }
-  ],
-  "meta": {
-    "notes": null
-  }
+  "abilities": []
 }

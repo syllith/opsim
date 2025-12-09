@@ -1,51 +1,81 @@
 {
-  "id": "OP12-060",
-  "set": "OP12",
-  "number": 60,
-  "name": "Boeuf Burst",
-  "category": "Event",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": null,
-  "types": [
-    "Straw Hat Crew"
-  ],
+  "cardName": "Boeuf Burst",
+  "cardId": "OP12-060",
+  "cardType": "event",
+  "colors": ["blue"],
+  "cost": 3,
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-060.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main"
-  ],
-  "trigger": null,
-  "text": "Main If your Leader is multicolored, choose one:\n• Return up to 1 of your opponent's Character with a cost of 4 or less to the owner's hand.\n• If you have 6 or less cards in your hand, draw 2 cards.",
+  "setId": "OP12",
+  "cardNumber": "060",
+  "printedText": "[Main] If your Leader is multicolored, choose one:\n• Return up to 1 of your opponent's Character with a cost of 4 or less to the owner's hand.\n• If you have 6 or less cards in your hand, draw 2 cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "condition": {
+        "field": "leaderColorCount",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "If your Leader is multicolored, choose one:\n• Return up to 1 of your opponent's Character with a cost of 4 or less to the owner's hand.\n• If you have 6 or less cards in your hand, draw 2 cards.",
-        "powerMod": null,
-        "conditions": [
-          "yourLeaderIsMulticolored"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterCost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "moveCard",
+                  "target": "opponentCharacterCost4OrLess",
+                  "destination": "hand",
+                  "ordering": "chosen"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "conditional",
+                  "condition": {
+                    "field": "handCount",
+                    "op": "<=",
+                    "value": 6
+                  },
+                  "actions": [
+                    {
+                      "type": "draw",
+                      "count": 2,
+                      "side": "self"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

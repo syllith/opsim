@@ -1,48 +1,58 @@
 {
-  "id": "OP13-065",
-  "set": "OP13",
-  "number": 65,
-  "name": "Shanks",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Roger Pirates"
-  ],
+  "cardName": "Shanks",
+  "cardId": "OP13-065",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Roger Pirates"],
+  "traits": ["rogerPirates"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-065.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at 5 cards from the top of your deck; reveal up to 1 card with \"Roger Pirates\" in its types other than [Shanks] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "setId": "OP13",
+  "cardNumber": "065",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 card with \"Roger Pirates\" in its types other than [Shanks] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "rogerCardExceptShanks": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "rogerPirates"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Shanks"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 card with \"Roger Pirates\" in its types other than [Shanks] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "rogerCardExceptShanks",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,48 +1,53 @@
 {
-  "id": "OP05-079",
-  "set": "OP05",
-  "number": 79,
-  "name": "Viola",
-  "category": "Character",
+  "cardName": "Viola",
+  "cardId": "OP05-079",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "Dressrosa"
   ],
-  "rarity": "SP",
-  "art": "/cards/OP05/OP05-079.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Your opponent chooses 3 cards in their trash and they return them to the bottom of their deck in any order.",
+  "rarity": "UC",
+  "setId": "OP05",
+  "cardNumber": "079",
+  "printedText": "[On Play] Your opponent chooses 3 cards in their trash and returns them to the bottom of their deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "trashReturn": {
+          "side": "opponent",
+          "type": "any",
+          "zones": [
+            "trash"
+          ],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "opponent",
+          "bindAs": "trashReturn"
+        }
       },
-      "effect": {
-        "text": "Your opponent chooses 3 cards in their trash and they return them to the bottom of their deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "trashReturn",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "dressrosa"
+  ]
 }

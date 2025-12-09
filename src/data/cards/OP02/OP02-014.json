@@ -1,38 +1,46 @@
 {
-  "id": "OP02-014",
-  "set": "OP02",
-  "number": 14,
-  "name": "Whitey Bay",
-  "category": "Character",
-  "colors": ["Red"],
-  "attribute": "Slash",
-  "types": ["White Beard Pirates Subordinates"],
+  "cardName": "Whitey Bay",
+  "cardId": "OP02-014",
+  "cardType": "character",
+  "colors": [
+    "red"
+  ],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "types": [
+    "Whitebeard Pirates Subordinates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP02/OP02-014.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter", "DON!!"],
-  "trigger": null,
-  "text": "DON!! x1 This Character can also attack your opponent's active Characters.",
+  "setId": "OP02",
+  "cardNumber": "014",
+  "printedText": "[DON!! x1] This Character can also attack your opponent's active Characters.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Continuous",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "This Character can also attack your opponent's active Characters.",
-        "grants": ["canAttackActiveCharacters"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "static",
+      "condition": {
+        "field": "this.attachedDon",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "attackActiveCharacters",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "whitebeardPiratesSubordinates"
+  ]
 }

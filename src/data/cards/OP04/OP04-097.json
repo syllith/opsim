@@ -1,53 +1,72 @@
 {
-  "id": "OP04-097",
-  "set": "OP04",
-  "number": 97,
-  "name": "Otama",
-  "category": "Character",
+  "cardName": "Otama",
+  "cardId": "OP04-097",
+  "cardType": "character",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
   "types": [
     "Land of Wano"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-097.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": 0,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "setId": "OP04",
+  "cardNumber": "097",
+  "printedText": "[On Play] Place up to 1 of your opponent's {Animal} or {SMILE} type Characters on top of their Life area face-up.",
   "keywords": [
-    "On Play"
+    "onPlay"
   ],
-  "trigger": null,
-  "text": "On Play: Place up to 1 of your opponent's (Animal) or (SMILE) type characters on top of their life area face-up.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "oppAnimalOrSmile": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "logic": "OR",
+              "any": [
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Animal"
+                },
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "SMILE"
+                }
+              ]
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "moveTarget"
+        }
       },
-      "effect": {
-        "text": "Place up to 1 of your opponent's (Animal) or (SMILE) type characters on top of their life area face-up.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter",
-          "oneOpponentCharacter<=Animal",
-          "oneOpponentCharacter<=SMILE"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppAnimalOrSmile",
+          "destination": "topOfLife",
+          "ordering": "keep",
+          "faceUp": true
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity 'C' is confirmed from the bottom right corner of the card."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "landOfWano"
+  ]
 }

@@ -1,52 +1,48 @@
 {
-  "id": "OP11-009",
-  "set": "OP11",
-  "number": 9,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-009.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "DON!! x2",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "DON!! x2 When Attacking Give up to 1 of your opponent's Characters -2000 power until the end of their next turn.",
+  "cardName": "Nico Robin",
+  "cardId": "OP11-009",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "setId": "OP11",
+  "cardNumber": "009",
+  "printedText": "[DON!! x2] [When Attacking] Give up to 1 of your opponent's Characters -2000 power until the end of their next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "condition": {
+        "field": "selfGivenDonCount",
+        "op": ">=",
+        "value": 2
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -2000 power until the end of their next turn.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "opponentCharacterUpToOne": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "targetCharacter"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -2000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "opponentCharacterUpToOne"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

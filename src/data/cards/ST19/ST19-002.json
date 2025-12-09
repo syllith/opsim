@@ -1,37 +1,46 @@
 {
-  "id": "ST19-002",
-  "set": "ST19",
-  "number": 2,
-  "name": "Sengoku",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Wisdom",
+  "cardName": "Sengoku",
+  "cardId": "ST19-002",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["wisdom"],
   "types": ["Navy"],
-  "rarity": "C",
-  "art": "/cards/ST19/ST19-002.png",
-  "stats": {
-    "cost": 1,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "Counter +1000"],
-  "trigger": null,
-  "text": "On Play You may trash 2 black {Navy} type cards from your hand: If your leader has the {Navy} type, draw 3 cards.",
+  "traits": ["navy"],
+  "rarity": "starter",
+  "setId": "ST19",
+  "cardNumber": "002",
+  "printedText": "[On Play] You may trash 2 black {Navy} type cards from your hand: If your leader has the {Navy} type, draw 3 cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 2 black {Navy} type cards from your hand: If your leader has the {Navy} type, draw 3 cards.",
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["optionalTrashHandCard:Black:Navy:2", "leaderType:Navy"],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "filters": ["black", "navy"],
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selfLeaderTypes",
+            "op": "=",
+            "value": "Navy"
+          },
+          "actions": [
+            {
+              "type": "draw",
+              "count": 3,
+              "side": "self"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

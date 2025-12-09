@@ -1,55 +1,83 @@
 {
-  "id": "OP08-115",
-  "set": "OP08",
-  "number": 115,
-  "name": "The Earth Won't Lose!!",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Sky Island",
-    "Shandoran Warrior"
-  ],
+  "cardName": "The Earth Will Not Lose!",
+  "cardId": "OP08-115",
+  "cardType": "event",
+  "colors": ["yellow"],
+  "cost": 1,
+  "types": ["Sky Island", "Shandian Warrior"],
+  "traits": ["skyIsland", "shandianWarrior"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-115.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Trigger",
-    "Draw 2 cards then discard 1 card"
-  ],
-  "trigger": {
-    "text": "Draw 2 cards then discard 1 card."
-  },
-  "text": "#Counter If your leader has the {Shandoran Warriors} type, your leader or up to one of your characters +3000 power for this battle. Then, play up to one [Upper Yard] from your hand.",
+  "setId": "OP08",
+  "cardNumber": "115",
+  "printedText": "[Counter] If your Leader has the {Shandian Warrior} type, up to 1 of your Leader or Character cards gains +3000 power during this battle. Then, play up to 1 [Upper Yard] from your hand.\n[Trigger] Draw 2 cards and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "condition": {
+        "field": "leaderTraits",
+        "op": "=",
+        "value": "shandianWarrior"
       },
-      "effect": {
-        "text": "If your leader has the {Shandoran Warriors} type, your leader or up to one of your characters +3000 power for this battle. Then, play up to one [Upper Yard] from your hand.",
-        "powerMod": null,
-        "conditions": [
-          "leader:hasType{Shandoran Warriors}"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "upperYardFromHand": {
+          "side": "self",
+          "type": "stage",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "name",
+              "op": "=",
+              "value": "Upper Yard"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        },
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "upperYardFromHand",
+          "payCost": false
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

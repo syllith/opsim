@@ -1,54 +1,87 @@
 {
-  "id": "OP12-026",
-  "set": "OP12",
-  "number": 26,
-  "name": "Kuina",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "East Blue",
-    "Frost Moon Village"
-  ],
+  "cardName": "Kuina",
+  "cardId": "OP12-026",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["East Blue", "Frost Moon Village"],
+  "traits": ["eastBlue", "frostMoonVillage"],
   "rarity": "UC",
-  "art": "/cards/OP12/OP12-026.png",
-  "stats": {
-    "cost": 4,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "[Activate: Main] You may rest this Character: Rest up to 1 of your opponent's Characters with an original cost of 4 or less. Then, attach up to 3 rested DON!! cards to 1 of your [Roronoa Zoro] Leaders.",
+  "setId": "OP12",
+  "cardNumber": "026",
+  "printedText": "[Activate: Main] You may rest this Character: Rest up to 1 of your opponent's Characters with an original cost of 4 or less. Then, attach up to 3 rested DON!! cards to 1 of your [Roronoa Zoro] Leaders.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "restThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may rest this Character: Rest up to 1 of your opponent's Characters with an original cost of 4 or less. Then, attach up to 3 rested DON!! cards to 1 of your [Roronoa Zoro] Leaders.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4",
-          "oneOfYour[Roronoa Zoro]Leaders"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "oppCharToRest": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "originalCost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "zoroLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Roronoa Zoro"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self"
+        },
+        "restedDonToAttach": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "oppCharToRest"
+        },
+        {
+          "type": "attachDon",
+          "target": "zoroLeader",
+          "selector": "restedDonToAttach"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  ]
 }

@@ -1,48 +1,94 @@
 {
-  "id": "OP05-093",
-  "set": "OP05",
-  "number": 93,
-  "name": "Rob Lucci",
-  "category": "Character",
+  "cardName": "Rob Lucci",
+  "cardId": "OP05-093",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 4,
+  "power": 6000,
+  "counter": 1000,
   "types": [
     "CP0"
   ],
-  "rarity": "C",
-  "art": "/cards/OP05/OP05-093.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: You may place 3 cards from your trash on the bottom of your deck in any order. K.O. up to 1 of your opponent's characters with a cost of 2 or less and up to 1 of your opponent's characters with a cost of 1 or less.",
+  "rarity": "SR",
+  "setId": "OP05",
+  "cardNumber": "093",
+  "printedText": "[On Play] You may place 3 cards from your trash at the bottom of your deck in any order: K.O. up to 1 of your opponent's Characters with a cost of 2 or less and up to 1 of your opponent's Characters with a cost of 1 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "trashCostCards": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "trash"
+          ],
+          "min": 3,
+          "max": 3,
+          "whoChooses": "self"
+        },
+        "opponentCost2OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ]
+        },
+        "opponentCost1OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "You may place 3 cards from your trash on the bottom of your deck in any order. K.O. up to 1 of your opponent's characters with a cost of 2 or less and up to 1 of your opponent's characters with a cost of 1 or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "bottomDeckFromTrash",
+        "selector": "trashCostCards",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCost2OrLess"
+        },
+        {
+          "type": "ko",
+          "target": "opponentCost1OrLess"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "cp0"
+  ]
 }

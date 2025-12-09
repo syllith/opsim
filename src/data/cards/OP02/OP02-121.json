@@ -1,46 +1,86 @@
 {
-  "id": "OP02-121",
-  "set": "OP02",
-  "number": 121,
-  "name": "Kuzan",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["Former Navy"],
+  "cardName": "Kuzan",
+  "cardId": "OP02-121",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 10,
+  "power": 10000,
+  "counter": 0,
+  "types": [
+    "Former Navy"
+  ],
   "rarity": "SEC",
-  "art": "/cards/OP02/OP02-121.png",
-  "stats": {
-    "cost": 10,
-    "power": 10000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Your Turn", "On Play"],
-  "trigger": null,
-  "text": "[Your Turn] All of your opponent's Characters get -5 to their cost.\n[On Play] K.O. up to 1 of your opponent's Characters with a cost of 0.",
+  "setId": "OP02",
+  "cardNumber": "121",
+  "printedText": "[Your Turn] All of your opponent's Characters get -5 to their cost.\n[On Play] K.O. up to 1 of your opponent's Characters with a cost of 0.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "All of your opponent's Characters get -5 to their cost.",
-        "targets": ["opponent:Character"],
-        "conditions": []
-      }
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "opponentCharacters": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -5,
+          "duration": "thisTurn",
+          "target": "opponentCharacters",
+          "condition": {
+            "field": "turnSide",
+            "op": "=",
+            "value": "self"
+          }
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 0.",
-        "targets": ["upTo1:opponent:Character=0"],
-        "conditions": []
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "opponentCost0Character": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "=",
+              "value": 0
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "opponentCost0Character"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "formerNavy"
+  ]
 }

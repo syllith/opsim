@@ -1,38 +1,67 @@
 {
-  "id": "OP01-062",
-  "set": "OP01",
-  "number": 62,
-  "name": "Crocodile",
-  "category": "Leader",
-  "colors": ["Blue", "Purple"],
-  "attribute": "Special",
-  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
-  "rarity": null,
-  "art": "/cards/OP01/OP01-062.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["DON!! x1"],
-  "trigger": null,
-  "text": "DON!! x1: After you activate an Event, you may draw 1 card if you have 4 or less cards in your hand and haven't drawn a card using this Leader's effect during this turn.",
+  "cardName": "Crocodile",
+  "cardId": "OP01-062",
+  "cardType": "leader",
+  "colors": [
+    "purple",
+    "blue"
+  ],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "counter": 0,
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
+  "rarity": "R",
+  "setId": "OP01",
+  "cardNumber": "062",
+  "printedText": "DON!! x1 After you activate an Event, you may draw 1 card if you have 4 or less cards in your hand and haven't drawn a card using this Leader's effect during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "After Event Activated",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may draw 1 card if you have 4 or less cards in your hand and haven't drawn a card using this Leader's effect during this turn.",
-        "grants": ["Draw 1 Card"],
-        "powerMod": null,
-        "targets": ["player"],
-        "conditions": ["handSize<=4", "notDrawnWithLeaderThisTurn"],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "this.attachedDon",
+            "op": ">=",
+            "value": 1
+          },
+          {
+            "field": "event.sourcePlayer",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "event.cardType",
+            "op": "=",
+            "value": "event"
+          },
+          {
+            "field": "self.handCount",
+            "op": "<=",
+            "value": 4
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "may": true
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
+  ]
 }

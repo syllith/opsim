@@ -1,64 +1,88 @@
 {
-  "id": "OP04-064",
-  "set": "OP04",
-  "number": 64,
-  "name": "Miss All Sunday",
-  "category": "Character",
+  "cardName": "Miss All Sunday",
+  "cardId": "OP04-064",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 5,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Baroque Works"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-064.png",
-  "stats": {
-    "cost": 5,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Don!!: -2: (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play this card."
-  },
-  "text": "[On Play] Add up to 1 rested Don!! to your cost area and if you have 6 or more Don!! Draw 1 card\n[Trigger] Don!!: -2: (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play this card.",
+  "rarity": "SR",
+  "setId": "OP04",
+  "cardNumber": "064",
+  "printedText": "On Play Add up to 1 rested DON!! from your DON!! deck to your cost area, and if you have 6 or more DON!! cards, draw 1 card.\n\nTrigger DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Play this card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
-      },
-      "effect": {
-        "text": "Add up to 1 rested Don!! to your cost area and if you have 6 or more Don!! Draw 1 card",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": {
+            "side": "self",
+            "type": "don",
+            "zones": [
+              "donDeck"
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "destination": "costArea",
+          "enterRested": true
+        },
+        {
+          "type": "draw",
+          "count": 1,
+          "condition": {
+            "field": "selectorCount",
+            "selector": {
+              "side": "self",
+              "type": "don",
+              "zones": [
+                "costArea"
+              ]
+            },
+            "op": ">=",
+            "value": 6
+          }
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": 2,
+      "timing": "trigger",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 2,
+        "may": true
       },
-      "effect": {
-        "text": "(You may return the specified number of DON!! cards from your field to your DON!! deck.): Play this card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "life"
+            ]
+          },
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in a box in the bottom right corner."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

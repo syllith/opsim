@@ -1,50 +1,70 @@
 {
-  "id": "EB01-034",
-  "set": "EB01",
-  "number": 34,
-  "name": "Miss Wednesday",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Ranged",
-  "types": ["Baroque Works"],
-  "rarity": "SR",
-  "art": "/cards/EB01/EB01-034.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Blocker", "On opponent's attack", "Once Per Turn", "DON!! +1"],
-  "trigger": null,
-  "text": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On opponent's attack] [Once Per Turn] DON!! +1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Add up to 1 DON!! card from your DON!! deck and set it as active. If your Leader's type includes \"Baroque Works\", add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "power": 4000,
+  "cardType": "character",
+  "attributes": [
+    "slash"
+  ],
+  "cardId": "EB01-034",
+  "printedText": "[Blocker]\n[On opponent's attack] [Once Per Turn] DON!! +1: If your Leader's type includes {Baroque Works}, add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "types": [
+    "Baroque Works"
+  ],
+  "cardNumber": "034",
   "abilities": [
     {
-      "timing": "Block Step",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "grants": ["Blocker"],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
-    },
-    {
-      "timing": "On opponent's attack",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "DON!! +1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Add up to 1 DON!! card from your DON!! deck and set it as active. If your Leader's type includes \"Baroque Works\", add up to 1 DON!! card from your DON!! deck and set it as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["don"],
-        "conditions": []
+      "actions": [
+        {
+          "count": 1,
+          "type": "giveDon",
+          "target": {
+            "zones": [
+              "costArea"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "system"
+          }
+        },
+        {
+          "type": "setState",
+          "target": {
+            "zones": [
+              "costArea"
+            ],
+            "min": 1,
+            "max": 1,
+            "type": "don",
+            "side": "self",
+            "whoChooses": "system"
+          },
+          "state": "active"
+        }
+      ],
+      "condition": {
+        "value": "Baroque Works",
+        "field": "leader.types",
+        "op": "="
+      },
+      "frequency": "oncePerTurn",
+      "timing": "onOpponentsAttack",
+      "selectors": {},
+      "cost": {
+        "count": 1,
+        "type": "returnDon"
       }
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 1000,
+  "cardName": "Miss Wednesday",
+  "rarity": "SR",
+  "cost": 3,
+  "colors": [
+    "purple"
+  ],
+  "traits": [
+    "baroqueWorks"
+  ]
 }

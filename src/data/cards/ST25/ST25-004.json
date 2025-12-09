@@ -1,37 +1,73 @@
 {
-  "id": "ST25-004",
-  "set": "ST25",
-  "number": 4,
-  "name": "Buggy",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": null,
+  "cardName": "Buggy",
+  "cardId": "ST25-004",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 4,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["slash"],
   "types": ["The Four Emperors", "Cross Guild"],
+  "traits": ["theFourEmperors", "crossGuild"],
   "rarity": "SR",
-  "art": "/cards/ST25/ST25-004.png",
-  "stats": {
-    "cost": 4,
-    "power": 1000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "ST25",
+  "cardNumber": "004",
+  "printedText": "[Activate:Main] You may trash 1 card from your hand and trash this Character: If your Leader is [Buggy], play up to 1 {Cross Guild} type Character card with a cost of 6 or less from your hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "[Activate:Main] You may trash 1 card from your hand and trash this Character: If your Leader is [Buggy], play up to 1 {Cross Guild} type Character card with a cost of 6 or less from your hand.",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may trash 1 card from your hand and trash this Character: If your Leader is [Buggy], play up to 1 {Cross Guild} type Character card with a cost of 6 or less from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": ["mayTrash1FromHand", "trashThisCharacter", "leaderIsBuggy"]
-      }
+      "timing": "activateMain",
+      "cost": {
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          },
+          {
+            "type": "trashThis"
+          }
+        ],
+        "may": true
+      },
+      "condition": {
+        "field": "leaderCardName",
+        "op": "=",
+        "value": "Buggy"
+      },
+      "selectors": {
+        "crossGuildCharacterFromHand": {
+          "side": "self",
+          "type": "character",
+          "zones": ["hand"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "crossGuild"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 6
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "crossGuildCharacterFromHand",
+          "payCost": true,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

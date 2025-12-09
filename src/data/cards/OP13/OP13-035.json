@@ -1,52 +1,67 @@
 {
-  "id": "OP13-035",
-  "set": "OP13",
-  "number": 35,
-  "name": "Bepo",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Film/Minks/Heart Pirates"
-  ],
+  "cardName": "Bepo",
+  "cardId": "OP13-035",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 7000,
+  "attributes": ["strike"],
+  "types": ["Minks", "FILM", "Heart Pirates"],
+  "traits": ["minks", "film", "heartPirates"],
   "rarity": "C",
-  "art": "/cards/OP13/OP13-035.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "End of Your Turn"
-  ],
-  "trigger": null,
-  "text": "End of Your Turn: Set this Character or up to 1 of your DON!! cards as active.",
+  "setId": "OP13",
+  "cardNumber": "035",
+  "printedText": "[End of Your Turn] Set this Character or up to 1 of your DON!! cards as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "endOfYourTurn",
+      "selectors": {
+        "upToOneRestedDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Set this Character or up to 1 of your DON!! cards as active.",
-        "powerMod": null,
-        "targets": [
-          "self",
-          "optionalTarget"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "setState",
+                  "state": "active",
+                  "target": "selfThisCard"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "setState",
+                  "state": "active",
+                  "target": "upToOneRestedDon"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

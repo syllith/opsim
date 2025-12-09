@@ -1,52 +1,67 @@
 {
-  "id": "OP04-083",
-  "set": "OP04",
-  "number": 83,
-  "name": "Sabo",
-  "category": "Character",
+  "cardName": "Sabo",
+  "cardId": "OP04-083",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "black"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
   "types": [
-    "Dressrosa/Revolutionary Army"
+    "Dressrosa",
+    "Revolutionary Army"
   ],
-  "rarity": "C",
-  "art": "/cards/OP04/OP04-083.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "SR",
+  "setId": "OP04",
+  "cardNumber": "083",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] None of your Characters can be K.O.'d by effects until the start of your next turn. Then, draw 2 cards and trash 2 cards from your hand.",
   "keywords": [
-    "Blocker",
-    "On Play"
+    "blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Your characters can't be KOD by card effects until the start of your next turn. Draw 2 trash 2.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "yourCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Your characters can't be KOD by card effects until the start of your next turn. Draw 2 trash 2.",
-        "powerMod": null,
-        "targets": [
-          "allCharacters"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "untilStartOfYourNextTurn",
+          "event": "wouldBeKOdByEffect",
+          "target": "yourCharacters",
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": "yourCharacters"
+            }
+          ]
+        },
+        {
+          "type": "draw",
+          "count": 2
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 2,
+          "maxCards": 2
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "The card is a sample. The text and abilities are based on the visible content. The 'Blocker' keyword is a printed ability with a description in parentheses."
-  }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "dressrosa",
+    "revolutionaryArmy"
+  ]
 }

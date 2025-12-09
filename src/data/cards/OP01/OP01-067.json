@@ -1,38 +1,93 @@
 {
-  "id": "OP01-067",
-  "set": "OP01",
-  "number": 67,
-  "name": "Crocodile",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Special",
-  "types": ["The Seven Warlords of the Sea", "Baroque Works"],
+  "cardName": "Crocodile",
+  "cardId": "OP01-067",
+  "cardType": "character",
+  "colors": [
+    "blue"
+  ],
+  "cost": 7,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
+  "types": [
+    "The Seven Warlords of the Sea",
+    "Baroque Works"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP01/OP01-067.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Banish", "DON!! x1"],
-  "trigger": null,
-  "text": "Banish (When a character deals damage, the target card is trashed without activating its Trigger.) | DON!! x1: Blue Event cards in your hand cost 1 less to play.",
+  "setId": "OP01",
+  "cardNumber": "067",
+  "printedText": "[Banish] (When this card deals damage, the target card is trashed without activating its [Trigger].)\n[DON!! x1] Blue Event cards in your hand cost 1 less to play.",
+  "keywords": [
+    "banish"
+  ],
   "abilities": [
     {
-      "timing": "Passive",
-      "frequency": null,
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Blue Event cards in your hand cost 1 less to play.",
-        "grants": ["Banish"],
-        "powerMod": null,
-        "targets": ["blueEventCardsInHand"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "banish",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard",
+            "zones": [
+              "character"
+            ],
+            "min": 1,
+            "max": 1,
+            "whoChooses": "system"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "static",
+      "frequency": "none",
+      "condition": {
+        "field": "attachedDonToThis",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": -1,
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "hand"
+            ],
+            "filters": [
+              {
+                "field": "cardType",
+                "op": "=",
+                "value": "event"
+              },
+              {
+                "field": "color",
+                "op": "=",
+                "value": "blue"
+              }
+            ],
+            "min": 0,
+            "max": 999,
+            "whoChooses": "system"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "traits": [
+    "theSevenWarlordsOfTheSea",
+    "baroqueWorks"
+  ]
 }

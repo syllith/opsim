@@ -1,94 +1,113 @@
 {
-  "id": "OP05-090",
-  "set": "OP05",
-  "number": 90,
-  "name": "Riku Doldo the Third",
-  "category": "Character",
+  "cardName": "Riku Doldo III",
+  "cardId": "OP05-090",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Wisdom",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
   "types": [
     "Dressrosa"
   ],
-  "rarity": "R",
-  "art": "/cards/OP05/OP05-090.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "rarity": "C",
+  "setId": "OP05",
+  "cardNumber": "090",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [On Play] / [On K.O.] Up to 1 of your [Dressrosa] type Characters gains +2000 power during this turn.",
   "keywords": [
-    "Blocker",
-    "On Play",
-    "On K.O."
+    "blocker"
   ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nOn Play / On K.O. Select one of your character with <Dressrosa> attribute, give power +2k for the turn.",
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "blocker",
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "frequency": "none",
+      "selectors": {
+        "dressrosaCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "type",
+              "op": "=",
+              "value": "Dressrosa"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Select one of your character with <Dressrosa> attribute, give power +2k for the turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOfYourCharacters"
-        ],
-        "conditions": [
-          "<Dressrosa> attribute"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "dressrosaCharacter"
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onKO",
+      "frequency": "none",
+      "selectors": {
+        "dressrosaCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "type",
+              "op": "=",
+              "value": "Dressrosa"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Select one of your character with <Dressrosa> attribute, give power +2k for the turn.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "oneOfYourCharacters"
-        ],
-        "conditions": [
-          "<Dressrosa> attribute"
-        ],
-        "giveDon": null
-      }
+          "duration": "thisTurn",
+          "target": "dressrosaCharacter"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "dressrosa"
+  ]
 }

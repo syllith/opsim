@@ -1,48 +1,58 @@
 {
-  "id": "OP08-080",
-  "set": "OP08",
-  "number": 80,
-  "name": "Queen",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animal Kingdom Pirates"
-  ],
+  "cardName": "Queen",
+  "cardId": "OP08-080",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Animal Kingdom Pirates"],
+  "traits": ["animalKingdomPirates"],
   "rarity": "R",
-  "art": "/cards/OP08/OP08-080.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Look at the top 5 cards of your deck, choose a <Animal Kingdom Pirates> except for Queen and add it to your hand, put the remaining to the bottom of the deck in any order.",
+  "setId": "OP08",
+  "cardNumber": "080",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Animal Kingdom Pirates} type card other than [Queen] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "akpCard": {
+          "side": "self",
+          "type": "any",
+          "zones": ["deck"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Animal Kingdom Pirates"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Queen"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Look at the top 5 cards of your deck, choose a <Animal Kingdom Pirates> except for Queen and add it to your hand, put the remaining to the bottom of the deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "akpCard",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

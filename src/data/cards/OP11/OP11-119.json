@@ -1,70 +1,79 @@
 {
-  "id": "OP11-119",
-  "set": "OP11",
-  "number": 119,
-  "name": "Koby",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Navy",
-    "SWORD"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP11/OP11-119.png",
-  "stats": {
-    "cost": 8,
-    "power": 9000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play",
-    "When Attacking"
-  ],
-  "trigger": null,
-  "text": "On Play: Up to 1 of your Characters can attack one of your opponent's active Characters this turn. When Attacking: You may return 2 cards from your trash to the bottom of your deck in any order. Give your Leader or up to 1 of your Characters +1000 power until the end of your opponent's next turn.",
+  "cardName": "Koby",
+  "cardId": "OP11-119",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 8,
+  "power": 9000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Navy", "SWORD"],
+  "traits": ["navy", "sword"],
+  "rarity": "SEC",
+  "setId": "OP11",
+  "cardNumber": "119",
+  "printedText": "[On Play] Up to 1 of your Characters can attack one of your opponent's active Characters this turn.\n[When Attacking] You may return 2 cards from your trash to the bottom of your deck in any order: Give your Leader or up to 1 of your Characters +1000 power until the end of your opponent's next turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "yourCharacter": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Characters can attack one of your opponent's active Characters this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "canAttackActiveCharacters",
+          "duration": "thisTurn",
+          "target": "yourCharacter"
+        }
+      ]
     },
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": null,
+      "timing": "whenAttacking",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "bottomDeckFromTrash",
+        "selector": "trashCardsForCost",
+        "may": true
       },
-      "effect": {
-        "text": "You may return 2 cards from your trash to the bottom of your deck in any order. Give your Leader or up to 1 of your Characters +1000 power until the end of your opponent's next turn.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "until the end of your opponent's next turn"
+      "selectors": {
+        "trashCardsForCost": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
         },
-        "targets": [
-          "self",
-          "oneOpponentCharacter"
-        ],
-        "giveDon": null
-      }
+        "leaderOrCharacterTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "untilEndOfOpponentsNextTurn",
+          "target": "leaderOrCharacterTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

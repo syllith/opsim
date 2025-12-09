@@ -1,52 +1,53 @@
 {
-  "id": "OP03-076",
-  "set": "OP03",
-  "number": 76,
-  "name": "Rob Lucci",
-  "category": "Leader",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-076.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 5000,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "Your Turn Once Per Turn You may discard 2 cards from your hand: When an opponent's Character is K.O.ed, set this Leader as active.",
+  "cardName": "Rob Lucci",
+  "cardId": "OP03-076",
+  "cardType": "leader",
+  "colors": ["black"],
+  "power": 5000,
+  "life": 5,
+  "attributes": ["strike"],
+  "types": ["CP9"],
+  "traits": ["cp9"],
+  "rarity": "L",
+  "setId": "OP03",
+  "cardNumber": "076",
+  "printedText": "[Your Turn] [Once Per Turn] You may trash 2 cards from your hand: When your opponent's Character is K.O.'d, set this Leader as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenCharacterIsKOd",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "turnOwner",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "killedCharacter.side",
+            "op": "=",
+            "value": "opponent"
+          }
+        ]
       },
-      "effect": {
-        "text": "You may discard 2 cards from your hand: When an opponent's Character is K.O.ed, set this Leader as active.",
-        "powerMod": null,
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "opponentCharacterKo"
-        ],
-        "giveDon": null
-      }
+      "cost": {
+        "type": "trashFromHand",
+        "minCards": 2,
+        "maxCards": 2,
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "The card is a sample. The text 'SAMPLE' is overlaid on the card image."
-  }
+  ]
 }

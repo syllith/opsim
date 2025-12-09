@@ -1,48 +1,62 @@
 {
-  "id": "OP06-055",
-  "set": "OP06",
-  "number": 55,
-  "name": "Monkey D. Garp",
-  "category": "Character",
+  "cardName": "Monkey D. Garp",
+  "cardId": "OP06-055",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 5,
+  "power": 7000,
+  "life": 0,
+  "counter": 1000,
+  "attributes": [
+    "strike"
+  ],
   "types": [
     "Navy"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-055.png",
-  "stats": {
-    "cost": 5,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "When Attacking"
+  "traits": [
+    "navy"
   ],
-  "trigger": null,
-  "text": "DON!! x2 When Attacking: If you have 4 or less cards in your hand, your opponent cannot activate Blocker during this battle.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "055",
+  "printedText": "DON!! x2 When Attacking If you have 4 or less cards in your hand, your opponent cannot activate Blocker during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 2,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "attachedDonCount",
+            "op": ">=",
+            "value": 2
+          },
+          {
+            "field": "selfHandSize",
+            "op": "<=",
+            "value": 4
+          }
+        ]
       },
-      "effect": {
-        "text": "If you have 4 or less cards in your hand, your opponent cannot activate Blocker during this battle.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "restrict",
+          "restrictionKind": "blocker",
+          "target": {
+            "side": "opponent",
+            "type": "leaderOrCharacter",
+            "zones": [
+              "leader",
+              "character"
+            ]
+          },
+          "duration": "thisBattle"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has 'BANDAI MADE IN JAPAN' watermark. Card ID is OP06-055, set OP06, number 55. Rarity is 'R' as printed in the bottom right corner. Attribute is 'Strike' as indicated by the icon. Type is 'Navy' as printed. Cost is 5, Power is 7000. Text is 'DON!! x2 When Attacking: If you have 4 or less cards in your hand, your opponent cannot activate Blocker during this battle.'"
-  }
+  ]
 }

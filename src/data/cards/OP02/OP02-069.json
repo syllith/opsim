@@ -1,23 +1,103 @@
 {
-  "id": "OP02-069",
-  "set": "OP02",
-  "number": 69,
-  "name": "Death Wink",
-  "category": "Event",
-  "colors": ["Blue"],
-  "attribute": null,
-  "types": ["Impel Down", "Revolutionary Army"],
+  "cardName": "Death Wink",
+  "cardId": "OP02-069",
+  "cardType": "event",
+  "colors": [
+    "blue"
+  ],
+  "cost": 3,
+  "power": 0,
+  "counter": 0,
+  "types": [
+    "Impel Down",
+    "Revolutionary Army"
+  ],
   "rarity": "R",
-  "art": "/cards/OP02/OP02-069.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Counter", "Trigger"],
-  "trigger": { "text": "Return up to 1 Character with a cost of 7 or less to the owner's hand." },
-  "text": "Counter: Your Leader or up to 1 of your Characters gains +6000 Power during this battle. Then, draw cards until you have 2 cards in your hand.",
-  "abilities": [],
-  "meta": { "notes": null }
+  "setId": "OP02",
+  "cardNumber": "069",
+  "printedText": "[Counter] Your Leader or up to 1 of your Characters gains +6000 Power during this battle. Then, draw cards until you have 2 cards in your hand. [Trigger] Return up to 1 Character with a cost of 7 or less to the owner's hand.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "counter",
+      "selectors": {
+        "deathWinkBuffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "deathWinkBuffTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 6000,
+          "duration": "thisBattle",
+          "target": "deathWinkBuffTarget"
+        },
+        {
+          "type": "draw",
+          "count": 2,
+          "condition": {
+            "field": "ownerHandCount",
+            "op": "<=",
+            "value": 0
+          }
+        },
+        {
+          "type": "draw",
+          "count": 1,
+          "condition": {
+            "field": "ownerHandCount",
+            "op": "=",
+            "value": 1
+          }
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "selectors": {
+        "deathWinkBounce": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "deathWinkBounce"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "deathWinkBounce",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
+    }
+  ],
+  "traits": [
+    "impelDown",
+    "revolutionaryArmy"
+  ]
 }

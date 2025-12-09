@@ -1,37 +1,73 @@
 {
-  "id": "ST12-001",
-  "set": "ST12",
-  "number": 1,
-  "name": "Roronoa Zoro & Sanji",
-  "category": "Leader",
-  "colors": ["Blue", "Green"],
-  "attribute": "Slash",
+  "cardName": "Roronoa Zoro & Sanji",
+  "cardId": "ST12-001",
+  "cardType": "leader",
+  "colors": ["green", "blue"],
+  "cost": 0,
+  "power": 5000,
+  "life": 4,
+  "attributes": ["slash", "strike"],
   "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
   "rarity": "L",
-  "art": "/cards/ST12/ST12-001.png",
-  "stats": {
-    "cost": null,
-    "power": 5000,
-    "life": 4,
-    "counter": { "present": false, "value": null }
-  },
+  "setId": "ST12",
+  "cardNumber": "001",
+  "printedText": "[DON!! x1] [When Attacking] [Once Per Turn] You may return one of your cost 2 or higher Characters to its owner's hand: Set up to 1 of your Power 7000 or less Characters as active.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking Once Per Turn You may return one of your cost 2 or higher characters to its owner's hand: Set up to one of your Power 7000 or less characters as active.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": 1,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may return one of your cost 2 or higher characters to its owner's hand: Set up to one of your Power 7000 or less characters as active.",
-        "powerMod": null,
-        "targets": ["oneAllyCharacter>=2", "oneAllyCharacter<=7000:active"],
-        "conditions": ["donAttached", "optionalTarget"],
-        "giveDon": null
-      }
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "field": "donCountOnThis",
+        "op": ">=",
+        "value": 1
+      },
+      "cost": {
+        "type": "moveFromField",
+        "selector": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cost",
+              "op": ">=",
+              "value": 2
+            }
+          ]
+        },
+        "destination": "hand",
+        "may": true
+      },
+      "selectors": {
+        "selfChar7000OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 7000
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "selfChar7000OrLess"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,64 +1,91 @@
 {
-  "id": "OP06-056",
-  "set": "OP06",
-  "number": 56,
-  "name": "Ama no Murakumo",
-  "category": "Event",
+  "cardName": "Ama no Murakumo",
+  "cardId": "OP06-056",
+  "cardType": "event",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": null,
+  "cost": 2,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Navy"
   ],
-  "rarity": "UC",
-  "art": "/cards/OP06/OP06-056.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "navy"
   ],
-  "trigger": {
-    "text": "Activate this card's Main effect."
-  },
-  "text": "Main Return up to 1 of your opponent's Cost 2 or lower and up to 1 of your opponent's Cost 1 or lower characters to the bottom of its owner's deck in any order.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "056",
+  "printedText": "Main Return up to 1 of your opponent's Cost 2 or lower and up to 1 of your opponent's Cost 1 or lower characters to the bottom of its owner's deck in any order.\nTrigger Activate this card's Main effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "oppCharCost2OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 2
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "oppCharCost1OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 1
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Return up to 1 of your opponent's Cost 2 or lower and up to 1 of your opponent's Cost 1 or lower characters to the bottom of its owner's deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "oppCharCost2OrLess",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        },
+        {
+          "type": "moveCard",
+          "target": "oppCharCost1OrLess",
+          "destination": "bottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Activate this card's Main effect.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "main"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

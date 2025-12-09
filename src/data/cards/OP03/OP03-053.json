@@ -1,57 +1,68 @@
 {
-  "id": "OP03-053",
-  "set": "OP03",
-  "number": 53,
-  "name": "Yosaku & Johnny",
-  "category": "Character",
+  "cardName": "Yosaku & Johnny",
+  "cardId": "OP03-053",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Slash",
+  "cost": 1,
+  "power": 3000,
+  "counter": 1000,
   "types": [
     "East Blue"
   ],
   "rarity": "C",
-  "art": "/cards/OP03/OP03-053.png",
-  "stats": {
-    "cost": 1,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "DON!!"
-  ],
-  "trigger": null,
-  "text": "DON!! x1 If your deck has 20 cards or less, this Character gains +2000 Power.",
+  "setId": "OP03",
+  "cardNumber": "053",
+  "printedText": "DON!! x1 If your deck has 20 cards or less, this Character gains +2000 Power.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "static",
+      "frequency": "none",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your deck has 20 cards or less, this Character gains +2000 Power.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 2000,
-          "duration": "this turn"
-        },
-        "targets": [
-          "self"
-        ],
-        "conditions": [
-          "deckSize<=20"
-        ],
-        "giveDon": null
-      }
+          "duration": "permanent",
+          "target": "thisCard",
+          "condition": {
+            "logic": "AND",
+            "all": [
+              {
+                "field": "attachedDonCount",
+                "op": ">=",
+                "value": 1
+              },
+              {
+                "field": "deckCountSelf",
+                "op": "<=",
+                "value": 20
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'C' as printed in the bottom right corner. Power value is 3000 as printed. Cost is 1 as printed. The card has a DON!! x1 requirement."
-  }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

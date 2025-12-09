@@ -1,64 +1,59 @@
 {
-  "id": "OP07-031",
-  "set": "OP07",
-  "number": 31,
-  "name": "Bartholomeo",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Supernova",
-    "bartho Club"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-031.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 4000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "Your Turn",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\nYour Turn Once Per Turn If a character is rested from your own effects, draw 1 card then trash 1 cards from your hand.",
+  "cardName": "Bartholomeo",
+  "cardId": "OP07-031",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Supernova", "Bartho Club"],
+  "traits": ["supernova", "barthoClub"],
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "031",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [Your Turn] [Once Per Turn] If a character is rested from your own effects, draw 1 card then trash 1 card from your hand.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Blocker",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenCardRested",
+      "frequency": "oncePerTurn",
+      "condition": {
+        "logic": "AND",
+        "all": [
+          {
+            "field": "isYourTurn",
+            "op": "=",
+            "value": true
+          },
+          {
+            "field": "event.type",
+            "op": "=",
+            "value": "cardRestedByEffect"
+          },
+          {
+            "field": "event.effectController",
+            "op": "=",
+            "value": "self"
+          },
+          {
+            "field": "event.cardType",
+            "op": "=",
+            "value": "character"
+          }
+        ]
       },
-      "effect": {
-        "text": "After your opponent declares an attack, you may rest this card to make it the new target of the attack.",
-        "powerMod": null,
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Your Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If a character is rested from your own effects, draw 1 card then trash 1 cards from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

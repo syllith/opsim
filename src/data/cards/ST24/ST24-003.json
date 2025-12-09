@@ -1,37 +1,40 @@
 {
-  "id": "ST24-003",
-  "set": "ST24",
-  "number": 3,
-  "name": "Basil Hawkins",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": null,
+  "cardName": "Basil Hawkins",
+  "cardId": "ST24-003",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 4000,
+  "counter": 2000,
+  "attributes": ["slash"],
   "types": ["Supernovas", "Hawkins Pirates"],
+  "traits": ["supernovas", "hawkinsPirates"],
   "rarity": "C",
-  "art": "/cards/ST24/ST24-003.png",
-  "stats": {
-    "cost": 4,
-    "power": 4000,
-    "life": null,
-    "counter": { "present": true, "value": 2000 }
-  },
+  "setId": "ST24",
+  "cardNumber": "003",
+  "printedText": "[End of Your Turn] Set up to 1 of your DON!! cards as active.",
   "keywords": [],
-  "trigger": null,
-  "text": "[End of Your Turn] Set up to 1 of your DON!! cards as active.",
   "abilities": [
     {
-      "timing": "End of Your Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Set up to 1 of your DON!! cards as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "endOfYourTurn",
+      "selectors": {
+        "donToReady": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "donToReady"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

@@ -1,56 +1,86 @@
 {
-  "id": "EB03-057",
-  "set": "EB03",
-  "number": 57,
-  "name": "Yamato",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Strike",
-  "types": ["Land of Wano"],
+  "cardName": "Yamato",
+  "cardId": "EB03-057",
+  "cardType": "character",
+  "colors": [
+    "yellow"
+  ],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "types": [
+    "Land of Wano"
+  ],
   "rarity": "R",
-  "art": "/cards/EB03/EB03-057.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play", "On K.O."],
-  "trigger": null,
-  "text": "[On Play] Give up to 3 rested DON!! cards to your {Land of Wano} type Leader.\n[On K.O.] Trash up to 1 card from the top of your opponent's Life cards.",
+  "setId": "EB03",
+  "cardNumber": "057",
+  "printedText": "On Play Give up to 3 rested DON!! cards to your {Land of Wano} type Leader.\nOn K.O. Trash up to 1 card from the top of your opponent's Life cards.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Give up to 3 rested DON!! cards to your {Land of Wano} type Leader.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self:Leader"],
-        "conditions": ["landOfWanoType"],
-        "giveDon": {
-          "quantity": 3,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["self:Leader"]
+      "timing": "onPlay",
+      "selectors": {
+        "restedDon": {
+          "side": "self",
+          "type": "don",
+          "zones": [
+            "costArea"
+          ],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 3,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "wanoLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": [
+            "leader"
+          ],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Land of Wano"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
         }
-      }
+      },
+      "actions": [
+        {
+          "type": "attachDon",
+          "target": "wanoLeader",
+          "selector": "restedDon",
+          "may": true
+        }
+      ]
     },
     {
-      "timing": "On K.O.",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Trash up to 1 card from the top of your opponent's Life cards.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Life"],
-        "conditions": []
-      }
+      "timing": "onKO",
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "trash",
+          "may": true,
+          "target": "opponentTopLifeCard"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "landOfWano"
+  ]
 }

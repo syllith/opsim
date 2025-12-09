@@ -1,60 +1,79 @@
 {
-  "id": "OP11-043",
-  "set": "OP11",
-  "number": 43,
-  "name": "Vinsmoke Ichiji",
-  "category": "Character",
-  "colors": [
-    "Blue"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Vinsmoke Family",
-    "GERMA 66"
-  ],
+  "cardName": "Vinsmoke Ichiji",
+  "cardId": "OP11-043",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 7,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Vinsmoke Family", "GERMA 66"],
+  "traits": ["vinsmokeFamily", "germa66"],
   "rarity": "R",
-  "art": "/cards/OP11/OP11-043.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "On Opponent's Attack",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "On Opponent's Attack Once Per Turn If you only have Characters that have a type that includes \"GERMA\" in play, you may activate this effect. Up to one of you Leaders or Characters gains +1000 power during this battle. Then, trash 2 cards from the top of your deck.",
+  "setId": "OP11",
+  "cardNumber": "043",
+  "printedText": "Blocker (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Opponent's Attack] [Once Per Turn] If you only have Characters that have a type that includes \"GERMA\" in play, you may activate this effect. Up to 1 of your Leaders or Characters gains +1000 power during this battle. Then, trash 2 cards from the top of your deck.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "On Opponent's Attack",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "If you only have Characters that have a type that includes \"GERMA\" in play, you may activate this effect. Up to one of you Leaders or Characters gains +1000 power during this battle. Then, trash 2 cards from the top of your deck.",
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this battle"
+      "timing": "onOpponentsAttack",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "nonGermaCharactersInPlay": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "!=",
+              "value": "germa66"
+            }
+          ],
+          "whoChooses": "system"
         },
-        "targets": [
-          "upToOneOfYourLeadersOrCharacters"
-        ],
-        "conditions": [
-          "onlyHaveCharactersWithTypeIncludingGERMAInPlay"
-        ],
-        "giveDon": null
-      }
+        "leaderOrCharacterUpToOne": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "condition": {
+        "field": "selectorCount",
+        "selector": "nonGermaCharactersInPlay",
+        "op": "=",
+        "value": 0
+      },
+      "actions": [
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "leaderOrCharacterUpToOne",
+            "op": ">=",
+            "value": 0
+          },
+          "may": true,
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 1000,
+              "duration": "thisBattle",
+              "target": "leaderOrCharacterUpToOne"
+            },
+            {
+              "type": "trashTopDeck",
+              "count": 2
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,65 +1,89 @@
 {
-  "id": "OP13-019",
-  "set": "OP13",
-  "number": 19,
-  "name": "...But Ace Here Said You Deserved It!!",
-  "category": "Event",
-  "colors": [
-    "Red"
-  ],
-  "attribute": null,
-  "types": [
-    "Dressrosa/Revolutionary Army"
-  ],
+  "cardName": "...But Ace Here Said You Deserved It!!",
+  "cardId": "OP13-019",
+  "cardType": "event",
+  "colors": ["red"],
+  "cost": 1,
+  "types": ["Dressrosa", "Revolutionary Army"],
+  "traits": ["dressrosa", "revolutionaryArmy"],
   "rarity": "R",
-  "art": "/cards/OP13/OP13-019.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main You may rest 4 of your DON!! cards: Give up to 1 of your opponent's Characters -3000 power during this turn. Then, K.O. up to 1 of your opponent's Characters with 3000 power or less. \nCounted Up to 1 of your Leader gains +3000 power during this battle.",
+  "setId": "OP13",
+  "cardNumber": "019",
+  "printedText": "[Main] You may rest 4 of your DON!! cards: Give up to 1 of your opponent's Characters -3000 power during this turn. Then, K.O. up to 1 of your opponent's Characters with 3000 power or less.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": 4,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 4
+        "type": "restDonFromCostArea",
+        "count": 4,
+        "may": true
       },
-      "effect": {
-        "text": "Give up to 1 of your opponent's Characters -3000 power during this turn. Then, K.O. up to 1 of your opponent's Characters with 3000 power or less.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -3000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        },
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     },
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "leaderTarget": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Up to 1 of your Leader gains +3000 power during this battle.",
-        "powerMod": {
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
           "amount": 3000,
-          "duration": "this battle"
-        },
-        "giveDon": null
-      }
+          "duration": "thisBattle",
+          "target": "leaderTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,65 +1,108 @@
 {
-  "id": "OP06-116",
-  "set": "OP06",
-  "number": 116,
-  "name": "Reject",
-  "category": "Event",
+  "cardName": "Reject",
+  "cardId": "OP06-116",
+  "cardType": "event",
   "colors": [
-    "Yellow"
+    "yellow"
   ],
-  "attribute": null,
+  "cost": 4,
+  "power": 0,
+  "counter": 0,
   "types": [
     "Sky Island",
     "Shandora Warrior"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-116.png",
-  "stats": {
-    "cost": 4,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
-  "keywords": [
-    "Main",
-    "Trigger"
+  "traits": [
+    "skyIsland",
+    "shandoraWarrior"
   ],
-  "trigger": {
-    "text": "Draw 1 card."
-  },
-  "text": "Main: Choose one of the following:\n• KO up to 1 of your opponent's 5 cost or lower characters.\n• If your opponent has 1 life, deal 1 damage to them. Then add the top card of your life to your hand.",
+  "rarity": "R",
+  "setId": "OP06",
+  "cardNumber": "116",
+  "printedText": "[Main] Choose one of the following:\n• K.O. up to 1 of your opponent's 5 cost or lower Characters.\n• If your opponent has 1 Life, deal 1 damage to them. Then add the top card of your Life to your hand.\n[Trigger] Draw 1 card.",
+  "keywords": [
+    "main",
+    "trigger",
+    "chooseOne"
+  ],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "main",
+      "frequency": "none",
+      "selectors": {
+        "opponentCost5OrLessCharacter": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "card.cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "bindAs": "characterToKo"
+        }
       },
-      "effect": {
-        "text": "Choose one of the following:\n• KO up to 1 of your opponent's 5 cost or lower characters.\n• If your opponent has 1 life, deal 1 damage to them. Then add the top card of your life to your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "ko",
+                  "target": "opponentCost5OrLessCharacter"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "conditional",
+                  "condition": {
+                    "field": "opponentLifeCount",
+                    "op": "=",
+                    "value": 1
+                  },
+                  "actions": [
+                    {
+                      "type": "dealDamage",
+                      "side": "opponent",
+                      "count": 1
+                    },
+                    {
+                      "type": "moveCard",
+                      "target": "selfTopLifeCard",
+                      "destination": "hand",
+                      "faceUp": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

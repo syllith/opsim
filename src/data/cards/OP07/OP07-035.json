@@ -1,76 +1,114 @@
 {
-  "id": "OP07-035",
-  "set": "OP07",
-  "number": 35,
-  "name": "Karma Exposure",
-  "category": "Event",
+  "cardName": "Karma Exposure",
+  "cardId": "OP07-035",
+  "cardType": "event",
   "colors": [
-    "Green"
+    "green"
   ],
-  "attribute": null,
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
   "types": [
-    "Supernova",
-    "Fallen Monk pirates"
+    "Supernovas",
+    "Fallen Monk Pirates"
+  ],
+  "traits": [
+    "supernovas",
+    "fallenMonkPirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP07/OP07-035.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "KO up to one of your opponents 4 cost or lower rested Characters."
-  },
-  "text": "Give up to one leader or character +2000 power for this battle. Then, if you control 3 or more characters, that character gains an additional +1000 Power for this battle.",
+  "setId": "OP07",
+  "cardNumber": "035",
+  "printedText": "[Counter] Give up to 1 of your Leader or Character cards +2000 power for this battle. Then, if you have 3 or more Characters, that card gains an additional +1000 power for this battle. [Trigger] KO up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "selfCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Give up to one leader or character +2000 power for this battle. Then, if you control 3 or more characters, that character gains an additional +1000 Power for this battle.",
-        "powerMod": null,
-        "targets": [
-          "oneLeader",
-          "oneCharacter"
-        ],
-        "conditions": [
-          "control 3 or more characters"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "buffTarget"
+        },
+        {
+          "type": "conditional",
+          "condition": {
+            "field": "selectorCount",
+            "selector": "selfCharacters",
+            "op": ">=",
+            "value": 3
+          },
+          "actions": [
+            {
+              "type": "modifyStat",
+              "stat": "power",
+              "mode": "add",
+              "amount": 1000,
+              "duration": "thisBattle",
+              "target": "buffTarget"
+            }
+          ]
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "koTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            },
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "KO up to one of your opponents 4 cost or lower rested Characters.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost4",
-          "rested"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "ko",
+          "target": "koTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

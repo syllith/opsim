@@ -1,62 +1,63 @@
 {
-  "id": "OP12-095",
-  "set": "OP12",
-  "number": 95,
-  "name": "Lindbergh",
-  "category": "Character",
+  "cardName": "Lindbergh",
+  "cardId": "OP12-095",
+  "cardType": "character",
   "colors": [
-    "Black"
+    "black"
   ],
-  "attribute": "Special",
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": [
+    "special"
+  ],
   "types": [
     "Minks",
     "Revolutionary Army"
   ],
-  "rarity": "C",
-  "art": "/cards/OP12/OP12-095.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
+  "traits": [
+    "minks",
+    "revolutionaryArmy"
   ],
-  "trigger": null,
-  "text": "If your Leader has the {Revolutionary Army} type, this Character gains +4 cost.\nOn Play Draw 1 card and trash 1 card from your hand.",
+  "rarity": "C",
+  "setId": "OP12",
+  "cardNumber": "095",
+  "printedText": "If your Leader has the {Revolutionary Army} type, this Character gains +4 cost.\n[On Play] Draw 1 card and trash 1 card from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "condition": {
+        "field": "leaderHasType",
+        "op": "=",
+        "value": "revolutionaryArmy"
       },
-      "effect": {
-        "text": "If your Leader has the {Revolutionary Army} type, this Character gains +4 cost.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 4,
+          "duration": "permanent",
+          "target": "selfThisCard"
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Draw 1 card and trash 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        },
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

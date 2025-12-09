@@ -1,57 +1,71 @@
 {
-  "id": "OP01-106",
-  "set": "OP01",
-  "number": 106,
-  "name": "Basil Hawkins",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Slash",
-  "types": ["Animal Kingdom Pirates", "Hawkins Pirates"],
+  "cardName": "Basil Hawkins",
+  "cardId": "OP01-106",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 4,
+  "power": 2000,
+  "counter": 1000,
+  "types": [
+    "Animal Kingdom Pirates",
+    "Hawkins Pirates"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-106.png",
-  "stats": {
-    "cost": 4,
-    "power": 2000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Counter", "On Play", "Trigger"],
-  "trigger": { "text": "Play this card." },
-  "text": "On Play Add 1 DON!! card from your DON!! deck and rest it. Trigger Play this card.",
+  "setId": "OP01",
+  "cardNumber": "106",
+  "printedText": "[On Play] Add 1 DON!! card from your DON!! deck and rest it.\n[Trigger] Play this card.",
+  "keywords": [
+    "onPlay",
+    "trigger"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Add 1 DON!! card from your DON!! deck and rest it.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": {
-          "quantity": 1,
-          "state": "rested",
-          "from": "costArea",
-          "to": ["field"]
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "target": {
+            "side": "self",
+            "type": "any",
+            "zones": [
+              "costArea"
+            ]
+          }
         }
-      }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play this card.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["self"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "trigger",
+      "selectors": {
+        "thisCardFromLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardFromLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "animalKingdomPirates",
+    "hawkinsPirates"
+  ]
 }

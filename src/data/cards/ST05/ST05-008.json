@@ -1,20 +1,53 @@
 {
-  "id": "ST05-008",
-  "set": "ST05",
-  "number": 8,
-  "name": "Shiki",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Slash",
-  "types": ["FILM", "Golden Lion Pirates"],
-  "rarity": null,
-  "art": "/cards/ST05/ST05-008.png",
-  "stats": { "cost": 6, "power": 7000, "life": null, "counter": { "present": true, "value": 1000 } },
-  "keywords": [],
-  "trigger": null,
-  "text": "If you have 8 or more DON!! cards on your field, this Character cannot be K.O.'d in battle.",
-  "abilities": [
-    {"timing": "Continuous", "frequency": null, "donReq": null, "cost": null, "effect": {"text": "If you have 8 or more DON!! on your field, this Character cannot be K.O.'d in battle.", "grants": ["cannotBeKOdInBattle"], "powerMod": null, "targets": ["self"], "conditions": ["eightOrMoreDonOnField"]}}
+  "cardName": "Shiki",
+  "cardId": "ST05-008",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": [
+    "FILM",
+    "Golden Lion Pirates"
   ],
-  "meta": {"notes": null}
+  "traits": [
+    "film",
+    "goldenLionPirates"
+  ],
+  "rarity": "",
+  "setId": "ST05",
+  "cardNumber": "008",
+  "printedText": "If you have 8 or more DON!! cards on your field, this Character cannot be K.O.'d in battle.",
+  "keywords": [],
+  "abilities": [
+    {
+      "timing": "static",
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeKOdInBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "field": "selfDonOnField",
+            "op": ">=",
+            "value": 8
+          },
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": {
+                "side": "self",
+                "type": "thisCard"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

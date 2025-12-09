@@ -1,37 +1,74 @@
 {
-  "id": "OP01-042",
-  "set": "OP01",
-  "number": 42,
-  "name": "Komurasaki",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Wisdom",
-  "types": ["Wano Country", "Kozuki Family"],
+  "cardName": "Komurasaki",
+  "cardId": "OP01-042",
+  "cardType": "character",
+  "colors": [
+    "green"
+  ],
+  "cost": 1,
+  "power": 0,
+  "counter": 1000,
+  "types": [
+    "Wano Country",
+    "Kozuki Family"
+  ],
   "rarity": "UC",
-  "art": "/cards/OP01/OP01-042.png",
-  "stats": {
-    "cost": 1,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] ③ (You may rest the specified number of DON!! cards in your Cost Area): If your Leader is [Kouzuki Oden], set up to 1 of your {Wano Country} type Characters with a cost of 3 or less as active.",
+  "setId": "OP01",
+  "cardNumber": "042",
+  "printedText": "On Play (3) If your Leader is [Kozuki Oden], set up to 1 of your {Wano Country} type Characters with a cost of 3 or less as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 3,
-      "cost": { "restDonFromCostArea": 3 },
-      "effect": {
-        "text": "If your Leader is [Kouzuki Oden], set up to 1 of your {Wano Country} type Characters with a cost of 3 or less as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["upTo1:ally:Character"],
-        "conditions": ["leaderIsKouzukiOden", "wanoCountryType", "characterCost<=3"]
-      }
+      "timing": "onPlay",
+      "cost": {
+        "type": "restDonFromCostArea",
+        "count": 3
+      },
+      "condition": {
+        "field": "leaderName",
+        "op": "=",
+        "value": "Kozuki Oden"
+      },
+      "selectors": {
+        "targetWano": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasType",
+              "op": "=",
+              "value": "Wano Country"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "targetWano"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "targetWano"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "wanoCountry",
+    "kozukiFamily"
+  ]
 }

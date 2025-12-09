@@ -1,33 +1,18 @@
 {
-  "id": "OP10-089",
-  "set": "OP10",
-  "number": 89,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Dressrosa",
-    "Straw Hat Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP10/OP10-089.png",
-  "stats": {
-    "cost": 6,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Nico Robin",
+  "cardId": "OP10-089",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 6,
+  "power": 8000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Dressrosa", "Straw Hat Pirates"],
+  "traits": ["dressrosa", "strawHatPirates"],
+  "rarity": "C",
+  "setId": "OP10",
+  "cardNumber": "089",
+  "printedText": "",
   "keywords": [],
-  "trigger": null,
-  "text": null,
-  "abilities": [],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has no printed text or keywords. Stats and counter are read from visible text."
-  }
+  "abilities": []
 }

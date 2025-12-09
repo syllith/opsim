@@ -1,0 +1,50 @@
+{
+  "cardName": "Nami",
+  "cardId": "OP11-054",
+  "cardType": "character",
+  "colors": ["blue"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "SR",
+  "setId": "OP11",
+  "cardNumber": "054",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.) [On Play] If your Leader is multicolored, draw 3 cards and place 2 cards from your hand at the top or bottom of your deck in any order.",
+  "keywords": ["Blocker"],
+  "abilities": [
+    {
+      "timing": "onPlay",
+      "condition": {
+        "field": "selfLeaderColorsCount",
+        "op": ">=",
+        "value": 2
+      },
+      "selectors": {
+        "cardsFromHandToDeck": {
+          "side": "self",
+          "type": "hand",
+          "zones": ["hand"],
+          "min": 2,
+          "max": 2,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 3,
+          "side": "self"
+        },
+        {
+          "type": "moveCard",
+          "target": "cardsFromHandToDeck",
+          "destination": "topOrBottomOfDeck",
+          "ordering": "chosen"
+        }
+      ]
+    }
+  ]
+}

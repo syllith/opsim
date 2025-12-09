@@ -1,37 +1,52 @@
 {
-  "id": "OP02-104",
-  "set": "OP02",
-  "number": 104,
-  "name": "Sentomaru",
-  "category": "Character",
-  "colors": ["Blue"],
-  "attribute": "Slash",
-  "types": ["Navy"],
+  "cardName": "Sentomaru",
+  "cardId": "OP02-104",
+  "cardType": "character",
+  "colors": [
+    "black"
+  ],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "types": [
+    "Navy"
+  ],
   "rarity": "C",
-  "art": "/cards/OP02/OP02-104.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
+  "setId": "OP02",
+  "cardNumber": "104",
+  "printedText": "[Trigger] Play this card.",
   "keywords": [],
-  "trigger": {
-    "text": "Play this card."
-  },
-  "text": "[Trigger] Play this card.",
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play this card.",
-        "targets": ["self"],
-        "conditions": []
-      }
+      "timing": "trigger",
+      "frequency": "none",
+      "selectors": {
+        "thisCardInLife": {
+          "side": "self",
+          "type": "thisCard",
+          "zones": [
+            "life"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "self",
+          "bindAs": "thisCard"
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "life",
+          "target": "thisCardInLife",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "navy"
+  ]
 }

@@ -1,62 +1,67 @@
 {
-  "id": "OP11-086",
-  "set": "OP11",
-  "number": 86,
-  "name": "Coribou",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Caribou Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-086.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play",
-    "Activate: Main"
-  ],
-  "trigger": null,
-  "text": "On Play: Trash 1 card from your hand.\nActivate: Main: You may trash this Character: Play up to 1 [Caribou] with a cost of 4 or less from your trash.",
+  "cardName": "Coribou",
+  "cardId": "OP11-086",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Caribou Pirates"],
+  "traits": ["caribouPirates"],
+  "rarity": "C",
+  "setId": "OP11",
+  "cardNumber": "086",
+  "printedText": "[On Play] Trash 1 card from your hand. [Activate: Main] You may trash this Character: Play up to 1 [Caribou] with a cost of 4 or less from your trash.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Trash 1 card from your hand.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "actions": [
+        {
+          "type": "trashFromHand",
+          "minCards": 1,
+          "maxCards": 1,
+          "side": "self"
+        }
+      ]
     },
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "trashThis",
+        "may": true
       },
-      "effect": {
-        "text": "You may trash this Character: Play up to 1 [Caribou] with a cost of 4 or less from your trash.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "caribouFromTrashCost4OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": ["trash"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "cardName",
+              "op": "=",
+              "value": "Caribou"
+            },
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "trash",
+          "target": "caribouFromTrashCost4OrLess"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

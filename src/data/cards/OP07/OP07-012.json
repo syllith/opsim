@@ -1,49 +1,43 @@
 {
-  "id": "OP07-012",
-  "set": "OP07",
-  "number": 12,
-  "name": "Porushuumi",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Goa Kingdom",
-    "Bluejam Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP07/OP07-012.png",
-  "stats": {
-    "cost": 2,
-    "power": 3000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Give up to one of your opponents Characters -1000 power for the turn.",
+  "cardName": "Porushuumi",
+  "cardId": "OP07-012",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 3000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Goa Kingdom", "Bluejam Pirates"],
+  "traits": ["goaKingdom", "bluejamPirates"],
+  "rarity": "C",
+  "setId": "OP07",
+  "cardNumber": "012",
+  "printedText": "[On Play] Give up to 1 of your opponent's Characters -1000 power for the turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "debuffTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Give up to one of your opponents Characters -1000 power for the turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -1000,
+          "duration": "thisTurn",
+          "target": "debuffTarget"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

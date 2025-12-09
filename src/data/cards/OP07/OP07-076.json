@@ -1,51 +1,68 @@
 {
-  "id": "OP07-076",
-  "set": "OP07",
-  "number": 76,
-  "name": "NoroNoro Beam Sword",
-  "category": "Event",
-  "colors": [
-    "Purple"
-  ],
-  "attribute": null,
-  "types": [
-    "Foxy Pirates"
-  ],
+  "cardName": "NoroNoro Beam Sword",
+  "cardId": "OP07-076",
+  "cardType": "event",
+  "colors": ["purple"],
+  "cost": 2,
+  "types": ["Foxy Pirates"],
+  "traits": ["foxyPirates"],
   "rarity": "C",
-  "art": "/cards/OP07/OP07-076.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
-  "keywords": [
-    "Counter",
-    "Trigger"
-  ],
-  "trigger": {
-    "text": "Add up to 1 DON!! card from your DON!! deck and set it as active."
-  },
-  "text": "#Counter Don!!-1: Give up to one character or leader +2000 Power for this battle. Then, rest up to one of your opponents characters.",
+  "setId": "OP07",
+  "cardNumber": "076",
+  "printedText": "[Counter] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): Give up to 1 of your Leader or Characters +2000 power during this battle. Then, rest up to 1 of your opponent's Characters. [Trigger] Add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": 1,
+      "timing": "counter",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "returnDon",
+        "count": 1
       },
-      "effect": {
-        "text": "Give up to one character or leader +2000 Power for this battle. Then, rest up to one of your opponents characters.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "beamSwordBoostTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "beamSwordRestTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisBattle",
+          "target": "beamSwordBoostTarget"
+        },
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "beamSwordRestTarget"
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "may": true
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

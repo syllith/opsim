@@ -1,55 +1,75 @@
 {
-  "id": "OP03-062",
-  "set": "OP03",
-  "number": 62,
-  "name": "Kokoro",
-  "category": "Character",
+  "cardName": "Kokoro",
+  "cardId": "OP03-062",
+  "cardType": "character",
   "colors": [
-    "Purple"
+    "purple"
   ],
-  "attribute": "Wisdom",
+  "cost": 1,
+  "power": 2000,
+  "counter": 1000,
   "types": [
     "Mermaid",
     "Water 7"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-062.png",
-  "stats": {
-    "cost": 1,
-    "power": 2000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play Look at 5 cards from the top of your deck; reveal up to 1 {Water 7} type card other than [Kokoro] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "rarity": "R",
+  "setId": "OP03",
+  "cardNumber": "062",
+  "printedText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Water 7} type card other than [Kokoro] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "water7Search": {
+          "side": "self",
+          "type": "any",
+          "zones": [
+            "deck"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "logic": "AND",
+              "all": [
+                {
+                  "field": "types",
+                  "op": "=",
+                  "value": "Water 7"
+                },
+                {
+                  "field": "cardName",
+                  "op": "!=",
+                  "value": "Kokoro"
+                }
+              ]
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Look at 5 cards from the top of your deck; reveal up to 1 {Water 7} type card other than [Kokoro] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter"
-        ],
-        "conditions": [
-          "Water 7"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": "water7Search",
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner. The card is a sample, indicated by the watermark."
-  }
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "mermaid",
+    "waterSeven"
+  ]
 }

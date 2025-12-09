@@ -1,21 +1,65 @@
 {
-  "id": "ST05-004",
-  "set": "ST05",
-  "number": 4,
-  "name": "Uta",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
+  "cardName": "Uta",
+  "cardId": "ST05-004",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["special"],
   "types": ["FILM"],
-  "rarity": null,
-  "art": "/cards/ST05/ST05-004.png",
-  "stats": { "cost": 4, "power": 5000, "life": null, "counter": { "present": true, "value": 1000 } },
-  "keywords": ["Blocker", "On Block", "DON!! -1"],
-  "trigger": null,
-  "text": "Blocker. On Block — DON!! -1: Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "traits": ["film"],
+  "rarity": "SR",
+  "setId": "ST05",
+  "cardNumber": "004",
+  "printedText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Block] DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+  "keywords": ["Blocker"],
   "abilities": [
-    {"timing": "Block", "frequency": null, "donReq": null, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "After opponent declares an attack you may rest this to become new target.", "grants": [], "powerMod": null, "targets": ["self"], "conditions": ["opponentDeclaredAttack"]}},
-    {"timing": "On Block", "frequency": null, "donReq": 1, "cost": {"restDonFromCostArea": 0}, "effect": {"text": "Rest up to 1 opponent Character with cost 5 or less.", "grants": [], "powerMod": null, "targets": ["oneOpponentCharacter"], "conditions": ["donAttached"]}}
-  ],
-  "meta": {"notes": null}
+    {
+      "timing": "static",
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "static",
+          "keyword": "Blocker",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
+    },
+    {
+      "timing": "onBlock",
+      "cost": {
+        "type": "donMinus",
+        "count": 1
+      },
+      "selectors": {
+        "restTarget": {
+          "side": "opponent",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 5
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "setState",
+          "state": "rested",
+          "target": "restTarget"
+        }
+      ]
+    }
+  ]
 }

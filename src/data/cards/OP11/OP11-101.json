@@ -1,50 +1,61 @@
 {
-  "id": "OP11-101",
-  "set": "OP11",
-  "number": 101,
-  "name": "Capon Bege",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Supernovas",
-    "Firetank Pirates"
-  ],
+  "cardName": "Capone\"Gang\"Bege",
+  "cardId": "OP11-101",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 2,
+  "power": 1000,
+  "counter": 1000,
+  "attributes": ["ranged"],
+  "types": ["Supernovas", "Firetank Pirates"],
+  "traits": ["supernovas", "firetankPirates"],
   "rarity": "SR",
-  "art": "/cards/OP11/OP11-101.png",
-  "stats": {
-    "cost": 2,
-    "power": 1000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Blocker",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "If you have a (Supernova) type Character other than [Capon Bege] that would be removed from the field by your opponent's effect, you may add that Character to the top of your Life cards face down instead.",
+  "setId": "OP11",
+  "cardNumber": "101",
+  "printedText": "[Blocker] [Once Per Turn] If your {Supernovas} type Character other than [Capone\"Gang\"Bege] would be removed from the field by your opponent's effect, you may add it to the top of your Life cards face-down instead.",
+  "keywords": ["Blocker"],
   "abilities": [
     {
-      "timing": "Once Per Turn",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "supernovaOtherThanBege": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "supernovas"
+            },
+            {
+              "field": "cardName",
+              "op": "!=",
+              "value": "Capone\"Gang\"Bege"
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "If you have a (Supernova) type Character other than [Capon Bege] that would be removed from the field by your opponent's effect, you may add that Character to the top of your Life cards face down instead.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "wouldBeRemovedFromFieldByOpponentsEffect",
+          "target": "supernovaOtherThanBege",
+          "may": true,
+          "actions": [
+            {
+              "type": "moveCard",
+              "target": "supernovaOtherThanBege",
+              "destination": "topOfLife",
+              "ordering": "keep",
+              "faceUp": false
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

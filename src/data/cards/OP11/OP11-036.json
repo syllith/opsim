@@ -1,73 +1,65 @@
 {
-  "id": "OP11-036",
-  "set": "OP11",
-  "number": 36,
-  "name": "Gum-Gum Elephant Gatling",
-  "category": "Event",
-  "colors": [
-    "Green"
-  ],
-  "attribute": null,
-  "types": [
-    "Fish-Man Island",
-    "Supernovas",
-    "Straw Hat Crew"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP11/OP11-036.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 3000
-    }
-  },
-  "keywords": [
-    "Main",
-    "Counter"
-  ],
-  "trigger": null,
-  "text": "Main: You may rest 1 of your DON!! cards: Rest up to 1 of your opponent's Characters with a cost of 5 or less. \nCounter: Up to 1 of your Leader cards gains +3000 power during this battle.",
+  "cardName": "Madara",
+  "cardId": "OP11-036",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 1000,
+  "attributes": ["slash"],
+  "types": ["Sea Kings"],
+  "traits": ["seaKings"],
+  "rarity": "UC",
+  "setId": "OP11",
+  "cardNumber": "036",
+  "printedText": "[On Play] If your Leader is [Shirahoshi], look at 5 cards from the top of your deck; reveal up to 1 [Shirahoshi] or {Sea Kings} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "onPlay",
+      "condition": {
+        "field": "selfLeaderName",
+        "op": "=",
+        "value": "Shirahoshi"
       },
-      "effect": {
-        "text": "You may rest 1 of your DON!! cards: Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost5"
-        ],
-        "giveDon": null
-      }
-    },
-    {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "Up to 1 of your Leader cards gains +3000 power during this battle.",
-        "powerMod": {
-          "amount": 3000,
-          "duration": "this battle"
-        },
-        "targets": [
-          "oneLeader"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "zones": ["deck"],
+            "filters": [
+              {
+                "logic": "OR",
+                "any": [
+                  {
+                    "field": "cardName",
+                    "op": "=",
+                    "value": "Shirahoshi"
+                  },
+                  {
+                    "field": "traits",
+                    "op": "=",
+                    "value": "seaKings"
+                  }
+                ]
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "chosen",
+          "topCount": 5,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "chosen"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

@@ -1,21 +1,56 @@
 {
-  "id": "ST05-010",
-  "set": "ST05",
-  "number": 10,
-  "name": "Z",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Strike",
+  "cardName": "Zephyr",
+  "cardId": "ST05-010",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 7,
+  "power": 8000,
+  "counter": 0,
+  "attributes": ["strike"],
   "types": ["FILM", "Neo Navy"],
-  "rarity": null,
-  "art": "/cards/ST05/ST05-010.png",
-  "stats": { "cost": 7, "power": 8000, "life": null, "counter": { "present": false, "value": 0 } },
-  "keywords": ["Activate: Main", "Once Per Turn", "DON!! -1"],
-  "trigger": null,
-  "text": "If this Character battles with a (Strike) attribute Character, this Character gains +3000 Power during this turn. Activate: Main — Once Per Turn — DON!! -1 (You may return the specified number of DON!! cards from your field to your DON!! deck): This Character gains +2000 Power during this turn.",
+  "traits": ["film", "neoNavy"],
+  "rarity": "C",
+  "setId": "ST05",
+  "cardNumber": "010",
+  "printedText": "When this Character battles ＜Strike＞ attribute Characters, this Character gains +3000 power during this turn.\n[Activate: Main] [Once Per Turn] DON!! −1 (You may return the specified number of DON!! cards from your field to your DON!! deck.): This Character gains +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
-    {"timing": "Battle", "frequency": null, "donReq": null, "cost": null, "effect": {"text": "If battling a Strike Character, gain +3000 Power this turn.", "grants": ["power+3000"], "powerMod": 3000, "targets": ["self"], "conditions": ["battlingStrike"]}},
-    {"timing": "Activate: Main", "frequency": "Once Per Turn", "donReq": 1, "cost": {"returnDonToDeck": 1}, "effect": {"text": "Gain +2000 Power this turn.", "grants": ["power+2000"], "powerMod": 2000, "targets": ["self"], "conditions": []}}
-  ],
-  "meta": {"notes": null}
+    {
+      "timing": "whenAttackingOrBlocking",
+      "condition": {
+        "field": "battleOpponent",
+        "attribute": "strike",
+        "op": "=",
+        "value": true
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 3000,
+          "duration": "thisTurn",
+          "target": "selfThisCard"
+        }
+      ]
+    },
+    {
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "cost": {
+        "type": "donMinus",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "selfThisCard"
+        }
+      ]
+    }
+  ]
 }

@@ -1,48 +1,39 @@
 {
-  "id": "OP08-093",
-  "set": "OP08",
-  "number": 93,
-  "name": "X.Drake",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "Navy",
-    "Drake Pirates",
-    "Animal Kingdom Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/OP08/OP08-093.png",
-  "stats": {
-    "cost": 4,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 6000
-    }
-  },
+  "cardName": "X.Drake",
+  "cardId": "OP08-093",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 4,
+  "power": 6000,
+  "attributes": ["slash"],
+  "types": ["Navy", "Drake Pirates", "Animal Kingdom Pirates"],
+  "traits": ["navy", "drakePirates", "animalKingdomPirates"],
+  "rarity": "C",
+  "setId": "OP08",
+  "cardNumber": "093",
+  "printedText": "[DON!! x1] This Character gains +2 cost.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 This Character gains +2 cost.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
-      },
-      "effect": {
-        "text": "This Character gains +2 cost.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "timing": "static",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "cost",
+          "mode": "add",
+          "amount": 2,
+          "duration": "permanent",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "field": "isGivenDon",
+            "op": "=",
+            "value": true
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card marked as 'SAMPLE' and has a '新' symbol in the top right corner, which may indicate a special version or promotional card. The rarity is 'R' as printed in the bottom right corner."
-  }
+  ]
 }

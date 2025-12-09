@@ -1,61 +1,123 @@
 {
-  "id": "OP03-099",
-  "set": "OP03",
-  "number": 99,
-  "name": "Charlotte Katakuri",
-  "category": "Leader",
+  "cardName": "Charlotte Katakuri",
+  "cardId": "OP03-099",
+  "cardType": "leader",
   "colors": [
-    "Red"
+    "yellow"
   ],
-  "attribute": "Strike",
+  "power": 5000,
+  "life": 5,
   "types": [
     "Big Mom Pirates"
   ],
-  "rarity": "C",
-  "art": "/cards/OP03/OP03-099.png",
-  "stats": {
-    "cost": null,
-    "power": null,
-    "life": 5000,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "L",
+  "setId": "OP03",
+  "cardNumber": "099",
+  "printedText": "[DON!! x1] [When Attacking] Look at up to 1 Life card from the top of your or your opponent’s Life Area and put it either on the top or the bottom of the Life Area. Then, this Leader gains +1000 Power for this battle.",
   "keywords": [
-    "DON!!",
+    "DON!! x1",
     "When Attacking"
   ],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking Look at up to 1 Life card from the top of your or your opponent's Life Area and put it either on the top or the bottom of the Life Area. Then, this Leader gains +1000 Power for this battle.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "donAttached",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Look at up to 1 Life card from the top of your or your opponent's Life Area and put it either on the top or the bottom of the Life Area. Then, this Leader gains +1000 Power for this battle.",
-        "grants": [
-          "PowerUp"
-        ],
-        "powerMod": {
-          "amount": 1000,
-          "duration": "this battle"
+      "actions": [
+        {
+          "type": "chooseMode",
+          "min": 0,
+          "max": 1,
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "self",
+                  "all": false,
+                  "ordering": "keep"
+                },
+                {
+                  "type": "moveCard",
+                  "destination": "topOfLife",
+                  "target": "selfTopLifeCard"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "self",
+                  "all": false,
+                  "ordering": "keep"
+                },
+                {
+                  "type": "moveCard",
+                  "destination": "bottomOfLife",
+                  "target": "selfTopLifeCard"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "opponent",
+                  "all": false,
+                  "ordering": "keep"
+                },
+                {
+                  "type": "moveCard",
+                  "destination": "topOfLife",
+                  "target": "opponentTopLifeCard"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "type": "revealLife",
+                  "count": 1,
+                  "side": "opponent",
+                  "all": false,
+                  "ordering": "keep"
+                },
+                {
+                  "type": "moveCard",
+                  "destination": "bottomOfLife",
+                  "target": "opponentTopLifeCard"
+                }
+              ]
+            }
+          ]
         },
-        "targets": [
-          "oneLifeCard"
-        ],
-        "conditions": [
-          "fromLifeArea"
-        ],
-        "giveDon": null
-      }
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisBattle",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          }
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is confirmed as 'C' from the bottom right corner. The card is a Leader with 5000 Life and the Strike attribute. The text is fully captured from the card."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "bigMomPirates"
+  ]
 }

@@ -1,54 +1,67 @@
 {
-  "id": "OP04-010",
-  "set": "OP04",
-  "number": 10,
-  "name": "Tony Tony Chopper",
-  "category": "Character",
+  "cardName": "Tony Tony.Chopper",
+  "cardId": "OP04-010",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Strike",
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
   "types": [
     "Animal",
-    "Alabasta",
+    "Alabasta Kingdom",
     "Straw Hat Crew"
   ],
   "rarity": "C",
-  "art": "/cards/OP04/OP04-010.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": 1000,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Play up to 1 (Animal) type Character card with 3000 power or less from your hand.",
+  "setId": "OP04",
+  "cardNumber": "010",
+  "printedText": "[On Play] Play up to 1 {Animal} type Character card with 3000 power or less from your hand.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "animalFromHand3000": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "hand"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Animal"
+            },
+            {
+              "field": "power",
+              "op": "<=",
+              "value": 3000
+            }
+          ]
+        }
       },
-      "effect": {
-        "text": "Play up to 1 (Animal) type Character card with 3000 power or less from your hand.",
-        "powerMod": null,
-        "targets": [
-          "oneCharacter<=power3000",
-          "animalType"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "playCard",
+          "sourceZone": "hand",
+          "target": "animalFromHand3000",
+          "payCost": false
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is printed as 'C' in the bottom right corner."
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "animal",
+    "alabastaKingdom",
+    "strawHatCrew"
+  ]
 }

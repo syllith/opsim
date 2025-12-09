@@ -1,39 +1,82 @@
 {
-  "id": "EB01-053",
-  "set": "EB01",
-  "number": 53,
-  "name": "Gastino",
-  "category": "Character",
-  "colors": ["Yellow"],
-  "attribute": "Special",
-  "types": ["Scientist"],
-  "rarity": "UC",
-  "art": "/cards/EB01/EB01-053.png",
-  "stats": {
-    "cost": 3,
-    "power": 5000,
-    "life": null,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["On Play", "Trigger"],
-  "trigger": {
-    "text": "Give up to 2 of your opponent's leader or characters Power -3000."
-  },
-  "text": "[On Play] Place up to 1 of your opponent's cost 3 or lower characters to the top or bottom of their life face-up.\n[Trigger] Give up to 2 of your opponent's leader or characters Power -3000.",
+  "power": 5000,
+  "cardType": "character",
+  "cardId": "EB01-053",
+  "printedText": "[On Play] Place up to 1 of your opponent's cost 3 or lower Characters to the top or bottom of their Life face-up.\n[Trigger] Give up to 2 of your opponent's Leader or Characters Power -3000.",
+  "types": [
+    "Scientist"
+  ],
+  "cardNumber": "053",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Place up to 1 of your opponent's cost 3 or lower characters to the top or bottom of their life face-up.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["opponent:Character"],
-        "conditions": ["characterCost<=3"]
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "may": true,
+          "type": "moveCard",
+          "destination": "life",
+          "faceUp": true,
+          "ordering": "chosen",
+          "target": {
+            "filters": [
+              {
+                "value": 3,
+                "field": "cost",
+                "op": "<="
+              }
+            ],
+            "zones": [
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
+        }
+      ]
+    },
+    {
+      "selectors": {},
+      "timing": "trigger",
+      "actions": [
+        {
+          "type": "modifyStat",
+          "mode": "add",
+          "stat": "power",
+          "duration": "thisTurn",
+          "amount": -3000,
+          "target": {
+            "zones": [
+              "leader",
+              "character"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 2,
+            "type": "leaderOrCharacter",
+            "side": "opponent",
+            "whoChooses": "self"
+          }
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB01",
+  "counter": 0,
+  "cardName": "Gastino",
+  "rarity": "R",
+  "cost": 3,
+  "colors": [
+    "yellow"
+  ],
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "scientist"
+  ]
 }

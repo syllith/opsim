@@ -1,61 +1,66 @@
 {
-  "id": "OP09-097",
-  "set": "OP09",
-  "number": 97,
-  "name": "Black Spiral",
-  "category": "Event",
-  "colors": [
-    "Black"
-  ],
-  "attribute": null,
-  "types": [
-    "Blackbeard Pirates"
-  ],
+  "cardName": "Black Spiral",
+  "cardId": "OP09-097",
+  "cardType": "event",
+  "colors": ["black"],
+  "cost": 2,
+  "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
   "rarity": "C",
-  "art": "/cards/OP09/OP09-097.png",
-  "stats": {
-    "cost": 2,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 4000
-    }
-  },
+  "setId": "OP09",
+  "cardNumber": "097",
+  "printedText": "[Counter] Nullify the effects of up to 1 of your opponent's Leader or Character and give them -4000 power during this turn.\n[Trigger] Nullify the effects of up to 1 of your opponent's Leader or Character during this turn.",
   "keywords": [],
-  "trigger": {
-    "text": "Nullify the effects of up to 1 of your opponent's leader or character during this turn."
-  },
-  "text": "Nullify the effects of up to 1 of your opponent's leader or character and give them -4000 power during this turn. Trigger: Nullify the effects of up to 1 of your opponent's leader or character during this turn.",
   "abilities": [
     {
-      "timing": "Counter",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "counter",
+      "selectors": {
+        "opponentLeaderOrCharacter": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Nullify the effects of up to 1 of your opponent's leader or character and give them -4000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "negateEffects",
+          "target": "opponentLeaderOrCharacter",
+          "duration": "thisTurn"
+        },
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": -4000,
+          "duration": "thisTurn",
+          "target": "opponentLeaderOrCharacter"
+        }
+      ]
     },
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "opponentLeaderOrCharacter": {
+          "side": "opponent",
+          "type": "leaderOrCharacter",
+          "zones": ["leader", "character"],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "Nullify the effects of up to 1 of your opponent's leader or character during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "negateEffects",
+          "target": "opponentLeaderOrCharacter",
+          "duration": "thisTurn"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

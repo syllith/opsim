@@ -1,37 +1,101 @@
 {
-  "id": "EB02-047",
-  "set": "EB02",
-  "number": 47,
-  "name": "Blueno",
-  "category": "Character",
-  "colors": ["Black"],
-  "attribute": "Strike",
-  "types": ["CP9"],
-  "rarity": "UC",
-  "art": "/cards/EB02/EB02-047.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["Activate: Main"],
-  "trigger": null,
-  "text": "[Activate: Main] You may discard 1 card from your hand and place this character in your trash: Play up to one cost 5 or lower character with {CP} included in its types from your trash.",
+  "power": 6000,
+  "cardType": "character",
+  "cardId": "EB02-047",
+  "printedText": "[Activate: Main] You may discard 1 card from your hand and place this character in your trash: Play up to one cost 5 or lower character with {CP} included in its types from your trash.",
+  "types": [
+    "CP9"
+  ],
+  "cardNumber": "047",
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "You may discard 1 card from your hand and place this character in your trash: Play up to one cost 5 or lower character with {CP} included in its types from your trash.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand", "self", "trash:Character:CP:cost<=5"],
-        "conditions": ["discard1AndTrashSelf"]
-      }
+      "selectors": {},
+      "timing": "activateMain",
+      "actions": [
+        {
+          "min": 0,
+          "type": "chooseMode",
+          "whoChooses": "self",
+          "modes": [
+            {
+              "actions": [
+                {
+                  "type": "trashFromHand",
+                  "maxCards": 1,
+                  "minCards": 1
+                },
+                {
+                  "destination": "trash",
+                  "type": "moveCard",
+                  "target": {
+                    "filters": [
+                      {
+                        "value": true,
+                        "field": "this",
+                        "op": "="
+                      }
+                    ],
+                    "zones": [
+                      "character"
+                    ],
+                    "min": 1,
+                    "max": 1,
+                    "type": "character",
+                    "side": "self",
+                    "whoChooses": "system"
+                  },
+                  "ordering": "keep"
+                },
+                {
+                  "payCost": true,
+                  "sourceZone": "trash",
+                  "type": "playCard",
+                  "target": {
+                    "filters": [
+                      {
+                        "value": 5,
+                        "field": "cost",
+                        "op": "<="
+                      },
+                      {
+                        "value": "CP",
+                        "field": "types",
+                        "op": "="
+                      }
+                    ],
+                    "zones": [
+                      "trash"
+                    ],
+                    "upTo": true,
+                    "min": 0,
+                    "max": 1,
+                    "type": "character",
+                    "side": "self",
+                    "whoChooses": "self"
+                  },
+                  "enterRested": false
+                }
+              ]
+            }
+          ],
+          "max": 1
+        }
+      ],
+      "frequency": "none"
     }
   ],
-  "meta": { "notes": null }
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Blueno",
+  "rarity": "C",
+  "cost": 5,
+  "colors": [
+    "black"
+  ],
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "cp9"
+  ]
 }

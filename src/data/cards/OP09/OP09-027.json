@@ -1,53 +1,51 @@
 {
-  "id": "OP09-027",
-  "set": "OP09",
-  "number": 27,
-  "name": "Sabo",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Special",
-  "types": [
-    "ODYSSEY",
-    "Revolutionary Army"
-  ],
+  "cardName": "Sabo",
+  "cardId": "OP09-027",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 5,
+  "power": 6000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["ODYSSEY", "Revolutionary Army"],
+  "traits": ["odyssey", "revolutionaryArmy"],
   "rarity": "UC",
-  "art": "/cards/OP09/OP09-027.png",
-  "stats": {
-    "cost": 5,
-    "power": 6000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "When Attacking",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "When Attacking Once Per Turn: If you have three or more rested characters in play, draw one card.",
+  "setId": "OP09",
+  "cardNumber": "027",
+  "printedText": "[When Attacking] [Once Per Turn] If you have 3 or more rested Characters in play, draw 1 card.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "yourRestedCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "state",
+              "op": "=",
+              "value": "rested"
+            }
+          ],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If you have three or more rested characters in play, draw one card.",
-        "powerMod": null,
-        "conditions": [
-          "three or more rested characters in play"
-        ],
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "yourRestedCharacters",
+        "op": ">=",
+        "value": 3
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

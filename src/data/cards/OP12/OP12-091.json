@@ -1,50 +1,64 @@
 {
-  "id": "OP12-091",
-  "set": "OP12",
-  "number": 91,
-  "name": "Poker",
-  "category": "Character",
-  "colors": [
-    "Black"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Animal Kingdom Pirates",
-    "SMILE"
-  ],
+  "cardName": "Poker",
+  "cardId": "OP12-091",
+  "cardType": "character",
+  "colors": ["black"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["strike"],
+  "types": ["Animal Kingdom Pirates", "SMILE"],
+  "traits": ["animalKingdomPirates", "smile"],
   "rarity": "C",
-  "art": "/cards/OP12/OP12-091.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Activate: Main",
-    "Once Per Turn"
-  ],
-  "trigger": null,
-  "text": "Activate: Main Once Per Turn You may place 3 cards from your trash to the bottom of your deck in any order. Give up to 2 [SMILE] type Characters +2000 power during this turn.",
+  "setId": "OP12",
+  "cardNumber": "091",
+  "printedText": "[Activate: Main] [Once Per Turn] You may place 3 cards from your trash at the bottom of your deck in any order: Give up to 2 {SMILE} type Characters +2000 power during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "pokerTrashCards": {
+          "side": "self",
+          "type": "any",
+          "zones": ["trash"],
+          "min": 3,
+          "max": 3,
+          "whoChooses": "self"
+        },
+        "smileCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "traits",
+              "op": "=",
+              "value": "smile"
+            }
+          ],
+          "min": 0,
+          "max": 2,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may place 3 cards from your trash to the bottom of your deck in any order. Give up to 2 [SMILE] type Characters +2000 power during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "cost": {
+        "type": "bottomDeckFromTrash",
+        "selector": "pokerTrashCards",
+        "may": true
+      },
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 2000,
+          "duration": "thisTurn",
+          "target": "smileCharacters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

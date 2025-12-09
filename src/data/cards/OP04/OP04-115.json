@@ -1,72 +1,94 @@
 {
-  "id": "OP04-115",
-  "set": "OP04",
-  "number": 115,
-  "name": "Donquixote Rosinante",
-  "category": "Character",
+  "cardName": "Gun Modoki",
+  "cardId": "OP04-115",
+  "cardType": "event",
   "colors": [
-    "Green"
+    "yellow"
   ],
-  "attribute": "Ranged",
+  "cost": 1,
+  "power": 0,
+  "counter": 0,
   "types": [
-    "Navy",
-    "Donquixote Pirates"
+    "Wano Country",
+    "Kozuki Family"
   ],
-  "rarity": "SEC",
-  "art": "/cards/OP04/OP04-115.png",
-  "stats": {
-    "cost": 8,
-    "power": 8000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "rarity": "C",
+  "setId": "OP04",
+  "cardNumber": "115",
+  "printedText": "[Main] You may add 1 card from the top or bottom of your Life to your hand: Up to 1 of your Characters with the {Wano Country} type gains [Double Attack] for this turn.\n[Trigger] Up to 1 of your Leaders or Characters gains +1000 Power for this turn.",
   "keywords": [
-    "On Play",
-    "Opponent's Turn"
+    "trigger"
   ],
-  "trigger": null,
-  "text": "Opponent's Turn: If this Character is rested, your active Characters with a original cost of 5 cannot be K.O'd by effects. On Play: You may rest this Character: Play up to 1 green Character card with a cost of 5 from your hand.",
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
+      "timing": "main",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "topOrBottom",
+        "may": true
       },
-      "effect": {
-        "text": "If this Character is rested, your active Characters with a original cost of 5 cannot be K.O'd by effects.",
-        "powerMod": null,
-        "targets": [
-          "activeCharacters<=cost5"
-        ],
-        "conditions": [
-          "thisCharacter:rested"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "wanoTarget": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "hasTrait",
+              "op": "=",
+              "value": "Wano Country"
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "doubleAttack",
+          "duration": "thisTurn",
+          "target": "wanoTarget"
+        }
+      ]
     },
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 1
+      "timing": "trigger",
+      "selectors": {
+        "buffTarget": {
+          "side": "self",
+          "type": "leaderOrCharacter",
+          "zones": [
+            "leader",
+            "character"
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
       },
-      "effect": {
-        "text": "You may rest this Character: Play up to 1 green Character card with a cost of 5 from your hand.",
-        "powerMod": null,
-        "targets": [
-          "greenCharacter<=cost5"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "buffTarget"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": "Rarity is 'SEC' as printed in the bottom right corner. The card has a 'SPECIAL' icon next to the power value, but this is not a rarity."
-  }
+  "traits": [
+    "wanoCountry",
+    "kozukiFamily"
+  ]
 }

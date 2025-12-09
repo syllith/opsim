@@ -1,50 +1,67 @@
 {
-  "id": "OP05-049",
-  "set": "OP05",
-  "number": 49,
-  "name": "Hatcha",
-  "category": "Character",
+  "cardName": "Hatcha",
+  "cardId": "OP05-049",
+  "cardType": "character",
   "colors": [
-    "Blue"
+    "blue"
   ],
-  "attribute": "Strike",
+  "cost": 6,
+  "power": 7000,
+  "counter": 1000,
   "types": [
     "Giants",
     "Animal Kingdom Pirates"
   ],
   "rarity": "UC",
-  "art": "/cards/OP05/OP05-049.png",
-  "stats": {
-    "cost": 6,
-    "power": 7000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 7000
-    }
-  },
+  "setId": "OP05",
+  "cardNumber": "049",
+  "printedText": "[DON!! x1] [When Attacking] Return up to 1 Character with a cost of 3 or less to its owner's hand.",
   "keywords": [],
-  "trigger": null,
-  "text": "DON!! x1 When Attacking: Return up to one character with a cost of 3 or less to the owner's hand.",
   "abilities": [
     {
-      "timing": "When Attacking",
-      "frequency": null,
-      "donReq": 1,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "whenAttacking",
+      "frequency": "none",
+      "condition": {
+        "field": "thisDonAttached",
+        "op": ">=",
+        "value": 1
       },
-      "effect": {
-        "text": "Return up to one character with a cost of 3 or less to the owner's hand.",
-        "powerMod": null,
-        "targets": [
-          "oneOpponentCharacter<=cost3"
-        ],
-        "giveDon": null
-      }
+      "selectors": {
+        "bounceTarget": {
+          "side": "both",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self",
+          "bindAs": "bounceTarget"
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "target": "bounceTarget",
+          "destination": "hand",
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  }
+  "attributes": [
+    "strike"
+  ],
+  "traits": [
+    "giants",
+    "animalKingdomPirates"
+  ]
 }

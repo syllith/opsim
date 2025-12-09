@@ -1,49 +1,48 @@
 {
-  "id": "OP13-028",
-  "set": "OP13",
-  "number": 28,
-  "name": "Shanks",
-  "category": "Character",
-  "colors": [
-    "Green"
-  ],
-  "attribute": "Slash",
-  "types": [
-    "FILM/The Four Emperors",
-    "Red-Haired Pirates"
-  ],
+  "cardName": "Shanks",
+  "cardId": "OP13-028",
+  "cardType": "character",
+  "colors": ["green"],
+  "cost": 10,
+  "power": 12000,
+  "counter": 0,
+  "attributes": ["slash"],
+  "types": ["FILM", "The Four Emperors", "Red-Haired Pirates"],
+  "traits": ["film", "theFourEmperors", "redHairedPirates"],
   "rarity": "SR",
-  "art": "/cards/OP13/OP13-028.png",
-  "stats": {
-    "cost": 10,
-    "power": 12000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 12000
-    }
-  },
-  "keywords": [
-    "On Play"
-  ],
-  "trigger": null,
-  "text": "On Play: Set up all of your DON!! cards as active. Then, you cannot play any cards from your hand during this turn.",
+  "setId": "OP13",
+  "cardNumber": "028",
+  "printedText": "[On Play] Set all of your DON!! cards as active. Then, you cannot play cards from your hand during this turn.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "onPlay",
+      "selectors": {
+        "allDon": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "Set up all of your DON!! cards as active. Then, you cannot play any cards from your hand during this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "setState",
+          "state": "active",
+          "target": "allDon"
+        },
+        {
+          "type": "restrictPlay",
+          "cardTypes": ["character", "event", "stage"],
+          "duration": "thisTurn",
+          "side": "self",
+          "condition": {
+            "field": "sourceZone",
+            "op": "=",
+            "value": "hand"
+          }
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

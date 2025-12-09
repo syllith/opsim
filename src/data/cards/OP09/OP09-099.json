@@ -1,44 +1,60 @@
 {
-  "id": "OP09-099",
-  "set": "OP09",
-  "number": 99,
-  "name": "Fullalead",
-  "category": "Stage",
-  "colors": [],
-  "attribute": null,
-  "types": [
-    "Blackbeard Pirates"
-  ],
-  "rarity": "C",
-  "art": "/cards/OP09/OP09-099.png",
-  "stats": {
-    "cost": 1,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "cardName": "Fullalead",
+  "cardId": "OP09-099",
+  "cardType": "stage",
+  "colors": ["black"],
+  "cost": 1,
+  "types": ["Blackbeard Pirates"],
+  "traits": ["blackbeardPirates"],
+  "rarity": "R",
+  "setId": "OP09",
+  "cardNumber": "099",
+  "printedText": "[Activate: Main] You may trash 1 card from your hand and rest this Stage: Look at 3 cards from the top of your deck; reveal up to 1 \"Blackbeard Pirates\" type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "keywords": [],
-  "trigger": null,
-  "text": "Activate:Main You may trash 1 card from your hand and rest this Stage: Look at 3 cards from the top of your deck; reveal up to 1 {Blackbeard Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "abilities": [
     {
-      "timing": "Activate:Main",
-      "frequency": null,
-      "donReq": null,
+      "timing": "activateMain",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "multiCost",
+        "costs": [
+          {
+            "type": "trashFromHand",
+            "minCards": 1,
+            "maxCards": 1
+          },
+          {
+            "type": "restThis"
+          }
+        ],
+        "may": true
       },
-      "effect": {
-        "text": "You may trash 1 card from your hand and rest this Stage: Look at 3 cards from the top of your deck; reveal up to 1 {Blackbeard Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "search",
+          "sourceZone": "deck",
+          "selector": {
+            "side": "self",
+            "type": "any",
+            "filters": [
+              {
+                "field": "traits",
+                "op": "=",
+                "value": "blackbeardPirates"
+              }
+            ],
+            "min": 0,
+            "max": 1,
+            "upTo": true,
+            "whoChooses": "self"
+          },
+          "reveal": true,
+          "addTo": "hand",
+          "ordering": "any",
+          "topCount": 3,
+          "moveRemainingTo": "bottomOfDeck",
+          "remainingOrdering": "any"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card is marked as a 'SAMPLE' and has a watermark, but the printed ID, set, number, and rarity are legible."
-  }
+  ]
 }

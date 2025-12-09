@@ -1,37 +1,54 @@
 {
-  "id": "ST10-002",
-  "set": "ST10",
-  "number": 2,
-  "name": "Monkey. D. Luffy",
-  "category": "Leader",
-  "colors": ["Red"],
-  "attribute": "Strike",
+  "cardName": "Monkey D. Luffy",
+  "cardId": "ST10-002",
+  "cardType": "leader",
+  "colors": ["red"],
+  "cost": 0,
+  "power": 6000,
+  "life": 3,
+  "attributes": ["strike"],
   "types": ["Straw Hat Crew"],
-  "rarity": null,
-  "art": "/cards/ST10/ST10-002.png",
-  "stats": {
-    "cost": null,
-    "power": 6000,
-    "life": 3,
-    "counter": { "present": false, "value": 0 }
-  },
-  "keywords": ["Activate: Main", "Once Per Turn"],
-  "trigger": null,
-  "text": "Activate: Main — Once Per Turn: If your field has 0 DON!!, or your board has 8 or more DON!!, add 1 DON!! from your DON!! deck set active.",
+  "traits": ["strawHatCrew"],
+  "rarity": "starter",
+  "setId": "ST10",
+  "cardNumber": "002",
+  "printedText": "[Activate: Main] [Once Per Turn] If your field has 0 DON!!, or your field has 8 or more DON!!, add 1 DON!! card from your DON!! deck and set it as active.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Activate: Main",
-      "frequency": "Once Per Turn",
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "If you have 0 DON!! in your Cost Area, or 8 or more DON!! on your field, add 1 DON!! from your DON!! deck and set it as active.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["donDeck"],
-        "conditions": ["costAreaDon==0|fieldDon>=8"]
-      }
+      "timing": "activateMain",
+      "frequency": "oncePerTurn",
+      "selectors": {
+        "selfDonOnField": {
+          "side": "self",
+          "type": "don",
+          "zones": ["costArea"]
+        }
+      },
+      "condition": {
+        "logic": "OR",
+        "any": [
+          {
+            "field": "selectorCount",
+            "selector": "selfDonOnField",
+            "op": "=",
+            "value": 0
+          },
+          {
+            "field": "selectorCount",
+            "selector": "selfDonOnField",
+            "op": ">=",
+            "value": 8
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "giveDon",
+          "count": 1,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": { "notes": null }
+  ]
 }

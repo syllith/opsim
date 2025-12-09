@@ -1,49 +1,52 @@
 {
-  "id": "OP07-104",
-  "set": "OP07",
-  "number": 104,
-  "name": "Nico Robin",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": null,
-  "types": [
-    "Egghead",
-    "Straw Hat Crew"
-  ],
-  "rarity": "SP",
-  "art": "/cards/OP07/OP07-104.png",
-  "stats": {
-    "cost": 3,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
+  "cardName": "Nico Robin",
+  "cardId": "OP07-104",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 3,
+  "power": 4000,
+  "counter": 1000,
+  "attributes": ["special"],
+  "types": ["Egghead", "Straw Hat Crew"],
+  "traits": ["egghead", "strawHatCrew"],
+  "rarity": "UC",
+  "setId": "OP07",
+  "cardNumber": "104",
+  "printedText": "[Trigger] If your Leader has the \"Egghead\" type, draw 2 cards.",
   "keywords": [],
-  "trigger": {
-    "text": "If your leader has the \"Egghead\" type, draw 2 cards."
-  },
-  "text": null,
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "selectors": {
+        "eggheadLeader": {
+          "side": "self",
+          "type": "leader",
+          "zones": ["leader"],
+          "filters": [
+            {
+              "field": "types",
+              "op": "=",
+              "value": "Egghead"
+            }
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If your leader has the \"Egghead\" type, draw 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "condition": {
+        "field": "selectorCount",
+        "selector": "eggheadLeader",
+        "op": ">=",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "draw",
+          "side": "self",
+          "count": 2
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

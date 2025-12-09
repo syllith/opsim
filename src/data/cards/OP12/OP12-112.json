@@ -1,48 +1,34 @@
 {
-  "id": "OP12-112",
-  "set": "OP12",
-  "number": 112,
-  "name": "Baby 5",
-  "category": "Character",
-  "colors": [
-    "Yellow"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "Donquixote Pirates"
-  ],
+  "cardName": "Baby 5",
+  "cardId": "OP12-112",
+  "cardType": "character",
+  "colors": ["yellow"],
+  "cost": 4,
+  "power": 5000,
+  "counter": 2000,
+  "attributes": ["special"],
+  "types": ["Donquixote Pirates"],
+  "traits": ["donquixotePirates"],
   "rarity": "R",
-  "art": "/cards/OP12/OP12-112.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 2000
-    }
-  },
+  "setId": "OP12",
+  "cardNumber": "112",
+  "printedText": "[Trigger] If your Leader is multicolored, draw 2 cards.",
   "keywords": [],
-  "trigger": {
-    "text": "If your Leader is multicolored, draw 2 cards."
-  },
-  "text": "If your Leader is multicolored, draw 2 cards.",
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "trigger",
+      "condition": {
+        "field": "leaderIsMulticolored",
+        "op": "=",
+        "value": true
       },
-      "effect": {
-        "text": "If your Leader is multicolored, draw 2 cards.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "draw",
+          "count": 2,
+          "side": "self"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

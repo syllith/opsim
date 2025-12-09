@@ -1,38 +1,85 @@
 {
-  "id": "OP01-096",
-  "set": "OP01",
-  "number": 96,
-  "name": "King",
-  "category": "Character",
-  "colors": ["Purple"],
-  "attribute": "Special",
-  "types": ["Animal Kingdom Pirates"],
+  "cardName": "King",
+  "cardId": "OP01-096",
+  "cardType": "character",
+  "colors": [
+    "purple"
+  ],
+  "cost": 7,
+  "power": 7000,
+  "counter": 1000,
+  "types": [
+    "Animal Kingdom Pirates"
+  ],
   "rarity": "SR",
-  "art": "/cards/OP01/OP01-096.png",
-  "stats": {
-    "cost": 7,
-    "power": 7000,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "On Play: DON!! -2 (You may return the specified number of DON!! cards from your field to your DON!! deck): K.O. up to 1 of your opponent's Characters with a cost of 3 or less and up to 1 of your opponent's Characters with a cost of 2 or less.",
+  "setId": "OP01",
+  "cardNumber": "096",
+  "printedText": "[On Play] DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck): K.O. up to 1 of your opponent's Characters with a cost of 4 or less and up to 1 of your opponent's Characters with a cost of 3 or less.",
+  "keywords": [
+    "onPlay"
+  ],
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 2 },
-      "effect": {
-        "text": "K.O. up to 1 of your opponent's Characters with a cost of 3 or less and up to 1 of your opponent's Characters with a cost of 2 or less.",
-        "grants": ["KO Opponent Character"],
-        "powerMod": null,
-        "targets": ["oneOpponentCharacter<=3", "oneOpponentCharacter<=2"],
-        "conditions": [],
-        "giveDon": null
-      }
+      "timing": "onPlay",
+      "frequency": "none",
+      "cost": {
+        "type": "returnDon",
+        "count": 2
+      },
+      "selectors": {
+        "cost4OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 4
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        },
+        "cost3OrLess": {
+          "side": "opponent",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 3
+            }
+          ],
+          "min": 0,
+          "max": 1,
+          "upTo": true,
+          "whoChooses": "self"
+        }
+      },
+      "actions": [
+        {
+          "type": "ko",
+          "target": "cost4OrLess"
+        },
+        {
+          "type": "ko",
+          "target": "cost3OrLess"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "attributes": [
+    "special"
+  ],
+  "traits": [
+    "animalKingdomPirates"
+  ]
 }

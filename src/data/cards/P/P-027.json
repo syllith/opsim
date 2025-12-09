@@ -1,50 +1,49 @@
 {
-  "id": "P-027",
-  "set": "P",
-  "number": 27,
-  "name": "Franky Shougun",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Ranged",
-  "types": [
-    "Straw Hat Crew"
-  ],
-  "rarity": "C",
-  "art": "/cards/P/P-027.png",
-  "stats": {
-    "cost": 2,
-    "power": 4000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "cardName": "Franky Shougun",
+  "cardId": "P-027",
+  "cardType": "character",
+  "colors": ["red"],
+  "cost": 2,
+  "power": 4000,
+  "counter": 0,
+  "attributes": ["ranged"],
+  "types": ["Straw Hat Crew"],
+  "traits": ["strawHatCrew"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-027",
+  "printedText": "This card's name is also treated as [Franky].\n[Opponent's Turn] All of your Characters with a printed Power of 3000 or less gain +1000 Power.",
   "keywords": [],
-  "trigger": null,
-  "text": "Opponent's Turn: All of your Characters with a printed Power of 3000 or less gain +1000 Power.",
+  "alsoTreatedAsNames": ["Franky"],
   "abilities": [
     {
-      "timing": "Opponent's Turn",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "duringOpponentsTurn",
+      "selectors": {
+        "yourLowPowerCharacters": {
+          "side": "self",
+          "type": "character",
+          "zones": ["character"],
+          "filters": [
+            {
+              "field": "basePower",
+              "op": "<=",
+              "value": 3000
+            }
+          ],
+          "min": 0,
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "All of your Characters with a printed Power of 3000 or less gain +1000 Power.",
-        "powerMod": null,
-        "conditions": [
-          "allCharacters",
-          "printedPower<=3000"
-        ],
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "modifyStat",
+          "stat": "power",
+          "mode": "add",
+          "amount": 1000,
+          "duration": "thisTurn",
+          "target": "yourLowPowerCharacters"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": "Card name is treated as [Franky] per printed text. Power value is clearly 4000. Rarity is C. No life value printed. No counter icon. No keywords or trigger box."
-  }
+  ]
 }

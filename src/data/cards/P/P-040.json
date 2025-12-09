@@ -1,47 +1,52 @@
 {
-  "id": "P-040",
-  "set": "P",
-  "number": 40,
-  "name": "Kaido",
-  "category": "Character",
-  "colors": [
-    "Red"
-  ],
-  "attribute": "Strike",
-  "types": [
-    "The Four Emperors",
-    "Animal Kingdom Pirates"
-  ],
-  "rarity": "R",
-  "art": "/cards/P/P-040.png",
-  "stats": {
-    "cost": 8,
-    "power": 10000,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 10000
-    }
-  },
+  "cardName": "Kaido",
+  "cardId": "P-040",
+  "cardType": "character",
+  "colors": ["purple"],
+  "cost": 8,
+  "power": 10000,
+  "counter": 0,
+  "attributes": ["strike"],
+  "types": ["The Four Emperors", "Animal Kingdom Pirates"],
+  "traits": ["theFourEmperors", "animalKingdomPirates"],
+  "rarity": "P",
+  "setId": "P",
+  "cardNumber": "P-040",
+  "printedText": "If your opponent has 10 DON!! cards on their field, this Character cannot be K.O.'d.",
   "keywords": [],
-  "trigger": null,
-  "text": "If there are 10 don on your opponent's board, this character can not be KO'd.",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": {
-        "restDonFromCostArea": 0
+      "timing": "static",
+      "selectors": {
+        "opponentDonInCostArea": {
+          "side": "opponent",
+          "type": "don",
+          "zones": ["costArea"],
+          "whoChooses": "system"
+        }
       },
-      "effect": {
-        "text": "If there are 10 don on your opponent's board, this character can not be KO'd.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "permanent",
+          "event": "selfWouldBeKOd",
+          "target": {
+            "side": "self",
+            "type": "thisCard"
+          },
+          "condition": {
+            "field": "selectorCount",
+            "selector": "opponentDonInCostArea",
+            "op": ">=",
+            "value": 10
+          },
+          "actions": [
+            {
+              "type": "noop"
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }

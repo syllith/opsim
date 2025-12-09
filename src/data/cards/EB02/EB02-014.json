@@ -1,37 +1,55 @@
 {
-  "id": "EB02-014",
-  "set": "EB02",
-  "number": 14,
-  "name": "Sarfunkle",
-  "category": "Character",
-  "colors": ["Green"],
-  "attribute": "Wisdom",
-  "types": ["East Blue"],
-  "rarity": "C",
-  "art": "/cards/EB02/EB02-014.png",
-  "stats": {
-    "cost": 2,
-    "power": 0,
-    "life": null,
-    "counter": { "present": true, "value": 1000 }
-  },
-  "keywords": ["On Play"],
-  "trigger": null,
-  "text": "[On Play] Play up to one \"Gaimon\" from your hand.",
+  "power": 0,
+  "cardType": "character",
+  "cardId": "EB02-014",
+  "printedText": "On Play Play up to one \"Gaimon\" from your hand.",
+  "cardNumber": "014",
   "abilities": [
     {
-      "timing": "On Play",
-      "frequency": null,
-      "donReq": null,
-      "cost": { "restDonFromCostArea": 0 },
-      "effect": {
-        "text": "Play up to one \"Gaimon\" from your hand.",
-        "grants": [],
-        "powerMod": null,
-        "targets": ["hand:Gaimon"],
-        "conditions": []
-      }
+      "selectors": {},
+      "timing": "onPlay",
+      "actions": [
+        {
+          "destination": "characterArea",
+          "type": "moveCard",
+          "target": {
+            "filters": [
+              {
+                "value": "Gaimon",
+                "field": "cardName",
+                "op": "="
+              }
+            ],
+            "zones": [
+              "hand"
+            ],
+            "upTo": true,
+            "min": 0,
+            "max": 1,
+            "type": "character",
+            "side": "self",
+            "whoChooses": "self"
+          },
+          "ordering": "keep"
+        }
+      ]
     }
   ],
-  "meta": { "notes": null }
+  "rarity": "C",
+  "setId": "EB02",
+  "counter": 1000,
+  "cardName": "Sarfunkle",
+  "types": [
+    "East Blue"
+  ],
+  "cost": 2,
+  "colors": [
+    "green"
+  ],
+  "attributes": [
+    "wisdom"
+  ],
+  "traits": [
+    "eastBlue"
+  ]
 }

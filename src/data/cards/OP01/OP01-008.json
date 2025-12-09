@@ -1,47 +1,68 @@
 {
-  "id": "OP01-008",
-  "set": "OP01",
-  "number": 8,
-  "name": "Cavendish",
-  "category": "Character",
+  "cardName": "Cavendish",
+  "cardId": "OP01-008",
+  "cardType": "character",
   "colors": [
-    "Red"
+    "red"
   ],
-  "attribute": "Slash",
+  "cost": 4,
+  "power": 5000,
+  "counter": 0,
   "types": [
     "Supernovas",
     "Beautiful Pirates"
   ],
   "rarity": "C",
-  "art": "/cards/OP01/OP01-008.png",
-  "stats": {
-    "cost": 4,
-    "power": 5000,
-    "life": null,
-    "counter": {
-      "present": false,
-      "value": 0
-    }
-  },
+  "setId": "OP01",
+  "cardNumber": "008",
+  "printedText": "On Play: You may add 1 card from your Life area to your hand: This Character gains Rush during this turn.",
   "keywords": [
-    "Rush"
+    "onPlay"
   ],
-  "trigger": null,
-  "text": "[On Play] You may add 1 card from your Life area to your hand: This Character gains [Rush] during this turn. (This card can attack on the turn in which it is played.)",
   "abilities": [
     {
-      "type": "On Play",
-      "frequency": null,
-      "condition": null,
-      "cost": null,
-      "effect": {
-        "text": "You may add 1 card from your Life area to your hand: This Character gains Rush during this turn.",
-        "actions": []
-      }
+      "timing": "onPlay",
+      "selectors": {
+        "thisCard": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "min": 1,
+          "max": 1,
+          "whoChooses": "system",
+          "filters": [
+            {
+              "field": "cardId",
+              "op": "=",
+              "value": "OP01-008"
+            }
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "moveCard",
+          "destination": "hand",
+          "may": true,
+          "target": "selfTopLifeCard"
+        },
+        {
+          "type": "keywordEffect",
+          "operation": "grant",
+          "keyword": "rush",
+          "duration": "thisTurn",
+          "target": "thisCard"
+        }
+      ]
     }
   ],
-  "meta": {
-    "notes": null
-  },
-  "verified": true
+  "attributes": [
+    "slash"
+  ],
+  "traits": [
+    "supernovas",
+    "beautifulPirates"
+  ]
 }

@@ -1,49 +1,79 @@
 {
-  "id": "OP06-096",
-  "set": "OP06",
-  "number": 96,
-  "name": "... Nothing!!! Happened......",
-  "category": "Event",
-  "colors": [],
-  "attribute": null,
+  "cardName": "... Nothing!!! Happened...!!!!",
+  "cardId": "OP06-096",
+  "cardType": "event",
+  "colors": [
+    "black"
+  ],
+  "cost": 3,
+  "power": 0,
+  "life": 0,
+  "counter": 0,
   "types": [
     "Straw Hat Crew"
   ],
-  "rarity": "R",
-  "art": "/cards/OP06/OP06-096.png",
-  "stats": {
-    "cost": 3,
-    "power": null,
-    "life": null,
-    "counter": {
-      "present": true,
-      "value": 1000
-    }
-  },
-  "keywords": [
-    "Trigger",
-    "Activate: Main"
+  "traits": [
+    "strawHatCrew"
   ],
-  "trigger": {
-    "text": "Activate this card's #Counter effect"
-  },
-  "text": "#Counter Add the top card of your life to your hand: all of your cost 7 or lower characters cannot be KO'd in battle this turn.",
+  "rarity": "UC",
+  "setId": "OP06",
+  "cardNumber": "096",
+  "printedText": "Counter Add the top card of your life to your hand: all of your cost 7 or lower characters cannot be KO'd in battle this turn.\nTrigger Activate this card's Counter effect.",
+  "keywords": [],
   "abilities": [
     {
-      "timing": "Trigger",
-      "frequency": null,
-      "donReq": null,
+      "timing": "counter",
+      "frequency": "none",
       "cost": {
-        "restDonFromCostArea": 0
+        "type": "moveTopLifeCard",
+        "side": "self",
+        "destination": "hand",
+        "position": "top"
       },
-      "effect": {
-        "text": "Add the top card of your life to your hand: all of your cost 7 or lower characters cannot be KO'd in battle this turn.",
-        "powerMod": null,
-        "giveDon": null
-      }
+      "selectors": {
+        "selfChars7OrLess": {
+          "side": "self",
+          "type": "character",
+          "zones": [
+            "character"
+          ],
+          "filters": [
+            {
+              "field": "cost",
+              "op": "<=",
+              "value": 7
+            }
+          ],
+          "min": 0,
+          "max": 10,
+          "upTo": true,
+          "whoChooses": "system"
+        }
+      },
+      "actions": [
+        {
+          "type": "replacementEffect",
+          "duration": "thisTurn",
+          "event": "battleKO",
+          "target": "selfChars7OrLess",
+          "actions": [
+            {
+              "type": "preventKO",
+              "target": "selfChars7OrLess"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "timing": "trigger",
+      "frequency": "none",
+      "actions": [
+        {
+          "type": "activateSelfAbility",
+          "abilityTiming": "counter"
+        }
+      ]
     }
-  ],
-  "meta": {
-    "notes": null
-  }
+  ]
 }
