@@ -16,10 +16,55 @@ export default function Activity({
     battleArrow,
     getBattleStatus,
     skipBlock,
-    endCounterStep
+    endCounterStep,
+    //. Multiplayer props for determining if current player is the defender
+    isMultiplayer = false,
+    myMultiplayerSide = 'player', //. Which side this player controls: 'player' (host) or 'opponent' (guest)
+    isHost = true, //. True for host, false for guest
+    sendGuestAction = null, //. Function to send actions to host (for guest only)
+    broadcastState = null //. Function to broadcast state to guest (for host only)
 }) {
     //. Force re-render on window resize to update arrow positions
     const [, setResizeTick] = useState(0);
+
+    //. Determine if the current player is the defender in battle
+    //. Only the defending player should see the "No Block" and "End Counter Step" buttons
+    const isDefender = useMemo(() => {
+        if (!battle || !battle.target) return false;
+        if (!isMultiplayer) return true; //. In single-player modes, show controls always
+        //. In multiplayer, only show controls if this player's side is the target (defender)
+        return battle.target.side === myMultiplayerSide;
+    }, [battle, isMultiplayer, myMultiplayerSide]);
+
+    //. Handler for skipBlock that routes through multiplayer if needed
+    const handleSkipBlock = () => {
+        if (isMultiplayer && !isHost && sendGuestAction) {
+            //. Guest sends action to host
+            sendGuestAction({ type: 'skipBlock' });
+        } else {
+            //. Host (or single-player) executes directly
+            skipBlock?.();
+            //. Host broadcasts state to guest
+            if (isMultiplayer && isHost && broadcastState) {
+                setTimeout(() => broadcastState(), 100);
+            }
+        }
+    };
+
+    //. Handler for endCounterStep that routes through multiplayer if needed
+    const handleEndCounterStep = () => {
+        if (isMultiplayer && !isHost && sendGuestAction) {
+            //. Guest sends action to host
+            sendGuestAction({ type: 'endCounter' });
+        } else {
+            //. Host (or single-player) executes directly
+            endCounterStep?.();
+            //. Host broadcasts state to guest
+            if (isMultiplayer && isHost && broadcastState) {
+                setTimeout(() => broadcastState(), 100);
+            }
+        }
+    };
 
     //. Throttled resize handler (avoids spamming re-renders)
     useEffect(() => {
@@ -206,23 +251,23 @@ export default function Activity({
                             sx={{ mx: 1, borderColor: 'rgba(255,255,255,0.2)' }}
                         />
 
-                        {/* Step actions */}
-                        {battle.step === 'block' && (
+                        {/* Step actions - only show to the defending player */}
+                        {battle.step === 'block' && isDefender && (
                             <Button
                                 size='small'
                                 variant='outlined'
                                 color='warning'
-                                onClick={skipBlock}
+                                onClick={handleSkipBlock}
                             >
                                 No Block
                             </Button>
                         )}
-                        {battle.step === 'counter' && (
+                        {battle.step === 'counter' && isDefender && (
                             <Button
                                 size='small'
                                 variant='contained'
                                 color='primary'
-                                onClick={endCounterStep}
+                                onClick={handleEndCounterStep}
                             >
                                 End Counter Step
                             </Button>

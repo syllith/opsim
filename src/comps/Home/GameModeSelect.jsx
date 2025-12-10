@@ -31,10 +31,9 @@ const GAME_MODES = [
     {
         id: 'multiplayer',
         name: 'Multiplayer',
-        description: 'Play against another player online.',
+        description: 'Play against another player online in real-time.',
         icon: GroupIcon,
-        available: false,
-        comingSoon: true,
+        available: true,
     },
 ];
 

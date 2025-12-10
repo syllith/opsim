@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import _ from 'lodash';
 
 //. Sums numeric field over an array of modifier objects
@@ -56,7 +56,10 @@ const addKeywordEntry = (
 
 //. Hook to manage modifiers & temporary effect bookkeeping.
 //. Exposes read/apply helpers and a cleanup routine for Refresh Phase.
-export function useModifiers({ modKey, appendLog }) {
+//. 
+//. For multiplayer: The host manages modifier state and syncs it via gameState.
+//. Pass externalState to override internal state with synced values from host.
+export function useModifiers({ modKey, appendLog, externalState = null, onStateChange = null }) {
   const [powerMods, setPowerMods] = useState({});               //. { key: [{ delta, expireOnSide }] }
   const [costMods, setCostMods] = useState({});                 //. { key: [{ delta, expireOnSide }] }
   const [tempKeywords, setTempKeywords] = useState({});         //. { key: [{ keyword, expireOnSide }] }
@@ -65,6 +68,48 @@ export function useModifiers({ modKey, appendLog }) {
     player: [],
     opponent: []
   });
+
+  //. For multiplayer: sync external state when it changes
+  useEffect(() => {
+    if (externalState) {
+      if (externalState.powerMods) setPowerMods(externalState.powerMods);
+      if (externalState.costMods) setCostMods(externalState.costMods);
+      if (externalState.tempKeywords) setTempKeywords(externalState.tempKeywords);
+      if (externalState.disabledKeywords) setDisabledKeywords(externalState.disabledKeywords);
+      if (externalState.untilNextTurnEffects) setUntilNextTurnEffects(externalState.untilNextTurnEffects);
+    }
+  }, [externalState]);
+
+  //. Notify parent when state changes (for broadcasting in multiplayer)
+  const notifyStateChange = useCallback(() => {
+    if (onStateChange) {
+      onStateChange({
+        powerMods,
+        costMods,
+        tempKeywords,
+        disabledKeywords,
+        untilNextTurnEffects
+      });
+    }
+  }, [onStateChange, powerMods, costMods, tempKeywords, disabledKeywords, untilNextTurnEffects]);
+
+  //. Get the full modifier state for syncing
+  const getModifierState = useCallback(() => ({
+    powerMods,
+    costMods,
+    tempKeywords,
+    disabledKeywords,
+    untilNextTurnEffects
+  }), [powerMods, costMods, tempKeywords, disabledKeywords, untilNextTurnEffects]);
+
+  //. Set the full modifier state (used when receiving sync from host)
+  const setModifierState = useCallback((state) => {
+    if (state.powerMods !== undefined) setPowerMods(state.powerMods);
+    if (state.costMods !== undefined) setCostMods(state.costMods);
+    if (state.tempKeywords !== undefined) setTempKeywords(state.tempKeywords);
+    if (state.disabledKeywords !== undefined) setDisabledKeywords(state.disabledKeywords);
+    if (state.untilNextTurnEffects !== undefined) setUntilNextTurnEffects(state.untilNextTurnEffects);
+  }, []);
 
   //. Returns total power modifier for the given card
   const getPowerMod = useCallback(
@@ -207,6 +252,10 @@ export function useModifiers({ modKey, appendLog }) {
     tempKeywords,
     disabledKeywords,
     untilNextTurnEffects,
+
+    //. State management for multiplayer sync
+    getModifierState,
+    setModifierState,
 
     //. Read helpers
     getPowerMod,

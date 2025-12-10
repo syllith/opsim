@@ -10,7 +10,7 @@ import React, {
     useCallback
 } from 'react';
 import _ from 'lodash';
-import { Box, Paper, Typography, Button, Chip, Stack } from '@mui/material';
+import { Box, Paper, Typography, Button, Chip, Stack, Alert } from '@mui/material';
 import OpeningHand from './OpeningHand';
 import { useDeckSearch } from './DeckSearch';
 import CardViewer from './CardViewer';
@@ -55,6 +55,9 @@ export default function Board({
     currentHandSide,
     onHandSelected,
     firstPlayer,
+    playerHandSelected = false,
+    opponentHandSelected = false,
+    setupPhase = null,
     //. Deck Search props
     deckSearchRef,
     library,
@@ -74,11 +77,61 @@ export default function Board({
     setTurnSide,
     setTurnNumber,
     executeRefreshPhase,
-    setPhase
+    setPhase,
+    //. Multiplayer props
+    isMultiplayer = false,
+    isMyTurn = true,
+    multiplayerRole = null,
+    isHost = true,
+    onGuestAction = null,
+    markHandSelectedLocally = null,
+    onBroadcastStateRef = null
 }) {
     //. Sizing constants (match Fyne layout intent)
     const CARD_W = 120;
     const CARD_H = 167;
+
+    //. In multiplayer, guest needs to see the board flipped (their cards at bottom)
+    //. This maps visual position to data side
+    //. Host: top='opponent', bottom='player' (normal)
+    //. Guest: top='player', bottom='opponent' (flipped - guest's data is in 'opponent')
+    const shouldFlipBoard = isMultiplayer && multiplayerRole === 'opponent';
+    
+    //. The side shown at top of screen (enemy from viewer's perspective)
+    const topSide = shouldFlipBoard ? 'player' : 'opponent';
+    //. The side shown at bottom of screen (viewer's own side)  
+    const bottomSide = shouldFlipBoard ? 'opponent' : 'player';
+
+    //. Determine if player can interact with a specific side
+    //. This checks if the current player controls that side and can act on it
+    const canInteractWithSide = useCallback((side, options = {}) => {
+        const { allowDefending = false } = options;
+        
+        if (!isMultiplayer) return true; // Not multiplayer, all interactions allowed
+        
+        // In multiplayer, you can only interact with your own side
+        // 'player' role controls 'player' side, 'opponent' role controls 'opponent' side
+        const controlsSide = multiplayerRole === side;
+        
+        // If you don't control this side, no interaction allowed
+        if (!controlsSide) return false;
+        
+        // During your own turn, you can act on your side
+        if (isMyTurn) return true;
+        
+        // During opponent's turn, you can only defend (block, counter)
+        // This is controlled by the allowDefending option
+        if (allowDefending) return true;
+        
+        return false;
+    }, [isMultiplayer, isMyTurn, multiplayerRole]);
+
+    //. Check if we're in a defending situation (opponent attacking our side)
+    const isDefendingPhase = useCallback((side) => {
+        if (!battle) return false;
+        // We're defending if the battle target is on our side
+        return battle.target?.side === side && (battle.step === 'block' || battle.step === 'counter');
+    }, [battle]);
 
     //. Initialize DeckSearch hooks for player and opponent
     const playerDeckSearch = useDeckSearch({
@@ -301,10 +354,22 @@ export default function Board({
                 stage: { label: 'Stage', mode: 'single', max: 1, width: SINGLE_W, height: CARD_H + 40 },
                 leader: { label: 'Leader', mode: 'single', max: 1, width: SINGLE_W, height: CARD_H + 40 }
             },
+            bottom: {
+                hand: { label: 'Opp Hand', mode: 'overlap-right', max: 999, width: COST_W, height: CARD_H + 40 },
+                don: { label: 'Don', mode: 'stacked', max: 10, width: SINGLE_W, height: CARD_H + 40 },
+                cost: { label: 'Opp Cost Area', mode: 'overlap-right', max: 10, width: COST_W, height: CARD_H + 40 },
+                trash: { label: 'Trash', mode: 'stacked', max: 999, width: SINGLE_W, height: CARD_H + 40 }
+            },
             char: { label: 'Opp Character Area (5 cards)', mode: 'side-by-side', max: 5, width: CHAR_W, height: CARD_H + 40 },
             life: { label: 'Life', mode: 'overlap-vertical', max: 5, width: LIFE_W, height: CARD_H + 40 + (LIFE_MAX_VISIBLE - 1) * OVERLAP_OFFSET }
         },
         player: {
+            top: {
+                hand: { label: 'Hand', mode: 'overlap-right', max: 999, width: COST_W, height: CARD_H + 40 },
+                trash: { label: 'Trash', mode: 'stacked', max: 999, width: SINGLE_W, height: CARD_H + 40 },
+                cost: { label: 'Cost Area', mode: 'overlap-right', max: 10, width: COST_W, height: CARD_H + 40 },
+                don: { label: 'Don', mode: 'stacked', max: 10, width: SINGLE_W, height: CARD_H + 40 }
+            },
             life: { label: 'Life', mode: 'overlap-vertical', max: 5, width: LIFE_W, height: CARD_H + 40 + (LIFE_MAX_VISIBLE - 1) * OVERLAP_OFFSET },
             char: { label: 'Character Area (5 cards)', mode: 'side-by-side', max: 5, width: CHAR_W, height: CARD_H + 40 },
             middle: {
@@ -319,7 +384,7 @@ export default function Board({
                 trash: { label: 'Trash', mode: 'stacked', max: 999, width: SINGLE_W, height: CARD_H + 40 }
             }
         }
-    }), []);
+    }), [CARD_W, CARD_H, COST_W, SINGLE_W, CHAR_W, LIFE_W, OVERLAP_OFFSET, LIFE_MAX_VISIBLE]);
 
     const modKey = useCallback(
         (side, section, keyName, index) => `${side}:${section}:${keyName}:${index}`,
@@ -634,13 +699,33 @@ export default function Board({
         const nodeConfig = areaConfigs[side][section];
         const isNested = typeof nodeConfig.mode !== 'string';
 
+        //. Map visual section to data section based on side
+        //. Data is stored canonically: player uses 'bottom', opponent uses 'top'
+        //. But the board can flip, so we need to map visual sections to data sections
+        const getDataSection = (visualSide, visualSection) => {
+            //. For nested sections (top/bottom), map to where data is actually stored
+            if (visualSection === 'top' || visualSection === 'bottom') {
+                //. Player's hand/don/cost/trash data is always in player.bottom
+                //. Opponent's hand/don/cost/trash data is always in opponent.top
+                if (visualSide === 'player') return 'bottom';
+                if (visualSide === 'opponent') return 'top';
+            }
+            //. For non-nested sections (middle, char, life), use as-is
+            return visualSection;
+        };
+        
+        const dataSection = getDataSection(side, section);
+        
         const cardsArr = isNested
-            ? _.get(areas, [side, section, keyName], [])
-            : _.get(areas, [side, section], []);
+            ? _.get(areas, [side, dataSection, keyName], [])
+            : _.get(areas, [side, dataSection], []);
 
         const mode = config.mode;
-        const isPlayerHand = side === 'player' && section === 'bottom' && keyName === 'hand';
-        const isOppHand = side === 'opponent' && section === 'top' && keyName === 'hand';
+        //. In the flipped view system:
+        //. - section='bottom' + keyName='hand' = viewer's own hand (always visible)
+        //. - section='top' + keyName='hand' = opponent's hand (show card backs in multiplayer)
+        const isBottomHand = section === 'bottom' && keyName === 'hand';
+        const isTopHand = section === 'top' && keyName === 'hand';
         const isActiveLeader = side === turnSide && section === 'middle' && keyName === 'leader';
 
         //. Check if this area can receive DON (leader or character areas)
@@ -649,7 +734,9 @@ export default function Board({
             (section === 'char' && keyName === 'char');
 
         //. Background colors (base vs active turn) for visual turn indication
-        const areaBgColor = side === 'player' ? '#455a64' : '#8d4343'; // keep base; fade handled by parent filter
+        //. Use bottomSide to determine which color scheme (viewer's side is always the "player" color)
+        const isViewerSide = side === bottomSide;
+        const areaBgColor = isViewerSide ? '#455a64' : '#8d4343';
 
         return (
             <Paper
@@ -737,13 +824,20 @@ export default function Board({
                         </Typography>
                     </Box>
 
-                    {(isPlayerHand || isOppHand) && mode === 'overlap-right' ? (
+                    {(isBottomHand || isTopHand) && mode === 'overlap-right' ? (
                         <Box
                             position='relative'
                             width={CARD_W + (cardsArr.length - 1) * OVERLAP_OFFSET}
                             height={CARD_H}
                         >
                             {cardsArr.map((c, i) => {
+                                //. In multiplayer, hide opponent's hand from player (show card backs)
+                                //. With the flipped view system:
+                                //. - isTopHand = always the opponent's hand (top of screen)
+                                //. - isBottomHand = always the viewer's own hand (bottom of screen)
+                                //. So we show card backs for isTopHand in multiplayer
+                                const isOpponentHand = isMultiplayer && isTopHand;
+                                
                                 //. RULE ENFORCEMENT: Only allow interaction with cards when it's that side's turn
                                 //. Rule 6-5-3: Only the turn player can play cards during their Main Phase
                                 const isThisSideTurn = side === turnSide;
@@ -755,12 +849,20 @@ export default function Board({
                                     battle &&
                                     battle.step === 'block' &&
                                     battle.target.side === side;
+                                
+                                //. In multiplayer, also check if this player controls this side
+                                const controlsThisSide = canInteractWithSide(side, { 
+                                    allowDefending: isDefendingInCounter || isDefendingInBlock 
+                                });
+                                
                                 const canInteract =
-                                    (isThisSideTurn &&
-                                        phase?.toLowerCase() === 'main' &&
-                                        !battle) ||
-                                    isDefendingInCounter ||
-                                    isDefendingInBlock;
+                                    controlsThisSide && (
+                                        (isThisSideTurn &&
+                                            phase?.toLowerCase() === 'main' &&
+                                            !battle) ||
+                                        isDefendingInCounter ||
+                                        isDefendingInBlock
+                                    );
 
                                 //. Check if targeting is active for this hand
                                 const isTargetingHere =
@@ -801,7 +903,7 @@ export default function Board({
 
                                     //. If a DON is selected from cost area, deselect it when selecting a card in hand
                                     if (donGivingMode?.active &&
-                                        donGivingMode.side === 'player' &&
+                                        donGivingMode.side === side &&
                                         donGivingMode.selectedDonIndex != null) {
                                         cancelDonGiving();
                                     }
@@ -883,15 +985,15 @@ export default function Board({
                                         }}
                                     >
                                         <img
-                                            src={c.thumb}
-                                            alt={c.id}
+                                            src={isOpponentHand ? CARD_BACK_URL : c.thumb}
+                                            alt={isOpponentHand ? 'Card Back' : c.id}
                                             data-cardkey={modKey(side, section, keyName, i)}
                                             style={{
                                                 width: CARD_W,
-                                                cursor,
-                                                opacity,
+                                                cursor: isOpponentHand ? 'default' : cursor,
+                                                opacity: isOpponentHand ? 1 : opacity,
                                                 outline:
-                                                    (actionOpen &&
+                                                    (!isOpponentHand && actionOpen &&
                                                         actionCardIndex === i &&
                                                         canInteract)
                                                         ? '3px solid #90caf9'
@@ -900,13 +1002,13 @@ export default function Board({
                                                             : 'none'),
                                                 borderRadius: '2px',
                                                 filter:
-                                                    (isTargetingHere && !valid)
+                                                    (isTargetingHere && !valid && !isOpponentHand)
                                                         ? 'grayscale(0.9) brightness(0.6)'
                                                         : 'none'
                                             }}
-                                            onClick={onClick}
-                                            onMouseEnter={() => handleCardHover(c, config)}
-                                            onMouseLeave={handleCardLeave}
+                                            onClick={isOpponentHand ? undefined : onClick}
+                                            onMouseEnter={isOpponentHand ? undefined : () => handleCardHover(c, config)}
+                                            onMouseLeave={isOpponentHand ? undefined : handleCardLeave}
                                         />
                                         {/* Cost badge for hand cards removed; card art already shows cost */}
                                     </Box>
@@ -914,8 +1016,7 @@ export default function Board({
                             })}
                         </Box>
                     ) : (
-                        ((side === 'player' && section === 'bottom' && keyName === 'cost') ||
-                            (side === 'opponent' && section === 'top' && keyName === 'cost'))
+                        (section === 'bottom' && keyName === 'cost')
                             ? (
                                 <Box
                                     position='relative'
@@ -929,13 +1030,17 @@ export default function Board({
                                             donGivingMode.selectedDonIndex === i &&
                                             donGivingMode.side === side;
 
+                                        //. In multiplayer, check if this player controls this side
+                                        const controlsThisSide = canInteractWithSide(side);
+                                        
                                         const canSelect =
                                             isDon &&
                                             isActive &&
                                             !donGivingMode?.active &&
                                             phase?.toLowerCase() === 'main' &&
                                             turnSide === side &&
-                                            !battle;
+                                            !battle &&
+                                            controlsThisSide;
 
                                         return (
                                             <img
@@ -961,7 +1066,15 @@ export default function Board({
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (canSelect && startDonGiving) {
-                                                        startDonGiving(side, i);
+                                                        //. In multiplayer as guest, send action to host
+                                                        if (isMultiplayer && !isHost && onGuestAction) {
+                                                            onGuestAction({ 
+                                                                type: 'startDonGiving', 
+                                                                payload: { side, donIndex: i } 
+                                                            });
+                                                        } else {
+                                                            startDonGiving(side, i);
+                                                        }
                                                     }
                                                 }}
                                                 onMouseEnter={() => handleCardHover(c, config)}
@@ -971,24 +1084,28 @@ export default function Board({
                                     })}
                                 </Box>
                             )
-                            : (side === 'player' && section === 'char')
+                            : (section === 'char')
                                 ? (
                                     <Box display='flex' gap={1}>
                                         {cardsArr.map((c, i) => {
+                                            //. In multiplayer, check if this player controls this side for DON giving
+                                            const controlsThisSide = canInteractWithSide(side);
+                                            
                                             const isValidDonTarget =
                                                 donGivingMode?.active &&
-                                                donGivingMode.side === 'player' &&
-                                                !battle;
+                                                donGivingMode.side === side &&
+                                                !battle &&
+                                                controlsThisSide;
 
                                             const isTargetingHere =
                                                 targeting.active &&
-                                                targeting.side === 'player' &&
+                                                targeting.side === side &&
                                                 ((targeting.section === 'char' &&
                                                     targeting.keyName === 'char') ||
                                                     targeting.multi);
 
                                             const ctx = {
-                                                side: 'player',
+                                                side: side,
                                                 section: 'char',
                                                 keyName: 'char',
                                                 index: i
@@ -1002,7 +1119,7 @@ export default function Board({
 
                                             const selected = targeting.multi
                                                 ? targeting.selected.some(s =>
-                                                    s.side === 'player' &&
+                                                    s.side === side &&
                                                     s.section === 'char' &&
                                                     s.keyName === 'char' &&
                                                     s.index === i
@@ -1016,13 +1133,13 @@ export default function Board({
                                                     sx={{ position: 'relative' }}
                                                 >
                                                     <DonStack
-                                                        donArr={_.get(areas, ['player', 'charDon', i])}
+                                                        donArr={_.get(areas, [side, 'charDon', i])}
                                                         cardIndex={i}
                                                     />
                                                     <img
                                                         src={c.thumb}
                                                         alt={c.id}
-                                                        data-cardkey={modKey('player', 'char', 'char', i)}
+                                                        data-cardkey={modKey(side, 'char', 'char', i)}
                                                         style={{
                                                             width: CARD_W,
                                                             height: 'auto',
@@ -1038,18 +1155,18 @@ export default function Board({
                                                                 ? 'grayscale(0.9) brightness(0.6)'
                                                                 : 'none',
                                                             outline: (() => {
-                                                                //. Highlight eligible blockers during Block Step when player is defending
+                                                                //. Highlight eligible blockers during Block Step when this side is defending
                                                                 if (battle &&
                                                                     battle.step === 'block' &&
                                                                     battle.target &&
-                                                                    battle.target.side === 'player' &&
+                                                                    battle.target.side === side &&
                                                                     battle.target.section !== 'char') {
                                                                     const hasBlocker = getKeywordsFor(c.id)
                                                                         .some(k => /blocker/i.test(k));
                                                                     const active = !c.rested;
                                                                     const blockerDisabled = hasDisabledKeyword &&
                                                                         hasDisabledKeyword(
-                                                                            'player',
+                                                                            side,
                                                                             'char',
                                                                             'char',
                                                                             i,
@@ -1073,7 +1190,15 @@ export default function Board({
                                                             e.stopPropagation();
                                                             //. Handle DON!! giving
                                                             if (isValidDonTarget && giveDonToCard) {
-                                                                giveDonToCard('player', 'char', 'char', i);
+                                                                //. In multiplayer as guest, send action to host
+                                                                if (isMultiplayer && !isHost && onGuestAction) {
+                                                                    onGuestAction({
+                                                                        type: 'giveDonToCard',
+                                                                        payload: { side, section: 'char', keyName: 'char', index: i }
+                                                                    });
+                                                                } else {
+                                                                    giveDonToCard(side, 'char', 'char', i);
+                                                                }
                                                                 return;
                                                             }
                                                             //. Handle targeting for other purposes
@@ -1084,7 +1209,7 @@ export default function Board({
                                                                     if (prev.multi) {
                                                                         const has = prev.selected.some(
                                                                             s =>
-                                                                                s.side === 'player' &&
+                                                                                s.side === side &&
                                                                                 s.section === 'char' &&
                                                                                 s.keyName === 'char' &&
                                                                                 s.index === i
@@ -1093,7 +1218,7 @@ export default function Board({
                                                                             ? prev.selected.filter(
                                                                                 s =>
                                                                                     !(
-                                                                                        s.side === 'player' &&
+                                                                                        s.side === side &&
                                                                                         s.section === 'char' &&
                                                                                         s.keyName === 'char' &&
                                                                                         s.index === i
@@ -1102,6 +1227,31 @@ export default function Board({
                                                                             : [...prev.selected, ctx];
                                                                         if (selected.length > prev.max) {
                                                                             selected = selected.slice(-prev.max);
+                                                                        }
+                                                                        //. Update arrow preview with live power snapshot
+                                                                        if (selected.length && currentAttack) {
+                                                                            const si = selected[selected.length - 1].index;
+                                                                            const defCard = _.get(
+                                                                                areas,
+                                                                                [side, 'char', si]
+                                                                            );
+                                                                            const defP = getTotalPower(
+                                                                                side,
+                                                                                'char',
+                                                                                'char',
+                                                                                si,
+                                                                                defCard?.id
+                                                                            );
+                                                                            setBattleArrow({
+                                                                                fromKey: currentAttack.key,
+                                                                                toKey: modKey(
+                                                                                    side,
+                                                                                    'char',
+                                                                                    'char',
+                                                                                    si
+                                                                                ),
+                                                                                label: `${currentAttack.power} ▶ ${defP}`
+                                                                            });
                                                                         }
                                                                         return { ...prev, selected };
                                                                     } else {
@@ -1120,7 +1270,7 @@ export default function Board({
                                                                 return;
                                                             }
                                                             openCardAction(c, i, {
-                                                                side: 'player',
+                                                                side: side,
                                                                 section: 'char',
                                                                 keyName: 'char',
                                                                 index: i
@@ -1132,7 +1282,7 @@ export default function Board({
                                                     {battle &&
                                                         battle.step === 'block' &&
                                                         battle.target &&
-                                                        battle.target.side === 'player' &&
+                                                        battle.target.side === side &&
                                                         battle.target.section !== 'char' &&
                                                         (() => {
                                                             const hasBlocker = getKeywordsFor(c.id)
@@ -1140,7 +1290,7 @@ export default function Board({
                                                             const active = !c.rested;
                                                             const blockerDisabled = hasDisabledKeyword &&
                                                                 hasDisabledKeyword(
-                                                                    'player',
+                                                                    side,
                                                                     'char',
                                                                     'char',
                                                                     i,
@@ -1165,7 +1315,15 @@ export default function Board({
                                                                         color='error'
                                                                         onClick={(e) => {
                                                                             e.stopPropagation();
-                                                                            applyBlocker(i);
+                                                                            //. In multiplayer as guest, send action to host
+                                                                            if (isMultiplayer && !isHost && onGuestAction) {
+                                                                                onGuestAction({
+                                                                                    type: 'useBlocker',
+                                                                                    payload: { blockerIndex: i }
+                                                                                });
+                                                                            } else {
+                                                                                applyBlocker(i);
+                                                                            }
                                                                         }}
                                                                     >
                                                                         Use Blocker
@@ -1174,7 +1332,7 @@ export default function Board({
                                                             );
                                                         })()}
                                                     <PowerBadge
-                                                        side='player'
+                                                        side={side}
                                                         section='char'
                                                         keyName='char'
                                                         index={i}
@@ -1185,218 +1343,6 @@ export default function Board({
                                         })}
                                     </Box>
                                 )
-                                : (side === 'opponent' && section === 'char')
-                                    ? (
-                                        <Box display='flex' gap={1}>
-                                            {cardsArr.map((c, i) => {
-                                                const isValidDonTarget =
-                                                    donGivingMode?.active &&
-                                                    donGivingMode.side === 'opponent' &&
-                                                    !battle;
-
-                                                const isTargetingHere =
-                                                    targeting.active &&
-                                                    targeting.side === 'opponent' &&
-                                                    ((targeting.section === 'char' &&
-                                                        targeting.keyName === 'char') ||
-                                                        targeting.multi);
-
-                                                const ctx = {
-                                                    side: 'opponent',
-                                                    section: 'char',
-                                                    keyName: 'char',
-                                                    index: i
-                                                };
-
-                                                const valid = isTargetingHere
-                                                    ? (typeof targeting.validator === 'function'
-                                                        ? targeting.validator(c, ctx)
-                                                        : true)
-                                                    : false;
-
-                                                const selected = targeting.multi
-                                                    ? targeting.selected.some(s =>
-                                                        s.side === 'opponent' &&
-                                                        s.section === 'char' &&
-                                                        s.keyName === 'char' &&
-                                                        s.index === i
-                                                    )
-                                                    : (isTargetingHere &&
-                                                        targeting.selectedIdx.includes(i));
-
-                                                return (
-                                                    <Box
-                                                        key={c.id + '-' + i}
-                                                        sx={{ position: 'relative' }}
-                                                    >
-                                                        <DonStack
-                                                            donArr={_.get(areas, ['opponent', 'charDon', i])}
-                                                            cardIndex={i}
-                                                        />
-                                                        <img
-                                                            src={c.thumb}
-                                                            alt={c.id}
-                                                            style={{
-                                                                width: CARD_W,
-                                                                height: 'auto',
-                                                                cursor: isTargetingHere
-                                                                    ? (valid ? 'crosshair' : 'not-allowed')
-                                                                    : (isValidDonTarget ? 'pointer' : 'pointer'),
-                                                                borderRadius: '2px',
-                                                                filter: isTargetingHere && !valid
-                                                                    ? 'grayscale(0.9) brightness(0.6)'
-                                                                    : 'none',
-                                                                transform: c.rested
-                                                                    ? 'rotate(90deg)'
-                                                                    : 'none',
-                                                                transformOrigin: 'center center',
-                                                                outline: (() => {
-                                                                    //. Highlight eligible blockers during Block Step
-                                                                    if (battle &&
-                                                                        battle.step === 'block' &&
-                                                                        battle.target &&
-                                                                        battle.target.section !== 'char') {
-                                                                        const hasBlocker = getKeywordsFor(c.id)
-                                                                            .some(k => /blocker/i.test(k));
-                                                                        const active = !c.rested;
-                                                                        const blockerDisabled = hasDisabledKeyword &&
-                                                                            hasDisabledKeyword(
-                                                                                'opponent',
-                                                                                'char',
-                                                                                'char',
-                                                                                i,
-                                                                                'Blocker'
-                                                                            );
-                                                                        if (hasBlocker && active && !blockerDisabled) {
-                                                                            return '3px solid #66bb6a';
-                                                                        }
-                                                                    }
-                                                                    if (selected) { return '3px solid #ff9800'; }
-                                                                    if (isValidDonTarget) { return '3px solid #66bb6a'; }
-                                                                    return 'none';
-                                                                })(),
-                                                                position: 'relative',
-                                                                zIndex: 1
-                                                            }}
-                                                            data-cardkey={modKey('opponent', 'char', 'char', i)}
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                //. Handle DON!! giving for opponent side
-                                                                if (isValidDonTarget && giveDonToCard) {
-                                                                    giveDonToCard('opponent', 'char', 'char', i);
-                                                                    return;
-                                                                }
-                                                                if (isTargetingHere) {
-                                                                    if (targeting.suspended) { return; }
-                                                                    if (!valid) { return; }
-                                                                    setTargeting((prev) => {
-                                                                        if (prev.multi) {
-                                                                            const has = prev.selected.some(
-                                                                                s =>
-                                                                                    s.side === 'opponent' &&
-                                                                                    s.section === 'char' &&
-                                                                                    s.keyName === 'char' &&
-                                                                                    s.index === i
-                                                                            );
-                                                                            let selected = has
-                                                                                ? prev.selected.filter(
-                                                                                    s =>
-                                                                                        !(
-                                                                                            s.side === 'opponent' &&
-                                                                                            s.section === 'char' &&
-                                                                                            s.keyName === 'char' &&
-                                                                                            s.index === i
-                                                                                        )
-                                                                                )
-                                                                                : [...prev.selected, ctx];
-                                                                            if (selected.length > prev.max) {
-                                                                                selected = selected.slice(-prev.max);
-                                                                            }
-                                                                            //. Update arrow preview with live power snapshot
-                                                                            if (selected.length && currentAttack) {
-                                                                                const si = selected[selected.length - 1].index;
-                                                                                const defCard = _.get(
-                                                                                    areas,
-                                                                                    ['opponent', 'char', si]
-                                                                                );
-                                                                                const defP = getTotalPower(
-                                                                                    'opponent',
-                                                                                    'char',
-                                                                                    'char',
-                                                                                    si,
-                                                                                    defCard?.id
-                                                                                );
-                                                                                setBattleArrow({
-                                                                                    fromKey: currentAttack.key,
-                                                                                    toKey: modKey(
-                                                                                        'opponent',
-                                                                                        'char',
-                                                                                        'char',
-                                                                                        si
-                                                                                    ),
-                                                                                    label: `${currentAttack.power} ▶ ${defP}`
-                                                                                });
-                                                                            }
-                                                                            return { ...prev, selected };
-                                                                        } else {
-                                                                            const has = prev.selectedIdx.includes(i);
-                                                                            let selectedIdx = has
-                                                                                ? prev.selectedIdx.filter(
-                                                                                    x => x !== i
-                                                                                )
-                                                                                : [...prev.selectedIdx, i];
-                                                                            if (selectedIdx.length > prev.max) {
-                                                                                selectedIdx = selectedIdx.slice(-prev.max);
-                                                                            }
-                                                                            return { ...prev, selectedIdx };
-                                                                        }
-                                                                    });
-                                                                    return;
-                                                                }
-                                                                openCardAction(c, i, {
-                                                                    side: 'opponent',
-                                                                    section: 'char',
-                                                                    keyName: 'char',
-                                                                    index: i
-                                                                });
-                                                            }}
-                                                            onMouseEnter={() => handleCardHover(c, config)}
-                                                            onMouseLeave={handleCardLeave}
-                                                        />
-                                                        {selected && (
-                                                            <Box
-                                                                sx={{
-                                                                    position: 'absolute',
-                                                                    top: 6,
-                                                                    right: 6,
-                                                                    px: 0.5,
-                                                                    borderRadius: 0.5,
-                                                                    bgcolor: 'rgba(255,152,0,0.9)'
-                                                                }}
-                                                            >
-                                                                <Typography
-                                                                    variant='caption'
-                                                                    sx={{
-                                                                        color: '#000',
-                                                                        fontWeight: 700
-                                                                    }}
-                                                                >
-                                                                    Target
-                                                                </Typography>
-                                                            </Box>
-                                                        )}
-                                                        <PowerBadge
-                                                            side='opponent'
-                                                            section='char'
-                                                            keyName='char'
-                                                            index={i}
-                                                            cardId={c.id}
-                                                        />
-                                                    </Box>
-                                                );
-                                            })}
-                                        </Box>
-                                    )
                                     : (section === 'middle' && keyName === 'leader')
                                         ? (
                                             <Box
@@ -1425,10 +1371,14 @@ export default function Board({
                                                         : (isTargetingHere &&
                                                             targeting.selectedIdx.includes(idx));
 
+                                                    //. In multiplayer, check if this player controls this side
+                                                    const controlsThisSide = canInteractWithSide(side);
+                                                    
                                                     const isValidDonTarget =
                                                         donGivingMode?.active &&
                                                         donGivingMode.side === side &&
-                                                        !battle;
+                                                        !battle &&
+                                                        controlsThisSide;
 
                                                     const ctx = {
                                                         side,
@@ -1447,7 +1397,15 @@ export default function Board({
                                                         e.stopPropagation();
                                                         //. Handle DON!! giving
                                                         if (isValidDonTarget && giveDonToCard) {
-                                                            giveDonToCard(side, 'middle', 'leader', idx);
+                                                            //. In multiplayer as guest, send action to host
+                                                            if (isMultiplayer && !isHost && onGuestAction) {
+                                                                onGuestAction({
+                                                                    type: 'giveDonToCard',
+                                                                    payload: { side, section: 'middle', keyName: 'leader', index: idx }
+                                                                });
+                                                            } else {
+                                                                giveDonToCard(side, 'middle', 'leader', idx);
+                                                            }
                                                             return;
                                                         }
                                                         //. Handle targeting
@@ -1681,11 +1639,11 @@ export default function Board({
                     }
                 }}
             >
-                {/* Opponent Side */}
+                {/* Top Side (opponent from viewer's perspective) */}
                 <Box
                     sx={{
                         position: 'relative',
-                        filter: turnSide === 'opponent' ? 'brightness(1.10)' : 'brightness(1.0)',
+                        filter: turnSide === topSide ? 'brightness(1.10)' : 'brightness(1.0)',
                         transition: 'filter 600ms ease'
                     }}
                 >
@@ -1695,29 +1653,29 @@ export default function Board({
                         sx={{ mb: compactMode ? 0.5 : 1 }}
                     >
                         <AreaBox
-                            side='opponent'
+                            side={topSide}
                             section='top'
                             keyName='hand'
-                            config={areaConfigs.opponent.top.hand}
+                            config={areaConfigs[topSide].top.hand}
                             areaRef={topHandRef}
                         />
                         <AreaBox
-                            side='opponent'
+                            side={topSide}
                             section='top'
                             keyName='trash'
-                            config={areaConfigs.opponent.top.trash}
+                            config={areaConfigs[topSide].top.trash}
                         />
                         <AreaBox
-                            side='opponent'
+                            side={topSide}
                             section='top'
                             keyName='cost'
-                            config={areaConfigs.opponent.top.cost}
+                            config={areaConfigs[topSide].top.cost}
                         />
                         <AreaBox
-                            side='opponent'
+                            side={topSide}
                             section='top'
                             keyName='don'
-                            config={areaConfigs.opponent.top.don}
+                            config={areaConfigs[topSide].top.don}
                         />
                     </Stack>
                     <Stack
@@ -1727,40 +1685,40 @@ export default function Board({
                     >
                         <Box sx={{ width: COST_W }} />
                         <AreaBox
-                            side='opponent'
+                            side={topSide}
                             section='middle'
                             keyName='deck'
-                            config={areaConfigs.opponent.middle.deck}
+                            config={areaConfigs[topSide].middle.deck}
                         />
                         <AreaBox
-                            side='opponent'
+                            side={topSide}
                             section='middle'
                             keyName='stage'
-                            config={areaConfigs.opponent.middle.stage}
+                            config={areaConfigs[topSide].middle.stage}
                         />
                         <AreaBox
-                            side='opponent'
+                            side={topSide}
                             section='middle'
                             keyName='leader'
-                            config={areaConfigs.opponent.middle.leader}
+                            config={areaConfigs[topSide].middle.leader}
                         />
                     </Stack>
-                    {/* Opponent bottom row: constrain row height to character area while letting life overflow upward over middle row */}
+                    {/* Top side bottom row: constrain row height to character area while letting life overflow upward over middle row */}
                     <Box
                         sx={{
                             display: 'flex',
                             position: 'relative',
-                            height: areaConfigs.opponent.char.height,
+                            height: areaConfigs[topSide].char.height,
                             mb: compactMode ? 0.5 : 1
                         }}
                     >
                         <Box sx={{ width: COST_W, flexShrink: 0 }} />
                         <Box>
                             <AreaBox
-                                side='opponent'
+                                side={topSide}
                                 section='char'
                                 keyName='char'
-                                config={areaConfigs.opponent.char}
+                                config={areaConfigs[topSide].char}
                             />
                         </Box>
                         <Box
@@ -1773,10 +1731,10 @@ export default function Board({
                             }}
                         >
                             <AreaBox
-                                side='opponent'
+                                side={topSide}
                                 section='life'
                                 keyName='life'
-                                config={areaConfigs.opponent.life}
+                                config={areaConfigs[topSide].life}
                             />
                         </Box>
                     </Box>
@@ -1863,6 +1821,14 @@ export default function Board({
                             onHandSelected={onHandSelected}
                             firstPlayer={firstPlayer}
                             CARD_W={CARD_W}
+                            isMultiplayer={isMultiplayer}
+                            isHost={isHost}
+                            onGuestAction={onGuestAction}
+                            playerHandSelected={playerHandSelected}
+                            opponentHandSelected={opponentHandSelected}
+                            onLocalHandSelected={markHandSelectedLocally}
+                            setupPhase={setupPhase}
+                            onBroadcastStateRef={onBroadcastStateRef}
                         />
                     </Box>
                 )}
@@ -1883,15 +1849,15 @@ export default function Board({
                     {opponentDeckSearch.active && <opponentDeckSearch.Component />}
                 </Box>
 
-                {/* Player Side */}
+                {/* Bottom Side (viewer's own side) */}
                 <Box
                     sx={{
                         position: 'relative',
-                        filter: turnSide === 'player' ? 'brightness(1.10)' : 'brightness(1.0)',
+                        filter: turnSide === bottomSide ? 'brightness(1.10)' : 'brightness(1.0)',
                         transition: 'filter 600ms ease'
                     }}
                 >
-                    {/* Player top row: constrain row height to character area while letting life overflow without shifting horizontally */}
+                    {/* Bottom top row: constrain row height to character area while letting life overflow without shifting horizontally */}
                     <Box
                         sx={{
                             display: 'flex',
@@ -1910,23 +1876,23 @@ export default function Board({
                             }}
                         >
                             <AreaBox
-                                side='player'
+                                side={bottomSide}
                                 section='life'
                                 keyName='life'
-                                config={areaConfigs.player.life}
+                                config={areaConfigs[bottomSide].life}
                             />
                         </Box>
                         <Box sx={{ ml: compactMode ? 0.5 : 1 }}>
                             <AreaBox
-                                side='player'
+                                side={bottomSide}
                                 section='char'
                                 keyName='char'
-                                config={areaConfigs.player.char}
+                                config={areaConfigs[bottomSide].char}
                             />
                         </Box>
                     </Box>
 
-                    {/* Player middle row: add left spacer to shift leader/stage right; deck aligned above trash */}
+                    {/* Bottom middle row: add left spacer to shift leader/stage right; deck aligned above trash */}
                     <Stack
                         direction='row'
                         spacing={compactMode ? 0.5 : 1}
@@ -1944,59 +1910,59 @@ export default function Board({
                                 justifyContent='flex-end'
                             >
                                 <AreaBox
-                                    side='player'
+                                    side={bottomSide}
                                     section='middle'
                                     keyName='leader'
-                                    config={areaConfigs.player.middle.leader}
+                                    config={areaConfigs[bottomSide].middle.leader}
                                 />
                                 <AreaBox
-                                    side='player'
+                                    side={bottomSide}
                                     section='middle'
                                     keyName='stage'
-                                    config={areaConfigs.player.middle.stage}
+                                    config={areaConfigs[bottomSide].middle.stage}
                                 />
                             </Stack>
                         </Box>
                         <Box sx={{ width: SINGLE_W }}>
                             <AreaBox
-                                side='player'
+                                side={bottomSide}
                                 section='middle'
                                 keyName='deck'
-                                config={areaConfigs.player.middle.deck}
+                                config={areaConfigs[bottomSide].middle.deck}
                             />
                         </Box>
                     </Stack>
 
-                    {/* Player bottom row - Hand, DON, Cost, Trash - with relative positioning for overlays */}
+                    {/* Bottom row - Hand, DON, Cost, Trash - with relative positioning for overlays */}
                     <Box sx={{ position: 'relative' }}>
                         <Stack
                             direction='row'
                             spacing={compactMode ? 0.5 : 1}
                         >
                             <AreaBox
-                                side='player'
+                                side={bottomSide}
                                 section='bottom'
                                 keyName='hand'
-                                config={areaConfigs.player.bottom.hand}
+                                config={areaConfigs[bottomSide].bottom.hand}
                                 areaRef={bottomHandRef}
                             />
                             <AreaBox
-                                side='player'
+                                side={bottomSide}
                                 section='bottom'
                                 keyName='don'
-                                config={areaConfigs.player.bottom.don}
+                                config={areaConfigs[bottomSide].bottom.don}
                             />
                             <AreaBox
-                                side='player'
+                                side={bottomSide}
                                 section='bottom'
                                 keyName='cost'
-                                config={areaConfigs.player.bottom.cost}
+                                config={areaConfigs[bottomSide].bottom.cost}
                             />
                             <AreaBox
-                                side='player'
+                                side={bottomSide}
                                 section='bottom'
                                 keyName='trash'
-                                config={areaConfigs.player.bottom.trash}
+                                config={areaConfigs[bottomSide].bottom.trash}
                             />
                         </Stack>
                     </Box>

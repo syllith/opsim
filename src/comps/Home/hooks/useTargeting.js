@@ -26,6 +26,7 @@ const createInitialTargetingState = (overrides = {}) => ({
 });
 
 //. Resolves selected targets into { side, section, keyName, index, card }
+//. IMPORTANT: Both single-section and multi-section modes now return consistent shape
 const resolveTargets = (state, areas) => {
   //* Extract targeting state
   const {
@@ -51,11 +52,11 @@ const resolveTargets = (state, areas) => {
         .filter(x => x && x.card);
     }
 
-    //* Single-section targeting mode
+    //* Single-section targeting mode - NOW returns full context like multi-section
     const isNested = !Array.isArray(areas[side]?.[section]);
     const cardsArr = isNested ? areas[side]?.[section]?.[keyName] : areas[side]?.[section];
     return (selectedIdx || [])
-      .map(i => (cardsArr ? { index: i, card: cardsArr[i] } : null))
+      .map(i => (cardsArr ? { side, section, keyName, index: i, card: cardsArr[i] } : null))
       .filter(x => x && x.card);
   } catch {
     //* Silently handle resolution errors

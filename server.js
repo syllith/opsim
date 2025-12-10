@@ -8,6 +8,8 @@ import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import http from 'http';
+import { Server as SocketIOServer } from 'socket.io';
 
 // ESM compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -16,6 +18,13 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 
 const app = express();
+const server = http.createServer(app);
+const io = new SocketIOServer(server, {
+    cors: {
+        origin: process.env.NODE_ENV === 'production' ? false : ['http://localhost:5173', 'http://localhost:5583'],
+        credentials: true
+    }
+});
 const PORT = 5583;
 
 // Parsers
@@ -260,7 +269,17 @@ app.get('/api/cards/data', (req, res) => {
             try {
                 const buf = fs.readFileSync(f, 'utf8');
                 const obj = JSON.parse(buf);
-                if (obj && obj.id) cards.push(obj);
+                const cardId = obj?.cardId || obj?.id;
+                if (!cardId) {
+                    console.warn('Card JSON missing cardId/id, skipping:', f);
+                    continue;
+                }
+
+                // Normalize to have both cardId and id populated so clients can key reliably
+                if (!obj.id) obj.id = cardId;
+                if (!obj.cardId) obj.cardId = cardId;
+
+                cards.push(obj);
             } catch (e) {
                 console.warn('Failed to parse card JSON:', f, e?.message || e);
             }
@@ -441,7 +460,371 @@ async function mongoDelete(db, collection, filter) {
     return mongoClient.db(db).collection(collection).deleteOne(filter);
 }
 
-app.listen(PORT, () => {
+// ============================================================================
+// MULTIPLAYER LOBBY SYSTEM (Socket.io)
+// ============================================================================
+
+// In-memory lobby storage (could move to MongoDB for persistence)
+const lobbies = new Map();
+const playerToLobby = new Map(); // socketId -> lobbyId
+const playerInfo = new Map(); // socketId -> { username, lobbyId, playerRole }
+
+// Generate unique lobby ID
+function generateLobbyId() {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
+}
+
+// Get lobby list for clients
+function getLobbyList() {
+    const list = [];
+    for (const [id, lobby] of lobbies) {
+        list.push({
+            id,
+            name: lobby.name,
+            hostName: lobby.hostName,
+            playerCount: lobby.players.length,
+            maxPlayers: 2,
+            status: lobby.status, // 'waiting', 'ready', 'playing'
+            createdAt: lobby.createdAt
+        });
+    }
+    return list.sort((a, b) => b.createdAt - a.createdAt);
+}
+
+// Broadcast lobby list to all connected clients
+function broadcastLobbyList() {
+    io.emit('lobbyList', getLobbyList());
+}
+
+io.on('connection', (socket) => {
+    console.log(`[Socket] Client connected: ${socket.id}`);
+
+    // Set username for this socket
+    socket.on('setUsername', (username) => {
+        playerInfo.set(socket.id, { username, lobbyId: null, playerRole: null });
+        console.log(`[Socket] ${socket.id} set username: ${username}`);
+    });
+
+    // Request current lobby list
+    socket.on('requestLobbyList', () => {
+        socket.emit('lobbyList', getLobbyList());
+    });
+
+    // Create a new lobby
+    socket.on('createLobby', (data) => {
+        const { lobbyName, deckConfig } = data;
+        const info = playerInfo.get(socket.id);
+        if (!info?.username) {
+            socket.emit('error', { message: 'Must be logged in to create a lobby' });
+            return;
+        }
+
+        // Leave current lobby if in one
+        const currentLobbyId = playerToLobby.get(socket.id);
+        if (currentLobbyId) {
+            leaveLobby(socket, currentLobbyId);
+        }
+
+        const lobbyId = generateLobbyId();
+        const lobby = {
+            id: lobbyId,
+            name: lobbyName || `${info.username}'s Lobby`,
+            hostId: socket.id,
+            hostName: info.username,
+            players: [{
+                socketId: socket.id,
+                username: info.username,
+                role: 'player', // 'player' = bottom of board
+                ready: false,
+                deckConfig: deckConfig || null
+            }],
+            status: 'waiting',
+            gameState: null,
+            createdAt: Date.now()
+        };
+
+        lobbies.set(lobbyId, lobby);
+        playerToLobby.set(socket.id, lobbyId);
+        info.lobbyId = lobbyId;
+        info.playerRole = 'player';
+        playerInfo.set(socket.id, info);
+
+        socket.join(lobbyId);
+        socket.emit('lobbyJoined', { lobby, role: 'player' });
+        broadcastLobbyList();
+        console.log(`[Lobby] Created: ${lobbyId} by ${info.username}`);
+    });
+
+    // Join an existing lobby
+    socket.on('joinLobby', (data) => {
+        const { lobbyId, deckConfig } = data;
+        const info = playerInfo.get(socket.id);
+        if (!info?.username) {
+            socket.emit('error', { message: 'Must be logged in to join a lobby' });
+            return;
+        }
+
+        const lobby = lobbies.get(lobbyId);
+        if (!lobby) {
+            socket.emit('error', { message: 'Lobby not found' });
+            return;
+        }
+
+        if (lobby.players.length >= 2) {
+            socket.emit('error', { message: 'Lobby is full' });
+            return;
+        }
+
+        if (lobby.status !== 'waiting') {
+            socket.emit('error', { message: 'Game already in progress' });
+            return;
+        }
+
+        // Leave current lobby if in one
+        const currentLobbyId = playerToLobby.get(socket.id);
+        if (currentLobbyId && currentLobbyId !== lobbyId) {
+            leaveLobby(socket, currentLobbyId);
+        }
+
+        // Add player as opponent (top of board)
+        lobby.players.push({
+            socketId: socket.id,
+            username: info.username,
+            role: 'opponent', // 'opponent' = top of board
+            ready: false,
+            deckConfig: deckConfig || null
+        });
+
+        playerToLobby.set(socket.id, lobbyId);
+        info.lobbyId = lobbyId;
+        info.playerRole = 'opponent';
+        playerInfo.set(socket.id, info);
+
+        socket.join(lobbyId);
+        
+        // Update status if lobby is now full
+        if (lobby.players.length === 2) {
+            lobby.status = 'ready';
+        }
+
+        socket.emit('lobbyJoined', { lobby, role: 'opponent' });
+        io.to(lobbyId).emit('lobbyUpdated', lobby);
+        broadcastLobbyList();
+        console.log(`[Lobby] ${info.username} joined ${lobbyId}`);
+    });
+
+    // Update deck configuration
+    socket.on('updateDeck', (deckConfig) => {
+        const lobbyId = playerToLobby.get(socket.id);
+        if (!lobbyId) return;
+
+        const lobby = lobbies.get(lobbyId);
+        if (!lobby) return;
+
+        const player = lobby.players.find(p => p.socketId === socket.id);
+        if (player) {
+            player.deckConfig = deckConfig;
+            io.to(lobbyId).emit('lobbyUpdated', lobby);
+        }
+    });
+
+    // Set ready status
+    socket.on('setReady', (isReady) => {
+        const lobbyId = playerToLobby.get(socket.id);
+        if (!lobbyId) return;
+
+        const lobby = lobbies.get(lobbyId);
+        if (!lobby) return;
+
+        const player = lobby.players.find(p => p.socketId === socket.id);
+        if (player) {
+            player.ready = isReady;
+            io.to(lobbyId).emit('lobbyUpdated', lobby);
+
+            // Check if both players are ready
+            if (lobby.players.length === 2 && lobby.players.every(p => p.ready)) {
+                lobby.status = 'playing';
+                io.to(lobbyId).emit('gameStart', {
+                    lobby,
+                    players: lobby.players.map(p => ({
+                        username: p.username,
+                        role: p.role,
+                        deckConfig: p.deckConfig
+                    }))
+                });
+                broadcastLobbyList();
+                console.log(`[Lobby] Game starting in ${lobbyId}`);
+            }
+        }
+    });
+
+    // Leave lobby
+    socket.on('leaveLobby', () => {
+        const lobbyId = playerToLobby.get(socket.id);
+        if (lobbyId) {
+            leaveLobby(socket, lobbyId);
+        }
+    });
+
+    // Game state synchronization
+    socket.on('gameAction', (action) => {
+        const lobbyId = playerToLobby.get(socket.id);
+        if (!lobbyId) return;
+
+        const lobby = lobbies.get(lobbyId);
+        if (!lobby || lobby.status !== 'playing') return;
+
+        const info = playerInfo.get(socket.id);
+        
+        // Broadcast the action to the other player
+        socket.to(lobbyId).emit('opponentAction', {
+            ...action,
+            from: info?.playerRole || 'unknown'
+        });
+    });
+
+    // Full game state sync (HOST ONLY - for reconnection or state updates)
+    // Only accept syncGameState from the host to prevent state manipulation
+    socket.on('syncGameState', (gameState) => {
+        const lobbyId = playerToLobby.get(socket.id);
+        if (!lobbyId) return;
+
+        const lobby = lobbies.get(lobbyId);
+        if (!lobby) return;
+
+        // SECURITY: Only the host can sync game state
+        if (socket.id !== lobby.hostId) {
+            console.log(`[Lobby] Rejected syncGameState from non-host: ${socket.id}`);
+            return;
+        }
+
+        // Store the canonical game state on the server
+        lobby.gameState = gameState;
+        
+        // Broadcast to ALL clients in the lobby (including host for consistency)
+        // This ensures both players receive the same event with the same state
+        io.to(lobbyId).emit('gameStateSync', gameState);
+        console.log(`[Lobby] Game state synced to lobby ${lobbyId}`);
+    });
+
+    // Guest sends action to host
+    socket.on('guestAction', (action) => {
+        const lobbyId = playerToLobby.get(socket.id);
+        if (!lobbyId) return;
+
+        const lobby = lobbies.get(lobbyId);
+        if (!lobby || lobby.status !== 'playing') return;
+
+        // Only non-hosts (guests) can send guest actions
+        const info = playerInfo.get(socket.id);
+        if (!info) return;
+
+        // Forward to the host
+        const hostSocket = lobby.hostId;
+        if (hostSocket && hostSocket !== socket.id) {
+            io.to(hostSocket).emit('guestAction', {
+                ...action,
+                from: info.username
+            });
+        }
+    });
+
+    // End turn notification
+    socket.on('endTurn', (data) => {
+        const lobbyId = playerToLobby.get(socket.id);
+        if (!lobbyId) return;
+
+        const lobby = lobbies.get(lobbyId);
+        if (!lobby || lobby.status !== 'playing') return;
+
+        const info = playerInfo.get(socket.id);
+        
+        // Notify opponent that turn has ended
+        socket.to(lobbyId).emit('turnEnded', {
+            ...data,
+            from: info?.playerRole || 'unknown'
+        });
+    });
+
+    // Game over
+    socket.on('gameOver', (data) => {
+        const lobbyId = playerToLobby.get(socket.id);
+        if (!lobbyId) return;
+
+        const lobby = lobbies.get(lobbyId);
+        if (!lobby) return;
+
+        lobby.status = 'finished';
+        io.to(lobbyId).emit('gameEnded', data);
+        broadcastLobbyList();
+    });
+
+    // Disconnect handling
+    socket.on('disconnect', () => {
+        const lobbyId = playerToLobby.get(socket.id);
+        if (lobbyId) {
+            leaveLobby(socket, lobbyId, true);
+        }
+        playerInfo.delete(socket.id);
+        console.log(`[Socket] Client disconnected: ${socket.id}`);
+    });
+});
+
+// Helper: Leave a lobby
+function leaveLobby(socket, lobbyId, disconnected = false) {
+    const lobby = lobbies.get(lobbyId);
+    if (!lobby) return;
+
+    const info = playerInfo.get(socket.id);
+    const leavingPlayer = lobby.players.find(p => p.socketId === socket.id);
+    
+    // Remove player from lobby
+    lobby.players = lobby.players.filter(p => p.socketId !== socket.id);
+    playerToLobby.delete(socket.id);
+    
+    if (info) {
+        info.lobbyId = null;
+        info.playerRole = null;
+        playerInfo.set(socket.id, info);
+    }
+
+    socket.leave(lobbyId);
+
+    if (lobby.players.length === 0) {
+        // Delete empty lobby
+        lobbies.delete(lobbyId);
+        console.log(`[Lobby] Deleted empty lobby: ${lobbyId}`);
+    } else {
+        // If host left, transfer host to remaining player
+        if (lobby.hostId === socket.id) {
+            const newHost = lobby.players[0];
+            lobby.hostId = newHost.socketId;
+            lobby.hostName = newHost.username;
+        }
+        
+        // Reset status if game was in progress or ready
+        if (lobby.status === 'playing') {
+            // Notify remaining player that opponent left
+            io.to(lobbyId).emit('opponentLeft', {
+                username: leavingPlayer?.username || 'Unknown',
+                disconnected
+            });
+        }
+        
+        lobby.status = 'waiting';
+        io.to(lobbyId).emit('lobbyUpdated', lobby);
+    }
+
+    broadcastLobbyList();
+    console.log(`[Lobby] Player left ${lobbyId}, ${lobby.players.length} remaining`);
+}
+
+// API endpoint to get lobbies (alternative to socket for initial load)
+app.get('/api/lobbies', (req, res) => {
+    res.json({ lobbies: getLobbyList() });
+});
+
+server.listen(PORT, () => {
     console.log(`One Piece TCG Sim server running on port ${PORT}`);
 });
 

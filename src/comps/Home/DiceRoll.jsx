@@ -1,24 +1,31 @@
 // DiceRoll.jsx - Dice roll component to determine who goes first
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Paper, Typography, Button } from '@mui/material';
+import { Box, Paper, Typography, Button, CircularProgress } from '@mui/material';
 import CasinoIcon from '@mui/icons-material/Casino';
 
 const DiceRoll = ({
   onComplete, // Called with { firstPlayer: 'player' | 'opponent' }
-  visible = false
+  visible = false,
+  isHost = true, // In multiplayer, only host determines outcome
+  isMultiplayer = false, // Is this a multiplayer game?
+  syncedResult = null, // Result received from host (for guest)
+  onDiceRolled = null // Called by host when dice result is determined (for broadcasting)
 }) => {
   const [rolling, setRolling] = useState(false);
   const [playerRoll, setPlayerRoll] = useState(null);
   const [opponentRoll, setOpponentRoll] = useState(null);
   const [result, setResult] = useState(null);
   const [showResult, setShowResult] = useState(false);
+  const [finalRolls, setFinalRolls] = useState(null); // Store final roll values
+  const [countdown, setCountdown] = useState(null); // Auto-continue countdown
 
-  const rollDice = useCallback(() => {
+  const rollDice = useCallback((presetResult = null) => {
     setRolling(true);
     setPlayerRoll(null);
     setOpponentRoll(null);
     setResult(null);
     setShowResult(false);
+    setCountdown(null);
 
     // Animate dice rolling
     let rollCount = 0;
@@ -31,44 +38,127 @@ const DiceRoll = ({
       if (rollCount >= maxRolls) {
         clearInterval(rollInterval);
 
-        // Final roll
-        let pRoll, oRoll;
-        do {
-          pRoll = Math.floor(Math.random() * 6) + 1;
-          oRoll = Math.floor(Math.random() * 6) + 1;
-        } while (pRoll === oRoll); // Re-roll on tie
+        let pRoll, oRoll, firstPlayer;
+        
+        if (presetResult) {
+          // Guest uses preset result from host
+          firstPlayer = presetResult.firstPlayer;
+          pRoll = presetResult.playerRoll;
+          oRoll = presetResult.opponentRoll;
+        } else {
+          // Host determines the actual result
+          do {
+            pRoll = Math.floor(Math.random() * 6) + 1;
+            oRoll = Math.floor(Math.random() * 6) + 1;
+          } while (pRoll === oRoll); // Re-roll on tie
+          firstPlayer = pRoll > oRoll ? 'player' : 'opponent';
+          
+          // Host broadcasts the result immediately so guest can start rolling
+          if (onDiceRolled) {
+            onDiceRolled({ firstPlayer, playerRoll: pRoll, opponentRoll: oRoll });
+          }
+        }
 
         setPlayerRoll(pRoll);
         setOpponentRoll(oRoll);
         setRolling(false);
-
-        const firstPlayer = pRoll > oRoll ? 'player' : 'opponent';
         setResult(firstPlayer);
+        setFinalRolls({ playerRoll: pRoll, opponentRoll: oRoll });
 
         // Show result after a brief pause
         setTimeout(() => {
           setShowResult(true);
+          // Start 3 second countdown
+          setCountdown(3);
         }, 500);
       }
     }, 100);
-  }, []);
+  }, [onDiceRolled]);
 
   const handleContinue = useCallback(() => {
-    if (result) {
-      onComplete({ firstPlayer: result });
+    if (result && finalRolls) {
+      setCountdown(null); // Clear countdown
+      onComplete({ firstPlayer: result, ...finalRolls });
     }
-  }, [result, onComplete]);
+  }, [result, finalRolls, onComplete]);
+
+  // Auto-continue countdown effect
+  useEffect(() => {
+    if (countdown === null || countdown <= 0) return;
+    
+    const timer = setTimeout(() => {
+      if (countdown === 1) {
+        // Countdown finished, auto-continue
+        handleContinue();
+      } else {
+        setCountdown(countdown - 1);
+      }
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, [countdown, handleContinue]);
 
   // Auto-roll when component becomes visible
   useEffect(() => {
     if (visible && !rolling && !result) {
-      // Small delay before starting roll
-      const timer = setTimeout(rollDice, 500);
-      return () => clearTimeout(timer);
+      if (isMultiplayer && !isHost && syncedResult) {
+        // Guest plays animation with synced result
+        const timer = setTimeout(() => rollDice(syncedResult), 500);
+        return () => clearTimeout(timer);
+      } else if (isMultiplayer && !isHost && !syncedResult) {
+        // Guest waiting for synced result - don't roll yet
+        return;
+      } else {
+        // Host or non-multiplayer: start rolling
+        const timer = setTimeout(() => rollDice(), 500);
+        return () => clearTimeout(timer);
+      }
     }
-  }, [visible, rolling, result, rollDice]);
+  }, [visible, rolling, result, rollDice, isMultiplayer, isHost, syncedResult]);
 
   if (!visible) return null;
+
+  // Guest waiting for host to roll (no synced result yet)
+  if (isMultiplayer && !isHost && !syncedResult && !rolling && !result) {
+    return (
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          bgcolor: 'rgba(0, 0, 0, 0.85)',
+          zIndex: 2000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Paper
+          elevation={12}
+          sx={{
+            p: 4,
+            minWidth: 400,
+            maxWidth: 500,
+            textAlign: 'center',
+            bgcolor: 'background.paper',
+            border: '3px solid',
+            borderColor: 'primary.main',
+            borderRadius: 3
+          }}
+        >
+          <CircularProgress size={64} sx={{ mb: 2 }} />
+          <Typography variant="h5" fontWeight={700} gutterBottom>
+            Waiting for Host
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Host is rolling the dice...
+          </Typography>
+        </Paper>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -247,21 +337,21 @@ const DiceRoll = ({
           </Box>
         )}
 
-        {/* Continue Button */}
-        {showResult && (
-          <Button
-            variant="contained"
-            size="large"
-            onClick={handleContinue}
-            sx={{
-              px: 6,
-              py: 1.5,
-              fontSize: '1.1rem',
-              animation: 'fadeIn 0.5s ease'
-            }}
-          >
-            Continue to Opening Hands
-          </Button>
+        {/* Auto-continue countdown */}
+        {showResult && countdown !== null && (
+          <Box sx={{ animation: 'fadeIn 0.5s ease' }}>
+            <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+              Continuing to Opening Hands in {countdown}...
+            </Typography>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={handleContinue}
+              sx={{ opacity: 0.7 }}
+            >
+              Skip
+            </Button>
+          </Box>
         )}
       </Paper>
     </Box>

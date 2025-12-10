@@ -2,20 +2,23 @@ import { useEffect, useCallback, useRef } from 'react';
 import _ from 'lodash';
 
 //. Creates initial empty board areas
+//. Both sides have symmetric structure with top and bottom for multiplayer board flipping
 export const createInitialAreas = () => ({
   opponent: {
     top: { hand: [], trash: [], cost: [], don: [] },
+    bottom: { hand: [], don: [], cost: [], trash: [] },
     middle: { deck: [], stage: [], leader: [], leaderDon: [] },
     char: [],
     charDon: [],
     life: []
   },
   player: {
+    top: { hand: [], trash: [], cost: [], don: [] },
+    bottom: { hand: [], don: [], cost: [], trash: [] },
     life: [],
     char: [],
     charDon: [],
-    middle: { leader: [], leaderDon: [], stage: [], deck: [] },
-    bottom: { hand: [], don: [], cost: [], trash: [] }
+    middle: { leader: [], leaderDon: [], stage: [], deck: [] }
   }
 });
 
@@ -43,7 +46,8 @@ export function useDeckInitializer({
   openingHandRef,
   demoConfig: { HARDCODED, DEMO_LEADER, DEMO_DECK_ITEMS },
   cardBackUrl,
-  gameMode // Game mode must be selected before initialization
+  gameMode, // Game mode must be selected before initialization
+  isMultiplayerHost = true // In multiplayer, only host initializes decks
 }) {
   //. Card back factory
   const createCardBacks = useCallback((count) => {
@@ -77,6 +81,13 @@ export function useDeckInitializer({
   useEffect(() => {
     //. Guard: must be logged in, have a game mode selected, and card list loaded
     if (!isLoggedIn || !gameMode || !allCards.length || gameInitializedRef.current) { return; }
+
+    //. In multiplayer, only the host initializes decks - guest receives state from host
+    if (gameMode === 'multiplayer' && !isMultiplayerHost) {
+      console.log('[DeckInit] Skipping deck init - multiplayer guest waits for host state');
+      gameInitializedRef.current = true;
+      return;
+    }
 
     //. Guard: already initialized if any library has entries
     if (library.length || oppLibrary.length) { return; }

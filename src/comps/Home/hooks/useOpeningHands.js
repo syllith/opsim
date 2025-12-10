@@ -1,0 +1,146 @@
+import { useState, useRef, useCallback, useEffect } from 'react';
+import _ from 'lodash';
+
+export default function useOpeningHands({
+    gameMode,
+    multiplayer,
+    library,
+    oppLibrary,
+    setLibrary,
+    setOppLibrary,
+    setAreas,
+    createCardBacks,
+    getAssetForId,
+    openingHandRef,
+    appendLog,
+    executeRefreshPhaseRef,
+    broadcastStateToOpponentRef,
+    setTurnSide,
+    setTurnNumber,
+    setPhase,
+    setSetupPhase,
+    setOpeningHandShown,
+    getPlayerDisplayName,
+    firstPlayer
+}) {
+    // UI state
+    const [playerHandSelected, setPlayerHandSelected] = useState(false);
+    const [opponentHandSelected, setOpponentHandSelected] = useState(false);
+    const [openingHandsBothSelected, setOpeningHandsBothSelected] = useState(false);
+
+    // Refs used to avoid stale closures and to expose to parent when needed
+    const playerHandSelectedRef = useRef(false);
+    const opponentHandSelectedRef = useRef(false);
+    const guestHandInitializedRef = useRef(false);
+    const openingHandsFinalizedRef = useRef(false);
+
+    // Apply opening hand for a specific side (used by host to apply guest's selection)
+    const applyOpeningHandForSide = useCallback((side) => {
+        const lib = side === 'player' ? library : oppLibrary;
+        const setLib = side === 'player' ? setLibrary : setOppLibrary;
+
+        // Get the top 5 cards (opening hand) and next 5 (life)
+        const handIds = _.takeRight(lib, 5);
+        const lifeIds = lib.slice(-10, -5);
+
+        const handAssets = handIds.map(id => getAssetForId(id)).filter(Boolean);
+        const lifeAssets = lifeIds.map(id => getAssetForId(id)).filter(Boolean).reverse();
+
+        setAreas((prev) => {
+            const next = _.cloneDeep(prev);
+
+            if (side === 'player') {
+                next.player.bottom.hand = handAssets;
+                next.player.life = lifeAssets;
+                const remain = Math.max(0, (next.player.middle.deck || []).length - 10);
+                next.player.middle.deck = createCardBacks(remain);
+            } else {
+                next.opponent.top.hand = handAssets;
+                next.opponent.life = lifeAssets;
+                const remain = Math.max(0, (next.opponent.middle.deck || []).length - 10);
+                next.opponent.middle.deck = createCardBacks(remain);
+            }
+
+            return next;
+        });
+
+        // Remove 10 cards from library (5 hand + 5 life)
+        setLib(prev => prev.slice(0, -10));
+    }, [library, oppLibrary, getAssetForId, createCardBacks, setAreas, setLibrary, setOppLibrary]);
+
+    // Finalize opening hands and start the game (idempotent)
+    const finalizeOpeningHands = useCallback((firstPlayer) => {
+        if (openingHandsFinalizedRef.current) { return; }
+        openingHandsFinalizedRef.current = true;
+
+        // Close the opening hand overlay for both sides
+        setOpeningHandShown && setOpeningHandShown(false);
+
+        //. Guests should not drive turn initialization; they only hide the UI
+        if (gameMode === 'multiplayer' && !multiplayer.isHost) {
+            setSetupPhase('complete');
+            return;
+        }
+
+        setSetupPhase('complete');
+
+        const starter = firstPlayer || 'player';
+        setTurnSide(starter);
+        setTurnNumber(1);
+        executeRefreshPhaseRef && executeRefreshPhaseRef.current && executeRefreshPhaseRef.current(starter);
+        setPhase('Draw');
+        appendLog && appendLog(`Game started! ${getPlayerDisplayName ? getPlayerDisplayName(starter) : starter} goes first.`);
+
+        //. Push an immediate sync so the guest closes their dialog and advances
+        if (gameMode === 'multiplayer' && multiplayer.isHost) {
+            setTimeout(() => {
+                broadcastStateToOpponentRef && broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
+            }, 50);
+        }
+    }, [appendLog, executeRefreshPhaseRef, gameMode, getPlayerDisplayName, multiplayer.isHost, setOpeningHandShown, setPhase, setSetupPhase, setTurnNumber, setTurnSide, firstPlayer]);
+
+    // Handle when a player finishes selecting their hand
+    const handleHandSelected = useCallback((side) => {
+        //. Multiplayer simultaneous selection
+        if (gameMode === 'multiplayer') {
+            //. Mark this side as having selected (update both state and ref)
+            if (side === 'player') {
+                setPlayerHandSelected(true);
+                playerHandSelectedRef.current = true;
+            } else {
+                setOpponentHandSelected(true);
+                opponentHandSelectedRef.current = true;
+            }
+
+            //. Check if both sides have selected using refs (avoids stale closure issues)
+            const playerDone = playerHandSelectedRef.current;
+            const opponentDone = opponentHandSelectedRef.current;
+            setOpeningHandsBothSelected(playerDone && opponentDone);
+
+            //. Host finalizes immediately once both are done; guest just hides their UI
+            if (playerDone && opponentDone) {
+                finalizeOpeningHands(firstPlayer);
+            }
+            return;
+        }
+
+        // For non-multiplayer flows finalization is handled externally
+    }, [gameMode, finalizeOpeningHands, firstPlayer]);
+
+    // Expose a small API and refs so parent can integrate with existing effects
+    return {
+        playerHandSelected,
+        setPlayerHandSelected,
+        opponentHandSelected,
+        setOpponentHandSelected,
+        openingHandsBothSelected,
+        setOpeningHandsBothSelected,
+        playerHandSelectedRef,
+        opponentHandSelectedRef,
+        guestHandInitializedRef,
+        openingHandsFinalizedRef,
+        applyOpeningHandForSide,
+        finalizeOpeningHands,
+        handleHandSelected
+    };
+}

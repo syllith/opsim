@@ -161,6 +161,13 @@ export default function Actions({
   //. Handles panel close with targeting cleanup
   const handlePanelClose = useCallback(() => {
     try {
+      //. Don't cancel attack targeting when action panel closes - attacks should persist
+      if (targeting?.type === 'attack') {
+        //. Attack targeting should continue even when panel closes
+        onClose?.();
+        return;
+      }
+
       if (targeting?.active && isSameOrigin(targeting.origin, actionSource)) {
         cancelTargeting?.();
       } else if (targeting?.active) {
@@ -173,6 +180,7 @@ export default function Actions({
   }, [
     targeting?.active,
     targeting?.origin,
+    targeting?.type,
     actionSource,
     cancelTargeting,
     suspendTargeting,
@@ -220,6 +228,12 @@ export default function Actions({
       try {
         const currentTargeting = latestTargetingRef.current;
         const currentSource = latestActionSourceRef.current;
+
+        //. Don't cancel attack targeting when action panel closes - attacks should persist
+        if (currentTargeting?.type === 'attack') {
+          //. Attack targeting should continue even when panel closes
+          return;
+        }
 
         if (currentTargeting?.active && isSameOrigin(currentTargeting.origin, currentSource)) {
           cancelTargeting?.();

@@ -46,7 +46,9 @@ export function useBattleSystem({
   turnSide,
   phaseLower,
   turnNumber,
-  getCardMeta
+  getCardMeta,
+  //. Multiplayer: only host should run automatic state transitions
+  isAuthoritative = true
 }) {
   //. Step helpers --------------------------------------------------------
 
@@ -430,15 +432,17 @@ export function useBattleSystem({
   );
 
   //. Step transitions (attack → block) ----------------------------------
+  //. Only run automatic transitions on the authoritative side (host in multiplayer)
 
   useEffect(() => {
+    if (!isAuthoritative) { return; } //. Guest should not auto-transition
     if (!battle) { return; }
     if (battle.step === 'attack') {
       appendLog('[battle] Attack Step complete. Proceed to Block Step.');
       cancelTargeting();
       setBattle((b) => ({ ...b, step: 'block' }));
     }
-  }, [battle, appendLog, cancelTargeting, setBattle]);
+  }, [battle, appendLog, cancelTargeting, setBattle, isAuthoritative]);
 
   //. Power helpers -------------------------------------------------------
 
@@ -799,8 +803,10 @@ export function useBattleSystem({
   );
 
   //. Automatic resolution / cleanup -------------------------------------
+  //. Only run on authoritative side (host in multiplayer)
 
   useEffect(() => {
+    if (!isAuthoritative) { return; } //. Guest should not auto-resolve
     if (!battle) { return; }
 
     if (battle.step === 'damage') {
@@ -811,11 +817,14 @@ export function useBattleSystem({
       setCurrentAttack(null);
       setBattleArrow(null);
     }
-  }, [appendLog, battle, resolveDamage, setBattle, setBattleArrow, setCurrentAttack]);
+  }, [appendLog, battle, resolveDamage, setBattle, setBattleArrow, setCurrentAttack, isAuthoritative]);
 
   //. Arrow / visual feedback --------------------------------------------
+  //. Only compute on authoritative side - guest receives via sync
 
   useEffect(() => {
+    if (!isAuthoritative) { return; } //. Guest receives battleArrow via sync
+    
     if (!battle) {
       setBattleArrow(null);
       return;
@@ -848,7 +857,7 @@ export function useBattleSystem({
     )}${defenderLabel}`;
 
     setBattleArrow({ fromKey, toKey, label });
-  }, [battle, getAttackerPower, getDefenderPower, modKey, setBattleArrow]);
+  }, [battle, getAttackerPower, getDefenderPower, modKey, setBattleArrow, isAuthoritative]);
 
   //. Public API ----------------------------------------------------------
 
