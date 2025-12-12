@@ -79,15 +79,19 @@ export default function useOpeningHands({
         setSetupPhase('complete');
 
         const starter = firstPlayer || 'player';
+        // Comprehensive Rules 6-3-1: the player going first does not draw on their first turn.
+        // Start directly in DON!! phase so the UI never shows a no-op draw prompt.
+        const initialPhase = 'Don';
         
         // In multiplayer, sync the game start state to server
         if (gameMode === 'multiplayer') {
             // Initialize turn state locally
             setTurnSide(starter);
             setTurnNumber(1);
-            setPhase('Draw');
+            setPhase(initialPhase);
             executeRefreshPhaseRef && executeRefreshPhaseRef.current && executeRefreshPhaseRef.current(starter);
             appendLog && appendLog(`Game started! ${getPlayerDisplayName ? getPlayerDisplayName(starter) : starter} goes first.`);
+            appendLog && appendLog('First turn: skipping Draw Phase.');
             
             // Sync to server
             setTimeout(() => {
@@ -95,7 +99,7 @@ export default function useOpeningHands({
                     setupPhase: 'complete',
                     turnSide: starter,
                     turnNumber: 1,
-                    phase: 'Draw',
+                    phase: initialPhase,
                     playerHandSelected: true,
                     opponentHandSelected: true
                 });
@@ -107,8 +111,9 @@ export default function useOpeningHands({
         setTurnSide(starter);
         setTurnNumber(1);
         executeRefreshPhaseRef && executeRefreshPhaseRef.current && executeRefreshPhaseRef.current(starter);
-        setPhase('Draw');
+        setPhase(initialPhase);
         appendLog && appendLog(`Game started! ${getPlayerDisplayName ? getPlayerDisplayName(starter) : starter} goes first.`);
+        appendLog && appendLog('First turn: skipping Draw Phase.');
     }, [appendLog, executeRefreshPhaseRef, gameMode, getPlayerDisplayName, multiplayer, setOpeningHandShown, setPhase, setSetupPhase, setTurnNumber, setTurnSide, firstPlayer]);
 
     // Handle when a player finishes selecting their hand

@@ -58,22 +58,36 @@ export default function usePhaseActions({
 
     // Label for Next Action button based on phase
     const nextActionLabel = useMemo(() => {
+        const isFirst = turnNumber === 1 && turnSide === firstPlayer;
+
         if (phaseLower === 'draw') return 'Draw Card';
         if (phaseLower === 'don') {
-            const requestedAmount = turnNumber === 1 && turnSide === 'player' ? 1 : 2;
+            const requestedAmount = isFirst ? 1 : 2;
             const donDeck = getDonDeckArray(turnSide);
             const availableDon = _.size(donDeck);
             const actualAmount = Math.min(requestedAmount, availableDon);
             return `Gain ${actualAmount} DON!!`;
         }
         return endTurnConfirming ? 'Are you sure?' : 'End Turn';
-    }, [phaseLower, turnNumber, turnSide, endTurnConfirming, getDonDeckArray]);
+    }, [phaseLower, turnNumber, turnSide, firstPlayer, endTurnConfirming, getDonDeckArray]);
+
+    // Auto-skip Draw Phase on the first player's first turn (CR 6-3-1)
+    useEffect(() => {
+        if (!canPerformGameAction() || phaseLower !== 'draw') return;
+        const isFirst = turnNumber === 1 && turnSide === firstPlayer;
+        if (!isFirst) return;
+
+        appendLog('First turn: skipping Draw Phase.');
+        setPhase('Don');
+        broadcastSoon(100);
+    }, [appendLog, broadcastSoon, canPerformGameAction, firstPlayer, phaseLower, setPhase, turnNumber, turnSide]);
 
     // Auto-skip DON phase if deck empty
     useEffect(() => {
         if (!canPerformGameAction() || phaseLower !== 'don') return;
 
-        const requestedAmount = turnNumber === 1 && turnSide === 'player' ? 1 : 2;
+        const isFirst = turnNumber === 1 && turnSide === firstPlayer;
+        const requestedAmount = isFirst ? 1 : 2;
         const donDeck = getDonDeckArray(turnSide);
         const availableDon = donDeck.length;
         const actualAmount = Math.min(requestedAmount, availableDon);
@@ -82,7 +96,7 @@ export default function usePhaseActions({
             appendLog('DON!! deck empty: skipping DON phase.');
             setPhase('Main');
         }
-    }, [phaseLower, turnNumber, turnSide, canPerformGameAction, getDonDeckArray, appendLog, setPhase]);
+    }, [phaseLower, turnNumber, turnSide, firstPlayer, canPerformGameAction, getDonDeckArray, appendLog, setPhase]);
 
     // Handle Draw/DON/End Turn button
     const onNextAction = useCallback(() => {
