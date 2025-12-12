@@ -821,65 +821,80 @@ export default function Home() {
             return;
         }
 
-        let placedFieldIndex = -1;
+        // IMPORTANT (multiplayer): build the next areas snapshot synchronously and
+        // sync THAT snapshot. React state updates are async; calling broadcast using
+        // the closed-over `areas` can send a stale pre-move snapshot and cause the
+        // server to immediately overwrite the optimistic local move.
+        const nextAreas = cloneAreas(areas);
+        const isPlayer = side === 'player';
 
-        setAreas((prev) => {
-            const next = cloneAreas(prev);
-            const isPlayer = side === 'player';
+        const hand = _.get(nextAreas, isPlayer ? 'player.bottom.hand' : 'opponent.top.hand', []);
+        const cardIndex = actionCardIndex >= 0
+            ? actionCardIndex
+            : _.findIndex(hand, ['id', actionCard.id]);
+        const chars = _.get(nextAreas, isPlayer ? 'player.char' : 'opponent.char', []);
 
-            const hand = _.get(next, isPlayer ? 'player.bottom.hand' : 'opponent.top.hand', []);
-            const cardIndex = actionCardIndex >= 0
-                ? actionCardIndex
-                : _.findIndex(hand, ['id', actionCard.id]);
-            const chars = _.get(next, isPlayer ? 'player.char' : 'opponent.char', []);
+        //. Can only play if we found the card and have room
+        if (cardIndex === -1 || chars.length >= 5) {
+            return;
+        }
 
-            //. Can only play if we found the card and have room
-            if (cardIndex === -1 || chars.length >= 5) {
-                return next;
-            }
+        //. Pay DON cost
+        if (cost > 0) {
+            const pool = isPlayer ? (nextAreas.player.bottom.cost || []) : (nextAreas.opponent.top.cost || []);
+            let remainingCost = cost;
 
-            //. Pay DON cost
-            if (cost > 0) {
-                const pool = isPlayer ? (next.player.bottom.cost || []) : (next.opponent.top.cost || []);
-                let remainingCost = cost;
-
-                for (let i = 0; i < pool.length && remainingCost > 0; i++) {
-                    const don = pool[i];
-                    if (don.id === 'DON' && !don.rested) {
-                        don.rested = true;
-                        remainingCost--;
-                    }
+            for (let i = 0; i < pool.length && remainingCost > 0; i++) {
+                const don = pool[i];
+                if (don?.id === 'DON' && !don.rested) {
+                    don.rested = true;
+                    remainingCost--;
                 }
             }
+        }
 
-            //. Remove from hand and place on field
-            const [cardToPlay] = hand.splice(cardIndex, 1);
-            if (isPlayer) {
-                next.player.bottom.hand = hand;
-            } else {
-                next.opponent.top.hand = hand;
-            }
+        //. Remove from hand and place on field
+        const [cardToPlay] = hand.splice(cardIndex, 1);
+        if (isPlayer) {
+            nextAreas.player.bottom.hand = hand;
+        } else {
+            nextAreas.opponent.top.hand = hand;
+        }
 
-            placedFieldIndex = chars.length;
-            const placedCard = { ...cardToPlay, rested: false, enteredTurn: turnNumber, justPlayed: true };
+        const placedCard = { ...cardToPlay, rested: false, enteredTurn: turnNumber, justPlayed: true };
 
-            if (isPlayer) {
-                next.player.char = [...chars, placedCard];
-            } else {
-                next.opponent.char = [...chars, placedCard];
-            }
+        if (isPlayer) {
+            nextAreas.player.char = [...chars, placedCard];
+        } else {
+            nextAreas.opponent.char = [...chars, placedCard];
+        }
 
-            return next;
-        });
+        setAreas(nextAreas);
 
         const logMessage = `[${side}] Played ${actionCard.id}${cost ? ` by resting ${cost} DON` : ''}.`;
         appendLog(logMessage);
 
-        //. Sync to multiplayer opponent (unified: both sides can sync snapshots)
+        //. Sync to multiplayer opponent (send the post-move snapshot)
         if (gameMode === 'multiplayer' && multiplayer.gameStarted) {
-            setTimeout(() => {
-                broadcastStateToOpponent();
-            }, 50);
+            multiplayer.syncGameState({
+                areas: nextAreas,
+                library,
+                oppLibrary,
+                turnSide,
+                turnNumber,
+                phase,
+                firstPlayer,
+                currentHandSide,
+                setupPhase,
+                playerHandSelected,
+                opponentHandSelected,
+                modifiers: getModifierState && getModifierState(),
+                battle,
+                currentAttack,
+                battleArrow,
+                oncePerTurnUsage,
+                attackLocked
+            });
         }
     }, [
         actionCard,
@@ -892,10 +907,25 @@ export default function Home() {
         getCardCost,
         hasEnoughDonFor,
         setAreas,
+        areas,
+        cloneAreas,
         turnNumber,
         gameMode,
         multiplayer,
-        broadcastStateToOpponent
+        library,
+        oppLibrary,
+        phase,
+        firstPlayer,
+        currentHandSide,
+        setupPhase,
+        playerHandSelected,
+        opponentHandSelected,
+        getModifierState,
+        battle,
+        currentAttack,
+        battleArrow,
+        oncePerTurnUsage,
+        attackLocked
     ]);
 
     const {
