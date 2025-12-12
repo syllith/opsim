@@ -573,32 +573,37 @@ export default function Home() {
         broadcastStateToOpponentRef.current = broadcastStateToOpponent;
     }, [broadcastStateToOpponent]);
 
-    //. Auto-broadcast battle state changes to keep host and guest in sync
-    //. This ensures step transitions (block→counter→damage→end) are synced
-    const prevBattleRef = useRef(null);
+    //. Auto-broadcast battle-related state changes to keep host and guest in sync.
+    //. IMPORTANT: the red attack arrow (`battleArrow`) can change without the `battle` object changing.
+    //. If we only sync on `battle` changes, one client will see the arrow while the other won't.
+    const prevBattleSyncRef = useRef({ battle: null, currentAttack: null, battleArrow: null });
     useEffect(() => {
         if (gameMode !== 'multiplayer' || !multiplayer.gameStarted) {
-            prevBattleRef.current = battle;
+            prevBattleSyncRef.current = { battle, currentAttack, battleArrow };
             return;
         }
 
-        //. Only process if battle state actually changed
-        const prevBattle = prevBattleRef.current;
-        const battleChanged = JSON.stringify(prevBattle) !== JSON.stringify(battle);
-        
-        if (!battleChanged) {
+        const prev = prevBattleSyncRef.current || { battle: null, currentAttack: null, battleArrow: null };
+        const battleChanged = !_.isEqual(prev.battle, battle);
+        const attackChanged = !_.isEqual(prev.currentAttack, currentAttack);
+        const arrowChanged = !_.isEqual(prev.battleArrow, battleArrow);
+
+        if (!battleChanged && !attackChanged && !arrowChanged) {
             return;
         }
 
-        prevBattleRef.current = battle;
+        prevBattleSyncRef.current = { battle, currentAttack, battleArrow };
 
         //. Unified multiplayer: both clients sync their local battle changes via state snapshots.
-        console.log(`[Multiplayer ${multiplayer.isHost ? 'Host' : 'Guest'}] Battle state changed, syncing snapshot:`, battle?.step || 'null');
+        console.log(
+            `[Multiplayer ${multiplayer.isHost ? 'Host' : 'Guest'}] Battle sync (${battleChanged ? 'battle ' : ''}${attackChanged ? 'attack ' : ''}${arrowChanged ? 'arrow' : ''}), step:`,
+            battle?.step || 'null'
+        );
         const timeoutId = setTimeout(() => {
             broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
         }, 50);
         return () => clearTimeout(timeoutId);
-    }, [battle, currentAttack, battleArrow, areas, gameMode, multiplayer.isHost, multiplayer.gameStarted]);
+    }, [battle, currentAttack, battleArrow, gameMode, multiplayer.gameStarted, multiplayer.isHost]);
 
     const handleDiceRollComplete = useCallback(({ firstPlayer: winner, playerRoll, opponentRoll }) => {
         const setupOrder = { dice: 0, hands: 1, 'hand-first': 1, complete: 2 };

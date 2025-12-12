@@ -323,7 +323,8 @@ export function useBattleSystem({
 
       //. Rest the attacking character immediately upon declaration (CR 7-4-3)
       mutateAreasSafe((next) => {
-        restInstance(next, [attackingSide, 'char', 'char', attackerIndex]);
+        // Character area is stored at areas[side].char[index]
+        restInstance(next, [attackingSide, 'char', attackerIndex]);
       }, { onErrorLabel: '[beginAttackForCard] Failed to rest attacker' });
 
       //. Enter "declaring" so On Attack abilities can fire during target selection
@@ -364,7 +365,7 @@ export function useBattleSystem({
           if (!t) {
             //. Attack cancelled – unreset attacker and clear battle state
             mutateAreasSafe((next) => {
-              const inst = _.get(next, [attackingSide, 'char', 'char', attackerIndex]);
+              const inst = _.get(next, [attackingSide, 'char', attackerIndex]);
               if (inst) inst.rested = false;
             }, { onErrorLabel: '[beginAttackForCard] Failed to unrest attacker' });
             setCurrentAttack(null);
@@ -804,11 +805,11 @@ export function useBattleSystem({
   }, [appendLog, battle, resolveDamage, setBattle, setBattleArrow, setCurrentAttack, isAuthoritative]);
 
   //. Arrow / visual feedback --------------------------------------------
-  //. Only compute on authoritative side - guest receives via sync
+  //. Compute locally on each client.
+  // In multiplayer, relying on host-only arrow computation can cause the attacking guest
+  // to never see their own arrow if the host suppresses broadcasts while applying a server sync.
 
   useEffect(() => {
-    if (!isAuthoritative) { return; } //. Guest receives battleArrow via sync
-    
     if (!battle) {
       setBattleArrow(null);
       return;
@@ -841,7 +842,7 @@ export function useBattleSystem({
     )}${defenderLabel}`;
 
     setBattleArrow({ fromKey, toKey, label });
-  }, [battle, getAttackerPower, getDefenderPower, modKey, setBattleArrow, isAuthoritative]);
+  }, [battle, getAttackerPower, getDefenderPower, modKey, setBattleArrow]);
 
   //. Public API ----------------------------------------------------------
 
