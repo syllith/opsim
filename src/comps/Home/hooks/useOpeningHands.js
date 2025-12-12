@@ -76,33 +76,48 @@ export default function useOpeningHands({
         // Close the opening hand overlay for both sides
         setOpeningHandShown && setOpeningHandShown(false);
 
-        //. Guests should not drive turn initialization; they only hide the UI
-        if (gameMode === 'multiplayer' && !multiplayer.isHost) {
-            setSetupPhase('complete');
-            return;
-        }
-
         setSetupPhase('complete');
 
         const starter = firstPlayer || 'player';
+        
+        // In multiplayer, sync the game start state to server
+        if (gameMode === 'multiplayer') {
+            // Initialize turn state locally
+            setTurnSide(starter);
+            setTurnNumber(1);
+            setPhase('Draw');
+            executeRefreshPhaseRef && executeRefreshPhaseRef.current && executeRefreshPhaseRef.current(starter);
+            appendLog && appendLog(`Game started! ${getPlayerDisplayName ? getPlayerDisplayName(starter) : starter} goes first.`);
+            
+            // Sync to server
+            setTimeout(() => {
+                multiplayer.syncGameState({
+                    setupPhase: 'complete',
+                    turnSide: starter,
+                    turnNumber: 1,
+                    phase: 'Draw',
+                    playerHandSelected: true,
+                    opponentHandSelected: true
+                });
+            }, 100);
+            return;
+        }
+
+        // Single-player: initialize turn locally
         setTurnSide(starter);
         setTurnNumber(1);
         executeRefreshPhaseRef && executeRefreshPhaseRef.current && executeRefreshPhaseRef.current(starter);
         setPhase('Draw');
         appendLog && appendLog(`Game started! ${getPlayerDisplayName ? getPlayerDisplayName(starter) : starter} goes first.`);
-
-        //. Push an immediate sync so the guest closes their dialog and advances
-        if (gameMode === 'multiplayer' && multiplayer.isHost) {
-            setTimeout(() => {
-                broadcastStateToOpponentRef && broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
-            }, 50);
-        }
-    }, [appendLog, executeRefreshPhaseRef, gameMode, getPlayerDisplayName, multiplayer.isHost, setOpeningHandShown, setPhase, setSetupPhase, setTurnNumber, setTurnSide, firstPlayer]);
+    }, [appendLog, executeRefreshPhaseRef, gameMode, getPlayerDisplayName, multiplayer, setOpeningHandShown, setPhase, setSetupPhase, setTurnNumber, setTurnSide, firstPlayer]);
 
     // Handle when a player finishes selecting their hand
     const handleHandSelected = useCallback((side) => {
         //. Multiplayer simultaneous selection
         if (gameMode === 'multiplayer') {
+            //. Determine which side this player controls
+            const mySide = multiplayer.isHost ? 'player' : 'opponent';
+            
             //. Mark this side as having selected (update both state and ref)
             if (side === 'player') {
                 setPlayerHandSelected(true);
@@ -117,7 +132,16 @@ export default function useOpeningHands({
             const opponentDone = opponentHandSelectedRef.current;
             setOpeningHandsBothSelected(playerDone && opponentDone);
 
-            //. Host finalizes immediately once both are done; guest just hides their UI
+            //. Sync hand selection to server
+            setTimeout(() => {
+                multiplayer.syncGameState({
+                    playerHandSelected: playerDone,
+                    opponentHandSelected: opponentDone,
+                    setupPhase: 'hands'
+                });
+            }, 50);
+
+            //. Finalize immediately once both are done
             if (playerDone && opponentDone) {
                 finalizeOpeningHands(firstPlayer);
             }
@@ -125,7 +149,7 @@ export default function useOpeningHands({
         }
 
         // For non-multiplayer flows finalization is handled externally
-    }, [gameMode, finalizeOpeningHands, firstPlayer]);
+    }, [gameMode, multiplayer, finalizeOpeningHands, firstPlayer, setPlayerHandSelected, setOpponentHandSelected, setOpeningHandsBothSelected, playerHandSelectedRef, opponentHandSelectedRef]);
 
     // Expose a small API and refs so parent can integrate with existing effects
     return {

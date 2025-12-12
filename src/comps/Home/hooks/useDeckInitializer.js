@@ -49,6 +49,16 @@ export function useDeckInitializer({
   gameMode, // Game mode must be selected before initialization
   isMultiplayerHost = true // In multiplayer, only host initializes decks
 }) {
+  const isMultiplayer = gameMode === 'multiplayer';
+  const isMultiplayerGuest = isMultiplayer && !isMultiplayerHost;
+
+  // In the current client data model:
+  // - Host controls the 'player' side and uses `library`
+  // - Guest controls the 'opponent' side and uses `oppLibrary`
+  // This keeps OpeningHand.initialize(myLib, mySide) consistent.
+  const setSelfLibrary = isMultiplayerGuest ? setOppLibrary : setLibrary;
+  const clearOtherLibrary = isMultiplayerGuest ? setLibrary : setOppLibrary;
+
   //. Card back factory
   const createCardBacks = useCallback((count) => {
     return _.times(count, () => ({
@@ -82,13 +92,6 @@ export function useDeckInitializer({
     //. Guard: must be logged in, have a game mode selected, and card list loaded
     if (!isLoggedIn || !gameMode || !allCards.length || gameInitializedRef.current) { return; }
 
-    //. In multiplayer, only the host initializes decks - guest receives state from host
-    if (gameMode === 'multiplayer' && !isMultiplayerHost) {
-      console.log('[DeckInit] Skipping deck init - multiplayer guest waits for host state');
-      gameInitializedRef.current = true;
-      return;
-    }
-
     //. Guard: already initialized if any library has entries
     if (library.length || oppLibrary.length) { return; }
 
@@ -99,21 +102,34 @@ export function useDeckInitializer({
         //. Hardcoded demo config
         if (HARDCODED) {
           const ids = expandDeckItems(DEMO_DECK_ITEMS);
-          const libP = shuffle(ids.slice());
-          const libO = shuffle(ids.slice());
+          const selfLib = shuffle(ids.slice());
           const leaderAsset = getAssetForId(DEMO_LEADER);
 
-          //. Setup areas: leaders, decks (but NOT opponent hand - both hands selected during setup)
+          //. Setup areas: leaders, decks (hands are handled during setup)
           setAreas(prev => {
             const next = _.cloneDeep(prev);
 
             if (leaderAsset) {
+              // Keep legacy behavior (both leaders visible) until server-authoritative setup lands.
               next.player.middle.leader = [{ ...leaderAsset, rested: false }];
               next.opponent.middle.leader = [{ ...leaderAsset, rested: false }];
             }
 
-            next.player.middle.deck = createCardBacks(libP.length);
-            next.opponent.middle.deck = createCardBacks(libO.length);
+            if (isMultiplayer) {
+              // Only guarantee correct deck count for the side this client controls.
+              if (isMultiplayerGuest) {
+                next.player.middle.deck = createCardBacks(50);
+                next.opponent.middle.deck = createCardBacks(selfLib.length);
+              } else {
+                next.player.middle.deck = createCardBacks(selfLib.length);
+                next.opponent.middle.deck = createCardBacks(50);
+              }
+            } else {
+              // Non-multiplayer: both sides get decks.
+              const oppLib = shuffle(ids.slice());
+              next.player.middle.deck = createCardBacks(selfLib.length);
+              next.opponent.middle.deck = createCardBacks(oppLib.length);
+            }
 
             return next;
           });
@@ -123,12 +139,14 @@ export function useDeckInitializer({
             initializeDonDecks();
           }
 
-          //. Set libraries for both players
-          setLibrary(libP);
-          setOppLibrary(libO);
-
-          //. NOTE: Opening hand is now initialized by the game setup flow (dice roll -> hand selection)
-          //. Do not call openingHandRef?.current?.initialize here
+          if (isMultiplayer) {
+            setSelfLibrary(selfLib);
+            clearOtherLibrary([]);
+          } else {
+            // Original behavior
+            setLibrary(selfLib);
+            setOppLibrary(shuffle(ids.slice()));
+          }
 
           return;
         }
@@ -193,16 +211,31 @@ export function useDeckInitializer({
             next.opponent.middle.leader = [{ ...leaderAsset, rested: false }];
           }
 
-          next.player.middle.deck = createCardBacks(lib.length);
-          next.opponent.middle.deck = createCardBacks(50);
+          if (isMultiplayer) {
+            if (isMultiplayerGuest) {
+              next.player.middle.deck = createCardBacks(50);
+              next.opponent.middle.deck = createCardBacks(lib.length);
+            } else {
+              next.player.middle.deck = createCardBacks(lib.length);
+              next.opponent.middle.deck = createCardBacks(50);
+            }
+          } else {
+            next.player.middle.deck = createCardBacks(lib.length);
+            next.opponent.middle.deck = createCardBacks(50);
+          }
 
           return next;
         });
 
         //. Store library (do not initialize opening hand - game setup flow handles it)
-        setLibrary(lib);
-        //. Also set opponent library for vs-self mode
-        setOppLibrary(shuffle(ids.slice()));
+        if (isMultiplayer) {
+          setSelfLibrary(lib);
+          clearOtherLibrary([]);
+        } else {
+          setLibrary(lib);
+          //. Also set opponent library for vs-self mode
+          setOppLibrary(shuffle(ids.slice()));
+        }
       } catch (e) {
         console.error('Init game failed:', e);
 
@@ -231,7 +264,11 @@ export function useDeckInitializer({
     openingHandRef,
     initializeDonDecks,
     createCardBacks,
-    getAssetForId
+    getAssetForId,
+    isMultiplayer,
+    isMultiplayerGuest,
+    setSelfLibrary,
+    clearOtherLibrary
   ]);
 
   //. Reset function to allow re-initialization when starting a new game

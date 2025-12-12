@@ -27,6 +27,10 @@ const io = new SocketIOServer(server, {
 });
 const PORT = 5583;
 
+// Card back asset used when sending concealed zones to the opponent.
+// Keep in sync with client constant in Home.jsx.
+const CARD_BACK_URL = '/api/cards/assets/Card%20Backs/CardBackRegular.png';
+
 // Parsers
 app.use(bodyParser.json({ limit: '50gb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -469,6 +473,396 @@ const lobbies = new Map();
 const playerToLobby = new Map(); // socketId -> lobbyId
 const playerInfo = new Map(); // socketId -> { username, lobbyId, playerRole }
 
+// ============================================================================
+// SERVER-AUTHORITATIVE MULTIPLAYER GAME STATE
+// ============================================================================
+
+// Canonical game state per lobbyId
+// NOTE: Stored separately from `lobbies` to keep the lobby list lightweight.
+const games = new Map();
+
+const DEFAULT_DEMO_DECK_ITEMS = [
+    { id: 'OP01-006', count: 4 },
+    { id: 'OP09-002', count: 4 },
+    { id: 'OP09-008', count: 4 },
+    { id: 'OP09-011', count: 4 },
+    { id: 'OP09-014', count: 4 },
+    { id: 'OP12-008', count: 4 },
+    { id: 'OP09-013', count: 4 },
+    { id: 'PRB02-002', count: 4 },
+    { id: 'ST23-001', count: 2 },
+    { id: 'OP09-009', count: 4 },
+    { id: 'ST15-002', count: 3 },
+    { id: 'OP08-118', count: 4 },
+    { id: 'OP06-007', count: 3 },
+    { id: 'OP09-004', count: 2 }
+];
+
+function expandDeckItems(items) {
+    const ids = [];
+    for (const it of (items || [])) {
+        const id = String(it?.id || '');
+        const count = Math.max(0, Math.min(50, Number(it?.count) || 0));
+        if (!id || count <= 0) continue;
+        for (let i = 0; i < count; i++) ids.push(id);
+    }
+    return ids;
+}
+
+function shuffleInPlace(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function drawFromDeck(player, n) {
+    const out = [];
+    for (let i = 0; i < n; i++) {
+        const cardId = player.deckIds.pop();
+        if (!cardId) break;
+        out.push(cardId);
+    }
+    return out;
+}
+
+async function loadDeckIdsForPlayer(username, deckConfig) {
+    try {
+        const deckName = deckConfig?.name;
+        if (deckName && username) {
+            const [deck] = await mongoRead('opsim', 'decks', { username, name: deckName });
+            if (deck?.items) {
+                const ids = expandDeckItems(deck.items);
+                // Ensure we have a usable deck size; pad if needed.
+                while (ids.length < 50 && ids.length > 0) ids.push(ids[0]);
+                return shuffleInPlace(ids);
+            }
+        }
+    } catch (e) {
+        console.warn('[Multiplayer] Failed to load deck from DB, falling back to demo deck:', e?.message || e);
+    }
+
+    const demo = expandDeckItems(DEFAULT_DEMO_DECK_ITEMS);
+    while (demo.length < 50 && demo.length > 0) demo.push(demo[0]);
+    return shuffleInPlace(demo);
+}
+
+function buildViewStateForSocket(lobbyId, socketId) {
+    const game = games.get(lobbyId);
+    if (!game) return null;
+
+    const meIndex = game.players.findIndex(p => p.socketId === socketId);
+    if (meIndex === -1) return null;
+
+    const oppIndex = meIndex === 0 ? 1 : 0;
+    const me = game.players[meIndex];
+    const opp = game.players[oppIndex];
+
+    const isMyTurn = game.turn.currentPlayerIndex === meIndex;
+    const turnSide = isMyTurn ? 'player' : 'opponent';
+
+    // Perspective-swapped dice result: "player" always means "me" in the client view.
+    let diceResult = null;
+    if (game.setup?.dice) {
+        const myRoll = game.setup.dice.rollsByIndex?.[meIndex];
+        const oppRoll = game.setup.dice.rollsByIndex?.[oppIndex];
+        const iGoFirst = game.setup.dice.firstPlayerIndex === meIndex;
+        diceResult = {
+            playerRoll: myRoll,
+            opponentRoll: oppRoll,
+            firstPlayer: iGoFirst ? 'player' : 'opponent',
+            revealAt: game.setup.dice.revealAt
+        };
+    }
+
+    // Zones: only the player hand is face-up; opponent hand is hidden with a count.
+    const view = {
+        setupPhase: game.setup.phase,
+        diceResult,
+        openingHand: {
+            confirmed: !!game.setup.handConfirmedBySocketId?.[socketId]
+        },
+        turn: {
+            turnNumber: game.turn.turnNumber,
+            phase: game.turn.phase,
+            isMyTurn,
+            turnSide
+        },
+        zones: {
+            player: {
+                deckCount: me.deckIds.length,
+                handIds: me.handIds.slice(),
+                handCount: me.handIds.length,
+                lifeCount: me.lifeIds.length,
+                donCount: me.donCount || 0
+            },
+            opponent: {
+                deckCount: opp.deckIds.length,
+                handCount: opp.handIds.length,
+                lifeCount: opp.lifeIds.length,
+                donCount: opp.donCount || 0
+            }
+        }
+    };
+
+    return view;
+}
+
+function emitViewStateToLobby(lobbyId) {
+    const lobby = lobbies.get(lobbyId);
+    const game = games.get(lobbyId);
+    if (!lobby || !game) return;
+
+    for (const p of game.players) {
+        const view = buildViewStateForSocket(lobbyId, p.socketId);
+        if (view) {
+            io.to(p.socketId).emit('gameStateSync', view);
+        }
+    }
+}
+
+function rollDiceNoTie() {
+    let a = 0;
+    let b = 0;
+    while (a === b) {
+        a = Math.floor(Math.random() * 6) + 1;
+        b = Math.floor(Math.random() * 6) + 1;
+    }
+    return [a, b];
+}
+
+// Helper function to apply game actions on server
+async function applyGameAction(lobbyId, action, socketId) {
+    const game = games.get(lobbyId);
+    if (!game) return;
+    const { type, payload } = action || {};
+
+    const actorIndex = game.players.findIndex(p => p.socketId === socketId);
+    if (actorIndex === -1) return;
+
+    const isMyTurn = game.turn.currentPlayerIndex === actorIndex;
+
+    switch (type) {
+        case 'SETUP_READY': {
+            // Mark player ready; when both ready, roll dice and deal hands.
+            game.setup.readyBySocketId[socketId] = true;
+            const bothReady = game.players.every(p => game.setup.readyBySocketId[p.socketId]);
+            if (!bothReady) break;
+
+            // Roll dice on server and send revealAt for synced animation.
+            const [r0, r1] = rollDiceNoTie();
+            const firstPlayerIndex = r0 > r1 ? 0 : 1;
+            const revealAt = Date.now() + 600;
+
+            game.setup.dice = {
+                rollsByIndex: [r0, r1],
+                firstPlayerIndex,
+                revealAt
+            };
+
+            // Deal opening hands + life now (canonical). Confirmation is separate.
+            for (const p of game.players) {
+                p.handIds = [];
+                p.lifeIds = [];
+                const hand = drawFromDeck(p, 5);
+                const life = drawFromDeck(p, 5);
+                p.handIds = hand;
+                p.lifeIds = life;
+            }
+
+            // Setup phase progresses to hands.
+            game.setup.phase = 'hands';
+            for (const p of game.players) {
+                game.setup.handConfirmedBySocketId[p.socketId] = false;
+            }
+
+            // Initialize turn state (game will only start after both confirm).
+            game.turn.currentPlayerIndex = firstPlayerIndex;
+            game.turn.turnNumber = 1;
+            game.turn.phase = 'Draw';
+            break;
+        }
+
+        case 'OPENING_HAND_CONFIRM': {
+            if (game.setup.phase !== 'hands') break;
+            game.setup.handConfirmedBySocketId[socketId] = true;
+            const allConfirmed = game.players.every(p => game.setup.handConfirmedBySocketId[p.socketId]);
+            if (allConfirmed) {
+                game.setup.phase = 'complete';
+            }
+            break;
+        }
+
+        case 'DRAW_CARD': {
+            if (!isMyTurn) break;
+            if (game.setup.phase !== 'complete') break;
+            if (game.turn.phase !== 'Draw') break;
+            const p = game.players[actorIndex];
+            const [card] = drawFromDeck(p, 1);
+            if (card) p.handIds.push(card);
+            game.turn.phase = 'Don';
+            break;
+        }
+
+        case 'DRAW_DON': {
+            if (!isMyTurn) break;
+            if (game.setup.phase !== 'complete') break;
+            if (game.turn.phase !== 'Don') break;
+            const p = game.players[actorIndex];
+            const amt = Math.max(1, Math.min(2, Number(payload?.amount) || 2));
+            p.donCount = (p.donCount || 0) + amt;
+            game.turn.phase = 'Main';
+            break;
+        }
+
+        case 'END_TURN': {
+            if (!isMyTurn) break;
+            if (game.setup.phase !== 'complete') break;
+            game.turn.currentPlayerIndex = actorIndex === 0 ? 1 : 0;
+            game.turn.turnNumber += 1;
+            game.turn.phase = 'Draw';
+            break;
+        }
+
+        default:
+            // Ignore unknown actions for now
+            break;
+    }
+}
+
+function createCardBacks(count) {
+    const n = Math.max(0, Number(count) || 0);
+    return Array.from({ length: n }, () => ({
+        id: 'BACK',
+        thumb: CARD_BACK_URL,
+        full: CARD_BACK_URL
+    }));
+}
+
+// Merge a client sync snapshot into server state, but only for the side that client controls.
+// This prevents one client from overwriting the other player's private zones during setup.
+function mergeGameStateFromClient(lobby, incoming, playerRole) {
+    if (!incoming || typeof incoming !== 'object') return;
+    if (!lobby.gameState) lobby.gameState = {};
+
+    const state = lobby.gameState;
+
+    // Always-safe scalar-ish fields.
+    // NOTE: Some setup-related fields are merged specially below to avoid clients clobbering each other.
+    const passthroughKeys = [
+        'currentHandSide',
+        'firstPlayer',
+        'turnSide',
+        'turnNumber',
+        'phase',
+        'diceResult',
+        'battle',
+        'currentAttack',
+        'battleArrow',
+        'modifiers',
+        'oncePerTurnUsage',
+        'attackLocked'
+    ];
+    for (const k of passthroughKeys) {
+        if (Object.prototype.hasOwnProperty.call(incoming, k)) {
+            state[k] = incoming[k];
+        }
+    }
+
+    // Setup phase is monotonic: dice -> hands -> complete.
+    // Never allow regression if one client is behind.
+    if (Object.prototype.hasOwnProperty.call(incoming, 'setupPhase')) {
+        const order = { dice: 0, hands: 1, complete: 2 };
+        const cur = String(state.setupPhase || 'dice');
+        const inc = String(incoming.setupPhase || 'dice');
+        const curRank = Object.prototype.hasOwnProperty.call(order, cur) ? order[cur] : 0;
+        const incRank = Object.prototype.hasOwnProperty.call(order, inc) ? order[inc] : 0;
+        if (incRank >= curRank) {
+            state.setupPhase = incoming.setupPhase;
+        }
+    }
+
+    // Hand selection flags must be merged per-role; otherwise the last writer wins and we get stuck.
+    if (playerRole === 'player' && Object.prototype.hasOwnProperty.call(incoming, 'playerHandSelected')) {
+        state.playerHandSelected = !!incoming.playerHandSelected;
+    }
+    if (playerRole === 'opponent' && Object.prototype.hasOwnProperty.call(incoming, 'opponentHandSelected')) {
+        state.opponentHandSelected = !!incoming.opponentHandSelected;
+    }
+
+    // Side-scoped fields: only accept the side the client controls
+    const incAreas = incoming.areas;
+    if (incAreas && typeof incAreas === 'object') {
+        if (!state.areas || typeof state.areas !== 'object') state.areas = {};
+
+        if (playerRole === 'player' && incAreas.player) {
+            state.areas.player = incAreas.player;
+        }
+        if (playerRole === 'opponent' && incAreas.opponent) {
+            state.areas.opponent = incAreas.opponent;
+        }
+
+        // Leaders/decks are effectively public; accept if present to avoid missing UI pieces.
+        // (Still prefer the controlling player's data if both exist.)
+        if (!state.areas.player && incAreas.player) state.areas.player = incAreas.player;
+        if (!state.areas.opponent && incAreas.opponent) state.areas.opponent = incAreas.opponent;
+    }
+
+    // Libraries are also per-side in the current client architecture
+    if (playerRole === 'player' && Array.isArray(incoming.library)) {
+        state.library = incoming.library;
+    }
+    if (playerRole === 'opponent' && Array.isArray(incoming.oppLibrary)) {
+        state.oppLibrary = incoming.oppLibrary;
+    }
+}
+
+// Build a per-recipient state snapshot that hides opponent private zones.
+// IMPORTANT: This is for UI concealment only; server still stores full state.
+function buildConcealedStateForRole(gameState, recipientRole) {
+    // structuredClone is available in modern Node; fall back to JSON clone if needed.
+    const cloned = (typeof structuredClone === 'function')
+        ? structuredClone(gameState)
+        : JSON.parse(JSON.stringify(gameState || {}));
+
+    const areas = cloned?.areas;
+    if (!areas || typeof areas !== 'object') return cloned;
+
+    // In the current client data model:
+    // - Host controls 'player' and their private hand is in areas.player.bottom.hand
+    // - Guest controls 'opponent' and their private hand is in areas.opponent.top.hand
+    // Board.jsx flips visuals client-side.
+    if (recipientRole === 'player') {
+        const oppHand = areas?.opponent?.top?.hand;
+        const oppLife = areas?.opponent?.life;
+        if (Array.isArray(oppHand)) areas.opponent.top.hand = createCardBacks(oppHand.length);
+        if (Array.isArray(oppLife)) areas.opponent.life = createCardBacks(oppLife.length);
+    } else if (recipientRole === 'opponent') {
+        const hostHand = areas?.player?.bottom?.hand;
+        const hostLife = areas?.player?.life;
+        if (Array.isArray(hostHand)) areas.player.bottom.hand = createCardBacks(hostHand.length);
+        if (Array.isArray(hostLife)) areas.player.life = createCardBacks(hostLife.length);
+    }
+
+    return cloned;
+}
+
+function emitGameStateToLobby(io, lobby) {
+    if (!lobby?.id) return;
+    const lobbyId = lobby.id;
+    const gameState = lobby.gameState || {};
+
+    // Send a role-appropriate concealed snapshot to each player.
+    for (const p of lobby.players || []) {
+        const role = p.role;
+        const socketId = p.socketId;
+        if (!socketId) continue;
+        const payload = buildConcealedStateForRole(gameState, role);
+        io.to(socketId).emit('gameStateSync', payload);
+    }
+}
+
 // Generate unique lobby ID
 function generateLobbyId() {
     return Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -666,7 +1060,9 @@ io.on('connection', (socket) => {
         }
     });
 
-    // Game state synchronization
+    // Game action from any player
+    // NOTE: During the current migration, gameplay is still synchronized via `syncGameState` snapshots.
+    // We keep `gameAction` as a lightweight relay channel for any remaining callers.
     socket.on('gameAction', (action) => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -675,16 +1071,14 @@ io.on('connection', (socket) => {
         if (!lobby || lobby.status !== 'playing') return;
 
         const info = playerInfo.get(socket.id);
-        
-        // Broadcast the action to the other player
-        socket.to(lobbyId).emit('opponentAction', {
-            ...action,
-            from: info?.playerRole || 'unknown'
-        });
+        console.log(`[Lobby] Relaying gameAction from ${info?.username}:`, action?.type || action);
+
+        // Send to the other player(s) in the lobby (do not echo back).
+        socket.to(lobbyId).emit('gameAction', action);
     });
 
-    // Full game state sync (HOST ONLY - for reconnection or state updates)
-    // Only accept syncGameState from the host to prevent state manipulation
+    // Full game state sync from any player (typically during setup)
+    // Server accepts state updates and broadcasts to all clients
     socket.on('syncGameState', (gameState) => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -692,44 +1086,20 @@ io.on('connection', (socket) => {
         const lobby = lobbies.get(lobbyId);
         if (!lobby) return;
 
-        // SECURITY: Only the host can sync game state
-        if (socket.id !== lobby.hostId) {
-            console.log(`[Lobby] Rejected syncGameState from non-host: ${socket.id}`);
-            return;
-        }
+        const info = playerInfo.get(socket.id);
+        console.log(`[Lobby] Player ${info?.username} syncing game state`);
 
-        // Store the canonical game state on the server
-        lobby.gameState = gameState;
-        
-        // Broadcast to ALL clients in the lobby (including host for consistency)
-        // This ensures both players receive the same event with the same state
-        io.to(lobbyId).emit('gameStateSync', gameState);
+        // Merge incoming state, but only accept the side the sender controls.
+        // This prevents overwriting the other player's private zones.
+        mergeGameStateFromClient(lobby, gameState, info?.playerRole);
+
+        // Broadcast to ALL clients in the lobby (with concealment)
+        emitGameStateToLobby(io, lobby);
         console.log(`[Lobby] Game state synced to lobby ${lobbyId}`);
     });
 
-    // Guest sends action to host
-    socket.on('guestAction', (action) => {
-        const lobbyId = playerToLobby.get(socket.id);
-        if (!lobbyId) return;
-
-        const lobby = lobbies.get(lobbyId);
-        if (!lobby || lobby.status !== 'playing') return;
-
-        // Only non-hosts (guests) can send guest actions
-        const info = playerInfo.get(socket.id);
-        if (!info) return;
-
-        // Forward to the host
-        const hostSocket = lobby.hostId;
-        if (hostSocket && hostSocket !== socket.id) {
-            io.to(hostSocket).emit('guestAction', {
-                ...action,
-                from: info.username
-            });
-        }
-    });
-
-    // End turn notification
+    // End turn notification (legacy)
+    // Keeping for backward compatibility; most gameplay should flow via `syncGameState`.
     socket.on('endTurn', (data) => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -737,16 +1107,10 @@ io.on('connection', (socket) => {
         const lobby = lobbies.get(lobbyId);
         if (!lobby || lobby.status !== 'playing') return;
 
-        const info = playerInfo.get(socket.id);
-        
-        // Notify opponent that turn has ended
-        socket.to(lobbyId).emit('turnEnded', {
-            ...data,
-            from: info?.playerRole || 'unknown'
-        });
+        socket.to(lobbyId).emit('endTurn', data);
     });
 
-    // Game over
+    // Game over - server broadcasts to all
     socket.on('gameOver', (data) => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -754,8 +1118,17 @@ io.on('connection', (socket) => {
         const lobby = lobbies.get(lobbyId);
         if (!lobby) return;
 
+        const info = playerInfo.get(socket.id);
+        console.log(`[Lobby] Game over in ${lobbyId} (initiated by ${info?.username})`);
+
         lobby.status = 'finished';
-        io.to(lobbyId).emit('gameEnded', data);
+        
+        // Broadcast to ALL players in lobby
+        io.to(lobbyId).emit('gameEnded', {
+            ...data,
+            initiatedBy: info?.username
+        });
+        
         broadcastLobbyList();
     });
 

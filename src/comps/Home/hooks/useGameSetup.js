@@ -99,21 +99,18 @@ export default function useGameSetup({
             playerHandSelectedRef.current = false;
             opponentHandSelectedRef.current = false;
             
-            // If host, broadcast the dice result for guest to see
-            if (multiplayer.isHost) {
-                setTimeout(() => {
-                    multiplayer.broadcastGameState({
-                        diceResult: { firstPlayer: winner, playerRoll, opponentRoll },
-                        setupPhase: 'hands',
-                        firstPlayer: winner,
-                        currentHandSide: 'both',
-                        library,
-                        oppLibrary,
-                        areas,
-                        openingHandShown: true
-                    });
-                }, 100);
-            }
+            // Sync dice result + setup state to server (server broadcasts to both players)
+            setTimeout(() => {
+                multiplayer.syncGameState?.({
+                    diceResult: { firstPlayer: winner, playerRoll, opponentRoll },
+                    setupPhase: 'hands',
+                    firstPlayer: winner,
+                    currentHandSide: 'both',
+                    library,
+                    oppLibrary,
+                    areas,
+                });
+            }, 100);
             
             // Initialize opening hand for this player's side
             const mySide = multiplayer.isHost ? 'player' : 'opponent';

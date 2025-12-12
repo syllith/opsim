@@ -20,9 +20,12 @@ export default function Activity({
     //. Multiplayer props for determining if current player is the defender
     isMultiplayer = false,
     myMultiplayerSide = 'player', //. Which side this player controls: 'player' (host) or 'opponent' (guest)
-    isHost = true, //. True for host, false for guest
-    sendGuestAction = null, //. Function to send actions to host (for guest only)
-    broadcastState = null //. Function to broadcast state to guest (for host only)
+    multiplayer,
+    broadcastStateToOpponent,
+    //. Legacy props (host-authoritative; kept temporarily for backward compatibility)
+    isHost = true,
+    sendGuestAction = null,
+    broadcastState = null
 }) {
     //. Force re-render on window resize to update arrow positions
     const [, setResizeTick] = useState(0);
@@ -36,34 +39,27 @@ export default function Activity({
         return battle.target.side === myMultiplayerSide;
     }, [battle, isMultiplayer, myMultiplayerSide]);
 
-    //. Handler for skipBlock that routes through multiplayer if needed
-    const handleSkipBlock = () => {
-        if (isMultiplayer && !isHost && sendGuestAction) {
-            //. Guest sends action to host
-            sendGuestAction({ type: 'skipBlock' });
-        } else {
-            //. Host (or single-player) executes directly
-            skipBlock?.();
-            //. Host broadcasts state to guest
-            if (isMultiplayer && isHost && broadcastState) {
-                setTimeout(() => broadcastState(), 100);
-            }
+    const syncIfMultiplayer = () => {
+        if (!isMultiplayer) return;
+        const syncFn = broadcastStateToOpponent || broadcastState;
+        if (typeof syncFn === 'function') {
+            setTimeout(() => syncFn(), 100);
+        } else if (typeof multiplayer?.syncGameState === 'function') {
+            // Fallback: if caller didn't provide a broadcaster, sync hook can still be used by parent.
+            // (No-op here; parent owns the snapshot.)
         }
     };
 
-    //. Handler for endCounterStep that routes through multiplayer if needed
+    //. Handler for skipBlock: execute locally then sync
+    const handleSkipBlock = () => {
+        skipBlock?.();
+        syncIfMultiplayer();
+    };
+
+    //. Handler for endCounterStep: execute locally then sync
     const handleEndCounterStep = () => {
-        if (isMultiplayer && !isHost && sendGuestAction) {
-            //. Guest sends action to host
-            sendGuestAction({ type: 'endCounter' });
-        } else {
-            //. Host (or single-player) executes directly
-            endCounterStep?.();
-            //. Host broadcasts state to guest
-            if (isMultiplayer && isHost && broadcastState) {
-                setTimeout(() => broadcastState(), 100);
-            }
-        }
+        endCounterStep?.();
+        syncIfMultiplayer();
     };
 
     //. Throttled resize handler (avoids spamming re-renders)

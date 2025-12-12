@@ -6,9 +6,7 @@ export { default as useCardStats } from './useCardStats';
 export { useModifiers } from './useModifiers';
 export { useTargeting } from './useTargeting';
 export { default as useGameActions } from './useGameActions';
-export { default as useGuestActions } from './useGuestActions';
 export { useMultiplayer } from './useMultiplayer';
-export { default as useMultiplayerBroadcast } from './useMultiplayerBroadcast';
 export { default as useOpeningHands } from './useOpeningHands';
 export { useDeckInitializer, createInitialAreas } from './useDeckInitializer';
 

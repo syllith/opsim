@@ -44,9 +44,7 @@ import {
     useTurn,
     useGameActions,
     useCardStats,
-    useMultiplayerBroadcast,
     useMultiplayer,
-    useGuestActions,
     useTriggers,
     useEffectResolution,
     useAttackHelpers
@@ -453,9 +451,80 @@ export default function Home() {
         turnNumber
     });
 
-    const { broadcastStateToOpponent, broadcastStateToOpponentBasic } = useMultiplayerBroadcast({
-        multiplayer,
+    // Card stats and cost helpers (must be defined before any usage in multiplayer sync API)
+    const {
+        getBasePower,
+        getAuraPowerMod,
+        getTotalPower,
+        getAuraCostMod,
+        getCardCost,
+        getKeywordsFor
+    } = useCardStats({ metaById, getSideLocation, getPowerMod, getDonPowerBonus });
+
+    // Extracted game action helpers
+    const {
+        drawCard,
+        startDeckSearch,
+        returnCardToDeck,
+        restCard,
+        setActive
+    } = useGameActions({
+        canPerformGameAction,
+        library,
+        oppLibrary,
+        getAssetForId,
+        createCardBacks,
+        setAreas,
+        setLibrary,
+        setOppLibrary,
+        cloneAreas,
+        deckSearchRef,
+        getSideLocationFromNext,
+        createCardBacksFn: createCardBacks,
+        appendLog,
+        getAsset: getAssetForId,
+        getCardCost,
+        hasEnoughDonFor
+    });
+    // ---------------------------------------------------------------------
+    // Multiplayer snapshot sync (current migration path)
+    // ---------------------------------------------------------------------
+
+    // Guard used to prevent feedback loops when applying server snapshots.
+    const applyingServerSyncRef = useRef(false);
+
+    const broadcastStateToOpponent = useCallback(() => {
+        if (gameMode !== 'multiplayer' || !multiplayer.gameStarted) {
+            return;
+        }
+        if (applyingServerSyncRef.current) {
+            return;
+        }
+
+        const gameState = {
+            areas,
+            library,
+            oppLibrary,
+            turnSide,
+            turnNumber,
+            phase,
+            firstPlayer,
+            currentHandSide,
+            setupPhase,
+            playerHandSelected,
+            opponentHandSelected,
+            modifiers: getModifierState && getModifierState(),
+            battle,
+            currentAttack,
+            battleArrow,
+            oncePerTurnUsage,
+            attackLocked
+        };
+
+        multiplayer.syncGameState(gameState);
+    }, [
         gameMode,
+        multiplayer,
         areas,
         library,
         oppLibrary,
@@ -465,7 +534,6 @@ export default function Home() {
         firstPlayer,
         currentHandSide,
         setupPhase,
-        openingHandShown,
         playerHandSelected,
         opponentHandSelected,
         getModifierState,
@@ -474,7 +542,44 @@ export default function Home() {
         battleArrow,
         oncePerTurnUsage,
         attackLocked
-    });
+    ]);
+
+    const broadcastStateToOpponentBasic = useCallback(() => {
+        if (gameMode !== 'multiplayer' || !multiplayer.gameStarted) {
+            return;
+        }
+        if (applyingServerSyncRef.current) {
+            return;
+        }
+        const gameState = {
+            areas,
+            library,
+            oppLibrary,
+            turnSide,
+            turnNumber,
+            phase,
+            firstPlayer,
+            currentHandSide,
+            setupPhase,
+            playerHandSelected,
+            opponentHandSelected
+        };
+        multiplayer.syncGameState(gameState);
+    }, [
+        gameMode,
+        multiplayer,
+        areas,
+        library,
+        oppLibrary,
+        turnSide,
+        turnNumber,
+        phase,
+        firstPlayer,
+        currentHandSide,
+        setupPhase,
+        playerHandSelected,
+        opponentHandSelected
+    ]);
 
     // Wire broadcast function into the ref so hooks created earlier can use it
     useEffect(() => {
@@ -500,32 +605,13 @@ export default function Home() {
 
         prevBattleRef.current = battle;
 
-        if (multiplayer.isHost) {
-            //. Host broadcasts full state to guest
-            console.log('[Multiplayer Host] Battle state changed, broadcasting:', battle?.step || 'null');
-            const timeoutId = setTimeout(() => {
-                broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
-            }, 50);
-            return () => clearTimeout(timeoutId);
-        } else {
-            //. Guest syncs battle state TO host
-            console.log('[Multiplayer Guest] Battle state changed, syncing to host:', battle?.step || 'null');
-            if (multiplayer.sendGuestAction) {
-                const timeoutId = setTimeout(() => {
-                    multiplayer.sendGuestAction({
-                        type: 'syncState',
-                        payload: {
-                            battle,
-                            currentAttack,
-                            battleArrow,
-                            areas  //. Include areas so host gets the rested state
-                        }
-                    });
-                }, 50);
-                return () => clearTimeout(timeoutId);
-            }
-        }
-    }, [battle, currentAttack, battleArrow, areas, gameMode, multiplayer.isHost, multiplayer.gameStarted, multiplayer.sendGuestAction]);
+        //. Unified multiplayer: both clients sync their local battle changes via state snapshots.
+        console.log(`[Multiplayer ${multiplayer.isHost ? 'Host' : 'Guest'}] Battle state changed, syncing snapshot:`, battle?.step || 'null');
+        const timeoutId = setTimeout(() => {
+            broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
+        }, 50);
+        return () => clearTimeout(timeoutId);
+    }, [battle, currentAttack, battleArrow, areas, gameMode, multiplayer.isHost, multiplayer.gameStarted]);
 
     const handleDiceRollComplete = useCallback(({ firstPlayer: winner, playerRoll, opponentRoll }) => {
         setFirstPlayer(winner);
@@ -539,27 +625,33 @@ export default function Home() {
             playerHandSelectedRef.current = false;
             opponentHandSelectedRef.current = false;
 
-            //. If host, broadcast the dice result for guest to see
-            if (multiplayer.isHost) {
-                // Broadcast will happen via state sync, but we also store result for immediate broadcast
-                setTimeout(() => {
-                    multiplayer.broadcastGameState({
-                        diceResult: { firstPlayer: winner, playerRoll, opponentRoll },
-                        setupPhase: 'hands',
-                        firstPlayer: winner,
-                        currentHandSide: 'both',
-                        library,
-                        oppLibrary,
-                        areas,
-                        openingHandShown: true
-                    });
-                }, 100);
-            }
+            //. Sync dice result + setup state to server (server broadcasts to both players)
+            setTimeout(() => {
+                multiplayer.syncGameState({
+                    diceResult: { firstPlayer: winner, playerRoll, opponentRoll },
+                    setupPhase: 'hands',
+                    firstPlayer: winner,
+                    currentHandSide: 'both',
+                    library,
+                    oppLibrary,
+                    areas
+                });
+            }, 100);
 
             //. Initialize opening hand for this player's side
             const mySide = multiplayer.isHost ? 'player' : 'opponent';
             const myLib = multiplayer.isHost ? library : oppLibrary;
-            openingHandRef?.current?.initialize(myLib, mySide);
+            if (Array.isArray(myLib) && myLib.length >= 10) {
+                openingHandRef?.current?.initialize(myLib, mySide);
+                guestHandInitializedRef.current = true;
+            } else {
+                // Common for guests: their deck IDs may arrive slightly later.
+                guestHandInitializedRef.current = false;
+                console.warn('[OpeningHand] Delaying initialize; library not ready yet:', {
+                    side: mySide,
+                    len: Array.isArray(myLib) ? myLib.length : null
+                });
+            }
         } else {
             //. Sequential mode for vs-self
             setSetupPhase('hand-first');
@@ -570,6 +662,84 @@ export default function Home() {
 
         setOpeningHandShown(true);
     }, [library, oppLibrary, gameMode, multiplayer, areas]);
+
+    // Multiplayer safety: if the opening-hand overlay is shown before this client has a populated
+    // library (common for guests), initialize as soon as it becomes available.
+    useEffect(() => {
+        if (gameMode !== 'multiplayer') return;
+        if (setupPhase !== 'hands') return;
+        if (!openingHandShown) return;
+
+        if (guestHandInitializedRef.current) return;
+
+        const hasSelected = openingHandRef?.current?.getHasSelected?.();
+        if (hasSelected) {
+            guestHandInitializedRef.current = true;
+            return;
+        }
+
+        const mySide = multiplayer.isHost ? 'player' : 'opponent';
+        const myLib = multiplayer.isHost ? library : oppLibrary;
+        if (!Array.isArray(myLib) || myLib.length < 10) return;
+
+        openingHandRef?.current?.initialize(myLib, mySide);
+        guestHandInitializedRef.current = true;
+    }, [gameMode, setupPhase, openingHandShown, multiplayer.isHost, library, oppLibrary, guestHandInitializedRef]);
+
+    // Multiplayer setup sync: after a player clicks Keep/Mulligan, we update areas/libraries locally.
+    // Broadcast the committed result (post-state-update) so the opponent reliably sees the correct
+    // hand-back count instead of an occasionally stale 0/1 length snapshot.
+    const prevSetupHandSigRef = useRef(null);
+    useEffect(() => {
+        if (gameMode !== 'multiplayer') return;
+        if (!multiplayer.gameStarted) return;
+        if (setupPhase !== 'hands') return;
+
+        const myHandArr = multiplayer.isHost
+            ? (areas?.player?.bottom?.hand || [])
+            : (areas?.opponent?.top?.hand || []);
+        const myLifeArr = multiplayer.isHost
+            ? (areas?.player?.life || [])
+            : (areas?.opponent?.life || []);
+
+        const sig = `${myHandArr.length}:${myLifeArr.length}`;
+        if (prevSetupHandSigRef.current === sig) return;
+        prevSetupHandSigRef.current = sig;
+
+        // Only broadcast once the selection has actually populated zones.
+        if (myHandArr.length > 0 || myLifeArr.length > 0) {
+            // Avoid missing the broadcast if a server sync is being applied at this instant.
+            // Retry shortly until the apply guard is cleared.
+            let attempts = 0;
+            const tryBroadcast = () => {
+                attempts++;
+                if (!broadcastStateToOpponentRef.current) return;
+                if (applyingServerSyncRef.current && attempts < 6) {
+                    setTimeout(tryBroadcast, 25);
+                    return;
+                }
+                broadcastStateToOpponentRef.current();
+            };
+            setTimeout(tryBroadcast, 0);
+        }
+    }, [gameMode, multiplayer.gameStarted, multiplayer.isHost, setupPhase, areas]);
+
+    // Multiplayer UX: each client should see their own opening-hand modal during the hands phase
+    // unless they've already confirmed/kept a hand.
+    useEffect(() => {
+        if (gameMode !== 'multiplayer') return;
+        if (setupPhase !== 'hands') return;
+
+        const hasSelected = openingHandRef?.current?.getHasSelected?.();
+        if (hasSelected) {
+            if (openingHandShown) setOpeningHandShown(false);
+            return;
+        }
+
+        if (!openingHandShown) {
+            setOpeningHandShown(true);
+        }
+    }, [gameMode, setupPhase, openingHandShown, setOpeningHandShown]);
 
     //. Which side does this player control in multiplayer?
     const myMultiplayerSide = useMemo(() => {
@@ -627,51 +797,12 @@ export default function Home() {
         }
     }, [areas, gameMode, myMultiplayerSide, openCardAction, setAreas]);
 
-    const {
-        getBasePower,
-        getAuraPowerMod,
-        getTotalPower,
-        getAuraCostMod,
-        getCardCost,
-        getKeywordsFor
-    } = useCardStats({ metaById, getSideLocation, getPowerMod, getDonPowerBonus });
-
     const playSelectedCard = useCallback(() => {
         //. Cannot play cards until opening hand is finalized
         if (!canPerformGameAction()) return;
         if (!actionCard) return;
 
         const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
-
-        //. Guest path: send action to host, do not mutate local state
-        if (gameMode === 'multiplayer' && multiplayer.gameStarted && !multiplayer.isHost) {
-            //. Enforce timing locally to avoid bad requests
-            if (!canPlayNow(side)) return;
-            if (side !== turnSide) {
-                appendLog(`Cannot play ${actionCard.id}: not ${side}'s turn.`);
-                return;
-            }
-            const section = actionSource?.section || 'bottom';
-            const keyName = actionSource?.keyName || 'hand';
-            const index = actionCardIndex >= 0 ? actionCardIndex : 0;
-            const cost = getCardCost(actionCard.id, side, section, keyName, index);
-            if (!hasEnoughDonFor(side, cost)) {
-                appendLog(`Cannot play ${actionCard.id}: need ${cost} DON (${side}).`);
-                return;
-            }
-
-            multiplayer.sendGuestAction({
-                type: 'playCard',
-                payload: {
-                    cardId: actionCard.id,
-                    actionCardIndex: index,
-                    actionSource,
-                    cost,
-                    turnNumber
-                }
-            });
-            return;
-        }
 
         //. Enforce timing: only during your Main and no battle
         if (!canPlayNow(side)) return;
@@ -746,10 +877,8 @@ export default function Home() {
         const logMessage = `[${side}] Played ${actionCard.id}${cost ? ` by resting ${cost} DON` : ''}.`;
         appendLog(logMessage);
 
-        //. Sync to multiplayer opponent (host broadcasts full state)
-        if (gameMode === 'multiplayer' && multiplayer.gameStarted && multiplayer.isHost) {
-            //. Broadcast will happen automatically via state change effect
-            //. Or we can manually trigger it after a short delay to ensure state is updated
+        //. Sync to multiplayer opponent (unified: both sides can sync snapshots)
+        if (gameMode === 'multiplayer' && multiplayer.gameStarted) {
             setTimeout(() => {
                 broadcastStateToOpponent();
             }, 50);
@@ -821,31 +950,6 @@ export default function Home() {
     });
 
     // Extracted game action helpers
-    const {
-        drawCard,
-        startDeckSearch,
-        returnCardToDeck,
-        restCard,
-        setActive
-    } = useGameActions({
-        canPerformGameAction,
-        library,
-        oppLibrary,
-        getAssetForId,
-        createCardBacks,
-        setAreas,
-        setLibrary,
-        setOppLibrary,
-        cloneAreas,
-        deckSearchRef,
-        getSideLocationFromNext,
-        createCardBacksFn: createCardBacks,
-        appendLog,
-        getAsset: getAssetForId,
-        getCardCost,
-        hasEnoughDonFor
-    });
-
     //. Execute Refresh Phase (CR 6-2)
     const executeRefreshPhase = useCallback((side) => {
         appendLog(`[Refresh Phase] Start ${side}'s turn.`);
@@ -896,20 +1000,26 @@ export default function Home() {
             : (side === 'player' ? opponentName : selfName);
     }
 
-    //. Finalize multiplayer opening hands when both sides have selected (HOST and GUEST)
+    //. Finalize multiplayer opening hands when BOTH players have selected.
+    // IMPORTANT: do not rely on a separately synced openingHandsBothSelected flag (it can get clobbered).
     useEffect(() => {
         if (gameMode !== 'multiplayer') return;
         if (setupPhase !== 'hands') return;
-        if (!openingHandsBothSelected) return;
+        if (openingHandsFinalizedRef.current) return;
 
-        console.log(`[Multiplayer ${multiplayer.isHost ? 'Host' : 'Guest'}] Both opening hands selected. Finalizing${multiplayer.isHost ? ' setup' : ' locally'}.`);
-        finalizeOpeningHands();
+        if (!playerHandSelected || !opponentHandSelected) return;
+
+        console.log(`[Multiplayer ${multiplayer.isHost ? 'Host' : 'Guest'}] Both opening hands selected. Finalizing locally.`);
+        finalizeOpeningHands(firstPlayer);
     }, [
         gameMode,
         multiplayer.isHost,
         setupPhase,
-        openingHandsBothSelected,
-        finalizeOpeningHands
+        playerHandSelected,
+        opponentHandSelected,
+        firstPlayer,
+        finalizeOpeningHands,
+        openingHandsFinalizedRef
     ]);
 
     //. Label for Next Action button based on phase
@@ -971,86 +1081,227 @@ export default function Home() {
         if (setState) { setState(true); ref.current = true; }
     }, [gameMode]);
 
-    // Host guest-action handlers and auto-broadcast
-    useGuestActions({
+    // Apply server snapshots into local React state.
+    // This replaces the legacy useGuestActions/useMultiplayerSync hook chain.
+    useEffect(() => {
+        if (gameMode !== 'multiplayer') return;
+        if (!multiplayer || typeof multiplayer.setOnGameStateSync !== 'function') return;
+
+        const handler = (gameState) => {
+            if (!gameState || typeof gameState !== 'object') return;
+
+            applyingServerSyncRef.current = true;
+            try {
+                // -----------------------------------------------------------------
+                // Forward-compat: accept server-authoritative "view state" payloads
+                // (setupPhase/diceResult/turn/zones) in addition to legacy snapshots.
+                // -----------------------------------------------------------------
+                if (gameState?.zones && gameState?.turn) {
+                    if (typeof gameState.setupPhase === 'string') {
+                        const incoming = gameState.setupPhase;
+                        setSetupPhase((prev) => {
+                            const order = { dice: 0, hands: 1, complete: 2 };
+                            const prevRank = Object.prototype.hasOwnProperty.call(order, prev) ? order[prev] : 0;
+                            const nextRank = Object.prototype.hasOwnProperty.call(order, incoming) ? order[incoming] : 0;
+                            return nextRank >= prevRank ? incoming : prev;
+                        });
+                    }
+                    if (gameState.diceResult) setSyncedDiceResult(gameState.diceResult);
+
+                    if (typeof gameState.turn.turnNumber === 'number') setTurnNumber(gameState.turn.turnNumber);
+                    if (typeof gameState.turn.turnSide === 'string') setTurnSide(gameState.turn.turnSide);
+                    if (typeof gameState.turn.phase === 'string') setPhase(gameState.turn.phase);
+
+                    // Minimal board projection: show your hand face-up, opponent hand as backs.
+                    // NOTE: This is intentionally shallow; full server-authoritative areas wiring
+                    // will happen in the next refactor phase.
+                    setAreas((prev) => {
+                        const next = cloneAreas(prev);
+                        const myHandIds = gameState.zones?.player?.handIds || [];
+                        const oppHandCount = Number(gameState.zones?.opponent?.handCount) || 0;
+                        const myLifeCount = Number(gameState.zones?.player?.lifeCount) || 0;
+                        const oppLifeCount = Number(gameState.zones?.opponent?.lifeCount) || 0;
+
+                        next.player.bottom.hand = myHandIds
+                            .map((id) => getAssetForId(id))
+                            .filter(Boolean);
+
+                        next.opponent.top.hand = createCardBacks(oppHandCount);
+
+                        // Life is hidden for both players in OPTCG; keep as backs.
+                        next.player.life = createCardBacks(myLifeCount);
+                        next.opponent.life = createCardBacks(oppLifeCount);
+
+                        return next;
+                    });
+
+                    return;
+                }
+
+                const {
+                    areas: nextAreas,
+                    library: nextLibrary,
+                    oppLibrary: nextOppLibrary,
+                    turnSide: nextTurnSide,
+                    turnNumber: nextTurnNumber,
+                    phase: nextPhase,
+                    firstPlayer: nextFirstPlayer,
+                    currentHandSide: nextCurrentHandSide,
+                    setupPhase: nextSetupPhase,
+                    playerHandSelected: nextPlayerHandSelected,
+                    opponentHandSelected: nextOpponentHandSelected,
+                    openingHandsBothSelected: nextOpeningHandsBothSelected,
+                    modifiers: nextModifiers,
+                    battle: nextBattle,
+                    currentAttack: nextCurrentAttack,
+                    battleArrow: nextBattleArrow,
+                    oncePerTurnUsage: nextOncePerTurnUsage,
+                    attackLocked: nextAttackLocked,
+                    diceResult: nextDiceResult
+                } = gameState;
+
+                // During setup, server snapshots can lag behind local selection.
+                // Protect the local player's private zones (hand/life) from being clobbered by
+                // stale or concealed snapshots. This is especially important for the host, since
+                // the server may echo an older snapshot that does not include the full hand.
+                if (nextAreas && typeof nextAreas === 'object') {
+                    const myDataSide = multiplayer.isHost ? 'player' : 'opponent';
+                    const hasSelected = openingHandRef?.current?.getHasSelected?.();
+                    const isSetupHands = nextSetupPhase === 'hands' || setupPhase === 'hands';
+                    const preserveAggressively = gameMode === 'multiplayer' && isSetupHands && hasSelected;
+
+                    const isBackCard = (c) => {
+                        const id = c?.id;
+                        return id === 'BACK' || id === 'CardBack' || id === 'CardBackRegular';
+                    };
+
+                    setAreas((prev) => {
+                        const prevHand = myDataSide === 'player'
+                            ? (prev?.player?.bottom?.hand || [])
+                            : (prev?.opponent?.top?.hand || []);
+                        const prevLife = myDataSide === 'player'
+                            ? (prev?.player?.life || [])
+                            : (prev?.opponent?.life || []);
+
+                        const nextHand = myDataSide === 'player'
+                            ? (nextAreas?.player?.bottom?.hand || [])
+                            : (nextAreas?.opponent?.top?.hand || []);
+                        const nextLife = myDataSide === 'player'
+                            ? (nextAreas?.player?.life || [])
+                            : (nextAreas?.opponent?.life || []);
+
+                        const incomingHandLooksHidden = Array.isArray(nextHand) && nextHand.length > 0 && nextHand.every(isBackCard);
+                        const incomingLifeLooksHidden = Array.isArray(nextLife) && nextLife.length > 0 && nextLife.every(isBackCard);
+
+                        // Preserve if incoming snapshot would wipe, hide, or shrink our private zones.
+                        // Shrink check fixes the reported "hand suddenly drops to a few cards" issue.
+                        const shouldPreserveHand = prevHand.length > 0 && (
+                            preserveAggressively
+                            || nextHand.length === 0
+                            || incomingHandLooksHidden
+                            || nextHand.length < prevHand.length
+                        );
+                        const shouldPreserveLife = prevLife.length > 0 && (
+                            preserveAggressively
+                            || nextLife.length === 0
+                            || incomingLifeLooksHidden
+                            || nextLife.length < prevLife.length
+                        );
+
+                        if (!shouldPreserveHand && !shouldPreserveLife) {
+                            return nextAreas;
+                        }
+
+                        const merged = cloneAreas(nextAreas);
+                        if (myDataSide === 'player') {
+                            if (shouldPreserveHand) merged.player.bottom.hand = prevHand;
+                            if (shouldPreserveLife) merged.player.life = prevLife;
+                        } else {
+                            if (shouldPreserveHand) merged.opponent.top.hand = prevHand;
+                            if (shouldPreserveLife) merged.opponent.life = prevLife;
+                        }
+                        return merged;
+                    });
+                }
+                if (Array.isArray(nextLibrary)) setLibrary(nextLibrary);
+                if (Array.isArray(nextOppLibrary)) setOppLibrary(nextOppLibrary);
+
+                if (typeof nextTurnSide === 'string') setTurnSide(nextTurnSide);
+                if (typeof nextTurnNumber === 'number') setTurnNumber(nextTurnNumber);
+                if (typeof nextPhase === 'string') setPhase(nextPhase);
+
+                if (typeof nextFirstPlayer !== 'undefined') setFirstPlayer(nextFirstPlayer);
+                if (typeof nextCurrentHandSide !== 'undefined') setCurrentHandSide(nextCurrentHandSide);
+                if (typeof nextSetupPhase === 'string') {
+                    const incoming = nextSetupPhase;
+                    setSetupPhase((prev) => {
+                        const order = { dice: 0, hands: 1, complete: 2 };
+                        const prevRank = Object.prototype.hasOwnProperty.call(order, prev) ? order[prev] : 0;
+                        const nextRank = Object.prototype.hasOwnProperty.call(order, incoming) ? order[incoming] : 0;
+                        return nextRank >= prevRank ? incoming : prev;
+                    });
+                }
+
+                if (typeof nextPlayerHandSelected === 'boolean') {
+                    setPlayerHandSelected(nextPlayerHandSelected);
+                    playerHandSelectedRef.current = nextPlayerHandSelected;
+                }
+                if (typeof nextOpponentHandSelected === 'boolean') {
+                    setOpponentHandSelected(nextOpponentHandSelected);
+                    opponentHandSelectedRef.current = nextOpponentHandSelected;
+                }
+                if (typeof nextOpeningHandsBothSelected === 'boolean') {
+                    setOpeningHandsBothSelected(nextOpeningHandsBothSelected);
+                }
+
+                if (nextModifiers && typeof nextModifiers === 'object') {
+                    setModifierState(nextModifiers);
+                }
+                if (typeof nextOncePerTurnUsage !== 'undefined') {
+                    setOncePerTurnUsage(nextOncePerTurnUsage);
+                }
+                if (typeof nextAttackLocked !== 'undefined') {
+                    setAttackLocked(nextAttackLocked);
+                }
+
+                if (typeof nextBattle !== 'undefined') setBattle(nextBattle);
+                if (typeof nextCurrentAttack !== 'undefined') setCurrentAttack(nextCurrentAttack);
+                if (typeof nextBattleArrow !== 'undefined') setBattleArrow(nextBattleArrow);
+
+                if (nextDiceResult) setSyncedDiceResult(nextDiceResult);
+            } finally {
+                applyingServerSyncRef.current = false;
+            }
+        };
+
+        multiplayer.setOnGameStateSync(handler);
+        return () => {
+            multiplayer.setOnGameStateSync(null);
+        };
+    }, [
+        gameMode,
         multiplayer,
-        api: {
-            applyOpeningHandForSide,
-            handleHandSelected,
-            broadcastStateToOpponent,
-            broadcastStateToOpponentRef,
-            setOppLibrary,
-            canPerformGameAction,
-            turnSide,
-            battle,
-            phaseLower,
-            turnNumber,
-            hasEnoughDonFor,
-            getCardCost,
-            cloneAreas,
-            setAreas,
-            appendLog,
-            drawCard,
-            donPhaseGain,
-            cancelDonGiving,
-            setTurnNumber,
-            setTurnSide,
-            executeRefreshPhase,
-            setPhase,
-            giveDonToCard,
-            startDonGiving,
-            applyBlocker,
-            skipBlock,
-            addCounterFromHand,
-            playCounterEventFromHand,
-            endCounterStep,
-            setModifierState,
-            setLibrary,
-            setOppLibraryState: setOppLibrary,
-            setBattle,
-            setCurrentAttack,
-            setBattleArrow,
-            setOncePerTurnUsage,
-            setAttackLocked,
-            setSetupPhase,
-            setOpeningHandShown,
-            playerHandSelected,
-            opponentHandSelected,
-            areasState: areas,
-            libraryState: library,
-            oppLibraryState: oppLibrary,
-            firstPlayer,
-            currentHandSide,
-            setupPhase,
-            phase,
-            openingHandShown,
-            // Extended APIs for multiplayer handlers
-            initializeDonDecks,
-            resetGameInit,
-            createInitialAreas,
-            resetLog,
-            openingHandRef,
-            setPlayerHandSelected,
-            setOpponentHandSelected,
-            setOpeningHandsBothSelected,
-            playerHandSelectedRef,
-            opponentHandSelectedRef,
-            guestHandInitializedRef,
-            openingHandsFinalizedRef,
-            setFirstPlayer,
-            setCurrentHandSide,
-            setSyncedDiceResult: setSyncedDiceResult,
-            // Modifier and transient state for guest->host snapshots
-            getModifierState,
-            oncePerTurnUsage,
-            attackLocked,
-            currentAttack,
-            battleArrow,
-            // Attack functions for guest-initiated attacks
-            beginAttackForLeader,
-            beginAttackForCard
-        }
-    });
+        setAreas,
+        setLibrary,
+        setOppLibrary,
+        setTurnSide,
+        setTurnNumber,
+        setPhase,
+        setFirstPlayer,
+        setCurrentHandSide,
+        setSetupPhase,
+        setOpeningHandShown,
+        setPlayerHandSelected,
+        setOpponentHandSelected,
+        setOpeningHandsBothSelected,
+        setModifierState,
+        setOncePerTurnUsage,
+        setAttackLocked,
+        setBattle,
+        setCurrentAttack,
+        setBattleArrow,
+        setSyncedDiceResult
+    ]);
 
     //. Handle game mode selection
     const handleSelectGameMode = useCallback((mode) => {
@@ -1080,43 +1331,39 @@ export default function Home() {
         //. First turn: the player who won the dice roll's first turn (skip draw, get 1 DON)
         //. In multiplayer, firstPlayer is 'player' (host) or 'opponent' (guest)
         const isFirst = turnNumber === 1 && turnSide === firstPlayer;
-        const isGuest = gameMode === 'multiplayer' && !multiplayer.isHost;
 
         if (phaseLower === 'draw') {
             if (!isFirst) {
-                if (isGuest) {
-                    // Guest sends action to host
-                    multiplayer.sendGuestAction({ type: 'drawCard' });
-                } else {
-                    drawCard(turnSide);
-                }
+                drawCard(turnSide);
             }
             appendLog(isFirst ? 'First turn: skip draw.' : 'Draw 1.');
 
-            if (isGuest) {
-                multiplayer.sendGuestAction({ type: 'setPhase', phase: 'Don' });
-            } else {
-                setPhase('Don');
+            setPhase('Don');
+
+            if (gameMode === 'multiplayer') {
+                setTimeout(() => {
+                    broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
+                }, 100);
             }
             return;
         }
 
         if (phaseLower === 'don') {
             const amt = isFirst ? 1 : 2;
-            if (isGuest) {
-                // Guest sends action to host
-                multiplayer.sendGuestAction({ type: 'donPhaseGain', amount: amt });
-                appendLog(`DON!! +${amt}.`);
+            const actualGained = donPhaseGain(turnSide, amt);
+            if (actualGained === 0) {
+                appendLog('DON!! deck empty: gained 0 DON!!');
+            } else if (actualGained < amt) {
+                appendLog(`DON!! deck low: gained ${actualGained} DON!! (requested ${amt})`);
             } else {
-                const actualGained = donPhaseGain(turnSide, amt);
-                if (actualGained === 0) {
-                    appendLog('DON!! deck empty: gained 0 DON!!');
-                } else if (actualGained < amt) {
-                    appendLog(`DON!! deck low: gained ${actualGained} DON!! (requested ${amt})`);
-                } else {
-                    appendLog(`DON!! +${actualGained}.`);
-                }
-                setPhase('Main');
+                appendLog(`DON!! +${actualGained}.`);
+            }
+            setPhase('Main');
+
+            if (gameMode === 'multiplayer') {
+                setTimeout(() => {
+                    broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
+                }, 100);
             }
             return;
         }
@@ -1124,31 +1371,22 @@ export default function Home() {
         // Handle end-turn confirmation (first click arms, second click proceeds)
         if (!endTurnWithConfirm(3000)) return;
 
-        if (isGuest) {
-            // Guest sends end turn action to host
-            appendLog('[End Phase] Ending turn...');
-            console.log('[Multiplayer Guest] Sending endTurn action to host');
-            multiplayer.sendGuestAction({ type: 'endTurn' });
-        } else {
-            // Host processes turn end directly
-            appendLog('[End Phase] End turn.');
-            const nextSide = getOpposingSide(turnSide);
-            console.log('[Multiplayer Host] Ending turn, switching from', turnSide, 'to', nextSide);
-            cancelDonGiving();
-            setTurnNumber((n) => n + 1);
-            setTurnSide(nextSide);
+        appendLog('[End Phase] End turn.');
+        const nextSide = getOpposingSide(turnSide);
+        console.log('[Multiplayer] Ending turn, switching from', turnSide, 'to', nextSide);
+        cancelDonGiving();
+        setTurnNumber((n) => n + 1);
+        setTurnSide(nextSide);
 
-            //. Execute Refresh Phase for the new turn player (rule 6-2)
-            executeRefreshPhase(nextSide);
+        //. Execute Refresh Phase for the new turn player (rule 6-2)
+        executeRefreshPhase(nextSide);
 
-            setPhase('Draw');
-            
-            // Broadcast the turn change to the guest
-            if (gameMode === 'multiplayer') {
-                setTimeout(() => {
-                    broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
-                }, 100);
-            }
+        setPhase('Draw');
+
+        if (gameMode === 'multiplayer') {
+            setTimeout(() => {
+                broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
+            }, 100);
         }
     }, [
         battle,
@@ -1285,56 +1523,35 @@ export default function Home() {
 
     //. Multiplayer-aware handler for adding counter from hand
     const handleAddCounterFromHand = useCallback((cardIndex) => {
-        if (gameMode === 'multiplayer' && !multiplayer.isHost && multiplayer.sendGuestAction) {
-            //. Guest sends action to host
-            multiplayer.sendGuestAction({ type: 'addCounter', payload: { cardIndex } });
-        } else {
-            //. Host (or single-player) executes directly
-            addCounterFromHand(cardIndex);
-            //. Host broadcasts state to guest after counter is applied
-            if (gameMode === 'multiplayer' && multiplayer.isHost) {
-                setTimeout(() => {
-                    broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
-                }, 100);
-            }
+        addCounterFromHand(cardIndex);
+        if (gameMode === 'multiplayer') {
+            setTimeout(() => {
+                broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
+            }, 100);
         }
         closeActionPanel();
-    }, [gameMode, multiplayer.isHost, multiplayer.sendGuestAction, addCounterFromHand, closeActionPanel]);
+    }, [gameMode, addCounterFromHand, closeActionPanel]);
 
     //. Multiplayer-aware handler for playing counter event from hand
     const handlePlayCounterEventFromHand = useCallback((cardIndex) => {
-        if (gameMode === 'multiplayer' && !multiplayer.isHost && multiplayer.sendGuestAction) {
-            //. Guest sends action to host
-            multiplayer.sendGuestAction({ type: 'playCounterEvent', payload: { cardIndex } });
-        } else {
-            //. Host (or single-player) executes directly
-            playCounterEventFromHand(cardIndex);
-            //. Host broadcasts state to guest after counter event is played
-            if (gameMode === 'multiplayer' && multiplayer.isHost) {
-                setTimeout(() => {
-                    broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
-                }, 100);
-            }
+        playCounterEventFromHand(cardIndex);
+        if (gameMode === 'multiplayer') {
+            setTimeout(() => {
+                broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
+            }, 100);
         }
         closeActionPanel();
-    }, [gameMode, multiplayer.isHost, multiplayer.sendGuestAction, playCounterEventFromHand, closeActionPanel]);
+    }, [gameMode, playCounterEventFromHand, closeActionPanel]);
 
     //. Multiplayer-aware handler for applying blocker
     const handleApplyBlocker = useCallback((blockerIndex) => {
-        if (gameMode === 'multiplayer' && !multiplayer.isHost && multiplayer.sendGuestAction) {
-            //. Guest sends action to host
-            multiplayer.sendGuestAction({ type: 'useBlocker', payload: { blockerIndex } });
-        } else {
-            //. Host (or single-player) executes directly
-            applyBlocker(blockerIndex);
-            //. Host broadcasts state to guest after blocker is applied
-            if (gameMode === 'multiplayer' && multiplayer.isHost) {
-                setTimeout(() => {
-                    broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
-                }, 100);
-            }
+        applyBlocker(blockerIndex);
+        if (gameMode === 'multiplayer') {
+            setTimeout(() => {
+                broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
+            }, 100);
         }
-    }, [gameMode, multiplayer.isHost, multiplayer.sendGuestAction, applyBlocker]);
+    }, [gameMode, applyBlocker]);
 
     //. Multiplayer-aware handler for initiating attacks
     //. For attacks, both host and guest execute locally because targeting needs to happen client-side
@@ -1543,7 +1760,7 @@ export default function Home() {
                                 isMyTurn={isMyTurnInMultiplayer}
                                 multiplayerRole={myMultiplayerSide}
                                 isHost={multiplayer.isHost}
-                                onGuestAction={multiplayer.sendGuestAction}
+                                onGuestAction={null}
                                 onBroadcastStateRef={broadcastStateToOpponentRef}
                             />
                             {/* Activity Log Panel */}
@@ -1770,7 +1987,7 @@ export default function Home() {
                 isMultiplayer={gameMode === 'multiplayer'}
                 myMultiplayerSide={myMultiplayerSide}
                 isHost={multiplayer.isHost}
-                sendGuestAction={multiplayer.sendGuestAction}
+                sendGuestAction={null}
                 broadcastState={broadcastStateToOpponent}
             />
 
@@ -1832,14 +2049,14 @@ export default function Home() {
                 isHost={multiplayer.isHost}
                 syncedResult={syncedDiceResult}
                 onDiceRolled={(diceResult) => {
-                    if (gameMode === 'multiplayer' && multiplayer.isHost && multiplayer.gameStarted) {
-                        console.log('[Multiplayer] Host broadcasting dice result:', diceResult);
-                        multiplayer.broadcastGameState({ 
-                            diceResult, 
-                            setupPhase: 'dice', 
+                    if (gameMode === 'multiplayer' && multiplayer.gameStarted) {
+                        console.log('[Multiplayer] Syncing dice result:', diceResult);
+                        multiplayer.syncGameState({
+                            diceResult,
+                            setupPhase: 'dice',
                             diceRolling: true,
                             library,
-                            oppLibrary 
+                            oppLibrary
                         });
                     }
                 }}

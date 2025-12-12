@@ -29,36 +29,6 @@ export default function usePlayCard({
 
         const side = actionSource?.side === 'opponent' ? 'opponent' : 'player';
 
-        // Guest path: send action to host, do not mutate local state
-        if (gameMode === 'multiplayer' && multiplayer.gameStarted && !multiplayer.isHost) {
-            // Enforce timing locally to avoid bad requests
-            if (!canPlayNow(side)) return;
-            if (side !== turnSide) {
-                appendLog(`Cannot play ${actionCard.id}: not ${side}'s turn.`);
-                return;
-            }
-            const section = actionSource?.section || 'bottom';
-            const keyName = actionSource?.keyName || 'hand';
-            const index = actionCardIndex >= 0 ? actionCardIndex : 0;
-            const cost = getCardCost(actionCard.id, side, section, keyName, index);
-            if (!hasEnoughDonFor(side, cost)) {
-                appendLog(`Cannot play ${actionCard.id}: need ${cost} DON (${side}).`);
-                return;
-            }
-
-            multiplayer.sendGuestAction({
-                type: 'playCard',
-                payload: {
-                    cardId: actionCard.id,
-                    actionCardIndex: index,
-                    actionSource,
-                    cost,
-                    turnNumber
-                }
-            });
-            return;
-        }
-
         // Enforce timing: only during your Main and no battle
         if (!canPlayNow(side)) return;
 
@@ -132,11 +102,12 @@ export default function usePlayCard({
         const logMessage = `[${side}] Played ${actionCard.id}${cost ? ` by resting ${cost} DON` : ''}.`;
         appendLog(logMessage);
 
-        // Sync to multiplayer opponent (host broadcasts full state)
-        if (gameMode === 'multiplayer' && multiplayer.gameStarted && multiplayer.isHost) {
+        // Multiplayer: after local mutation, sync state to server (single broadcast)
+        // The useMultiplayerBroadcast hook will handle skipping if applying server state
+        if (gameMode === 'multiplayer' && multiplayer?.gameStarted && typeof broadcastStateToOpponent === 'function') {
             setTimeout(() => {
                 broadcastStateToOpponent();
-            }, 50);
+            }, 100);
         }
     }, [
         actionCard,

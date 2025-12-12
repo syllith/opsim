@@ -1,10 +1,5 @@
 import DefaultAbility from './DefaultAbility';
-import OnPlayAbility from './abilities/OnPlayAbility';
-import MainAbility from './abilities/MainAbility';
-import WhenAttackingAbility from './abilities/WhenAttackingAbility';
-import OpponentsAttackAbility from './abilities/OpponentsAttackAbility';
-import CounterAbility from './abilities/CounterAbility';
-import StaticAbility from './abilities/StaticAbility';
+import UnifiedAbility from './abilities/UnifiedAbility';
 
 export function resolveAbilityRenderer(ability) {
   if (!ability) return DefaultAbility;
@@ -13,30 +8,30 @@ export function resolveAbilityRenderer(ability) {
   const uiType = ability.uiType;
 
   // Allow explicit override via uiType if present
-  if (uiType === 'onPlay') return OnPlayAbility;
-  if (uiType === 'main') return MainAbility;
-  if (uiType === 'whenAttacking') return WhenAttackingAbility;
-  if (uiType === 'onOpponentsAttack') return OpponentsAttackAbility;
-  if (uiType === 'counter') return CounterAbility;
-  if (uiType === 'static') return StaticAbility;
+  if (uiType === 'onPlay') return UnifiedAbility;
+  if (uiType === 'main') return UnifiedAbility;
+  if (uiType === 'whenAttacking') return UnifiedAbility;
+  if (uiType === 'onOpponentsAttack') return UnifiedAbility;
+  if (uiType === 'counter') return UnifiedAbility;
+  if (uiType === 'static') return UnifiedAbility;
 
   switch (timing) {
     case 'onPlay':
-      return OnPlayAbility;
+      return UnifiedAbility;
     case 'activateMain':
     case 'main':
-      return MainAbility;
+      return UnifiedAbility;
     case 'whenAttacking':
-      return WhenAttackingAbility;
+      return UnifiedAbility;
     case 'whenAttackingOrOnOpponentsAttack':
       // Could use a dedicated component later; reuse attack UI for now
-      return WhenAttackingAbility;
+      return UnifiedAbility;
     case 'onOpponentsAttack':
-      return OpponentsAttackAbility;
+      return UnifiedAbility;
     case 'counter':
-      return CounterAbility;
+      return UnifiedAbility;
     case 'static':
-      return StaticAbility;
+      return UnifiedAbility;
     default:
       return DefaultAbility;
   }

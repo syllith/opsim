@@ -3,16 +3,14 @@
  * 
  * Custom hook for managing multiplayer game state and Socket.io communication.
  * 
- * SIMPLIFIED ARCHITECTURE:
- * - HOST is authoritative for ALL game state
- * - Both players see the game from HOST's perspective
- * - Host controls 'player' side (bottom), Guest controls 'opponent' side (top)
- * - Guest sends actions to host, host applies them and broadcasts
- * - No state transformation needed - simpler and less error-prone
+ * SERVER-AUTHORITATIVE ARCHITECTURE:
+ * - Server is authoritative for ALL game state
+ * - Both players send actions to the server
+ * - Server validates / applies actions and broadcasts updated state
+ * - Host/guest distinction is now UI-only (which side you see as "you")
  */
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
-import _ from 'lodash';
 
 // Socket.io server URL - uses same origin in production
 const SOCKET_URL = import.meta.env.PROD 
@@ -40,8 +38,7 @@ export function useMultiplayer({ username, enabled = false }) {
     const onGameStartRef = useRef(null);
     const onGameStateSyncRef = useRef(null);
     const onOpponentLeftRef = useRef(null);
-    const onGuestActionRef = useRef(null); // Host receives guest actions
-    
+
     // Track if we're host (stored in ref for socket handlers)
     const isHostRef = useRef(false);
 
@@ -125,16 +122,11 @@ export function useMultiplayer({ username, enabled = false }) {
             }
         });
 
-        // Full game state sync from host
+        // Full game state sync from server
         socket.on('gameStateSync', (gameState) => {
-            console.log('[Multiplayer] Received game state sync, isHost:', isHostRef.current);
+            console.log('[Multiplayer] Received game state sync (server-authoritative). isHost:', isHostRef.current);
             if (onGameStateSyncRef.current) {
-                // Guest receives state directly (no transformation - both see host's view)
-                // Host ignores their own broadcasts
-                if (!isHostRef.current) {
-                    console.log('[Multiplayer] Guest applying synced state');
-                    onGameStateSyncRef.current(gameState);
-                }
+                onGameStateSyncRef.current(gameState);
             }
         });
 
@@ -144,14 +136,6 @@ export function useMultiplayer({ username, enabled = false }) {
             setOpponentInfo(null);
             if (onOpponentLeftRef.current) {
                 onOpponentLeftRef.current(data);
-            }
-        });
-
-        // Host receives guest actions
-        socket.on('guestAction', (action) => {
-            console.log('[Multiplayer] Received guest action:', action);
-            if (isHostRef.current && onGuestActionRef.current) {
-                onGuestActionRef.current(action);
             }
         });
 
@@ -209,34 +193,30 @@ export function useMultiplayer({ username, enabled = false }) {
         socketRef.current.emit('setReady', isReady);
     }, []);
 
-    // Broadcast full game state (HOST ONLY)
-    // This is the main sync mechanism - host sends state after every change
-    const broadcastGameState = useCallback((gameState) => {
+    // ---------------------------------------------------------------------
+    // Server-authoritative API
+    // ---------------------------------------------------------------------
+
+    // Sync full (or partial) game state to the server.
+    // Server will merge and rebroadcast to all players in the lobby.
+    const syncGameState = useCallback((gameState) => {
         if (!socketRef.current?.connected || !gameStarted) {
-            console.log('[Multiplayer] Cannot broadcast - not connected or game not started');
+            console.log('[Multiplayer] Cannot sync state - not connected or game not started');
             return;
         }
-        if (!isHostRef.current) {
-            console.log('[Multiplayer] Not host, skipping broadcast');
-            return;
-        }
-        console.log('[Multiplayer] Broadcasting game state');
+        console.log('[Multiplayer] Syncing game state to server');
         socketRef.current.emit('syncGameState', gameState);
     }, [gameStarted]);
 
-    // Send action to host (GUEST ONLY)
-    // Guest sends their actions to host, who then applies them and broadcasts
-    const sendGuestAction = useCallback((action) => {
+    // Send a logical game action to the server.
+    // Server applies it via applyGameAction() and broadcasts updated state.
+    const sendGameAction = useCallback((action) => {
         if (!socketRef.current?.connected || !gameStarted) {
-            console.log('[Multiplayer] Cannot send guest action - not connected or game not started');
+            console.log('[Multiplayer] Cannot send game action - not connected or game not started');
             return;
         }
-        if (isHostRef.current) {
-            console.log('[Multiplayer] Host should not use sendGuestAction');
-            return;
-        }
-        console.log('[Multiplayer] Sending guest action:', action);
-        socketRef.current.emit('guestAction', action);
+        console.log('[Multiplayer] Sending game action:', action?.type || action);
+        socketRef.current.emit('gameAction', action);
     }, [gameStarted]);
 
     // Notify game over
@@ -264,11 +244,6 @@ export function useMultiplayer({ username, enabled = false }) {
         onOpponentLeftRef.current = handler;
     }, []);
 
-    // Set handler for receiving guest actions (HOST ONLY)
-    const setOnGuestAction = useCallback((handler) => {
-        onGuestActionRef.current = handler;
-    }, []);
-
     return {
         // Connection state
         connected,
@@ -293,16 +268,15 @@ export function useMultiplayer({ username, enabled = false }) {
         setReady,
         refreshLobbies,
 
-        // Game actions (HOST broadcasts state, GUEST receives)
-        broadcastGameState,
-        sendGuestAction,
+        // Game actions / state sync
+        syncGameState,
+        sendGameAction,
         sendGameOver,
 
         // Event handlers
         setOnGameStart,
         setOnGameStateSync,
         setOnOpponentLeft,
-        setOnGuestAction,
     };
 }
 

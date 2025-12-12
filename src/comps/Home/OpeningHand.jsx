@@ -121,19 +121,6 @@ const OpeningHand = forwardRef(({
   const handleMulligan = useCallback(() => {
     if (!allowMulligan) { return; }
 
-    //. In multiplayer, each player can mulligan their OWN library
-    //. Host controls 'player' library, Guest controls 'opponent' library
-    //. Guest sends mulligan action to host who applies it and syncs back
-    if (isMultiplayer && !isHost) {
-      //. Guest can mulligan - send action to host and disable mulligan immediately
-      setAllowMulligan(false);
-      if (onGuestAction) {
-        onGuestAction({ type: 'mulligan', side: 'opponent' });
-      }
-      //. Don't update locally - wait for host to sync the new state back
-      return;
-    }
-
     //. Host or single-player: apply mulligan directly
     //. Put current 5 to bottom, draw new 5, must keep
     setCurrentLibrary((prev) => {
@@ -149,7 +136,10 @@ const OpeningHand = forwardRef(({
 
       return lib;
     });
-  }, [allowMulligan, setCurrentLibrary, resolveAssets, isMultiplayer, isHost, onGuestAction]);
+
+    // Multiplayer: do not broadcast from inside this component.
+    // Home.jsx will broadcast the committed setup state after it actually lands in React state.
+  }, [allowMulligan, setCurrentLibrary, resolveAssets, isMultiplayer, onBroadcastStateRef]);
 
   //. Handle keep for current side
   const handleKeep = useCallback(() => {
@@ -157,20 +147,6 @@ const OpeningHand = forwardRef(({
     if (hasSelected) { return; }
     
     const side = currentHandSide === 'both' ? activeSide : (currentHandSide || activeSide);
-
-    //. In multiplayer, guest sends action to host
-    if (isMultiplayer && !isHost) {
-      if (onGuestAction) {
-        //. Send the mulligan state so host knows if guest mulliganed
-        onGuestAction({ type: 'handSelected', side: 'opponent', mulliganUsed: !allowMulligan });
-      }
-      if (typeof onLocalHandSelected === 'function') {
-        onLocalHandSelected('opponent');
-      }
-      //. Mark as selected locally to show waiting state
-      setHasSelected(true);
-      return;
-    }
 
     const currentLib = getCurrentLibrary();
 
@@ -218,18 +194,15 @@ const OpeningHand = forwardRef(({
     //. Remove 10 from this side's library (5 to hand, 5 to life)
     setCurrentLibrary((prev) => prev.slice(0, -10));
 
-    //. In multiplayer, DON'T close the UI here - parent will handle it when both players are ready
-    //. In non-multiplayer, close immediately
-    if (!isMultiplayer) {
-      setOpeningHandShown(false);
-    } else {
-      //. Mark that this player has selected
+    //. In multiplayer, the opening hand modal is per-client and should close immediately
+    //. after this player keeps/mulligans, while the opponent can still be choosing.
+    if (isMultiplayer) {
       setHasSelected(true);
-      
-      //. Host broadcasts updated state so guest can see the hand (as card backs)
-      if (isHost && onBroadcastStateRef?.current) {
-        setTimeout(() => onBroadcastStateRef.current(), 100);
-      }
+      setOpeningHandShown(false);
+
+      // Multiplayer: broadcast happens in Home.jsx after areas/libraries commit.
+    } else {
+      setOpeningHandShown(false);
     }
 
     //. Notify parent that this hand selection is complete
@@ -248,8 +221,6 @@ const OpeningHand = forwardRef(({
     setOpeningHandShown,
     onHandSelected,
     isMultiplayer,
-    isHost,
-    onGuestAction,
     onBroadcastStateRef,
     hasSelected,
     allowMulligan

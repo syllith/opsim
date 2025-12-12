@@ -37,7 +37,8 @@ export default function usePhaseActions({
     // Multiplayer
     gameMode,
     multiplayer,
-    isMyTurnInMultiplayer
+    isMyTurnInMultiplayer,
+    broadcastStateToOpponent
 }) {
     // Execute Refresh Phase (CR 6-2)
     const executeRefreshPhase = useCallback((side) => {
@@ -124,41 +125,36 @@ export default function usePhaseActions({
 
         // First turn: the player who won the dice roll's first turn (skip draw, get 1 DON)
         const isFirst = turnNumber === 1 && turnSide === firstPlayer;
-        const isGuest = gameMode === 'multiplayer' && !multiplayer.isHost;
 
         if (phaseLower === 'draw') {
             if (!isFirst) {
-                if (isGuest) {
-                    multiplayer.sendGuestAction({ type: 'drawCard' });
-                } else {
-                    drawCard(turnSide);
-                }
+                drawCard(turnSide);
             }
             appendLog(isFirst ? 'First turn: skip draw.' : 'Draw 1.');
-            
-            if (isGuest) {
-                multiplayer.sendGuestAction({ type: 'setPhase', phase: 'Don' });
-            } else {
-                setPhase('Don');
+
+            setPhase('Don');
+
+            if (gameMode === 'multiplayer' && multiplayer?.gameStarted && typeof broadcastStateToOpponent === 'function') {
+                setTimeout(() => broadcastStateToOpponent(), 100);
             }
             return;
         }
 
         if (phaseLower === 'don') {
             const amt = isFirst ? 1 : 2;
-            if (isGuest) {
-                multiplayer.sendGuestAction({ type: 'donPhaseGain', amount: amt });
-                appendLog(`DON!! +${amt}.`);
+
+            const actualGained = donPhaseGain(turnSide, amt);
+            if (actualGained === 0) {
+                appendLog('DON!! deck empty: gained 0 DON!!');
+            } else if (actualGained < amt) {
+                appendLog(`DON!! deck low: gained ${actualGained} DON!! (requested ${amt})`);
             } else {
-                const actualGained = donPhaseGain(turnSide, amt);
-                if (actualGained === 0) {
-                    appendLog('DON!! deck empty: gained 0 DON!!');
-                } else if (actualGained < amt) {
-                    appendLog(`DON!! deck low: gained ${actualGained} DON!! (requested ${amt})`);
-                } else {
-                    appendLog(`DON!! +${actualGained}.`);
-                }
-                setPhase('Main');
+                appendLog(`DON!! +${actualGained}.`);
+            }
+            setPhase('Main');
+
+            if (gameMode === 'multiplayer' && multiplayer?.gameStarted && typeof broadcastStateToOpponent === 'function') {
+                setTimeout(() => broadcastStateToOpponent(), 100);
             }
             return;
         }
@@ -166,22 +162,19 @@ export default function usePhaseActions({
         // Handle end-turn confirmation (first click arms, second click proceeds)
         if (!endTurnWithConfirm(3000)) return;
         
-        if (isGuest) {
-            appendLog('[End Phase] Ending turn...');
-            console.log('[Multiplayer Guest] Sending endTurn action to host');
-            multiplayer.sendGuestAction({ type: 'endTurn' });
-        } else {
-            appendLog('[End Phase] End turn.');
-            const nextSide = getOpposingSide(turnSide);
-            console.log('[Multiplayer Host] Ending turn, switching from', turnSide, 'to', nextSide);
-            cancelDonGiving();
-            setTurnNumber((n) => n + 1);
-            setTurnSide(nextSide);
+        appendLog('[End Phase] End turn.');
+        const nextSide = getOpposingSide(turnSide);
+        cancelDonGiving();
+        setTurnNumber((n) => n + 1);
+        setTurnSide(nextSide);
 
-            // Execute Refresh Phase for the new turn player (rule 6-2)
-            executeRefreshPhase(nextSide);
+        // Execute Refresh Phase for the new turn player (rule 6-2)
+        executeRefreshPhase(nextSide);
 
-            setPhase('Draw');
+        setPhase('Draw');
+
+        if (gameMode === 'multiplayer' && multiplayer?.gameStarted && typeof broadcastStateToOpponent === 'function') {
+            setTimeout(() => broadcastStateToOpponent(), 125);
         }
     }, [
         battle,
@@ -203,6 +196,7 @@ export default function usePhaseActions({
         gameMode,
         multiplayer,
         isMyTurnInMultiplayer,
+        broadcastStateToOpponent,
         setPhase,
         setTurnNumber,
         setTurnSide,
