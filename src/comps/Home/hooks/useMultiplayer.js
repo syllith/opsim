@@ -39,6 +39,9 @@ export function useMultiplayer({ username, enabled = false }) {
     const onGameStateSyncRef = useRef(null);
     const onOpponentLeftRef = useRef(null);
 
+    // Dice roll sync (server-authoritative)
+    const onDiceRollRef = useRef(null);
+
     // Track if we're host (stored in ref for socket handlers)
     const isHostRef = useRef(false);
 
@@ -144,6 +147,14 @@ export function useMultiplayer({ username, enabled = false }) {
             setGameStarted(false);
         });
 
+        // Server-authoritative dice roll start (both clients receive same predetermined result)
+        socket.on('diceRollStart', (payload) => {
+            console.log('[Multiplayer] Received dice roll start:', payload);
+            if (onDiceRollRef.current) {
+                onDiceRollRef.current(payload);
+            }
+        });
+
         return () => {
             socket.disconnect();
             socketRef.current = null;
@@ -231,6 +242,13 @@ export function useMultiplayer({ username, enabled = false }) {
         socketRef.current.emit('requestLobbyList');
     }, []);
 
+    // Request a server-authoritative dice roll for the current lobby.
+    // Server will broadcast a `diceRollStart` event to both players.
+    const requestDiceRoll = useCallback(() => {
+        if (!socketRef.current?.connected) return;
+        socketRef.current.emit('requestDiceRoll');
+    }, []);
+
     // Set event handlers
     const setOnGameStart = useCallback((handler) => {
         onGameStartRef.current = handler;
@@ -242,6 +260,10 @@ export function useMultiplayer({ username, enabled = false }) {
 
     const setOnOpponentLeft = useCallback((handler) => {
         onOpponentLeftRef.current = handler;
+    }, []);
+
+    const setOnDiceRoll = useCallback((handler) => {
+        onDiceRollRef.current = handler;
     }, []);
 
     return {
@@ -267,6 +289,7 @@ export function useMultiplayer({ username, enabled = false }) {
         updateDeck,
         setReady,
         refreshLobbies,
+        requestDiceRoll,
 
         // Game actions / state sync
         syncGameState,
@@ -277,6 +300,7 @@ export function useMultiplayer({ username, enabled = false }) {
         setOnGameStart,
         setOnGameStateSync,
         setOnOpponentLeft,
+        setOnDiceRoll,
     };
 }
 

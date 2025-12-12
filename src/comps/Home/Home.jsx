@@ -1280,6 +1280,46 @@ export default function Home() {
         setSyncedDiceResult
     ]);
 
+    // -----------------------------------------------------------------
+    // Multiplayer dice roll: server-authoritative + synchronized animation
+    // -----------------------------------------------------------------
+
+    // Listen for the dedicated dice-roll scheduling event.
+    useEffect(() => {
+        if (gameMode !== 'multiplayer') return;
+        if (!multiplayer || typeof multiplayer.setOnDiceRoll !== 'function') return;
+
+        const handler = (payload) => {
+            if (!payload || typeof payload !== 'object') return;
+            setSyncedDiceResult(payload);
+        };
+
+        multiplayer.setOnDiceRoll(handler);
+        return () => multiplayer.setOnDiceRoll(null);
+    }, [gameMode, multiplayer, setSyncedDiceResult]);
+
+    // Host requests the server dice roll once when entering the dice phase.
+    const diceRequestSentRef = useRef(false);
+    useEffect(() => {
+        if (gameMode !== 'multiplayer') {
+            diceRequestSentRef.current = false;
+            return;
+        }
+        if (!multiplayer.gameStarted) return;
+        if (setupPhase !== 'dice') {
+            diceRequestSentRef.current = false;
+            return;
+        }
+        if (syncedDiceResult) return;
+        if (!multiplayer.isHost) return;
+        if (diceRequestSentRef.current) return;
+
+        diceRequestSentRef.current = true;
+        if (typeof multiplayer.requestDiceRoll === 'function') {
+            multiplayer.requestDiceRoll();
+        }
+    }, [gameMode, multiplayer.gameStarted, multiplayer.isHost, multiplayer.requestDiceRoll, setupPhase, syncedDiceResult]);
+
     //. Handle game mode selection
     const handleSelectGameMode = useCallback((mode) => {
         mode === 'multiplayer' ? setShowLobby(true) : setGameMode(mode);
@@ -2019,24 +2059,13 @@ export default function Home() {
                 visible={
                     (gameMode === 'self-vs-self' || gameMode === 'multiplayer') && 
                     setupPhase === 'dice' && 
-                    (library.length > 0 || (gameMode === 'multiplayer' && !multiplayer.isHost && (syncedDiceResult || multiplayer.gameStarted)))
+                    (gameMode === 'multiplayer' ? multiplayer.gameStarted : library.length > 0)
                 }
                 onComplete={handleDiceRollComplete}
                 isMultiplayer={gameMode === 'multiplayer'}
                 isHost={multiplayer.isHost}
                 syncedResult={syncedDiceResult}
-                onDiceRolled={(diceResult) => {
-                    if (gameMode === 'multiplayer' && multiplayer.gameStarted) {
-                        console.log('[Multiplayer] Syncing dice result:', diceResult);
-                        multiplayer.syncGameState({
-                            diceResult,
-                            setupPhase: 'dice',
-                            diceRolling: true,
-                            library,
-                            oppLibrary
-                        });
-                    }
-                }}
+                onDiceRolled={null}
             />
         </Container>
     );

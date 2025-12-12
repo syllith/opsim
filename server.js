@@ -10,6 +10,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import http from 'http';
 import { Server as SocketIOServer } from 'socket.io';
+import crypto from 'crypto';
 
 // ESM compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -632,6 +633,16 @@ function rollDiceNoTie() {
     return [a, b];
 }
 
+function rollDiceNoTieCrypto() {
+    let a = 0;
+    let b = 0;
+    while (a === b) {
+        a = crypto.randomInt(1, 7);
+        b = crypto.randomInt(1, 7);
+    }
+    return [a, b];
+}
+
 // Helper function to apply game actions on server
 async function applyGameAction(lobbyId, action, socketId) {
     const game = games.get(lobbyId);
@@ -1050,6 +1061,45 @@ io.on('connection', (socket) => {
                 console.log(`[Lobby] Game starting in ${lobbyId}`);
             }
         }
+    });
+
+    // Server-authoritative dice roll for setup.
+    // Either player may request; server will roll once per lobby and broadcast the same
+    // predetermined result + synchronized schedule to both players.
+    socket.on('requestDiceRoll', () => {
+        const lobbyId = playerToLobby.get(socket.id);
+        if (!lobbyId) return;
+
+        const lobby = lobbies.get(lobbyId);
+        if (!lobby || lobby.status !== 'playing') return;
+        if (!Array.isArray(lobby.players) || lobby.players.length !== 2) return;
+
+        lobby.setup = lobby.setup || {};
+
+        // If we've already rolled for this lobby, just rebroadcast it.
+        if (lobby.setup.diceRoll && typeof lobby.setup.diceRoll === 'object') {
+            io.to(lobbyId).emit('diceRollStart', lobby.setup.diceRoll);
+            return;
+        }
+
+        // Canonical mapping: host is "player"; guest is "opponent".
+        const [pRoll, oRoll] = rollDiceNoTieCrypto();
+        const firstPlayer = pRoll > oRoll ? 'player' : 'opponent';
+
+        // Schedule: start a tiny bit in the future so both clients can begin together.
+        const startAt = Date.now() + 350;
+        const revealAt = startAt + 2000;
+
+        const payload = {
+            playerRoll: pRoll,
+            opponentRoll: oRoll,
+            firstPlayer,
+            startAt,
+            revealAt
+        };
+
+        lobby.setup.diceRoll = payload;
+        io.to(lobbyId).emit('diceRollStart', payload);
     });
 
     // Leave lobby

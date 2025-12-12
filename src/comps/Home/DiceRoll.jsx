@@ -1,5 +1,5 @@
 // DiceRoll.jsx - Dice roll component to determine who goes first
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Box, Paper, Typography, Button, CircularProgress } from '@mui/material';
 import CasinoIcon from '@mui/icons-material/Casino';
 
@@ -19,7 +19,41 @@ const DiceRoll = ({
   const [finalRolls, setFinalRolls] = useState(null); // Store final roll values
   const [countdown, setCountdown] = useState(null); // Auto-continue countdown
 
+  const timersRef = useRef({ startTimer: null, rollInterval: null });
+
+  const myCanonicalSide = useMemo(() => {
+    if (!isMultiplayer) return 'player';
+    return isHost ? 'player' : 'opponent';
+  }, [isMultiplayer, isHost]);
+
+  const youRoll = useMemo(() => {
+    if (playerRoll === null || opponentRoll === null) return null;
+    return myCanonicalSide === 'player' ? playerRoll : opponentRoll;
+  }, [playerRoll, opponentRoll, myCanonicalSide]);
+
+  const oppRoll = useMemo(() => {
+    if (playerRoll === null || opponentRoll === null) return null;
+    return myCanonicalSide === 'player' ? opponentRoll : playerRoll;
+  }, [playerRoll, opponentRoll, myCanonicalSide]);
+
+  const youGoFirst = useMemo(() => {
+    if (!result) return false;
+    return result === myCanonicalSide;
+  }, [result, myCanonicalSide]);
+
+  const clearTimers = useCallback(() => {
+    if (timersRef.current.startTimer) {
+      clearTimeout(timersRef.current.startTimer);
+      timersRef.current.startTimer = null;
+    }
+    if (timersRef.current.rollInterval) {
+      clearInterval(timersRef.current.rollInterval);
+      timersRef.current.rollInterval = null;
+    }
+  }, []);
+
   const rollDice = useCallback((presetResult = null) => {
+    clearTimers();
     setRolling(true);
     setPlayerRoll(null);
     setOpponentRoll(null);
@@ -27,53 +61,71 @@ const DiceRoll = ({
     setShowResult(false);
     setCountdown(null);
 
-    // Animate dice rolling
-    let rollCount = 0;
-    const maxRolls = 15;
-    const rollInterval = setInterval(() => {
+    const tickMs = 100;
+
+    // Multiplayer: server provides predetermined result + timing.
+    if (presetResult && typeof presetResult === 'object') {
+      const pRoll = presetResult.playerRoll;
+      const oRoll = presetResult.opponentRoll;
+      const firstPlayer = presetResult.firstPlayer;
+      const startAt = typeof presetResult.startAt === 'number' ? presetResult.startAt : Date.now();
+      const revealAt = typeof presetResult.revealAt === 'number' ? presetResult.revealAt : startAt + 1500;
+
+      const startDelay = Math.max(0, startAt - Date.now());
+      timersRef.current.startTimer = setTimeout(() => {
+        timersRef.current.rollInterval = setInterval(() => {
+          setPlayerRoll(Math.floor(Math.random() * 6) + 1);
+          setOpponentRoll(Math.floor(Math.random() * 6) + 1);
+
+          if (Date.now() >= revealAt) {
+            clearTimers();
+            setPlayerRoll(pRoll);
+            setOpponentRoll(oRoll);
+            setRolling(false);
+            setResult(firstPlayer);
+            setFinalRolls({ playerRoll: pRoll, opponentRoll: oRoll });
+            setShowResult(true);
+            setCountdown(3);
+          }
+        }, tickMs);
+      }, startDelay);
+
+      return;
+    }
+
+    // Non-multiplayer fallback: local roll.
+    let pRoll;
+    let oRoll;
+    do {
+      pRoll = Math.floor(Math.random() * 6) + 1;
+      oRoll = Math.floor(Math.random() * 6) + 1;
+    } while (pRoll === oRoll);
+    const firstPlayer = pRoll > oRoll ? 'player' : 'opponent';
+
+    // Animate for a fixed duration then reveal.
+    const startAt = Date.now();
+    const revealAt = startAt + 1500;
+
+    timersRef.current.rollInterval = setInterval(() => {
       setPlayerRoll(Math.floor(Math.random() * 6) + 1);
       setOpponentRoll(Math.floor(Math.random() * 6) + 1);
-      rollCount++;
 
-      if (rollCount >= maxRolls) {
-        clearInterval(rollInterval);
-
-        let pRoll, oRoll, firstPlayer;
-        
-        if (presetResult) {
-          // Guest uses preset result from host
-          firstPlayer = presetResult.firstPlayer;
-          pRoll = presetResult.playerRoll;
-          oRoll = presetResult.opponentRoll;
-        } else {
-          // Host determines the actual result
-          do {
-            pRoll = Math.floor(Math.random() * 6) + 1;
-            oRoll = Math.floor(Math.random() * 6) + 1;
-          } while (pRoll === oRoll); // Re-roll on tie
-          firstPlayer = pRoll > oRoll ? 'player' : 'opponent';
-          
-          // Host broadcasts the result immediately so guest can start rolling
-          if (onDiceRolled) {
-            onDiceRolled({ firstPlayer, playerRoll: pRoll, opponentRoll: oRoll });
-          }
-        }
-
+      if (Date.now() >= revealAt) {
+        clearTimers();
         setPlayerRoll(pRoll);
         setOpponentRoll(oRoll);
         setRolling(false);
         setResult(firstPlayer);
         setFinalRolls({ playerRoll: pRoll, opponentRoll: oRoll });
+        setShowResult(true);
+        setCountdown(3);
 
-        // Show result after a brief pause
-        setTimeout(() => {
-          setShowResult(true);
-          // Start 3 second countdown
-          setCountdown(3);
-        }, 500);
+        if (onDiceRolled) {
+          onDiceRolled({ firstPlayer, playerRoll: pRoll, opponentRoll: oRoll });
+        }
       }
-    }, 100);
-  }, [onDiceRolled]);
+    }, tickMs);
+  }, [clearTimers, onDiceRolled]);
 
   const handleContinue = useCallback(() => {
     if (result && finalRolls) {
@@ -98,28 +150,31 @@ const DiceRoll = ({
     return () => clearTimeout(timer);
   }, [countdown, handleContinue]);
 
+  // Cleanup timers on unmount
+  useEffect(() => {
+    return () => clearTimers();
+  }, [clearTimers]);
+
   // Auto-roll when component becomes visible
   useEffect(() => {
     if (visible && !rolling && !result) {
-      if (isMultiplayer && !isHost && syncedResult) {
-        // Guest plays animation with synced result
-        const timer = setTimeout(() => rollDice(syncedResult), 500);
-        return () => clearTimeout(timer);
-      } else if (isMultiplayer && !isHost && !syncedResult) {
-        // Guest waiting for synced result - don't roll yet
-        return;
-      } else {
-        // Host or non-multiplayer: start rolling
-        const timer = setTimeout(() => rollDice(), 500);
+      if (isMultiplayer) {
+        if (!syncedResult) {
+          return;
+        }
+        const timer = setTimeout(() => rollDice(syncedResult), 0);
         return () => clearTimeout(timer);
       }
+
+      const timer = setTimeout(() => rollDice(), 200);
+      return () => clearTimeout(timer);
     }
   }, [visible, rolling, result, rollDice, isMultiplayer, isHost, syncedResult]);
 
   if (!visible) return null;
 
-  // Guest waiting for host to roll (no synced result yet)
-  if (isMultiplayer && !isHost && !syncedResult && !rolling && !result) {
+  // Multiplayer waiting for server roll scheduling
+  if (isMultiplayer && !syncedResult && !rolling && !result) {
     return (
       <Box
         sx={{
@@ -150,10 +205,10 @@ const DiceRoll = ({
         >
           <CircularProgress size={64} sx={{ mb: 2 }} />
           <Typography variant="h5" fontWeight={700} gutterBottom>
-            Waiting for Host
+            Waiting for Server
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Host is rolling the dice...
+            Waiting for the dice roll to start...
           </Typography>
         </Paper>
       </Box>
@@ -222,7 +277,7 @@ const DiceRoll = ({
             mb: 3
           }}
         >
-          {/* Bottom Player (You) */}
+          {/* You */}
           <Box
             sx={{
               display: 'flex',
@@ -231,19 +286,19 @@ const DiceRoll = ({
             }}
           >
             <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-              Bottom Player
+              You
             </Typography>
             <Box
               sx={{
                 width: 80,
                 height: 80,
-                bgcolor: result === 'player' ? 'success.main' : 'grey.800',
+                bgcolor: result ? (youGoFirst ? 'success.main' : 'grey.800') : 'grey.800',
                 borderRadius: 2,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 border: '3px solid',
-                borderColor: result === 'player' ? 'success.light' : 'grey.600',
+                borderColor: result ? (youGoFirst ? 'success.light' : 'grey.600') : 'grey.600',
                 transition: 'all 0.3s ease',
                 transform: rolling ? 'scale(1.05)' : 'scale(1)',
                 animation: rolling ? 'shake 0.1s linear infinite' : 'none',
@@ -259,7 +314,7 @@ const DiceRoll = ({
                 fontWeight={700}
                 sx={{ color: 'white' }}
               >
-                {playerRoll || '-'}
+                {youRoll || '-'}
               </Typography>
             </Box>
           </Box>
@@ -277,7 +332,7 @@ const DiceRoll = ({
             </Typography>
           </Box>
 
-          {/* Top Player (Opponent) */}
+          {/* Opponent */}
           <Box
             sx={{
               display: 'flex',
@@ -286,19 +341,19 @@ const DiceRoll = ({
             }}
           >
             <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-              Top Player
+              Opponent
             </Typography>
             <Box
               sx={{
                 width: 80,
                 height: 80,
-                bgcolor: result === 'opponent' ? 'success.main' : 'grey.800',
+                bgcolor: result ? (!youGoFirst ? 'success.main' : 'grey.800') : 'grey.800',
                 borderRadius: 2,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 border: '3px solid',
-                borderColor: result === 'opponent' ? 'success.light' : 'grey.600',
+                borderColor: result ? (!youGoFirst ? 'success.light' : 'grey.600') : 'grey.600',
                 transition: 'all 0.3s ease',
                 transform: rolling ? 'scale(1.05)' : 'scale(1)',
                 animation: rolling ? 'shake 0.1s linear infinite' : 'none'
@@ -309,7 +364,7 @@ const DiceRoll = ({
                 fontWeight={700}
                 sx={{ color: 'white' }}
               >
-                {opponentRoll || '-'}
+                {oppRoll || '-'}
               </Typography>
             </Box>
           </Box>
@@ -330,9 +385,7 @@ const DiceRoll = ({
                 }
               }}
             >
-              {result === 'player'
-                ? '🎉 Bottom Player goes first!'
-                : '🎉 Top Player goes first!'}
+              {youGoFirst ? 'You go first!' : 'Opponent goes first!'}
             </Typography>
           </Box>
         )}
