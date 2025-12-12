@@ -17,3 +17,4 @@ export { default as useAttackHelpers } from './useAttackHelpers';
 export { default as useGameSetup } from './useGameSetup';
 export { default as usePhaseActions } from './usePhaseActions';
 export { default as usePlayCard } from './usePlayCard';
+export { default as useBroadcastSoon } from './useBroadcastSoon';

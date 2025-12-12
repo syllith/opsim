@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 import _ from 'lodash';
+import useBroadcastSoon from './useBroadcastSoon';
+import { getHandCostRoot, getSideRoot, restDonForCost } from './areasUtils';
 
 /**
  * Hook for playing cards from hand to character area
@@ -15,13 +17,14 @@ export default function usePlayCard({
     appendLog,
     getCardCost,
     hasEnoughDonFor,
-    setAreas,
-    cloneAreas,
+    mutateAreas,
     turnNumber,
     gameMode,
     multiplayer,
     broadcastStateToOpponent
 }) {
+    const broadcastSoon = useBroadcastSoon({ gameMode, multiplayer, broadcastStateToOpponent });
+
     const playSelectedCard = useCallback(() => {
         // Cannot play cards until opening hand is finalized
         if (!canPerformGameAction()) return;
@@ -48,67 +51,40 @@ export default function usePlayCard({
             return;
         }
 
-        let placedFieldIndex = -1;
+        mutateAreas((next) => {
+            const sideRoot = getSideRoot(next, side);
+            const handCostRoot = getHandCostRoot(next, side);
+            if (!sideRoot || !handCostRoot) return;
 
-        setAreas((prev) => {
-            const next = cloneAreas(prev);
-            const isPlayer = side === 'player';
-
-            const hand = _.get(next, isPlayer ? 'player.bottom.hand' : 'opponent.top.hand', []);
+            const hand = handCostRoot.hand || [];
             const cardIndex = actionCardIndex >= 0
                 ? actionCardIndex
                 : _.findIndex(hand, ['id', actionCard.id]);
-            const chars = _.get(next, isPlayer ? 'player.char' : 'opponent.char', []);
+            const chars = sideRoot.char || [];
 
             // Can only play if we found the card and have room
             if (cardIndex === -1 || chars.length >= 5) {
-                return next;
+                return;
             }
 
             // Pay DON cost
-            if (cost > 0) {
-                const pool = isPlayer ? (next.player.bottom.cost || []) : (next.opponent.top.cost || []);
-                let remainingCost = cost;
-
-                for (let i = 0; i < pool.length && remainingCost > 0; i++) {
-                    const don = pool[i];
-                    if (don.id === 'DON' && !don.rested) {
-                        don.rested = true;
-                        remainingCost--;
-                    }
-                }
-            }
+            restDonForCost(next, side, cost);
 
             // Remove from hand and place on field
             const [cardToPlay] = hand.splice(cardIndex, 1);
-            if (isPlayer) {
-                next.player.bottom.hand = hand;
-            } else {
-                next.opponent.top.hand = hand;
-            }
+            handCostRoot.hand = hand;
 
-            placedFieldIndex = chars.length;
             const placedCard = { ...cardToPlay, rested: false, enteredTurn: turnNumber, justPlayed: true };
-
-            if (isPlayer) {
-                next.player.char = [...chars, placedCard];
-            } else {
-                next.opponent.char = [...chars, placedCard];
-            }
-
-            return next;
-        });
+            chars.push(placedCard);
+            sideRoot.char = chars;
+        }, { onErrorLabel: '[playSelectedCard] Failed' });
 
         const logMessage = `[${side}] Played ${actionCard.id}${cost ? ` by resting ${cost} DON` : ''}.`;
         appendLog(logMessage);
 
         // Multiplayer: after local mutation, sync state to server (single broadcast)
         // The useMultiplayerBroadcast hook will handle skipping if applying server state
-        if (gameMode === 'multiplayer' && multiplayer?.gameStarted && typeof broadcastStateToOpponent === 'function') {
-            setTimeout(() => {
-                broadcastStateToOpponent();
-            }, 100);
-        }
+        broadcastSoon(100);
     }, [
         actionCard,
         actionCardIndex,
@@ -119,12 +95,12 @@ export default function usePlayCard({
         appendLog,
         getCardCost,
         hasEnoughDonFor,
-        setAreas,
-        cloneAreas,
+        mutateAreas,
         turnNumber,
         gameMode,
         multiplayer,
-        broadcastStateToOpponent
+        broadcastStateToOpponent,
+        broadcastSoon
     ]);
 
     return {

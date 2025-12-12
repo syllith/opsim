@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import _ from 'lodash';
+import { getHandCostRoot, getSideRoot, restDonForCost } from './hooks/areasUtils';
 
 //. Safely rests a card instance at the given path in the board state
 const restInstance = (root, path) => {
@@ -9,12 +10,6 @@ const restInstance = (root, path) => {
   }
 };
 
-//. Returns the "side zone" object (player.bottom / opponent.top) for hand/cost/trash
-const getSideZoneLoc = (root, side) =>
-  side === 'player'
-    ? _.get(root, ['player', 'bottom'])
-    : _.get(root, ['opponent', 'top']);
-
 export function useBattleSystem({
   battle,
   setBattle,
@@ -23,6 +18,7 @@ export function useBattleSystem({
   setBattleArrow,
   areas,
   setAreas,
+  mutateAreas,
   appendLog,
   startTargeting,
   cancelTargeting,
@@ -33,8 +29,6 @@ export function useBattleSystem({
   getCharArray,
   getLeaderArray,
   getHandCostLocation,
-  getHandCostLocationFromNext,
-  getSideLocationFromNext,
   hasKeyword,
   getKeywordsFor,
   hasTempKeyword,
@@ -50,6 +44,22 @@ export function useBattleSystem({
   //. Multiplayer: only host should run automatic state transitions
   isAuthoritative = true
 }) {
+  const mutateAreasSafe = useCallback((recipeFn, { onErrorLabel } = {}) => {
+    if (typeof mutateAreas === 'function') {
+      mutateAreas(recipeFn, { onErrorLabel });
+      return;
+    }
+    setAreas((prev) => {
+      const next = _.cloneDeep(prev);
+      try {
+        recipeFn(next, prev);
+        return next;
+      } catch (error) {
+        console.warn(onErrorLabel || '[mutateAreasSafe] Failed', error);
+        return prev;
+      }
+    });
+  }, [mutateAreas, setAreas]);
   //. Step helpers --------------------------------------------------------
 
   const isBattleStep = useCallback(
@@ -169,11 +179,9 @@ export function useBattleSystem({
       );
 
       //. Rest the attacking leader immediately upon declaration (CR 7-4-3)
-      setAreas((prev) => {
-        const next = _.cloneDeep(prev);
+      mutateAreasSafe((next) => {
         restInstance(next, [attackingSide, 'middle', 'leader', 0]);
-        return next;
-      });
+      }, { onErrorLabel: '[beginAttackForLeader] Failed to rest leader' });
 
       //. Enter "declaring" so On Attack abilities can fire during target selection
       setBattle({
@@ -212,12 +220,10 @@ export function useBattleSystem({
           const t = _.get(targets, 0);
           if (!t) {
             //. Attack cancelled – unreset attacker and clear battle state
-            setAreas((prev) => {
-              const next = _.cloneDeep(prev);
+            mutateAreasSafe((next) => {
               const inst = _.get(next, [attackingSide, 'middle', 'leader', 0]);
               if (inst) inst.rested = false;
-              return next;
-            });
+            }, { onErrorLabel: '[beginAttackForLeader] Failed to unrest leader' });
             setCurrentAttack(null);
             setBattle(null);
             appendLog('[attack] Attack cancelled.');
@@ -316,11 +322,9 @@ export function useBattleSystem({
       );
 
       //. Rest the attacking character immediately upon declaration (CR 7-4-3)
-      setAreas((prev) => {
-        const next = _.cloneDeep(prev);
+      mutateAreasSafe((next) => {
         restInstance(next, [attackingSide, 'char', 'char', attackerIndex]);
-        return next;
-      });
+      }, { onErrorLabel: '[beginAttackForCard] Failed to rest attacker' });
 
       //. Enter "declaring" so On Attack abilities can fire during target selection
       setBattle({
@@ -359,12 +363,10 @@ export function useBattleSystem({
           const t = _.get(targets, 0);
           if (!t) {
             //. Attack cancelled – unreset attacker and clear battle state
-            setAreas((prev) => {
-              const next = _.cloneDeep(prev);
+            mutateAreasSafe((next) => {
               const inst = _.get(next, [attackingSide, 'char', 'char', attackerIndex]);
               if (inst) inst.rested = false;
-              return next;
-            });
+            }, { onErrorLabel: '[beginAttackForCard] Failed to unrest attacker' });
             setCurrentAttack(null);
             setBattle(null);
             appendLog('[attack] Attack cancelled.');
@@ -530,12 +532,10 @@ export function useBattleSystem({
       }
 
       //. Rest the blocker on the board
-      setAreas((prev) => {
-        const next = _.cloneDeep(prev);
-        const loc = getSideLocationFromNext(next, defendingSide);
+      mutateAreasSafe((next) => {
+        const loc = getSideRoot(next, defendingSide);
         restInstance(loc, ['char', blockerIndex]);
-        return next;
-      });
+      }, { onErrorLabel: '[applyBlocker] Failed to rest blocker' });
 
       appendLog(`[battle] Blocker ${card.id} rests to block.`);
 
@@ -563,11 +563,10 @@ export function useBattleSystem({
       appendLog,
       getCharArray,
       getKeywordsFor,
-      getSideLocationFromNext,
       hasDisabledKeyword,
       hasKeyword,
       isBattleStep,
-      setAreas,
+      mutateAreasSafe,
       setBattle
     ]
   );
@@ -601,10 +600,9 @@ export function useBattleSystem({
       if (!counterVal) { return; }
 
       //. Move the card from hand to trash
-      setAreas((prev) => {
-        const next = _.cloneDeep(prev);
-        const loc = getSideZoneLoc(next, defendingSide);
-        if (!loc) { return next; }
+      mutateAreasSafe((next) => {
+        const loc = getHandCostRoot(next, defendingSide);
+        if (!loc) { return; }
 
         const hand = loc.hand || [];
         const [removed] = hand.splice(handIndex, 1);
@@ -613,8 +611,7 @@ export function useBattleSystem({
         const trashArr = loc.trash || [];
         loc.trash = [...trashArr, removed || card];
 
-        return next;
-      });
+      }, { onErrorLabel: '[addCounterFromHand] Failed' });
 
       //. Apply counter power to the defender
       setBattle((b) => ({
@@ -649,7 +646,7 @@ export function useBattleSystem({
       getCardMeta,
       getHandCostLocation,
       isBattleStep,
-      setAreas,
+      mutateAreasSafe,
       setBattle
     ]
   );
@@ -661,23 +658,22 @@ export function useBattleSystem({
 
       const defendingSide = battle.target.side;
 
-      setAreas((prev) => {
-        const next = _.cloneDeep(prev);
-        const loc = getSideZoneLoc(next, defendingSide);
-        if (!loc) { return prev; }
+      mutateAreasSafe((next) => {
+        const loc = getHandCostRoot(next, defendingSide);
+        if (!loc) { return; }
 
         const hand = loc.hand || [];
         const card = _.get(hand, handIndex);
-        if (!card) { return prev; }
+        if (!card) { return; }
 
         const meta = getCardMeta(card.id);
-        if (!meta) { return prev; }
+        if (!meta) { return; }
 
         //. Schema v2 uses cardType only
         const cardType = meta.cardType;
         const isEvent = cardType === 'event';
         const hasCounterKeyword = hasKeyword(meta.keywords, 'counter');
-        if (!isEvent || !hasCounterKeyword) { return prev; }
+        if (!isEvent || !hasCounterKeyword) { return; }
 
         const cost = _.get(meta, 'cost', _.get(meta, 'stats.cost', 0)) || 0;
         const costArr = loc.cost || [];
@@ -687,17 +683,10 @@ export function useBattleSystem({
           (d) => d.id === 'DON' && !d.rested
         );
 
-        if (activeDon.length < cost) { return prev; }
+        if (activeDon.length < cost) { return; }
 
         //. Rest DON to pay cost
-        let toRest = cost;
-        for (let i = 0; i < costArr.length && toRest > 0; i++) {
-          const d = costArr[i];
-          if (d.id === 'DON' && !d.rested) {
-            d.rested = true;
-            toRest--;
-          }
-        }
+        restDonForCost(next, defendingSide, cost);
 
         //. Move event from hand to trash
         hand.splice(handIndex, 1);
@@ -710,10 +699,9 @@ export function useBattleSystem({
           `[battle] Event Counter activated: ${card.id} (cost ${cost}).`
         );
 
-        return next;
-      });
+      }, { onErrorLabel: '[playCounterEventFromHand] Failed' });
     },
-    [appendLog, battle, getCardMeta, hasKeyword, isBattleStep, setAreas]
+    [appendLog, battle, getCardMeta, hasKeyword, isBattleStep, mutateAreasSafe]
   );
 
   const endCounterStep = useCallback(
@@ -752,9 +740,8 @@ export function useBattleSystem({
           const defendingSide = battle.target.side;
 
           //. KO Character and move to trash, remove attached DON!!
-          setAreas((prev) => {
-            const next = _.cloneDeep(prev);
-            const sideLoc = getSideLocationFromNext(next, defendingSide);
+          mutateAreasSafe((next) => {
+            const sideLoc = getSideRoot(next, defendingSide);
             const charArr = sideLoc.char || [];
             const charDonArr = sideLoc.charDon || [];
 
@@ -764,12 +751,11 @@ export function useBattleSystem({
             sideLoc.char = charArr;
             sideLoc.charDon = charDonArr;
 
-            const trashLoc = getHandCostLocationFromNext(next, defendingSide);
+            const trashLoc = getHandCostRoot(next, defendingSide);
             const trashArr = trashLoc?.trash || [];
             trashLoc.trash = [...trashArr, removed];
 
-            return next;
-          });
+          }, { onErrorLabel: '[resolveDamage] Failed to KO character' });
 
           returnDonFromCard(
             defendingSide,
@@ -793,11 +779,9 @@ export function useBattleSystem({
       dealOneDamageToLeader,
       getAttackerPower,
       getDefenderPower,
-      getHandCostLocationFromNext,
-      getSideLocationFromNext,
       isBattleStep,
       returnDonFromCard,
-      setAreas,
+      mutateAreasSafe,
       setBattle
     ]
   );

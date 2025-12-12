@@ -1,15 +1,5 @@
 import { useState, useCallback } from 'react';
-import _ from 'lodash';
-
-// Helper to get the side location from areas (player or opponent)
-const getSideLocationFromNext = (next, side) => {
-    return side === 'player' ? next.player : next.opponent;
-};
-
-// Helper to get hand/cost/trash/don container from areas
-const getHandCostLocationFromNext = (next, side) => {
-    return side === 'player' ? next.player.bottom : next.opponent.top;
-};
+import { dealDamageToLeaderMutate, getHandCostRoot, getSideRoot } from './areasUtils';
 
 /**
  * Hook to manage Trigger card mechanics (CR 4-6-3, 10-1-5)
@@ -18,56 +8,47 @@ const getHandCostLocationFromNext = (next, side) => {
 export default function useTriggers({
     metaById,
     appendLog,
-    setAreas
+    mutateAreas
 }) {
     const [triggerPending, setTriggerPending] = useState(null);
 
     // Case-insensitive keyword check
     const hasKeyword = useCallback((keywords, keyword) => {
-        return _.some(keywords, k => new RegExp(keyword, 'i').test(k));
+        const keywordLower = (keyword || '').toLowerCase();
+        return (keywords || []).some(k => (k || '').toLowerCase().includes(keywordLower));
     }, []);
 
     // Deal 1 damage; check for Trigger (CR 4-6-3, 10-1-5)
     const dealOneDamageToLeader = useCallback((defender) => {
         let cardWithTrigger = null;
 
-        setAreas((prev) => {
-            const next = _.cloneDeep(prev);
-            const side = getSideLocationFromNext(next, defender);
-            const life = side.life || [];
+        mutateAreas((next) => {
+            const sideRoot = getSideRoot(next, defender);
+            if (!sideRoot) return;
+
+            const life = sideRoot.life || [];
 
             // Rule 1-2-1-1-1: Taking damage with 0 Life = defeat condition
             if (!life.length) {
                 appendLog(`[DEFEAT] ${defender} has 0 Life and took damage!`);
-                return next;
+                return;
             }
 
-            // Remove top card from life
             const card = life[life.length - 1];
-            side.life = life.slice(0, -1);
+            const { triggers } = dealDamageToLeaderMutate(next, defender, 1, { metaById, allowTrigger: true });
 
-            // Check if card has [Trigger] keyword
-            const keywords = metaById.get(card.id)?.keywords || [];
-            const cardHasTrigger = hasKeyword(keywords, 'trigger');
-
-            if (cardHasTrigger) {
-                // Pause and show trigger choice modal
-                cardWithTrigger = { side: defender, card, hasTrigger: true };
+            if (triggers?.length) {
+                cardWithTrigger = triggers[0];
             } else {
-                // No trigger: add to hand as normal
-                const handLoc = getHandCostLocationFromNext(next, defender);
-                handLoc.hand = _.concat(handLoc.hand || [], card);
                 appendLog(`[Damage] ${defender} takes 1 damage, adds ${card.id} to hand.`);
             }
-
-            return next;
-        });
+        }, { onErrorLabel: '[dealOneDamageToLeader] Failed' });
 
         // If trigger detected, pause for player choice
         if (cardWithTrigger) {
             setTriggerPending(cardWithTrigger);
         }
-    }, [metaById, appendLog, hasKeyword, setAreas]);
+    }, [metaById, appendLog, mutateAreas]);
 
     const onTriggerActivate = useCallback(() => {
         if (!triggerPending) { return; }
@@ -77,15 +58,14 @@ export default function useTriggers({
 
         // TODO: Actually resolve the trigger effect (needs effect activation system)
         // For now, trash the card as per Rule 10-1-5-3
-        setAreas((prev) => {
-            const next = _.cloneDeep(prev);
-            const trashLoc = getHandCostLocationFromNext(next, side);
+        mutateAreas((next) => {
+            const trashLoc = getHandCostRoot(next, side);
+            if (!trashLoc) return;
             trashLoc.trash = [...(trashLoc.trash || []), card];
-            return next;
-        });
+        }, { onErrorLabel: '[onTriggerActivate] Failed' });
 
         setTriggerPending(null);
-    }, [triggerPending, appendLog, setAreas]);
+    }, [triggerPending, appendLog, mutateAreas]);
 
     const onTriggerDecline = useCallback(() => {
         if (!triggerPending) { return; }
@@ -94,15 +74,14 @@ export default function useTriggers({
         appendLog(`[Damage] ${side} takes 1 damage, adds ${card.id} to hand (declined trigger).`);
 
         // Add to hand instead
-        setAreas((prev) => {
-            const next = _.cloneDeep(prev);
-            const handLoc = getHandCostLocationFromNext(next, side);
+        mutateAreas((next) => {
+            const handLoc = getHandCostRoot(next, side);
+            if (!handLoc) return;
             handLoc.hand = [...(handLoc.hand || []), card];
-            return next;
-        });
+        }, { onErrorLabel: '[onTriggerDecline] Failed' });
 
         setTriggerPending(null);
-    }, [triggerPending, appendLog, setAreas]);
+    }, [triggerPending, appendLog, mutateAreas]);
 
     return {
         triggerPending,

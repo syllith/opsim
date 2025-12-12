@@ -50,6 +50,8 @@ import {
     useAttackHelpers
 } from './hooks';
 
+import { getSideRoot as getSideLocationFromNext, getHandCostRoot as getHandCostLocationFromNext, refreshSideToActive } from './hooks/areasUtils';
+
 const CARD_BACK_URL = '/api/cards/assets/Card%20Backs/CardBackRegular.png'; //. Performance: constants defined outside component
 const HARDCODED = true;
 const DEMO_LEADER = 'OP09-001';
@@ -69,16 +71,6 @@ const DEMO_DECK_ITEMS = [
     { id: 'OP06-007', count: 3 },
     { id: 'OP09-004', count: 2 }
 ];
-
-//. Helper to get the side location from areas (player or opponent)
-const getSideLocationFromNext = (next, side) => {
-    return side === 'player' ? next.player : next.opponent;
-};
-
-//. Helper to get hand/cost/trash/don container from areas
-const getHandCostLocationFromNext = (next, side) => {
-    return side === 'player' ? next.player.bottom : next.opponent.top;
-};
 
 //. Helper to map visual section to data section for hand cards
 const getSectionForHand = (actionSource, side) => {
@@ -124,6 +116,7 @@ export default function Home() {
         areas,
         setAreas,
         cloneAreas,
+        mutateAreas,
         addCardToArea: addCardToAreaUnsafe,
         removeCardFromArea: removeCardFromAreaUnsafe,
         getSideLocation,
@@ -318,7 +311,7 @@ export default function Home() {
     } = useTriggers({
         metaById,
         appendLog,
-        setAreas
+        mutateAreas
     });
 
     //. Can play cards? (Main phase, your turn, no battle - CR 10-2-2/10-2-3)
@@ -351,6 +344,7 @@ export default function Home() {
     } = useDonManagement({
         areas,
         setAreas,
+        mutateAreas,
         turnSide,
         turnNumber,
         phase,
@@ -416,9 +410,8 @@ export default function Home() {
         removeCardByEffect,
         payLife
     } = useEffectResolution({
-        setAreas,
+        mutateAreas,
         appendLog,
-        returnDonFromCard,
         metaById,
         getSideLocation,
         turnNumber,
@@ -474,17 +467,11 @@ export default function Home() {
         oppLibrary,
         getAssetForId,
         createCardBacks,
-        setAreas,
+        mutateAreas,
         setLibrary,
         setOppLibrary,
-        cloneAreas,
         deckSearchRef,
-        getSideLocationFromNext,
-        createCardBacksFn: createCardBacks,
-        appendLog,
-        getAsset: getAssetForId,
-        getCardCost,
-        hasEnoughDonFor
+        appendLog
     });
     // ---------------------------------------------------------------------
     // Multiplayer snapshot sync (current migration path)
@@ -614,11 +601,18 @@ export default function Home() {
     }, [battle, currentAttack, battleArrow, areas, gameMode, multiplayer.isHost, multiplayer.gameStarted]);
 
     const handleDiceRollComplete = useCallback(({ firstPlayer: winner, playerRoll, opponentRoll }) => {
+        const setupOrder = { dice: 0, hands: 1, 'hand-first': 1, complete: 2 };
+
         setFirstPlayer(winner);
 
         //. In multiplayer, broadcast dice result and use simultaneous hand selection
         if (gameMode === 'multiplayer') {
-            setSetupPhase('hands');
+            // Monotonic: never regress setupPhase if this fires twice.
+            setSetupPhase((prev) => {
+                const prevRank = Object.prototype.hasOwnProperty.call(setupOrder, prev) ? setupOrder[prev] : 0;
+                const nextRank = setupOrder.hands;
+                return nextRank >= prevRank ? 'hands' : prev;
+            });
             setCurrentHandSide('both'); //. Both players select simultaneously
             setPlayerHandSelected(false);
             setOpponentHandSelected(false);
@@ -654,7 +648,11 @@ export default function Home() {
             }
         } else {
             //. Sequential mode for vs-self
-            setSetupPhase('hand-first');
+            setSetupPhase((prev) => {
+                const prevRank = Object.prototype.hasOwnProperty.call(setupOrder, prev) ? setupOrder[prev] : 0;
+                const nextRank = setupOrder['hand-first'];
+                return nextRank >= prevRank ? 'hand-first' : prev;
+            });
             setCurrentHandSide(winner);
             const lib = winner === 'player' ? library : oppLibrary;
             openingHandRef?.current?.initialize(lib, winner);
@@ -920,6 +918,7 @@ export default function Home() {
         setBattleArrow,
         areas,
         setAreas,
+        mutateAreas,
         appendLog,
         startTargeting,
         cancelTargeting,
@@ -930,8 +929,6 @@ export default function Home() {
         getCharArray,
         getLeaderArray,
         getHandCostLocation,
-        getHandCostLocationFromNext,
-        getSideLocationFromNext,
         hasKeyword,
         getKeywordsFor,
         hasTempKeyword,
@@ -958,32 +955,12 @@ export default function Home() {
         returnAllGivenDon(side); //. 6-2-3: Return DON from leaders/characters
 
         //. 6-2-4: Set all rested cards to active
-        setAreas((prev) => {
-            const next = cloneAreas(prev);
-            const sideLoc = getSideLocationFromNext(next, side);
-            const costLoc = getHandCostLocationFromNext(next, side);
-
-            costLoc.cost = _.map(costLoc.cost || [], (c) =>
-                c.id === 'DON' ? { ...c, rested: false } : c
-            );
-
-            if (sideLoc?.middle?.leader?.[0]) {
-                sideLoc.middle.leader[0].rested = false;
-            }
-
-            if (sideLoc?.middle?.stage?.[0]) {
-                sideLoc.middle.stage[0].rested = false;
-            }
-
-            if (_.isArray(sideLoc?.char)) {
-                sideLoc.char = _.map(sideLoc.char, (c) => ({ ...c, rested: false }));
-            }
-
-            return next;
-        });
+        mutateAreas((next) => {
+            refreshSideToActive(next, side);
+        }, { onErrorLabel: '[Refresh Phase] Failed to set cards active' });
 
         appendLog('[Refresh Phase] Complete.');
-    }, [appendLog, cleanupOnRefreshPhase, returnAllGivenDon, setAreas]);
+    }, [appendLog, cleanupOnRefreshPhase, returnAllGivenDon, mutateAreas]);
     //. Wire executeRefreshPhase into ref so opening-hand hook can call it safely
     useEffect(() => {
         executeRefreshPhaseRef.current = executeRefreshPhase;
@@ -1100,7 +1077,7 @@ export default function Home() {
                     if (typeof gameState.setupPhase === 'string') {
                         const incoming = gameState.setupPhase;
                         setSetupPhase((prev) => {
-                            const order = { dice: 0, hands: 1, complete: 2 };
+                            const order = { dice: 0, hands: 1, 'hand-first': 1, complete: 2 };
                             const prevRank = Object.prototype.hasOwnProperty.call(order, prev) ? order[prev] : 0;
                             const nextRank = Object.prototype.hasOwnProperty.call(order, incoming) ? order[incoming] : 0;
                             return nextRank >= prevRank ? incoming : prev;
@@ -1235,7 +1212,7 @@ export default function Home() {
                 if (typeof nextSetupPhase === 'string') {
                     const incoming = nextSetupPhase;
                     setSetupPhase((prev) => {
-                        const order = { dice: 0, hands: 1, complete: 2 };
+                        const order = { dice: 0, hands: 1, 'hand-first': 1, complete: 2 };
                         const prevRank = Object.prototype.hasOwnProperty.call(order, prev) ? order[prev] : 0;
                         const nextRank = Object.prototype.hasOwnProperty.call(order, incoming) ? order[incoming] : 0;
                         return nextRank >= prevRank ? incoming : prev;

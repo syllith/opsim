@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import _ from 'lodash';
+import { getHandCostRoot, getSideRoot, getZoneArray } from './areasUtils';
 
 export default function useGameActions({
     canPerformGameAction,
@@ -7,17 +8,11 @@ export default function useGameActions({
     oppLibrary,
     getAssetForId,
     createCardBacks,
-    setAreas,
+    mutateAreas,
     setLibrary,
     setOppLibrary,
-    cloneAreas,
     deckSearchRef,
-    getSideLocationFromNext,
-    createCardBacksFn,
-    appendLog,
-    getAsset,
-    getCardCost,
-    hasEnoughDonFor
+    appendLog
 }) {
     const drawCard = useCallback((side) => {
         if (!canPerformGameAction()) return;
@@ -26,22 +21,23 @@ export default function useGameActions({
         if (!lib.length) return;
 
         const cardId = lib[lib.length - 1];
-        const asset = getAssetForId ? getAssetForId(cardId) : (getAsset ? getAsset(cardId) : null);
+        const asset = getAssetForId ? getAssetForId(cardId) : null;
 
-        setAreas((prevAreas) => {
-            const next = cloneAreas(prevAreas);
-            const handLoc = isPlayer ? next.player.bottom : next.opponent.top;
-            const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
+        mutateAreas((next) => {
+            const handLoc = getHandCostRoot(next, side);
+            const sideRoot = getSideRoot(next, side);
+            const deckLoc = sideRoot?.middle;
+            if (!handLoc || !deckLoc) return;
+
             handLoc.hand = [...(handLoc.hand || []), asset];
             const currentDeckLength = deckLoc.deck?.length || 0;
             if (currentDeckLength > 0) {
                 deckLoc.deck = createCardBacks(currentDeckLength - 1);
             }
-            return next;
-        });
+        }, { onErrorLabel: '[drawCard] Failed' });
 
         (isPlayer ? setLibrary : setOppLibrary)((prev) => prev.slice(0, -1));
-    }, [canPerformGameAction, library, oppLibrary, getAssetForId, createCardBacks, setAreas, setLibrary, setOppLibrary, cloneAreas]);
+    }, [canPerformGameAction, library, oppLibrary, getAssetForId, createCardBacks, mutateAreas, setLibrary, setOppLibrary]);
 
     const startDeckSearch = useCallback((config) => {
         if (deckSearchRef && deckSearchRef.current) {
@@ -50,121 +46,85 @@ export default function useGameActions({
     }, [deckSearchRef]);
 
     const returnCardToDeck = useCallback((side, section, keyName, index, location = 'bottom') => {
-        setAreas((prev) => {
-            const next = cloneAreas(prev);
-            const isPlayer = side === 'player';
-            const sideRoot = getSideLocationFromNext(next, side);
+        const isPlayer = side === 'player';
+        let movedCardId = null;
 
-            let sourceArray;
-            if (section === 'top' || section === 'middle' || section === 'bottom') {
-                const container = sideRoot[section];
-                sourceArray = container?.[keyName];
-            } else {
-                sourceArray = sideRoot[section] || sideRoot[keyName];
-            }
-
+        mutateAreas((next) => {
+            const sourceArray = getZoneArray(next, { side, section, keyName });
             if (!sourceArray || index >= sourceArray.length) {
                 console.error('[returnCardToDeck] Invalid source:', { side, section, keyName, index });
-                return prev;
+                throw new Error('Invalid source');
             }
 
-            const card = sourceArray[index];
+            const [card] = sourceArray.splice(index, 1);
+            movedCardId = card?.id || null;
 
-            if (section === 'top' || section === 'middle' || section === 'bottom') {
-                sideRoot[section][keyName] = sourceArray.filter((_, i) => i !== index);
-            } else {
-                sideRoot[section] = sourceArray.filter((_, i) => i !== index);
+            const sideRoot = getSideRoot(next, side);
+            const deckLoc = sideRoot?.middle;
+            if (deckLoc) {
+                const currentDeckSize = (deckLoc.deck || []).length;
+                deckLoc.deck = createCardBacks(currentDeckSize + 1);
             }
 
-            if (location === 'top') {
-                if (isPlayer) {
-                    setLibrary(prevLib => [...prevLib, card.id]);
-                } else {
-                    setOppLibrary(prevLib => [...prevLib, card.id]);
-                }
-            } else if (location === 'bottom') {
-                if (isPlayer) {
-                    setLibrary(prevLib => [card.id, ...prevLib]);
-                } else {
-                    setOppLibrary(prevLib => [card.id, ...prevLib]);
-                }
-            } else if (location === 'shuffle') {
-                const currentLib = isPlayer ? library : oppLibrary;
-                const newLib = _.shuffle([...currentLib, card.id]);
-                if (isPlayer) {
-                    setLibrary(newLib);
-                } else {
-                    setOppLibrary(newLib);
-                }
+            if (movedCardId) {
+                appendLog && appendLog(`[Ability Cost] Returned ${movedCardId} to ${location} of ${side}'s deck.`);
+            }
+        }, { onErrorLabel: '[returnCardToDeck] Failed' });
+
+        if (!movedCardId) return;
+
+        if (location === 'top') {
+            (isPlayer ? setLibrary : setOppLibrary)((prevLib) => [...prevLib, movedCardId]);
+        } else if (location === 'bottom') {
+            (isPlayer ? setLibrary : setOppLibrary)((prevLib) => [movedCardId, ...prevLib]);
+        } else if (location === 'shuffle') {
+            const currentLib = isPlayer ? library : oppLibrary;
+            const newLib = _.shuffle([...currentLib, movedCardId]);
+            (isPlayer ? setLibrary : setOppLibrary)(newLib);
+        }
+    }, [appendLog, createCardBacks, library, mutateAreas, oppLibrary, setLibrary, setOppLibrary]);
+
+    const setCardRested = useCallback((locator, rested, logPrefix) => {
+        const { side, section, keyName, index } = locator || {};
+
+        mutateAreas((next) => {
+            const sideRoot = getSideRoot(next, side);
+            if (!sideRoot) return;
+
+            let card = null;
+            let label = null;
+
+            if (section === 'char' && keyName === 'char') {
+                card = sideRoot?.char?.[index];
+                label = 'Character';
+            } else if (section === 'middle' && keyName === 'leader') {
+                card = sideRoot?.middle?.leader?.[0];
+                label = 'Leader';
+            } else if (section === 'middle' && keyName === 'stage') {
+                card = sideRoot?.middle?.stage?.[0];
+                label = 'Stage';
             }
 
-            const deckLoc = isPlayer ? next.player.middle : next.opponent.middle;
-            const currentDeckSize = (deckLoc.deck || []).length;
-            deckLoc.deck = createCardBacks(currentDeckSize + 1);
+            if (!card || !label) return;
+            card.rested = rested;
 
-            appendLog && appendLog(`[Ability Cost] Returned ${card.id} to ${location} of ${side}'s deck.`);
-
-            return next;
-        });
-    }, [library, oppLibrary, createCardBacks, appendLog, setAreas, setLibrary, setOppLibrary, cloneAreas, getSideLocationFromNext]);
+            if (appendLog) {
+                if (rested) {
+                    appendLog(`${logPrefix} ${label} ${card.id}.`);
+                } else {
+                    appendLog(`${logPrefix} ${label} ${card.id} active.`);
+                }
+            }
+        }, { onErrorLabel: '[setCardRested] Failed' });
+    }, [appendLog, mutateAreas]);
 
     const restCard = useCallback((side, section, keyName, index) => {
-        setAreas((prev) => {
-            const next = cloneAreas(prev);
-            const sideLoc = getSideLocationFromNext(next, side);
-            try {
-                if (section === 'char' && keyName === 'char') {
-                    if (sideLoc?.char?.[index]) {
-                        sideLoc.char[index].rested = true;
-                        appendLog && appendLog(`[Ability Cost] Rested Character ${sideLoc.char[index].id}.`);
-                    }
-                } else if (section === 'middle' && keyName === 'leader') {
-                    if (sideLoc?.middle?.leader?.[0]) {
-                        sideLoc.middle.leader[0].rested = true;
-                        appendLog && appendLog(`[Ability Cost] Rested Leader ${sideLoc.middle.leader[0].id}.`);
-                    }
-                } else if (section === 'middle' && keyName === 'stage') {
-                    if (sideLoc?.middle?.stage?.[0]) {
-                        sideLoc.middle.stage[0].rested = true;
-                        appendLog && appendLog(`[Ability Cost] Rested Stage ${sideLoc.middle.stage[0].id}.`);
-                    }
-                }
-            } catch (e) {
-                console.warn('[restCard] Failed to rest', { side, section, keyName, index }, e);
-                return prev;
-            }
-            return next;
-        });
-    }, [setAreas, appendLog, cloneAreas, getSideLocationFromNext]);
+        setCardRested({ side, section, keyName, index }, true, '[Ability Cost] Rested');
+    }, [setCardRested]);
 
     const setActive = useCallback((side, section, keyName, index) => {
-        setAreas((prev) => {
-            const next = cloneAreas(prev);
-            const sideLoc = getSideLocationFromNext(next, side);
-            try {
-                if (section === 'char' && keyName === 'char') {
-                    if (sideLoc?.char?.[index]) {
-                        sideLoc.char[index].rested = false;
-                        appendLog && appendLog(`[Effect] Set Character ${sideLoc.char[index].id} active.`);
-                    }
-                } else if (section === 'middle' && keyName === 'leader') {
-                    if (sideLoc?.middle?.leader?.[0]) {
-                        sideLoc.middle.leader[0].rested = false;
-                        appendLog && appendLog(`[Effect] Set Leader ${sideLoc.middle.leader[0].id} active.`);
-                    }
-                } else if (section === 'middle' && keyName === 'stage') {
-                    if (sideLoc?.middle?.stage?.[0]) {
-                        sideLoc.middle.stage[0].rested = false;
-                        appendLog && appendLog(`[Effect] Set Stage ${sideLoc.middle.stage[0].id} active.`);
-                    }
-                }
-            } catch (e) {
-                console.warn('[setActive] Failed to set active', { side, section, keyName, index }, e);
-                return prev;
-            }
-            return next;
-        });
-    }, [setAreas, appendLog, cloneAreas, getSideLocationFromNext]);
+        setCardRested({ side, section, keyName, index }, false, '[Effect] Set');
+    }, [setCardRested]);
 
     return {
         drawCard,

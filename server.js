@@ -773,7 +773,7 @@ function mergeGameStateFromClient(lobby, incoming, playerRole) {
     // Setup phase is monotonic: dice -> hands -> complete.
     // Never allow regression if one client is behind.
     if (Object.prototype.hasOwnProperty.call(incoming, 'setupPhase')) {
-        const order = { dice: 0, hands: 1, complete: 2 };
+        const order = { dice: 0, hands: 1, 'hand-first': 1, complete: 2 };
         const cur = String(state.setupPhase || 'dice');
         const inc = String(incoming.setupPhase || 'dice');
         const curRank = Object.prototype.hasOwnProperty.call(order, cur) ? order[cur] : 0;

@@ -1,5 +1,4 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
-import _ from 'lodash';
 
 export default function useTurn(initial = { side: 'player', number: 1, phase: 'Draw' }) {
     const [turnSide, setTurnSide] = useState(initial.side);
@@ -7,13 +6,19 @@ export default function useTurn(initial = { side: 'player', number: 1, phase: 'D
     const [phase, setPhase] = useState(initial.phase);
     const phaseLower = useMemo(() => phase.toLowerCase(), [phase]);
 
+    const turnRef = useRef({ turnNumber: initial.number, turnSide: initial.side, phase: initial.phase });
+    useEffect(() => {
+        turnRef.current = { turnNumber, turnSide, phase };
+    }, [turnNumber, turnSide, phase]);
+
     const [log, setLog] = useState([]);
     const appendLog = useCallback((msg) => {
+        const { turnNumber: tn, turnSide: ts, phase: ph } = turnRef.current;
         setLog((prev) => [
-            ..._.takeRight(prev, 199),
-            `[T${turnNumber} ${turnSide} ${phase}] ${msg}`
+            ...prev.slice(-199),
+            `[T${tn} ${ts} ${ph}] ${msg}`
         ]);
-    }, [turnNumber, turnSide, phase]);
+    }, []);
 
     const [endTurnConfirming, setEndTurnConfirming] = useState(false);
     const endTurnTimeoutRef = useRef(null);

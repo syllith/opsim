@@ -8,6 +8,20 @@ export default function useBoard() {
     // Returns deep-cloned board areas (for safe mutation)
     const cloneAreas = useCallback((prev) => _.cloneDeep(prev), []);
 
+    // Centralized areas mutation wrapper (clone once, try/catch).
+    const mutateAreas = useCallback((recipeFn, { onErrorLabel } = {}) => {
+        setAreas((prev) => {
+            const next = cloneAreas(prev);
+            try {
+                recipeFn(next, prev);
+                return next;
+            } catch (error) {
+                console.warn(onErrorLabel || '[mutateAreas] Failed', error);
+                return prev;
+            }
+        });
+    }, [cloneAreas]);
+
     // Add a card object to a specific area. Caller should clone card if needed.
     const addCardToArea = useCallback((side, section, key, card) => {
         if (!card) return;
@@ -96,6 +110,7 @@ export default function useBoard() {
         areas,
         setAreas,
         cloneAreas,
+        mutateAreas,
         addCardToArea,
         removeCardFromArea,
         getSideLocation,

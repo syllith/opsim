@@ -1,5 +1,7 @@
 import { useCallback, useMemo, useEffect } from 'react';
 import _ from 'lodash';
+import useBroadcastSoon from './useBroadcastSoon';
+import { refreshSideToActive } from './areasUtils';
 
 /**
  * Hook for phase-related actions and execution
@@ -9,10 +11,7 @@ export default function usePhaseActions({
     appendLog,
     cleanupOnRefreshPhase,
     returnAllGivenDon,
-    setAreas,
-    cloneAreas,
-    getSideLocationFromNext,
-    getHandCostLocationFromNext,
+    mutateAreas,
     canPerformGameAction,
     phaseLower,
     turnNumber,
@@ -40,6 +39,8 @@ export default function usePhaseActions({
     isMyTurnInMultiplayer,
     broadcastStateToOpponent
 }) {
+    const broadcastSoon = useBroadcastSoon({ gameMode, multiplayer, broadcastStateToOpponent });
+
     // Execute Refresh Phase (CR 6-2)
     const executeRefreshPhase = useCallback((side) => {
         appendLog(`[Refresh Phase] Start ${side}'s turn.`);
@@ -48,32 +49,12 @@ export default function usePhaseActions({
         returnAllGivenDon(side); // 6-2-3: Return DON from leaders/characters
 
         // 6-2-4: Set all rested cards to active
-        setAreas((prev) => {
-            const next = cloneAreas(prev);
-            const sideLoc = getSideLocationFromNext(next, side);
-            const costLoc = getHandCostLocationFromNext(next, side);
-
-            costLoc.cost = _.map(costLoc.cost || [], (c) =>
-                c.id === 'DON' ? { ...c, rested: false } : c
-            );
-
-            if (sideLoc?.middle?.leader?.[0]) {
-                sideLoc.middle.leader[0].rested = false;
-            }
-
-            if (sideLoc?.middle?.stage?.[0]) {
-                sideLoc.middle.stage[0].rested = false;
-            }
-
-            if (_.isArray(sideLoc?.char)) {
-                sideLoc.char = _.map(sideLoc.char, (c) => ({ ...c, rested: false }));
-            }
-
-            return next;
-        });
+        mutateAreas((next) => {
+            refreshSideToActive(next, side);
+        }, { onErrorLabel: '[Refresh Phase] Failed to set cards active' });
 
         appendLog('[Refresh Phase] Complete.');
-    }, [appendLog, cleanupOnRefreshPhase, returnAllGivenDon, setAreas, cloneAreas, getSideLocationFromNext, getHandCostLocationFromNext]);
+    }, [appendLog, cleanupOnRefreshPhase, returnAllGivenDon, mutateAreas]);
 
     // Label for Next Action button based on phase
     const nextActionLabel = useMemo(() => {
@@ -134,9 +115,7 @@ export default function usePhaseActions({
 
             setPhase('Don');
 
-            if (gameMode === 'multiplayer' && multiplayer?.gameStarted && typeof broadcastStateToOpponent === 'function') {
-                setTimeout(() => broadcastStateToOpponent(), 100);
-            }
+            broadcastSoon(100);
             return;
         }
 
@@ -153,9 +132,7 @@ export default function usePhaseActions({
             }
             setPhase('Main');
 
-            if (gameMode === 'multiplayer' && multiplayer?.gameStarted && typeof broadcastStateToOpponent === 'function') {
-                setTimeout(() => broadcastStateToOpponent(), 100);
-            }
+            broadcastSoon(100);
             return;
         }
 
@@ -173,9 +150,7 @@ export default function usePhaseActions({
 
         setPhase('Draw');
 
-        if (gameMode === 'multiplayer' && multiplayer?.gameStarted && typeof broadcastStateToOpponent === 'function') {
-            setTimeout(() => broadcastStateToOpponent(), 125);
-        }
+        broadcastSoon(125);
     }, [
         battle,
         resolvingEffect,
@@ -197,6 +172,7 @@ export default function usePhaseActions({
         multiplayer,
         isMyTurnInMultiplayer,
         broadcastStateToOpponent,
+        broadcastSoon,
         setPhase,
         setTurnNumber,
         setTurnSide,
