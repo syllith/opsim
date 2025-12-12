@@ -1662,7 +1662,7 @@ export default function Home() {
                                     disabled={nextActionDisabled}
                                 >
                                     {gameMode === 'multiplayer' && !isMyTurnInMultiplayer
-                                        ? 'Waiting...'
+                                        ? 'Opponents Turn'
                                         : nextActionLabel}
                                 </Button>
                             )}
@@ -1707,12 +1707,6 @@ export default function Home() {
                     <GameModeSelect onSelectMode={handleSelectGameMode} />
                 ) : (
                     <Box sx={{ mt: 0 }}>
-                        {/* Multiplayer waiting indicator */}
-                        {gameMode === 'multiplayer' && waitingForOpponent && (
-                            <Alert severity="info" sx={{ mb: 1 }}>
-                                Waiting for opponent to finish their turn...
-                            </Alert>
-                        )}
                         {gameMode === 'multiplayer' && multiplayer.opponentLeft && (
                             <Alert severity="warning" sx={{ mb: 1 }}>
                                 Your opponent has left the game. You can continue playing or leave.
