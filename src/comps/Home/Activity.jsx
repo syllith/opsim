@@ -17,6 +17,7 @@ export default function Activity({
     getBattleStatus,
     skipBlock,
     endCounterStep,
+    resolveDefense,
     //. Multiplayer props for determining if current player is the defender
     isMultiplayer = false,
     myMultiplayerSide = 'player', //. Which side this player controls: 'player' (host) or 'opponent' (guest)
@@ -50,15 +51,20 @@ export default function Activity({
         }
     };
 
-    //. Handler for skipBlock: execute locally then sync
-    const handleSkipBlock = () => {
-        skipBlock?.();
-        syncIfMultiplayer();
-    };
-
-    //. Handler for endCounterStep: execute locally then sync
-    const handleEndCounterStep = () => {
-        endCounterStep?.();
+    //. Unified handler for resolving defense: execute locally then sync
+    const handleResolveDefense = () => {
+        if (typeof resolveDefense === 'function') {
+            resolveDefense();
+        } else {
+            // Backward-compatible fallback: move through block -> counter -> damage
+            if (battle?.step === 'block') {
+                skipBlock?.();
+                // endCounterStep only works once the battle step becomes 'counter'
+                setTimeout(() => endCounterStep?.(), 0);
+            } else {
+                endCounterStep?.();
+            }
+        }
         syncIfMultiplayer();
     };
 
@@ -249,26 +255,14 @@ export default function Activity({
                                     flexItem
                                     sx={{ mx: 1, borderColor: 'rgba(255,255,255,0.2)' }}
                                 />
-                                {battle.step === 'block' && isDefender && (
-                                    <Button
-                                        size='small'
-                                        variant='outlined'
-                                        color='warning'
-                                        onClick={handleSkipBlock}
-                                    >
-                                        No Block
-                                    </Button>
-                                )}
-                                {battle.step === 'counter' && isDefender && (
-                                    <Button
-                                        size='small'
-                                        variant='contained'
-                                        color='primary'
-                                        onClick={handleEndCounterStep}
-                                    >
-                                        End Counter Step
-                                    </Button>
-                                )}
+                                <Button
+                                    size='small'
+                                    variant='contained'
+                                    color='primary'
+                                    onClick={handleResolveDefense}
+                                >
+                                    Resolve
+                                </Button>
                             </>
                         ) : null}
                     </Paper>

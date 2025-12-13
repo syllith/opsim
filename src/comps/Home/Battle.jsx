@@ -723,6 +723,24 @@ export function useBattleSystem({
     [appendLog, battle, isBattleStep, setBattle]
   );
 
+  // Unified UX helper: allow defender to "Resolve" defense immediately.
+  // This intentionally skips the remainder of defense (block/counter) and proceeds to Damage.
+  const resolveDefense = useCallback(
+    () => {
+      if (!(isBattleStep('block') || isBattleStep('counter'))) { return; }
+      if (!battle?.target) { return; }
+
+      if (battle.step === 'block') {
+        appendLog('[battle] Defender resolves: no block, skip Counter Step. Proceed to Damage Step.');
+      } else {
+        appendLog('[battle] Defender resolves: Counter Step complete. Proceed to Damage Step.');
+      }
+
+      setBattle((b) => ({ ...b, step: 'damage' }));
+    },
+    [appendLog, battle, isBattleStep, setBattle]
+  );
+
   //. Damage Step ---------------------------------------------------------
 
   const resolveDamage = useCallback(
@@ -865,6 +883,7 @@ export function useBattleSystem({
     addCounterFromHand,
     playCounterEventFromHand,
     endCounterStep,
+    resolveDefense,
     getBattleStatus,
     getAttackerPower,
     getDefenderPower

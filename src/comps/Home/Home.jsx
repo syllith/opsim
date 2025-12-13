@@ -480,6 +480,11 @@ export default function Home() {
     // Guard used to prevent feedback loops when applying server snapshots.
     const applyingServerSyncRef = useRef(false);
 
+    // Last battle-ish snapshot received from the server.
+    // Used to distinguish server-origin state updates from local ones when deciding
+    // whether to queue a broadcast while a server sync is being applied.
+    const lastServerBattleSnapshotRef = useRef({ battle: undefined });
+
     const broadcastStateToOpponent = useCallback(() => {
         if (gameMode !== 'multiplayer' || !multiplayer.gameStarted) {
             return;
@@ -502,8 +507,6 @@ export default function Home() {
             opponentHandSelected,
             modifiers: getModifierState && getModifierState(),
             battle,
-            currentAttack,
-            battleArrow,
             oncePerTurnUsage,
             attackLocked
         };
@@ -576,34 +579,57 @@ export default function Home() {
     //. Auto-broadcast battle-related state changes to keep host and guest in sync.
     //. IMPORTANT: the red attack arrow (`battleArrow`) can change without the `battle` object changing.
     //. If we only sync on `battle` changes, one client will see the arrow while the other won't.
-    const prevBattleSyncRef = useRef({ battle: null, currentAttack: null, battleArrow: null });
+    const prevBattleSyncRef = useRef({ battle: null });
     useEffect(() => {
         if (gameMode !== 'multiplayer' || !multiplayer.gameStarted) {
-            prevBattleSyncRef.current = { battle, currentAttack, battleArrow };
+            prevBattleSyncRef.current = { battle };
             return;
         }
 
-        const prev = prevBattleSyncRef.current || { battle: null, currentAttack: null, battleArrow: null };
+        const prev = prevBattleSyncRef.current || { battle: null };
         const battleChanged = !_.isEqual(prev.battle, battle);
-        const attackChanged = !_.isEqual(prev.currentAttack, currentAttack);
-        const arrowChanged = !_.isEqual(prev.battleArrow, battleArrow);
 
-        if (!battleChanged && !attackChanged && !arrowChanged) {
+        if (!battleChanged) {
             return;
         }
 
-        prevBattleSyncRef.current = { battle, currentAttack, battleArrow };
+        prevBattleSyncRef.current = { battle };
+
+        // If we're currently applying a server snapshot, avoid broadcasting changes that
+        // came from the server (feedback loop). However, if local state differs from the
+        // last server snapshot, queue a broadcast to ensure local user actions aren't lost.
+        if (applyingServerSyncRef.current) {
+            const differsFromServer = !_.isEqual(lastServerBattleSnapshotRef.current?.battle, battle);
+            if (!differsFromServer) {
+                return;
+            }
+        }
 
         //. Unified multiplayer: both clients sync their local battle changes via state snapshots.
         console.log(
-            `[Multiplayer ${multiplayer.isHost ? 'Host' : 'Guest'}] Battle sync (${battleChanged ? 'battle ' : ''}${attackChanged ? 'attack ' : ''}${arrowChanged ? 'arrow' : ''}), step:`,
+            `[Multiplayer ${multiplayer.isHost ? 'Host' : 'Guest'}] Battle sync (battle), step:`,
             battle?.step || 'null'
         );
-        const timeoutId = setTimeout(() => {
+
+        let cancelled = false;
+        let attempts = 0;
+        const tryBroadcast = () => {
+            if (cancelled) return;
+            attempts += 1;
+            // Wait briefly if we're in the middle of applying a server snapshot.
+            if (applyingServerSyncRef.current && attempts < 8) {
+                setTimeout(tryBroadcast, 25);
+                return;
+            }
             broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
-        }, 50);
-        return () => clearTimeout(timeoutId);
-    }, [battle, currentAttack, battleArrow, gameMode, multiplayer.gameStarted, multiplayer.isHost]);
+        };
+
+        const timeoutId = setTimeout(tryBroadcast, 50);
+        return () => {
+            cancelled = true;
+            clearTimeout(timeoutId);
+        };
+    }, [battle, gameMode, multiplayer.gameStarted, multiplayer.isHost]);
 
     const handleDiceRollComplete = useCallback(({ firstPlayer: winner, playerRoll, opponentRoll }) => {
         const setupOrder = { dice: 0, hands: 1, 'hand-first': 1, complete: 2 };
@@ -943,6 +969,7 @@ export default function Home() {
         addCounterFromHand,
         playCounterEventFromHand,
         endCounterStep,
+        resolveDefense,
         getBattleStatus,
         getDefenderPower
     } = useBattleSystem({
@@ -1184,12 +1211,16 @@ export default function Home() {
                     openingHandsBothSelected: nextOpeningHandsBothSelected,
                     modifiers: nextModifiers,
                     battle: nextBattle,
-                    currentAttack: nextCurrentAttack,
-                    battleArrow: nextBattleArrow,
                     oncePerTurnUsage: nextOncePerTurnUsage,
                     attackLocked: nextAttackLocked,
                     diceResult: nextDiceResult
                 } = gameState;
+
+                // Record server battle snapshot so we can suppress feedback loops
+                // while still allowing queued broadcasts for truly-local updates.
+                if (Object.prototype.hasOwnProperty.call(gameState, 'battle')) {
+                    lastServerBattleSnapshotRef.current = { battle: nextBattle };
+                }
 
                 // During setup, server snapshots can lag behind local selection.
                 // Protect the local player's private zones (hand/life) from being clobbered by
@@ -1296,8 +1327,10 @@ export default function Home() {
                 }
 
                 if (typeof nextBattle !== 'undefined') setBattle(nextBattle);
-                if (typeof nextCurrentAttack !== 'undefined') setCurrentAttack(nextCurrentAttack);
-                if (typeof nextBattleArrow !== 'undefined') setBattleArrow(nextBattleArrow);
+                // NOTE: currentAttack and battleArrow are intentionally NOT applied from
+                // server snapshots. They are client-local/UI-derived and can differ due to
+                // timing and DOM availability; syncing them can cause one client to lose
+                // their battle visuals.
 
                 if (nextDiceResult) setSyncedDiceResult(nextDiceResult);
             } finally {
@@ -2091,6 +2124,7 @@ export default function Home() {
                 getBattleStatus={getBattleStatus}
                 skipBlock={skipBlock}
                 endCounterStep={endCounterStep}
+                resolveDefense={resolveDefense}
                 isMultiplayer={gameMode === 'multiplayer'}
                 myMultiplayerSide={myMultiplayerSide}
                 isHost={multiplayer.isHost}
