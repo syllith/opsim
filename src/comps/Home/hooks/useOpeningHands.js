@@ -100,16 +100,20 @@ export default function useOpeningHands({
             appendLog && appendLog(`Game started! ${getPlayerDisplayName ? getPlayerDisplayName(starter) : starter} goes first.`);
             appendLog && appendLog('First turn: skipping Draw Phase.');
             
-            // Sync to server
+            // Sync to server using unified action system
             setTimeout(() => {
-                multiplayer.syncGameState({
-                    setupPhase: 'complete',
-                    turnSide: starter,
-                    turnNumber: 1,
-                    phase: initialPhase,
-                    playerHandSelected: true,
-                    opponentHandSelected: true
-                });
+                // Use new syncState if available, fall back to syncGameState
+                const syncFn = multiplayer.syncState || multiplayer.syncGameState;
+                if (syncFn) {
+                    syncFn({
+                        setupPhase: 'complete',
+                        turnSide: starter,
+                        turnNumber: 1,
+                        phase: initialPhase,
+                        playerHandSelected: true,
+                        opponentHandSelected: true
+                    });
+                }
             }, 100);
             return;
         }
@@ -144,13 +148,25 @@ export default function useOpeningHands({
             const opponentDone = opponentHandSelectedRef.current;
             setOpeningHandsBothSelected(playerDone && opponentDone);
 
-            //. Sync hand selection to server
+            //. Sync hand selection to server using unified action system
             setTimeout(() => {
-                multiplayer.syncGameState({
-                    playerHandSelected: playerDone,
-                    opponentHandSelected: opponentDone,
-                    setupPhase: 'hands'
-                });
+                // Use sendAction for HAND_CONFIRM if available
+                if (multiplayer.sendAction) {
+                    multiplayer.sendAction('HAND_CONFIRM', {
+                        side,
+                        mulliganUsed: false
+                    });
+                }
+                
+                // Also sync full state for backward compatibility
+                const syncFn = multiplayer.syncState || multiplayer.syncGameState;
+                if (syncFn) {
+                    syncFn({
+                        playerHandSelected: playerDone,
+                        opponentHandSelected: opponentDone,
+                        setupPhase: 'hands'
+                    });
+                }
             }, 50);
 
             //. Finalize immediately once both are done

@@ -42,17 +42,27 @@ export default function Activity({
 
     const syncIfMultiplayer = () => {
         if (!isMultiplayer) return;
+        
+        // Use new unified action system if available
+        if (multiplayer?.syncState) {
+            // syncState handles debouncing internally
+            return;
+        }
+        
+        // Legacy fallback
         const syncFn = broadcastStateToOpponent || broadcastState;
         if (typeof syncFn === 'function') {
             setTimeout(() => syncFn(), 100);
-        } else if (typeof multiplayer?.syncGameState === 'function') {
-            // Fallback: if caller didn't provide a broadcaster, sync hook can still be used by parent.
-            // (No-op here; parent owns the snapshot.)
         }
     };
 
     //. Unified handler for resolving defense: execute locally then sync
     const handleResolveDefense = () => {
+        // Send action via unified multiplayer system if available
+        if (isMultiplayer && multiplayer?.actions?.resolveDefense) {
+            multiplayer.actions.resolveDefense(battle?.battleId);
+        }
+        
         if (typeof resolveDefense === 'function') {
             resolveDefense();
         } else {

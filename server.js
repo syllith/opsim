@@ -556,28 +556,35 @@ function buildViewStateForSocket(lobbyId, socketId) {
     const meIndex = game.players.findIndex(p => p.socketId === socketId);
     if (meIndex === -1) return null;
 
-    const oppIndex = meIndex === 0 ? 1 : 0;
-    const me = game.players[meIndex];
-    const opp = game.players[oppIndex];
+    // IMPORTANT: Client data model is FIXED-SIDE:
+    // - Host is always "player" (bottom in host view)
+    // - Guest is always "opponent" (top in host view)
+    // Board.jsx flips visuals for the guest, but the underlying data sides stay fixed.
+    // Therefore, this view-state must NOT perspective-swap "player"/"opponent".
+    const hostIndex = 0;
+    const guestIndex = 1;
+    const host = game.players[hostIndex];
+    const guest = game.players[guestIndex];
 
-    const isMyTurn = game.turn.currentPlayerIndex === meIndex;
-    const turnSide = isMyTurn ? 'player' : 'opponent';
+    const recipientRole = meIndex === hostIndex ? 'player' : 'opponent';
+    const turnSide = game.turn.currentPlayerIndex === hostIndex ? 'player' : 'opponent';
+    const isMyTurn = (recipientRole === turnSide);
 
-    // Perspective-swapped dice result: "player" always means "me" in the client view.
+    // Fixed-side dice result: "player" = host, "opponent" = guest.
     let diceResult = null;
     if (game.setup?.dice) {
-        const myRoll = game.setup.dice.rollsByIndex?.[meIndex];
-        const oppRoll = game.setup.dice.rollsByIndex?.[oppIndex];
-        const iGoFirst = game.setup.dice.firstPlayerIndex === meIndex;
+        const playerRoll = game.setup.dice.rollsByIndex?.[hostIndex];
+        const opponentRoll = game.setup.dice.rollsByIndex?.[guestIndex];
+        const firstPlayer = game.setup.dice.firstPlayerIndex === hostIndex ? 'player' : 'opponent';
         diceResult = {
-            playerRoll: myRoll,
-            opponentRoll: oppRoll,
-            firstPlayer: iGoFirst ? 'player' : 'opponent',
+            playerRoll,
+            opponentRoll,
+            firstPlayer,
             revealAt: game.setup.dice.revealAt
         };
     }
 
-    // Zones: only the player hand is face-up; opponent hand is hidden with a count.
+    // Zones: send only the recipient's own hand as face-up ids; other hand is count-only.
     const view = {
         setupPhase: game.setup.phase,
         diceResult,
@@ -592,17 +599,18 @@ function buildViewStateForSocket(lobbyId, socketId) {
         },
         zones: {
             player: {
-                deckCount: me.deckIds.length,
-                handIds: me.handIds.slice(),
-                handCount: me.handIds.length,
-                lifeCount: me.lifeIds.length,
-                donCount: me.donCount || 0
+                deckCount: host.deckIds.length,
+                handIds: recipientRole === 'player' ? host.handIds.slice() : undefined,
+                handCount: host.handIds.length,
+                lifeCount: host.lifeIds.length,
+                donCount: host.donCount || 0
             },
             opponent: {
-                deckCount: opp.deckIds.length,
-                handCount: opp.handIds.length,
-                lifeCount: opp.lifeIds.length,
-                donCount: opp.donCount || 0
+                deckCount: guest.deckIds.length,
+                handIds: recipientRole === 'opponent' ? guest.handIds.slice() : undefined,
+                handCount: guest.handIds.length,
+                lifeCount: guest.lifeIds.length,
+                donCount: guest.donCount || 0
             }
         }
     };

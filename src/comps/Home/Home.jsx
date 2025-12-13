@@ -1170,25 +1170,35 @@ export default function Home() {
                     if (typeof gameState.turn.turnSide === 'string') setTurnSide(gameState.turn.turnSide);
                     if (typeof gameState.turn.phase === 'string') setPhase(gameState.turn.phase);
 
-                    // Minimal board projection: show your hand face-up, opponent hand as backs.
-                    // NOTE: This is intentionally shallow; full server-authoritative areas wiring
-                    // will happen in the next refactor phase.
+                    // Minimal board projection (server view-state): map into the FIXED-SIDE client model.
+                    // Host data is always stored under `areas.player`, guest data under `areas.opponent`.
+                    // Board.jsx flips visuals for the guest.
                     setAreas((prev) => {
                         const next = cloneAreas(prev);
-                        const myHandIds = gameState.zones?.player?.handIds || [];
-                        const oppHandCount = Number(gameState.zones?.opponent?.handCount) || 0;
-                        const myLifeCount = Number(gameState.zones?.player?.lifeCount) || 0;
-                        const oppLifeCount = Number(gameState.zones?.opponent?.lifeCount) || 0;
+                        const playerZone = gameState.zones?.player || {};
+                        const opponentZone = gameState.zones?.opponent || {};
 
-                        next.player.bottom.hand = myHandIds
-                            .map((id) => getAssetForId(id))
-                            .filter(Boolean);
+                        const playerHandIds = Array.isArray(playerZone.handIds) ? playerZone.handIds : [];
+                        const opponentHandIds = Array.isArray(opponentZone.handIds) ? opponentZone.handIds : [];
 
-                        next.opponent.top.hand = createCardBacks(oppHandCount);
+                        const playerHandCount = Number(playerZone.handCount) || playerHandIds.length || 0;
+                        const opponentHandCount = Number(opponentZone.handCount) || opponentHandIds.length || 0;
 
-                        // Life is hidden for both players in OPTCG; keep as backs.
-                        next.player.life = createCardBacks(myLifeCount);
-                        next.opponent.life = createCardBacks(oppLifeCount);
+                        const playerLifeCount = Number(playerZone.lifeCount) || 0;
+                        const opponentLifeCount = Number(opponentZone.lifeCount) || 0;
+
+                        // Hands: only the controlling player receives their own ids.
+                        if (multiplayer.isHost) {
+                            next.player.bottom.hand = playerHandIds.map(getAssetForId).filter(Boolean);
+                            next.opponent.top.hand = createCardBacks(opponentHandCount);
+                        } else {
+                            next.opponent.top.hand = opponentHandIds.map(getAssetForId).filter(Boolean);
+                            next.player.bottom.hand = createCardBacks(playerHandCount);
+                        }
+
+                        // Life is hidden for both players in OPTCG; always render as backs.
+                        next.player.life = createCardBacks(playerLifeCount);
+                        next.opponent.life = createCardBacks(opponentLifeCount);
 
                         return next;
                     });
@@ -1263,11 +1273,18 @@ export default function Home() {
                             || incomingHandLooksHidden
                             || nextHand.length < prevHand.length
                         );
+                        // Life is a private/hidden zone, but its COUNT must still be allowed to change
+                        // (taking damage reduces life). The previous logic preserved life when it
+                        // shrank, which prevented damage from showing up on the defending client.
+                        //
+                        // Strategy:
+                        // - Preserve local life card identities ONLY when the incoming snapshot is
+                        //   clearly concealed (all backs) or during aggressive setup protection.
+                        // - Even when preserving identities, reconcile length *downwards* so damage
+                        //   applies (truncate), but avoid guessing new cards on length increases.
                         const shouldPreserveLife = prevLife.length > 0 && (
-                            preserveAggressively
-                            || nextLife.length === 0
+                            (preserveAggressively && nextLife.length === 0)
                             || incomingLifeLooksHidden
-                            || nextLife.length < prevLife.length
                         );
 
                         if (!shouldPreserveHand && !shouldPreserveLife) {
@@ -1277,10 +1294,16 @@ export default function Home() {
                         const merged = cloneAreas(nextAreas);
                         if (myDataSide === 'player') {
                             if (shouldPreserveHand) merged.player.bottom.hand = prevHand;
-                            if (shouldPreserveLife) merged.player.life = prevLife;
+                            if (shouldPreserveLife) {
+                                const desiredLen = Array.isArray(nextLife) ? nextLife.length : prevLife.length;
+                                merged.player.life = desiredLen <= prevLife.length ? prevLife.slice(0, desiredLen) : nextLife;
+                            }
                         } else {
                             if (shouldPreserveHand) merged.opponent.top.hand = prevHand;
-                            if (shouldPreserveLife) merged.opponent.life = prevLife;
+                            if (shouldPreserveLife) {
+                                const desiredLen = Array.isArray(nextLife) ? nextLife.length : prevLife.length;
+                                merged.opponent.life = desiredLen <= prevLife.length ? prevLife.slice(0, desiredLen) : nextLife;
+                            }
                         }
                         return merged;
                     });
