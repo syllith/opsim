@@ -751,6 +751,68 @@ function createCardBacks(count) {
     }));
 }
 
+function battleStepRank(step) {
+    const order = {
+        declaring: 0,
+        attack: 1,
+        block: 2,
+        counter: 3,
+        damage: 4,
+        end: 5
+    };
+    const k = String(step || '');
+    return Object.prototype.hasOwnProperty.call(order, k) ? order[k] : -1;
+}
+
+function mergeBattleState(prevBattle, incomingBattle) {
+    if (typeof incomingBattle === 'undefined') return prevBattle;
+
+    // Allow explicit clear only if caller is authoritative (handled by caller),
+    // or if there's nothing to merge.
+    if (incomingBattle === null) return null;
+    if (!incomingBattle || typeof incomingBattle !== 'object') return prevBattle;
+    if (!prevBattle || typeof prevBattle !== 'object') return incomingBattle;
+
+    const prevId = prevBattle.battleId;
+    const incId = incomingBattle.battleId;
+    if (prevId && incId && prevId !== incId) {
+        // New battle instance; replace fully so counters don't leak across battles.
+        return incomingBattle;
+    }
+
+    const prevRank = battleStepRank(prevBattle.step);
+    const incRank = battleStepRank(incomingBattle.step);
+
+    // Base merge prefers incoming fields, but we guard against regressions.
+    const merged = { ...prevBattle, ...incomingBattle };
+
+    // Never regress battle step when two clients are racing.
+    if (prevRank >= 0 && incRank >= 0 && incRank < prevRank) {
+        merged.step = prevBattle.step;
+    }
+
+    // Counter power should be monotonic within a battle.
+    const prevCounter = Number(prevBattle.counterPower) || 0;
+    const incCounter = Number(incomingBattle.counterPower) || 0;
+    merged.counterPower = Math.max(prevCounter, incCounter);
+
+    // blockerUsed is sticky.
+    merged.blockerUsed = !!(prevBattle.blockerUsed || incomingBattle.blockerUsed);
+
+    // If incoming snapshot is older, keep the newer target/counterTarget.
+    if (prevRank >= 0 && incRank >= 0 && incRank < prevRank) {
+        if (prevBattle.target) merged.target = prevBattle.target;
+        if (prevBattle.counterTarget) merged.counterTarget = prevBattle.counterTarget;
+    }
+
+    // If counterPower came from prev but incoming lacks counterTarget, preserve it.
+    if (merged.counterPower === prevCounter && prevBattle.counterTarget && !incomingBattle.counterTarget) {
+        merged.counterTarget = prevBattle.counterTarget;
+    }
+
+    return merged;
+}
+
 // Merge a client sync snapshot into server state, but only for the side that client controls.
 // This prevents one client from overwriting the other player's private zones during setup.
 function mergeGameStateFromClient(lobby, incoming, playerRole) {
@@ -768,7 +830,6 @@ function mergeGameStateFromClient(lobby, incoming, playerRole) {
         'turnNumber',
         'phase',
         'diceResult',
-        'battle',
         'currentAttack',
         'battleArrow',
         'modifiers',
@@ -778,6 +839,21 @@ function mergeGameStateFromClient(lobby, incoming, playerRole) {
     for (const k of passthroughKeys) {
         if (Object.prototype.hasOwnProperty.call(incoming, k)) {
             state[k] = incoming[k];
+        }
+    }
+
+    // Battle state is shared/public and is especially prone to "last writer wins" races.
+    // Merge it carefully so defender counter updates don't get overwritten by stale snapshots.
+    if (Object.prototype.hasOwnProperty.call(incoming, 'battle')) {
+        const incBattle = incoming.battle;
+
+        // Only allow an explicit clear from the authoritative role (host/player).
+        if (incBattle === null) {
+            if (playerRole === 'player') {
+                state.battle = null;
+            }
+        } else {
+            state.battle = mergeBattleState(state.battle, incBattle);
         }
     }
 

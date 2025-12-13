@@ -184,7 +184,7 @@ export default function Activity({
     return (
         <>
             {/* Battle Control Panel */}
-            {battle && (battle.step === 'block' || battle.step === 'counter') && (
+            {battle && battle.target && (battle.step === 'attack' || battle.step === 'block' || battle.step === 'counter') && (
                 <Box
                     sx={{
                         position: 'fixed',
@@ -241,33 +241,36 @@ export default function Activity({
                             )}
                         </Stack>
 
-                        <Divider
-                            orientation='vertical'
-                            flexItem
-                            sx={{ mx: 1, borderColor: 'rgba(255,255,255,0.2)' }}
-                        />
-
-                        {/* Step actions - only show to the defending player */}
-                        {battle.step === 'block' && isDefender && (
-                            <Button
-                                size='small'
-                                variant='outlined'
-                                color='warning'
-                                onClick={handleSkipBlock}
-                            >
-                                No Block
-                            </Button>
-                        )}
-                        {battle.step === 'counter' && isDefender && (
-                            <Button
-                                size='small'
-                                variant='contained'
-                                color='primary'
-                                onClick={handleEndCounterStep}
-                            >
-                                End Counter Step
-                            </Button>
-                        )}
+                        {/* Only show divider if an action button is visible */}
+                        {(battle.step === 'block' && isDefender) || (battle.step === 'counter' && isDefender) ? (
+                            <>
+                                <Divider
+                                    orientation='vertical'
+                                    flexItem
+                                    sx={{ mx: 1, borderColor: 'rgba(255,255,255,0.2)' }}
+                                />
+                                {battle.step === 'block' && isDefender && (
+                                    <Button
+                                        size='small'
+                                        variant='outlined'
+                                        color='warning'
+                                        onClick={handleSkipBlock}
+                                    >
+                                        No Block
+                                    </Button>
+                                )}
+                                {battle.step === 'counter' && isDefender && (
+                                    <Button
+                                        size='small'
+                                        variant='contained'
+                                        color='primary'
+                                        onClick={handleEndCounterStep}
+                                    >
+                                        End Counter Step
+                                    </Button>
+                                )}
+                            </>
+                        ) : null}
                     </Paper>
                 </Box>
             )}

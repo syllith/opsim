@@ -2,6 +2,8 @@ import { useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import { getHandCostRoot, getSideRoot, restDonForCost } from './hooks/areasUtils';
 
+const createBattleId = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+
 //. Safely rests a card instance at the given path in the board state
 const restInstance = (root, path) => {
   const inst = _.get(root, path);
@@ -184,7 +186,9 @@ export function useBattleSystem({
       }, { onErrorLabel: '[beginAttackForLeader] Failed to rest leader' });
 
       //. Enter "declaring" so On Attack abilities can fire during target selection
+      const battleId = createBattleId();
       setBattle({
+        battleId,
         attacker: {
           side: attackingSide,
           section: 'middle',
@@ -249,6 +253,7 @@ export function useBattleSystem({
           closeActionPanel();
 
           setBattle({
+            battleId,
             attacker: {
               side: attackingSide,
               section: 'middle',
@@ -328,7 +333,9 @@ export function useBattleSystem({
       }, { onErrorLabel: '[beginAttackForCard] Failed to rest attacker' });
 
       //. Enter "declaring" so On Attack abilities can fire during target selection
+      const battleId = createBattleId();
       setBattle({
+        battleId,
         attacker: {
           side: attackingSide,
           section: 'char',
@@ -392,6 +399,7 @@ export function useBattleSystem({
           closeActionPanel();
 
           setBattle({
+            battleId,
             attacker: {
               side: attackingSide,
               section: 'char',
