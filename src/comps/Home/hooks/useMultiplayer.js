@@ -1,307 +1,240 @@
-/**
- * useMultiplayer.js
- * 
- * Custom hook for managing multiplayer game state and Socket.io communication.
- * 
- * SERVER-AUTHORITATIVE ARCHITECTURE:
- * - Server is authoritative for ALL game state
- * - Both players send actions to the server
- * - Server validates / applies actions and broadcasts updated state
- * - Host/guest distinction is now UI-only (which side you see as "you")
- */
+// src/comps/Home/hooks/useMultiplayer.js
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
 
-// Socket.io server URL - uses same origin in production
-const SOCKET_URL = import.meta.env.PROD 
-    ? window.location.origin 
-    : 'http://localhost:5583';
+const DEFAULT_URL = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : 'http://localhost:5583';
 
-export function useMultiplayer({ username, enabled = false }) {
-    // Socket connection
-    const socketRef = useRef(null);
-    const [connected, setConnected] = useState(false);
-    const [connectionError, setConnectionError] = useState(null);
-
-    // Lobby state
-    const [lobbies, setLobbies] = useState([]);
-    const [currentLobby, setCurrentLobby] = useState(null);
-    const [playerRole, setPlayerRole] = useState(null); // 'host' or 'guest'
-    const [isHost, setIsHost] = useState(false);
-
-    // Game state
-    const [gameStarted, setGameStarted] = useState(false);
-    const [opponentInfo, setOpponentInfo] = useState(null);
-    const [opponentLeft, setOpponentLeft] = useState(false);
-
-    // Event handlers stored in refs to avoid stale closures
-    const onGameStartRef = useRef(null);
-    const onGameStateSyncRef = useRef(null);
-    const onOpponentLeftRef = useRef(null);
-
-    // Dice roll sync (server-authoritative)
-    const onDiceRollRef = useRef(null);
-
-    // Track if we're host (stored in ref for socket handlers)
-    const isHostRef = useRef(false);
-
-    // Initialize socket connection
-    useEffect(() => {
-        if (!enabled || !username) {
-            return;
-        }
-
-        const socket = io(SOCKET_URL, {
-            transports: ['websocket', 'polling'],
-            reconnection: true,
-            reconnectionAttempts: 5,
-            reconnectionDelay: 1000
-        });
-
-        socketRef.current = socket;
-
-        socket.on('connect', () => {
-            console.log('[Multiplayer] Connected to server');
-            setConnected(true);
-            setConnectionError(null);
-            socket.emit('setUsername', username);
-            socket.emit('requestLobbyList');
-        });
-
-        socket.on('disconnect', () => {
-            console.log('[Multiplayer] Disconnected from server');
-            setConnected(false);
-        });
-
-        socket.on('connect_error', (error) => {
-            console.error('[Multiplayer] Connection error:', error);
-            setConnectionError('Failed to connect to game server');
-        });
-
-        socket.on('error', (data) => {
-            console.error('[Multiplayer] Server error:', data.message);
-            setConnectionError(data.message);
-        });
-
-        // Lobby events
-        socket.on('lobbyList', (list) => {
-            setLobbies(list);
-        });
-
-        socket.on('lobbyJoined', ({ lobby, role }) => {
-            console.log('[Multiplayer] Joined lobby as', role);
-            setCurrentLobby(lobby);
-            // First player to join is host, second is guest
-            const amHost = lobby.hostId === socket.id;
-            setPlayerRole(amHost ? 'host' : 'guest');
-            setIsHost(amHost);
-            isHostRef.current = amHost;
-            setOpponentLeft(false);
-            
-            // Find opponent info if they exist
-            const mySocketId = socket.id;
-            const opponent = lobby.players.find(p => p.socketId !== mySocketId);
-            setOpponentInfo(opponent || null);
-        });
-
-        socket.on('lobbyUpdated', (lobby) => {
-            setCurrentLobby(lobby);
-            const amHost = lobby.hostId === socket.id;
-            setIsHost(amHost);
-            isHostRef.current = amHost;
-            setPlayerRole(amHost ? 'host' : 'guest');
-            
-            // Update opponent info
-            const mySocketId = socket.id;
-            const opponent = lobby.players.find(p => p.socketId !== mySocketId);
-            setOpponentInfo(opponent || null);
-        });
-
-        socket.on('gameStart', (data) => {
-            console.log('[Multiplayer] Game starting:', data);
-            setGameStarted(true);
-            if (onGameStartRef.current) {
-                onGameStartRef.current({ ...data, isHost: isHostRef.current });
-            }
-        });
-
-        // Full game state sync from server
-        socket.on('gameStateSync', (gameState) => {
-            console.log('[Multiplayer] Received game state sync (server-authoritative). isHost:', isHostRef.current);
-            if (onGameStateSyncRef.current) {
-                onGameStateSyncRef.current(gameState);
-            }
-        });
-
-        socket.on('opponentLeft', (data) => {
-            console.log('[Multiplayer] Opponent left:', data);
-            setOpponentLeft(true);
-            setOpponentInfo(null);
-            if (onOpponentLeftRef.current) {
-                onOpponentLeftRef.current(data);
-            }
-        });
-
-        socket.on('gameEnded', (data) => {
-            console.log('[Multiplayer] Game ended:', data);
-            setGameStarted(false);
-        });
-
-        // Server-authoritative dice roll start (both clients receive same predetermined result)
-        socket.on('diceRollStart', (payload) => {
-            console.log('[Multiplayer] Received dice roll start:', payload);
-            if (onDiceRollRef.current) {
-                onDiceRollRef.current(payload);
-            }
-        });
-
-        return () => {
-            socket.disconnect();
-            socketRef.current = null;
-        };
-    }, [enabled, username]);
-
-    // Create a new lobby
-    const createLobby = useCallback((lobbyName, deckConfig = null) => {
-        if (!socketRef.current?.connected) {
-            console.warn('[Multiplayer] Cannot create lobby - not connected');
-            return;
-        }
-        socketRef.current.emit('createLobby', { lobbyName, deckConfig });
-    }, []);
-
-    // Join an existing lobby
-    const joinLobby = useCallback((lobbyId, deckConfig = null) => {
-        if (!socketRef.current?.connected) {
-            console.warn('[Multiplayer] Cannot join lobby - not connected');
-            return;
-        }
-        socketRef.current.emit('joinLobby', { lobbyId, deckConfig });
-    }, []);
-
-    // Leave current lobby
-    const leaveLobby = useCallback(() => {
-        if (!socketRef.current?.connected) return;
-        socketRef.current.emit('leaveLobby');
-        setCurrentLobby(null);
-        setPlayerRole(null);
-        setIsHost(false);
-        isHostRef.current = false;
-        setGameStarted(false);
-        setOpponentInfo(null);
-        setOpponentLeft(false);
-    }, []);
-
-    // Update deck configuration
-    const updateDeck = useCallback((deckConfig) => {
-        if (!socketRef.current?.connected) return;
-        socketRef.current.emit('updateDeck', deckConfig);
-    }, []);
-
-    // Set ready status
-    const setReady = useCallback((isReady) => {
-        if (!socketRef.current?.connected) return;
-        socketRef.current.emit('setReady', isReady);
-    }, []);
-
-    // ---------------------------------------------------------------------
-    // Server-authoritative API
-    // ---------------------------------------------------------------------
-
-    // Sync full (or partial) game state to the server.
-    // Server will merge and rebroadcast to all players in the lobby.
-    const syncGameState = useCallback((gameState) => {
-        if (!socketRef.current?.connected || !gameStarted) {
-            console.log('[Multiplayer] Cannot sync state - not connected or game not started');
-            return;
-        }
-        console.log('[Multiplayer] Syncing game state to server');
-        socketRef.current.emit('syncGameState', gameState);
-    }, [gameStarted]);
-
-    // Send a logical game action to the server.
-    // Server applies it via applyGameAction() and broadcasts updated state.
-    const sendGameAction = useCallback((action) => {
-        if (!socketRef.current?.connected || !gameStarted) {
-            console.log('[Multiplayer] Cannot send game action - not connected or game not started');
-            return;
-        }
-        console.log('[Multiplayer] Sending game action:', action?.type || action);
-        socketRef.current.emit('gameAction', action);
-    }, [gameStarted]);
-
-    // Notify game over
-    const sendGameOver = useCallback((data) => {
-        if (!socketRef.current?.connected) return;
-        socketRef.current.emit('gameOver', data);
-    }, []);
-
-    // Refresh lobby list
-    const refreshLobbies = useCallback(() => {
-        if (!socketRef.current?.connected) return;
-        socketRef.current.emit('requestLobbyList');
-    }, []);
-
-    // Request a server-authoritative dice roll for the current lobby.
-    // Server will broadcast a `diceRollStart` event to both players.
-    const requestDiceRoll = useCallback(() => {
-        if (!socketRef.current?.connected) return;
-        socketRef.current.emit('requestDiceRoll');
-    }, []);
-
-    // Set event handlers
-    const setOnGameStart = useCallback((handler) => {
-        onGameStartRef.current = handler;
-    }, []);
-
-    const setOnGameStateSync = useCallback((handler) => {
-        onGameStateSyncRef.current = handler;
-    }, []);
-
-    const setOnOpponentLeft = useCallback((handler) => {
-        onOpponentLeftRef.current = handler;
-    }, []);
-
-    const setOnDiceRoll = useCallback((handler) => {
-        onDiceRollRef.current = handler;
-    }, []);
-
-    return {
-        // Connection state
-        connected,
-        connectionError,
-
-        // Lobby state
-        lobbies,
-        currentLobby,
-        playerRole,
-        isHost,
-
-        // Game state
-        gameStarted,
-        opponentInfo,
-        opponentLeft,
-
-        // Lobby actions
-        createLobby,
-        joinLobby,
-        leaveLobby,
-        updateDeck,
-        setReady,
-        refreshLobbies,
-        requestDiceRoll,
-
-        // Game actions / state sync
-        syncGameState,
-        sendGameAction,
-        sendGameOver,
-
-        // Event handlers
-        setOnGameStart,
-        setOnGameStateSync,
-        setOnOpponentLeft,
-        setOnDiceRoll,
-    };
+function makeCommandId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  return `c_${Date.now().toString(36)}_${Math.floor(Math.random()*1e9).toString(36)}`;
 }
 
-export default useMultiplayer;
+export default function useMultiplayer({ username, enabled = false, url = DEFAULT_URL } = {}) {
+  const socketRef = useRef(null);
+  const [connected, setConnected] = useState(false);
+  const [connectionError, setConnectionError] = useState(null);
+  const [lobbies, setLobbies] = useState([]);
+  const [currentLobby, setCurrentLobby] = useState(null);
+  const [playerRole, setPlayerRole] = useState(null); // 'player' or 'opponent'
+  const [isHost, setIsHost] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
+  const [opponentInfo, setOpponentInfo] = useState(null);
+  const [opponentLeft, setOpponentLeft] = useState(false);
+
+  // event refs for handlers
+  const onGameStartRef = useRef(null);
+  const onStatePatchRef = useRef(null);
+  const onCommandAckRef = useRef(null);
+  const onOpponentLeftRef = useRef(null);
+  const onLobbyUpdatedRef = useRef(null);
+  const onDiceRollRef = useRef(null);
+
+  useEffect(() => {
+    if (!enabled || !username) return;
+
+    const socket = io(url, { transports: ['websocket', 'polling'] });
+    socketRef.current = socket;
+
+    socket.on('connect', () => {
+      setConnected(true);
+      setConnectionError(null);
+      socket.emit('setUsername', username);
+      socket.emit('requestLobbyList');
+    });
+
+    socket.on('disconnect', () => {
+      setConnected(false);
+    });
+
+    socket.on('connect_error', (err) => {
+      setConnectionError('Failed to connect to game server');
+      console.error('[Multiplayer] connect_error', err);
+    });
+
+    socket.on('lobbyList', (list) => setLobbies(list));
+
+    socket.on('lobbyJoined', ({ lobby, role }) => {
+      setCurrentLobby(lobby);
+      const isHostNow = lobby?.hostId === socket.id;
+      setPlayerRole(role);
+      setIsHost(isHostNow);
+      setOpponentLeft(false);
+      const mySocketId = socket.id;
+      const opponent = (lobby.players || []).find(p => p.socketId !== mySocketId) || null;
+      setOpponentInfo(opponent);
+      onLobbyUpdatedRef.current && onLobbyUpdatedRef.current(lobby);
+    });
+
+    socket.on('lobbyUpdated', (lobby) => {
+      setCurrentLobby(lobby);
+      const isHostNow = lobby?.hostId === socket.id;
+      setPlayerRole(lobby.players?.find(p => p.socketId === socket.id)?.role || null);
+      setIsHost(isHostNow);
+      const mySocketId = socket.id;
+      const opponent = (lobby.players || []).find(p => p.socketId !== mySocketId) || null;
+      setOpponentInfo(opponent);
+      onLobbyUpdatedRef.current && onLobbyUpdatedRef.current(lobby);
+    });
+
+    socket.on('gameStart', (data) => {
+      setGameStarted(true);
+      onGameStartRef.current && onGameStartRef.current(data);
+    });
+
+    // Authoritative per-player patches from server.commandProcessor
+    socket.on('statePatch', (patch) => {
+      // patch: { fromVersion, toVersion, state }
+      onStatePatchRef.current && onStatePatchRef.current(patch.state, { fromVersion: patch.fromVersion, toVersion: patch.toVersion });
+    });
+
+    // commandAck replies
+    socket.on('commandAck', (ack) => {
+      onCommandAckRef.current && onCommandAckRef.current(ack);
+    });
+
+    socket.on('opponentLeft', (data) => {
+      setOpponentLeft(true);
+      setOpponentInfo(null);
+      onOpponentLeftRef.current && onOpponentLeftRef.current(data);
+    });
+
+    socket.on('diceRollStart', (payload) => {
+      onDiceRollRef.current && onDiceRollRef.current(payload);
+    });
+
+    socket.on('error', (err) => {
+      console.error('[Multiplayer] server error', err);
+    });
+
+    return () => {
+      socket.disconnect();
+      socketRef.current = null;
+    };
+  }, [enabled, username, url]);
+
+  // Lobby APIs
+  const createLobby = useCallback((lobbyName, deckConfig = null) => {
+    const s = socketRef.current;
+    if (!s || !s.connected) return;
+    s.emit('createLobby', { lobbyName, deckConfig });
+  }, []);
+
+  const joinLobby = useCallback((lobbyId, deckConfig = null) => {
+    const s = socketRef.current;
+    if (!s || !s.connected) return;
+    s.emit('joinLobby', { lobbyId, deckConfig });
+  }, []);
+
+  const leaveLobby = useCallback(() => {
+    const s = socketRef.current;
+    if (!s || !s.connected) return;
+    s.emit('leaveLobby');
+    setCurrentLobby(null);
+    setPlayerRole(null);
+    setIsHost(false);
+    setGameStarted(false);
+    setOpponentInfo(null);
+    setOpponentLeft(false);
+  }, []);
+
+  const updateDeck = useCallback((deckConfig) => {
+    const s = socketRef.current;
+    if (!s || !s.connected) return;
+    s.emit('updateDeck', deckConfig);
+  }, []);
+
+  const setReady = useCallback((isReady) => {
+    const s = socketRef.current;
+    if (!s || !s.connected) return;
+    s.emit('setReady', isReady);
+  }, []);
+
+  const requestDiceRoll = useCallback(() => {
+    const s = socketRef.current;
+    if (!s || !s.connected) return;
+    s.emit('requestDiceRoll');
+  }, []);
+
+  // -------------------------
+  // sendCommand (authoritative)
+  // -------------------------
+  const sendCommand = useCallback((type, payload = {}, opts = {}) => {
+    const s = socketRef.current;
+    if (!s || !s.connected) {
+      console.warn('[Multiplayer] sendCommand failed - socket not connected');
+      return null;
+    }
+    const commandId = opts.commandId || makeCommandId();
+    const lastKnownStateVersion = opts.lastKnownStateVersion ?? null;
+    const command = { commandId, type, payload, lastKnownStateVersion };
+    s.emit('command', command);
+    return command;
+  }, []);
+
+  const ACTION_TO_COMMAND = {
+    HAND_CONFIRM: 'OPENING_HAND_CONFIRM',
+    SETUP_READY: 'SETUP_READY',
+    DRAW_CARD: 'DRAW_CARD',
+    DRAW_DON: 'DRAW_DON',
+    END_TURN: 'END_TURN',
+    PLAY_CARD: 'PLAY_CARD',
+    BEGIN_ATTACK: 'BEGIN_ATTACK',
+    APPLY_BLOCKER: 'APPLY_BLOCKER',
+    ADD_COUNTER_FROM_HAND: 'ADD_COUNTER_FROM_HAND',
+    RESOLVE_DAMAGE: 'RESOLVE_DAMAGE'
+  };
+
+  const sendAction = useCallback((actionType, payload = {}, opts = {}) => {
+    const cmdType = ACTION_TO_COMMAND[actionType] || actionType;
+    return sendCommand(cmdType, payload, opts);
+  }, [sendCommand]);
+
+  // Request current authoritative state (rehydrate on reconnect)
+  const requestState = useCallback((lobbyId = null) => {
+    const s = socketRef.current;
+    if (!s || !s.connected) return;
+    s.emit('requestState', { lobbyId });
+  }, []);
+
+  // --- handler registration functions ---
+  const setOnGameStart = useCallback((fn) => { onGameStartRef.current = fn; }, []);
+  const setOnStatePatch = useCallback((fn) => { onStatePatchRef.current = fn; }, []);
+  const setOnCommandAck = useCallback((fn) => { onCommandAckRef.current = fn; }, []);
+  const setOnOpponentLeft = useCallback((fn) => { onOpponentLeftRef.current = fn; }, []);
+  const setOnLobbyUpdated = useCallback((fn) => { onLobbyUpdatedRef.current = fn; }, []);
+  const setOnDiceRoll = useCallback((fn) => { onDiceRollRef.current = fn; }, []);
+
+  // Expose API
+  return {
+    connected,
+    connectionError,
+    lobbies,
+    currentLobby,
+    playerRole,
+    isHost,
+    gameStarted,
+    opponentInfo,
+    opponentLeft,
+
+    // Lobby functions
+    createLobby,
+    joinLobby,
+    leaveLobby,
+    updateDeck,
+    setReady,
+    requestDiceRoll,
+
+    // Command pipeline
+    sendCommand,
+    sendAction,
+    requestState,
+
+    // Handlers
+    setOnGameStart,
+    setOnStatePatch,
+    setOnCommandAck,
+    setOnOpponentLeft,
+    setOnLobbyUpdated,
+    setOnDiceRoll
+  };
+}
