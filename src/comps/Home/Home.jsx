@@ -1448,9 +1448,14 @@ export default function Home() {
         cancelDonGiving();
         setTurnNumber((n) => n + 1);
         setTurnSide(nextSide);
-
-        //. Execute Refresh Phase for the new turn player (rule 6-2)
-        executeRefreshPhase(nextSide);
+        // In multiplayer, do NOT execute the opponent's Refresh Phase locally.
+        // The server only accepts area updates for the side the sender controls,
+        // so running refresh here would be rejected/clobbered. Instead, the
+        // new turn player runs Refresh Phase when they receive the turn swap.
+        if (gameMode !== 'multiplayer') {
+            //. Execute Refresh Phase for the new turn player (rule 6-2)
+            executeRefreshPhase(nextSide);
+        }
 
         setPhase('Draw');
 
@@ -1479,6 +1484,43 @@ export default function Home() {
         gameMode,
         multiplayer,
         isMyTurnInMultiplayer
+    ]);
+
+    // -----------------------------------------------------------------
+    // Multiplayer: run Refresh Phase at start of YOUR turn
+    // -----------------------------------------------------------------
+    const lastRefreshedTurnKeyRef = useRef(null);
+    useEffect(() => {
+        if (gameMode !== 'multiplayer') {
+            lastRefreshedTurnKeyRef.current = null;
+            return;
+        }
+        if (!multiplayer?.gameStarted) return;
+        if (setupPhase !== 'complete') return;
+        if (!isMyTurnInMultiplayer) return;
+        if (phaseLower !== 'draw') return;
+
+        const key = `${turnNumber}:${turnSide}`;
+        if (lastRefreshedTurnKeyRef.current === key) return;
+        lastRefreshedTurnKeyRef.current = key;
+
+        // CR 6-2: Return given DON!!, then set rested cards active.
+        executeRefreshPhase(turnSide);
+
+        // Push the refreshed state to the server so both clients update.
+        const t = setTimeout(() => {
+            broadcastStateToOpponentRef.current && broadcastStateToOpponentRef.current();
+        }, 50);
+        return () => clearTimeout(t);
+    }, [
+        executeRefreshPhase,
+        gameMode,
+        isMyTurnInMultiplayer,
+        multiplayer?.gameStarted,
+        phaseLower,
+        setupPhase,
+        turnNumber,
+        turnSide
     ]);
 
     const [deckOpen, setDeckOpen] = useState(false);

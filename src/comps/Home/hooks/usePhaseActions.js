@@ -159,8 +159,13 @@ export default function usePhaseActions({
         setTurnNumber((n) => n + 1);
         setTurnSide(nextSide);
 
-        // Execute Refresh Phase for the new turn player (rule 6-2)
-        executeRefreshPhase(nextSide);
+        // In multiplayer, the server only accepts area updates for the side the sender controls.
+        // Refreshing the opponent here would be rejected/clobbered. The new turn player should
+        // run Refresh Phase when they receive the turn swap.
+        if (gameMode !== 'multiplayer') {
+            // Execute Refresh Phase for the new turn player (rule 6-2)
+            executeRefreshPhase(nextSide);
+        }
 
         setPhase('Draw');
 

@@ -174,7 +174,10 @@ export function returnDonFromCardMutate(next, side, section, keyName, index) {
     if (section === 'char' && keyName === 'char') {
         const donUnderArr = sideRoot?.charDon?.[index] || [];
         if (donUnderArr.length) {
-            costRoot.cost = [...(costRoot.cost || []), ...donUnderArr];
+            costRoot.cost = [
+                ...(costRoot.cost || []),
+                ...donUnderArr.map((d) => ({ ...d, rested: true }))
+            ];
             if (Array.isArray(sideRoot.charDon)) {
                 sideRoot.charDon.splice(index, 1);
             }
@@ -186,7 +189,10 @@ export function returnDonFromCardMutate(next, side, section, keyName, index) {
     if (section === 'middle' && keyName === 'leader') {
         const leaderDon = sideRoot?.middle?.leaderDon || [];
         if (leaderDon.length) {
-            costRoot.cost = [...(costRoot.cost || []), ...leaderDon];
+            costRoot.cost = [
+                ...(costRoot.cost || []),
+                ...leaderDon.map((d) => ({ ...d, rested: true }))
+            ];
             sideRoot.middle.leaderDon = [];
             return leaderDon.length;
         }

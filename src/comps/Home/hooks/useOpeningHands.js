@@ -89,7 +89,14 @@ export default function useOpeningHands({
             setTurnSide(starter);
             setTurnNumber(1);
             setPhase(initialPhase);
-            executeRefreshPhaseRef && executeRefreshPhaseRef.current && executeRefreshPhaseRef.current(starter);
+
+            // Only the client that controls the starting side should run Refresh Phase locally.
+            // (Host controls 'player', Guest controls 'opponent'.)
+            const iControlStarter = multiplayer?.isHost ? starter === 'player' : starter === 'opponent';
+            if (iControlStarter) {
+                executeRefreshPhaseRef && executeRefreshPhaseRef.current && executeRefreshPhaseRef.current(starter);
+            }
+
             appendLog && appendLog(`Game started! ${getPlayerDisplayName ? getPlayerDisplayName(starter) : starter} goes first.`);
             appendLog && appendLog('First turn: skipping Draw Phase.');
             

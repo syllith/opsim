@@ -134,16 +134,17 @@ export const useDonManagement = ({
                 return;
             }
 
-            //. Remove DON from cost area and mark as rested
+            //. Remove DON from cost area and give it to the card.
+            //. CR 6-5-5-1: you place 1 ACTIVE DON!! under the card (giving does not rest it).
             const [removedDon] = costArr.splice(donGivingMode.selectedDonIndex, 1);
-            const restedDon = { ...removedDon, rested: true };
+            const givenDon = { ...removedDon, rested: false };
 
             //. Place DON underneath target card
             const sideLoc = getSideRoot(next, side);
             if (targetSection === 'middle' && targetKeyName === 'leader') {
                 if (sideLoc.middle.leader[targetIndex]) {
                     if (!sideLoc.middle.leaderDon) sideLoc.middle.leaderDon = [];
-                    sideLoc.middle.leaderDon.push(restedDon);
+                    sideLoc.middle.leaderDon.push(givenDon);
                     success = true;
                 } else {
                     appendLog('[DON Select] Leader target missing.');
@@ -154,7 +155,7 @@ export const useDonManagement = ({
                     while (sideLoc.charDon.length <= targetIndex) {
                         sideLoc.charDon.push([]);
                     }
-                    sideLoc.charDon[targetIndex].push(restedDon);
+                    sideLoc.charDon[targetIndex].push(givenDon);
                     success = true;
                 } else {
                     appendLog(`[DON Select] Character target #${targetIndex + 1} missing.`);
@@ -282,7 +283,7 @@ export const useDonManagement = ({
                 appendLog(`[Refresh] Return ${count} DON!! from Leader to cost area.`);
                 costLoc.cost = [
                     ...(costLoc.cost || []),
-                    ...sideLoc.middle.leaderDon
+                    ...sideLoc.middle.leaderDon.map((d) => ({ ...d, rested: true }))
                 ];
                 sideLoc.middle.leaderDon = [];
             }
@@ -303,7 +304,10 @@ export const useDonManagement = ({
                     appendLog(
                         `[Refresh] Return ${totalReturned} DON!! from Characters to cost area.`
                     );
-                    costLoc.cost = [...(costLoc.cost || []), ...allCharDon];
+                    costLoc.cost = [
+                        ...(costLoc.cost || []),
+                        ...allCharDon.map((d) => ({ ...d, rested: true }))
+                    ];
                     //. Clear all character DON arrays
                     sideLoc.charDon = sideLoc.charDon.map(() => []);
                 }
