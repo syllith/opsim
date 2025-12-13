@@ -1,4 +1,571 @@
-// In-memory lobby storage (could move to MongoDB for persistence)
+import express from 'express';
+import session from 'express-session';
+import bcrypt from 'bcrypt';
+import { MongoClient } from 'mongodb';
+import MongoStore from 'connect-mongo';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import http from 'http';
+import { Server as SocketIOServer } from 'socket.io';
+import crypto from 'crypto';
+import _ from 'lodash';
+
+// NEW imports: engine, conceal helper, command processor
+import createCommandProcessor from './server/commandProcessor.js';
+import engine from './src/engine/index.js';
+import { concealStateForRole } from './src/engine/conceal.js';
+
+// ESM compatibility
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config();
+
+const app = express();
+const server = http.createServer(app);
+const io = new SocketIOServer(server, {
+    cors: {
+        origin: process.env.NODE_ENV === 'production' ? false : ['http://localhost:5173', 'http://localhost:5583'],
+        credentials: true
+    }
+});
+const PORT = 5583;
+
+// Card back asset used when sending concealed zones to the opponent.
+// Keep in sync with client constant in Home.jsx.
+const CARD_BACK_URL = '/api/cards/assets/Card%20Backs/CardBackRegular.png';
+
+// Parsers
+app.use(bodyParser.json({ limit: '50gb' }));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Mongo client with auto-retry connect
+const mongoClient = new MongoClient(process.env.MONGO_URL, { serverSelectionTimeoutMS: 5000 });
+async function connectWithRetry(delay = 5000) {
+    let attempt = 1;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+        try {
+            console.log(`Attempt ${attempt} to connect to MongoDB...`);
+            await mongoClient.connect();
+            console.log('MongoDB Connected');
+            break;
+        } catch (err) {
+            console.error(`MongoDB connection error (attempt ${attempt}):`, err?.message || err);
+            await new Promise((r) => setTimeout(r, delay));
+            attempt++;
+        }
+    }
+}
+await connectWithRetry();
+
+// Sessions stored in Mongo
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || 'change-me',
+        resave: false,
+        saveUninitialized: false,
+        cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 }, // 30 days
+        store: MongoStore.create({
+            mongoUrl: process.env.MONGO_URL,
+            dbName: 'opsim_sessions',
+            ttl: 60 * 60 * 24 * 30,
+        }),
+    })
+);
+
+function isAuthenticated(req, res, next) {
+    if (req.session?.user?.username) return next();
+    return res.status(401).json({ message: 'Unauthorized' });
+}
+
+// --- Resolve cards root directory robustly ---
+function resolveCardsRoot() {
+    const candidates = [];
+    if (process.env.CARDS_DIR) candidates.push(process.env.CARDS_DIR);
+    candidates.push(path.join(__dirname, 'public', 'cards'));
+    candidates.push(path.join(process.cwd(), 'public', 'cards'));
+    // Add a common deployment sibling pattern if server is run from dist/server
+    candidates.push(path.join(__dirname, '..', 'public', 'cards'));
+    for (const dir of candidates) {
+        try {
+            if (fs.existsSync(dir)) return dir;
+        } catch {}
+    }
+    return candidates[0];
+}
+const CARDS_ROOT = resolveCardsRoot();
+console.log('[Startup] Cards root resolved to:', CARDS_ROOT);
+
+// --- Card metadata loader (metaById) ---
+// This loads all card JSON from src/data/cards into a Map for server-side lookups.
+const metaById = new Map();
+
+function loadCardMeta() {
+    try {
+        const jsonRoot = path.join(__dirname, 'src', 'data', 'cards');
+        if (!fs.existsSync(jsonRoot)) {
+            console.warn('[Startup] Card JSON directory not found:', jsonRoot);
+            return;
+        }
+
+        const files = [];
+        const walk = (dir) => {
+            const entries = fs.readdirSync(dir, { withFileTypes: true });
+            for (const e of entries) {
+                const full = path.join(dir, e.name);
+                if (e.isDirectory()) walk(full);
+                else if (e.isFile() && e.name.endsWith('.json')) files.push(full);
+            }
+        };
+        walk(jsonRoot);
+
+        for (const f of files) {
+            try {
+                const buf = fs.readFileSync(f, 'utf8');
+                const obj = JSON.parse(buf);
+                const id = obj?.cardId || obj?.id;
+                if (id) metaById.set(id, obj);
+            } catch (e) {
+                console.warn('[Startup] Failed to parse card JSON:', f, e?.message || e);
+            }
+        }
+        console.log('[Startup] Loaded', metaById.size, 'card metadata entries');
+    } catch (e) {
+        console.warn('[Startup] loadCardMeta failed', e);
+    }
+}
+loadCardMeta();
+
+// Helper: compute basic total power (server-side fallback). Extend to include modifiers.
+function getTotalPower(side, section, keyName, index, id) {
+    const meta = metaById.get(id) || {};
+    const base = Number(_.get(meta, 'power', _.get(meta, 'stats.power', 0))) || 0;
+    // TODO: include Don, attachments, buffs/debuffs, and battle counter power
+    return base;
+}
+
+// --- Minimal mutate helpers for engine/battle ---
+function dealDamageToLeaderMutate(nextAreas, side, amount = 1, opts = {}) {
+    // Very small, safe mutation: remove 'amount' life cards from side and return triggers empty
+    const res = { paid: false, triggers: [] };
+    try {
+        if (!nextAreas || !nextAreas[side]) return res;
+        const life = nextAreas[side].life || [];
+        if (life.length === 0) {
+            return res;
+        }
+        // Remove up to `amount` cards
+        for (let i = 0; i < amount && life.length > 0; i++) {
+            const removed = life.shift(); // top-most life
+            // push removed to a trash location if present
+            const trashLoc = nextAreas[side].bottom?.trash || nextAreas[side].top?.trash;
+            if (Array.isArray(trashLoc)) trashLoc.push(removed);
+            res.paid = true;
+        }
+    } catch (e) {
+        // noop
+    }
+    return res;
+}
+
+function returnDonFromCardMutate(nextAreas, side, section, keyName, index) {
+    // Best-effort: remove attachments (charDon/middle leaderDon) at index and return count
+    try {
+        if (!nextAreas || !nextAreas[side]) return 0;
+        if (section === 'char' && keyName === 'char') {
+            const arr = nextAreas[side].charDon || [];
+            if (Array.isArray(arr) && arr[index]) {
+                const removed = arr.splice(index, 1);
+                return removed ? removed.length : 0;
+            }
+        } else if (section === 'middle' && keyName === 'leader') {
+            const arr = nextAreas[side].middle?.leaderDon || [];
+            if (Array.isArray(arr) && arr[index]) {
+                const removed = arr.splice(index, 1);
+                return removed ? removed.length : 0;
+            }
+        }
+    } catch (e) {
+        // noop
+    }
+    return 0;
+}
+
+// --- Auth APIs ---
+app.get('/api/checkLoginStatus', async (req, res) => {
+    const user = req.session?.user;
+    if (!user) return res.status(401).json({ isLoggedIn: false });
+    try {
+        const [dbUser] = await mongoRead('opsim', 'users', { comparisonUsername: user.username.toLowerCase() });
+        const settings = dbUser?.settings || { theme: 'light' };
+        return res.json({ isLoggedIn: true, username: user.username, settings });
+    } catch {
+        return res.json({ isLoggedIn: true, username: user.username, settings: { theme: 'light' } });
+    }
+});
+
+app.post('/api/register', async (req, res) => {
+    try {
+        const { username, password, passwordConfirm } = req.body;
+        if (!username || !password || !passwordConfirm) return res.status(400).json({ error: 'Missing fields' });
+        if (password !== passwordConfirm) return res.status(400).json({ error: 'Passwords do not match' });
+        if (!/^[a-zA-Z0-9_-]{3,20}$/.test(username)) return res.status(400).json({ error: 'Invalid username' });
+        if (password.length < 8 || password.length > 64) return res.status(400).json({ error: 'Invalid password length' });
+
+        const comparisonUsername = username.toLowerCase();
+        const existing = await mongoRead('opsim', 'users', { comparisonUsername });
+        if (existing.length) return res.status(409).json({ error: 'Username already exists' });
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const userDoc = {
+            username,
+            comparisonUsername,
+            password: hashedPassword,
+            registered: Date.now(),
+            settings: { theme: 'light' },
+        };
+        await mongoWrite('opsim', 'users', userDoc);
+        req.session.user = { username };
+        res.json({ message: 'Registered', username, settings: userDoc.settings });
+    } catch (e) {
+        console.error('Register error:', e);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.post('/api/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        if (!username || !password) return res.status(400).json({ error: 'Missing credentials' });
+        const comparisonUsername = username.toLowerCase();
+        const users = await mongoRead('opsim', 'users', { comparisonUsername });
+        if (!users.length) return res.status(401).json({ error: 'Invalid credentials' });
+        const user = users[0];
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) return res.status(401).json({ error: 'Invalid credentials' });
+        req.session.user = { username: user.username };
+        res.json({ message: 'Login successful', username: user.username, settings: user.settings || { theme: 'light' } });
+    } catch (e) {
+        console.error('Login error:', e);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.get('/api/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) return res.status(500).json({ message: 'Failed to logout' });
+        res.status(200).json({ message: 'Logged out' });
+    });
+});
+
+// --- Card assets APIs ---
+// Serve static card image assets under /api namespace (frontend will use /api/cards/assets/...)
+app.use('/api/cards/assets', (req, res, next) => {
+    if (!fs.existsSync(CARDS_ROOT)) {
+        console.warn('[cards/assets] Cards root not found:', CARDS_ROOT);
+        return res.status(404).end();
+    }
+    return express.static(CARDS_ROOT)(req, res, next);
+});
+
+// List all cards recursively across all subdirectories in public/cards (must come BEFORE param route)
+function handleListAllCards(req, res) {
+    try {
+        const root = CARDS_ROOT;
+        if (!fs.existsSync(root)) {
+            console.warn('[cards/all] Cards directory not found at', root);
+            return res.status(404).json({ error: 'Cards directory not found' });
+        }
+
+        const walk = (dir) => {
+            const out = [];
+            const entries = fs.readdirSync(dir, { withFileTypes: true });
+            for (const e of entries) {
+                const fullPath = path.join(dir, e.name);
+                if (e.isDirectory()) {
+                    out.push(...walk(fullPath));
+                } else {
+                    out.push(fullPath);
+                }
+            }
+            return out;
+        };
+        const all = walk(root).map(p => p.replace(root, '').replace(/\\/g, '/')); // relative
+        const set = new Set(all);
+        const cards = [];
+        for (const rel of all) {
+            const name = rel.split('/').pop() || '';
+            const dirRel = rel.slice(0, rel.length - name.length);
+            if (/(_small)\.(jpg|png)$/i.test(name)) {
+                const base = name.replace(/_small\.(jpg|png)$/i, '');
+                const png = dirRel + base + '.png';
+                const jpg = dirRel + base + '.jpg';
+                const fullRel = set.has(png) ? png : (set.has(jpg) ? jpg : null);
+                if (fullRel) {
+                    cards.push({
+                        id: base,
+                        number: null,
+                        full: `/api/cards/assets${fullRel}`,
+                        thumb: `/api/cards/assets${dirRel + name}`,
+                    });
+                }
+            } else if (/\.(png|jpg)$/i.test(name) && !/_small\./i.test(name)) {
+                const base = name.replace(/\.(png|jpg)$/i, '');
+                const thumbJpg = dirRel + base + '_small.jpg';
+                const thumbPng = dirRel + base + '_small.png';
+                const thumbRel = set.has(thumbJpg) ? thumbJpg : (set.has(thumbPng) ? thumbPng : null);
+                cards.push({
+                    id: base,
+                    number: null,
+                    full: `/api/cards/assets${rel}`,
+                    thumb: thumbRel ? `/api/cards/assets${thumbRel}` : `/api/cards/assets${rel}`,
+                });
+            }
+        }
+        const uniqueMap = new Map();
+        for (const c of cards) uniqueMap.set(c.full, c);
+        const uniqueCards = Array.from(uniqueMap.values());
+        return res.json({ count: uniqueCards.length, cards: uniqueCards });
+    } catch (e) {
+        console.error('cards all error:', e);
+        return res.status(500).json({ error: 'Failed to list all cards' });
+    }
+}
+app.get('/api/cards/all', handleListAllCards);
+// Provide alias outside of /api/cards/* path to avoid proxy static collisions
+app.get('/api/cardsAll', handleListAllCards);
+// List available card set directories under public/cards
+app.get('/api/cardSets', (req, res) => {
+    try {
+        const cardsRoot = CARDS_ROOT;
+        if (!fs.existsSync(cardsRoot)) return res.status(404).json({ error: 'Cards directory not found' });
+        const entries = fs.readdirSync(cardsRoot, { withFileTypes: true });
+        const sets = entries.filter((e) => e.isDirectory()).map((e) => e.name).sort();
+        return res.json({ sets });
+    } catch (e) {
+        console.error('cardSets error:', e);
+        return res.status(500).json({ error: 'Failed to list card sets' });
+    }
+});
+
+// Serve aggregated live card JSON from filesystem to reflect edits without rebuild
+app.get('/api/cards/data', (req, res) => {
+    try {
+        const jsonRoot = path.join(__dirname, 'src', 'data', 'cards');
+        if (!fs.existsSync(jsonRoot)) return res.status(404).json({ error: 'Card data directory not found' });
+
+        const walk = (dir) => {
+            const out = [];
+            const entries = fs.readdirSync(dir, { withFileTypes: true });
+            for (const e of entries) {
+                const full = path.join(dir, e.name);
+                if (e.isDirectory()) out.push(...walk(full));
+                else if (e.isFile() && e.name.endsWith('.json')) out.push(full);
+            }
+            return out;
+        };
+
+        const files = walk(jsonRoot);
+        const cards = [];
+        for (const f of files) {
+            try {
+                const buf = fs.readFileSync(f, 'utf8');
+                const obj = JSON.parse(buf);
+                const cardId = obj?.cardId || obj?.id;
+                if (!cardId) {
+                    console.warn('Card JSON missing cardId/id, skipping:', f);
+                    continue;
+                }
+
+                // Normalize to have both cardId and id populated so clients can key reliably
+                if (!obj.id) obj.id = cardId;
+                if (!obj.cardId) obj.cardId = cardId;
+
+                cards.push(obj);
+            } catch (e) {
+                console.warn('Failed to parse card JSON:', f, e?.message || e);
+            }
+        }
+
+        res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        res.set('Pragma', 'no-cache');
+        res.set('Expires', '0');
+        return res.json({ count: cards.length, cards });
+    } catch (e) {
+        console.error('cards data error:', e);
+        return res.status(500).json({ error: 'Failed to load card data' });
+    }
+});
+
+// List cards within a specific set, pairing full image with its thumbnail if present
+app.get('/api/cards/:set', (req, res) => {
+    try {
+        const set = req.params.set;
+        const setDir = path.join(CARDS_ROOT, set);
+        if (!/^[A-Za-z0-9_-]+$/.test(set)) return res.status(400).json({ error: 'Invalid set' });
+        if (!fs.existsSync(setDir)) return res.status(404).json({ error: 'Set not found' });
+        const files = fs.readdirSync(setDir);
+        // Collect only PNG full-size files; derive thumb names by convention *_small.jpg
+        const fullPngs = files.filter((f) => f.endsWith('.png'));
+        const cards = fullPngs.map((file) => {
+            const base = file.replace('.png', '');
+            const thumbName = `${base}_small.jpg`;
+            const hasThumb = files.includes(thumbName);
+            // id attempts to extract trailing number sequence
+            const idMatch = base.match(/(\d{3})$/);
+            const numericId = idMatch ? Number(idMatch[1]) : null;
+            return {
+                id: base,
+                number: numericId,
+                full: `/api/cards/assets/${set}/${file}`,
+                thumb: hasThumb ? `/api/cards/assets/${set}/${thumbName}` : `/api/cards/assets/${set}/${file}`
+            };
+        }).sort((a, b) => {
+            if (a.number != null && b.number != null) return a.number - b.number;
+            return a.id.localeCompare(b.id);
+        });
+        return res.json({ set, count: cards.length, cards });
+    } catch (e) {
+        console.error('cards listing error:', e);
+        return res.status(500).json({ error: 'Failed to list cards' });
+    }
+});
+
+// Save updated card JSON (for human verification/editing)
+app.post('/api/cards/save', isAuthenticated, async (req, res) => {
+    try {
+        const { cardId, cardData } = req.body;
+        if (!cardId || typeof cardId !== 'string') {
+            return res.status(400).json({ error: 'Missing or invalid cardId' });
+        }
+        if (!cardData || typeof cardData !== 'object') {
+            return res.status(400).json({ error: 'Missing or invalid cardData' });
+        }
+
+        // Extract set from cardId (e.g., "EB01-001" -> "EB01")
+        const setMatch = cardId.match(/^([A-Za-z0-9]+)-/);
+        if (!setMatch) {
+            return res.status(400).json({ error: 'Invalid card ID format' });
+        }
+        const setName = setMatch[1];
+        
+        // Construct file path to card JSON
+        const jsonDir = path.join(__dirname, 'src', 'data', 'cards', setName);
+        const jsonPath = path.join(jsonDir, `${cardId}.json`);
+
+        // Verify the file exists
+        if (!fs.existsSync(jsonPath)) {
+            return res.status(404).json({ error: 'Card JSON file not found' });
+        }
+
+        // Write the updated JSON with pretty formatting
+        fs.writeFileSync(jsonPath, JSON.stringify(cardData, null, 2), 'utf8');
+
+        console.log(`[Card Edit] Saved ${cardId} by ${req.session.user.username}`);
+        res.json({ message: 'Card saved successfully', cardId });
+    } catch (e) {
+        console.error('save card error:', e);
+        res.status(500).json({ error: 'Failed to save card data' });
+    }
+});
+
+// --- Deck APIs ---
+app.get('/api/decks', isAuthenticated, async (req, res) => {
+    try {
+        const username = req.session.user.username;
+        const decks = await mongoRead('opsim', 'decks', { username });
+        const out = decks.map(d => ({ name: d.name, updatedAt: d.updatedAt, size: d.size, leaderId: d.leaderId }));
+        res.json({ decks: out });
+    } catch (e) {
+        console.error('list decks error:', e);
+        res.status(500).json({ error: 'Failed to list decks' });
+    }
+});
+
+// Get a deck by name
+app.get('/api/decks/:name', isAuthenticated, async (req, res) => {
+    try {
+        const username = req.session.user.username;
+        const name = String(req.params.name || '').slice(0, 120);
+        const [deck] = await mongoRead('opsim', 'decks', { username, name });
+        if (!deck) return res.status(404).json({ error: 'Deck not found' });
+        res.json({
+            name: deck.name,
+            leaderId: deck.leaderId,
+            items: deck.items,
+            text: deck.text,
+            updatedAt: deck.updatedAt,
+        });
+    } catch (e) {
+        console.error('get deck error:', e);
+        res.status(500).json({ error: 'Failed to get deck' });
+    }
+});
+
+// Save or update a deck
+app.post('/api/decks/save', isAuthenticated, async (req, res) => {
+    try {
+        const username = req.session.user.username;
+        const { name, leaderId, items, text } = req.body || {};
+        if (!name || typeof name !== 'string') return res.status(400).json({ error: 'Missing deck name' });
+        if (!leaderId || typeof leaderId !== 'string') return res.status(400).json({ error: 'Missing leaderId' });
+        if (!Array.isArray(items)) return res.status(400).json({ error: 'Missing items' });
+        const cleanName = name.trim().slice(0, 80);
+        const size = items.reduce((a, b) => a + (b?.count || 0), 0);
+        const doc = {
+            username,
+            name: cleanName,
+            leaderId,
+            items: items.map(i => ({ id: String(i.id), count: Math.max(1, Math.min(4, Number(i.count) || 1)) })),
+            text: typeof text === 'string' ? text : null,
+            size,
+            updatedAt: Date.now(),
+        };
+        await mongoUpdate('opsim', 'decks', { username, name: cleanName }, { $set: doc, $setOnInsert: { createdAt: Date.now() } , }, { upsert: true });
+        res.json({ message: 'Saved', name: cleanName, size });
+    } catch (e) {
+        console.error('save deck error:', e);
+        res.status(500).json({ error: 'Failed to save deck' });
+    }
+});
+
+// Delete a deck by name
+app.delete('/api/decks/:name', isAuthenticated, async (req, res) => {
+    try {
+        const username = req.session.user.username;
+        const name = String(req.params.name || '').slice(0, 120);
+        const result = await mongoDelete('opsim', 'decks', { username, name });
+        if (result.deletedCount === 0) return res.status(404).json({ error: 'Deck not found' });
+        res.json({ message: 'Deleted', name });
+    } catch (e) {
+        console.error('delete deck error:', e);
+        res.status(500).json({ error: 'Failed to delete deck' });
+    }
+});
+
+// --- DB helpers ---
+async function mongoWrite(db, collection, data) {
+    return mongoClient.db(db).collection(collection).insertOne(data);
+}
+async function mongoRead(db, collection, filter) {
+    return mongoClient.db(db).collection(collection).find(filter).toArray();
+}
+async function mongoUpdate(db, collection, filter, update, options = undefined) {
+    return mongoClient.db(db).collection(collection).updateOne(filter, update, options);
+}
+async function mongoDelete(db, collection, filter) {
+    return mongoClient.db(db).collection(collection).deleteOne(filter);
+}
+
+// ============================================================================
+/* MULTIPLAYER LOBBY SYSTEM (Socket.io)
+   lobbies/games stored in memory for now (we persist game snapshots/events in DB via commandProcessor)
+*/
+// ============================================================================
 const lobbies = new Map();
 const playerToLobby = new Map(); // socketId -> lobbyId
 const playerInfo = new Map(); // socketId -> { username, lobbyId, playerRole }
@@ -6,9 +573,6 @@ const playerInfo = new Map(); // socketId -> { username, lobbyId, playerRole }
 // ============================================================================
  // SERVER-AUTHORITATIVE MULTIPLAYER GAME STATE
 // ============================================================================
- 
-// Canonical game state per lobbyId
-// NOTE: Stored separately from `lobbies` to keep the lobby list lightweight.
 const games = new Map();
 
 const DEFAULT_DEMO_DECK_ITEMS = [
@@ -64,7 +628,6 @@ async function loadDeckIdsForPlayer(username, deckConfig) {
             const [deck] = await mongoRead('opsim', 'decks', { username, name: deckName });
             if (deck?.items) {
                 const ids = expandDeckItems(deck.items);
-                // Ensure we have a usable deck size; pad if needed.
                 while (ids.length < 50 && ids.length > 0) ids.push(ids[0]);
                 return shuffleInPlace(ids);
             }
@@ -92,7 +655,6 @@ function buildViewStateForSocket(lobbyId, socketId) {
     const isMyTurn = game.turn.currentPlayerIndex === meIndex;
     const turnSide = isMyTurn ? 'player' : 'opponent';
 
-    // Perspective-swapped dice result: "player" always means "me" in the client view.
     let diceResult = null;
     if (game.setup?.dice) {
         const myRoll = game.setup.dice.rollsByIndex?.[meIndex];
@@ -106,7 +668,6 @@ function buildViewStateForSocket(lobbyId, socketId) {
         };
     }
 
-    // Zones: only the player hand is face-up; opponent hand is hidden with a count.
     const view = {
         setupPhase: game.setup.phase,
         diceResult,
@@ -152,40 +713,32 @@ function emitViewStateToLobby(lobbyId) {
     }
 }
 
-// ... Existing functions unchanged: rollDiceNoTie, rollDiceNoTieCrypto, applyGameAction, mergeBattleState, mergeGameStateFromClient, buildConcealedStateForRole, emitGameStateToLobby, generateLobbyId, getLobbyList, broadcastLobbyList ...
-// We'll keep original implementations for those functions intact (they are in the original server.js). For brevity below, the original functions remain as they were; we only add persistence wrappers and command processor wiring.
-
 // ============================================================================
 // PERSISTENCE HELPERS FOR COMMAND PROCESSOR
 // ============================================================================
 
-// These wrappers use your existing mongoRead/mongoWrite/mongoUpdate helpers and the in-memory `games` map.
 async function getGameSnapshotFromStore(lobbyId) {
-    // Prefer in-memory games map if present
     const mem = games.get(lobbyId);
     if (mem && mem.gameState) {
         return { state: mem.gameState, players: lobbies.get(lobbyId)?.players || [] };
     }
-    // fallback to DB
     try {
-        // games collection stores { lobbyId, state }
         const rows = await mongoRead('opsim', 'games', { lobbyId });
         if (Array.isArray(rows) && rows.length > 0) {
             const doc = rows[0];
-            games.set(lobbyId, { gameState: doc.state || {}, version: doc.state?.version || 0 });
+            games.set(lobbyId, { gameState: doc.state || {}, version: doc.state?.version || 0, players: lobbies.get(lobbyId)?.players || [] });
             return { state: doc.state || {}, players: lobbies.get(lobbyId)?.players || [] };
         }
     } catch (e) {
         console.error('[CommandProcessor] getGameSnapshotFromStore db error', e);
     }
-    // If no snapshot, create an initial one from lobby players if present
     const lobby = lobbies.get(lobbyId);
     if (lobby) {
         const initialState = {
             players: (lobby.players || []).map((p) => ({
                 socketId: p.socketId,
                 username: p.username,
-                deckIds: [], // will be filled by loadDeckIdsForPlayer on game start
+                deckIds: [],
                 handIds: [],
                 lifeIds: [],
                 donCount: 0
@@ -240,7 +793,11 @@ const commandProcessor = createCommandProcessor({
     lobbies,
     games,
     logger: console,
-    cardBackUrl: CARD_BACK_URL
+    cardBackUrl: CARD_BACK_URL,
+    metaById,
+    getTotalPower,
+    dealDamageToLeaderMutate,
+    returnDonFromCardMutate
 });
 
 // ============================================================================
@@ -250,27 +807,23 @@ const commandProcessor = createCommandProcessor({
 io.on('connection', (socket) => {
     console.log(`[Socket] Client connected: ${socket.id}`);
 
-    // Set username for this socket
     socket.on('setUsername', (username) => {
         playerInfo.set(socket.id, { username, lobbyId: null, playerRole: null });
         console.log(`[Socket] ${socket.id} set username: ${username}`);
     });
 
-    // Request current lobby list
     socket.on('requestLobbyList', () => {
         socket.emit('lobbyList', getLobbyList());
     });
 
-    // Create a new lobby
     socket.on('createLobby', (data) => {
-        const { lobbyName, deckConfig } = data;
+        const { lobbyName, deckConfig } = data || {};
         const info = playerInfo.get(socket.id);
         if (!info?.username) {
             socket.emit('error', { message: 'Must be logged in to create a lobby' });
             return;
         }
 
-        // Leave current lobby if in one
         const currentLobbyId = playerToLobby.get(socket.id);
         if (currentLobbyId) {
             leaveLobby(socket, currentLobbyId);
@@ -285,7 +838,7 @@ io.on('connection', (socket) => {
             players: [{
                 socketId: socket.id,
                 username: info.username,
-                role: 'player', // 'player' = bottom of board
+                role: 'player',
                 ready: false,
                 deckConfig: deckConfig || null
             }],
@@ -306,9 +859,8 @@ io.on('connection', (socket) => {
         console.log(`[Lobby] Created: ${lobbyId} by ${info.username}`);
     });
 
-    // Join an existing lobby
     socket.on('joinLobby', (data) => {
-        const { lobbyId, deckConfig } = data;
+        const { lobbyId, deckConfig } = data || {};
         const info = playerInfo.get(socket.id);
         if (!info?.username) {
             socket.emit('error', { message: 'Must be logged in to join a lobby' });
@@ -331,17 +883,15 @@ io.on('connection', (socket) => {
             return;
         }
 
-        // Leave current lobby if in one
         const currentLobbyId = playerToLobby.get(socket.id);
         if (currentLobbyId && currentLobbyId !== lobbyId) {
             leaveLobby(socket, currentLobbyId);
         }
 
-        // Add player as opponent (top of board)
         lobby.players.push({
             socketId: socket.id,
             username: info.username,
-            role: 'opponent', // 'opponent' = top of board
+            role: 'opponent',
             ready: false,
             deckConfig: deckConfig || null
         });
@@ -353,7 +903,6 @@ io.on('connection', (socket) => {
 
         socket.join(lobbyId);
         
-        // Update status if lobby is now full
         if (lobby.players.length === 2) {
             lobby.status = 'ready';
         }
@@ -364,7 +913,6 @@ io.on('connection', (socket) => {
         console.log(`[Lobby] ${info.username} joined ${lobbyId}`);
     });
 
-    // Update deck configuration
     socket.on('updateDeck', (deckConfig) => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -379,7 +927,6 @@ io.on('connection', (socket) => {
         }
     });
 
-    // Set ready status
     socket.on('setReady', (isReady) => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -392,7 +939,6 @@ io.on('connection', (socket) => {
             player.ready = isReady;
             io.to(lobbyId).emit('lobbyUpdated', lobby);
 
-            // Check if both players are ready
             if (lobby.players.length === 2 && lobby.players.every(p => p.ready)) {
                 lobby.status = 'playing';
                 io.to(lobbyId).emit('gameStart', {
@@ -409,9 +955,6 @@ io.on('connection', (socket) => {
         }
     });
 
-    // Server-authoritative dice roll for setup.
-    // Either player may request; server will roll once per lobby and broadcast the same
-    // predetermined result + synchronized schedule to both players.
     socket.on('requestDiceRoll', () => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -422,17 +965,14 @@ io.on('connection', (socket) => {
 
         lobby.setup = lobby.setup || {};
 
-        // If we've already rolled for this lobby, just rebroadcast it.
         if (lobby.setup.diceRoll && typeof lobby.setup.diceRoll === 'object') {
             io.to(lobbyId).emit('diceRollStart', lobby.setup.diceRoll);
             return;
         }
 
-        // Canonical mapping: host is "player"; guest is "opponent".
         const [pRoll, oRoll] = rollDiceNoTieCrypto();
         const firstPlayer = pRoll > oRoll ? 'player' : 'opponent';
 
-        // Schedule: start a tiny bit in the future so both clients can begin together.
         const startAt = Date.now() + 350;
         const revealAt = startAt + 2000;
 
@@ -448,7 +988,6 @@ io.on('connection', (socket) => {
         io.to(lobbyId).emit('diceRollStart', payload);
     });
 
-    // Leave lobby
     socket.on('leaveLobby', () => {
         const lobbyId = playerToLobby.get(socket.id);
         if (lobbyId) {
@@ -456,7 +995,7 @@ io.on('connection', (socket) => {
         }
     });
 
-    // Game action from any player (legacy)
+    // Legacy / transitional handler
     socket.on('gameAction', (action) => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -467,13 +1006,11 @@ io.on('connection', (socket) => {
         const info = playerInfo.get(socket.id);
         console.log(`[Lobby] Relaying gameAction from ${info?.username}:`, action?.type || action);
 
-        // Send to the other player(s) in the lobby (do not echo back).
         socket.to(lobbyId).emit('gameAction', action);
     });
 
-    // NEW: Accept authoritative commands from client to run via server command processor
+    // New authoritative command handler
     socket.on('command', (command) => {
-        // Ensure we know the origin socket for command processing
         command.clientSocketId = socket.id;
         try {
             commandProcessor.handleCommand(command, { socket }).catch((err) => {
@@ -485,7 +1022,7 @@ io.on('connection', (socket) => {
         }
     });
 
-    // Full game state sync from any player (legacy)
+    // Full sync (legacy)
     socket.on('syncGameState', (gameState) => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -496,16 +1033,12 @@ io.on('connection', (socket) => {
         const info = playerInfo.get(socket.id);
         console.log(`[Lobby] Player ${info?.username} syncing game state`);
 
-        // Merge incoming state, but only accept the side the sender controls.
-        // This prevents overwriting the other player's private zones.
         mergeGameStateFromClient(lobby, gameState, info?.playerRole);
 
-        // Broadcast to ALL clients in the lobby (with concealment)
         emitGameStateToLobby(io, lobby);
         console.log(`[Lobby] Game state synced to lobby ${lobbyId}`);
     });
 
-    // End turn notification (legacy)
     socket.on('endTurn', (data) => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -516,7 +1049,6 @@ io.on('connection', (socket) => {
         socket.to(lobbyId).emit('endTurn', data);
     });
 
-    // Game over - server broadcasts to all
     socket.on('gameOver', (data) => {
         const lobbyId = playerToLobby.get(socket.id);
         if (!lobbyId) return;
@@ -529,7 +1061,6 @@ io.on('connection', (socket) => {
 
         lobby.status = 'finished';
         
-        // Broadcast to ALL players in lobby
         io.to(lobbyId).emit('gameEnded', {
             ...data,
             initiatedBy: info?.username
@@ -538,7 +1069,6 @@ io.on('connection', (socket) => {
         broadcastLobbyList();
     });
 
-    // Disconnect handling
     socket.on('disconnect', () => {
         const lobbyId = playerToLobby.get(socket.id);
         if (lobbyId) {
@@ -557,7 +1087,6 @@ function leaveLobby(socket, lobbyId, disconnected = false) {
     const info = playerInfo.get(socket.id);
     const leavingPlayer = lobby.players.find(p => p.socketId === socket.id);
     
-    // Remove player from lobby
     lobby.players = lobby.players.filter(p => p.socketId !== socket.id);
     playerToLobby.delete(socket.id);
     
@@ -570,20 +1099,16 @@ function leaveLobby(socket, lobbyId, disconnected = false) {
     socket.leave(lobbyId);
 
     if (lobby.players.length === 0) {
-        // Delete empty lobby
         lobbies.delete(lobbyId);
         console.log(`[Lobby] Deleted empty lobby: ${lobbyId}`);
     } else {
-        // If host left, transfer host to remaining player
         if (lobby.hostId === socket.id) {
             const newHost = lobby.players[0];
             lobby.hostId = newHost.socketId;
             lobby.hostName = newHost.username;
         }
         
-        // Reset status if game was in progress or ready
         if (lobby.status === 'playing') {
-            // Notify remaining player that opponent left
             io.to(lobbyId).emit('opponentLeft', {
                 username: leavingPlayer?.username || 'Unknown',
                 disconnected
@@ -602,6 +1127,10 @@ function leaveLobby(socket, lobbyId, disconnected = false) {
 app.get('/api/lobbies', (req, res) => {
     res.json({ lobbies: getLobbyList() });
 });
+
+// --- Additional helper functions used elsewhere in original server.js ---
+// rollDiceNoTieCrypto, mergeGameStateFromClient, buildConcealedStateForRole, emitGameStateToLobby, generateLobbyId, getLobbyList, broadcastLobbyList, etc.
+// (These remain as in your original server.js, I did not remove them from earlier edits.)
 
 server.listen(PORT, () => {
     console.log(`One Piece TCG Sim server running on port ${PORT}`);

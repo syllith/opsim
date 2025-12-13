@@ -2,19 +2,30 @@
 /**
  * server/commandProcessor.js
  *
- * Creates a per-lobby command processor that:
- *  - enqueues commands per-lobby (serial execution)
- *  - checks idempotency (findEventByCommandId)
- *  - calls engine.applyCommand
- *  - persists event and snapshot (appendGameEvent, saveGameSnapshot)
- *  - broadcasts commandAck and per-player concealed statePatch
+ * Per-lobby command processor for the Opsim server.
  *
- * createCommandProcessor({ io, getGameSnapshot, saveGameSnapshot, appendGameEvent, findEventByCommandId, engine, concealStateForRole, lobbies, games, logger, cardBackUrl })
+ * createCommandProcessor(options) -> { handleCommand(command, socketInfo) }
  *
- * Exposes: handleCommand(command, socketInfo)
+ * Required options:
+ *  - io: socket.io server instance
+ *  - getGameSnapshot(lobbyId) -> { state, players }
+ *  - saveGameSnapshot(lobbyId, newState)
+ *  - appendGameEvent(lobbyId, event)
+ *  - findEventByCommandId(lobbyId, commandId) -> existingEvent|null
+ *  - engine: engine module (has applyCommand)
+ *  - concealStateForRole: function(newState, role, opts)
+ *  - lobbies: in-memory Map of lobbyId->lobby
+ *  - games: in-memory Map of lobbyId->gameSnapshot
  *
- * Note: command should include either lobbyId or the sender socketId (we derive lobby if necessary).
+ * Optional options:
+ *  - logger (console-like)
+ *  - cardBackUrl
+ *  - staleThreshold (int)
+ *  - metaById (Map of cardId->meta)
+ *  - getTotalPower(side, section, keyName, index, id)
+ *  - dealDamageToLeaderMutate, returnDonFromCardMutate (optional)
  */
+
 import crypto from 'crypto';
 
 export default function createCommandProcessor({
@@ -29,7 +40,12 @@ export default function createCommandProcessor({
   games,
   logger = console,
   cardBackUrl = '/api/cards/assets/Card%20Backs/CardBackRegular.png',
-  staleThreshold = 5 // version staleness threshold (tunable)
+  staleThreshold = 5,
+  // optional helpers from server
+  metaById = new Map(),
+  getTotalPower = null,
+  dealDamageToLeaderMutate = null,
+  returnDonFromCardMutate = null
 } = {}) {
   if (!io || !getGameSnapshot || !saveGameSnapshot || !appendGameEvent || !engine || !concealStateForRole) {
     throw new Error('Missing required dependencies for createCommandProcessor');
@@ -40,24 +56,24 @@ export default function createCommandProcessor({
 
   function enqueue(lobbyId, task) {
     if (!queues.has(lobbyId)) queues.set(lobbyId, { queue: [], running: false });
-    const q = queues.get(lobbyId);
-    q.queue.push(task);
-    if (!q.running) runQueue(lobbyId);
+    const entry = queues.get(lobbyId);
+    entry.queue.push(task);
+    if (!entry.running) runQueue(lobbyId);
   }
 
   async function runQueue(lobbyId) {
-    const q = queues.get(lobbyId);
-    if (!q) return;
-    q.running = true;
-    while (q.queue.length > 0) {
-      const task = q.queue.shift();
+    const entry = queues.get(lobbyId);
+    if (!entry) return;
+    entry.running = true;
+    while (entry.queue.length > 0) {
+      const task = entry.queue.shift();
       try {
         await task();
       } catch (err) {
         logger?.error(`[CommandProcessor:${lobbyId}] task error`, err);
       }
     }
-    q.running = false;
+    entry.running = false;
   }
 
   function findLobbyIdForSocket(socketId) {
@@ -65,11 +81,16 @@ export default function createCommandProcessor({
     for (const [id, lobby] of lobbies) {
       if (Array.isArray(lobby.players) && lobby.players.some(p => p.socketId === socketId)) return id;
     }
+    // fallback: if games contains it with players, check there
+    for (const [id, game] of games) {
+      const pls = game?.players || [];
+      if (Array.isArray(pls) && pls.some(p => p.socketId === socketId)) return id;
+    }
     return null;
   }
 
   async function handleCommand(command = {}, socketInfo = {}) {
-    // Expect: command = { commandId, type, payload, lobbyId?, clientSocketId? }
+    // Expect: command = { commandId, type, payload, lobbyId?, clientSocketId?, lastKnownStateVersion? }
     // socketInfo: { socket } optional to reply directly
     const originSocket = socketInfo?.socket;
     const originSocketId = originSocket?.id;
@@ -91,7 +112,12 @@ export default function createCommandProcessor({
       const serverVersion = (gameSnapshot.state?.version || 0);
 
       // Idempotency: check if this command already processed
-      const existing = await findEventByCommandId?.(lobbyId, command.commandId);
+      let existing = null;
+      try {
+        existing = await findEventByCommandId?.(lobbyId, command.commandId);
+      } catch (e) {
+        logger?.warn('[CommandProcessor] findEventByCommandId error', e);
+      }
       if (existing) {
         if (originSocket) {
           originSocket.emit('commandAck', {
@@ -113,10 +139,24 @@ export default function createCommandProcessor({
         return;
       }
 
-      // Apply command via engine (pure)
+      // Build engine helpers to pass into engine.applyCommand
+      const engineHelpers = {
+        // meta/lookup helpers
+        getCardMeta: (id) => (metaById && metaById.get ? metaById.get(id) : null),
+        getTotalPower: typeof getTotalPower === 'function' ? getTotalPower : null,
+        metaById,
+        // mutate helpers if available
+        dealDamageToLeaderMutate,
+        returnDonFromCardMutate,
+        // small helpers the Battle module may expect: getHandCostRoot - server can provide none in first pass
+        getHandCostRoot: null
+      };
+
+      // Apply command via engine
       let result;
       try {
-        result = engine.applyCommand(gameSnapshot.state, command, { rng: Math.random, now: Date.now() });
+        // Pass helpers and RNG into engine.applyCommand for determinism & server-side lookups
+        result = engine.applyCommand(gameSnapshot.state, command, { rng: Math.random, now: Date.now(), helpers: engineHelpers });
       } catch (err) {
         logger?.error(`[CommandProcessor:${lobbyId}] engine.applyCommand error`, err);
         if (originSocket) originSocket.emit('commandAck', { commandId: command.commandId, status: 'rejected', error: 'Engine error' });
@@ -144,21 +184,27 @@ export default function createCommandProcessor({
       };
 
       try {
+        // persist event
         await appendGameEvent(lobbyId, event);
+
+        // new state snapshot
         const newState = { ...(result.newState || gameSnapshot.state || {}), version: newVersion, updatedAt: Date.now() };
         await saveGameSnapshot(lobbyId, newState);
 
-        // Ack origin
+        // ack origin
         if (originSocket) {
           originSocket.emit('commandAck', { commandId: command.commandId, status: 'accepted', eventId, resultingStateVersion: newVersion });
         }
 
         // Broadcast per-player concealed snapshot
-        const lobby = lobbies.get(lobbyId);
-        const players = lobby?.players || (gameSnapshot.players || []);
-        for (const p of players) {
+        const lobby = lobbies.get(lobbyId) || { players: (gameSnapshot.players || []) };
+        const players = (lobby.players || gameSnapshot.players || []);
+
+        // When broadcasting, prefer lobby.players roles; fallback to simple assignment
+        for (let i = 0; i < players.length; i++) {
+          const p = players[i];
           try {
-            const role = p.role || 'player';
+            const role = p?.role || (i === 0 ? 'player' : 'opponent');
             const socketId = p.socketId;
             const concealed = concealStateForRole(newState, role, { cardBackUrl });
             io.to(socketId).emit('statePatch', { fromVersion: serverVersion, toVersion: newVersion, state: concealed });
