@@ -1,198 +1,246 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import _ from 'lodash';
+// src/comps/Home/hooks/useGameSetup.js
+import { useState, useCallback, useMemo, useEffect } from 'react';
+import { createInitialAreas } from './useDeckInitializer';
 
-export default function useOpeningHands({
+/**
+ * Hook for game setup state and logic
+ * Handles game mode, setup phases, dice rolls, and multiplayer coordination
+ */
+export default function useGameSetup({
+    user,
     gameMode,
+    setGameMode,
     multiplayer,
     library,
     oppLibrary,
+    areas,
+    setAreas,
+    initializeDonDecks,
     setLibrary,
     setOppLibrary,
-    setAreas,
-    createCardBacks,
-    getAssetForId,
-    openingHandRef,
-    appendLog,
-    executeRefreshPhaseRef,
-    broadcastStateToOpponentRef,
+    setOpeningHandShown,
     setTurnSide,
     setTurnNumber,
     setPhase,
-    setSetupPhase,
-    setOpeningHandShown,
-    getPlayerDisplayName,
-    firstPlayer
+    resetLog,
+    setBattle,
+    setCurrentAttack,
+    setBattleArrow,
+    resetGameInit,
+    openingHandRef,
+    playerHandSelectedRef,
+    opponentHandSelectedRef,
+    guestHandInitializedRef,
+    openingHandsFinalizedRef,
+    setPlayerHandSelected,
+    setOpponentHandSelected,
+    setOpeningHandsBothSelected
 }) {
-    // UI state
-    const [playerHandSelected, setPlayerHandSelected] = useState(false);
-    const [opponentHandSelected, setOpponentHandSelected] = useState(false);
-    const [openingHandsBothSelected, setOpeningHandsBothSelected] = useState(false);
+    // Game Setup State
+    const [showLobby, setShowLobby] = useState(false);
+    const [setupPhase, setSetupPhase] = useState('dice'); // 'dice' | 'hands' | 'complete'
+    const [firstPlayer, setFirstPlayer] = useState(null); // 'player' | 'opponent' - who won dice roll
+    const [currentHandSide, setCurrentHandSide] = useState(null); // Which side is currently selecting hand
+    const [syncedDiceResult, setSyncedDiceResult] = useState(null); // Dice result from host for guest
+    const [userDecks, setUserDecks] = useState([]); // User's saved decks for multiplayer
+    const [selectedDeckName, setSelectedDeckName] = useState(null);
 
-    // Refs used to avoid stale closures and to expose to parent when needed
-    const playerHandSelectedRef = useRef(false);
-    const opponentHandSelectedRef = useRef(false);
-    const guestHandInitializedRef = useRef(false);
-    const openingHandsFinalizedRef = useRef(false);
+    // Game State Flags
+    const gameStarted = gameMode !== null;
+    const gameSetupComplete = setupPhase === 'complete';
 
-    // Apply opening hand for a specific side (used by host to apply guest's selection)
-    const applyOpeningHandForSide = useCallback((side) => {
-        const lib = side === 'player' ? library : oppLibrary;
-        const setLib = side === 'player' ? setLibrary : setOppLibrary;
+    // Which side does this player control in multiplayer?
+    const myMultiplayerSide = useMemo(() => {
+        if (gameMode !== 'multiplayer') return 'player';
+        return multiplayer.isHost ? 'player' : 'opponent';
+    }, [gameMode, multiplayer.isHost]);
 
-        // Get the top 5 cards (opening hand) and next 5 (life)
-        const handIds = _.takeRight(lib, 5);
-        const lifeIds = lib.slice(-10, -5);
-
-        const handAssets = handIds.map(id => getAssetForId(id)).filter(Boolean);
-        const lifeAssets = lifeIds.map(id => getAssetForId(id)).filter(Boolean).reverse();
-
-        setAreas((prev) => {
-            const next = _.cloneDeep(prev);
-
-            if (side === 'player') {
-                next.player.bottom.hand = handAssets;
-                next.player.life = lifeAssets;
-                const remain = Math.max(0, (next.player.middle.deck || []).length - 10);
-                next.player.middle.deck = createCardBacks(remain);
-            } else {
-                next.opponent.top.hand = handAssets;
-                next.opponent.life = lifeAssets;
-                const remain = Math.max(0, (next.opponent.middle.deck || []).length - 10);
-                next.opponent.middle.deck = createCardBacks(remain);
-            }
-
-            return next;
-        });
-
-        // Remove 10 cards from library (5 hand + 5 life)
-        setLib(prev => prev.slice(0, -10));
-    }, [library, oppLibrary, getAssetForId, createCardBacks, setAreas, setLibrary, setOppLibrary]);
-
-    // Finalize opening hands and start the game (idempotent)
-    const finalizeOpeningHands = useCallback((firstPlayer) => {
-        if (openingHandsFinalizedRef.current) { return; }
-        openingHandsFinalizedRef.current = true;
-
-        // Close the opening hand overlay for both sides
-        setOpeningHandShown && setOpeningHandShown(false);
-
-        setSetupPhase('complete');
-
-        const starter = firstPlayer || 'player';
-        // Comprehensive Rules 6-3-1: the player going first does not draw on their first turn.
-        // Start directly in DON!! phase so the UI never shows a no-op draw prompt.
-        const initialPhase = 'Don';
+    // Determine if this player can take actions in multiplayer
+    const isMyTurnInMultiplayer = useCallback((turnSide) => {
+        if (gameMode !== 'multiplayer') return true;
+        if (!multiplayer.gameStarted) return false;
         
-        // In multiplayer, sync the game start state to server
-        if (gameMode === 'multiplayer') {
-            // Initialize turn state locally
-            setTurnSide(starter);
-            setTurnNumber(1);
-            setPhase(initialPhase);
+        return multiplayer.isHost 
+            ? turnSide === 'player'
+            : turnSide === 'opponent';
+    }, [gameMode, multiplayer.gameStarted, multiplayer.isHost]);
 
-            // Only the client that controls the starting side should run Refresh Phase locally.
-            // (Host controls 'player', Guest controls 'opponent'.)
-            const iControlStarter = multiplayer?.isHost ? starter === 'player' : starter === 'opponent';
-            if (iControlStarter) {
-                executeRefreshPhaseRef && executeRefreshPhaseRef.current && executeRefreshPhaseRef.current(starter);
-            }
+    // Track if we're waiting for opponent
+    const isWaitingForOpponent = useCallback((turnSide) => {
+        if (gameMode !== 'multiplayer') return false;
+        return multiplayer.gameStarted && !isMyTurnInMultiplayer(turnSide);
+    }, [gameMode, multiplayer.gameStarted, isMyTurnInMultiplayer]);
 
-            appendLog && appendLog(`Game started! ${getPlayerDisplayName ? getPlayerDisplayName(starter) : starter} goes first.`);
-            appendLog && appendLog('First turn: skipping Draw Phase.');
-            
-            // Sync to server using unified action system
-            setTimeout(() => {
-                // Use new syncState if available, fall back to syncGameState
-                const syncFn = multiplayer.syncState || multiplayer.syncGameState;
-                if (syncFn) {
-                    syncFn({
-                        setupPhase: 'complete',
-                        turnSide: starter,
-                        turnNumber: 1,
-                        phase: initialPhase,
-                        playerHandSelected: true,
-                        opponentHandSelected: true
-                    });
-                }
-            }, 100);
-            return;
+    // Return a friendly player label for logs/UI
+    const getPlayerDisplayName = useCallback((side) => {
+        if (!side) return 'Unknown Player';
+        if (gameMode !== 'multiplayer') {
+            return side === 'player' ? 'Player' : 'Opponent';
         }
 
-        // Single-player: initialize turn locally
-        setTurnSide(starter);
-        setTurnNumber(1);
-        executeRefreshPhaseRef && executeRefreshPhaseRef.current && executeRefreshPhaseRef.current(starter);
-        setPhase(initialPhase);
-        appendLog && appendLog(`Game started! ${getPlayerDisplayName ? getPlayerDisplayName(starter) : starter} goes first.`);
-        appendLog && appendLog('First turn: skipping Draw Phase.');
-    }, [appendLog, executeRefreshPhaseRef, gameMode, getPlayerDisplayName, multiplayer, setOpeningHandShown, setPhase, setSetupPhase, setTurnNumber, setTurnSide, firstPlayer]);
+        const selfName = user || 'You';
+        const opponentName = multiplayer.opponentInfo?.username || 'Opponent';
 
-    // Handle when a player finishes selecting their hand
-    const handleHandSelected = useCallback((side) => {
-        //. Multiplayer simultaneous selection
+        if (multiplayer.isHost) {
+            return side === 'player' ? selfName : opponentName;
+        }
+        return side === 'player' ? opponentName : selfName;
+    }, [gameMode, user, multiplayer.isHost, multiplayer.opponentInfo?.username]);
+
+    // Handle dice roll completion
+    const handleDiceRollComplete = useCallback(({ firstPlayer: winner, playerRoll, opponentRoll }) => {
+        setFirstPlayer(winner);
+        
+        // In multiplayer, request server-side dice and use simultaneous hand selection
         if (gameMode === 'multiplayer') {
-            //. Determine which side this player controls
+            setSetupPhase('hands');
+            setCurrentHandSide('both'); // Both players select simultaneously
+            setPlayerHandSelected(false);
+            setOpponentHandSelected(false);
+            playerHandSelectedRef.current = false;
+            opponentHandSelectedRef.current = false;
+            
+            // Request server to roll/broadcast dice (server will emit diceRollStart)
+            if (multiplayer.isHost && typeof multiplayer.requestDiceRoll === 'function') {
+                multiplayer.requestDiceRoll();
+            }
+
+            // Initialize opening hand for this player's side
             const mySide = multiplayer.isHost ? 'player' : 'opponent';
-            
-            //. Mark this side as having selected (update both state and ref)
-            if (side === 'player') {
-                setPlayerHandSelected(true);
-                playerHandSelectedRef.current = true;
-            } else {
-                setOpponentHandSelected(true);
-                opponentHandSelectedRef.current = true;
-            }
+            const myLib = multiplayer.isHost ? library : oppLibrary;
+            openingHandRef?.current?.initialize(myLib, mySide);
 
-            //. Check if both sides have selected using refs (avoids stale closure issues)
-            const playerDone = playerHandSelectedRef.current;
-            const opponentDone = opponentHandSelectedRef.current;
-            setOpeningHandsBothSelected(playerDone && opponentDone);
-
-            //. Sync hand selection to server using unified action system
-            setTimeout(() => {
-                // Use sendAction for HAND_CONFIRM if available
-                if (multiplayer.sendAction) {
-                    multiplayer.sendAction('HAND_CONFIRM', {
-                        side,
-                        mulliganUsed: false
-                    });
-                }
-                
-                // Also sync full state for backward compatibility
-                const syncFn = multiplayer.syncState || multiplayer.syncGameState;
-                if (syncFn) {
-                    syncFn({
-                        playerHandSelected: playerDone,
-                        opponentHandSelected: opponentDone,
-                        setupPhase: 'hands'
-                    });
-                }
-            }, 50);
-
-            //. Finalize immediately once both are done
-            if (playerDone && opponentDone) {
-                finalizeOpeningHands(firstPlayer);
-            }
+            setOpeningHandShown(true);
             return;
         }
 
-        // For non-multiplayer flows finalization is handled externally
-    }, [gameMode, multiplayer, finalizeOpeningHands, firstPlayer, setPlayerHandSelected, setOpponentHandSelected, setOpeningHandsBothSelected, playerHandSelectedRef, opponentHandSelectedRef]);
-
-    // Expose a small API and refs so parent can integrate with existing effects
-    return {
-        playerHandSelected,
+        // Sequential mode for vs-self
+        setSetupPhase('hand-first');
+        setCurrentHandSide(winner);
+        const lib = winner === 'player' ? library : oppLibrary;
+        openingHandRef?.current?.initialize(lib, winner);
+        setOpeningHandShown(true);
+    }, [
+        library,
+        oppLibrary,
+        gameMode,
+        multiplayer,
+        openingHandRef,
+        setOpeningHandShown,
         setPlayerHandSelected,
-        opponentHandSelected,
         setOpponentHandSelected,
-        openingHandsBothSelected,
+        playerHandSelectedRef,
+        opponentHandSelectedRef
+    ]);
+
+    // Handle game mode selection
+    const handleSelectGameMode = useCallback((mode) => {
+        if (mode === 'multiplayer') {
+            setShowLobby(true);
+        } else {
+            setGameMode(mode);
+        }
+    }, [setGameMode]);
+
+    // Leave game and reset all game state
+    const leaveGame = useCallback(() => {
+        // If in multiplayer, leave the lobby
+        if (gameMode === 'multiplayer' && multiplayer.currentLobby) {
+            multiplayer.leaveLobby();
+        }
+        setGameMode(null);
+        setShowLobby(false);
+        setAreas(createInitialAreas());
+        initializeDonDecks();
+        setLibrary([]);
+        setOppLibrary([]);
+        setOpeningHandShown(false);
+        setTurnSide('player');
+        setTurnNumber(1);
+        setPhase('Draw');
+        resetLog();
+        setBattle(null);
+        setCurrentAttack(null);
+        setBattleArrow(null);
+        setSetupPhase('dice');
+        setFirstPlayer(null);
+        setCurrentHandSide(null);
+        setSyncedDiceResult(null);
+        setPlayerHandSelected(false);
+        setOpponentHandSelected(false);
+        setOpeningHandsBothSelected(false);
+        playerHandSelectedRef.current = false;
+        opponentHandSelectedRef.current = false;
+        guestHandInitializedRef.current = false;
+        openingHandsFinalizedRef.current = false;
+        resetGameInit();
+    }, [
+        gameMode,
+        initializeDonDecks,
+        multiplayer,
+        resetGameInit,
+        setGameMode,
+        setAreas,
+        setLibrary,
+        setOppLibrary,
+        setOpeningHandShown,
+        setTurnSide,
+        setTurnNumber,
+        setPhase,
+        resetLog,
+        setBattle,
+        setCurrentAttack,
+        setBattleArrow,
+        setPlayerHandSelected,
+        setOpponentHandSelected,
         setOpeningHandsBothSelected,
         playerHandSelectedRef,
         opponentHandSelectedRef,
         guestHandInitializedRef,
-        openingHandsFinalizedRef,
-        applyOpeningHandForSide,
-        finalizeOpeningHands,
-        handleHandSelected
+        openingHandsFinalizedRef
+    ]);
+
+    // Allow guests to locally mark their hand selection
+    const markHandSelectedLocally = useCallback((side) => {
+        if (gameMode !== 'multiplayer') return;
+        if (side === 'player') {
+            setPlayerHandSelected(true);
+            playerHandSelectedRef.current = true;
+        } else if (side === 'opponent') {
+            setOpponentHandSelected(true);
+            opponentHandSelectedRef.current = true;
+        }
+    }, [gameMode, setPlayerHandSelected, setOpponentHandSelected, playerHandSelectedRef, opponentHandSelectedRef]);
+
+    return {
+        // State
+        showLobby,
+        setShowLobby,
+        setupPhase,
+        setSetupPhase,
+        firstPlayer,
+        setFirstPlayer,
+        currentHandSide,
+        setCurrentHandSide,
+        syncedDiceResult,
+        setSyncedDiceResult,
+        userDecks,
+        setUserDecks,
+        selectedDeckName,
+        setSelectedDeckName,
+        
+        // Computed
+        gameStarted,
+        gameSetupComplete,
+        myMultiplayerSide,
+        
+        // Functions
+        isMyTurnInMultiplayer,
+        isWaitingForOpponent,
+        getPlayerDisplayName,
+        handleDiceRollComplete,
+        handleSelectGameMode,
+        leaveGame,
+        markHandSelectedLocally
     };
 }

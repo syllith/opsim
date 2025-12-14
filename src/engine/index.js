@@ -9,6 +9,7 @@
 import _ from 'lodash';
 import * as ability from './ability.js';
 import * as battle from './battle.js';
+import schemaEngine from './schemaEngine.js';
 
 function deepClone(obj) {
   return _.cloneDeep(obj || {});
@@ -357,3 +358,6 @@ export function applyCommand(state, command, opts = {}) {
 
 export { ability, battle };
 export default { applyCommand, ability, battle };
+// Schema-driven entrypoint (PR#1)
+export { schemaEngine };
+export { schemaEngine as applyCommandSchema };
