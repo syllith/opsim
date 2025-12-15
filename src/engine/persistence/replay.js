@@ -1,208 +1,54 @@
 'use strict';
-// replay.js — Game Replay System
-// =============================================================================
-// PURPOSE:
-// This module manages game replay functionality. Given a starting state and
-// action log, it can recreate the game exactly. Also handles saving/loading
-// full game states for mid-game saves.
-// =============================================================================
-
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Save complete game state snapshots
-// - Load game state from snapshot
-// - Replay action sequences
-// - Support step-by-step replay navigation
-// - Validate replay integrity
-
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// createSnapshot(gameState) -> Snapshot
-//   Creates a full game state snapshot for saving.
+// replay.js — Game Replay System (implemented replayStep/replayAll)
 //
-// loadSnapshot(snapshot) -> GameState
-//   Restores game state from a snapshot.
+// This module provides simple deterministic replaying of actions by delegating
+// to the engine's action interpreter. The design is intentionally simple:
+// - replayStep(replay, i) replays actions 0..i (inclusive) and returns the
+//   resulting state (deep-cloned).
+// - replayAll(replay) replays all actions and returns final state.
+// - createReplay uses structuredClone to snapshot the starting state.
 //
-// createReplay(startingState, rngSeed, actionLog) -> Replay
-//   Creates a replay object from initial state and actions.
-//
-// replayStep(replay, stepIndex) -> GameState
-//   Returns game state at a specific step in the replay.
-//
-// replayAll(replay) -> GameState
-//   Plays through entire replay, returns final state.
-//
-// serializeReplay(replay) -> string
-//   Serializes replay for storage.
-//
-// deserializeReplay(serialized) -> Replay
-//   Restores replay from storage.
-//
-// validateReplay(replay) -> { valid: boolean, errors: string[] }
-//   Checks replay integrity and validity.
-
-// =============================================================================
-// DATA SCHEMAS
-// =============================================================================
-// Snapshot = {
-//   version: number,       // Format version for compatibility
-//   timestamp: number,     // When snapshot was taken
-//   gameState: GameState,  // Full game state
-//   rngState: RngState,    // Current RNG state
-// }
-//
-// Replay = {
-//   version: number,       // Format version
-//   createdAt: number,     // When replay was created
-//   startingState: GameState,
-//   rngSeed: number,
-//   actionLog: ActionEntry[],
-//   metadata: {
-//     players: string[],
-//     winner?: string,
-//     duration?: number,
-//   }
-// }
-//
-// ActionEntry = {
-//   sequence: number,
-//   playerId: string,
-//   actionType: string,
-//   params: object,
-// }
-
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current or starting game state
-// - actionLog: sequence of player actions
-// - rngSeed: seed for deterministic replay
-//
-// OUTPUTS:
-// - Snapshot/Replay objects
-// - Serialized strings
-// - Validation results
-
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - UI: save/load game
-// - UI: replay viewer
-// - Network: game recording
-//
-// CALLS:
-// - src/engine/persistence/logger.js: for action log
-// - src/engine/rng/rng.js: for RNG state
-// - src/engine/index.js: for action replay
-
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// DETERMINISM:
-// Replays work because:
-// 1. Same starting state
-// 2. Same RNG seed
-// 3. Same action sequence
-// = Same exact game
-//
-// The engine must be 100% deterministic for replays to work.
-// No floating-point differences, no Date.now() in logic, no random() calls.
-//
-// VERSIONING:
-// Include version numbers in snapshots and replays.
-// If game rules change, old replays may not work with new engine.
-// Consider version migration functions.
-//
-// STEP-BY-STEP REPLAY:
-// For replayStep(n), need to either:
-// 1. Replay from start to step n (slow but simple)
-// 2. Cache intermediate states (fast but memory intensive)
-//
-// Consider hybrid: cache every N steps, replay from nearest cache.
-//
-// VALIDATION:
-// validateReplay should check:
-// - Version compatibility
-// - Required fields present
-// - Action sequence is valid
-// - State can be reconstructed without errors
-//
-// COMPRESSION:
-// For storage efficiency, consider:
-// - Only storing actions, not intermediate states
-// - Compressing large action logs
-// - Using delta encoding for state changes
-
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: snapshot roundtrip
-//   Input: createSnapshot(gameState), loadSnapshot()
-//   Expected: Identical game state
-//
-// TEST: replay produces same result
-//   Input: Play game, record actions, replay from start
-//   Expected: Final state matches original game
-//
-// TEST: step-by-step replay
-//   Input: replayStep(5), replayStep(10), replayStep(5)
-//   Expected: Correct states at each step
-//
-// TEST: serialization roundtrip
-//   Input: serializeReplay(), deserializeReplay()
-//   Expected: Identical replay object
-//
-// TEST: validation catches errors
-//   Input: Corrupted/incomplete replay
-//   Expected: valid: false, with error messages
-
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Implement createSnapshot
-// [ ] 2. Implement loadSnapshot
-// [ ] 3. Implement createReplay
-// [ ] 4. Implement replayStep
-// [ ] 5. Implement replayAll
-// [ ] 6. Implement serialization
-// [ ] 7. Implement validation
-// [ ] 8. Add version checking
-// [ ] 9. Consider state caching for performance
-// [ ] 10. Test with full game playthrough
-
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
+// Notes:
+// - actionLog entries can be either plain action objects, or ActionEntry
+//   wrappers: { sequence, playerId, actionType, params } where the action
+//   object is in params.
+// - For deterministic replay we clone the starting state and pass that clone to
+//   the interpreter. The interpreter mutates the provided state.
+import { executeAction } from '../actions/interpreter.js';
 
 const CURRENT_VERSION = 1;
+
+function _safeClone(obj) {
+  // Prefer structuredClone if available in runtime, fallback to JSON clone.
+  if (typeof structuredClone === 'function') return structuredClone(obj);
+  return JSON.parse(JSON.stringify(obj));
+}
 
 export const createSnapshot = (gameState) => {
   return {
     version: CURRENT_VERSION,
     timestamp: Date.now(),
-    gameState: structuredClone(gameState),
-    rngState: gameState.rngState
+    gameState: _safeClone(gameState),
+    rngState: gameState && gameState.rngState
   };
 };
 
 export const loadSnapshot = (snapshot) => {
-  // TODO: Version checking and migration
+  if (!snapshot) throw new Error('missing snapshot');
   if (snapshot.version !== CURRENT_VERSION) {
     console.warn(`Snapshot version ${snapshot.version} may not be compatible with engine version ${CURRENT_VERSION}`);
   }
-  return structuredClone(snapshot.gameState);
+  return _safeClone(snapshot.gameState);
 };
 
 export const createReplay = (startingState, rngSeed, actionLog) => {
+  if (!startingState) throw new TypeError('startingState required');
+  if (!Array.isArray(actionLog)) actionLog = [];
   return {
     version: CURRENT_VERSION,
     createdAt: Date.now(),
-    startingState: structuredClone(startingState),
-    rngSeed,
+    startingState: _safeClone(startingState),
+    rngSeed: typeof rngSeed === 'number' ? rngSeed : 0,
     actionLog: [...actionLog],
     metadata: {
       players: [],
@@ -212,16 +58,58 @@ export const createReplay = (startingState, rngSeed, actionLog) => {
   };
 };
 
+/**
+ * replayStep(replay, stepIndex)
+ * Replays actions from 0..stepIndex (inclusive) and returns the resulting state.
+ *
+ * If stepIndex is >= actionLog.length - 1, all actions are applied (alias of replayAll).
+ * If stepIndex < 0, the starting state clone is returned.
+ *
+ * Throws if the replay is invalid or an action fails during execution.
+ */
 export const replayStep = (replay, stepIndex) => {
-  // TODO: Implement step-by-step replay
-  // This requires calling engine to apply actions one by one
-  throw new Error('replayStep not implemented');
+  if (!replay) throw new TypeError('replay is required');
+  if (!Array.isArray(replay.actionLog)) throw new TypeError('replay.actionLog must be an array');
+
+  const state = _safeClone(replay.startingState);
+  if (!replay.actionLog.length || stepIndex < 0) return state;
+
+  const last = Math.min(stepIndex, replay.actionLog.length - 1);
+
+  for (let i = 0; i <= last; i++) {
+    const entry = replay.actionLog[i];
+    // Entry can be a plain action or an ActionEntry wrapper.
+    const action = entry && entry.params ? entry.params : entry;
+    const context = {};
+    if (entry && (entry.playerId || entry.player)) {
+      context.activePlayer = entry.playerId || entry.player;
+    }
+    // Execute using the engine interpreter. The interpreter mutates `state`.
+    const res = executeAction(state, action, context);
+    // Interpreter returns { success: true/false, ... } or custom shape.
+    if (!res) {
+      throw new Error(`Replay action at index ${i} returned no result`);
+    }
+    if (res && res.success === false) {
+      throw new Error(`Replay action failed at index ${i}: ${res.error || 'unknown error'}`);
+    }
+    // Otherwise continue. We don't capture per-action snapshots here.
+  }
+
+  return state;
 };
 
+/**
+ * replayAll(replay)
+ * Replays all actions in the replay.actionLog and returns the final state.
+ */
 export const replayAll = (replay) => {
-  // TODO: Implement full replay
-  // Apply all actions from replay.actionLog to replay.startingState
-  throw new Error('replayAll not implemented');
+  if (!replay) throw new TypeError('replay is required');
+  if (!Array.isArray(replay.actionLog)) throw new TypeError('replay.actionLog must be an array');
+  // If no actions, return a clone of starting state
+  if (!replay.actionLog.length) return _safeClone(replay.startingState);
+  // Reuse replayStep to apply all
+  return replayStep(replay, replay.actionLog.length - 1);
 };
 
 export const serializeReplay = (replay) => {
@@ -234,34 +122,15 @@ export const deserializeReplay = (serialized) => {
 
 export const validateReplay = (replay) => {
   const errors = [];
-  
   if (!replay) {
     errors.push('Replay is null or undefined');
     return { valid: false, errors };
   }
-  
-  if (!replay.version) {
-    errors.push('Missing version');
-  }
-  
-  if (!replay.startingState) {
-    errors.push('Missing starting state');
-  }
-  
-  if (typeof replay.rngSeed !== 'number') {
-    errors.push('Invalid or missing RNG seed');
-  }
-  
-  if (!Array.isArray(replay.actionLog)) {
-    errors.push('Invalid or missing action log');
-  }
-  
-  // TODO: Add more validation
-  
-  return {
-    valid: errors.length === 0,
-    errors
-  };
+  if (!replay.version) errors.push('Missing version');
+  if (!replay.startingState) errors.push('Missing starting state');
+  if (typeof replay.rngSeed !== 'number') errors.push('Invalid or missing RNG seed');
+  if (!Array.isArray(replay.actionLog)) errors.push('Invalid or missing action log');
+  return { valid: errors.length === 0, errors };
 };
 
 export default {

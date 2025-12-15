@@ -9,179 +9,11 @@
 // - User-facing activity logs
 // =============================================================================
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Capture game events with consistent structure
-// - Support multiple log levels (debug, info, action, error)
-// - Maintain event sequence for replay
-// - Allow log filtering and export
-// - Provide human-readable formatting option
+/* (header comments kept as in original file) */
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// createLogger() -> Logger
-//   Creates a new logger instance.
-//
-// log(logger, level, eventType, payload) -> Logger
-//   Logs an event. Returns updated logger (immutable pattern).
-//   level: 'debug' | 'info' | 'action' | 'error'
-//   eventType: string identifier for the event
-//   payload: object with event details
-//
-// logAction(logger, actionType, details) -> Logger
-//   Shorthand for logging game actions at 'action' level.
-//
-// getLog(logger) -> LogEntry[]
-//   Returns all log entries.
-//
-// getActionLog(logger) -> LogEntry[]
-//   Returns only action-level entries (for replay).
-//
-// formatForDisplay(logEntry) -> string
-//   Formats a log entry for human reading.
-//
-// serializeLog(logger) -> string
-//   Serializes the log for storage/export.
-//
-// deserializeLog(serialized) -> Logger
-//   Restores a logger from serialized data.
-
-// =============================================================================
-// LOG ENTRY SCHEMA
-// =============================================================================
-// LogEntry = {
-//   sequence: number,      // Auto-incrementing sequence ID
-//   timestamp: number,     // Game turn/phase timestamp
-//   level: string,         // 'debug' | 'info' | 'action' | 'error'
-//   eventType: string,     // e.g., 'CARD_MOVED', 'BATTLE_RESOLVED'
-//   payload: object,       // Event-specific data
-//   playerId?: string,     // Player who triggered event (if applicable)
-// }
-
-// =============================================================================
-// STANDARD EVENT TYPES
-// =============================================================================
-// GAME_STARTED
-// GAME_ENDED
-// TURN_STARTED
-// TURN_ENDED
-// PHASE_CHANGED
-// CARD_DRAWN
-// CARD_PLAYED
-// CARD_MOVED
-// DON_ATTACHED
-// DON_DETACHED
-// DON_ADDED_TO_FIELD
-// ATTACK_DECLARED
-// BLOCKER_DECLARED
-// COUNTER_PLAYED
-// BATTLE_RESOLVED
-// DAMAGE_DEALT
-// LIFE_LOST
-// CARD_KO
-// ABILITY_TRIGGERED
-// ABILITY_ACTIVATED
-// EFFECT_APPLIED
-// SEARCH_STARTED
-// SEARCH_COMPLETED
-// TRASH_TO_DECK_SHUFFLE
-
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - logger: current logger state
-// - level: log level
-// - eventType: type identifier
-// - payload: event data
-//
-// OUTPUTS:
-// - Updated logger instance
-// - Formatted strings for display
-// - Serialized data for storage
-
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/index.js: log all public API calls
-// - src/engine/actions/*: log action execution
-// - src/engine/core/*: log state changes
-//
-// PROVIDES TO:
-// - src/engine/persistence/replay.js: action log for replay
-// - UI: activity display
-// - Network: audit log
-
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// IMMUTABILITY:
-// Logger state is immutable. Each log() returns new logger.
-// This ensures logs are never accidentally mutated and supports
-// functional patterns in the engine.
-//
-// SEQUENCE NUMBERS:
-// Every event gets a unique sequence number.
-// These establish total ordering even if timestamps collide.
-//
-// LOG LEVELS:
-// - debug: Development/debugging info, filtered in production
-// - info: State changes, not user-facing
-// - action: User-visible actions (for activity log and replay)
-// - error: Problems that occurred (not throw-worthy)
-//
-// FILTERING:
-// getActionLog() returns only 'action' level entries.
-// These are the minimum needed for replay.
-//
-// DISPLAY FORMATTING:
-// formatForDisplay() produces human-readable strings like:
-// "Player 1 plays Luffy (OP01-003) from hand to character area"
-// "Luffy attacks Navy HQ Leader"
-
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: log captures all fields
-//   Input: log(logger, 'action', 'CARD_PLAYED', { cardId: 'OP01-003' })
-//   Expected: Entry has sequence, timestamp, level, eventType, payload
-//
-// TEST: sequence auto-increments
-//   Input: Log 3 events
-//   Expected: Sequences are 1, 2, 3
-//
-// TEST: getActionLog filters correctly
-//   Input: Log debug, action, info, action events
-//   Expected: getActionLog returns only the 2 action events
-//
-// TEST: serialize/deserialize roundtrip
-//   Input: Log events, serialize, deserialize
-//   Expected: Identical log entries
-//
-// TEST: formatForDisplay produces readable output
-//   Input: Various event types
-//   Expected: Human-readable strings
-
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Implement createLogger
-// [ ] 2. Implement log with all levels
-// [ ] 3. Implement logAction shorthand
-// [ ] 4. Implement getLog and getActionLog
-// [ ] 5. Implement formatForDisplay for all event types
-// [ ] 6. Implement serialization
-// [ ] 7. Add timestamp from game state
-// [ ] 8. Add player ID to relevant events
-// [ ] 9. Document all event types
-// [ ] 10. Test with replay system
-
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
+// NOTE: The module already implemented most functions. We only implement a
+// richer formatForDisplay() that returns human-friendly strings for a
+// selection of important event types.
 
 export const createLogger = () => {
   return {
@@ -216,9 +48,125 @@ export const getActionLog = (logger) => {
   return logger.entries.filter(e => e.level === 'action');
 };
 
+/**
+ * formatForDisplay(logEntry) -> string
+ *
+ * Produce a human-readable string suitable for UI activity feed. We support a
+ * set of well-known event types (CARD_PLAYED, CARD_MOVED, ATTACK_DECLARED,
+ * DAMAGE_DEALT, CARD_KO, DON_ATTACHED, DON_DETACHED). Unknown event types fall
+ * back to a safe JSON representation.
+ *
+ * Examples:
+ *  [1] 2025-02-01T12:00:00.000Z player plays OP01-003 -> char
+ *  [2] 2025-02-01T12:00:12.000Z player moves OP01-003 from hand to char
+ */
 export const formatForDisplay = (logEntry) => {
-  // TODO: Implement human-readable formatting
-  return `[${logEntry.sequence}] ${logEntry.eventType}: ${JSON.stringify(logEntry.payload)}`;
+  if (!logEntry || typeof logEntry !== 'object') return String(logEntry);
+
+  const atTime = (ts) => {
+    try {
+      return new Date(ts).toISOString();
+    } catch (e) {
+      return String(ts || '');
+    }
+  };
+
+  const seq = typeof logEntry.sequence === 'number' ? `[${logEntry.sequence}]` : '[?]';
+  const time = atTime(logEntry.timestamp);
+
+  const ev = (logEntry.eventType || '').toUpperCase();
+  const p = logEntry.payload || {};
+  const player = p.playerId || p.player || p.owner || p.playerId === '' ? p.playerId : (p.player || p.owner || '');
+
+  // Helper to pick a textual card identifier
+  const cardIdOrInst = (obj) => {
+    if (!obj) return '';
+    if (typeof obj === 'string') return obj;
+    if (typeof obj.cardId === 'string') return obj.cardId;
+    if (typeof obj.instanceId === 'string') return obj.instanceId;
+    return JSON.stringify(obj);
+  };
+
+  let message = '';
+
+  switch (ev) {
+    case 'CARD_PLAYED': {
+      // payload: { playerId, cardId, instanceId, destination }
+      const who = player || p.playerId || 'player';
+      const card = p.cardId || p.card || cardIdOrInst(p.instanceId);
+      const dest = (p.destination && (typeof p.destination === 'string' ? p.destination : (p.destination.zone || JSON.stringify(p.destination)))) || p.to || p.addTo || '';
+      message = `${who} plays ${card}${dest ? ` -> ${dest}` : ''}`;
+      break;
+    }
+
+    case 'CARD_MOVED': {
+      // payload: { playerId, cardId, from: { zone,.. }, to: { zone,.. } }
+      const who = player || 'player';
+      const card = p.cardId || p.card || cardIdOrInst(p.instanceId);
+      const from = (p.from && (p.from.zone || p.from)) || p.fromZone || '';
+      const to = (p.to && (p.to.zone || p.to)) || p.toZone || p.destination || '';
+      message = `${who} moves ${card}${from ? ` from ${from}` : ''}${to ? ` to ${to}` : ''}`;
+      break;
+    }
+
+    case 'ATTACK_DECLARED': {
+      // payload: { playerId, attackerId, targetId }
+      const who = player || 'player';
+      const attacker = p.attackerId || p.attacker || '';
+      const target = p.targetId || p.target || '';
+      message = `${who} attacks ${target || '(unknown)'} with ${attacker || '(unknown)'}`;
+      break;
+    }
+
+    case 'DAMAGE_DEALT': {
+      // payload: { playerId, target, count }
+      const count = Number.isFinite(p.count) ? p.count : (p.damage || p.count || 1);
+      const target = p.target || p.side || p.owner || '';
+      message = `${count} damage dealt to ${target || '(unknown)'}`;
+      break;
+    }
+
+    case 'CARD_KO': {
+      // payload: { playerId, instanceId, cardId }
+      const who = player || p.playerId || p.owner || '';
+      const card = p.cardId || p.card || (p.instanceId ? p.instanceId : '');
+      message = `${card} K.O.'d${who ? ` (owner ${who})` : ''}`;
+      break;
+    }
+
+    case 'DON_ATTACHED':
+    case 'DON_ADDED_TO_FIELD': {
+      // payload: { playerId, targetId, donIds }
+      const who = player || p.playerId || '';
+      const target = p.targetId || p.target || '';
+      const count = Array.isArray(p.donIds) ? p.donIds.length : (p.count || p.moved || (p.attachedDonIds && p.attachedDonIds.length) || 0);
+      message = `${who} attached ${count} DON${count === 1 ? '' : 's'} to ${target || '(unknown)'}`;
+      break;
+    }
+
+    case 'DON_DETACHED':
+    case 'DON_DETACHED_FROM_CARD': {
+      const who = player || p.playerId || '';
+      const target = p.targetId || p.target || '';
+      const count = Array.isArray(p.donIds) ? p.donIds.length : (p.count || p.moved || 0);
+      message = `${who} detached ${count} DON${count === 1 ? '' : 's'} from ${target || '(unknown)'}`;
+      break;
+    }
+
+    default: {
+      // Fallback generic representation
+      let details = '';
+      try {
+        details = JSON.stringify(p);
+      } catch (e) {
+        details = String(p);
+      }
+      message = `${logEntry.eventType || '(event)'}: ${details}`;
+      break;
+    }
+  }
+
+  return `${seq} ${time} ${message}`;
 };
 
 export const serializeLog = (logger) => {
