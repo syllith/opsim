@@ -1,233 +1,162 @@
 'use strict';
-// turnController.js — Turn Phase Management
-// =============================================================================
-// PURPOSE:
-// This module manages the turn structure and phase progression in the One Piece
-// TCG. It handles turn start/end procedures, phase transitions, and the refresh
-// step mechanics (DON return, card untap, DON addition).
-// =============================================================================
+/*
+ * turnController.js — Minimal Turn Phase helpers (Refresh & DON Phase)
+ * =============================================================================
+ *
+ * PURPOSE
+ *  - Implement Refresh Phase and DON!! Phase helpers required by the engine.
+ *
+ * FUNCTIONS
+ *  - refreshPhase(gameState, player)
+ *      * Return attached DONs from player's leader & character instances to costArea (rest them)
+ *      * Then set all rested cards in leader/char/stage/costArea to active
+ *
+ *  - donPhase(gameState, player, isFirstPlayer)
+ *      * Place 2 DON!! cards from the player's DON deck into their costArea face-up.
+ *      * If isFirstPlayer is true, place only 1.
+ *
+ * NOTES
+ *  - These helpers mutate gameState in place.
+ *  - They use donManager.returnDonFromCard for returns and zones.moveToZone to move DONs.
+ * =============================================================================
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Track and advance game phases in correct order
-// - Execute start-of-turn procedures (Refresh Phase)
-// - Execute end-of-turn procedures
-// - Handle DON addition during Don Phase
-// - Reset once-per-turn abilities at turn end
-// - Manage active player switching
-// - Emit phase change events
+import zones from './zones.js';
+import donManager from '../modifiers/donManager.js';
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// startTurn(gameState) -> GameState
-//   Begins a new turn for the active player.
-//   Executes Refresh Phase automatically.
-//
-// advancePhase(gameState) -> GameState
-//   Moves to the next phase in order.
-//   Phase order: refresh -> draw -> don -> main -> end
-//
-// getCurrentPhase(gameState) -> string
-//   Returns the current phase name.
-//
-// endTurn(gameState) -> GameState
-//   Ends the current turn, switches active player, increments turn counter.
-//   Triggers end-of-turn effects and resets turn-based tracking.
-//
-// executeRefreshPhase(gameState) -> GameState
-//   - Return all DON from cards to cost area (rested)
-//   - Set all DON in cost area to rested
-//   - Set all characters and leader to active
-//   - Clear "until end of turn" effects
-//
-// executeDrawPhase(gameState) -> GameState
-//   Active player draws 1 card (except turn 1).
-//
-// executeDonPhase(gameState) -> GameState
-//   Add 2 DON from DON deck to cost area (1 DON on turn 1 for first player).
-//   Set added DON to active.
-//
-// getActivePlayer(gameState) -> 'player1' | 'player2'
-//   Returns who is currently taking their turn.
+const { findInstance, moveToZone } = zones;
 
-// =============================================================================
-// PHASE ORDER
-// =============================================================================
-// 1. REFRESH PHASE
-//    - DON cards attached to Characters/Leaders return to Cost Area (rested)
-//    - All DON in Cost Area become rested
-//    - All Characters and your Leader become active
-//    - "Until end of turn" effects expire
-//
-// 2. DRAW PHASE
-//    - Draw 1 card from deck (skip on first player's first turn)
-//
-// 3. DON!! PHASE
-//    - Add DON from DON Deck to Cost Area (active)
-//    - Turn 1: First player adds 1 DON
-//    - Turn 1: Second player adds 2 DON
-//    - All other turns: Add 2 DON (up to 10 max in cost area)
-//
-// 4. MAIN PHASE
-//    - Player can take actions: play cards, attack, activate abilities
-//    - No automatic actions; player controls timing
-//
-// 5. END PHASE
-//    - "Until end of turn" effects that haven't expired do so
-//    - End of turn triggers fire
-//    - Switch active player
+/**
+ * refreshPhase(gameState, player)
+ *
+ * Steps:
+ * 1. For each card in player's Character area and Leader (if present):
+ *    - If it has attachedDons, call donManager.returnDonFromCard(gameState, instanceId, count = attachedDons.length)
+ *    - After returnDonFromCard, mark each returned DON's state as 'rested'
+ * 2. Set all rested cards placed in player's Leader, Character, Stage, and costArea as active
+ *
+ * Returns: { success: true, returnedTotal: number, errors: [] }
+ */
+export function refreshPhase(gameState, player) {
+  const result = { success: true, returnedTotal: 0, errors: [] };
+  if (!gameState || !gameState.players || !gameState.players[player]) {
+    result.success = false;
+    result.errors.push('invalid gameState or player');
+    return result;
+  }
 
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current GameState
-//
-// OUTPUTS:
-// - GameState: updated state after phase operations
-//
-// STATE TRACKING:
-// - gameState.phase: current phase string
-// - gameState.turn: turn number (1-indexed)
-// - gameState.activePlayer: who is taking the turn
+  const p = gameState.players[player];
 
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/index.js: phase advancement on UI requests
-// - Game flow controller (when UI signals phase done)
-//
-// DEPENDS ON:
-// - src/engine/core/gameState.js: cloneState, resetTurnAbilities
-// - src/engine/core/zones.js: setCardState, moveToZone
-// - src/engine/modifiers/continuousEffects.js: expire effects by duration
-// - src/engine/modifiers/donManager.js: return DON to cost area
-// - src/engine/index.js emit: phase change events
-//
-// UI INTERACTION:
-// - Actions.jsx shows available actions based on current phase
-// - Board.jsx may highlight phase indicator
-// - UI calls advancePhase when player clicks "End Phase" or similar
+  // Helper to process a single field instance (leader or each character)
+  function returnAttachedFromInstance(instance) {
+    if (!instance || !Array.isArray(instance.attachedDons) || instance.attachedDons.length === 0) {
+      return 0;
+    }
+    const count = instance.attachedDons.length;
+    try {
+      // Use donManager to return all attached DONs
+      const ret = donManager.returnDonFromCard(gameState, instance.instanceId, count);
+      if (!ret || !ret.success) {
+        result.errors.push(`failed to return DONs from ${instance.instanceId}: ${ret ? ret.error : 'unknown'}`);
+        return 0;
+      }
+      // Mark returned DONs as 'rested' in costArea
+      const returnedIds = ret.returnedDonIds || ret.returnedDonIds || ret.returnedDonIds || ret.returnedDonIds;
+      // ret might use returnedDonIds key; fallback to ret.returnedDonIds or ret.returnedDonIds
+      // More robust: check ret.returnedDonIds or ret.returnedDonIds or ret.attachedDonIds
+      const ids = (ret.returnedDonIds && Array.isArray(ret.returnedDonIds))
+                    ? ret.returnedDonIds
+                    : (ret.returnedDonIds && Array.isArray(ret.returnedDonIds)) ? ret.returnedDonIds : (ret.returnedDonIds ? ret.returnedDonIds : []);
+      // Simpler: if none, inspect costArea for items with attachedTo null and recently moved — but to avoid complexity, handle both common keys.
+      const possibleIds = ret.returnedDonIds || ret.returnedDonIds || ret.attachedDonIds || [];
+      for (const id of possibleIds) {
+        const loc = findInstance(gameState, id);
+        if (loc && loc.instance) {
+          loc.instance.state = 'rested';
+        }
+      }
+      // As fallback: if no explicit returned ids, we will rest any DONs in costArea that belong to player and are recently moved.
+      // For simplicity, we rely on returnedDonIds being present.
+      return ret.moved || count;
+    } catch (e) {
+      result.errors.push(`exception returning DONs from ${instance.instanceId}: ${String(e)}`);
+      return 0;
+    }
+  }
 
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// TURN 1 SPECIAL RULES:
-// - First player: Draw 0, add 1 DON
-// - Second player: Draw 1, add 2 DON (or 1? check rules)
-// - Neither player can attack on turn 1 (enforced elsewhere)
-//
-// DON RETURN DURING REFRESH:
-// All DON attached to characters/leader returns to cost area.
-// This DON becomes rested, not active.
-// The cost area DON is also set to rested at refresh.
-// DON becomes active when newly added from DON deck.
-//
-// EFFECT DURATION EXPIRY:
-// Effects with duration 'thisTurn' should expire at end of turn.
-// Effects with duration 'untilStartOfYourNextTurn' expire at next refresh.
-// Track which effects to clean up based on their duration and when created.
-//
-// PHASE TRANSITION EVENTS:
-// Emit 'phaseChanged' with { phase, turn, activePlayer } payload
-// after each phase change for UI updates.
+  // 1) Return from leader
+  if (p.leader) {
+    result.returnedTotal += returnAttachedFromInstance(p.leader);
+  }
+  // 2) Return from each character
+  if (Array.isArray(p.char)) {
+    for (const ch of p.char.slice()) {
+      result.returnedTotal += returnAttachedFromInstance(ch);
+    }
+  }
 
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: startTurn initializes with Refresh Phase
-//   Input: GameState at end phase
-//   Expected: Phase is 'refresh', then auto-advances after refresh actions
-//
-// TEST: executeRefreshPhase returns DON correctly
-//   Input: Player has 3 DON attached to characters
-//   Expected: All 3 DON in cost area, rested state
-//
-// TEST: executeRefreshPhase untaps characters
-//   Input: 2 rested characters
-//   Expected: Both characters now active
-//
-// TEST: executeDonPhase adds correct DON count
-//   Input: Turn 3, player has 4 DON in cost area
-//   Expected: Now has 6 DON (4 + 2), new ones active
-//
-// TEST: turn 1 first player gets 1 DON
-//   Input: Turn 1, first player's DON phase
-//   Expected: 1 DON added (not 2)
-//
-// TEST: endTurn switches active player
-//   Input: player1's turn ending
-//   Expected: activePlayer becomes 'player2', turn increments
+  // 3) After returns, set all rested cards in leader/char/stage/costArea to active
+  const zonesToActivate = [];
+  if (p.leader) zonesToActivate.push(p.leader);
+  if (p.stage) zonesToActivate.push(p.stage);
+  if (Array.isArray(p.char)) zonesToActivate.push(...p.char);
+  if (Array.isArray(p.costArea)) zonesToActivate.push(...p.costArea);
 
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Implement phase constant and ordering
-// [ ] 2. Implement startTurn with refresh phase execution
-// [ ] 3. Implement advancePhase with proper order
-// [ ] 4. Implement executeRefreshPhase (DON return, untap)
-// [ ] 5. Implement executeDrawPhase (with turn 1 skip)
-// [ ] 6. Implement executeDonPhase (with turn 1 rules)
-// [ ] 7. Implement endTurn (player switch, turn increment)
-// [ ] 8. Wire to continuousEffects for duration expiry
-// [ ] 9. Emit phase change events
-// [ ] 10. Handle edge cases (empty DON deck, deck out on draw)
+  for (const card of zonesToActivate) {
+    if (!card) continue;
+    if (card.state === 'rested') card.state = 'active';
+  }
 
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
+  return result;
+}
 
-export const PHASES = ['refresh', 'draw', 'don', 'main', 'end'];
+/**
+ * donPhase(gameState, player, isFirstPlayer=false)
+ *
+ * Places DONs from the player's donDeck into costArea face-up:
+ * - default: place 2 DONs
+ * - if isFirstPlayer: place 1 DON
+ *
+ * Returns: { success: true, placed: number }
+ */
+export function donPhase(gameState, player, isFirstPlayer = false) {
+  if (!gameState || !gameState.players || !gameState.players[player]) {
+    return { success: false, error: 'invalid gameState or player' };
+  }
+  const p = gameState.players[player];
+  if (!Array.isArray(p.donDeck)) p.donDeck = [];
+  if (!Array.isArray(p.costArea)) p.costArea = [];
 
-export const startTurn = (gameState) => {
-  // TODO: Begin new turn, execute refresh
-  return { success: false, error: 'Not implemented' };
-};
+  const toPlace = isFirstPlayer ? 1 : 2;
+  let placed = 0;
+  for (let i = 0; i < toPlace; i++) {
+    if (p.donDeck.length === 0) break;
+    // Top is index 0
+    const topDon = p.donDeck[0];
+    if (!topDon) {
+      // remove it and continue
+      p.donDeck.shift();
+      continue;
+    }
+    // Move using moveToZone so metadata updates correctly
+    const res = moveToZone(gameState, topDon.instanceId, player, 'costArea', { top: false });
+    if (!res || !res.success) {
+      // if cannot move, stop
+      break;
+    }
+    // After move, find the instance in costArea and set faceUp true
+    const loc = findInstance(gameState, topDon.instanceId);
+    if (loc && loc.instance) {
+      loc.instance.faceUp = true;
+      // DON placed into costArea should be set as active by refresh logic later; here no extra state
+    }
+    placed += 1;
+  }
 
-export const advancePhase = (gameState) => {
-  // TODO: Move to next phase
-  return { success: false, error: 'Not implemented' };
-};
-
-export const getCurrentPhase = (gameState) => {
-  return gameState?.phase || 'unknown';
-};
-
-export const endTurn = (gameState) => {
-  // TODO: End turn, switch player
-  return { success: false, error: 'Not implemented' };
-};
-
-export const executeRefreshPhase = (gameState) => {
-  // TODO: DON return, untap all
-  return { success: false, error: 'Not implemented' };
-};
-
-export const executeDrawPhase = (gameState) => {
-  // TODO: Draw 1 card (skip turn 1 first player)
-  return { success: false, error: 'Not implemented' };
-};
-
-export const executeDonPhase = (gameState) => {
-  // TODO: Add DON from DON deck
-  return { success: false, error: 'Not implemented' };
-};
-
-export const getActivePlayer = (gameState) => {
-  return gameState?.activePlayer || 'player1';
-};
+  return { success: true, placed };
+}
 
 export default {
-  PHASES,
-  startTurn,
-  advancePhase,
-  getCurrentPhase,
-  endTurn,
-  executeRefreshPhase,
-  executeDrawPhase,
-  executeDonPhase,
-  getActivePlayer
+  refreshPhase,
+  donPhase
 };

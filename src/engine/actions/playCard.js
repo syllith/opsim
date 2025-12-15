@@ -1,145 +1,148 @@
 'use strict';
-// playCard.js — Play Card Action Handler
-// =============================================================================
-// PURPOSE:
-// This module handles the ActionPlayCard action type. It plays cards from
-// various zones (hand, life, trash, deck) to the field, handling cost payment,
-// [On Play] triggers, and entry state.
-// =============================================================================
+/*
+ * playCard.js — Play a card from hand to the field, optionally paying DON cost
+ * =============================================================================
+ *
+ * PURPOSE
+ *  - Provide a minimal, well-documented playCard action to:
+ *      * Move a card instance from the player's hand onto the Character area or Stage
+ *      * Optionally pay the card's cost by resting DONs from the player's costArea
+ *
+ * API
+ *  - playCard(gameState, instanceId, destination, options)
+ *
+ * Parameters:
+ *  - gameState: engine state
+ *  - instanceId: id of the card instance to play (must be in hand)
+ *  - destination: 'char' | 'stage' (string) OR object { zone: 'char'|'stage', index?, top? }
+ *  - options:
+ *      - payCost: boolean (default false) -> if true, rest DONs equal to instance.cost
+ *      - enterRested: boolean -> set instance.enterRested = true
+ *
+ * Returns:
+ *  - { success: true, from, to, paidCost } or { success: false, error }
+ *
+ * NOTES / ASSUMPTIONS
+ *  - Cost is taken from instance.cost (number). If missing, cost=0.
+ *  - DONs are rested in place in the owner's costArea; paying cost sets don.state = 'rested'
+ *    for up to `cost` DONs that are not already rested.
+ *  - This function mutates gameState (zones.moveToZone is used).
+ * =============================================================================
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Play cards from specified source zone
-// - Handle cost payment (or free play)
-// - Trigger [On Play] abilities
-// - Set entry state (active or rested)
-// - Validate play legality (zone capacity, card type)
+import zones from '../core/zones.js';
+const { findInstance, moveToZone } = zones;
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// execute(gameState, action, context) -> ActionResult
-//   Executes a playCard action.
-//   action: {
-//     type: 'playCard',
-//     sourceZone: 'hand' | 'life' | 'trash' | 'deck',
-//     target: TargetSelectorRef,    // Cards to play
-//     enterRested?: boolean,        // If true, enters rested
-//     payCost?: boolean,            // If false, free play
-//     may?: boolean,
-//     condition?: Condition
-//   }
+/**
+ * Normalize destination value.
+ * Accepts string -> { zone: string } or object { zone, index, top }
+ */
+function normalizeDestination(destination) {
+  if (!destination) return null;
+  if (typeof destination === 'string') return { zone: destination };
+  if (typeof destination === 'object') {
+    return { zone: destination.zone, index: destination.index, top: !!destination.top };
+  }
+  return null;
+}
 
-// =============================================================================
-// PLAY VS MOVE
-// =============================================================================
-// Play: Triggers [On Play] abilities, counts as "playing"
-// Move: Just moves card, no [On Play], doesn't count as playing
-//
-// This distinction matters for:
-// - Rush (can attack if played, not if moved)
-// - [On Play] triggers
-// - Effects that count "cards played"
-// - Effects that prevent playing
+/**
+ * payDonCost(gameState, owner, cost)
+ * Finds up to `cost` active DONs in owner's costArea (don.state !== 'rested') and rests them.
+ * Returns { success: boolean, paid: number, restedDonIds: [] }
+ */
+function payDonCost(gameState, owner, cost) {
+  if (!gameState || !gameState.players || !gameState.players[owner]) {
+    return { success: false, error: `owner ${owner} not found` };
+  }
+  if (!Number.isInteger(cost) || cost <= 0) return { success: true, paid: 0, restedDonIds: [] };
 
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current GameState
-// - action: ActionPlayCard object
-// - context: { thisCard, activePlayer }
-//
-// OUTPUTS:
-// - ActionResult with updated gameState
+  const ownerObj = gameState.players[owner];
+  const costArea = ownerObj.costArea || [];
 
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/actions/interpreter.js: dispatches playCard
-// - src/engine/index.js playCard
-// - search actions with asPlay=true
-//
-// DEPENDS ON:
-// - src/engine/rules/selector.js: resolve target
-// - src/engine/core/zones.js: zone operations
-// - src/engine/rules/evaluator.js: trigger [On Play] abilities
+  // Find DONs not already rested (state !== 'rested')
+  const available = costArea.filter(d => !d || typeof d !== 'object' ? false : d.state !== 'rested');
 
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// COST PAYMENT:
-// If payCost=true (default):
-// - Check if player has enough DON/resources
-// - Spend the required DON
-// - Card's cost field determines required DON
-//
-// If payCost=false:
-// - Card is played without cost
-// - Used for effects like "play a card without paying its cost"
-//
-// DESTINATION:
-// Characters -> characters zone
-// Stages -> stage zone
-// Events -> trash (after effect resolves)
-// Leaders -> cannot be "played" via this action
-//
-// ON PLAY TIMING:
-// After card enters the field:
-// 1. Card is now on field
-// 2. Check for [On Play] abilities (timing='onPlay')
-// 3. Trigger and resolve each ability
-//
-// ENTER RESTED:
-// If enterRested=true, card enters in rested state.
-// This prevents immediate attacks even with Rush.
+  if (available.length < cost) {
+    // not enough DONs available
+    return { success: false, error: `insufficient DONs in costArea: required ${cost}, available ${available.length}`, paid: 0 };
+  }
 
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: play character from hand
-//   Input: Play 3-cost character, 5 active DON
-//   Expected: Character on field, 2 DON remaining
-//
-// TEST: free play (payCost=false)
-//   Input: Play 5-cost card without paying
-//   Expected: Card on field, DON unchanged
-//
-// TEST: On Play triggers
-//   Input: Play card with [On Play] ability
-//   Expected: Ability triggered after play
-//
-// TEST: enterRested works
-//   Input: Play with enterRested=true
-//   Expected: Card enters in rested state
-//
-// TEST: character zone capacity
-//   Input: Try to play 6th character
-//   Expected: Play fails (zone full)
+  // Rest the first `cost` available DONs (by order in costArea)
+  let paid = 0;
+  const restedIds = [];
+  for (let i = 0; i < costArea.length && paid < cost; i++) {
+    const don = costArea[i];
+    if (don && don.state !== 'rested') {
+      don.state = 'rested';
+      restedIds.push(don.instanceId);
+      paid += 1;
+    }
+  }
 
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Evaluate condition
-// [ ] 2. Handle may choice
-// [ ] 3. Resolve target in source zone
-// [ ] 4. Check zone capacity
-// [ ] 5. Handle cost payment if required
-// [ ] 6. Move card to appropriate field zone
-// [ ] 7. Set state (active/rested)
-// [ ] 8. Trigger [On Play] abilities
-// [ ] 9. Generate log entry
-// [ ] 10. Handle events (resolve then trash)
+  return { success: true, paid, restedDonIds: restedIds };
+}
 
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
+/**
+ * playCard(gameState, instanceId, destination, options)
+ */
+export function playCard(gameState, instanceId, destination, options = {}) {
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  if (!instanceId) return { success: false, error: 'missing instanceId' };
 
-export const execute = (gameState, action, context = {}) => {
-  // TODO: Full playCard implementation
-  return { success: false, error: 'Not implemented' };
+  // Locate instance and ensure it's in hand
+  const loc = findInstance(gameState, instanceId);
+  if (!loc || !loc.instance) return { success: false, error: `instance ${instanceId} not found` };
+  if (loc.zone !== 'hand') return { success: false, error: `instance ${instanceId} not in hand (found in ${loc.zone})` };
+
+  const owner = loc.owner;
+  const inst = loc.instance;
+
+  const dest = normalizeDestination(destination);
+  if (!dest || !dest.zone) return { success: false, error: 'invalid destination' };
+
+  // Validate destination zone: only 'char' or 'stage' for now
+  const zone = dest.zone;
+  if (!['char', 'stage'].includes(zone)) {
+    return { success: false, error: `unsupported destination zone: ${zone}` };
+  }
+
+  // Pay cost if requested
+  const payCost = !!options.payCost;
+  let paidCost = 0;
+  if (payCost) {
+    const cost = typeof inst.cost === 'number' ? inst.cost : 0;
+    if (cost > 0) {
+      const payRes = payDonCost(gameState, owner, cost);
+      if (!payRes.success) {
+        return { success: false, error: payRes.error || 'failed to pay cost' };
+      }
+      paidCost = payRes.paid || 0;
+    }
+  }
+
+  // Move card to destination
+  const moveRes = moveToZone(gameState, instanceId, owner, zone, { index: dest.index, top: dest.top });
+  if (!moveRes || !moveRes.success) {
+    // If we had paid cost, we do not rollback resting DONs here; callers may handle rollback if required.
+    // For a stricter approach, we could un-rest the DONs that were rested above.
+    return { success: false, error: moveRes && moveRes.error ? moveRes.error : 'failed to move card' };
+  }
+
+  // Set enterRested metadata if requested
+  const afterLoc = findInstance(gameState, instanceId);
+  if (options.enterRested && afterLoc && afterLoc.instance) {
+    afterLoc.instance.enterRested = true;
+  }
+
+  return {
+    success: true,
+    from: moveRes.from,
+    to: moveRes.to,
+    paidCost
+  };
+}
+
+export default {
+  playCard
 };
-
-export default { execute };

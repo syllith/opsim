@@ -1,235 +1,131 @@
 'use strict';
-// damageAndLife.js — Damage Processing and Life Management
-// =============================================================================
-// PURPOSE:
-// This module handles all damage-related mechanics and life card management.
-// When damage is dealt to a Leader, this module processes life removal,
-// [Trigger] ability resolution, and defeat conditions. It also handles
-// life manipulation for costs and effects.
-// =============================================================================
+/*
+ * damageAndLife.js — Damage processing & Life handling
+ * =============================================================================
+ *
+ * PURPOSE
+ *  - Provide core utilities for dealing damage to Leaders (via Life).
+ *  - Implement the "damage processing" rule: move top Life cards to hand
+ *    (allowing [Trigger] behavior in the future) and mark defeat if Leader
+ *    takes damage when Life count == 0.
+ *
+ * KEY FUNCTIONS
+ *  - dealDamageToLeader(gameState, side, count)
+ *
+ * NOTES / ASSUMPTIONS
+ *  - side is 'player' or 'opponent' (the player whose leader is taking damage)
+ *  - A Life card is represented as a CardInstance stored in gameState.players[side].life array.
+ *    We treat index 0 as the "top of Life" for removal (consistent with earlier helpers).
+ *  - When a Life card is removed from Life and added to the player's hand, if that Life card
+ *    has a `hasTrigger` boolean property (developer-set), we set a marker `canActivateTrigger=true`
+ *    on the returned object so future Trigger handling can inspect it. We do not resolve triggers here.
+ *  - If side has 0 Life cards when damage is to be dealt, we set `gameState.defeat = { loser: side }`.
+ *    This is a simplified defeat marker used by rule processing elsewhere.
+ *  - This function mutates gameState in place.
+ *
+ * TODO
+ *  - Implement replacement effects and trigger interrupts (suspend damage processing while Trigger resolves).
+ *  - Wire defeat to rule-processing system instead of setting a raw field.
+ * =============================================================================
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Process damage to Leaders (remove life cards)
-// - Handle [Trigger] ability resolution when life is removed
-// - Manage the "limbo" state while Triggers resolve
-// - Check for defeat (no life + damage dealt)
-// - Handle life manipulation (add/remove for effects)
-// - Support life viewing effects (reveal, look at)
+/**
+ * Helper: popTopLife(gameState, side)
+ * Removes and returns the top Life card for the side (or null if none).
+ * We use index 0 as top-of-life.
+ */
+export function popTopLife(gameState, side) {
+  if (!gameState || !gameState.players || !gameState.players[side]) return null;
+  const p = gameState.players[side];
+  if (!Array.isArray(p.life) || p.life.length === 0) return null;
+  const top = p.life.shift(); // remove first element as top
+  // Ensure zone metadata
+  if (top) {
+    top.zone = 'hand'; // we'll move it to hand
+  }
+  return top;
+}
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// dealDamage(gameState, side, count) -> GameState
-//   Deals damage to a player's Leader. For each damage:
-//   1. Remove top life card
-//   2. Reveal the card
-//   3. If card has [Trigger], resolve it
-//   4. Move card to trash (unless effect says otherwise)
-//   5. Check for defeat if life was 0
-//
-// removeLifeCard(gameState, side, position, reason) -> { newState, card }
-//   Removes a life card by position ('top' | 'bottom' | index).
-//   Reason: 'damage' | 'cost' | 'effect'
-//   Returns the removed card for Trigger processing.
-//
-// addLifeCard(gameState, side, cardInstance, position) -> GameState
-//   Adds a card to life zone.
-//   Position: 'top' | 'bottom'
-//   Typically from deck (for effects that add life).
-//
-// getLifeCount(gameState, side) -> number
-//   Returns current life count for a player.
-//
-// revealLifeCards(gameState, side, count) -> { newState, cards }
-//   Temporarily reveals top N life cards for viewing.
-//   Cards stay in life zone.
-//
-// processTrigger(gameState, triggerCard) -> GameState
-//   Executes a [Trigger] ability from a revealed life card.
-//   The card is in "limbo" during resolution.
-//   After resolution, card goes to hand (or trash if no trigger taken).
-//
-// checkDefeat(gameState, side) -> boolean
-//   Returns true if the player has been defeated (0 life + damage taken).
+/**
+ * addCardToHand(gameState, side, cardInstance)
+ * Adds the card instance to the specified side's hand.
+ */
+export function addCardToHand(gameState, side, cardInstance) {
+  if (!gameState || !gameState.players || !gameState.players[side]) return false;
+  const p = gameState.players[side];
+  if (!Array.isArray(p.hand)) p.hand = [];
+  // Add to hand (bottom) — push
+  p.hand.push(cardInstance);
+  // Update zone metadata
+  if (cardInstance) cardInstance.zone = 'hand';
+  return true;
+}
 
-// =============================================================================
-// TRIGGER FLOW
-// =============================================================================
-// When damage removes a Life card:
-// 1. Remove top card from Life zone
-// 2. Card enters "trigger limbo" (not in any zone temporarily)
-// 3. Reveal the card to both players
-// 4. Check if card has [Trigger] ability
-// 5. If [Trigger] exists:
-//    a. Owner may choose to activate it (most Triggers are optional)
-//    b. If activated, resolve the Trigger ability
-//    c. After resolution, card typically goes to hand
-// 6. If no [Trigger] or not activated:
-//    - Card goes to trash
-// 7. Continue with next damage if multiple
+/**
+ * dealDamageToLeader(gameState, side, count)
+ *
+ * Process damage to the leader of 'side' by repeating the life-removal process
+ * count times. If at the moment of dealing a damage point the side has 0 Life
+ * cards, set gameState.defeat = { loser: side } and return.
+ *
+ * Returns:
+ *  { success: true, moved: n, triggers: [ { instanceId, canActivateTrigger } ], defeat?: { loser } }
+ */
+export function dealDamageToLeader(gameState, side, count = 1) {
+  if (!gameState || !gameState.players || !gameState.players[side]) {
+    return { success: false, error: 'invalid gameState or side' };
+  }
+  if (!Number.isInteger(count) || count <= 0) {
+    return { success: false, error: 'count must be positive integer' };
+  }
 
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current GameState
-// - side: 'player1' | 'player2'
-// - count: number of damage/life to process
-// - cardInstance: for adding life
-//
-// OUTPUTS:
-// - GameState: updated after life changes
-// - Card info for Trigger processing
-// - Boolean for defeat check
-//
-// LIFE ZONE STRUCTURE:
-// - Array of CardInstance
-// - Index 0 = top of life
-// - Cards are typically face-down until revealed
+  const result = {
+    success: true,
+    moved: 0,
+    triggers: []
+  };
 
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/actions/dealDamage.js: dealDamage action
-// - src/engine/core/battle.js: when Leader loses battle
-// - src/engine/actions/moveCard.js: adding to life
-// - Cost processing: some costs remove life
-//
-// DEPENDS ON:
-// - src/engine/core/gameState.js: cloneState, getCardInstance
-// - src/engine/core/zones.js: zone manipulation
-// - src/engine/core/replacement.js: check 'wouldTakeDamage' replacements
-// - src/engine/rules/evaluator.js: evaluate Trigger abilities
-// - src/engine/actions/interpreter.js: execute Trigger actions
-//
-// EVENTS EMITTED:
-// - 'lifeLost': { side, count, remainingLife }
-// - 'triggerActivated': { cardId, side }
-// - 'defeat': { side }
+  for (let i = 0; i < count; i++) {
+    const p = gameState.players[side];
 
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// DEFEAT CONDITION:
-// A player is defeated when:
-// - They have 0 life AND
-// - They take damage (from battle or effect)
-// Simply having 0 life doesn't cause defeat; the final damage does.
-//
-// TRIGGER TIMING:
-// [Trigger] abilities activate during damage resolution.
-// This is a special timing that interrupts normal flow.
-// The player can respond to their own trigger.
-// Some triggers are mandatory, some are optional ("You may").
-//
-// TRIGGER LIMBO:
-// While a card is being processed for Trigger:
-// - It has left the Life zone
-// - It hasn't entered Trash or Hand yet
-// - It's "in limbo" or "pending"
-// - Effects that check zones won't find it anywhere
-// After Trigger resolves, determine final destination.
-//
-// MULTIPLE DAMAGE:
-// When taking multiple damage (e.g., Double Attack = 2):
-// - Process one life card at a time
-// - Each Trigger resolves before the next damage
-// - Defeat check after all damage is processed
-//
-// DAMAGE VS COST:
-// - Damage: Can trigger defeat, activates [Trigger]
-// - Cost (remove life): Does NOT trigger defeat, no [Trigger]
-// The 'reason' parameter distinguishes these cases.
+    // If the player currently has 0 Life cards -> defeat condition
+    const lifeCount = Array.isArray(p.life) ? p.life.length : 0;
+    if (lifeCount === 0) {
+      // Defeat condition - set a simple flag on the gameState
+      gameState.defeat = gameState.defeat || {};
+      gameState.defeat.loser = side;
+      result.defeat = { loser: side };
+      result.success = true;
+      // According to rules, the player meets defeat condition when their leader takes damage
+      // while having 0 life. We stop further damage processing here.
+      break;
+    }
 
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: dealDamage removes life and moves to trash
-//   Input: Player with 5 life, deal 1 damage
-//   Expected: 4 life remaining, 1 card in trash
-//
-// TEST: dealDamage triggers [Trigger] ability
-//   Input: Top life card has Trigger, deal damage
-//   Expected: Trigger ability resolves, card goes to hand
-//
-// TEST: defeat when 0 life and damage
-//   Input: Player with 1 life, deal 2 damage
-//   Expected: checkDefeat returns true after processing
-//
-// TEST: cost life removal doesn't trigger
-//   Input: Remove life as cost (reason='cost')
-//   Expected: No Trigger check, card to trash, no defeat
-//
-// TEST: multiple damage processes sequentially
-//   Input: Deal 3 damage
-//   Expected: Three separate life cards processed in order
-//
-// TEST: addLifeCard respects position
-//   Input: Add card to 'top' of life
-//   Expected: New card is at index 0 of life array
+    // Otherwise, move top life card to hand
+    const lifeCard = popTopLife(gameState, side);
+    if (!lifeCard) {
+      // unexpected; treat as no-op but count as moved 0
+      continue;
+    }
 
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Implement getLifeCount
-// [ ] 2. Implement removeLifeCard with position handling
-// [ ] 3. Implement addLifeCard
-// [ ] 4. Implement dealDamage with sequential processing
-// [ ] 5. Implement Trigger detection and limbo state
-// [ ] 6. Implement processTrigger with ability execution
-// [ ] 7. Implement checkDefeat logic
-// [ ] 8. Implement revealLifeCards for view effects
-// [ ] 9. Integrate with replacement effects
-// [ ] 10. Emit appropriate events
+    // If the life card has a trigger property, mark it in the result
+    const triggerInfo = {
+      instanceId: lifeCard.instanceId,
+      canActivateTrigger: !!lifeCard.hasTrigger
+    };
 
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
+    // Add to hand
+    addCardToHand(gameState, side, lifeCard);
 
-export const dealDamage = (gameState, side, count) => {
-  // TODO: Process damage, handle triggers, check defeat
-  return { success: false, error: 'Not implemented' };
-};
+    result.moved += 1;
+    result.triggers.push(triggerInfo);
+  }
 
-export const removeLifeCard = (gameState, side, position = 'top', reason = 'damage') => {
-  // TODO: Remove life card, return it
-  return { newState: gameState, card: null, error: 'Not implemented' };
-};
-
-export const addLifeCard = (gameState, side, cardInstance, position = 'top') => {
-  // TODO: Add card to life zone
-  return { success: false, error: 'Not implemented' };
-};
-
-export const getLifeCount = (gameState, side) => {
-  const player = gameState?.[side];
-  return player?.life?.length || 0;
-};
-
-export const revealLifeCards = (gameState, side, count) => {
-  // TODO: Reveal top N life cards
-  return { newState: gameState, cards: [], error: 'Not implemented' };
-};
-
-export const processTrigger = (gameState, triggerCard) => {
-  // TODO: Execute trigger ability
-  return { success: false, error: 'Not implemented' };
-};
-
-export const checkDefeat = (gameState, side) => {
-  // TODO: Check if player is defeated
-  return false;
-};
+  return result;
+}
 
 export default {
-  dealDamage,
-  removeLifeCard,
-  addLifeCard,
-  getLifeCount,
-  revealLifeCards,
-  processTrigger,
-  checkDefeat
+  popTopLife,
+  addCardToHand,
+  dealDamageToLeader
 };
