@@ -9,7 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "server": "node server.js",
-    "start": "npm run build && npm run server"
+    "start": "npm run build && npm run server",
+    "test": "node --test ./tests"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

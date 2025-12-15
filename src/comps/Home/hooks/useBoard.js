@@ -1,17 +1,30 @@
+/**
+ * useBoard.js - React State Wrapper for Board/Zones
+ * 
+ * PURPOSE: Provides React state that triggers re-renders when zones change.
+ * This is a THIN WRAPPER - it holds state that the engine will update.
+ * 
+ * FUTURE: When engine is implemented, this hook will:
+ * 1. Subscribe to engine.on('stateChange', ...)
+ * 2. Call setAreas() when engine emits state changes
+ * 3. The engine manages the canonical state, this just mirrors it for React
+ */
 import { useState, useCallback } from 'react';
 import _ from 'lodash';
 import { createInitialAreas } from './useDeckInitializer';
 
 export default function useBoard() {
+    // React state for zones - triggers re-renders
     const [areas, setAreas] = useState(createInitialAreas);
 
-    // Returns deep-cloned board areas (for safe mutation)
+    // Clone helper for immutable updates
     const cloneAreas = useCallback((prev) => _.cloneDeep(prev), []);
 
-    // Centralized areas mutation wrapper (clone once, try/catch).
+    // Mutation wrapper - used by UI until engine takes over
+    // TODO: Replace direct mutations with engine.actions.* calls
     const mutateAreas = useCallback((recipeFn, { onErrorLabel } = {}) => {
         setAreas((prev) => {
-            const next = cloneAreas(prev);
+            const next = _.cloneDeep(prev);
             try {
                 recipeFn(next, prev);
                 return next;
@@ -20,102 +33,65 @@ export default function useBoard() {
                 return prev;
             }
         });
-    }, [cloneAreas]);
-
-    // Add a card object to a specific area. Caller should clone card if needed.
-    const addCardToArea = useCallback((side, section, key, card) => {
-        if (!card) return;
-        setAreas(prev => {
-            const sideData = prev[side];
-            const targetSection = sideData[section];
-
-            if (_.isArray(targetSection)) {
-                return {
-                    ...prev,
-                    [side]: {
-                        ...sideData,
-                        [section]: [...targetSection, _.clone(card)]
-                    }
-                };
-            }
-
-            const targetArray = targetSection[key];
-            return {
-                ...prev,
-                [side]: {
-                    ...sideData,
-                    [section]: {
-                        ...targetSection,
-                        [key]: [...targetArray, _.clone(card)]
-                    }
-                }
-            };
-        });
     }, []);
 
-    const removeCardFromArea = useCallback((side, section, key) => {
-        setAreas(prev => {
-            const targetSection = _.get(prev, [side, section]);
-            if (!targetSection) { return prev; }
-
-            if (_.isArray(targetSection)) {
-                if (_.isEmpty(targetSection)) { return prev; }
-                return {
-                    ...prev,
-                    [side]: {
-                        ...prev[side],
-                        [section]: _.dropRight(targetSection)
-                    }
-                };
-            }
-
-            const target = targetSection[key];
-            if (!target?.length) { return prev; }
-
-            return {
-                ...prev,
-                [side]: {
-                    ...prev[side],
-                    [section]: {
-                        ...targetSection,
-                        [key]: _.dropRight(target)
-                    }
-                }
-            };
-        });
-    }, []);
-
-    // Get side root from areas
-    const getSideLocation = useCallback((side) => _.get(areas, side), [areas]);
-
-    // Get hand/cost/trash/don container
+    // Read-only accessors (used by UI for rendering)
+    const getSideLocation = useCallback((side) => areas?.[side], [areas]);
+    
     const getHandCostLocation = useCallback(
-        (side) => _.get(areas, side === 'player' ? 'player.bottom' : 'opponent.top'),
+        (side) => side === 'player' ? areas?.player?.bottom : areas?.opponent?.top,
         [areas]
     );
 
-    // Get character array
     const getCharArray = useCallback(
-        (side) => _.get(areas, side === 'player' ? 'player.char' : 'opponent.char', []),
+        (side) => side === 'player' ? (areas?.player?.char || []) : (areas?.opponent?.char || []),
         [areas]
     );
 
-    // Get leader array
     const getLeaderArray = useCallback(
-        (side) => _.get(areas, side === 'player' ? 'player.middle.leader' : 'opponent.middle.leader', []),
+        (side) => side === 'player' 
+            ? (areas?.player?.middle?.leader || []) 
+            : (areas?.opponent?.middle?.leader || []),
         [areas]
     );
+
+    // Legacy mutation helpers - TODO: Remove when engine handles all mutations
+    const addCardToAreaUnsafe = useCallback((side, section, key, card) => {
+        if (!card) return;
+        mutateAreas((next) => {
+            const target = key ? next[side]?.[section]?.[key] : next[side]?.[section];
+            if (Array.isArray(target)) {
+                target.push(_.cloneDeep(card));
+            }
+        });
+    }, [mutateAreas]);
+
+    const removeCardFromAreaUnsafe = useCallback((side, section, key) => {
+        mutateAreas((next) => {
+            const target = key ? next[side]?.[section]?.[key] : next[side]?.[section];
+            if (Array.isArray(target) && target.length > 0) {
+                target.pop();
+            }
+        });
+    }, [mutateAreas]);
 
     return {
+        // State
         areas,
         setAreas,
+        
+        // Helpers
         cloneAreas,
         mutateAreas,
-        addCardToArea,
-        removeCardFromArea,
+        
+        // Read-only accessors
         getSideLocation,
         getHandCostLocation,
         getCharArray,
-        getLeaderArray
+        getLeaderArray,
+        
+        // Legacy (to be removed)
+        addCardToAreaUnsafe,
+        removeCardFromAreaUnsafe
     };
 }

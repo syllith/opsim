@@ -1,0 +1,28 @@
+# Preserve Candidates
+
+This file lists any code from the old engine implementation that should be
+preserved or referenced during the rewrite.
+
+---
+
+## Status: No items preserved
+
+The old engine and engine-adapter directories were removed without preserving
+any code. The new engine skeleton has been created from scratch with detailed
+implementation guidance.
+
+If any old code patterns should be referenced, add them here with notes on
+why they're valuable.
+
+---
+
+## Format for preserved items:
+
+```
+### [Component Name]
+**Source:** old path
+**Reason:** why preserved
+**Code:**
+(paste relevant code)
+**Notes:** implementation guidance
+```

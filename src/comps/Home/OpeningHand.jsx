@@ -1,376 +1,176 @@
+/**
+ * OpeningHand - STUB
+ * TODO: Replace mechanics with engine.setup calls
+ * 
+ * This file previously contained opening hand selection mechanics.
+ * Now contains only the UI modal with stub handlers.
+ * Real implementation will be in src/engine/
+ */
 import React, {
-  useState,
-  useCallback,
-  forwardRef,
-  useImperativeHandle
+    useState,
+    useCallback,
+    forwardRef,
+    useImperativeHandle
 } from 'react';
-import _ from 'lodash';
 import { Box, Paper, Stack, Typography, Button } from '@mui/material';
 
 const OpeningHand = forwardRef(({
-  library,
-  setLibrary,
-  oppLibrary,
-  setOppLibrary,
-  areas,
-  setAreas,
-  getAssetForId,
-  createCardBacks,
-  setTurnSide,
-  setTurnNumber,
-  executeRefreshPhase,
-  setPhase,
-  setHovered,
-  openingHandShown,
-  setOpeningHandShown,
-  currentHandSide, // 'player' or 'opponent' or 'both' - which side is currently selecting
-  onHandSelected, // Called when a hand is confirmed - for multi-hand flow
-  firstPlayer, // Who goes first (for determining turn start after both hands selected)
-  CARD_W = 120,
-  isMultiplayer = false, // Is this a multiplayer game?
-  isHost = true, // Is this the host in multiplayer?
-  onGuestAction, // Callback for guest to send actions to host
-  playerHandSelected = false, // Has host selected their hand?
-  opponentHandSelected = false, // Has guest selected their hand?
-  onLocalHandSelected = null,
-  setupPhase = null, // Current setup phase - 'complete' means don't show
-  onBroadcastStateRef = null // Ref for host to broadcast state after selecting hand (uses ref to avoid stale closures)
-}, ref) => {
-  const [allowMulligan, setAllowMulligan] = useState(true);
-  const [openingHand, setOpeningHand] = useState([]);
-  const [activeSide, setActiveSide] = useState('player'); // Track which side is selecting
-  const [hasSelected, setHasSelected] = useState(false); // Track if this player has selected
-
-  //. Resolves an array of ids into card assets
-  const resolveAssets = useCallback((ids) => {
-    return _.chain(ids)
-      .map((id) => getAssetForId(id))
-      .filter(Boolean)
-      .value();
-  }, [getAssetForId]);
-
-  //. Initialize opening hand for a specific side
-  //. In multiplayer, this should only be called once per game for each side
-  const initialize = useCallback((sideLibrary, side = 'player') => {
-    //. Prevent re-initialization if player has already selected their hand
-    if (hasSelected) {
-      console.log('[OpeningHand] Ignoring initialize - already selected');
-      return;
-    }
-    
-    //. Use the passed library directly (it should already be the correct one for the side)
-    const lastFiveIds = _.takeRight(sideLibrary, 5);
-    const assets = _.take(resolveAssets(lastFiveIds), 5);
-
-    setOpeningHand(assets);
-    setOpeningHandShown(true);
-    setAllowMulligan(true);
-    setActiveSide(side);
-    // Don't reset hasSelected here - it should persist to prevent re-init
-  }, [resolveAssets, setOpeningHandShown, hasSelected]);
-
-  //. Force reset the component state (only call when starting a new game)
-  const reset = useCallback(() => {
-    setOpeningHand([]);
-    setAllowMulligan(true);
-    setActiveSide('player');
-    setHasSelected(false);
-  }, []);
-
-  //. Update hand display without resetting mulligan state (for syncing after mulligan)
-  const updateHandDisplay = useCallback((sideLibrary) => {
-    const lastFiveIds = _.takeRight(sideLibrary, 5);
-    const assets = _.take(resolveAssets(lastFiveIds), 5);
-    setOpeningHand(assets);
-  }, [resolveAssets]);
-
-  //. Check if opening hand is currently shown
-  const isOpen = useCallback(() => openingHandShown, [openingHandShown]);
-
-  //. Check if player has already selected
-  const getHasSelected = useCallback(() => hasSelected, [hasSelected]);
-
-  //. Expose methods via ref
-  useImperativeHandle(
-    ref,
-    () => ({
-      initialize,
-      updateHandDisplay,
-      isOpen,
-      reset,
-      getHasSelected
-    }),
-    [initialize, updateHandDisplay, isOpen]
-  );
-
-  //. Get the current library based on active side
-  const getCurrentLibrary = useCallback(() => {
-    return activeSide === 'player' ? library : oppLibrary;
-  }, [activeSide, library, oppLibrary]);
-
-  //. Get the set library function based on active side
-  const setCurrentLibrary = useCallback((updater) => {
-    if (activeSide === 'player') {
-      setLibrary(updater);
-    } else {
-      setOppLibrary(updater);
-    }
-  }, [activeSide, setLibrary, setOppLibrary]);
-
-  //. Handle mulligan
-  const handleMulligan = useCallback(() => {
-    if (!allowMulligan) { return; }
-
-    //. Host or single-player: apply mulligan directly
-    //. Put current 5 to bottom, draw new 5, must keep
-    setCurrentLibrary((prev) => {
-      const cur5 = _.takeRight(prev, 5);
-      const rest = _.dropRight(prev, 5);
-      const lib = [...cur5, ...rest]; //. bottom is front, top is end
-
-      const draw5Ids = _.takeRight(lib, 5);
-      const newHand = _.take(resolveAssets(draw5Ids), 5);
-
-      setOpeningHand(newHand);
-      setAllowMulligan(false);
-
-      return lib;
-    });
-
-    // Multiplayer: do not broadcast from inside this component.
-    // Home.jsx will broadcast the committed setup state after it actually lands in React state.
-  }, [allowMulligan, setCurrentLibrary, resolveAssets, isMultiplayer, onBroadcastStateRef]);
-
-  //. Handle keep for current side
-  const handleKeep = useCallback(() => {
-    //. Prevent double-clicks or re-selection
-    if (hasSelected) { return; }
-    
-    const side = currentHandSide === 'both' ? activeSide : (currentHandSide || activeSide);
-
-    const currentLib = getCurrentLibrary();
-
-    //. Move openingHand to this side's hand and set up life
-    setAreas((prev) => {
-      const next = _.cloneDeep(prev);
-
-      if (side === 'player') {
-        //. Player hand gets opening 5
-        next.player.bottom.hand = _.take(openingHand, 5);
-
-        //. Life is next 5 cards below hand (positions -10 to -5)
-        const lifeIds = currentLib.slice(-10, -5);
-        const life = _.chain(lifeIds)
-          .map((id) => getAssetForId(id))
-          .filter(Boolean)
-          .reverse()
-          .value();
-        next.player.life = life;
-
-        //. Shrink deck visual: -10 (5 hand, 5 life)
-        const remain = Math.max(0, (next.player.middle.deck || []).length - 10);
-        next.player.middle.deck = createCardBacks(remain);
-      } else {
-        //. Opponent hand gets opening 5
-        next.opponent.top.hand = _.take(openingHand, 5);
-
-        //. Life is next 5 cards below hand
-        const lifeIds = currentLib.slice(-10, -5);
-        const life = _.chain(lifeIds)
-          .map((id) => getAssetForId(id))
-          .filter(Boolean)
-          .reverse()
-          .value();
-        next.opponent.life = life;
-
-        //. Shrink deck visual: -10 (5 hand, 5 life)
-        const remain = Math.max(0, (next.opponent.middle.deck || []).length - 10);
-        next.opponent.middle.deck = createCardBacks(remain);
-      }
-
-      return next;
-    });
-
-    //. Remove 10 from this side's library (5 to hand, 5 to life)
-    setCurrentLibrary((prev) => prev.slice(0, -10));
-
-    //. In multiplayer, the opening hand modal is per-client and should close immediately
-    //. after this player keeps/mulligans, while the opponent can still be choosing.
-    if (isMultiplayer) {
-      setHasSelected(true);
-      setOpeningHandShown(false);
-
-      // Multiplayer: broadcast happens in Home.jsx after areas/libraries commit.
-    } else {
-      setOpeningHandShown(false);
-    }
-
-    //. Notify parent that this hand selection is complete
-    if (onHandSelected) {
-      onHandSelected(side);
-    }
-  }, [
-    currentHandSide,
-    activeSide,
-    openingHand,
-    getCurrentLibrary,
+    areas,
     setAreas,
-    setCurrentLibrary,
     getAssetForId,
-    createCardBacks,
+    setHovered,
+    openingHandShown,
     setOpeningHandShown,
-    onHandSelected,
-    isMultiplayer,
-    onBroadcastStateRef,
-    hasSelected,
-    allowMulligan
-  ]);
+    CARD_W = 120
+}, ref) => {
+    const [openingHand, setOpeningHand] = useState([]);
+    const [allowMulligan, setAllowMulligan] = useState(true);
 
-  // Don't show if not supposed to be shown
-  if (!openingHandShown) { return null; }
-  
-  // Don't show if setup phase is complete (game has started)
-  if (setupPhase === 'complete') { return null; }
+    // STUB: Initialize opening hand display
+    const initialize = useCallback((sideLibrary, side = 'player') => {
+        console.warn('[OpeningHand.initialize] STUB - engine not implemented');
+        setOpeningHandShown(true);
+        setAllowMulligan(true);
+        setOpeningHand([]);
+    }, [setOpeningHandShown]);
 
-  const side = currentHandSide || activeSide;
-  
-  // For simultaneous selection (multiplayer), each player sees their own side
-  // 'both' means both players are selecting at the same time
-  const displaySide = (currentHandSide === 'both') ? activeSide : side;
+    // STUB: Reset state
+    const reset = useCallback(() => {
+        setOpeningHand([]);
+        setAllowMulligan(true);
+    }, []);
 
-  // In multiplayer simultaneous selection mode
-  if (isMultiplayer && currentHandSide === 'both') {
-    // Check if this player has already selected (use prop values which are synced)
-    const iHaveSelected = isHost ? playerHandSelected : opponentHandSelected;
-    const opponentHasSelected = isHost ? opponentHandSelected : playerHandSelected;
-    
-    // If both have selected, the game should be starting - don't show anything
-    if (iHaveSelected && opponentHasSelected) {
-      return null;
-    }
-    
-    if (iHaveSelected || hasSelected) {
-      // Show waiting message
-      return (
-        <Paper
-          variant='outlined'
-          sx={{
-            p: 2,
-            bgcolor: 'rgba(44,44,44,0.85)',
-            color: 'white',
-            width: 'fit-content',
-            maxWidth: '100%',
-            textAlign: 'center'
-          }}
-        >
-          <Typography variant="h6" sx={{ color: '#4caf50', mb: 1 }}>
-            ✓ Hand Selected!
-          </Typography>
-          <Typography variant="body1">
-            {opponentHasSelected 
-              ? 'Both players ready - game starting...' 
-              : 'Waiting for opponent to select their hand...'}
-          </Typography>
-        </Paper>
-      );
-    }
-  } else if (isMultiplayer && currentHandSide !== 'both') {
-    // Sequential selection mode - only show to the player whose turn it is
-    const isMyTurnToSelect = isHost ? (side === 'player') : (side === 'opponent');
-    if (!isMyTurnToSelect) {
-      // Show waiting message instead
-      return (
-        <Paper
-          variant='outlined'
-          sx={{
-            p: 2,
-            bgcolor: 'rgba(44,44,44,0.85)',
-            color: 'white',
-            width: 'fit-content',
-            maxWidth: '100%',
-            textAlign: 'center'
-          }}
-        >
-          <Typography variant="h6">
-            Waiting for opponent to select their opening hand...
-          </Typography>
-        </Paper>
-      );
-    }
-  }
+    // STUB: Update hand display
+    const updateHandDisplay = useCallback((sideLibrary) => {
+        console.warn('[OpeningHand.updateHandDisplay] STUB - engine not implemented');
+    }, []);
 
-  return (
-    <Paper
-      variant='outlined'
-      sx={{
-        p: 1,
-        bgcolor: 'rgba(44,44,44,0.85)',
-        color: 'white',
-        width: 'fit-content',
-        maxWidth: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        userSelect: 'none',
-        borderWidth: 2,
-        borderColor: displaySide === 'player' ? '#90caf9' : '#f48fb1'
-      }}
-    >
-      {/* Header with title and buttons */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1, px: 1 }}>
-        <Box>
-          <Typography
-            variant='caption'
-            fontWeight={700}
-            sx={{ fontSize: 15, lineHeight: 1.1 }}
-          >
-            Opening Hand {allowMulligan ? '' : '(Mulligan used)'}
-          </Typography>
-          <Typography
-            variant='caption'
-            sx={{ fontSize: 11, opacity: 0.8, display: 'block' }}
-          >
-            Keep this hand or mulligan (return 5, draw 5 new)
-          </Typography>
-        </Box>
-        <Stack direction='row' spacing={1}>
-          <Button
-            size='small'
-            variant='outlined'
-            onClick={handleMulligan}
-            disabled={!allowMulligan}
-          >
-            Mulligan
-          </Button>
-          <Button
-            size='small'
-            variant='contained'
-            onClick={handleKeep}
-          >
-            Keep
-          </Button>
-        </Stack>
-      </Box>
+    // Check if shown
+    const isOpen = useCallback(() => openingHandShown, [openingHandShown]);
 
-      {/* Card display area */}
-      <Box sx={{ display: 'flex', gap: 1, px: 1, pb: 1, overflowX: 'auto' }}>
-        {_.take(openingHand, 5).map((c, idx) => (
-          <img
-            key={`${c?.id || 'card'}-${idx}`}
-            src={c?.thumb || c?.full}
-            alt={c?.id}
-            style={{
-              width: CARD_W,
-              height: 'auto',
-              borderRadius: 4,
-              cursor: 'pointer'
+    // Expose methods via ref
+    useImperativeHandle(
+        ref,
+        () => ({
+            initialize,
+            updateHandDisplay,
+            isOpen,
+            reset,
+            getHasSelected: () => false
+        }),
+        [initialize, updateHandDisplay, isOpen, reset]
+    );
+
+    // STUB: Handle mulligan
+    const handleMulligan = useCallback(() => {
+        console.warn('[OpeningHand.handleMulligan] STUB - engine not implemented');
+        setAllowMulligan(false);
+    }, []);
+
+    // STUB: Handle keep
+    const handleKeep = useCallback(() => {
+        console.warn('[OpeningHand.handleKeep] STUB - engine not implemented');
+        setOpeningHandShown(false);
+    }, [setOpeningHandShown]);
+
+    // Don't render if not shown
+    if (!openingHandShown) return null;
+
+    return (
+        <Box
+            sx={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                bgcolor: 'rgba(0,0,0,0.8)',
+                zIndex: 2000,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
             }}
-            onMouseEnter={() => setHovered && setHovered(c)}
-            onMouseLeave={() => setHovered && setHovered(null)}
-          />
-        ))}
-      </Box>
-    </Paper>
-  );
+        >
+            <Paper
+                elevation={8}
+                sx={{
+                    p: 3,
+                    bgcolor: 'rgba(40,40,40,0.98)',
+                    color: 'white',
+                    borderRadius: 2,
+                    border: '2px solid #4caf50',
+                    maxWidth: '90vw'
+                }}
+            >
+                <Stack spacing={2} alignItems="center">
+                    <Typography variant="h6" fontWeight={700}>
+                        Opening Hand
+                    </Typography>
+
+                    <Typography variant="body2" sx={{ opacity: 0.7 }}>
+                        [STUB - Engine not implemented]
+                    </Typography>
+
+                    {/* Card display area */}
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 1.5,
+                            p: 2,
+                            bgcolor: 'rgba(0,0,0,0.3)',
+                            borderRadius: 1,
+                            minHeight: 180
+                        }}
+                    >
+                        {openingHand.length === 0 ? (
+                            <Typography sx={{ opacity: 0.5, alignSelf: 'center' }}>
+                                No cards to display
+                            </Typography>
+                        ) : (
+                            openingHand.map((card, idx) => (
+                                <Box key={idx} sx={{ flexShrink: 0 }}>
+                                    <img
+                                        src={card?.thumb || card?.full}
+                                        alt={card?.id}
+                                        style={{
+                                            width: CARD_W,
+                                            height: 'auto',
+                                            borderRadius: 4,
+                                            border: '2px solid #666'
+                                        }}
+                                        onMouseEnter={() => setHovered?.(card)}
+                                        onMouseLeave={() => setHovered?.(null)}
+                                    />
+                                </Box>
+                            ))
+                        )}
+                    </Box>
+
+                    {/* Action buttons */}
+                    <Stack direction="row" spacing={2}>
+                        <Button
+                            variant="outlined"
+                            onClick={handleMulligan}
+                            disabled={!allowMulligan}
+                            sx={{
+                                color: allowMulligan ? '#ff9800' : '#666',
+                                borderColor: allowMulligan ? '#ff9800' : '#666'
+                            }}
+                        >
+                            Mulligan
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={handleKeep}
+                            sx={{ bgcolor: '#4caf50' }}
+                        >
+                            Keep Hand
+                        </Button>
+                    </Stack>
+                </Stack>
+            </Paper>
+        </Box>
+    );
 });
 
 OpeningHand.displayName = 'OpeningHand';

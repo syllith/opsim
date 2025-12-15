@@ -1,13 +1,20 @@
 /**
- * useMultiplayer.js
+ * useMultiplayer.js - Network Layer for Multiplayer Games
  * 
- * Custom hook for managing multiplayer game state and Socket.io communication.
+ * PURPOSE: Socket.io connection management, lobby system, state synchronization.
+ * This is SEPARATE from game logic - it's a transport layer.
  * 
- * SERVER-AUTHORITATIVE ARCHITECTURE:
- * - Server is authoritative for ALL game state
+ * ARCHITECTURE:
+ * - Server is authoritative for ALL game state in multiplayer
  * - Both players send actions to the server
  * - Server validates / applies actions and broadcasts updated state
- * - Host/guest distinction is now UI-only (which side you see as "you")
+ * - Host/guest distinction is UI-only (which side you see as "you")
+ * 
+ * FUTURE: When engine is implemented:
+ * - Engine runs on server for multiplayer (or both clients with deterministic RNG)
+ * - This hook sends player actions to server: engine.actions.playCard(), etc.
+ * - Server broadcasts engine state changes to both clients
+ * - Clients update their local React state from server broadcasts
  */
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
