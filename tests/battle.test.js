@@ -8,7 +8,7 @@ import { conductBattle } from '../src/engine/core/battle.js';
 
 const { findInstance, createAndAdd } = zones;
 
-test('character vs character: attacker >= defender -> defender K.O.', () => {
+test('character vs character: attacker >= defender -> defender K.O.', async () => {
   const s = createInitialState({});
   // Create attacker as active with basePower 5000
   const attacker = createCardInstance('A', 'player', 'char', s);
@@ -22,7 +22,7 @@ test('character vs character: attacker >= defender -> defender K.O.', () => {
   defender.state = 'rested';
   s.players.opponent.char.push(defender);
 
-  const res = conductBattle(s, attacker.instanceId, defender.instanceId);
+  const res = await conductBattle(s, attacker.instanceId, defender.instanceId);
   assert.ok(res.success);
   assert.strictEqual(res.winner, 'attacker', 'attacker should win');
   // Defender should now be in opponent's trash
@@ -30,7 +30,7 @@ test('character vs character: attacker >= defender -> defender K.O.', () => {
   assert.ok(found && found.zone === 'trash', 'defender should be in trash after KO');
 });
 
-test('attacker vs leader: attacker >= leader -> leader takes 1 damage', () => {
+test('attacker vs leader: attacker >= leader -> leader takes 1 damage', async () => {
   const s = createInitialState({});
   // Create attacker
   const attacker = createCardInstance('Atk', 'player', 'char', s);
@@ -46,14 +46,14 @@ test('attacker vs leader: attacker >= leader -> leader takes 1 damage', () => {
   const life = createCardInstance('LC', 'opponent', 'life', s);
   s.players.opponent.life.push(life);
 
-  const res = conductBattle(s, attacker.instanceId, leader.instanceId);
+  const res = await conductBattle(s, attacker.instanceId, leader.instanceId);
   assert.ok(res.success);
   assert.strictEqual(res.winner, 'attacker', 'attacker should win');
   assert.ok(res.leaderDamage, 'leaderDamage result expected');
   assert.strictEqual(s.players.opponent.hand.length, 1, 'opponent should have drawn a life card to hand');
 });
 
-test('blocker blocks attack instead of leader', () => {
+test('blocker blocks attack instead of leader', async () => {
   const s = createInitialState({});
   // Attacker
   const attacker = createCardInstance('A', 'player', 'char', s);
@@ -75,7 +75,7 @@ test('blocker blocks attack instead of leader', () => {
   blocker.keywords = ['Blocker'];
   s.players.opponent.char.push(blocker);
 
-  const res = conductBattle(s, attacker.instanceId, leader.instanceId);
+  const res = await conductBattle(s, attacker.instanceId, leader.instanceId);
   assert.ok(res.success);
   // Since blocker had power 2000 < attacker 4000, attacker should win and blocker K.O.'d
   assert.strictEqual(res.winner, 'attacker');

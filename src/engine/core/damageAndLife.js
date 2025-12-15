@@ -1,33 +1,31 @@
 'use strict';
 /*
- * damageAndLife.js — Damage processing & Life handling
+ * damageAndLife.js — Damage processing & Life handling with Trigger support
  * =============================================================================
  *
  * PURPOSE
  *  - Provide core utilities for dealing damage to Leaders (via Life).
  *  - Implement the "damage processing" rule: move top Life cards to hand
- *    (allowing [Trigger] behavior in the future) and mark defeat if Leader
- *    takes damage when Life count == 0.
+ *    OR activate [Trigger] abilities when available.
+ *  - Support Banish keyword (trash life, no trigger allowed).
  *
  * KEY FUNCTIONS
- *  - dealDamageToLeader(gameState, side, count)
+ *  - dealDamageToLeader(gameState, side, count, options) - async
+ *  - executeLifeTrigger(gameState, lifeCard, context) - async
  *
  * NOTES / ASSUMPTIONS
  *  - side is 'player' or 'opponent' (the player whose leader is taking damage)
  *  - A Life card is represented as a CardInstance stored in gameState.players[side].life array.
- *    We treat index 0 as the "top of Life" for removal (consistent with earlier helpers).
- *  - When a Life card is removed from Life and added to the player's hand, if that Life card
- *    has a `hasTrigger` boolean property (developer-set), we set a marker `canActivateTrigger=true`
- *    on the returned object so future Trigger handling can inspect it. We do not resolve triggers here.
- *  - If side has 0 Life cards when damage is to be dealt, we set `gameState.defeat = { loser: side }`.
- *    This is a simplified defeat marker used by rule processing elsewhere.
- *  - This function mutates gameState in place.
- *
- * TODO
- *  - Implement replacement effects and trigger interrupts (suspend damage processing while Trigger resolves).
- *  - Wire defeat to rule-processing system instead of setting a raw field.
+ *  - When a life card has a trigger (hasTrigger=true or has Trigger keyword), the player
+ *    is prompted to choose: activate trigger OR add to hand.
+ *  - If Trigger is activated, the life card is typically trashed after resolution.
+ *  - If Banish is applied, life cards go to trash and cannot activate triggers.
  * =============================================================================
  */
+
+import engine from '../index.js';
+import interpreter from '../actions/interpreter.js';
+import evaluator from '../rules/evaluator.js';
 
 /**
  * Helper: popTopLife(gameState, side)
@@ -39,10 +37,6 @@ export function popTopLife(gameState, side) {
   const p = gameState.players[side];
   if (!Array.isArray(p.life) || p.life.length === 0) return null;
   const top = p.life.shift(); // remove first element as top
-  // Ensure zone metadata
-  if (top) {
-    top.zone = 'hand'; // we'll move it to hand
-  }
   return top;
 }
 
@@ -54,24 +48,136 @@ export function addCardToHand(gameState, side, cardInstance) {
   if (!gameState || !gameState.players || !gameState.players[side]) return false;
   const p = gameState.players[side];
   if (!Array.isArray(p.hand)) p.hand = [];
-  // Add to hand (bottom) — push
   p.hand.push(cardInstance);
-  // Update zone metadata
   if (cardInstance) cardInstance.zone = 'hand';
   return true;
 }
 
 /**
- * dealDamageToLeader(gameState, side, count)
- *
- * Process damage to the leader of 'side' by repeating the life-removal process
- * count times. If at the moment of dealing a damage point the side has 0 Life
- * cards, set gameState.defeat = { loser: side } and return.
- *
- * Returns:
- *  { success: true, moved: n, triggers: [ { instanceId, canActivateTrigger } ], defeat?: { loser } }
+ * addCardToTrash(gameState, side, cardInstance)
+ * Adds the card instance to the specified side's trash.
  */
-export function dealDamageToLeader(gameState, side, count = 1) {
+export function addCardToTrash(gameState, side, cardInstance) {
+  if (!gameState || !gameState.players || !gameState.players[side]) return false;
+  const p = gameState.players[side];
+  if (!Array.isArray(p.trash)) p.trash = [];
+  cardInstance.zone = 'trash';
+  p.trash.push(cardInstance);
+  return true;
+}
+
+/**
+ * Check if a life card has a trigger ability.
+ */
+function _hasLifeTrigger(lifeCard) {
+  if (!lifeCard) return false;
+  if (lifeCard.hasTrigger === true) return true;
+  if (Array.isArray(lifeCard.keywords) && lifeCard.keywords.includes('Trigger')) return true;
+  if (Array.isArray(lifeCard.abilities)) {
+    for (const ab of lifeCard.abilities) {
+      if (ab && (ab.timing === 'Trigger' || ab.timing === 'trigger' || ab.trigger === true)) {
+        return true;
+      }
+    }
+  }
+  try {
+    const meta = engine.getCardMeta(lifeCard.cardId);
+    if (meta) {
+      if (Array.isArray(meta.keywords) && meta.keywords.includes('Trigger')) return true;
+      if (Array.isArray(meta.abilities)) {
+        for (const ab of meta.abilities) {
+          if (ab && (ab.timing === 'Trigger' || ab.timing === 'trigger' || ab.trigger === true)) {
+            return true;
+          }
+        }
+      }
+    }
+  } catch (e) { /* ignore */ }
+  return false;
+}
+
+/**
+ * Get the trigger ability from a life card.
+ */
+function _getTriggerAbility(lifeCard) {
+  if (!lifeCard) return null;
+  if (Array.isArray(lifeCard.abilities)) {
+    for (let i = 0; i < lifeCard.abilities.length; i++) {
+      const ab = lifeCard.abilities[i];
+      if (ab && (ab.timing === 'Trigger' || ab.timing === 'trigger' || ab.trigger === true)) {
+        return { ability: ab, index: i };
+      }
+    }
+  }
+  try {
+    const meta = engine.getCardMeta(lifeCard.cardId);
+    if (meta && Array.isArray(meta.abilities)) {
+      for (let i = 0; i < meta.abilities.length; i++) {
+        const ab = meta.abilities[i];
+        if (ab && (ab.timing === 'Trigger' || ab.timing === 'trigger' || ab.trigger === true)) {
+          return { ability: ab, index: i };
+        }
+      }
+    }
+  } catch (e) { /* ignore */ }
+  return null;
+}
+
+/**
+ * executeLifeTrigger(gameState, lifeCard, context)
+ * Execute the [Trigger] ability of a life card via interpreter.
+ */
+export async function executeLifeTrigger(gameState, lifeCard, context = {}) {
+  if (!gameState || !lifeCard) {
+    return { success: false, error: 'missing gameState or lifeCard' };
+  }
+  const triggerInfo = _getTriggerAbility(lifeCard);
+  if (!triggerInfo) {
+    return { success: false, error: 'no trigger ability found on life card' };
+  }
+  const { ability, index: abilityIndex } = triggerInfo;
+  const side = context.activePlayer || lifeCard.owner;
+  const execContext = {
+    ...context,
+    thisCard: lifeCard,
+    triggerSource: lifeCard,
+    activePlayer: side,
+    owner: side
+  };
+  if (ability.actions && Array.isArray(ability.actions)) {
+    for (const action of ability.actions) {
+      try {
+        const res = await interpreter.executeAction(gameState, action, execContext);
+        if (!res.success) {
+          try { engine.emit('triggerActionError', { instanceId: lifeCard.instanceId, error: res.error }); } catch (_) {}
+        }
+      } catch (e) {
+        try { engine.emit('triggerActionError', { instanceId: lifeCard.instanceId, error: String(e) }); } catch (_) {}
+      }
+    }
+  } else if (ability.effect) {
+    try {
+      const res = await interpreter.executeAction(gameState, ability.effect, execContext);
+      if (!res.success) {
+        try { engine.emit('triggerActionError', { instanceId: lifeCard.instanceId, error: res.error }); } catch (_) {}
+      }
+    } catch (e) {
+      try { engine.emit('triggerActionError', { instanceId: lifeCard.instanceId, error: String(e) }); } catch (_) {}
+    }
+  }
+  try {
+    evaluator.markAbilityTriggered(gameState, lifeCard.instanceId, abilityIndex);
+  } catch (e) { /* ignore */ }
+  return { success: true, instanceId: lifeCard.instanceId, abilityIndex };
+}
+
+/**
+ * dealDamageToLeader(gameState, side, count, options)
+ * Process damage to the leader. Supports trigger prompts and Banish.
+ * @param {object} options - { banish: boolean, allowTriggers: boolean }
+ * @returns {Promise<object>}
+ */
+export async function dealDamageToLeader(gameState, side, count = 1, options = {}) {
   if (!gameState || !gameState.players || !gameState.players[side]) {
     return { success: false, error: 'invalid gameState or side' };
   }
@@ -79,47 +185,76 @@ export function dealDamageToLeader(gameState, side, count = 1) {
     return { success: false, error: 'count must be positive integer' };
   }
 
-  const result = {
-    success: true,
-    moved: 0,
-    triggers: []
-  };
+  const banish = options.banish === true;
+  const allowTriggers = options.allowTriggers !== false && !banish;
+
+  const result = { success: true, moved: 0, triggers: [], banished: 0 };
 
   for (let i = 0; i < count; i++) {
     const p = gameState.players[side];
-
-    // If the player currently has 0 Life cards -> defeat condition
     const lifeCount = Array.isArray(p.life) ? p.life.length : 0;
+    
     if (lifeCount === 0) {
-      // Defeat condition - set a simple flag on the gameState
       gameState.defeat = gameState.defeat || {};
       gameState.defeat.loser = side;
       result.defeat = { loser: side };
-      result.success = true;
-      // According to rules, the player meets defeat condition when their leader takes damage
-      // while having 0 life. We stop further damage processing here.
+      try {
+        engine.emit('event:defeat', { gameState: engine.getGameStateSnapshot(gameState), loser: side });
+      } catch (_) {}
       break;
     }
 
-    // Otherwise, move top life card to hand
     const lifeCard = popTopLife(gameState, side);
-    if (!lifeCard) {
-      // unexpected; treat as no-op but count as moved 0
+    if (!lifeCard) continue;
+
+    if (banish) {
+      addCardToTrash(gameState, side, lifeCard);
+      result.banished++;
+      result.triggers.push({ instanceId: lifeCard.instanceId, activated: false, banished: true, canActivateTrigger: false });
       continue;
     }
 
-    // If the life card has a trigger property, mark it in the result
-    const triggerInfo = {
-      instanceId: lifeCard.instanceId,
-      canActivateTrigger: !!lifeCard.hasTrigger
-    };
-
-    // Add to hand
-    addCardToHand(gameState, side, lifeCard);
-
-    result.moved += 1;
-    result.triggers.push(triggerInfo);
+    const hasTrigger = _hasLifeTrigger(lifeCard);
+    
+    if (hasTrigger && allowTriggers) {
+      lifeCard.zone = null;
+      const payload = {
+        gameState: engine.getGameStateSnapshot(gameState),
+        side,
+        lifeCard: {
+          instanceId: lifeCard.instanceId,
+          cardId: lifeCard.cardId,
+          printedName: lifeCard.printedName || lifeCard.cardId,
+          hasTrigger: true,
+          printedText: lifeCard.printedText || ''
+        }
+      };
+      const choice = await engine.prompt('lifeTrigger', payload);
+      
+      if (choice && choice.action === 'activate') {
+        result.triggers.push({ instanceId: lifeCard.instanceId, activated: true, canActivateTrigger: true });
+        await executeLifeTrigger(gameState, lifeCard, { activePlayer: side });
+        if (lifeCard.zone === null) {
+          addCardToTrash(gameState, side, lifeCard);
+        }
+        try {
+          engine.emit('event:triggerActivated', { gameState: engine.getGameStateSnapshot(gameState), side, instanceId: lifeCard.instanceId });
+        } catch (_) {}
+      } else {
+        addCardToHand(gameState, side, lifeCard);
+        result.moved++;
+        result.triggers.push({ instanceId: lifeCard.instanceId, activated: false, canActivateTrigger: true });
+      }
+    } else {
+      addCardToHand(gameState, side, lifeCard);
+      result.moved++;
+      result.triggers.push({ instanceId: lifeCard.instanceId, activated: false, canActivateTrigger: false });
+    }
   }
+  
+  try {
+    engine.emit('event:damage', { gameState: engine.getGameStateSnapshot(gameState), side, amount: count, triggers: result.triggers });
+  } catch (_) {}
 
   return result;
 }
@@ -127,5 +262,7 @@ export function dealDamageToLeader(gameState, side, count = 1) {
 export default {
   popTopLife,
   addCardToHand,
-  dealDamageToLeader
+  addCardToTrash,
+  dealDamageToLeader,
+  executeLifeTrigger
 };

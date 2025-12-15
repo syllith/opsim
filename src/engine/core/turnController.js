@@ -16,6 +16,7 @@
 import zones from './zones.js';
 import donManager from '../modifiers/donManager.js';
 import { findInstance } from './zones.js';
+import engine from '../index.js';
 
 const { moveToZone: _moveToZone } = zones;
 
@@ -228,8 +229,48 @@ export function startTurn(gameState, player, options = {}) {
   gameState.phase = 'Main';
   out.phase = 'Main';
 
+  // Emit turn start event
+  try {
+    engine.emit('event:phase:start', {
+      gameState: engine.getGameStateSnapshot(gameState),
+      phase: 'Main',
+      player,
+      turnNumber: out.turnNumber
+    });
+    engine.emit('state:update', {
+      gameState: engine.getGameStateSnapshot(gameState),
+      reason: 'turnStart'
+    });
+  } catch (_) {}
+
   if (out.errors.length > 0) out.success = false;
   return out;
+}
+
+/**
+ * endTurn(gameState, player)
+ * End the current player's turn. Emits phase:end event.
+ */
+export function endTurn(gameState, player) {
+  if (!gameState || !gameState.players || !gameState.players[player]) {
+    return { success: false, error: 'invalid gameState or player' };
+  }
+
+  // Emit turn end event
+  try {
+    engine.emit('event:phase:end', {
+      gameState: engine.getGameStateSnapshot(gameState),
+      phase: gameState.phase || 'Main',
+      player,
+      turnNumber: gameState.turnNumber
+    });
+    engine.emit('state:update', {
+      gameState: engine.getGameStateSnapshot(gameState),
+      reason: 'turnEnd'
+    });
+  } catch (_) {}
+
+  return { success: true, turnNumber: gameState.turnNumber };
 }
 
 /* Default export */
@@ -237,5 +278,6 @@ export default {
   refreshPhase,
   donPhase,
   drawPhase,
-  startTurn
+  startTurn,
+  endTurn
 };

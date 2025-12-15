@@ -160,18 +160,16 @@ export const checkReplacements = (gameState, eventName, eventPayload = {}) => {
 };
 
 /**
- * applyReplacement(gameState, replacementId, choice = 'accept')
+ * applyReplacement(gameState, replacementId, choice = 'accept', context = {})
  *
- * For now this function:
+ * Apply a replacement effect:
  *  - Locates the replacement
  *  - If choice === 'decline' returns { success: false, error: 'declined' }
  *  - Increments triggerCount and, if maxTriggers reached, removes the replacement
- *  - Returns { success: true, replacement, removed: boolean }
- *
- * Note: executing replacement.actions is not implemented here — that should be
- * done by the interpreter or caller if desired.
+ *  - If the replacement has actions, executes them via interpreter
+ *  - Returns { success: true, replacement, removed: boolean, actionResults: [] }
  */
-export const applyReplacement = (gameState, replacementId, choice = 'accept') => {
+export const applyReplacement = async (gameState, replacementId, choice = 'accept', context = {}) => {
   if (!gameState) return { success: false, error: 'missing gameState' };
   if (!replacementId) return { success: false, error: 'missing replacementId' };
 
@@ -203,7 +201,49 @@ export const applyReplacement = (gameState, replacementId, choice = 'accept') =>
     removed = true;
   }
 
-  return { success: true, replacement: eff, removed };
+  // Execute replacement actions if present
+  const actionResults = [];
+  if (eff.effects && eff.effects.actions && Array.isArray(eff.effects.actions)) {
+    // Dynamically import interpreter to avoid circular dependency
+    const interpreterModule = await import('../actions/interpreter.js');
+    const interpreter = interpreterModule.default || interpreterModule;
+    
+    const execContext = {
+      ...context,
+      replacementSource: eff.sourceInstanceId,
+      activePlayer: eff.ownerId || context.activePlayer
+    };
+    
+    for (const action of eff.effects.actions) {
+      try {
+        const res = await interpreter.executeAction(gameState, action, execContext);
+        actionResults.push({ action: action.type, ...res });
+      } catch (e) {
+        actionResults.push({ action: action.type, success: false, error: String(e) });
+      }
+    }
+  } else if (eff.actions && Array.isArray(eff.actions)) {
+    // Alternative structure: actions directly on eff
+    const interpreterModule = await import('../actions/interpreter.js');
+    const interpreter = interpreterModule.default || interpreterModule;
+    
+    const execContext = {
+      ...context,
+      replacementSource: eff.sourceInstanceId,
+      activePlayer: eff.ownerId || context.activePlayer
+    };
+    
+    for (const action of eff.actions) {
+      try {
+        const res = await interpreter.executeAction(gameState, action, execContext);
+        actionResults.push({ action: action.type, ...res });
+      } catch (e) {
+        actionResults.push({ action: action.type, success: false, error: String(e) });
+      }
+    }
+  }
+
+  return { success: true, replacement: eff, removed, actionResults };
 };
 
 /**

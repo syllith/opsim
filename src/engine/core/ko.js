@@ -16,6 +16,7 @@ import replacement from './replacement.js';
 import expressions from '../rules/expressions.js';
 import evaluator from '../rules/evaluator.js';
 import interpreter from '../actions/interpreter.js';
+import engine from '../index.js';
 
 const { findInstance, removeInstance } = zones;
 
@@ -239,6 +240,17 @@ export const ko = (gameState, instanceId, cause = 'effect') => {
   } catch (e) {
     // Ignore for now
   }
+
+  // Emit KO event for UI/logging
+  try {
+    engine.emit('event:ko', {
+      gameState: engine.getGameStateSnapshot(gameState),
+      instanceId: removed.instanceId,
+      owner,
+      cause,
+      movedDonCount
+    });
+  } catch (_) {}
 
   return {
     success: true,

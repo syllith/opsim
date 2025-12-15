@@ -26,14 +26,83 @@
 import EventEmitter from 'events';
 import { getCardInstanceById } from './core/gameState.js';
 import continuousEffects from './modifiers/continuousEffects.js';
+import cardLoader from './cardLoader.js';
 
 // Minimal event bus (EventEmitter)
 const eventBus = new EventEmitter();
 
+// Prompt handlers registry for request/response style prompts
+const promptHandlers = new Map();
+
+/**
+ * registerPromptHandler(name, handler)
+ * Register a handler for a prompt type. Handler signature: (payload) => Promise<response> or sync result.
+ * @param {string} name - The prompt name (e.g., 'lifeTrigger', 'blocker', 'counter', 'replacement')
+ * @param {function} handler - Handler function that receives payload and returns response
+ */
+export function registerPromptHandler(name, handler) {
+  if (typeof name !== 'string' || typeof handler !== 'function') {
+    throw new Error('registerPromptHandler requires a name string and handler function');
+  }
+  promptHandlers.set(name, handler);
+}
+
+/**
+ * unregisterPromptHandler(name)
+ * Remove a registered prompt handler.
+ * @param {string} name - The prompt name to unregister
+ */
+export function unregisterPromptHandler(name) {
+  promptHandlers.delete(name);
+}
+
+/**
+ * prompt(name, payload)
+ * Call a registered prompt handler and return its result as a Promise.
+ * If no handler is registered, returns a default safe resolution (null).
+ * This allows engine modules to pause and wait for UI response.
+ * 
+ * @param {string} name - The prompt type
+ * @param {object} payload - Data to pass to the handler
+ * @returns {Promise<any>} - The handler's response or null if no handler
+ */
+export function prompt(name, payload) {
+  const handler = promptHandlers.get(name);
+  if (!handler) {
+    // No handler registered - return default resolution
+    // Default behaviors:
+    // - lifeTrigger: addToHand (safer default)
+    // - blocker: null (no blocker, or first if available)
+    // - counter: empty arrays (no counters)
+    // - replacement: decline
+    return Promise.resolve(null);
+  }
+  try {
+    const result = handler(payload);
+    // Ensure we always return a Promise
+    if (result && typeof result.then === 'function') {
+      return result;
+    }
+    return Promise.resolve(result);
+  } catch (e) {
+    // Handler threw - return null as safe fallback
+    return Promise.resolve(null);
+  }
+}
+
+/**
+ * hasPromptHandler(name)
+ * Check if a prompt handler is registered.
+ * @param {string} name - The prompt name to check
+ * @returns {boolean}
+ */
+export function hasPromptHandler(name) {
+  return promptHandlers.has(name);
+}
+
 /**
  * getCardMeta(cardId)
- * Minimal card meta lookup. For now, we return a placeholder if cardId is null.
- * In future this should read from src/data/cards/ and cache results.
+ * Card meta lookup using cardLoader. Returns card metadata or a placeholder if not found.
  */
 export function getCardMeta(cardId) {
   if (!cardId) {
@@ -43,18 +112,43 @@ export function getCardMeta(cardId) {
       power: 0,
       cost: 0,
       keywords: [],
+      abilities: [],
       printedText: ''
     };
   }
-  // Placeholder: we do not read the actual JSON card database yet.
+  
+  // Try to get from cardLoader
+  const meta = cardLoader.getCardMeta(cardId);
+  if (meta) {
+    return meta;
+  }
+  
+  // Fallback: return placeholder for unknown cards
   return {
     cardId,
     cardName: cardId,
     power: 0,
     cost: 0,
     keywords: [],
+    abilities: [],
     printedText: ''
   };
+}
+
+/**
+ * loadCardData()
+ * Initialize card data loading. Call this at startup.
+ */
+export async function loadCardData() {
+  return cardLoader.loadCards();
+}
+
+/**
+ * isCardDataLoaded()
+ * Check if card data has been loaded.
+ */
+export function isCardDataLoaded() {
+  return cardLoader.isLoaded();
 }
 
 /**
@@ -145,7 +239,16 @@ export default {
   hasDisabledKeyword,
   getTotalPower,
   getGameStateSnapshot,
+  // Card data loading
+  loadCardData,
+  isCardDataLoaded,
+  // Event bus
   on,
   off,
-  emit
+  emit,
+  // Prompt API for interactive choice points
+  registerPromptHandler,
+  unregisterPromptHandler,
+  prompt,
+  hasPromptHandler
 };

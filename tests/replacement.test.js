@@ -43,7 +43,7 @@ test('checkReplacements finds matching replacements by instanceId', () => {
   assert.strictEqual(chk.effects[0].id, r.id);
 });
 
-test('applyReplacement increments triggerCount and removes when maxTriggers reached', () => {
+test('applyReplacement increments triggerCount and removes when maxTriggers reached', async () => {
   const s = createInitialState({});
   const eff = {
     event: 'wouldBeKO',
@@ -55,7 +55,7 @@ test('applyReplacement increments triggerCount and removes when maxTriggers reac
   const r = replacement.registerReplacement(s, eff);
   assert.ok(r.success);
   // apply it
-  const ares = replacement.applyReplacement(s, r.id, 'accept');
+  const ares = await replacement.applyReplacement(s, r.id, 'accept');
   assert.ok(ares.success, 'applyReplacement should succeed');
   // after applying, since maxTriggers == 1, it should be removed
   const active = replacement.getActiveReplacements(s);
