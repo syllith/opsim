@@ -1,202 +1,245 @@
 'use strict';
-// replacement.js — Replacement Effect System
-// =============================================================================
-// PURPOSE:
-// This module manages replacement effects that intercept and modify game events
-// before they occur. When an event "would" happen (e.g., "would be KO'd"),
-// replacement effects can substitute a different outcome.
-// =============================================================================
+/*
+ * replacement.js — Minimal Replacement Effect System
+ * =============================================================================
+ *
+ * This module implements a pragmatic replacement-effect system sufficient for
+ * early engine flows and tests. It intentionally avoids complex selector parsing
+ * or UI-driven cost prompts; instead it provides a clean API and sensible
+ * defaults that can be extended later.
+ *
+ * Key features implemented:
+ *  - registerReplacement(gameState, effect): add a replacement to gameState.activeReplacements
+ *  - checkReplacements(gameState, eventName, eventPayload): find applicable replacements
+ *  - applyReplacement(gameState, replacementId, choice): mark trigger / remove when exhausted
+ *  - expireReplacements(gameState, trigger): remove replacements by duration
+ *  - getActiveReplacements(gameState)
+ *
+ * Simplifying assumptions (for now):
+ *  - targetSelector is a lightweight object { instanceId?, owner?, any?:true }.
+ *  - Matching is done using instanceId equality or owner equality or 'any' fallback.
+ *  - No costs or player prompts are implemented yet.
+ *  - Precedence: results are returned in registration order. If the eventPayload
+ *    includes a generatorOwner, we bump effects owned by that generator first.
+ *
+ * This file is designed to be easy to reason about and extend as the engine
+ * grows: later we can plug in full selector evaluation (src/engine/rules/selector.js)
+ * and interpreter-driven execution of replacement actions.
+ * =============================================================================
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Register replacement effects with durations and triggers
-// - Check for applicable replacements when events would occur
-// - Handle replacement effect precedence (turn player first)
-// - Prevent infinite loops (same replacement can't apply twice to same event)
-// - Clean up expired replacement effects
-// - Track which replacements have been applied per event
+// Helper to ensure activeReplacements exists on gameState
+function _ensureActiveReplacements(gameState) {
+  if (!gameState) throw new TypeError('gameState required');
+  if (!Array.isArray(gameState.activeReplacements)) gameState.activeReplacements = [];
+}
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// registerReplacement(gameState, effect) -> GameState
-//   Adds a replacement effect to the active list.
-//   Effect: { event, target, duration, cost?, actions, maxTriggers? }
-//
-// checkReplacements(gameState, eventName, eventPayload) -> ReplacementResult
-//   Checks if any replacement effects apply to this event.
-//   Returns: { hasReplacement, effects[], gameState }
-//   Ordered by precedence (generator, then turn player, then non-turn player).
-//
-// applyReplacement(gameState, replacementId, choice) -> GameState
-//   Applies a specific replacement effect.
-//   If cost required and choice is 'decline', replacement doesn't apply.
-//   Marks this replacement as used for this event (no re-apply).
-//
-// expireReplacements(gameState, trigger) -> GameState
-//   Removes replacement effects that have expired.
-//   Trigger: 'turnEnd' | 'battleEnd' | 'phaseChange'
-//
-// getActiveReplacements(gameState) -> ReplacementEffect[]
-//   Returns all currently registered replacement effects.
+/**
+ * generateReplacementId(gameState)
+ * Mutates gameState to keep a monotonically increasing replacement id counter.
+ */
+function generateReplacementId(gameState) {
+  if (typeof gameState.nextReplacementId !== 'number') gameState.nextReplacementId = 1;
+  const id = `repl-${gameState.nextReplacementId}`;
+  gameState.nextReplacementId += 1;
+  return id;
+}
 
-// =============================================================================
-// REPLACEMENT EFFECT SCHEMA
-// =============================================================================
-// ReplacementEffect = {
-//   id: string,                       // Unique ID for this effect instance
-//   event: string,                    // Event name to listen for
-//   sourceInstanceId: string,         // Card that created this effect
-//   targetSelector: TargetSelector,   // What cards this applies to
-//   duration: Duration,               // How long it lasts
-//   cost: Cost | null,                // Optional cost to pay
-//   actions: Action[],                // Actions to execute instead
-//   maxTriggers: number | null,       // How many times it can trigger
-//   triggerCount: number,             // How many times it has triggered
-//   ownerId: 'player1' | 'player2'    // Who controls this effect
-// }
-//
-// COMMON EVENT NAMES:
-// - 'wouldBeKO': When a character would be KO'd
-// - 'wouldBeRemovedFromField': When a card would leave the field
-// - 'wouldTakeDamage': When a leader would take damage
-// - 'wouldBeTrashed': When a card would be trashed
-// - 'wouldDraw': When a player would draw
+/**
+ * normalizeEffect(effect)
+ * Ensure required fields and defaults.
+ */
+function normalizeEffect(effect) {
+  const e = Object.assign({}, effect);
+  if (!e.event) throw new Error('replacement effect must have event');
+  if (!e.duration) e.duration = 'permanent';
+  if (typeof e.triggerCount !== 'number') e.triggerCount = 0;
+  if (typeof e.maxTriggers === 'undefined') e.maxTriggers = null;
+  if (!e.ownerId && e.sourceOwner) e.ownerId = e.sourceOwner;
+  return e;
+}
 
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current GameState
-// - effect: ReplacementEffect to register
-// - eventName: string identifying the event type
-// - eventPayload: data about the event (target, cause, etc.)
-//
-// OUTPUTS:
-// - GameState with updated activeReplacements list
-// - ReplacementResult for checking applicable effects
-//
-// STATE:
-// - gameState.activeReplacements: Array of ReplacementEffect
-// - Per-event tracking to prevent re-application
-
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/actions/replacementEffectAction.js: registering effects
-// - src/engine/core/ko.js: checking 'wouldBeKO' before KO
-// - src/engine/core/damageAndLife.js: checking 'wouldTakeDamage'
-// - src/engine/actions/moveCard.js: checking 'wouldLeaveField'
-// - src/engine/core/turnController.js: expiring effects at turn end
-//
-// DEPENDS ON:
-// - src/engine/rules/selector.js: evaluate target selectors
-// - src/engine/actions/interpreter.js: execute replacement actions
-// - src/engine/core/gameState.js: cloneState
-
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// PRECEDENCE RULES (in order):
-// 1. The player who generated the effect chooses first
-// 2. If same generator: Turn player's effects first
-// 3. If same player: Choose in registration order (FIFO)
-//
-// ANTI-LOOP PROTECTION:
-// Once a replacement effect has been applied to an event instance,
-// it cannot apply again. Track this via event instance IDs:
-// - Each event gets a unique eventInstanceId when it starts
-// - Track appliedReplacements as Set<string> per event
-// - Clear tracking when event completes
-//
-// COST HANDLING:
-// If a replacement has a cost:
-// 1. Check if player CAN pay the cost
-// 2. If not, skip this replacement
-// 3. If yes, ask player if they WANT to pay
-// 4. If declined, skip this replacement
-// 5. If accepted, pay cost then execute actions
-//
-// MAX TRIGGERS:
-// Some replacements can only be used a certain number of times per game/turn.
-// Track triggerCount and compare to maxTriggers.
-// When triggerCount >= maxTriggers, the effect is "exhausted" and removed.
-//
-// DURATION EXPIRY:
-// - 'thisTurn': Remove at end of turn
-// - 'thisBattle': Remove when battle ends
-// - 'untilStartOfYourNextTurn': Remove at your next refresh phase
-// - 'permanent': Never auto-remove (removed when source leaves play)
-
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: registerReplacement adds to activeReplacements
-//   Input: Register a 'wouldBeKO' replacement
-//   Expected: gameState.activeReplacements includes the effect
-//
-// TEST: checkReplacements finds matching effects
-//   Input: 'wouldBeKO' event for character with prevention registered
-//   Expected: Returns { hasReplacement: true, effects: [...] }
-//
-// TEST: checkReplacements respects target selector
-//   Input: Replacement targets only "self" characters, event is for opponent
-//   Expected: No matching replacements
-//
-// TEST: applyReplacement marks as used
-//   Input: Apply replacement, then check same event again
-//   Expected: Same replacement not in results (already applied)
-//
-// TEST: expireReplacements removes ended effects
-//   Input: 'thisTurn' duration replacement, call expireReplacements('turnEnd')
-//   Expected: Replacement removed from activeReplacements
-//
-// TEST: precedence ordering is correct
-//   Input: Two replacements, one from turn player, one from non-turn player
-//   Expected: Turn player's replacement appears first in results
-
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Define ReplacementEffect shape and ID generation
-// [ ] 2. Implement registerReplacement
-// [ ] 3. Implement checkReplacements with selector evaluation
-// [ ] 4. Implement precedence sorting
-// [ ] 5. Implement applyReplacement with cost handling
-// [ ] 6. Implement anti-loop tracking per event
-// [ ] 7. Implement expireReplacements by duration
-// [ ] 8. Implement maxTriggers tracking
-// [ ] 9. Handle source-leaves-play cleanup
-// [ ] 10. Add comprehensive logging
-
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
-
+/**
+ * registerReplacement(gameState, effect)
+ * Adds the effect to gameState.activeReplacements and returns { success, id }.
+ */
 export const registerReplacement = (gameState, effect) => {
-  // TODO: Add effect to activeReplacements
-  return { success: false, error: 'Not implemented' };
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  if (!effect || typeof effect !== 'object') return { success: false, error: 'invalid effect' };
+
+  _ensureActiveReplacements(gameState);
+
+  let e;
+  try {
+    e = normalizeEffect(effect);
+  } catch (err) {
+    return { success: false, error: String(err) };
+  }
+
+  if (!e.id) {
+    e.id = generateReplacementId(gameState);
+  }
+  if (!e.sourceInstanceId && e.source) e.sourceInstanceId = e.source;
+  if (!e.targetSelector) e.targetSelector = { any: true };
+
+  // track registration time for stable ordering
+  e._registeredAt = Date.now();
+
+  // ensure triggerCount numeric
+  if (typeof e.triggerCount !== 'number') e.triggerCount = 0;
+
+  gameState.activeReplacements.push(e);
+  return { success: true, id: e.id, effect: e };
 };
 
-export const checkReplacements = (gameState, eventName, eventPayload) => {
-  // TODO: Find applicable replacements, sort by precedence
-  return { hasReplacement: false, effects: [], gameState };
+/**
+ * _matchesTarget(effect, eventPayload)
+ * Minimal target-matching:
+ * - If effect.targetSelector.instanceId exists: match eventPayload.targetInstanceId
+ * - Else if effect.targetSelector.owner exists: match eventPayload.owner or targetOwner
+ * - Else if targetSelector.any === true => match anything
+ */
+function _matchesTarget(effect, eventPayload = {}) {
+  const sel = effect.targetSelector || {};
+  // instanceId match
+  if (sel.instanceId) {
+    return eventPayload && eventPayload.targetInstanceId && sel.instanceId === eventPayload.targetInstanceId;
+  }
+  // owner match: eventPayload.owner or eventPayload.targetOwner
+  if (sel.owner) {
+    const ownerField = eventPayload.owner || eventPayload.targetOwner || eventPayload.targetOwnerId;
+    return ownerField === sel.owner;
+  }
+  // any
+  if (sel.any) return true;
+  // fallback: no selector -> treat as any
+  return true;
+}
+
+/**
+ * checkReplacements(gameState, eventName, eventPayload = {})
+ *
+ * Returns:
+ *   { hasReplacement: boolean, effects: ReplacementEffect[], gameState }
+ *
+ * Effects are returned in registration order; if eventPayload.generatorOwner is present,
+ * effects owned by that generator are moved to the front (simple precedence).
+ */
+export const checkReplacements = (gameState, eventName, eventPayload = {}) => {
+  if (!gameState) return { hasReplacement: false, effects: [], gameState };
+
+  _ensureActiveReplacements(gameState);
+
+  const candidates = [];
+  for (const eff of gameState.activeReplacements) {
+    if (!eff) continue;
+    if (eff.event !== eventName) continue;
+    // skip exhausted effects
+    if (eff.maxTriggers !== null && typeof eff.maxTriggers === 'number' && eff.triggerCount >= eff.maxTriggers) continue;
+    if (_matchesTarget(eff, eventPayload)) {
+      candidates.push(eff);
+    }
+  }
+
+  // Precedence: if generatorOwner provided, bring its effects first
+  const generatorOwner = eventPayload && eventPayload.generatorOwner;
+  if (generatorOwner) {
+    candidates.sort((a, b) => {
+      const aIsGen = a.ownerId === generatorOwner ? 0 : 1;
+      const bIsGen = b.ownerId === generatorOwner ? 0 : 1;
+      if (aIsGen !== bIsGen) return aIsGen - bIsGen;
+      // else registration order (by _registeredAt)
+      return (a._registeredAt || 0) - (b._registeredAt || 0);
+    });
+  } else {
+    // sort by registration time to ensure stable order
+    candidates.sort((a, b) => (a._registeredAt || 0) - (b._registeredAt || 0));
+  }
+
+  return { hasReplacement: candidates.length > 0, effects: candidates.slice(), gameState };
 };
 
+/**
+ * applyReplacement(gameState, replacementId, choice = 'accept')
+ *
+ * For now this function:
+ *  - Locates the replacement
+ *  - If choice === 'decline' returns { success: false, error: 'declined' }
+ *  - Increments triggerCount and, if maxTriggers reached, removes the replacement
+ *  - Returns { success: true, replacement, removed: boolean }
+ *
+ * Note: executing replacement.actions is not implemented here — that should be
+ * done by the interpreter or caller if desired.
+ */
 export const applyReplacement = (gameState, replacementId, choice = 'accept') => {
-  // TODO: Execute replacement, track usage
-  return { success: false, error: 'Not implemented' };
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  if (!replacementId) return { success: false, error: 'missing replacementId' };
+
+  _ensureActiveReplacements(gameState);
+
+  const idx = gameState.activeReplacements.findIndex(r => r && r.id === replacementId);
+  if (idx === -1) return { success: false, error: 'replacement not found' };
+
+  const eff = gameState.activeReplacements[idx];
+
+  if (choice === 'decline') {
+    return { success: false, error: 'declined' };
+  }
+
+  // If maxTriggers set and exhausted, cannot apply
+  if (eff.maxTriggers !== null && typeof eff.maxTriggers === 'number' && eff.triggerCount >= eff.maxTriggers) {
+    // Remove if exhausted
+    gameState.activeReplacements.splice(idx, 1);
+    return { success: false, error: 'replacement exhausted and removed' };
+  }
+
+  // Increment trigger count
+  eff.triggerCount = (eff.triggerCount || 0) + 1;
+
+  // If we've reached maxTriggers, remove the effect
+  let removed = false;
+  if (eff.maxTriggers !== null && typeof eff.maxTriggers === 'number' && eff.triggerCount >= eff.maxTriggers) {
+    gameState.activeReplacements.splice(idx, 1);
+    removed = true;
+  }
+
+  return { success: true, replacement: eff, removed };
 };
 
+/**
+ * expireReplacements(gameState, trigger)
+ *
+ * Removes replacements whose duration maps to the supplied trigger.
+ * Mapping:
+ *  - trigger === 'turnEnd' removes duration 'thisTurn'
+ *  - trigger === 'battleEnd' removes 'thisBattle'
+ *  - any exact match removes effects with same duration
+ *
+ * Returns: { success: true, removed: number }
+ */
 export const expireReplacements = (gameState, trigger) => {
-  // TODO: Remove expired replacements based on trigger
-  return gameState;
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  _ensureActiveReplacements(gameState);
+  const before = gameState.activeReplacements.length;
+
+  gameState.activeReplacements = gameState.activeReplacements.filter(eff => {
+    if (!eff || !eff.duration) return true;
+    if (trigger === 'turnEnd' && eff.duration === 'thisTurn') return false;
+    if (trigger === 'battleEnd' && eff.duration === 'thisBattle') return false;
+    if (trigger === eff.duration) return false;
+    return true;
+  });
+
+  const after = gameState.activeReplacements.length;
+  return { success: true, removed: before - after };
 };
 
+/**
+ * getActiveReplacements(gameState)
+ */
 export const getActiveReplacements = (gameState) => {
-  return gameState?.activeReplacements || [];
+  _ensureActiveReplacements(gameState);
+  return gameState.activeReplacements;
 };
 
 export default {

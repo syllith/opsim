@@ -1,190 +1,154 @@
 'use strict';
-// ko.js — KO Processing System
-// =============================================================================
-// PURPOSE:
-// This module handles KO (knockout) processing for characters. When a character
-// is KO'd, it moves to trash and triggers related abilities. The module
-// coordinates with replacement effects that can prevent or modify KO.
-// =============================================================================
+/*
+ * ko.js — KO Processing System (basic implementation)
+ * =============================================================================
+ * PURPOSE:
+ *  - Implement a conservative KO flow useful for battle and effect-driven KOs.
+ *  - This implementation focuses on correctness for the common flow:
+ *      * detach DONs
+ *      * remove modifiers
+ *      * move to trash
+ *      * trigger post-KO hooks (placeholder)
+ *
+ *  - More advanced behavior (replacement checks, trigger interrupts, immunity checks)
+ *    are stubbed or simplified for now.
+ * =============================================================================
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Process KO requests (from battle or effects)
-// - Check for replacement effects before KO occurs
-// - Execute [On KO] and [When KO'd] abilities
-// - Move KO'd cards to trash
-// - Handle "would be KO'd" replacement flow
-// - Track KO cause (battle vs effect) for conditional effects
+import zones from './zones.js';
+import donManager from '../modifiers/donManager.js';
+import continuousEffects from '../modifiers/continuousEffects.js';
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// ko(gameState, instanceId, cause) -> GameState
-//   KOs a character, moving it to trash.
-//   cause: 'battle' | 'effect'
-//   Checks replacements first, triggers abilities, then trashes.
-//
-// wouldBeKO(gameState, instanceId, cause) -> ReplacementCheckResult
-//   Checks if the KO would be replaced/prevented.
-//   Returns info about applicable replacement effects.
-//   Used to query before committing to KO.
-//
-// processKOAbilities(gameState, koedCardId, cause) -> GameState
-//   Triggers all [On KO] and [When KO'd] abilities.
-//   The card is already in trash at this point.
-//
-// canBeKOd(gameState, instanceId) -> boolean
-//   Checks if a card can currently be KO'd.
-//   (Some effects make cards immune to KO.)
+const { findInstance, removeInstance } = zones;
 
-// =============================================================================
-// KO FLOW
-// =============================================================================
-// 1. Something requests KO (battle loss, effect, etc.)
-// 2. Call wouldBeKO to check for replacements
-// 3. If replacement exists and player wants to use it:
-//    a. Pay replacement cost if any
-//    b. Execute replacement actions
-//    c. KO is prevented/replaced
-// 4. If no replacement or declined:
-//    a. Detach all DON (return to owner's cost area)
-//    b. Clear all modifiers
-//    c. Move card to trash
-//    d. Trigger [On KO] abilities (on the dying card)
-//    e. Trigger [When a Character is KO'd] abilities (on other cards)
-
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current GameState
-// - instanceId: card being KO'd
-// - cause: 'battle' | 'effect' for conditional effects
-//
-// OUTPUTS:
-// - GameState after KO processing
-// - ReplacementCheckResult for wouldBeKO queries
-// - boolean for canBeKOd queries
-//
-// KO TRACKING:
-// Some effects care about how many characters were KO'd.
-// Track in gameState.turnKOCount or similar.
-
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/core/battle.js: when character loses battle
-// - src/engine/actions/koAction.js: effect-based KO
-// - src/engine/actions/interpreter.js: ActionKO processing
-//
-// DEPENDS ON:
-// - src/engine/core/gameState.js: cloneState
-// - src/engine/core/zones.js: moveToZone (to trash)
-// - src/engine/core/replacement.js: checkReplacements for 'wouldBeKO'
-// - src/engine/modifiers/donManager.js: detach DON on KO
-// - src/engine/modifiers/continuousEffects.js: clean up modifiers
-// - src/engine/rules/evaluator.js: trigger abilities
-//
-// EVENTS EMITTED:
-// - 'characterKOd': { instanceId, cardId, cause, ownerId }
-
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// BATTLE VS EFFECT KO:
-// The 'cause' distinguishes how the KO happened:
-// - 'battle': Character lost in combat (power comparison)
-// - 'effect': Card effect KO'd the character
-// Some replacement effects only work for one type.
-// Example: "This character cannot be KO'd by effects"
-//
-// DON ON KO:
-// When a character with attached DON is KO'd:
-// - All DON returns to the owner's cost area
-// - DON returns in rested state
-// - This happens BEFORE the card moves to trash
-//
-// MODIFIER CLEANUP:
-// Before moving to trash:
-// - Remove all continuous effects targeting this instance
-// - The new instance in trash has no modifiers
-// - Effects that reference the old instanceId become invalid
-//
-// ABILITY TIMING:
-// [On KO] abilities on the dying card trigger AFTER it's in trash.
-// The ability sees the card in trash (can target it for effects).
-// [When a Character is KO'd] on OTHER cards also triggers now.
-//
-// CANNOT BE KO'D:
-// Some effects grant immunity to KO.
-// Check this before even asking about replacements.
-// If immune, KO simply fails (returns unchanged state).
-
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: ko moves character to trash
-//   Input: KO a character on field
-//   Expected: Character no longer in characters zone, now in trash
-//
-// TEST: ko detaches DON first
-//   Input: Character with 2 DON attached
-//   Expected: 2 DON in owner's cost area (rested), character in trash
-//
-// TEST: wouldBeKO finds replacement effects
-//   Input: Character has preventKO replacement registered
-//   Expected: Returns { hasReplacement: true, ... }
-//
-// TEST: ko triggers onKO ability
-//   Input: Character with [On KO] ability is KO'd
-//   Expected: Ability executes after card in trash
-//
-// TEST: battle vs effect cause tracked correctly
-//   Input: KO with cause='battle'
-//   Expected: Event payload and ability checks receive 'battle' cause
-//
-// TEST: canBeKOd returns false for immune cards
-//   Input: Character with KO immunity effect
-//   Expected: canBeKOd returns false
-
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Implement canBeKOd immunity check
-// [ ] 2. Implement wouldBeKO with replacement checking
-// [ ] 3. Implement ko main flow
-// [ ] 4. Handle DON detachment before move
-// [ ] 5. Implement processKOAbilities
-// [ ] 6. Integrate with zones.js for trash move
-// [ ] 7. Trigger [When Character KO'd] on other cards
-// [ ] 8. Track KO count for turn (if needed)
-// [ ] 9. Emit 'characterKOd' event
-// [ ] 10. Handle edge cases (KO during other abilities)
-
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
-
-export const ko = (gameState, instanceId, cause = 'effect') => {
-  // TODO: Process KO with replacements and abilities
-  return { success: false, error: 'Not implemented' };
+/**
+ * canBeKOd(gameState, instanceId)
+ * Placeholder that returns true unless an immunity modifier exists (not implemented).
+ */
+export const canBeKOd = (gameState, instanceId) => {
+  // TODO: Check for KO-immunity continuous effects / permanent effects
+  return true;
 };
 
+/**
+ * wouldBeKO(gameState, instanceId, cause)
+ * Placeholder: checks for replacement effects. Currently we don't have replacement
+ * effects implemented here, so always return no replacement available.
+ */
 export const wouldBeKO = (gameState, instanceId, cause = 'effect') => {
-  // TODO: Check for replacement effects
-  return { hasReplacement: false, effects: [], canBeKOd: true };
+  // TODO: integrate with replacement effect system
+  return { hasReplacement: false, effects: [], canBeKOd: canBeKOd(gameState, instanceId) };
 };
 
-export const processKOAbilities = (gameState, koedCardId, cause) => {
-  // TODO: Trigger KO-related abilities
+/**
+ * processKOAbilities(gameState, koedCardId, cause)
+ * Placeholder that triggers [On K.O.] or other KO-related abilities.
+ * For now this is a no-op. Real implementation should evaluate abilities and
+ * schedule/resolve them in the proper timing window.
+ */
+export const processKOAbilities = (gameState, koedCardId, cause = 'effect') => {
+  // TODO: Evaluate abilities on the trashed card and on other cards that react
   return gameState;
 };
 
-export const canBeKOd = (gameState, instanceId) => {
-  // TODO: Check for KO immunity
-  return true;
+/**
+ * ko(gameState, instanceId, cause)
+ *
+ * Main KO processing flow (conservative):
+ * 1. Validate target exists and is a Character on field
+ * 2. Check canBeKOd
+ * 3. Check wouldBeKO (replacements) — if replacement present, return info
+ * 4. Detach DONs: return any attached DONs to owner's costArea (rested)
+ * 5. Remove continuous modifiers targeting instance
+ * 6. Remove instance from field and move to owner's trash
+ * 7. Call processKOAbilities
+ */
+export const ko = (gameState, instanceId, cause = 'effect') => {
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  if (!instanceId) return { success: false, error: 'missing instanceId' };
+
+  // Find instance on field
+  const loc = findInstance(gameState, instanceId);
+  if (!loc || !loc.instance) return { success: false, error: 'instance not found on field' };
+
+  const { instance, zone, owner } = loc;
+
+  // Only characters on the field should be KO'd by this flow (leaders handled elsewhere)
+  if (zone !== 'char' && zone !== 'attached') {
+    return { success: false, error: `instance ${instanceId} in zone ${zone} cannot be KO'd by ko()` };
+  }
+
+  // Check canBeKOd
+  if (!canBeKOd(gameState, instanceId)) {
+    return { success: false, error: 'instance is currently immune to KO' };
+  }
+
+  // Check replacement effects (TODO)
+  const rep = wouldBeKO(gameState, instanceId, cause);
+  if (rep && rep.hasReplacement) {
+    return { success: false, replaced: true, replacements: rep.effects };
+  }
+
+  // 1) Detach all: if attachedDons exists, return them
+  let movedDonCount = 0;
+  try {
+    if (Array.isArray(instance.attachedDons) && instance.attachedDons.length > 0) {
+      const toReturn = instance.attachedDons.length;
+      const ret = donManager.returnDonFromCard(gameState, instanceId, toReturn);
+      if (ret && ret.success) {
+        movedDonCount = ret.moved || 0;
+        // mark returned dons as rested (returnDonFromCard already sets don.zone and placed)
+        if (Array.isArray(ret.returnedDonIds)) {
+          for (const id of ret.returnedDonIds) {
+            const rloc = findInstance(gameState, id);
+            if (rloc && rloc.instance) rloc.instance.state = 'rested';
+          }
+        }
+      }
+    }
+  } catch (e) {
+    // non-fatal — continue with KO but record info
+    // console.warn('Error returning DONs during KO:', e);
+  }
+
+  // 2) Remove modifiers that target this instance
+  try {
+    continuousEffects.removeModifiersForInstance(gameState, instanceId);
+  } catch (e) {
+    // non-fatal
+  }
+
+  // 3) Move the instance to trash
+  // removeInstance returns the removed instance object
+  const removed = removeInstance(gameState, instanceId);
+  if (!removed) {
+    return { success: false, error: 'failed to remove instance from field' };
+  }
+
+  // Ensure trash exists
+  if (!gameState.players || !gameState.players[owner]) {
+    return { success: false, error: `owner ${owner} not found` };
+  }
+  const ownerObj = gameState.players[owner];
+  if (!Array.isArray(ownerObj.trash)) ownerObj.trash = [];
+
+  // Set zone and push to trash
+  removed.zone = 'trash';
+  ownerObj.trash.push(removed);
+
+  // 4) Process KO abilities (placeholder)
+  try {
+    processKOAbilities(gameState, removed.instanceId, cause);
+  } catch (e) {
+    // Ignore for now
+  }
+
+  return {
+    success: true,
+    instanceId: removed.instanceId,
+    owner,
+    movedDonCount
+  };
 };
 
 export default {
