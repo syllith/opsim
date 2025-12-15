@@ -1,274 +1,314 @@
 'use strict';
-// gameState.js — Core Game State Management
-// =============================================================================
-// PURPOSE:
-// This module defines the canonical GameState structure and provides functions
-// to create, clone, and query game state. GameState is the single source of
-// truth for all game information at any point in time. All mutations go through
-// actions that produce new state snapshots.
-// =============================================================================
+/*
+ * gameState.js — Minimal GameState implementation & helpers
+ * =============================================================================
+ * PURPOSE
+ *  - Provide a minimal but well-specified canonical GameState shape used by the
+ *    engine during implementation.
+ *  - Provide utilities to create initial state, clone state immutably for
+ *    functional-style mutations, and generate unique instance IDs for card
+ *    instances placed in zones.
+ *
+ * RESPONSIBILITIES
+ *  - createInitialState(options): returns a new GameState with players and zones.
+ *  - cloneState(gameState): deep clone for safe immutability semantics (JSON-safe).
+ *  - generateInstanceId(gameState): produce globally unique instance id (mutates nextInstanceId).
+ *  - createCardInstance(cardId, owner, zone, gameState): helper to create an instance object.
+ *  - getCardInstanceById(gameState, instanceId): find instance and its location.
+ *  - findInstancesByCardId(gameState, cardId): find instances matching printed card id.
+ *
+ * GAMESTATE SHAPE (basic)
+ *  {
+ *    nextInstanceId: number,
+ *    turnNumber: number,
+ *    phase: string,
+ *    players: {
+ *      player: {
+ *         id: 'player',
+ *         leader: null | CardInstance,
+ *         deck: CardInstance[],
+ *         donDeck: CardInstance[], // DON objects or placeholders
+ *         hand: CardInstance[],
+ *         trash: CardInstance[],
+ *         char: CardInstance[],
+ *         stage: null | CardInstance,
+ *         costArea: CardInstance[], // DONs parked in cost area as objects
+ *         life: CardInstance[] // life cards (face-down or face-up metadata)
+ *      },
+ *      opponent: { ... }
+ *    },
+ *    continuousEffects: [], // placeholder
+ *    // ... other engine-managed metadata
+ *  }
+ *
+ * CardInstance = {
+ *   instanceId: 'i-1',
+ *   cardId: 'OP01-001', // printed id
+ *   owner: 'player' | 'opponent',
+ *   zone: 'deck' | 'hand' | 'char' | 'stage' | 'leader' | 'trash' | 'life' | 'donDeck' | 'costArea',
+ *   faceUp: boolean, // optional
+ *   givenDon: number, // optional - number of DONs attached
+ *   // additional runtime fields can be added by engine modules
+ * }
+ *
+ * NOTES:
+ *  - This is a minimal, testable foundation. Later modules will extend state.
+ *  - cloneState uses JSON round-trip to deep copy; this assumes no functions/BigInt in state.
+ *
+ * TODO:
+ *  - Consider structuredClone for richer types.
+ *  - Add helper indexing for quick lookup (instanceIndex) for performance.
+ * =============================================================================
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Define the GameState schema/shape that all modules use
-// - Provide createInitialState() to set up a new game
-// - Provide cloneState() for immutable-style updates
-// - Provide getCardInstance() to look up cards by instanceId
-// - Provide getCardsByZone() to query cards in specific zones
-// - Track instance IDs and generate new ones when cards change zones
-// - Manage the "used abilities" tracking for once-per-turn effects
+function defaultPlayerTemplate() {
+  return {
+    id: null,
+    leader: null,
+    deck: [],
+    donDeck: [],
+    hand: [],
+    trash: [],
+    char: [],
+    stage: null,
+    costArea: [],
+    life: []
+  };
+}
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// createInitialState(player1Deck, player2Deck, options) -> GameState
-//   Creates a fresh game state from two deck definitions.
-//   Options: { startingPlayer: 'player1'|'player2', seed?: number }
-//   Returns: A fully initialized GameState ready for play.
-//
-// cloneState(gameState) -> GameState
-//   Returns a deep clone of the game state. Used before mutations
-//   to preserve immutability semantics.
-//
-// getCardInstance(gameState, instanceId) -> CardInstance | null
-//   Finds a card instance anywhere in the game by its unique instanceId.
-//   Returns null if not found (card may have left play).
-//
-// getCardsByZone(gameState, side, zone) -> CardInstance[]
-//   Returns all cards in a specific zone for a side.
-//   side: 'player1' | 'player2'
-//   zone: 'leader' | 'characters' | 'hand' | 'deck' | 'trash' | 'life' | 'donDeck' | 'costArea' | 'stage'
-//
-// generateInstanceId(gameState) -> { newId: string, newState: GameState }
-//   Generates a new unique instance ID and increments the counter in state.
-//
-// markAbilityUsed(gameState, instanceId, abilityIndex) -> GameState
-//   Records that a specific ability on a card has been used this turn/game.
-//
-// resetTurnAbilities(gameState) -> GameState
-//   Called at end of turn to reset once-per-turn ability tracking.
+/**
+ * generateInstanceId(gameState) -> string
+ * Mutates gameState.nextInstanceId by incrementing it and returns id string 'i-N'.
+ */
+export function generateInstanceId(gameState) {
+  if (!gameState || typeof gameState !== 'object') {
+    throw new TypeError('generateInstanceId requires a gameState object');
+  }
+  if (typeof gameState.nextInstanceId !== 'number') {
+    gameState.nextInstanceId = 1;
+  }
+  const id = `i-${gameState.nextInstanceId}`;
+  gameState.nextInstanceId += 1;
+  return id;
+}
 
-// =============================================================================
-// GAMESTATE SCHEMA
-// =============================================================================
-// GameState = {
-//   // Meta
-//   gameId: string,
-//   turn: number,                    // Current turn number (1-indexed)
-//   phase: string,                   // 'refresh' | 'draw' | 'don' | 'main' | 'end' | 'battle'
-//   activePlayer: 'player1' | 'player2',
-//   priority: 'player1' | 'player2', // Who can act right now
-//   
-//   // Instance ID counter
-//   nextInstanceId: number,
-//   
-//   // Player states
-//   player1: PlayerState,
-//   player2: PlayerState,
-//   
-//   // Global tracking
-//   usedAbilities: Map<string, Set<number>>, // instanceId -> set of used ability indices
-//   turnUsedAbilities: Map<string, Set<number>>, // Reset each turn
-//   activeReplacements: ReplacementEffect[], // Currently registered replacement effects
-//   continuousEffects: ContinuousEffect[], // Active stat/keyword modifiers
-//   
-//   // Battle state (null if not in battle)
-//   battle: BattleState | null,
-//   
-//   // RNG state for deterministic replays
-//   rngState: RngState,
-//   
-//   // Game log
-//   log: LogEntry[]
-// }
-//
-// PlayerState = {
-//   leader: CardInstance | null,     // The leader card
-//   characters: CardInstance[],      // Characters on field (max 5)
-//   stage: CardInstance | null,      // Stage card if any
-//   hand: CardInstance[],            // Cards in hand
-//   deck: CardInstance[],            // Draw deck (top = index 0)
-//   trash: CardInstance[],           // Discard pile
-//   life: CardInstance[],            // Life cards (top = index 0)
-//   donDeck: CardInstance[],         // DON!! deck
-//   costArea: CardInstance[],        // Active/rested DON for costs
-// }
-//
-// CardInstance = {
-//   instanceId: string,              // Unique ID for this instance
-//   cardId: string,                  // Database card ID (e.g., "OP01-001")
-//   ownerId: 'player1' | 'player2',  // Who owns this card
-//   state: 'active' | 'rested',      // Tap state
-//   attachedDon: CardInstance[],     // DON attached to this card
-//   faceUp: boolean,                 // Visibility (mainly for life)
-//   zone: string,                    // Current zone name
-//   // Runtime computed (not stored, computed on access):
-//   // - currentPower, currentKeywords, etc.
-// }
+/**
+ * createCardInstance(cardId, owner, zone, gameState, opts)
+ * Creates and returns a CardInstance object with a fresh instanceId.
+ * Mutates gameState.nextInstanceId via generateInstanceId.
+ *
+ * opts: { faceUp: boolean, givenDon: number }
+ */
+export function createCardInstance(cardId, owner = 'player', zone = 'deck', gameState = null, opts = {}) {
+  const instance = {
+    instanceId: (gameState && typeof gameState === 'object') ? generateInstanceId(gameState) : `i-temp-${Math.floor(Math.random()*1e9)}`,
+    cardId: cardId || null,
+    owner,
+    zone,
+    faceUp: !!opts.faceUp,
+    givenDon: typeof opts.givenDon === 'number' ? opts.givenDon : 0
+  };
+  return instance;
+}
 
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - Deck definitions: Array of cardIds representing a deck
-// - Options for game setup (starting player, RNG seed)
-// - Instance IDs for lookups
-//
-// OUTPUTS:
-// - GameState objects (always as new objects, never mutated in place)
-// - CardInstance objects for queries
-// - null for not-found cases
-//
-// STATE:
-// - This module does not hold global state
-// - All state is passed in and returned as GameState objects
-// - Each function is pure: same inputs -> same outputs
+/**
+ * createInitialState(options)
+ *
+ * options:
+ *  {
+ *    playerDeck: Array<string> (cardIds),
+ *    opponentDeck: Array<string>,
+ *    playerDonDeck: Array<any> (don ids or placeholders),
+ *    opponentDonDeck: Array<any>,
+ *    playerLeaderId: string|null,
+ *    opponentLeaderId: string|null,
+ *    lifeCount: number (cards placed in life area if desired)
+ *  }
+ *
+ * Returns a new GameState object.
+ */
+export function createInitialState(options = {}) {
+  const {
+    playerDeck = [],
+    opponentDeck = [],
+    playerDonDeck = [],
+    opponentDonDeck = [],
+    playerLeaderId = null,
+    opponentLeaderId = null,
+    lifeCount = 0,
+    startingTurnNumber = 1,
+    startingPhase = 'Refresh'
+  } = options;
 
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/index.js (façade): uses all functions for state management
-// - src/engine/actions/*.js: use cloneState before mutations, getCardInstance for targets
-// - src/engine/core/turnController.js: uses resetTurnAbilities at turn end
-// - src/engine/core/zones.js: uses getCardsByZone for zone operations
-//
-// DEPENDS ON:
-// - src/engine/rng/rng.js: for initializing RNG state
-// - Card database (src/data/cards/): for looking up card metadata during init
-//
-// UI USAGE PATTERN:
-// The UI (Board.jsx) receives a GameState snapshot from the façade.
-// It renders based on this snapshot. When actions occur, new snapshots
-// are returned, triggering React re-renders.
+  const gameState = {
+    nextInstanceId: 1,
+    turnNumber: startingTurnNumber,
+    phase: startingPhase,
+    players: {
+      player: defaultPlayerTemplate(),
+      opponent: defaultPlayerTemplate()
+    },
+    continuousEffects: [],
+    // Additional engine-level metadata placeholders
+    metadata: {}
+  };
 
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// IMMUTABILITY:
-// Never mutate a GameState directly. Always:
-// 1. Clone with cloneState()
-// 2. Make changes to the clone
-// 3. Return the clone
-//
-// INSTANCE ID GENERATION:
-// Each card instance gets a unique ID like "inst_1", "inst_2", etc.
-// When a card changes zones, it gets a NEW instance ID (zone-change identity rule).
-// The old instance ID becomes invalid.
-//
-// ZONE-CHANGE IDENTITY:
-// When a card moves zones:
-// 1. Remove the old CardInstance from old zone
-// 2. Create a new CardInstance with new instanceId
-// 3. Clear all modifiers/attachments (except as rules specify)
-// 4. Add new instance to new zone
-//
-// DECK INITIALIZATION:
-// When creating initial state:
-// 1. Parse deck lists
-// 2. Create CardInstances for each card
-// 3. Shuffle decks (using seeded RNG)
-// 4. Set up life (5 cards from deck, face-down)
-// 5. Set up DON decks (10 DON each)
-// 6. Draw starting hands (5 cards each)
-//
-// DEEP CLONE STRATEGY:
-// Use structuredClone() or a recursive clone that handles:
-// - Arrays (new array, clone elements)
-// - Objects (new object, clone properties)
-// - Maps (new Map, clone entries)
-// - Sets (new Set, clone values)
-// - Primitives (copy directly)
-// Avoid JSON.parse(JSON.stringify()) as it loses Maps/Sets.
+  // Assign player ids
+  gameState.players.player.id = 'player';
+  gameState.players.opponent.id = 'opponent';
 
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: createInitialState sets up correct zones
-//   Input: Two 50-card decks
-//   Expected: Each player has 5 life, 5 hand, ~40 deck, 10 DON deck, leader set
-//
-// TEST: cloneState creates independent copy
-//   Input: A GameState, then modify the clone
-//   Expected: Original unchanged, clone has modifications
-//
-// TEST: getCardInstance finds cards in any zone
-//   Input: instanceId of a card in player2's trash
-//   Expected: Returns the CardInstance with matching instanceId
-//
-// TEST: getCardInstance returns null for invalid ID
-//   Input: "nonexistent_id"
-//   Expected: null
-//
-// TEST: generateInstanceId increments counter
-//   Input: GameState with nextInstanceId = 10
-//   Expected: Returns { newId: "inst_10", newState: {..., nextInstanceId: 11} }
-//
-// TEST: markAbilityUsed tracks correctly
-//   Input: Mark ability index 0 on "inst_5" as used
-//   Expected: gameState.turnUsedAbilities.get("inst_5").has(0) === true
+  // Helper to convert a list of cardIds into CardInstance array
+  function populateDeck(cardIdArray, owner, zoneName) {
+    const arr = [];
+    for (const cardId of cardIdArray) {
+      const inst = createCardInstance(cardId, owner, zoneName, gameState);
+      arr.push(inst);
+    }
+    return arr;
+  }
 
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Define PlayerState and CardInstance creation helpers
-// [ ] 2. Implement createInitialState with deck parsing
-// [ ] 3. Implement cloneState with proper deep clone
-// [ ] 4. Implement getCardInstance with zone iteration
-// [ ] 5. Implement getCardsByZone
-// [ ] 6. Implement generateInstanceId
-// [ ] 7. Implement markAbilityUsed and resetTurnAbilities
-// [ ] 8. Add validation for deck sizes and card types
-// [ ] 9. Integrate with RNG for shuffling
-// [ ] 10. Add JSDoc comments for IDE support
+  // Populate decks (top of array is top of deck? keep consistent: index 0 top)
+  gameState.players.player.deck = populateDeck(playerDeck, 'player', 'deck');
+  gameState.players.opponent.deck = populateDeck(opponentDeck, 'opponent', 'deck');
 
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
+  // DON decks can be placeholders or objects; create instances with cardId 'DON' or provided id
+  function populateDonDeck(donArray, owner) {
+    const arr = [];
+    for (const d of donArray) {
+      const donId = d || 'DON';
+      // DON instances are specialized but represented similarly
+      const inst = createCardInstance(donId, owner, 'donDeck', gameState, { faceUp: true });
+      arr.push(inst);
+    }
+    return arr;
+  }
 
-export const createInitialState = (player1Deck, player2Deck, options = {}) => {
-  // TODO: Initialize full game state from deck definitions
-  return { success: false, error: 'Not implemented' };
-};
+  gameState.players.player.donDeck = populateDonDeck(playerDonDeck, 'player');
+  gameState.players.opponent.donDeck = populateDonDeck(opponentDonDeck, 'opponent');
 
-export const cloneState = (gameState) => {
-  // TODO: Deep clone the game state
-  // Use structuredClone or recursive clone for Maps/Sets
-  return { success: false, error: 'Not implemented' };
-};
+  // Leader instances (if provided)
+  if (playerLeaderId) {
+    gameState.players.player.leader = createCardInstance(playerLeaderId, 'player', 'leader', gameState);
+  } else {
+    gameState.players.player.leader = null;
+  }
+  if (opponentLeaderId) {
+    gameState.players.opponent.leader = createCardInstance(opponentLeaderId, 'opponent', 'leader', gameState);
+  } else {
+    gameState.players.opponent.leader = null;
+  }
 
-export const getCardInstance = (gameState, instanceId) => {
-  // TODO: Search all zones for the instance
+  // Life: optionally move top X cards from deck to life area (top-of-deck -> bottom-of-life)
+  if (lifeCount && Number.isInteger(lifeCount) && lifeCount > 0) {
+    // For player
+    for (let i = 0; i < lifeCount; i++) {
+      // Pop from deck top (shift) or if deck empty create blank life card
+      if (gameState.players.player.deck.length > 0) {
+        const top = gameState.players.player.deck.shift();
+        top.zone = 'life';
+        // Place at bottom of life stack (we treat array index 0 as top of life for retrieval)
+        gameState.players.player.life.unshift(top); // unshift so top-of-deck becomes bottom-of-life? adjust as needed
+      } else {
+        const lifeCard = createCardInstance(null, 'player', 'life', gameState);
+        gameState.players.player.life.unshift(lifeCard);
+      }
+    }
+    for (let i = 0; i < lifeCount; i++) {
+      if (gameState.players.opponent.deck.length > 0) {
+        const top = gameState.players.opponent.deck.shift();
+        top.zone = 'life';
+        gameState.players.opponent.life.unshift(top);
+      } else {
+        const lifeCard = createCardInstance(null, 'opponent', 'life', gameState);
+        gameState.players.opponent.life.unshift(lifeCard);
+      }
+    }
+  }
+
+  // Initialize empty hand, trash, characters, stage, cost area already by default
+
+  return gameState;
+}
+
+/**
+ * cloneState(gameState)
+ * A safe deep clone. For now uses JSON round-trip.
+ * Note: this loses functions or undefined properties. Suitable for engine state which should be pure-data.
+ */
+export function cloneState(gameState) {
+  if (gameState === null || gameState === undefined) return gameState;
+  // JSON-based deep clone
+  return JSON.parse(JSON.stringify(gameState));
+}
+
+/**
+ * getCardInstanceById(gameState, instanceId)
+ * Searches through the players' zones and returns:
+ *   { instance, owner, zone, index }
+ * or null if not found.
+ *
+ * NOTE: This is O(N) scan. For large state you may add an index.
+ */
+export function getCardInstanceById(gameState, instanceId) {
+  if (!gameState || !instanceId) return null;
+  const pkeys = Object.keys(gameState.players || {});
+  for (const owner of pkeys) {
+    const p = gameState.players[owner];
+    // check leader
+    if (p.leader && p.leader.instanceId === instanceId) {
+      return { instance: p.leader, owner, zone: 'leader', index: 0 };
+    }
+    // stage
+    if (p.stage && p.stage.instanceId === instanceId) {
+      return { instance: p.stage, owner, zone: 'stage', index: 0 };
+    }
+    // arrays
+    const arrays = ['deck','donDeck','hand','trash','char','costArea','life'];
+    for (const zone of arrays) {
+      const arr = p[zone] || [];
+      for (let i = 0; i < arr.length; i++) {
+        const inst = arr[i];
+        if (inst && inst.instanceId === instanceId) {
+          return { instance: inst, owner, zone, index: i };
+        }
+      }
+    }
+  }
   return null;
-};
+}
 
-export const getCardsByZone = (gameState, side, zone) => {
-  // TODO: Return cards in specified zone
-  return [];
-};
-
-export const generateInstanceId = (gameState) => {
-  // TODO: Generate new unique ID
-  return { newId: '', newState: gameState };
-};
-
-export const markAbilityUsed = (gameState, instanceId, abilityIndex) => {
-  // TODO: Track ability usage
-  return gameState;
-};
-
-export const resetTurnAbilities = (gameState) => {
-  // TODO: Clear turn-based ability tracking
-  return gameState;
-};
+/**
+ * findInstancesByCardId(gameState, cardId)
+ * Returns an array of matches: { instance, owner, zone, index }
+ */
+export function findInstancesByCardId(gameState, cardId) {
+  if (!gameState || !cardId) return [];
+  const matches = [];
+  const pkeys = Object.keys(gameState.players || {});
+  for (const owner of pkeys) {
+    const p = gameState.players[owner];
+    // leader
+    if (p.leader && p.leader.cardId === cardId) matches.push({ instance: p.leader, owner, zone: 'leader', index:0 });
+    if (p.stage && p.stage.cardId === cardId) matches.push({ instance: p.stage, owner, zone: 'stage', index:0 });
+    const arrays = ['deck','donDeck','hand','trash','char','costArea','life'];
+    for (const zone of arrays) {
+      const arr = p[zone] || [];
+      for (let i = 0; i < arr.length; i++) {
+        const inst = arr[i];
+        if (inst && inst.cardId === cardId) {
+          matches.push({ instance: inst, owner, zone, index: i });
+        }
+      }
+    }
+  }
+  return matches;
+}
 
 export default {
   createInitialState,
   cloneState,
-  getCardInstance,
-  getCardsByZone,
   generateInstanceId,
-  markAbilityUsed,
-  resetTurnAbilities
+  createCardInstance,
+  getCardInstanceById,
+  findInstancesByCardId
 };

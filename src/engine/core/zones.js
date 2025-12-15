@@ -1,219 +1,251 @@
 'use strict';
-// zones.js — Zone Management and Card Movement
-// =============================================================================
-// PURPOSE:
-// This module handles all zone-related operations: moving cards between zones,
-// querying zone contents, and enforcing zone rules (e.g., max 5 characters).
-// It implements the zone-change identity rule where cards get new instance IDs
-// when changing zones.
-// =============================================================================
+/*
+ * zones.js — Zone helpers: find, remove, add, and move card instances between zones
+ * =============================================================================
+ *
+ * PURPOSE
+ *  - Provide safe, tested helpers to manage card instances moving between zones.
+ *  - Implement single-slot zones (leader, stage) and array zones
+ *    (deck, hand, char, costArea, donDeck, trash, life).
+ *
+ * PRIMARY FUNCTIONS
+ *  - findInstance(gameState, instanceId) -> { owner, zone, index, instance } | null
+ *  - removeInstance(gameState, instanceId) -> removedInstance | null
+ *  - addToZone(gameState, owner, zone, instance, options) -> { success, error }
+ *  - moveToZone(gameState, instanceId, toOwner, toZone, options) -> { success, from, to, error }
+ *
+ * CONVENTIONS
+ *  - Deck indexing: index 0 is the top of the deck.
+ *  - addToZone options:
+ *      { index: number } -> insert at given index in array zones
+ *      { top: true } -> insert at top (unshift) for array zones
+ *      default -> push to bottom (array.push)
+ *  - Single-slot zones (leader, stage): addToZone throws (returns error) if occupied,
+ *    to avoid implicit destruction or complex replacements. Callers may remove first.
+ *
+ * MUTATION SEMANTICS
+ *  - These helpers mutate the provided gameState directly (imperative helpers).
+ *  - They update instance.owner and instance.zone to reflect new location.
+ *
+ * NOTES
+ *  - For performance, this is O(N) scanning; a later optimization can add an index.
+ *  - Caller is responsible for handling engine-level invariants (e.g., limits on
+ *    number of characters).
+ *
+ * TEST COVERAGE
+ *  - The accompanying tests assert createInitialState + find/remove/add/move semantics.
+ *
+ * TODO
+ *  - Add a zone index for O(1) lookups (map instanceId -> location).
+ *  - Add optional "force" semantics for leader/stage replacement.
+ * =============================================================================
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Move cards between zones with proper identity handling
-// - Enforce zone capacity limits (max 5 characters)
-// - Handle deck ordering (top/bottom placement)
-// - Manage face-up/face-down state for cards
-// - Shuffle zones when required
-// - Query zone counts and contents
+import { generateInstanceId, createCardInstance } from './gameState.js';
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// moveToZone(gameState, instanceId, targetZone, options) -> { newState, newInstanceId }
-//   Moves a card to a new zone. Creates new instance ID (zone-change rule).
-//   Options: { position: 'top'|'bottom'|'random', faceUp: boolean, ordering: 'keep'|'chosen' }
-//   Returns new state and the card's new instanceId.
-//
-// addToZone(gameState, side, zone, cardInstance, options) -> GameState
-//   Adds an already-created CardInstance to a zone.
-//   Used internally after creating new instances.
-//
-// removeFromZone(gameState, instanceId) -> { newState, removedCard }
-//   Removes a card from its current zone.
-//   Returns the removed CardInstance for further processing.
-//
-// getZoneCount(gameState, side, zone) -> number
-//   Returns the number of cards in a zone.
-//
-// getZoneCapacity(zone) -> number | null
-//   Returns max capacity for a zone (5 for characters, null for unlimited).
-//
-// shuffleZone(gameState, side, zone) -> GameState
-//   Randomizes the order of cards in a zone (typically deck).
-//
-// peekTopCards(gameState, side, zone, count) -> CardInstance[]
-//   Returns the top N cards of a zone without removing them.
-//   Cards remain in zone; useful for search/look effects.
-//
-// setCardState(gameState, instanceId, state) -> GameState
-//   Sets a card's state to 'active' or 'rested'.
+/**
+ * Return an array of zone names that are considered array zones.
+ */
+function arrayZones() {
+  return ['deck', 'donDeck', 'hand', 'trash', 'char', 'costArea', 'life'];
+}
 
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: GameState object
-// - instanceId: string identifying the card instance
-// - zone names: 'leader' | 'characters' | 'hand' | 'deck' | 'trash' | 'life' | 'donDeck' | 'costArea' | 'stage'
-// - side: 'player1' | 'player2'
-// - options: positioning and visibility options
-//
-// OUTPUTS:
-// - GameState: new state after zone changes
-// - newInstanceId: when zone-change creates new instance
-// - CardInstance: for queries
-//
-// ZONE STRUCTURE:
-// - leader: single CardInstance or null
-// - stage: single CardInstance or null
-// - characters: array of CardInstance (max 5)
-// - hand, deck, trash, life, donDeck, costArea: arrays of CardInstance
+/**
+ * Return true if zone is single-slot (leader, stage)
+ */
+function isSingleZone(zone) {
+  return zone === 'leader' || zone === 'stage';
+}
 
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/actions/moveCard.js: primary user for card movement
-// - src/engine/actions/playCard.js: moving from hand to field
-// - src/engine/actions/search.js: deck manipulation
-// - src/engine/actions/koAction.js: moving to trash on KO
-// - src/engine/core/damageAndLife.js: life card removal
-// - src/engine/index.js: drawCards, shuffleFromTrashToDeck
-//
-// DEPENDS ON:
-// - src/engine/core/gameState.js: cloneState, generateInstanceId
-// - src/engine/rng/rng.js: for shuffling
-// - src/engine/modifiers/continuousEffects.js: clear modifiers on zone change
-// - src/engine/modifiers/donManager.js: handle DON detachment on zone change
+/**
+ * findInstance(gameState, instanceId)
+ * Searches all players and zones for a matching instanceId.
+ * Returns { owner, zone, index, instance } or null.
+ */
+export function findInstance(gameState, instanceId) {
+  if (!gameState || !instanceId) return null;
+  const players = gameState.players || {};
+  for (const owner of Object.keys(players)) {
+    const p = players[owner];
 
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// ZONE-CHANGE IDENTITY RULE:
-// When a card changes zones, it becomes a "new" card:
-// 1. Generate new instanceId
-// 2. Clear all attached DON (DON returns to owner's cost area)
-// 3. Clear all continuous effects/modifiers
-// 4. Clear keyword grants/revokes
-// Exception: Some effects explicitly say "even if this card leaves play"
-//
-// DECK ORDERING:
-// - Index 0 = top of deck
-// - 'top' placement: unshift to array
-// - 'bottom' placement: push to array
-// - For multiple cards, respect the 'ordering' option
-//
-// CHARACTER ZONE LIMIT:
-// - Max 5 characters per player
-// - If at 5 and trying to add, the add fails (should be prevented by UI)
-// - Check capacity before allowing play/move to character zone
-//
-// FACE-UP/FACE-DOWN:
-// - Life cards are typically face-down until revealed
-// - Hand cards are face-down to opponent but known to owner
-// - Field cards are always face-up
-// - Deck cards are face-down
-// - Trash cards are face-up
-//
-// SHUFFLE IMPLEMENTATION:
-// Use Fisher-Yates shuffle with the seeded RNG to ensure
-// deterministic results for replay support.
+    // single slots
+    if (p.leader && p.leader.instanceId === instanceId) {
+      return { owner, zone: 'leader', index: 0, instance: p.leader };
+    }
+    if (p.stage && p.stage.instanceId === instanceId) {
+      return { owner, zone: 'stage', index: 0, instance: p.stage };
+    }
 
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: moveToZone creates new instanceId
-//   Input: Move character from field to hand
-//   Expected: Card in hand has different instanceId than it had on field
-//
-// TEST: moveToZone clears modifiers
-//   Input: Character with +2000 power modifier moved to trash
-//   Expected: Modifier not present on new instance (and modifier cleaned up)
-//
-// TEST: character zone enforces limit
-//   Input: Try to add 6th character to characters zone
-//   Expected: Returns error or false, state unchanged
-//
-// TEST: deck top/bottom placement
-//   Input: Move card to 'top' of deck, then peek top 1
-//   Expected: Peeked card matches moved card
-//
-// TEST: shuffleZone randomizes order
-//   Input: Deck with known order, shuffle with seed
-//   Expected: Order changed; same seed produces same result
-//
-// TEST: setCardState changes active/rested
-//   Input: Active character, setCardState to 'rested'
-//   Expected: Card's state property is 'rested'
-
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Implement removeFromZone with zone detection
-// [ ] 2. Implement addToZone with capacity checks
-// [ ] 3. Implement moveToZone combining remove + add + identity
-// [ ] 4. Implement shuffleZone with seeded RNG
-// [ ] 5. Implement peekTopCards for search effects
-// [ ] 6. Implement setCardState
-// [ ] 7. Handle DON detachment on zone change
-// [ ] 8. Clear modifiers on zone change
-// [ ] 9. Add position handling (top/bottom/random)
-// [ ] 10. Add validation and error handling
-
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
-
-export const moveToZone = (gameState, instanceId, targetZone, options = {}) => {
-  // TODO: Move card with zone-change identity rule
-  return { newState: gameState, newInstanceId: null, error: 'Not implemented' };
-};
-
-export const addToZone = (gameState, side, zone, cardInstance, options = {}) => {
-  // TODO: Add card instance to zone
-  return { success: false, error: 'Not implemented' };
-};
-
-export const removeFromZone = (gameState, instanceId) => {
-  // TODO: Remove card from its current zone
-  return { newState: gameState, removedCard: null, error: 'Not implemented' };
-};
-
-export const getZoneCount = (gameState, side, zone) => {
-  // TODO: Count cards in zone
-  return 0;
-};
-
-export const getZoneCapacity = (zone) => {
-  // Characters: 5, others: unlimited
-  if (zone === 'characters') return 5;
+    // array zones
+    for (const zone of arrayZones()) {
+      const arr = p[zone] || [];
+      for (let i = 0; i < arr.length; i++) {
+        const inst = arr[i];
+        if (inst && inst.instanceId === instanceId) {
+          return { owner, zone, index: i, instance: inst };
+        }
+      }
+    }
+  }
   return null;
-};
+}
 
-export const shuffleZone = (gameState, side, zone) => {
-  // TODO: Shuffle zone using seeded RNG
-  return gameState;
-};
+/**
+ * removeInstance(gameState, instanceId)
+ * Removes the instance from its zone and returns the removed instance object.
+ * Returns null if not found.
+ */
+export function removeInstance(gameState, instanceId) {
+  const loc = findInstance(gameState, instanceId);
+  if (!loc) return null;
+  const { owner, zone, index } = loc;
+  const p = gameState.players[owner];
+  if (isSingleZone(zone)) {
+    const inst = p[zone];
+    p[zone] = null;
+    return inst;
+  } else {
+    const arr = p[zone];
+    const [removed] = arr.splice(index, 1);
+    return removed;
+  }
+}
 
-export const peekTopCards = (gameState, side, zone, count) => {
-  // TODO: Return top N cards without removing
-  return [];
-};
+/**
+ * addToZone(gameState, owner, zone, instance, options)
+ * Adds an instance (object) to target zone for owner. Mutates instance.owner and instance.zone.
+ * Options:
+ *   - index: integer to insert at (array zones)
+ *   - top: boolean, insert at top (index 0)
+ *
+ * Returns { success: true } or { success: false, error: string }.
+ *
+ * Note: For single-slot zones (leader, stage), operation fails if occupied.
+ */
+export function addToZone(gameState, owner, zone, instance, options = {}) {
+  if (!gameState || !gameState.players) {
+    return { success: false, error: 'invalid gameState' };
+  }
+  if (!gameState.players[owner]) {
+    return { success: false, error: `unknown owner ${owner}` };
+  }
+  const p = gameState.players[owner];
 
-export const setCardState = (gameState, instanceId, state) => {
-  // TODO: Set card to active or rested
-  return gameState;
-};
+  // Normalize options
+  const { index, top } = options;
+
+  if (isSingleZone(zone)) {
+    if (p[zone]) {
+      return { success: false, error: `zone ${zone} already occupied for owner ${owner}` };
+    }
+    // set owner/zone and assign
+    instance.owner = owner;
+    instance.zone = zone;
+    p[zone] = instance;
+    return { success: true };
+  }
+
+  // Array zones
+  if (!arrayZones().includes(zone)) {
+    return { success: false, error: `unknown zone ${zone}` };
+  }
+  if (!Array.isArray(p[zone])) {
+    p[zone] = [];
+  }
+  // default index insertion semantics:
+  if (typeof index === 'number') {
+    // clamp index
+    const i = Math.max(0, Math.min(index, p[zone].length));
+    instance.owner = owner;
+    instance.zone = zone;
+    p[zone].splice(i, 0, instance);
+    return { success: true };
+  }
+  if (top) {
+    // top = index 0 (e.g., top of deck)
+    instance.owner = owner;
+    instance.zone = zone;
+    p[zone].unshift(instance);
+    return { success: true };
+  }
+  // default: push to bottom
+  instance.owner = owner;
+  instance.zone = zone;
+  p[zone].push(instance);
+  return { success: true };
+}
+
+/**
+ * moveToZone(gameState, instanceId, toOwner, toZone, options)
+ * Move an existing instance (identified by instanceId) to a target owner/zone.
+ * This is implemented as removeInstance + addToZone with rollback semantics if add fails.
+ *
+ * options is same as addToZone options.
+ *
+ * Returns:
+ *  { success: true, from: {owner,zone,index}, to: {owner,zone,index} }
+ *  or { success: false, error: '...' }
+ */
+export function moveToZone(gameState, instanceId, toOwner, toZone, options = {}) {
+  const loc = findInstance(gameState, instanceId);
+  if (!loc) {
+    return { success: false, error: `instance ${instanceId} not found` };
+  }
+  const { owner: fromOwner, zone: fromZone, index: fromIndex, instance } = loc;
+
+  // Remove instance
+  const removed = removeInstance(gameState, instanceId);
+  if (!removed) {
+    return { success: false, error: `failed to remove instance ${instanceId} from ${fromZone}` };
+  }
+
+  // Try to add to target
+  const addResult = addToZone(gameState, toOwner, toZone, removed, options);
+  if (!addResult.success) {
+    // Rollback: put back into original location at original index
+    // If original was single-slot
+    const pFrom = gameState.players[fromOwner];
+    if (isSingleZone(fromZone)) {
+      pFrom[fromZone] = removed;
+    } else {
+      // restore at original index (clamp)
+      const arr = pFrom[fromZone] || [];
+      const i = Math.max(0, Math.min(fromIndex, arr.length));
+      removed.owner = fromOwner;
+      removed.zone = fromZone;
+      arr.splice(i, 0, removed);
+      pFrom[fromZone] = arr;
+    }
+    return { success: false, error: `failed to add to target zone: ${addResult.error}` };
+  }
+
+  // Find index of newly added instance in target zone (best-effort)
+  const toLoc = findInstance(gameState, instanceId);
+  return {
+    success: true,
+    from: { owner: fromOwner, zone: fromZone, index: fromIndex },
+    to: { owner: toLoc.owner, zone: toLoc.zone, index: toLoc.index }
+  };
+}
+
+/**
+ * Utility: create and add a new instance into a zone (convenience)
+ * createAndAdd(gameState, cardId, owner, zone, options)
+ * returns the created instance.
+ */
+export function createAndAdd(gameState, cardId, owner, zone, options = {}) {
+  const inst = createCardInstance(cardId, owner, zone, gameState);
+  const res = addToZone(gameState, owner, zone, inst, options);
+  if (!res.success) {
+    throw new Error(res.error || 'Failed to add instance');
+  }
+  return inst;
+}
 
 export default {
-  moveToZone,
+  findInstance,
+  removeInstance,
   addToZone,
-  removeFromZone,
-  getZoneCount,
-  getZoneCapacity,
-  shuffleZone,
-  peekTopCards,
-  setCardState
+  moveToZone,
+  createAndAdd
 };

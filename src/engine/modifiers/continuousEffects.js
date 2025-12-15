@@ -15,6 +15,7 @@
 // - Handle modifier duration expiry
 // - Clean up modifiers on zone change
 // - Support all modifier modes (add, setBase, perCount)
+// =============================================================================
 
 // =============================================================================
 // PUBLIC API
@@ -40,6 +41,7 @@
 //
 // getModifiersFor(gameState, instanceId) -> ContinuousEffect[]
 //   Returns all active modifiers affecting a card instance.
+// =============================================================================
 
 // =============================================================================
 // CONTINUOUSEFFECT SCHEMA
@@ -55,8 +57,9 @@
 //   sourceInstanceId: string,        // Card that created this
 //   createdTurn: number,
 //   createdPhase: string,
-//   ownerId: 'player1' | 'player2'
+//   ownerId: 'player' | 'opponent'
 // }
+// =============================================================================
 
 // =============================================================================
 // INPUT / OUTPUT / STATE
@@ -75,6 +78,7 @@
 //
 // STORAGE:
 // gameState.continuousEffects: ContinuousEffect[]
+// =============================================================================
 
 // =============================================================================
 // INTEGRATION & INTERACTION
@@ -89,6 +93,7 @@
 // DEPENDS ON:
 // - src/engine/core/gameState.js: card instance access
 // - Card database: base stat values
+// =============================================================================
 
 // =============================================================================
 // IMPLEMENTATION NOTES
@@ -125,6 +130,7 @@
 // Power can go negative from effects.
 // For battle purposes, negative power loses to any positive power.
 // Display as 0 or the actual negative value (game rule dependent).
+// =============================================================================
 
 // =============================================================================
 // TEST PLAN
@@ -152,6 +158,7 @@
 // TEST: zone change cleanup
 //   Input: Card with modifier moves to hand
 //   Expected: Modifier removed for old instanceId
+// =============================================================================
 
 // =============================================================================
 // TODO CHECKLIST
@@ -166,39 +173,135 @@
 // [ ] 8. Integrate DON bonus into power calculation
 // [ ] 9. Handle negative values appropriately
 // [ ] 10. Add logging for modifier changes
-
-// =============================================================================
-// EXPORTS — STUBS
 // =============================================================================
 
+// =============================================================================
+// EXPORTS — STUBS (with add/remove implemented)
+// =============================================================================
+
+/**
+ * Ensure an array exists at gameState.continuousEffects
+ */
+function ensureContinuousArray(gameState) {
+  if (!gameState) throw new TypeError('gameState required');
+  if (!Array.isArray(gameState.continuousEffects)) {
+    gameState.continuousEffects = [];
+  }
+}
+
+/**
+ * addModifier(gameState, modifier)
+ * - Ensures continuousEffects array exists
+ * - If modifier.id is missing, throws (id should be provided by caller)
+ * - Appends modifier to gameState.continuousEffects
+ * - Returns gameState (mutated)
+ */
 export const addModifier = (gameState, modifier) => {
-  // TODO: Add modifier to continuousEffects
+  ensureContinuousArray(gameState);
+  if (!modifier || typeof modifier !== 'object') {
+    throw new TypeError('modifier must be an object');
+  }
+  if (!modifier.id) {
+    throw new TypeError('modifier must have an id');
+  }
+  // push modifier (mutating)
+  gameState.continuousEffects.push(modifier);
   return gameState;
 };
 
+/**
+ * removeModifier(gameState, modifierId)
+ * Removes a modifier by ID (mutates gameState). Returns the removed modifier or null.
+ */
 export const removeModifier = (gameState, modifierId) => {
-  // TODO: Remove modifier by ID
-  return gameState;
+  ensureContinuousArray(gameState);
+  const idx = gameState.continuousEffects.findIndex(m => m && m.id === modifierId);
+  if (idx === -1) return null;
+  const [removed] = gameState.continuousEffects.splice(idx, 1);
+  return removed;
 };
 
+/**
+ * removeModifiersForInstance(gameState, instanceId)
+ * Removes all modifiers targeting the provided instanceId.
+ * Returns number of removed modifiers.
+ */
 export const removeModifiersForInstance = (gameState, instanceId) => {
-  // TODO: Remove all modifiers for instance
-  return gameState;
+  ensureContinuousArray(gameState);
+  const before = gameState.continuousEffects.length;
+  gameState.continuousEffects = gameState.continuousEffects.filter(m => {
+    if (!m || !Array.isArray(m.targetInstanceIds)) return true;
+    return !m.targetInstanceIds.includes(instanceId);
+  });
+  const after = gameState.continuousEffects.length;
+  return before - after;
 };
 
+/**
+ * expireModifiers(gameState, trigger)
+ * Remove modifiers whose duration matches the trigger.
+ * NOTE: This is a simplified placeholder: it removes modifiers whose duration
+ * exactly equals the trigger mapping. Production logic must consider "thisTurn"
+ * vs "untilStartOfYourNextTurn" semantics, owner vs creator, and exact timing.
+ *
+ * For now:
+ *  - trigger === 'turnEnd' => remove modifiers where duration === 'thisTurn'
+ *  - trigger === 'battleEnd' => remove modifiers where duration === 'thisBattle'
+ */
 export const expireModifiers = (gameState, trigger) => {
-  // TODO: Remove expired modifiers
-  return gameState;
+  ensureContinuousArray(gameState);
+  if (!trigger) return 0;
+  const before = gameState.continuousEffects.length;
+  if (trigger === 'turnEnd') {
+    gameState.continuousEffects = gameState.continuousEffects.filter(m => m.duration !== 'thisTurn');
+  } else if (trigger === 'battleEnd') {
+    gameState.continuousEffects = gameState.continuousEffects.filter(m => m.duration !== 'thisBattle');
+  } else {
+    // generic removal for demonstration; production requires more nuance
+    gameState.continuousEffects = gameState.continuousEffects.filter(m => m.duration !== trigger);
+  }
+  const after = gameState.continuousEffects.length;
+  return before - after;
 };
 
-export const getComputedStat = (gameState, instanceId, stat) => {
-  // TODO: Calculate final stat value with layering
-  return 0;
+/**
+ * getComputedStat(gameState, instanceId, stat)
+ * Placeholder that applies very simple layering:
+ *  - Start with base from instance.cardId? (caller should provide base)
+ *  - Apply setBase if any (most recent wins)
+ *  - Apply sum of add modifiers
+ *
+ * This function expects the caller to pass a base value if desired. For now we
+ * return NaN to signal unimplemented. Later this will be fully implemented.
+ */
+export const getComputedStat = (gameState, instanceId, stat, baseValue = 0) => {
+  ensureContinuousArray(gameState);
+  // Find all modifiers targeting instanceId and stat
+  const mods = gameState.continuousEffects.filter(m => m && Array.isArray(m.targetInstanceIds) && m.targetInstanceIds.includes(instanceId) && m.stat === stat);
+  if (mods.length === 0) return baseValue;
+
+  // Apply setBase: pick the most recently added setBase modifier if present
+  const setBases = mods.filter(m => m.mode === 'setBase');
+  let value = baseValue;
+  if (setBases.length > 0) {
+    // assume later-added modifiers are later in the array
+    const lastSetBase = setBases[setBases.length - 1];
+    value = typeof lastSetBase.amount === 'number' ? lastSetBase.amount : value;
+  }
+
+  // Sum 'add' modifiers
+  const addMods = mods.filter(m => m.mode === 'add');
+  const addSum = addMods.reduce((acc, m) => acc + (typeof m.amount === 'number' ? m.amount : 0), 0);
+  value = value + addSum;
+
+  // Note: perCount and DON bonuses not yet implemented in this placeholder
+
+  return value;
 };
 
 export const getModifiersFor = (gameState, instanceId) => {
-  // TODO: Return modifiers for instance
-  return [];
+  ensureContinuousArray(gameState);
+  return gameState.continuousEffects.filter(m => m && Array.isArray(m.targetInstanceIds) && m.targetInstanceIds.includes(instanceId));
 };
 
 export default {

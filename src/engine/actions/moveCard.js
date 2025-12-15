@@ -1,166 +1,128 @@
 'use strict';
-// moveCard.js — Card Movement Action Handler
-// =============================================================================
-// PURPOSE:
-// This module handles the ActionMoveCard action type. It moves cards between
-// zones, handling zone-change identity rules, position selection, and face
-// visibility.
-// =============================================================================
+/*
+ * moveCard.js — Action to move a card instance between zones (wrapper around zones helpers)
+ * =============================================================================
+ *
+ * PURPOSE
+ *  - Provide a small, robust action used by higher-level action interpreter to
+ *    move a card instance identified by instanceId to a new owner/zone.
+ *
+ * RESPONSIBILITIES
+ *  - Validate inputs and resolve destination semantics.
+ *  - Use core zone helpers (moveToZone / addToZone / removeInstance) to perform move.
+ *  - Apply optional runtime flags such as setting faceUp.
+ *  - Return a consistent result shape for callers:
+ *      { success: true, from: {...}, to: {...} }
+ *      or { success: false, error: '...' }
+ *
+ * DEPENDENCIES
+ *  - src/engine/core/gameState.js (for createCardInstance if needed)
+ *  - src/engine/core/zones.js for actual zone operations
+ *
+ * NOTES
+ *  - This action mutates gameState (zones helpers mutate gameState).
+ *  - For more complex ability actions, the action interpreter will call this helper.
+ *
+ * PUBLIC API
+ *  - moveCard(gameState, instanceId, destination, options) -> result
+ *
+ * Parameters:
+ *  - gameState: canonical engine game state object
+ *  - instanceId: string id of the instance to move
+ *  - destination:
+ *      - string: zone name (owner assumed to be current instance owner)
+ *      - object: { owner?: 'player'|'opponent', zone: 'hand'|'char'|..., index?: number, top?: boolean }
+ *  - options:
+ *      - faceUp: boolean | undefined  -> set instance.faceUp after move
+ *      - enterRested: boolean | undefined -> informational; not processed here but available for callers
+ *
+ * RETURNS:
+ *  - { success: true, from: {owner, zone, index}, to: {owner, zone, index} }
+ *  - or { success: false, error: '...' }
+ *
+ * TEST PLAN
+ *  - See tests/moveCard.test.js for examples.
+ * =============================================================================
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Move cards from current zone to destination
-// - Handle zone-change identity (new instance ID)
-// - Respect ordering options (top, bottom, chosen)
-// - Handle face-up/face-down visibility
-// - Handle enterRested for field destinations
-// - Clear modifiers and DON on zone change
+import { findInstance } from '../core/zones.js';
+import zones from '../core/zones.js'; // default export object for direct usage
+// Note: zones exports default { findInstance,... } and named; we ensure import works
+// If your environment doesn't support both, adjust to named imports.
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// execute(gameState, action, context) -> ActionResult
-//   Executes a moveCard action.
-//   action: {
-//     type: 'moveCard',
-//     target: TargetSelectorRef,      // Cards to move
-//     destination: string,            // Where to move
-//     ordering?: 'keep'|'chosen'|'random',
-//     faceUp?: boolean,
-//     enterRested?: boolean,
-//     may?: boolean,
-//     condition?: Condition
-//   }
+const { moveToZone } = zones;
 
-// =============================================================================
-// DESTINATIONS (from schema.json)
-// =============================================================================
-// - 'hand': Owner's hand
-// - 'topOfDeck': Top of owner's deck
-// - 'bottomOfDeck': Bottom of owner's deck
-// - 'topOrBottomOfDeck': Player chooses top or bottom
-// - 'trash': Owner's trash
-// - 'stage': Owner's stage zone
-// - 'characterArea': Owner's character zone
-// - 'leaderArea': Owner's leader zone
-// - 'costArea': Owner's DON cost area
-// - 'life': Owner's life zone
-// - 'topOfLife': Top of life
-// - 'bottomOfLife': Bottom of life
-// - 'topOrBottomOfLife': Player chooses
+/**
+ * Normalize destination argument into { owner, zone, index?, top? }.
+ * If destination is string, owner is kept as provided (or fallback later).
+ */
+function normalizeDestination(destination, currentOwner) {
+  if (!destination) return null;
+  if (typeof destination === 'string') {
+    return { owner: currentOwner, zone: destination };
+  }
+  if (typeof destination === 'object') {
+    const owner = destination.owner || currentOwner;
+    const zone = destination.zone;
+    const index = typeof destination.index === 'number' ? destination.index : undefined;
+    const top = !!destination.top;
+    return { owner, zone, index, top };
+  }
+  return null;
+}
 
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current GameState
-// - action: ActionMoveCard object
-// - context: { thisCard, activePlayer, boundVars }
-//
-// OUTPUTS:
-// - ActionResult with updated gameState
-//
-// SIDE EFFECTS:
-// - Source zone loses card
-// - Destination zone gains card (new instance)
-// - Old modifiers/DON cleared
+/**
+ * moveCard(gameState, instanceId, destination, options)
+ *
+ * destination: string or { owner?, zone, index?, top? }
+ * options: { faceUp?, enterRested? } - currently faceUp will be applied to the instance after move
+ */
+export function moveCard(gameState, instanceId, destination, options = {}) {
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  if (!instanceId) return { success: false, error: 'missing instanceId' };
 
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/actions/interpreter.js: dispatches moveCard actions
-// - Many other actions that involve moving cards
-//
-// DEPENDS ON:
-// - src/engine/core/zones.js: moveToZone, addToZone, removeFromZone
-// - src/engine/rules/selector.js: resolve targets
-// - src/engine/modifiers/continuousEffects.js: clear modifiers
-// - src/engine/modifiers/donManager.js: detach DON
+  // Locate existing instance
+  const loc = findInstance(gameState, instanceId);
+  if (!loc) return { success: false, error: `instance ${instanceId} not found` };
 
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// ZONE-CHANGE IDENTITY:
-// Moving a card to a new zone creates a NEW instance.
-// The old instanceId becomes invalid.
-// All modifiers, DON attachments, and effects are cleared.
-// Exception: Some effects say "even if this card changes zones."
-//
-// ORDERING OPTIONS:
-// - 'keep': Maintain relative order of cards (for multiple cards)
-// - 'chosen': Let the player arrange the order
-// - 'random': Randomize order (use seeded RNG)
-// For single card moves, ordering doesn't matter.
-//
-// TOP/BOTTOM OF DECK:
-// - topOfDeck: Insert at index 0
-// - bottomOfDeck: Append at end
-// - topOrBottomOfDeck: Ask player to choose
-//
-// FACE VISIBILITY:
-// - Default depends on destination zone
-// - Hand: face-down to opponent, face-up to owner
-// - Deck: face-down
-// - Life: face-down (unless explicitly face-up)
-// - Field zones: face-up
-// - faceUp option can override defaults
-//
-// ENTER RESTED:
-// When moving to field zones (characterArea, stage, etc.):
-// - By default, cards enter active
-// - If enterRested=true, cards enter rested
-// - This is separate from "play" (moveCard doesn't trigger On Play)
+  const currentOwner = loc.owner;
+  const dest = normalizeDestination(destination, currentOwner);
+  if (!dest || !dest.zone) {
+    return { success: false, error: 'invalid destination' };
+  }
 
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: move character to hand
-//   Input: Character on field, destination='hand'
-//   Expected: Character removed from field, new instance in hand
-//
-// TEST: move to top of deck
-//   Input: destination='topOfDeck'
-//   Expected: Card is at index 0 of deck
-//
-// TEST: player chooses top or bottom
-//   Input: destination='topOrBottomOfDeck'
-//   Expected: UI callback for choice, card placed accordingly
-//
-// TEST: enterRested works
-//   Input: destination='characterArea', enterRested=true
-//   Expected: Card in characters zone with state='rested'
-//
-// TEST: DON detached on move
-//   Input: Character with 2 DON attached, move to hand
-//   Expected: 2 DON back in cost area, character in hand
-//
-// TEST: modifiers cleared on move
-//   Input: Character with +2000 power, move to trash
-//   Expected: No modifier on new instance (or associated effect cleaned up)
+  // Prepare add options for moveToZone: { index, top }
+  const addOpts = {};
+  if (typeof dest.index === 'number') addOpts.index = dest.index;
+  if (dest.top) addOpts.top = true;
 
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Resolve target selector
-// [ ] 2. Handle may choice
-// [ ] 3. Evaluate condition
-// [ ] 4. Handle ordering for multiple cards
-// [ ] 5. Handle player choice destinations (topOrBottom)
-// [ ] 6. Detach DON before moving
-// [ ] 7. Clear modifiers on zone change
-// [ ] 8. Call zones.js moveToZone
-// [ ] 9. Apply enterRested if specified
-// [ ] 10. Generate log entries
+  // Use zones.moveToZone which implements remove + add + rollback semantics
+  const result = moveToZone(gameState, instanceId, dest.owner, dest.zone, addOpts);
 
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
+  if (!result || !result.success) {
+    return { success: false, error: result && result.error ? result.error : 'move failed' };
+  }
 
-export const execute = (gameState, action, context = {}) => {
-  // TODO: Full moveCard implementation
-  return { success: false, error: 'Not implemented' };
+  // Apply faceUp option after successful move (instance now located at result.to)
+  if (options.faceUp !== undefined) {
+    const afterLoc = findInstance(gameState, instanceId);
+    if (afterLoc && afterLoc.instance) {
+      afterLoc.instance.faceUp = !!options.faceUp;
+    }
+  }
+
+  // enterRested is an engine-level concern about whether field entries enter rested.
+  // We store it as metadata on instance if provided for later handling by battle/turn logic.
+  if (options.enterRested !== undefined) {
+    const afterLoc = findInstance(gameState, instanceId);
+    if (afterLoc && afterLoc.instance) {
+      afterLoc.instance.enterRested = !!options.enterRested;
+    }
+  }
+
+  return result;
+}
+
+export default {
+  moveCard
 };
-
-export default { execute };
