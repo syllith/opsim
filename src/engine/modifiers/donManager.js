@@ -1,202 +1,191 @@
 'use strict';
-// donManager.js — DON!! Attachment Management
-// =============================================================================
-// PURPOSE:
-// This module manages DON!! card attachments to leaders and characters. It
-// tracks which DON are attached to which cards and handles the power bonus
-// calculation that DON provides.
-// =============================================================================
+/*
+ * donManager.js — Minimal DON attachment/detachment manager
+ * =============================================================================
+ * PURPOSE
+ *  - Provide basic operations to attach DON instances from a player's costArea
+ *    onto a target instance (leader or character), and to return/detach those DONs
+ *    back to the costArea.
+ *
+ * RESPONSIBILITIES
+ *  - giveDon(gameState, owner, targetInstanceId, count)
+ *      Move up to `count` DON instances from owner's costArea into the target's
+ *      attachedDon list. Returns info about how many moved.
+ *  - returnDonFromCard(gameState, targetInstanceId, count)
+ *      Move up to `count` DON instances from target's attached list back to the
+ *      owner costArea.
+ *  - detachDon(gameState, targetInstanceId, count)
+ *      Alias to returnDonFromCard for semantic clarity.
+ *  - countDonInCostArea(gameState, owner)
+ *  - getAttachedDonIds(gameState, targetInstanceId)
+ *
+ * DESIGN NOTES
+ *  - A DON is represented as a CardInstance (same shape as other card instances).
+ *  - When attached to a target, we set:
+ *      don.zone = 'attached'
+ *      don.attachedTo = targetInstanceId
+ *    and push the DON object into target.attachedDons array and increment target.givenDon.
+ *  - When returned, we set don.zone = 'costArea', don.attachedTo = null and push into
+ *    owner's costArea array.
+ *  - The DON instance.owner remains the player's id.
+ *  - These APIs mutate gameState in-place.
+ *
+ * EDGE CASES
+ *  - If the target is not found, the operation fails (no mutation).
+ *  - If costArea has fewer than `count` DONs, move as many as possible (partial success).
+ *  - If target.attachedDons is not present, we create the array.
+ *
+ * TODO
+ *  - Integrate DON active/rested state.
+ *  - Ensure detach on zone-change (when a card moves).
+ *  - Ensure DONs maintain 'rested' metadata when returned (handled by turnController).
+ * =============================================================================
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Track DON attachments on cards
-// - Calculate DON power bonus
-// - Handle DON attachment/detachment
-// - Return DON to cost area during refresh
-// - Validate DON operations
+import { findInstance } from '../core/zones.js';
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// attachDon(gameState, donInstanceId, targetInstanceId) -> GameState
-//   Attaches a DON card to a leader/character.
-//
-// detachDon(gameState, donInstanceId) -> GameState
-//   Detaches a DON from its current card, returning to cost area.
-//
-// detachAllDon(gameState, targetInstanceId) -> GameState
-//   Detaches all DON from a card (e.g., on zone change).
-//
-// getAttachedDon(gameState, instanceId) -> CardInstance[]
-//   Returns all DON attached to a card.
-//
-// getAttachedDonCount(gameState, instanceId) -> number
-//   Returns count of DON attached to a card.
-//
-// getDonPowerBonus(gameState, instanceId) -> number
-//   Returns the power bonus from DON (+1000 per DON during owner's turn).
-//
-// returnAllDonToCostArea(gameState, side) -> GameState
-//   Returns all DON attached to a player's cards back to cost area.
-//   Called during Refresh Phase.
+/**
+ * Helper: ensure target instance has attachedDons array and givenDon count
+ */
+function ensureAttachedField(targetInstance) {
+  if (!targetInstance.attachedDons) targetInstance.attachedDons = [];
+  if (typeof targetInstance.givenDon !== 'number') targetInstance.givenDon = 0;
+}
 
-// =============================================================================
-// DON!! RULES
-// =============================================================================
-// - DON can be attached to Leader or Characters
-// - Each DON attached gives +1000 power DURING OWNER'S TURN
-// - DON bonus does NOT apply during opponent's turn
-// - During Refresh Phase, all attached DON returns to Cost Area (rested)
-// - DON returned by refresh becomes rested, not active
-// - DON can also be returned to DON Deck (for costs or effects)
+/**
+ * giveDon(gameState, owner, targetInstanceId, count)
+ *
+ * Moves up to `count` DON instances from owner.costArea to targetInstance.attachedDons.
+ * Returns: { success: boolean, moved: number, newGivenCount?: number, attachedDonIds?: string[], error?: string }
+ */
+export function giveDon(gameState, owner, targetInstanceId, count = 1) {
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  if (!owner) return { success: false, error: 'missing owner' };
+  if (!targetInstanceId) return { success: false, error: 'missing targetInstanceId' };
+  if (!Number.isInteger(count) || count <= 0) return { success: false, error: 'count must be positive integer' };
 
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current GameState
-// - donInstanceId: DON card being moved
-// - targetInstanceId: card receiving DON
-// - instanceId: card being queried
-// - side: 'player1' | 'player2' for refresh
-//
-// OUTPUTS:
-// - GameState with updated DON attachments
-// - CardInstance[] for DON queries
-// - number for counts and bonus
-//
-// STORAGE:
-// DON attachments stored in CardInstance.attachedDon: CardInstance[]
+  const ownerObj = gameState.players && gameState.players[owner];
+  if (!ownerObj) return { success: false, error: `owner ${owner} not found` };
 
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/actions/giveDon.js: attaching DON
-// - src/engine/actions/attachDon.js: moving DON between cards
-// - src/engine/actions/returnDon.js: returning DON to deck
-// - src/engine/core/zones.js: detaching on zone change
-// - src/engine/core/turnController.js: refresh phase return
-// - src/engine/modifiers/continuousEffects.js: includes DON in power calc
-//
-// DEPENDS ON:
-// - src/engine/core/gameState.js: card instance access, cloneState
+  const targetLoc = findInstance(gameState, targetInstanceId);
+  if (!targetLoc || !targetLoc.instance) return { success: false, error: `target ${targetInstanceId} not found` };
 
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// POWER BONUS TIMING:
-// The +1000 per DON only applies during the owner's turn.
-// During opponent's turn, DON gives NO power bonus.
-// This is critical for battle calculations.
-//
-// Example:
-// - Your turn: Character with 5000 power + 2 DON = 7000 power
-// - Opponent's turn: Same character = 5000 power (DON bonus inactive)
-//
-// ATTACHMENT STORAGE:
-// Each CardInstance has attachedDon: CardInstance[]
-// The DON cards themselves are CardInstance objects.
-// When attached, DON is not in any zone (neither costArea nor donDeck).
-//
-// REFRESH PHASE HANDLING:
-// 1. For each card with attached DON
-// 2. Move each DON to owner's costArea
-// 3. Set each DON to rested state
-//
-// ZONE CHANGE DETACHMENT:
-// When a card leaves the field (to hand, trash, etc.):
-// 1. Detach all DON from that card
-// 2. Return DON to owner's costArea (rested)
-// 3. Then move the card itself
+  // Ensure costArea exists
+  if (!Array.isArray(ownerObj.costArea)) ownerObj.costArea = [];
 
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: attachDon adds to attachedDon
-//   Input: Attach DON to character
-//   Expected: Character.attachedDon includes the DON
-//
-// TEST: getAttachedDonCount works
-//   Input: Character with 3 DON
-//   Expected: getAttachedDonCount returns 3
-//
-// TEST: getDonPowerBonus during owner's turn
-//   Input: 2 DON attached, owner's turn
-//   Expected: 2000 bonus
-//
-// TEST: getDonPowerBonus during opponent's turn
-//   Input: 2 DON attached, opponent's turn
-//   Expected: 0 bonus (DON inactive)
-//
-// TEST: detachAllDon clears attachments
-//   Input: Character with 3 DON
-//   Expected: Character.attachedDon is empty, DON in costArea
-//
-// TEST: returnAllDonToCostArea during refresh
-//   Input: 3 cards with total 5 DON
-//   Expected: All 5 DON in costArea, rested
+  // If there are no DONs in costArea, nothing to move
+  if (ownerObj.costArea.length === 0) {
+    return { success: true, moved: 0, newGivenCount: targetLoc.instance.givenDon || 0, attachedDonIds: [] };
+  }
 
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Implement attachDon
-// [ ] 2. Implement detachDon
-// [ ] 3. Implement detachAllDon
-// [ ] 4. Implement getAttachedDon
-// [ ] 5. Implement getAttachedDonCount
-// [ ] 6. Implement getDonPowerBonus with turn checking
-// [ ] 7. Implement returnAllDonToCostArea for refresh
-// [ ] 8. Handle DON state (rested after return)
-// [ ] 9. Validate attachment targets (leader/character only)
-// [ ] 10. Add logging for DON movements
+  // Determine how many to move
+  const avail = ownerObj.costArea.length;
+  const toMove = Math.min(count, avail);
 
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
+  // Splice DONs off the costArea (take from front/top)
+  const movedDons = ownerObj.costArea.splice(0, toMove);
 
-export const attachDon = (gameState, donInstanceId, targetInstanceId) => {
-  // TODO: Attach DON to target
-  return gameState;
-};
+  // Attach to target instance
+  const targetInst = targetLoc.instance;
+  ensureAttachedField(targetInst);
 
-export const detachDon = (gameState, donInstanceId) => {
-  // TODO: Detach specific DON
-  return gameState;
-};
+  const attachedIds = [];
+  for (const don of movedDons) {
+    // Set metadata
+    don.zone = 'attached';
+    don.attachedTo = targetInst.instanceId;
+    // owner remains same
+    // Push onto target attached list
+    targetInst.attachedDons.push(don);
+    attachedIds.push(don.instanceId);
+  }
+  // Update givenDon count
+  targetInst.givenDon = targetInst.attachedDons.length;
 
-export const detachAllDon = (gameState, targetInstanceId) => {
-  // TODO: Detach all DON from target
-  return gameState;
-};
+  return { success: true, moved: toMove, newGivenCount: targetInst.givenDon, attachedDonIds: attachedIds };
+}
 
-export const getAttachedDon = (gameState, instanceId) => {
-  // TODO: Return attached DON array
-  return [];
-};
+/**
+ * returnDonFromCard(gameState, targetInstanceId, count)
+ * Moves up to `count` attached DONs from target back to owner's costArea.
+ * Returns { success, moved, newGivenCount, returnedDonIds }
+ */
+export function returnDonFromCard(gameState, targetInstanceId, count = 1) {
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  if (!targetInstanceId) return { success: false, error: 'missing targetInstanceId' };
+  if (!Number.isInteger(count) || count <= 0) return { success: false, error: 'count must be positive integer' };
 
-export const getAttachedDonCount = (gameState, instanceId) => {
-  // TODO: Return DON count
-  return 0;
-};
+  const loc = findInstance(gameState, targetInstanceId);
+  if (!loc || !loc.instance) return { success: false, error: `target ${targetInstanceId} not found` };
 
-export const getDonPowerBonus = (gameState, instanceId) => {
-  // TODO: Calculate DON bonus (0 if not owner's turn)
-  return 0;
-};
+  const targetInst = loc.instance;
+  ensureAttachedField(targetInst);
 
-export const returnAllDonToCostArea = (gameState, side) => {
-  // TODO: Return all DON to cost area (refresh)
-  return gameState;
-};
+  const available = targetInst.attachedDons.length;
+  if (available === 0) return { success: true, moved: 0, newGivenCount: 0, returnedDonIds: [] };
+
+  const toMove = Math.min(count, available);
+
+  // Remove the last N attached DONs (LIFO)
+  const returned = targetInst.attachedDons.splice(-toMove, toMove);
+
+  // Return them to owner's costArea. Owner is assumed to be targetInst.owner
+  const owner = targetInst.owner;
+  const ownerObj = gameState.players && gameState.players[owner];
+  if (!ownerObj) {
+    // rollback: put them back
+    targetInst.attachedDons.push(...returned);
+    return { success: false, error: `owner ${owner} not found` };
+  }
+  if (!Array.isArray(ownerObj.costArea)) ownerObj.costArea = [];
+
+  const returnedIds = [];
+  for (const don of returned) {
+    don.zone = 'costArea';
+    don.attachedTo = null;
+    ownerObj.costArea.push(don);
+    returnedIds.push(don.instanceId);
+  }
+
+  // Update givenDon count
+  targetInst.givenDon = targetInst.attachedDons.length;
+
+  return { success: true, moved: toMove, newGivenCount: targetInst.givenDon, returnedDonIds: returnedIds };
+}
+
+/**
+ * detachDon(gameState, targetInstanceId, count)
+ * Alias to returnDonFromCard for semantic clarity.
+ */
+export function detachDon(gameState, targetInstanceId, count = 1) {
+  return returnDonFromCard(gameState, targetInstanceId, count);
+}
+
+/**
+ * countDonInCostArea(gameState, owner) -> number
+ */
+export function countDonInCostArea(gameState, owner) {
+  if (!gameState || !gameState.players) return 0;
+  const p = gameState.players[owner];
+  if (!p || !Array.isArray(p.costArea)) return 0;
+  return p.costArea.length;
+}
+
+/**
+ * getAttachedDonIds(gameState, targetInstanceId) -> [ids]
+ */
+export function getAttachedDonIds(gameState, targetInstanceId) {
+  const loc = findInstance(gameState, targetInstanceId);
+  if (!loc || !loc.instance) return [];
+  const inst = loc.instance;
+  ensureAttachedField(inst);
+  return inst.attachedDons.map(d => d.instanceId);
+}
 
 export default {
-  attachDon,
+  giveDon,
+  returnDonFromCard,
   detachDon,
-  detachAllDon,
-  getAttachedDon,
-  getAttachedDonCount,
-  getDonPowerBonus,
-  returnAllDonToCostArea
+  countDonInCostArea,
+  getAttachedDonIds
 };
