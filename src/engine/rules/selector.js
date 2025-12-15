@@ -1,197 +1,20 @@
 'use strict';
 // selector.js — Target Selection System
 // =============================================================================
-// PURPOSE:
-// This module evaluates TargetSelector objects to find cards matching specific
-// criteria. Selectors are used throughout abilities and actions to identify
-// which cards an effect targets. The selector system supports filtering by
-// zone, side, card properties, and complex filter expressions.
+// Implementation notes:
+// - resolveSelector(selector) returns either the inline object or the registered
+//   global selector by name.
+// - evaluateSelector(gameState, selector, context) returns an array of matching
+//   CardInstance objects (raw instance objects).
+// - Basic filter application uses expressions.evaluateFilter.
+// - validateSelection enforces min/max/upTo semantics.
+// - applyDistinctBy returns instances with distinct values on requested field.
 // =============================================================================
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Evaluate TargetSelector objects against game state
-// - Find all cards matching selector criteria
-// - Handle min/max/upTo selection constraints
-// - Support global selector registry (named selectors)
-// - Evaluate inline selectors vs reference strings
-// - Apply filter expressions to candidate cards
+import expressions from './expressions.js';
+import zones from '../core/zones.js';
+import gameStateHelpers from '../core/gameState.js';
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// evaluateSelector(gameState, selector, context) -> CardInstance[]
-//   Finds all cards matching the selector.
-//   Context: { thisCard?, triggerSource?, boundVars? }
-//   Returns array of matching CardInstance objects.
-//
-// resolveSelector(selector, context) -> TargetSelector
-//   Resolves a selector reference to its definition.
-//   If selector is a string, looks up in global registry.
-//   If selector is an object, returns it directly.
-//
-// getGlobalSelector(name) -> TargetSelector | null
-//   Returns a globally registered selector by name.
-//   Built-in selectors: selfTopDeckCard, opponentTopDeckCard, etc.
-//
-// validateSelection(candidates, selector) -> { valid, error? }
-//   Checks if a selection meets min/max/upTo constraints.
-//
-// applyDistinctBy(candidates, field) -> CardInstance[]
-//   Filters candidates so all have distinct values for the field.
-
-// =============================================================================
-// TARGETSELECTOR SCHEMA (from schema.json)
-// =============================================================================
-// TargetSelector = {
-//   side: 'self' | 'opponent' | 'both',   // Whose cards to consider
-//   type: 'leader' | 'character' | 'thisCard' | 'any' | 'deck' | 'trash' | etc.,
-//   zones?: string[],                      // Specific zones to search
-//   filters?: Filter[],                    // Additional filter expressions
-//   min?: number,                          // Minimum cards to select
-//   max?: number,                          // Maximum cards to select
-//   upTo?: boolean,                        // True if "up to" wording (can select fewer)
-//   whoChooses?: 'self' | 'opponent' | 'system',
-//   bindAs?: string,                       // Variable name for binding result
-//   distinctBy?: string                    // Field for distinct values
-// }
-
-// =============================================================================
-// GLOBAL SELECTOR REGISTRY
-// =============================================================================
-// Built-in global selectors (registered by name):
-// - 'selfTopDeckCard': Top card of active player's deck
-// - 'opponentTopDeckCard': Top card of opponent's deck
-// - 'selfTopLifeCard': Top card of active player's life
-// - 'opponentTopLifeCard': Top card of opponent's life
-// - 'selfLeader': Active player's leader
-// - 'opponentLeader': Opponent's leader
-// - 'selfThisCard': Resolves to context.thisCard
-// - 'selfTriggerSourceCard': Resolves to context.triggerSource
-
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current GameState
-// - selector: TargetSelector object or string reference
-// - context: execution context with thisCard, triggerSource, etc.
-//
-// OUTPUTS:
-// - CardInstance[]: matching cards
-// - TargetSelector: resolved selector object
-// - Validation result: { valid: boolean, error?: string }
-//
-// CONTEXT SHAPE:
-// context = {
-//   thisCard: CardInstance,       // The card whose ability is being evaluated
-//   triggerSource: CardInstance,  // For Trigger abilities, the life card
-//   activePlayer: 'player1' | 'player2',
-//   boundVars: Map<string, any>   // Variables bound during resolution
-// }
-
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/actions/interpreter.js: resolving action targets
-// - src/engine/actions/*.js: all action modules use selectors
-// - src/engine/rules/evaluator.js: condition evaluation with selectors
-// - src/engine/core/replacement.js: replacement target matching
-//
-// DEPENDS ON:
-// - src/engine/core/gameState.js: getCardsByZone, getCardInstance
-// - src/engine/rules/expressions.js: filter evaluation
-//
-// USED BY UI (indirectly):
-// When UI needs to show valid targets for an action, the engine
-// evaluates selectors and returns candidate lists.
-
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// SIDE RESOLUTION:
-// 'self' = the player whose effect this is (from context)
-// 'opponent' = the other player
-// 'both' = search both players' zones
-// Map these to 'player1'/'player2' based on context.activePlayer.
-//
-// TYPE RESOLUTION:
-// - 'leader': Only leader cards
-// - 'character': Only characters on field
-// - 'thisCard': context.thisCard (special case)
-// - 'any': Any card type
-// - 'leaderOrCharacter': Leader or character on field
-// Other types map to specific zones (deck, trash, hand, etc.)
-//
-// ZONE FILTERING:
-// If 'zones' is specified, only search those zones.
-// If not specified, infer from 'type':
-// - leader -> leader zone
-// - character -> characters zone
-// - etc.
-//
-// FILTER EVALUATION ORDER:
-// 1. Get candidates by side/type/zones
-// 2. Apply each filter in order (AND logic by default)
-// 3. Apply distinctBy if present
-// 4. Validate against min/max/upTo
-//
-// THISCARD SPECIAL HANDLING:
-// When type is 'thisCard', return [context.thisCard] directly.
-// No zone search needed; it's a direct reference.
-//
-// BINDING:
-// If selector.bindAs is set, the result should be stored
-// in context.boundVars[bindAs] for later use in the same ability.
-
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: evaluateSelector finds characters by side
-//   Input: Selector { side: 'self', type: 'character' }, 3 self characters
-//   Expected: Returns array of 3 CardInstances
-//
-// TEST: evaluateSelector applies filter
-//   Input: Selector with filter { field: 'cost', op: '<=', value: 3 }
-//   Expected: Only returns cards with cost <= 3
-//
-// TEST: resolveSelector looks up global selector
-//   Input: 'selfTopDeckCard'
-//   Expected: Returns selector for top of deck
-//
-// TEST: validateSelection checks min constraint
-//   Input: 1 card selected, selector { min: 2 }
-//   Expected: { valid: false, error: 'Must select at least 2' }
-//
-// TEST: thisCard type returns context card
-//   Input: Selector { type: 'thisCard' }, context.thisCard set
-//   Expected: Returns [context.thisCard]
-//
-// TEST: distinctBy filters duplicates
-//   Input: 3 cards, 2 with same cardName, distinctBy: 'cardName'
-//   Expected: Only 2 cards returned (one of each name)
-
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Implement global selector registry
-// [ ] 2. Implement resolveSelector for string lookups
-// [ ] 3. Implement side resolution logic
-// [ ] 4. Implement type-to-zone mapping
-// [ ] 5. Implement zone candidate gathering
-// [ ] 6. Wire filter evaluation to expressions.js
-// [ ] 7. Implement distinctBy filtering
-// [ ] 8. Implement validateSelection
-// [ ] 9. Handle thisCard and triggerSource types
-// [ ] 10. Implement binding (bindAs) support
-
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
-
-// Global selector registry
 const GLOBAL_SELECTORS = {
   selfTopDeckCard: { side: 'self', type: 'deck', zones: ['deck'], max: 1 },
   opponentTopDeckCard: { side: 'opponent', type: 'deck', zones: ['deck'], max: 1 },
@@ -203,31 +26,161 @@ const GLOBAL_SELECTORS = {
   selfTriggerSourceCard: { type: 'triggerSource' }
 };
 
-export const evaluateSelector = (gameState, selector, context = {}) => {
-  // TODO: Find all matching cards
-  return [];
-};
-
 export const resolveSelector = (selector, context = {}) => {
-  // Handle string reference vs inline object
+  if (!selector) return null;
   if (typeof selector === 'string') {
     return GLOBAL_SELECTORS[selector] || null;
   }
   return selector;
 };
 
-export const getGlobalSelector = (name) => {
-  return GLOBAL_SELECTORS[name] || null;
+function _sideToOwners(side, context = {}) {
+  // context.activePlayer should be 'player' or 'opponent'
+  if (!side) side = 'self';
+  const active = context.activePlayer || 'player';
+  if (side === 'self') return [active];
+  if (side === 'opponent') return [active === 'player' ? 'opponent' : 'player'];
+  if (side === 'both') return ['player', 'opponent'];
+  // fallback
+  return [active];
+}
+
+function _gatherFromZonesForSide(gameState, side, selector, context) {
+  const p = (gameState && gameState.players) ? gameState.players[side] : null;
+  if (!p) return [];
+
+  // If explicit zones array present, use it; otherwise infer from type
+  const zonesToSearch = (Array.isArray(selector.zones) && selector.zones.length > 0)
+    ? selector.zones
+    : (function inferZones() {
+      switch (selector.type) {
+        case 'leader': return ['leader'];
+        case 'character': return ['char'];
+        case 'thisCard': return []; // handled specially
+        case 'any': return ['leader', 'stage', 'deck', 'donDeck', 'hand', 'trash', 'char', 'costArea', 'life'];
+        case 'deck': return ['deck'];
+        case 'trash': return ['trash'];
+        case 'hand': return ['hand'];
+        case 'don': return ['donDeck'];
+        case 'donDeck': return ['donDeck'];
+        case 'stage': return ['stage'];
+        case 'leaderOrCharacter': return ['leader', 'char'];
+        case 'costArea': return ['costArea'];
+        case 'life': return ['life'];
+        default:
+          // If type is 'character' or synonyms
+          if (selector.type === 'character' || selector.type === 'char') return ['char'];
+          return ['char'];
+      }
+    })();
+
+  const candidates = [];
+
+  // special types handled here:
+  if (selector.type === 'thisCard' && context && context.thisCard && context.thisCard.instanceId) {
+    return [context.thisCard];
+  }
+  if (selector.type === 'triggerSource' && context && context.triggerSource) {
+    return [context.triggerSource];
+  }
+
+  for (const z of zonesToSearch) {
+    if (z === 'leader') {
+      if (p.leader) candidates.push(p.leader);
+      continue;
+    }
+    if (z === 'stage') {
+      if (p.stage) candidates.push(p.stage);
+      continue;
+    }
+    // array zones
+    const arr = p[z];
+    if (!Array.isArray(arr)) continue;
+    // If searching top-of-deck only, some callers expect first element
+    if (z === 'deck' && selector.max === 1 && selector.zones && selector.zones.includes('deck')) {
+      if (arr.length > 0) candidates.push(arr[0]);
+    } else {
+      for (const inst of arr) {
+        if (inst) candidates.push(inst);
+      }
+    }
+  }
+
+  return candidates;
+}
+
+export const evaluateSelector = (gameState, selectorRef, context = {}) => {
+  const sel = resolveSelector(selectorRef, context);
+  if (!sel) return [];
+
+  let result = [];
+  const owners = _sideToOwners(sel.side || 'self', context);
+
+  for (const owner of owners) {
+    const gathered = _gatherFromZonesForSide(gameState, owner, sel, context);
+    // only include instances that match owner (we already used owner-specific gather)
+    result = result.concat(gathered);
+  }
+
+  // Apply filters if any
+  if (Array.isArray(sel.filters) && sel.filters.length > 0) {
+    result = result.filter((inst) => {
+      // For each filter, if any filter fails -> exclude
+      return sel.filters.every((f) => expressions.evaluateFilter(f, inst, gameState, context));
+    });
+  }
+
+  // Apply distinctBy if present
+  if (sel.distinctBy) {
+    result = applyDistinctBy(result, sel.distinctBy);
+  }
+
+  // Apply min/max/upTo trimming: if a specific max is set, trim to max (keep first N)
+  if (typeof sel.max === 'number' && sel.max >= 0) {
+    if (result.length > sel.max) {
+      result = result.slice(0, sel.max);
+    }
+  }
+
+  // bindAs: store into context.boundVars if requested
+  if (sel.bindAs && context) {
+    if (!context.boundVars) context.boundVars = {};
+    context.boundVars[sel.bindAs] = result;
+  }
+
+  return result;
 };
 
 export const validateSelection = (candidates, selector) => {
-  // TODO: Check min/max/upTo constraints
+  const min = (selector && typeof selector.min === 'number') ? selector.min : 0;
+  const max = (selector && typeof selector.max === 'number') ? selector.max : undefined;
+  const upTo = !!(selector && selector.upTo);
+
+  if (min && candidates.length < min) {
+    return { valid: false, error: `Must select at least ${min}` };
+  }
+  if (!upTo && typeof max === 'number' && candidates.length > max) {
+    return { valid: false, error: `Must select no more than ${max}` };
+  }
   return { valid: true };
 };
 
 export const applyDistinctBy = (candidates, field) => {
-  // TODO: Filter to distinct values
-  return candidates;
+  const seen = new Set();
+  const out = [];
+  for (const inst of candidates) {
+    if (!inst) continue;
+    const key = (typeof inst[field] !== 'undefined') ? inst[field] : inst.cardId || inst.instanceId;
+    if (!seen.has(key)) {
+      seen.add(key);
+      out.push(inst);
+    }
+  }
+  return out;
+};
+
+export const getGlobalSelector = (name) => {
+  return GLOBAL_SELECTORS[name] || null;
 };
 
 export default {
