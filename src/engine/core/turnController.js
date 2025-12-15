@@ -1,42 +1,33 @@
 'use strict';
 /*
- * turnController.js — Minimal Turn Phase helpers (Refresh & DON Phase)
+ * turnController.js — Minimal Turn Phase helpers (Refresh, DON, Draw, startTurn)
  * =============================================================================
  *
  * PURPOSE
- *  - Implement Refresh Phase and DON!! Phase helpers required by the engine.
- *
- * FUNCTIONS
- *  - refreshPhase(gameState, player)
- *      * Return attached DONs from player's leader & character instances to costArea (rest them)
- *      * Then set all rested cards in leader/char/stage/costArea to active
- *
- *  - donPhase(gameState, player, isFirstPlayer)
- *      * Place 2 DON!! cards from the player's DON deck into their costArea face-up.
- *      * If isFirstPlayer is true, place only 1.
+ *  - Implement Refresh Phase, DON Phase, Draw Phase and a startTurn orchestrator.
  *
  * NOTES
- *  - These helpers mutate gameState in place.
- *  - They use donManager.returnDonFromCard for returns and zones.moveToZone to move DONs.
+ *  - drawPhase sets gameState.defeat.loser on deck-out.
+ *  - startTurn returns success:true even when draw-phase produces a defeat marker;
+ *    defeat information is returned under out.defeat.
  * =============================================================================
  */
 
 import zones from './zones.js';
 import donManager from '../modifiers/donManager.js';
+import { findInstance } from './zones.js';
 
-const { findInstance, moveToZone } = zones;
+const { moveToZone: _moveToZone } = zones;
 
-/**
- * refreshPhase(gameState, player)
- *
- * Steps:
- * 1. For each card in player's Character area and Leader (if present):
- *    - If it has attachedDons, call donManager.returnDonFromCard(gameState, instanceId, count = attachedDons.length)
- *    - After returnDonFromCard, mark each returned DON's state as 'rested'
- * 2. Set all rested cards placed in player's Leader, Character, Stage, and costArea as active
- *
- * Returns: { success: true, returnedTotal: number, errors: [] }
- */
+/* --------------------------
+   Refresh Phase
+   -------------------------- */
+
+function ensureAttachedField(targetInstance) {
+  if (!targetInstance.attachedDons) targetInstance.attachedDons = [];
+  if (typeof targetInstance.givenDon !== 'number') targetInstance.givenDon = 0;
+}
+
 export function refreshPhase(gameState, player) {
   const result = { success: true, returnedTotal: 0, errors: [] };
   if (!gameState || !gameState.players || !gameState.players[player]) {
@@ -47,36 +38,33 @@ export function refreshPhase(gameState, player) {
 
   const p = gameState.players[player];
 
-  // Helper to process a single field instance (leader or each character)
   function returnAttachedFromInstance(instance) {
     if (!instance || !Array.isArray(instance.attachedDons) || instance.attachedDons.length === 0) {
       return 0;
     }
     const count = instance.attachedDons.length;
     try {
-      // Use donManager to return all attached DONs
       const ret = donManager.returnDonFromCard(gameState, instance.instanceId, count);
       if (!ret || !ret.success) {
         result.errors.push(`failed to return DONs from ${instance.instanceId}: ${ret ? ret.error : 'unknown'}`);
         return 0;
       }
-      // Mark returned DONs as 'rested' in costArea
-      const returnedIds = ret.returnedDonIds || ret.returnedDonIds || ret.returnedDonIds || ret.returnedDonIds;
-      // ret might use returnedDonIds key; fallback to ret.returnedDonIds or ret.returnedDonIds
-      // More robust: check ret.returnedDonIds or ret.returnedDonIds or ret.attachedDonIds
-      const ids = (ret.returnedDonIds && Array.isArray(ret.returnedDonIds))
-                    ? ret.returnedDonIds
-                    : (ret.returnedDonIds && Array.isArray(ret.returnedDonIds)) ? ret.returnedDonIds : (ret.returnedDonIds ? ret.returnedDonIds : []);
-      // Simpler: if none, inspect costArea for items with attachedTo null and recently moved — but to avoid complexity, handle both common keys.
-      const possibleIds = ret.returnedDonIds || ret.returnedDonIds || ret.attachedDonIds || [];
+      const possibleIds = ret.returnedDonIds || ret.returnedDonIds || ret.attachedDonIds || ret.returnedDonIds || [];
       for (const id of possibleIds) {
         const loc = findInstance(gameState, id);
         if (loc && loc.instance) {
           loc.instance.state = 'rested';
         }
       }
-      // As fallback: if no explicit returned ids, we will rest any DONs in costArea that belong to player and are recently moved.
-      // For simplicity, we rely on returnedDonIds being present.
+      // If we couldn't get explicit returned ids, as a fallback rest all costArea DONs
+      if ((possibleIds || []).length === 0) {
+        const costArea = p.costArea || [];
+        for (const d of costArea) {
+          if (d && d.state !== 'active') {
+            d.state = 'rested';
+          }
+        }
+      }
       return ret.moved || count;
     } catch (e) {
       result.errors.push(`exception returning DONs from ${instance.instanceId}: ${String(e)}`);
@@ -84,18 +72,18 @@ export function refreshPhase(gameState, player) {
     }
   }
 
-  // 1) Return from leader
+  // Return from leader
   if (p.leader) {
     result.returnedTotal += returnAttachedFromInstance(p.leader);
   }
-  // 2) Return from each character
+  // Return from each character
   if (Array.isArray(p.char)) {
     for (const ch of p.char.slice()) {
       result.returnedTotal += returnAttachedFromInstance(ch);
     }
   }
 
-  // 3) After returns, set all rested cards in leader/char/stage/costArea to active
+  // Set rested cards in leader/char/stage/costArea to active
   const zonesToActivate = [];
   if (p.leader) zonesToActivate.push(p.leader);
   if (p.stage) zonesToActivate.push(p.stage);
@@ -110,15 +98,10 @@ export function refreshPhase(gameState, player) {
   return result;
 }
 
-/**
- * donPhase(gameState, player, isFirstPlayer=false)
- *
- * Places DONs from the player's donDeck into costArea face-up:
- * - default: place 2 DONs
- * - if isFirstPlayer: place 1 DON
- *
- * Returns: { success: true, placed: number }
- */
+/* --------------------------
+   DON Phase
+   -------------------------- */
+
 export function donPhase(gameState, player, isFirstPlayer = false) {
   if (!gameState || !gameState.players || !gameState.players[player]) {
     return { success: false, error: 'invalid gameState or player' };
@@ -131,24 +114,18 @@ export function donPhase(gameState, player, isFirstPlayer = false) {
   let placed = 0;
   for (let i = 0; i < toPlace; i++) {
     if (p.donDeck.length === 0) break;
-    // Top is index 0
     const topDon = p.donDeck[0];
     if (!topDon) {
-      // remove it and continue
       p.donDeck.shift();
       continue;
     }
-    // Move using moveToZone so metadata updates correctly
-    const res = moveToZone(gameState, topDon.instanceId, player, 'costArea', { top: false });
+    const res = _moveToZone(gameState, topDon.instanceId, player, 'costArea', { top: false });
     if (!res || !res.success) {
-      // if cannot move, stop
       break;
     }
-    // After move, find the instance in costArea and set faceUp true
     const loc = findInstance(gameState, topDon.instanceId);
     if (loc && loc.instance) {
       loc.instance.faceUp = true;
-      // DON placed into costArea should be set as active by refresh logic later; here no extra state
     }
     placed += 1;
   }
@@ -156,7 +133,109 @@ export function donPhase(gameState, player, isFirstPlayer = false) {
   return { success: true, placed };
 }
 
+/* --------------------------
+   DRAW Phase
+   -------------------------- */
+
+export function drawPhase(gameState, player, options = {}) {
+  const { count = 1, isFirstTurn = false, skipOnFirstTurn = true } = options;
+  const result = { success: true, drawn: 0 };
+
+  if (!gameState || !gameState.players || !gameState.players[player]) {
+    result.success = false;
+    result.error = 'invalid gameState or player';
+    return result;
+  }
+
+  // Skip draw on first turn if requested
+  if (isFirstTurn && skipOnFirstTurn) {
+    return result;
+  }
+
+  const p = gameState.players[player];
+  if (!Array.isArray(p.deck)) p.deck = [];
+  if (!Array.isArray(p.hand)) p.hand = [];
+
+  for (let i = 0; i < count; i++) {
+    if (p.deck.length === 0) {
+      // Deck-out: set defeat marker but do not mark result.success false
+      gameState.defeat = gameState.defeat || {};
+      gameState.defeat.loser = player;
+      result.defeat = { loser: player };
+      result.success = true;
+      break;
+    }
+    const card = p.deck.shift(); // top of deck
+    p.hand.push(card);
+    if (card) card.zone = 'hand';
+    result.drawn += 1;
+  }
+
+  return result;
+}
+
+/* --------------------------
+   START TURN
+   -------------------------- */
+
+export function startTurn(gameState, player, options = {}) {
+  const { isFirstTurn = false, isFirstPlayer = false } = options;
+  const out = { success: true, refresh: null, draw: null, don: null, phase: null, turnNumber: null, errors: [], defeat: null };
+
+  if (!gameState || !gameState.players || !gameState.players[player]) {
+    out.success = false;
+    out.errors.push('invalid gameState or player');
+    return out;
+  }
+
+  // Set current turn player and increment turnNumber appropriately
+  gameState.turnPlayer = player;
+  if (typeof gameState.turnNumber !== 'number') gameState.turnNumber = 1;
+  else if (!isFirstTurn) {
+    gameState.turnNumber += 1;
+  }
+  out.turnNumber = gameState.turnNumber;
+
+  // Refresh Phase
+  try {
+    out.refresh = refreshPhase(gameState, player);
+    if (!out.refresh.success) out.errors.push(...(out.refresh.errors || []));
+  } catch (e) {
+    out.errors.push(`refreshPhase error: ${String(e)}`);
+  }
+
+  // Draw Phase
+  try {
+    const draw = drawPhase(gameState, player, { count: 1, isFirstTurn, skipOnFirstTurn: true });
+    out.draw = draw;
+    if (draw && draw.defeat) {
+      // Propagate defeat info but do not treat as an error
+      out.defeat = draw.defeat;
+    }
+  } catch (e) {
+    out.errors.push(`drawPhase error: ${String(e)}`);
+  }
+
+  // DON Phase
+  try {
+    const don = donPhase(gameState, player, isFirstTurn && isFirstPlayer);
+    out.don = don;
+  } catch (e) {
+    out.errors.push(`donPhase error: ${String(e)}`);
+  }
+
+  // Set phase to Main
+  gameState.phase = 'Main';
+  out.phase = 'Main';
+
+  if (out.errors.length > 0) out.success = false;
+  return out;
+}
+
+/* Default export */
 export default {
   refreshPhase,
-  donPhase
+  donPhase,
+  drawPhase,
+  startTurn
 };
