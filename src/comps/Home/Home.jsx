@@ -36,6 +36,7 @@ import { useDonManagement } from './Don';
 import GameModeSelect from './GameModeSelect';
 import DiceRoll from './DiceRoll';
 import Lobby from './Lobby';
+import PromptProvider from '../Prompt/PromptProvider';
 
 // Import hooks from the hooks folder
 import {
@@ -296,7 +297,7 @@ export default function Home() {
         initializeDonDecks();
     }, [initializeDonDecks]);
 
-    // Card stats
+    // Card stats (with engine integration)
     const {
         getBasePower,
         getAuraPowerMod,
@@ -304,7 +305,14 @@ export default function Home() {
         getAuraCostMod,
         getCardCost,
         getKeywordsFor
-    } = useCardStats({ metaById, getSideLocation, getDonPowerBonus });
+    } = useCardStats({ 
+        metaById, 
+        areas,
+        turnSide,
+        turnNumber,
+        getSideLocation, 
+        getDonPowerBonus 
+    });
 
     // Battle system (stub)
     const {
@@ -782,6 +790,9 @@ export default function Home() {
                     </Paper>
                 </Box>
             </Box>
+
+            {/* Engine Prompt Dialog Provider */}
+            <PromptProvider myPlayerSide={myMultiplayerSide} />
 
             {/* Deck Builder */}
             <DeckBuilder open={deckOpen} onClose={() => setDeckOpen(false)} />

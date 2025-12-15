@@ -28,9 +28,13 @@ test('counter step trashes a counter card and applies power bonus (prompt-driven
   function onPrompt({ prompt }) {
     try {
       if (prompt && prompt.playerId === 'opponent' && prompt.choiceSpec) {
-        // Submit the first choice (simulate UI)
-        const chosen = [counterCard.instanceId];
-        promptManager.submitChoice(prompt.id, 'opponent', chosen);
+        // Submit selection in the expected format for counter prompts:
+        // { trashedHandIds: [...], activatedEventIds: [...] }
+        const selection = {
+          trashedHandIds: [counterCard.instanceId],
+          activatedEventIds: []
+        };
+        promptManager.submitChoice(prompt.id, 'opponent', selection);
       }
     } catch (e) {
       // ignore test-side submit errors

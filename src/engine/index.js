@@ -27,6 +27,7 @@ import EventEmitter from 'events';
 import { getCardInstanceById } from './core/gameState.js';
 import continuousEffects from './modifiers/continuousEffects.js';
 import cardLoader from './cardLoader.js';
+import promptManager from './core/promptManager.js';
 
 // Minimal event bus (EventEmitter)
 const eventBus = new EventEmitter();
@@ -231,6 +232,79 @@ export function off(evt, handler) {
 export function emit(evt, payload) {
   eventBus.emit(evt, payload);
 }
+
+// =============================================================================
+// Default Prompt Handlers (forward to promptManager)
+// =============================================================================
+
+/**
+ * _forwardPromptToPromptManager(payload, playerIdFromPayload)
+ * 
+ * Helper to forward a prompt to promptManager.requestChoice and return selection.
+ * This bridges the engine.prompt() system with promptManager, enabling the UI
+ * to receive prompts via engine.on('prompt') and submit choices via promptManager.submitChoice.
+ * 
+ * IMPORTANT: If there are no listeners for the 'prompt' event, this returns null
+ * immediately to preserve backward compatibility with tests and non-interactive use.
+ * 
+ * @param {object} payload - The prompt payload (becomes choiceSpec)
+ * @param {string} playerIdFromPayload - The playerId extracted from payload
+ * @returns {Promise<any>} - The player's selection or null
+ */
+async function _forwardPromptToPromptManager(payload, playerIdFromPayload) {
+  const playerId = playerIdFromPayload 
+    || payload?.defenderOwner 
+    || payload?.side 
+    || payload?.playerId 
+    || payload?.lifeCard?.owner;
+  
+  if (!playerId) return null;
+
+  // Check if there are any listeners for the 'prompt' event.
+  // If no listeners exist (e.g., tests without UI, headless operation),
+  // return null immediately to preserve fallback behavior.
+  const listenerCount = eventBus.listenerCount('prompt');
+  if (listenerCount === 0) {
+    // No UI/transport listening - return null for auto-fallback behavior
+    return null;
+  }
+
+  // Use payload itself as choiceSpec so UI can render payload-specific fields
+  // (handCounterCandidates, lifeCard, blockers, etc.)
+  const { promise } = promptManager.requestChoice(
+    payload.gameState, 
+    playerId, 
+    payload, 
+    { timeoutMs: null, debug: { via: 'engine-default-handler' } }
+  );
+
+  try {
+    const { selection } = await promise; // resolves { selection, promptId }
+    // The UI / promptManager should return an object that matches engine's expectation
+    return selection || null;
+  } catch (e) {
+    // On timeout or cancel, return null to preserve existing fallback behavior
+    return null;
+  }
+}
+
+// Register default handlers for the commonly used prompt types:
+// These handlers forward to promptManager, enabling interactive prompt flow.
+registerPromptHandler('counter', (payload) => 
+  _forwardPromptToPromptManager(payload, payload?.defenderOwner)
+);
+
+registerPromptHandler('blocker', (payload) => 
+  _forwardPromptToPromptManager(payload, payload?.defenderOwner)
+);
+
+registerPromptHandler('lifeTrigger', (payload) => 
+  _forwardPromptToPromptManager(payload, payload?.side || payload?.lifeCard?.owner)
+);
+
+registerPromptHandler('replacement', (payload) => 
+  _forwardPromptToPromptManager(payload, payload?.playerId || payload?.side)
+);
 
 /* Default export */
 export default {

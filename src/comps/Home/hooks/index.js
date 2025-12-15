@@ -48,6 +48,11 @@ export { default as useGameSetup } from './useGameSetup';
 export * from './areasUtils';
 
 // =============================================================================
+// ENGINE ADAPTERS (bridge between UI areas and engine gameState)
+// =============================================================================
+export { convertAreasToGameState, convertGameStateToAreas, getInstanceIdFromAreas } from './engineAdapter';
+
+// =============================================================================
 // TODO: ENGINE INTEGRATION
 // =============================================================================
 // When engine is ready, add:
