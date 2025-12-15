@@ -1,20 +1,20 @@
 'use strict';
 /*
- * battle.js — Minimal Battle Engine (async, prompt-driven Counter Step)
+ * battle.js — Minimal Battle Engine (sync-or-async counter support)
  * =============================================================================
  *
- * Implements a simplified Attack/Block/Damage/End-of-Battle flow sufficient for
- * early simulation and unit tests. The Counter Step now prompts the defending
- * player (via promptManager.requestChoice) to optionally trash a counter card
- * from their hand and apply its counter value as +power to the battle target
- * for this battle.
+ * This version keeps conductBattle callable synchronously in the common case
+ * (no prompt / immediate counter resolution) but also supports the counter
+ * step returning a Promise (for prompt-driven interaction) by returning a
+ * Promise from conductBattle when necessary.
  *
- * - conductBattle is async and should be awaited by callers.
- * - If prompt times out or is cancelled, the Counter step is treated as "no action".
+ * The function computeDamageAndResolve(...) contains the damage-resolution
+ * logic so it can be invoked synchronously or after the counter Promise.
  *
- * Notes:
- * - The prompt choiceSpec is intentionally minimal and server-side: it carries
- *   a `choices` array with { id, label, counter } so the UI knows what to show.
+ * The Counter Step currently:
+ *  - looks for counter cards in defender hand and, if found, trashes the first
+ *    such card and applies its counter value as a +power modifier for thisBattle.
+ *
  * =============================================================================
  */
 
@@ -22,8 +22,7 @@ import zones from './zones.js';
 import continuousEffects from '../modifiers/continuousEffects.js';
 import { dealDamage } from '../actions/dealDamage.js';
 import { modifyStat } from '../actions/modifyStat.js';
-import promptManager from '../core/promptManager.js';
-import engine from '../index.js'; // for emitting/observing events if needed
+import engine from '../index.js';
 
 const { findInstance, removeInstance } = zones;
 
@@ -81,78 +80,38 @@ function _koCharacter(gameState, instance) {
 }
 
 /* -------------------------
-   Counter Step implementation (async; prompts defender)
+   Counter Step implementation
    ------------------------- */
-async function _performCounterStep(gameState, defenderOwner, targetInstanceId) {
+/**
+ * _performCounterStep(gameState, defenderOwner, targetInstanceId)
+ *
+ * Synchronous-path: returns an object { success, applied, ... } if the counter
+ * step can be completed synchronously (no prompt).
+ *
+ * Async-path: if the engine integrates prompt-manager or a prompt-based
+ * counter step, this helper may return a Promise resolving to the same shape.
+ *
+ * Current behavior: synchronous auto-trash of first hand card with numeric counter.
+ */
+function _performCounterStep(gameState, defenderOwner, targetInstanceId) {
   const p = gameState.players && gameState.players[defenderOwner];
   if (!p || !Array.isArray(p.hand)) return { success: true, applied: false };
 
-  // find all counter cards in hand (counter > 0)
-  const candidates = [];
-  for (const inst of p.hand) {
-    if (inst && typeof inst.counter === 'number' && inst.counter > 0) {
-      candidates.push(inst);
-    }
+  // find first counter card in hand
+  let idx = -1;
+  for (let i = 0; i < p.hand.length; i++) {
+    const c = p.hand[i];
+    if (c && typeof c.counter === 'number' && c.counter > 0) { idx = i; break; }
   }
-  if (candidates.length === 0) return { success: true, applied: false };
+  if (idx === -1) return { success: true, applied: false };
 
-  // Prepare a choiceSpec with the candidates for the UI
-  const choices = candidates.map(c => ({
-    id: c.instanceId,
-    label: `${c.cardId || c.instanceId} (Counter ${c.counter})`,
-    counter: c.counter
-  }));
-
-  const choiceSpec = {
-    type: 'select',
-    min: 0,
-    max: 1,
-    message: 'You may trash a counter card from your hand to add its counter to the target for this battle.',
-    choices
-  };
-
-  // Request choice from the defender. Use a modest timeout so tests/automations don't hang.
-  let promptResult = null;
-  try {
-    const { promptId, promise } = promptManager.requestChoice(gameState, defenderOwner, choiceSpec, { timeoutMs: 30000, debug: { source: 'counterStep' } });
-    // Wait for selection or timeout/cancel
-    try {
-      const resolved = await promise;
-      // normalized: resolved.selection is whatever the client chose
-      promptResult = resolved && resolved.selection ? resolved.selection : null;
-    } catch (e) {
-      // Timeout or cancel -> treat as no choice
-      // emit an event for visibility
-      try { engine.emit('counterPromptFailed', { defenderOwner, reason: String(e) }); } catch (_e) {}
-      promptResult = null;
-    }
-  } catch (e) {
-    // If requestChoice itself throws, log and treat as no choice
-    try { engine.emit('counterPromptError', { defenderOwner, error: String(e) }); } catch (_e) {}
-    promptResult = null;
-  }
-
-  // If no selection or empty, treat as no action
-  if (!promptResult || (Array.isArray(promptResult) && promptResult.length === 0)) {
-    return { success: true, applied: false };
-  }
-
-  // The selection may be an array of chosen ids (we accepted max:1)
-  const chosenId = Array.isArray(promptResult) ? promptResult[0] : promptResult;
-
-  // Find the card in hand and trash it
-  const index = p.hand.findIndex(h => h && h.instanceId === chosenId);
-  if (index === -1) {
-    // Chosen card not found (client lied or race) -> treat as no action
-    return { success: true, applied: false, reason: 'chosen card not found' };
-  }
-
-  const [trashed] = p.hand.splice(index, 1);
+  // remove from hand and move to trash
+  const [trashed] = p.hand.splice(idx, 1);
   if (!Array.isArray(p.trash)) p.trash = [];
   trashed.zone = 'trash';
   p.trash.push(trashed);
 
-  // Apply modifier for this battle to the target instance
+  // apply modifier for this battle to the target instance
   try {
     const desc = {
       stat: 'power',
@@ -163,6 +122,7 @@ async function _performCounterStep(gameState, defenderOwner, targetInstanceId) {
       sourceInstanceId: trashed.instanceId,
       ownerId: defenderOwner
     };
+    // modifyStat is an immediate action helper that mutates gameState
     modifyStat(gameState, desc);
   } catch (e) {
     return { success: false, error: String(e) };
@@ -172,9 +132,51 @@ async function _performCounterStep(gameState, defenderOwner, targetInstanceId) {
 }
 
 /* -------------------------
-   conductBattle (async)
+   Helper: damage computation + resolving
    ------------------------- */
-export async function conductBattle(gameState, attackerInstanceId, targetInstanceId) {
+function _computeDamageResult(gameState, attackerLoc, targetLoc, blockedBy) {
+  const attacker = attackerLoc.instance;
+  const attackerOwner = attackerLoc.owner;
+
+  const attackerPower = _computePower(gameState, attacker, { isOwnerTurn: false });
+  const targetInstance = targetLoc.instance;
+  const targetPower = _computePower(gameState, targetInstance, { isOwnerTurn: false });
+
+  const result = {
+    success: true,
+    attacker: { id: attackerLoc.instance.instanceId, power: attackerPower, owner: attackerOwner },
+    target: { id: targetLoc.instance.instanceId, zone: targetLoc.zone, power: targetPower, owner: targetLoc.owner },
+    blockedBy: blockedBy ? { id: blockedBy.instanceId } : null,
+    winner: null,
+    ko: [],
+    leaderDamage: null,
+    error: null
+  };
+
+  if (attackerPower >= targetPower) {
+    result.winner = 'attacker';
+    if (targetLoc.zone === 'leader') {
+      // Deal 1 damage to the leader's owner
+      const dmgRes = dealDamage(gameState, targetLoc.owner, 1);
+      result.leaderDamage = dmgRes;
+    } else if (targetLoc.zone === 'char' || targetLoc.zone === 'attached') {
+      const koRes = _koCharacter(gameState, targetLoc.instance);
+      if (koRes.success) result.ko.push(koRes);
+      else result.ko.push({ success: false, error: koRes.error });
+    } else {
+      // unexpected zone - do nothing
+    }
+  } else {
+    result.winner = 'defender';
+  }
+
+  return result;
+}
+
+/* -------------------------
+   conductBattle (sync-or-async aware)
+   ------------------------- */
+export function conductBattle(gameState, attackerInstanceId, targetInstanceId) {
   if (!gameState) return { success: false, error: 'missing gameState' };
   if (!attackerInstanceId || !targetInstanceId) return { success: false, error: 'missing instance ids' };
 
@@ -185,7 +187,6 @@ export async function conductBattle(gameState, attackerInstanceId, targetInstanc
   if (!targetLocInitial || !targetLocInitial.instance) return { success: false, error: 'target not found' };
 
   const attacker = attackerLoc.instance;
-  const attackerOwner = attackerLoc.owner;
 
   // Validate attacker location and state
   if (!(attackerLoc.zone === 'leader' || attackerLoc.zone === 'char')) {
@@ -222,51 +223,29 @@ export async function conductBattle(gameState, attackerInstanceId, targetInstanc
     }
   }
 
-  // Counter Step: prompt defender to trash a counter card (async)
-  if (targetLoc && targetLoc.owner) {
-    try {
-      await _performCounterStep(gameState, targetLoc.owner, targetLoc.instance.instanceId);
-    } catch (e) {
-      // ignore errors for now – Counter step is optional
-      try { engine.emit('counterStepError', { error: String(e) }); } catch (_e) {}
+  // Counter Step: perform (may return object or Promise)
+  try {
+    const counterRes = _performCounterStep(gameState, targetLoc.owner, targetLoc.instance.instanceId);
+
+    // If counterRes is a Promise (thenable), return a Promise that continues after it
+    if (counterRes && typeof counterRes.then === 'function') {
+      return counterRes.then(() => {
+        // After counter finishes, compute damage result and return
+        return _computeDamageResult(gameState, attackerLoc, targetLoc, blockedBy);
+      }).catch((e) => {
+        // If counter promise rejects, log and proceed as if no counter applied
+        try { engine.emit('counterStepError', { error: String(e) }); } catch (_) {}
+        return _computeDamageResult(gameState, attackerLoc, targetLoc, blockedBy);
+      });
     }
+
+    // Synchronous path: compute damage and return immediately
+    return _computeDamageResult(gameState, attackerLoc, targetLoc, blockedBy);
+  } catch (e) {
+    // If counter step threw synchronously, log and still compute damage
+    try { engine.emit('counterStepError', { error: String(e) }); } catch (_) {}
+    return _computeDamageResult(gameState, attackerLoc, targetLoc, blockedBy);
   }
-
-  // Damage Step: compute powers and resolve
-  const attackerPower = _computePower(gameState, attacker, { isOwnerTurn: false });
-  const targetInstance = targetLoc.instance;
-  const targetPower = _computePower(gameState, targetInstance, { isOwnerTurn: false });
-
-  const result = {
-    success: true,
-    attacker: { id: attackerInstanceId, power: attackerPower, owner: attackerOwner },
-    target: { id: targetLoc.instance.instanceId, zone: targetLoc.zone, power: targetPower, owner: targetLoc.owner },
-    blockedBy: blockedBy ? { id: blockedBy.instanceId } : null,
-    winner: null,
-    ko: [],
-    leaderDamage: null,
-    error: null
-  };
-
-  // Compare powers
-  if (attackerPower >= targetPower) {
-    result.winner = 'attacker';
-    if (targetLoc.zone === 'leader') {
-      // Deal 1 damage to the leader's owner
-      const dmgRes = dealDamage(gameState, targetLoc.owner, 1);
-      result.leaderDamage = dmgRes;
-    } else if (targetLoc.zone === 'char' || targetLoc.zone === 'attached') {
-      const koRes = _koCharacter(gameState, targetLoc.instance);
-      if (koRes.success) result.ko.push(koRes);
-      else result.ko.push({ success: false, error: koRes.error });
-    } else {
-      // unexpected zone - do nothing
-    }
-  } else {
-    result.winner = 'defender';
-  }
-
-  return result;
 }
 
 /* Default export for convenience */
