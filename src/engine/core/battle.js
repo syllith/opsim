@@ -4,22 +4,19 @@
  * =============================================================================
  *
  * Implements a simplified Attack/Block/Damage/End-of-Battle flow sufficient for
- * early simulation and unit tests. No duplicate function names; helper functions
- * are defined only once.
+ * early simulation and unit tests.
  *
- * Export:
- *  - export function conductBattle(gameState, attackerInstanceId, targetInstanceId)
+ * - Added a simple Counter Step:
+ *    Defender automatically trashes first card in hand that has numeric 'counter' > 0
+ *    The trashed card's counter value is applied as +power to the battle target
+ *    for this battle (via modifyStat with duration 'thisBattle').
  *
- * Notes:
- *  - Block selection is automatic (first active Blocker).
- *  - Counter step is a placeholder (not implemented).
- *  - Uses continuousEffects.getComputedStat to calculate effective power.
- * =============================================================================
+ * This is deterministic and test-friendly; it can be replaced with player prompts later.
  */
-
 import zones from './zones.js';
 import continuousEffects from '../modifiers/continuousEffects.js';
 import { dealDamage } from '../actions/dealDamage.js';
+import { modifyStat } from '../actions/modifyStat.js';
 
 const { findInstance, removeInstance } = zones;
 
@@ -77,6 +74,46 @@ function _koCharacter(gameState, instance) {
 }
 
 /* -------------------------
+   Counter Step implementation
+   ------------------------- */
+function _performCounterStep(gameState, defenderOwner, targetInstanceId) {
+  const p = gameState.players && gameState.players[defenderOwner];
+  if (!p || !Array.isArray(p.hand)) return { success: true, applied: false };
+
+  // find first counter card in hand
+  let idx = -1;
+  for (let i = 0; i < p.hand.length; i++) {
+    const c = p.hand[i];
+    if (c && typeof c.counter === 'number' && c.counter > 0) { idx = i; break; }
+  }
+  if (idx === -1) return { success: true, applied: false };
+
+  // remove from hand and move to trash
+  const [trashed] = p.hand.splice(idx, 1);
+  if (!Array.isArray(p.trash)) p.trash = [];
+  trashed.zone = 'trash';
+  p.trash.push(trashed);
+
+  // apply modifier for this battle to the target instance
+  try {
+    const desc = {
+      stat: 'power',
+      mode: 'add',
+      amount: trashed.counter,
+      targetInstanceIds: [targetInstanceId],
+      duration: 'thisBattle',
+      sourceInstanceId: trashed.instanceId,
+      ownerId: defenderOwner
+    };
+    modifyStat(gameState, desc);
+  } catch (e) {
+    return { success: false, error: String(e) };
+  }
+
+  return { success: true, applied: true, trashedInstanceId: trashed.instanceId, amount: trashed.counter };
+}
+
+/* -------------------------
    conductBattle
    ------------------------- */
 export function conductBattle(gameState, attackerInstanceId, targetInstanceId) {
@@ -127,8 +164,14 @@ export function conductBattle(gameState, attackerInstanceId, targetInstanceId) {
     }
   }
 
-  // Counter Step: placeholder (no counters implemented)
-  // ...
+  // Counter Step: perform automatic counter (defender trashes first counter card in hand)
+  if (targetLoc && targetLoc.owner) {
+    try {
+      _performCounterStep(gameState, targetLoc.owner, targetLoc.instance.instanceId);
+    } catch (e) {
+      // ignore errors for now – Counter step is optional
+    }
+  }
 
   // Damage Step: compute powers and resolve
   const attackerPower = _computePower(gameState, attacker, { isOwnerTurn: false });

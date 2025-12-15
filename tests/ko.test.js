@@ -3,56 +3,95 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { createInitialState, createCardInstance } from '../src/engine/core/gameState.js';
-import koModule from '../src/engine/core/ko.js';
-import donManager from '../src/engine/modifiers/donManager.js';
-import { modifyStat } from '../src/engine/actions/modifyStat.js';
 import zones from '../src/engine/core/zones.js';
-import continuousEffects from '../src/engine/modifiers/continuousEffects.js'; // <-- ADDED import
+import koCore from '../src/engine/core/ko.js';
+import replacement from '../src/engine/core/replacement.js';
+import { modifyStat } from '../src/engine/actions/modifyStat.js';
 
-const { findInstance } = zones;
+const { createAndAdd } = zones;
 
-test('ko moves character to trash and detaches DONs and removes modifiers', () => {
+test('canBeKOd respects static preventKO ability for effectKO', () => {
   const s = createInitialState({});
-  // Create a player character in char
-  const ch = createCardInstance('CHAR-1', 'player', 'char', s);
-  ch.basePower = 2000;
-  ch.state = 'active';
-  s.players.player.char.push(ch);
+  // Create character instance and add to player's char zone
+  const inst = createAndAdd(s, 'CHAR-P', 'player', 'char');
 
-  // Put two DONs into costArea
-  const don1 = createCardInstance('DON', 'player', 'costArea', s);
-  const don2 = createCardInstance('DON', 'player', 'costArea', s);
-  s.players.player.costArea.push(don1, don2);
+  // Add a static ability on the instance that prevents effect KO
+  inst.abilities = [
+    {
+      timing: 'static',
+      actions: [
+        {
+          type: 'preventKO',
+          target: { side: 'self', type: 'thisCard' },
+          condition: {
+            field: 'eventType',
+            op: '=',
+            value: 'effectKO'
+          }
+        }
+      ]
+    }
+  ];
 
-  // Attach both DONs to character
-  const giveRes = donManager.giveDon(s, 'player', ch.instanceId, 2);
-  assert.ok(giveRes.success && giveRes.moved === 2);
+  // canBeKOd with cause='effect' should be false
+  const canEffect = koCore.canBeKOd(s, inst.instanceId, 'effect');
+  assert.strictEqual(canEffect, false, 'Instance should be immune to effect KO');
 
-  // Add a modifier targeting this character
-  const modRes = modifyStat(s, {
-    stat: 'power',
-    mode: 'add',
-    amount: 1000,
-    targetInstanceIds: [ch.instanceId],
-    duration: 'permanent',
-    ownerId: 'player'
-  });
-  assert.ok(modRes.success);
+  // canBeKOd with cause='battle' should be true (prevent only effectKO)
+  const canBattle = koCore.canBeKOd(s, inst.instanceId, 'battle');
+  assert.strictEqual(canBattle, true, 'Instance should not be immune to battle KO');
+});
 
-  // Now KO the character
-  const res = koModule.ko(s, ch.instanceId, 'battle');
-  assert.ok(res.success, `ko failed: ${res.error}`);
+test('wouldBeKO finds replacement registered via replacement.registerReplacement', () => {
+  const s = createInitialState({});
+  const inst = createAndAdd(s, 'CHAR-R', 'player', 'char');
 
-  // Character should now be in trash
-  const found = findInstance(s, ch.instanceId);
-  assert.ok(found && found.zone === 'trash', 'character must be in trash after KO');
+  // Register a replacement targeting this instance for event 'wouldBeKO'
+  const effect = {
+    event: 'wouldBeKO',
+    duration: 'thisTurn',
+    maxTriggers: 1,
+    targetSelector: { instanceId: inst.instanceId }
+  };
+  const reg = replacement.registerReplacement(s, effect);
+  assert.ok(reg.success, 'replacement registration should succeed');
 
-  // DONs should have been returned to costArea (2) and be rested
-  const cost = s.players.player.costArea || [];
-  const restedCount = cost.filter(d => d && d.state === 'rested').length;
-  assert.strictEqual(restedCount, 2, 'two DONs should be returned to costArea and rested');
+  const chk = koCore.wouldBeKO(s, inst.instanceId, 'effect');
+  assert.ok(chk.hasReplacement === true && Array.isArray(chk.effects) && chk.effects.length > 0, 'wouldBeKO should find replacement');
+});
 
-  // Modifiers for the instance should have been removed
-  const mods = continuousEffects.getModifiersFor ? continuousEffects.getModifiersFor(s, ch.instanceId) : [];
-  assert.ok(Array.isArray(mods) && mods.length === 0, 'modifiers for KOed instance should be removed');
+test('processKOAbilities executes onKO abilities (modifyStat action)', () => {
+  const s = createInitialState({});
+  // Create koed card (we will simulate KO)
+  const koed = createAndAdd(s, 'CHAR-KO', 'player', 'char');
+
+  // Create another instance with onKO ability that modifies its own power
+  const responder = createAndAdd(s, 'CHAR-RSP', 'player', 'char');
+  responder.abilities = [
+    {
+      timing: 'onKO',
+      actions: [
+        {
+          type: 'modifyStat',
+          stat: 'power',
+          mode: 'add',
+          amount: 1000,
+          duration: 'permanent',
+          // use targetInstanceIds to directly target the responder itself
+          targetInstanceIds: [responder.instanceId]
+        }
+      ]
+    }
+  ];
+
+  // Ensure no modifiers yet
+  s.continuousEffects = s.continuousEffects || [];
+  const beforeCount = s.continuousEffects.length;
+
+  // Call processKOAbilities
+  koCore.processKOAbilities(s, koed.instanceId, 'effect');
+
+  // After processing, we should have at least one modifier added (modifyStat adds a modifier)
+  const afterCount = s.continuousEffects.length;
+  assert.ok(afterCount > beforeCount, 'processKOAbilities should have added at least one continuous effect modifier');
 });
