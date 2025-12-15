@@ -1,205 +1,195 @@
 'use strict';
-// keywordManager.js — Keyword State Management
-// =============================================================================
-// PURPOSE:
-// This module manages keyword state for cards. It tracks granted and revoked
-// keywords, handles duration expiry, and computes the final set of keywords
-// a card currently has.
-// =============================================================================
+/*
+ * keywordManager.js — Keyword State Management (implemented)
+ *
+ * Implements granting/revoking keywords, computing effective keywords, expiry,
+ * and clearing modifiers on zone change.
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - Track keyword grants (temporary keywords added)
-// - Track keyword revokes (keywords disabled)
-// - Compute effective keywords for a card
-// - Handle keyword duration expiry
-// - Clean up keywords on zone change
+function _ensureKeywordModifiers(gameState) {
+  if (!gameState) throw new TypeError('gameState required');
+  if (!Array.isArray(gameState.keywordModifiers)) gameState.keywordModifiers = [];
+  if (typeof gameState.nextKeywordModifierId !== 'number') gameState.nextKeywordModifierId = 1;
+}
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// grantKeyword(gameState, instanceId, keyword, duration, sourceId) -> GameState
-//   Grants a keyword to a card instance.
-//
-// revokeKeyword(gameState, instanceId, keyword, duration, sourceId) -> GameState
-//   Revokes/disables a keyword on a card instance.
-//
-// getKeywords(gameState, instanceId) -> string[]
-//   Returns all effective keywords for a card.
-//   Includes printed + granted - revoked.
-//
-// hasKeyword(gameState, instanceId, keyword) -> boolean
-//   Checks if a card currently has a specific keyword.
-//
-// isKeywordRevoked(gameState, instanceId, keyword) -> boolean
-//   Checks if a keyword is actively revoked on a card.
-//
-// clearKeywordsForInstance(gameState, instanceId) -> GameState
-//   Removes all keyword modifiers for an instance (zone change).
-//
-// expireKeywords(gameState, trigger) -> GameState
-//   Removes expired keyword grants/revokes based on trigger.
+function _generateKeywordModifierId(gameState) {
+  _ensureKeywordModifiers(gameState);
+  const id = `km-${gameState.nextKeywordModifierId}`;
+  gameState.nextKeywordModifierId += 1;
+  return id;
+}
 
-// =============================================================================
-// KEYWORD MODIFIER SCHEMA
-// =============================================================================
-// KeywordModifier = {
-//   id: string,
-//   instanceId: string,       // Target card
-//   keyword: string,          // Keyword name
-//   operation: 'grant' | 'revoke',
-//   duration: Duration,
-//   sourceInstanceId: string, // Card that created this
-//   createdTurn: number,
-//   ownerId: 'player1' | 'player2'
-// }
+function _nowTurn(gameState) {
+  return typeof gameState.turnNumber === 'number' ? gameState.turnNumber : 0;
+}
 
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current GameState
-// - instanceId: target card instance
-// - keyword: keyword name string
-// - duration: how long the modification lasts
-// - sourceId: card creating the modification
-//
-// OUTPUTS:
-// - GameState with updated keyword modifiers
-// - string[] for keyword lists
-// - boolean for presence checks
-//
-// STORAGE:
-// gameState.keywordModifiers: KeywordModifier[]
+/**
+ * grantKeyword(gameState, instanceId, keyword, duration = 'permanent', sourceId = null, ownerId = null)
+ */
+export const grantKeyword = (gameState, instanceId, keyword, duration = 'permanent', sourceId = null, ownerId = null) => {
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  if (!instanceId || !keyword) return { success: false, error: 'missing instanceId or keyword' };
 
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/actions/keywordEffect.js: grants/revokes keywords
-// - src/engine/core/zones.js: clears on zone change
-// - src/engine/core/turnController.js: expires at turn end
-// - src/engine/core/battle.js: checks Blocker, Rush, Double Attack
-// - src/engine/index.js: getKeywordsFor, hasDisabledKeyword
-//
-// DEPENDS ON:
-// - src/engine/core/gameState.js: card instance access
-// - Card database: printed keywords
+  _ensureKeywordModifiers(gameState);
 
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// KEYWORD COMPUTATION:
-// 1. Start with card's printed keywords (from card JSON)
-// 2. Add all granted keywords (not revoked)
-// 3. Remove all revoked keywords
-// Result = printed + granted - revoked
-//
-// REVOKE PRECEDENCE:
-// If a keyword is both printed/granted AND revoked:
-// - Revoke wins (keyword is not active)
-// - This is the "negation" behavior
-//
-// MULTIPLE GRANTS/REVOKES:
-// Multiple grants of the same keyword don't stack.
-// Card either has the keyword or doesn't.
-// Revoking an already-revoked keyword is a no-op.
-//
-// DURATION HANDLING:
-// Same as continuousEffects:
-// - 'thisTurn': Until turn ends
-// - 'thisBattle': Until battle ends
-// - 'permanent': Until zone change
-//
-// COMMON KEYWORDS:
-// - Blocker: Can declare as blocker during opponent's attack
-// - Rush: Can attack the turn it's played
-// - Double Attack: Deals 2 damage on successful leader attack
-// - Banish: KO'd cards go to opponent's deck bottom
-//
-// ZONE CHANGE:
-// All keyword modifiers for an instanceId are removed on zone change.
-// The new instance starts fresh with only printed keywords.
+  // Prevent duplicate identical grants for same instance+keyword+source+duration
+  const exists = gameState.keywordModifiers.find(m =>
+    m && m.instanceId === instanceId && m.keyword === keyword && m.operation === 'grant' && m.duration === duration && m.sourceInstanceId === sourceId
+  );
+  if (exists) return { success: true, id: exists.id, modifier: exists };
 
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: grantKeyword adds keyword
-//   Input: Character without Blocker, grant Blocker
-//   Expected: hasKeyword returns true for Blocker
-//
-// TEST: revokeKeyword removes keyword
-//   Input: Character with Rush (printed), revoke Rush
-//   Expected: hasKeyword returns false for Rush
-//
-// TEST: revoke beats grant
-//   Input: Grant Blocker, then revoke Blocker
-//   Expected: hasKeyword returns false
-//
-// TEST: getKeywords combines all
-//   Input: Printed [Rush], granted Blocker, revoked Rush
-//   Expected: getKeywords returns [Blocker]
-//
-// TEST: expireKeywords cleans up
-//   Input: Grant with 'thisTurn', expire at turn end
-//   Expected: Keyword no longer present
-//
-// TEST: clearKeywordsForInstance removes all
-//   Input: Card has 3 keyword modifiers, clear
-//   Expected: No keyword modifiers for that instance
-
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Implement grantKeyword
-// [ ] 2. Implement revokeKeyword
-// [ ] 3. Implement getKeywords with printed + granted - revoked
-// [ ] 4. Implement hasKeyword
-// [ ] 5. Implement isKeywordRevoked
-// [ ] 6. Implement clearKeywordsForInstance
-// [ ] 7. Implement expireKeywords
-// [ ] 8. Handle duplicate grants (no-op)
-// [ ] 9. Integrate with card database for printed keywords
-// [ ] 10. Add logging
-
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
-
-export const grantKeyword = (gameState, instanceId, keyword, duration, sourceId) => {
-  // TODO: Grant keyword
-  return gameState;
+  const id = _generateKeywordModifierId(gameState);
+  const mod = {
+    id,
+    instanceId,
+    keyword,
+    operation: 'grant',
+    duration,
+    sourceInstanceId: sourceId || null,
+    createdTurn: _nowTurn(gameState),
+    ownerId: ownerId || null,
+    _registeredAt: Date.now()
+  };
+  gameState.keywordModifiers.push(mod);
+  return { success: true, id, modifier: mod };
 };
 
-export const revokeKeyword = (gameState, instanceId, keyword, duration, sourceId) => {
-  // TODO: Revoke keyword
-  return gameState;
+/**
+ * revokeKeyword(gameState, instanceId, keyword, duration = 'permanent', sourceId = null, ownerId = null)
+ */
+export const revokeKeyword = (gameState, instanceId, keyword, duration = 'permanent', sourceId = null, ownerId = null) => {
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  if (!instanceId || !keyword) return { success: false, error: 'missing instanceId or keyword' };
+
+  _ensureKeywordModifiers(gameState);
+
+  // Prevent duplicate identical revokes
+  const exists = gameState.keywordModifiers.find(m =>
+    m && m.instanceId === instanceId && m.keyword === keyword && m.operation === 'revoke' && m.duration === duration && m.sourceInstanceId === sourceId
+  );
+  if (exists) return { success: true, id: exists.id, modifier: exists };
+
+  const id = _generateKeywordModifierId(gameState);
+  const mod = {
+    id,
+    instanceId,
+    keyword,
+    operation: 'revoke',
+    duration,
+    sourceInstanceId: sourceId || null,
+    createdTurn: _nowTurn(gameState),
+    ownerId: ownerId || null,
+    _registeredAt: Date.now()
+  };
+  gameState.keywordModifiers.push(mod);
+  return { success: true, id, modifier: mod };
 };
 
+/**
+ * getKeywords(gameState, instanceId)
+ * Computes printed + grants - revokes. Printed keywords are taken from instance.keywords if present.
+ */
 export const getKeywords = (gameState, instanceId) => {
-  // TODO: Compute effective keywords
-  return [];
+  if (!gameState || !instanceId) return [];
+  _ensureKeywordModifiers(gameState);
+
+  // Find the instance to read printed keywords
+  // Instances are simple objects scattered in gameState; do a search
+  let printed = [];
+  if (gameState && gameState.players) {
+    const pkeys = Object.keys(gameState.players);
+    for (const owner of pkeys) {
+      const p = gameState.players[owner];
+      // leader
+      if (p.leader && p.leader.instanceId === instanceId) { printed = p.leader.keywords || []; break; }
+      if (p.stage && p.stage.instanceId === instanceId) { printed = p.stage.keywords || []; break; }
+      const arrays = ['deck','donDeck','hand','trash','char','costArea','life'];
+      for (const zone of arrays) {
+        const arr = p[zone] || [];
+        for (const inst of arr) {
+          if (inst && inst.instanceId === instanceId) {
+            printed = inst.keywords || [];
+            break;
+          }
+        }
+        if (printed && printed.length) break;
+      }
+      if (printed && printed.length) break;
+    }
+  }
+
+  // Gather modifiers for instance that are not expired in semantics (we don't track turn-based expiry beyond duration label)
+  const grants = new Set();
+  const revokes = new Set();
+
+  for (const m of (gameState.keywordModifiers || [])) {
+    if (!m || m.instanceId !== instanceId) continue;
+    if (m.operation === 'grant') grants.add(m.keyword);
+    if (m.operation === 'revoke') revokes.add(m.keyword);
+  }
+
+  // Start with printed
+  const result = new Set(Array.isArray(printed) ? printed.slice() : []);
+
+  // Add grants
+  for (const k of grants) result.add(k);
+  // Remove revokes
+  for (const k of revokes) result.delete(k);
+
+  return Array.from(result);
 };
 
+/**
+ * hasKeyword(gameState, instanceId, keyword)
+ */
 export const hasKeyword = (gameState, instanceId, keyword) => {
-  // TODO: Check for specific keyword
-  return false;
+  if (!gameState || !instanceId || !keyword) return false;
+  const kws = getKeywords(gameState, instanceId);
+  return Array.isArray(kws) && kws.includes(keyword);
 };
 
+/**
+ * isKeywordRevoked(gameState, instanceId, keyword)
+ */
 export const isKeywordRevoked = (gameState, instanceId, keyword) => {
-  // TODO: Check if keyword is revoked
+  if (!gameState || !instanceId || !keyword) return false;
+  _ensureKeywordModifiers(gameState);
+  for (const m of (gameState.keywordModifiers || [])) {
+    if (!m) continue;
+    if (m.instanceId === instanceId && m.keyword === keyword && m.operation === 'revoke') return true;
+  }
   return false;
 };
 
+/**
+ * clearKeywordsForInstance(gameState, instanceId)
+ */
 export const clearKeywordsForInstance = (gameState, instanceId) => {
-  // TODO: Remove all keyword mods for instance
+  if (!gameState || !instanceId) return gameState;
+  _ensureKeywordModifiers(gameState);
+  gameState.keywordModifiers = (gameState.keywordModifiers || []).filter(m => !m || m.instanceId !== instanceId);
   return gameState;
 };
 
+/**
+ * expireKeywords(gameState, trigger)
+ * trigger: 'turnEnd' -> removes duration 'thisTurn'
+ *          'battleEnd' -> removes duration 'thisBattle'
+ *          exact match -> removes those durations
+ */
 export const expireKeywords = (gameState, trigger) => {
-  // TODO: Remove expired keyword mods
-  return gameState;
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  _ensureKeywordModifiers(gameState);
+  const before = (gameState.keywordModifiers || []).length;
+  gameState.keywordModifiers = (gameState.keywordModifiers || []).filter(m => {
+    if (!m || !m.duration) return true;
+    if (trigger === 'turnEnd' && m.duration === 'thisTurn') return false;
+    if (trigger === 'battleEnd' && m.duration === 'thisBattle') return false;
+    if (trigger === m.duration) return false;
+    return true;
+  });
+  const after = (gameState.keywordModifiers || []).length;
+  return { success: true, removed: before - after };
 };
 
 export default {

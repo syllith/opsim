@@ -1,120 +1,135 @@
 'use strict';
-// koAction.js — KO Action Handler
-// =============================================================================
-// PURPOSE:
-// This module handles the ActionKO action type. It KOs (knocks out) target
-// character cards, moving them to trash and triggering related abilities.
-// This is the effect-based KO; battle KO goes through battle.js.
-// =============================================================================
+/*
+ * koAction.js — KO Action Handler (effect-based KO)
+ * =============================================================================
+ *
+ * Responsibilities:
+ *  - Resolve targets from action.target (simple forms supported)
+ *  - Filter targets to characters on the field
+ *  - For each target:
+ *      * Check replacement effects (event: 'wouldBeKO') and apply the first replacement found
+ *      * If replacement applied -> record replaced:true and skip KO
+ *      * Otherwise call core.ko(gameState, instanceId, 'effect')
+ *
+ * Action shape (supported minimal):
+ * {
+ *   type: 'ko',
+ *   target: <instanceId|string|array|object>,
+ *   may?: boolean,         // optional - if may=true and context.confirm===false, do nothing
+ *   condition?: <ignored>, // optional - not evaluated by this minimal impl
+ * }
+ *
+ * Result:
+ *  {
+ *    success: true,
+ *    results: [
+ *      { instanceId, status: 'koed'|'replaced'|'skipped'|'invalid', error?, replacementId? }
+ *    ]
+ *  }
+ *
+ * This implementation intentionally keeps selectors minimal: common use-cases like
+ * passing a single instanceId or an array of instanceIds are supported. If you
+ * need rich selectors later, integrate src/engine/rules/selector.js.
+ * =============================================================================
+ */
 
-// =============================================================================
-// RESPONSIBILITIES
-// =============================================================================
-// - KO target characters via effect
-// - Check for KO prevention/replacement
-// - Coordinate with ko.js for actual KO processing
-// - Handle multiple targets
-// - Verify targets are valid (characters on field)
+import { findInstance } from '../core/zones.js';
+import koCore from '../core/ko.js';
+import replacement from '../core/replacement.js';
 
-// =============================================================================
-// PUBLIC API
-// =============================================================================
-// execute(gameState, action, context) -> ActionResult
-//   Executes a ko action.
-//   action: {
-//     type: 'ko',
-//     target: TargetSelectorRef,    // Characters to KO
-//     condition?: Condition,
-//     may?: boolean
-//   }
+export const execute = (gameState, action = {}, context = {}) => {
+  if (!gameState) return { success: false, error: 'missing gameState' };
+  if (!action || action.type !== 'ko') return { success: false, error: 'invalid action' };
 
-// =============================================================================
-// EFFECT KO VS BATTLE KO
-// =============================================================================
-// Effect KO: Caused by card effects (this module)
-// Battle KO: Caused by losing combat (battle.js)
-//
-// The distinction matters because:
-// - Some replacement effects only work for one type
-// - "Cannot be KO'd by effects" doesn't prevent battle KO
-// - Logging/events distinguish the cause
+  // Handle 'may' semantics: if caller specified may=true and context.confirm === false => no-op
+  if (action.may === true && context && context.confirm === false) {
+    return { success: true, results: [] };
+  }
 
-// =============================================================================
-// INPUT / OUTPUT / STATE
-// =============================================================================
-// INPUTS:
-// - gameState: current GameState
-// - action: ActionKO object
-// - context: { thisCard, activePlayer }
-//
-// OUTPUTS:
-// - ActionResult with updated gameState
+  // Normalize targets to array of instanceIds
+  const rawTarget = action.target;
+  let targetIds = [];
 
-// =============================================================================
-// INTEGRATION & INTERACTION
-// =============================================================================
-// CALLED BY:
-// - src/engine/actions/interpreter.js: dispatches ko actions
-// - src/engine/index.js ko function
-//
-// DEPENDS ON:
-// - src/engine/rules/selector.js: resolve targets
-// - src/engine/core/ko.js: actual KO processing
+  if (!rawTarget) {
+    return { success: false, error: 'no target specified' };
+  }
 
-// =============================================================================
-// IMPLEMENTATION NOTES
-// =============================================================================
-// TARGET VALIDATION:
-// - Only characters can be KO'd (not leaders, stages, DON)
-// - Target must be on the field (in characters zone)
-// - Selector may match multiple characters
-//
-// MULTIPLE KO:
-// When targeting multiple characters:
-// - Process each KO in order
-// - Each KO checks for its own replacement effects
-// - [When KO'd] triggers fire after each
-//
-// CAUSE PARAMETER:
-// Pass cause='effect' to ko.js to distinguish from battle KO.
+  if (typeof rawTarget === 'string') {
+    targetIds = [rawTarget];
+  } else if (Array.isArray(rawTarget)) {
+    targetIds = rawTarget.slice();
+  } else if (typeof rawTarget === 'object') {
+    // Accept shape { instanceId } or { instanceIds: [...] }
+    if (rawTarget.instanceId) targetIds = [rawTarget.instanceId];
+    else if (Array.isArray(rawTarget.instanceIds)) targetIds = rawTarget.instanceIds.slice();
+    else {
+      // unsupported selector object - for now error
+      return { success: false, error: 'unsupported selector object; provide instanceId or instanceIds' };
+    }
+  } else {
+    return { success: false, error: 'unsupported target type' };
+  }
 
-// =============================================================================
-// TEST PLAN
-// =============================================================================
-// TEST: KO single character
-//   Input: Target character on field
-//   Expected: Character moved to trash
-//
-// TEST: KO multiple characters
-//   Input: Target all characters with cost <= 2
-//   Expected: All matching characters KO'd
-//
-// TEST: KO with prevention
-//   Input: Target has preventKO replacement registered
-//   Expected: Replacement checked, KO may be prevented
-//
-// TEST: invalid target (leader)
-//   Input: Target selector matches leader
-//   Expected: Leader not KO'd (filtered out)
+  const results = [];
 
-// =============================================================================
-// TODO CHECKLIST
-// =============================================================================
-// [ ] 1. Evaluate condition
-// [ ] 2. Handle may choice
-// [ ] 3. Resolve target selector
-// [ ] 4. Filter to only characters
-// [ ] 5. For each target, call ko.js with cause='effect'
-// [ ] 6. Generate log entries
-// [ ] 7. Handle partial failures
+  for (const tid of targetIds) {
+    if (!tid) {
+      results.push({ instanceId: tid, status: 'invalid', error: 'empty id' });
+      continue;
+    }
 
-// =============================================================================
-// EXPORTS — STUBS
-// =============================================================================
+    const loc = findInstance(gameState, tid);
+    if (!loc || !loc.instance) {
+      results.push({ instanceId: tid, status: 'invalid', error: 'target not found' });
+      continue;
+    }
 
-export const execute = (gameState, action, context = {}) => {
-  // TODO: Full koAction implementation
-  return { success: false, error: 'Not implemented' };
+    // Only characters can be KO'd via this action
+    if (loc.zone !== 'char' && loc.zone !== 'attached') {
+      results.push({ instanceId: tid, status: 'skipped', error: `target in zone ${loc.zone} cannot be KO'd by effect` });
+      continue;
+    }
+
+    // Check replacement effects for 'wouldBeKO'
+    try {
+      const chk = replacement.checkReplacements(gameState, 'wouldBeKO', { targetInstanceId: tid, generatorOwner: context && context.activePlayer });
+      if (chk && chk.hasReplacement && Array.isArray(chk.effects) && chk.effects.length > 0) {
+        // Apply the first replacement (simple policy)
+        const repl = chk.effects[0];
+        // Apply replacement (we don't execute replacement.actions here)
+        const app = replacement.applyReplacement(gameState, repl.id, 'accept');
+        results.push({
+          instanceId: tid,
+          status: 'replaced',
+          replacementId: repl.id,
+          replacementApplied: !!app.success
+        });
+        // Skip the KO itself
+        continue;
+      }
+    } catch (e) {
+      // If replacement system errors, fall through to attempting KO and record an error
+      results.push({ instanceId: tid, status: 'error', error: `replacement check failed: ${String(e)}` });
+      continue;
+    }
+
+    // No replacement -> perform KO via core ko
+    try {
+      const k = koCore.ko(gameState, tid, 'effect');
+      if (k && k.success) {
+        results.push({ instanceId: tid, status: 'koed', movedDonCount: k.movedDonCount || k.movedDonCount === 0 ? k.movedDonCount : k.movedDonCount || k.movedDonCount === 0 ? 0 : k.movedDonCount });
+      } else if (k && k.replaced) {
+        // koCore returning replaced signals its own replacement handling
+        results.push({ instanceId: tid, status: 'replaced', replacements: k.replacements || [] });
+      } else {
+        results.push({ instanceId: tid, status: 'error', error: (k && k.error) || 'unknown ko error' });
+      }
+    } catch (e) {
+      results.push({ instanceId: tid, status: 'error', error: String(e) });
+    }
+  }
+
+  return { success: true, results };
 };
 
 export default { execute };
