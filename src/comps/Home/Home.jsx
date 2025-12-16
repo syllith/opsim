@@ -48,6 +48,7 @@ import {
     useTurn,
     useCardStats,
     useMultiplayer,
+    usePlayCard,
 } from './hooks';
 
 import { getSideRoot as getSideLocationFromNext, getHandCostRoot as getHandCostLocationFromNext, refreshSideToActive } from './hooks/areasUtils';
@@ -312,6 +313,21 @@ export default function Home() {
         turnNumber,
         getSideLocation, 
         getDonPowerBonus 
+    });
+
+    // Play card from hand (engine integration)
+    const {
+        canPlayCard,
+        playCardFromHand,
+        playEventFromHand
+    } = usePlayCard({
+        areas,
+        setAreas,
+        turnSide,
+        turnNumber,
+        phase,
+        appendLog,
+        hasEnoughDonFor
     });
 
     // Battle system (stub)
@@ -804,11 +820,19 @@ export default function Home() {
                         <Actions
                             onClose={closeActionPanel}
                             card={actionCard}
-                            cardMeta={metaById.get(actionCard?.id)}
+                            cardMeta={metaById.get(actionCard?.id || actionCard?.cardId)}
+                            cardLocation={actionSource}
+                            areas={areas}
+                            setAreas={setAreas}
                             phase={phase}
                             turnSide={turnSide}
+                            turnNumber={turnNumber}
                             isYourTurn={turnSide === (actionSource?.side || 'player')}
                             battle={battle}
+                            appendLog={appendLog}
+                            onAbilityActivated={(instanceId, abilityIdx) => {
+                                appendLog(`[Game] Ability ${abilityIdx} activated on ${instanceId}`);
+                            }}
                         />
                     </div>
                 </ClickAwayListener>

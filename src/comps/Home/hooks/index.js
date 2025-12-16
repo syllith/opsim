@@ -41,6 +41,7 @@ export { default as useCardStats } from './useCardStats';
 export { default as useOpeningHands } from './useOpeningHands';
 export { useDeckInitializer, createInitialAreas } from './useDeckInitializer';
 export { default as useGameSetup } from './useGameSetup';
+export { default as usePlayCard } from './usePlayCard';  // Play cards from hand
 
 // =============================================================================
 // ZONE UTILITIES (read-only helpers for UI, mutations are stubs)

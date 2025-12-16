@@ -1,13 +1,14 @@
 /**
  * Don.jsx
  * 
- * DON!! card management placeholder.
- * Core DON mechanics (attach, detach, power bonus) will be in the engine.
- * This file provides stub hooks and constants for UI compatibility.
+ * DON!! card management with engine integration.
+ * Provides hooks that call engine actions for DON attach/detach/give operations.
  */
 import { useCallback, useState } from 'react';
 import _ from 'lodash';
 import { getHandCostRoot, getSideRoot } from './hooks/areasUtils';
+import engine from '../../engine/index.js';
+import { convertAreasToGameState, convertGameStateToAreas, getInstanceIdFromAreas } from './hooks/engineAdapter.js';
 
 // DON!! card constants - used by UI for rendering
 export const DON_FRONT_CONSTANT = {
@@ -23,21 +24,22 @@ export const DON_BACK_CONSTANT = {
 };
 
 /**
- * Stub DON management hook.
+ * DON management hook with engine integration.
  * Preserves essential DON deck initialization for game setup.
- * Other operations are stubs pending engine implementation.
+ * Operations delegate to engine for state mutations.
  */
 export const useDonManagement = ({
   areas,
   setAreas,
   mutateAreas,
   turnSide,
+  turnNumber = 1,
   phase,
   battle,
   appendLog,
   canPerformGameAction
 }) => {
-  // Safe mutation helper
+  // Safe mutation helper (for non-engine operations like initialization)
   const mutateAreasSafe = useCallback((recipeFn, { onErrorLabel } = {}) => {
     if (typeof mutateAreas === 'function') {
       mutateAreas(recipeFn, { onErrorLabel });
@@ -55,7 +57,7 @@ export const useDonManagement = ({
     });
   }, [mutateAreas, setAreas]);
 
-  // DON giving mode state (UI state, kept for panel interaction)
+  // DON giving mode state (UI state for panel interaction)
   const [donGivingMode, setDonGivingMode] = useState({
     active: false,
     side: null,
@@ -112,30 +114,88 @@ export const useDonManagement = ({
     }, { onErrorLabel: '[initializeDonDecks] Failed' });
   }, [mutateAreasSafe]);
 
-  // Stub: Start DON giving mode
+  // Start DON giving mode - UI enters selection mode
   const startDonGiving = useCallback((side, donIndex) => {
-    appendLog?.('[DON] DON giving not yet implemented (engine rewrite in progress)');
-    setDonGivingMode({ active: false, side: null, selectedDonIndex: null });
-  }, [appendLog]);
+    if (!canPerformGameAction?.()) {
+      appendLog?.('[DON] Cannot give DON right now');
+      return;
+    }
+    setDonGivingMode({ active: true, side, selectedDonIndex: donIndex });
+    appendLog?.(`[DON] Select a target for DON`);
+  }, [appendLog, canPerformGameAction]);
 
   // Cancel DON giving mode
   const cancelDonGiving = useCallback(() => {
     setDonGivingMode({ active: false, side: null, selectedDonIndex: null });
   }, []);
 
-  // Stub: Give DON to card
-  const giveDonToCard = useCallback(() => {
-    appendLog?.('[DON] DON giving not yet implemented');
-    return false;
-  }, [appendLog]);
+  /**
+   * Give DON to a card via engine
+   * @param {string} targetSide - Target card's side
+   * @param {string} targetSection - Target section ('char', 'middle')
+   * @param {string} targetKeyName - Target key ('leader', null for char)
+   * @param {number} targetIndex - Target index in array
+   * @param {number} count - Number of DON to give (default 1)
+   */
+  const giveDonToCard = useCallback((targetSide, targetSection, targetKeyName, targetIndex, count = 1) => {
+    if (!areas) {
+      appendLog?.('[DON] No game state available');
+      return false;
+    }
 
-  // Stub: Move DON from cost to card
-  const moveDonFromCostToCard = useCallback(() => {
-    appendLog?.('[DON] DON movement not yet implemented');
-    return false;
-  }, [appendLog]);
+    const side = donGivingMode.side || turnSide;
+    
+    // Get target instance ID
+    const targetInstanceId = getInstanceIdFromAreas(areas, targetSide, targetSection, targetKeyName, targetIndex);
+    if (!targetInstanceId) {
+      appendLog?.('[DON] Could not find target card');
+      cancelDonGiving();
+      return false;
+    }
 
-  // DON phase gain - basic implementation for game flow
+    try {
+      // Convert UI state to engine state
+      const gameState = convertAreasToGameState(areas, {
+        turnSide,
+        turnNumber,
+        phase: phase?.toLowerCase() || 'main'
+      });
+
+      // Execute giveDon action through engine
+      const result = engine.executeAction(gameState, {
+        type: 'giveDon',
+        count,
+        target: targetInstanceId,
+        side
+      }, { activePlayer: side });
+
+      if (result.success) {
+        // Convert back and update UI
+        const newAreas = convertGameStateToAreas(gameState);
+        setAreas(newAreas);
+        appendLog?.(`[DON] Gave ${result.moved} DON to card`);
+        cancelDonGiving();
+        return true;
+      } else {
+        appendLog?.(`[DON] Failed to give DON: ${result.error}`);
+        cancelDonGiving();
+        return false;
+      }
+    } catch (e) {
+      appendLog?.(`[DON] Error: ${e.message}`);
+      cancelDonGiving();
+      return false;
+    }
+  }, [areas, setAreas, donGivingMode.side, turnSide, turnNumber, phase, appendLog, cancelDonGiving]);
+
+  /**
+   * Move DON from cost area to a specific card (attach DON)
+   */
+  const moveDonFromCostToCard = useCallback((targetSide, targetSection, targetKeyName, targetIndex, count = 1) => {
+    return giveDonToCard(targetSide, targetSection, targetKeyName, targetIndex, count);
+  }, [giveDonToCard]);
+
+  // DON phase gain - move DON from DON deck to cost area
   const donPhaseGain = useCallback((side, amount) => {
     let gained = 0;
     mutateAreasSafe((next) => {
@@ -154,32 +214,121 @@ export const useDonManagement = ({
       handCostLoc.cost = costArr;
     }, { onErrorLabel: '[donPhaseGain] Failed' });
 
+    if (gained > 0) {
+      appendLog?.(`[DON] ${side} gained ${gained} DON`);
+    }
     return gained;
-  }, [mutateAreasSafe]);
+  }, [mutateAreasSafe, appendLog]);
 
-  // Stub: Return all given DON
+  /**
+   * Return all given DON from all cards back to cost area
+   */
   const returnAllGivenDon = useCallback((side) => {
-    // TODO: Implement via engine
-    appendLog?.(`[DON] DON return for ${side} not yet implemented`);
-  }, [appendLog]);
+    if (!areas) return;
+    
+    try {
+      const gameState = convertAreasToGameState(areas, {
+        turnSide,
+        turnNumber,
+        phase: phase?.toLowerCase() || 'main'
+      });
 
-  // Stub: Return DON from specific card
-  const returnDonFromCard = useCallback(() => {
-    appendLog?.('[DON] DON return not yet implemented');
-    return 0;
-  }, [appendLog]);
+      // Find all cards with attached DON for this side
+      const player = gameState.players?.[side];
+      if (!player) return;
 
-  // Stub: Return DON to DON deck
-  const returnDonToDonDeckFromCard = useCallback(() => {
-    appendLog?.('[DON] DON deck return not yet implemented');
-    return 0;
-  }, [appendLog]);
+      let totalReturned = 0;
 
-  // Stub: Detach DON from card
-  const detachDonFromCard = useCallback(() => {
-    appendLog?.('[DON] DON detach not yet implemented');
-    return 0;
-  }, [appendLog]);
+      // Check leader
+      if (player.leader?.attachedDons?.length > 0) {
+        const result = engine.executeAction(gameState, {
+          type: 'returnDon',
+          selector: { instanceId: player.leader.instanceId },
+          count: player.leader.attachedDons.length,
+          side
+        }, { activePlayer: side });
+        if (result.success) totalReturned += result.moved;
+      }
+
+      // Check characters
+      if (Array.isArray(player.char)) {
+        for (const char of player.char) {
+          if (char?.attachedDons?.length > 0) {
+            const result = engine.executeAction(gameState, {
+              type: 'returnDon',
+              selector: { instanceId: char.instanceId },
+              count: char.attachedDons.length,
+              side
+            }, { activePlayer: side });
+            if (result.success) totalReturned += result.moved;
+          }
+        }
+      }
+
+      if (totalReturned > 0) {
+        const newAreas = convertGameStateToAreas(gameState);
+        setAreas(newAreas);
+        appendLog?.(`[DON] Returned ${totalReturned} DON for ${side}`);
+      }
+    } catch (e) {
+      appendLog?.(`[DON] Error returning DON: ${e.message}`);
+    }
+  }, [areas, setAreas, turnSide, turnNumber, phase, appendLog]);
+
+  /**
+   * Return DON from a specific card back to cost area
+   */
+  const returnDonFromCard = useCallback((cardSide, cardSection, cardKeyName, cardIndex, count = 1) => {
+    if (!areas) return 0;
+
+    const instanceId = getInstanceIdFromAreas(areas, cardSide, cardSection, cardKeyName, cardIndex);
+    if (!instanceId) {
+      appendLog?.('[DON] Could not find card to return DON from');
+      return 0;
+    }
+
+    try {
+      const gameState = convertAreasToGameState(areas, {
+        turnSide,
+        turnNumber,
+        phase: phase?.toLowerCase() || 'main'
+      });
+
+      const result = engine.executeAction(gameState, {
+        type: 'returnDon',
+        selector: { instanceId },
+        count,
+        side: cardSide
+      }, { activePlayer: cardSide });
+
+      if (result.success && result.moved > 0) {
+        const newAreas = convertGameStateToAreas(gameState);
+        setAreas(newAreas);
+        appendLog?.(`[DON] Returned ${result.moved} DON from card`);
+        return result.moved;
+      }
+      return 0;
+    } catch (e) {
+      appendLog?.(`[DON] Error: ${e.message}`);
+      return 0;
+    }
+  }, [areas, setAreas, turnSide, turnNumber, phase, appendLog]);
+
+  /**
+   * Return DON from card to DON deck (not cost area)
+   */
+  const returnDonToDonDeckFromCard = useCallback((cardSide, cardSection, cardKeyName, cardIndex, count = 1) => {
+    // For now, this behaves the same as returnDonFromCard
+    // The engine's returnDon action handles the destination
+    return returnDonFromCard(cardSide, cardSection, cardKeyName, cardIndex, count);
+  }, [returnDonFromCard]);
+
+  /**
+   * Detach DON from a card (alias for returnDonFromCard)
+   */
+  const detachDonFromCard = useCallback((cardSide, cardSection, cardKeyName, cardIndex, count = 1) => {
+    return returnDonFromCard(cardSide, cardSection, cardKeyName, cardIndex, count);
+  }, [returnDonFromCard]);
 
   return {
     donGivingMode,

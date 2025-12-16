@@ -30,6 +30,7 @@ import moveCardModule from './moveCard.js';
 import { modifyStat as modifyStatFunc } from './modifyStat.js';
 import playCardModule from './playCard.js';
 import giveDonAction from './giveDon.js';
+import returnDonAction from './returnDon.js';
 import { dealDamage as dealDamageFunc } from './dealDamage.js';
 import engine from '../index.js'; // for getTotalPower checks if needed
 
@@ -79,6 +80,12 @@ export function executeAction(gameState, action = {}, context = {}) {
       case 'giveDon': {
         // delegate to giveDonAction.execute
         const res = giveDonAction.execute(gameState, action, context);
+        return res;
+      }
+
+      case 'returnDon': {
+        // delegate to returnDonAction.execute
+        const res = returnDonAction.execute(gameState, action, context);
         return res;
       }
 

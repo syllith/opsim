@@ -23,7 +23,38 @@
  * =============================================================================
  */
 
-import EventEmitter from 'events';
+// Browser-compatible EventEmitter (no Node.js 'events' module)
+class SimpleEventEmitter {
+  constructor() {
+    this._listeners = new Map();
+  }
+  on(event, handler) {
+    if (!this._listeners.has(event)) {
+      this._listeners.set(event, []);
+    }
+    this._listeners.get(event).push(handler);
+  }
+  off(event, handler) {
+    if (!this._listeners.has(event)) return;
+    const handlers = this._listeners.get(event);
+    const idx = handlers.indexOf(handler);
+    if (idx !== -1) handlers.splice(idx, 1);
+  }
+  emit(event, ...args) {
+    if (!this._listeners.has(event)) return;
+    for (const handler of this._listeners.get(event)) {
+      try {
+        handler(...args);
+      } catch (e) {
+        console.error(`[EventEmitter] Error in handler for '${event}':`, e);
+      }
+    }
+  }
+  listenerCount(event) {
+    return this._listeners.has(event) ? this._listeners.get(event).length : 0;
+  }
+}
+
 import { getCardInstanceById } from './core/gameState.js';
 import continuousEffects from './modifiers/continuousEffects.js';
 import cardLoader from './cardLoader.js';
@@ -32,8 +63,8 @@ import { conductBattle as coreConductBattle } from './core/battle.js';
 import * as damageAndLife from './core/damageAndLife.js';
 import interpreter from './actions/interpreter.js';
 
-// Minimal event bus (EventEmitter)
-const eventBus = new EventEmitter();
+// Minimal event bus (browser-compatible)
+const eventBus = new SimpleEventEmitter();
 
 // Prompt handlers registry for request/response style prompts
 const promptHandlers = new Map();
@@ -338,7 +369,32 @@ export async function conductBattle(gameState, attackerInstanceId, targetInstanc
  * @returns {Promise<object>} - Result { success, moved, triggers, banished, defeat? }
  */
 export async function dealDamageToLeader(gameState, side, count = 1, options = {}) {
-  return damageAndLife.dealDamageToLeader(gameState, side, count, options);
+  const result = await damageAndLife.dealDamageToLeader(gameState, side, count, options);
+  if (result.success) {
+    emitStateChange(gameState, 'dealDamage', { side, count });
+  }
+  return result;
+}
+
+/**
+ * emitStateChange(gameState, actionType, details)
+ * Emit a stateChange event for UI subscriptions.
+ * Only emits if there are listeners registered.
+ * 
+ * @param {object} gameState - The current game state
+ * @param {string} actionType - Type of action that caused the change
+ * @param {object} details - Additional details about the change
+ */
+export function emitStateChange(gameState, actionType, details = {}) {
+  const listenerCount = eventBus.listenerCount('stateChange');
+  if (listenerCount > 0) {
+    eventBus.emit('stateChange', {
+      gameState: getGameStateSnapshot(gameState),
+      actionType,
+      details,
+      timestamp: Date.now()
+    });
+  }
 }
 
 /**
@@ -352,7 +408,14 @@ export async function dealDamageToLeader(gameState, side, count = 1, options = {
  * @returns {object} - Action result { success, ...result }
  */
 export function executeAction(gameState, action, context = {}) {
-  return interpreter.executeAction(gameState, action, context);
+  const result = interpreter.executeAction(gameState, action, context);
+  
+  // Emit state change for successful mutations (not queries)
+  if (result.success && action?.type && action.type !== 'getTotalPower') {
+    emitStateChange(gameState, action.type, { action, context });
+  }
+  
+  return result;
 }
 
 /* Default export */
@@ -369,6 +432,7 @@ export default {
   on,
   off,
   emit,
+  emitStateChange,
   // Prompt API for interactive choice points
   registerPromptHandler,
   unregisterPromptHandler,
