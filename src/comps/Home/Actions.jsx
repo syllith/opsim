@@ -1,8 +1,9 @@
+// src/comps/Home/Actions.jsx
 /**
  * Actions.jsx
- * 
+ *
  * UI panel for displaying card information and abilities with engine integration.
- * Abilities can be activated during the appropriate game phase via engine.executeAction.
+ * This component uses ActionHelpers.activateAbilityCore to perform ability activation.
  */
 import React, { useCallback, useMemo } from 'react';
 import {
@@ -14,8 +15,6 @@ import {
   Divider,
   Chip,
   Button,
-  Alert,
-  Tooltip
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -23,53 +22,13 @@ import _ from 'lodash';
 import engine from '../../engine/index.js';
 import { convertAreasToGameState, convertGameStateToAreas, getInstanceIdFromAreas } from './hooks/engineAdapter.js';
 
-// Helper to determine chip color for keywords
-const getKeywordColor = (keyword) => {
-  const lower = _.toLower(keyword || '');
-  if (lower.includes('rush')) return 'warning';
-  if (lower.includes('blocker')) return 'info';
-  if (lower.includes('double attack')) return 'error';
-  return 'default';
-};
-
-// Map timing to display label
-const getAbilityTypeLabel = (ability) => {
-  const t = _.get(ability, 'timing');
-  if (!t) return String(_.get(ability, 'type', 'Unknown'));
-  switch (t) {
-    case 'onPlay': return 'On Play';
-    case 'activateMain':
-    case 'main': return 'Activate Main';
-    case 'whenAttacking': return 'On Attack';
-    case 'whenAttackingOrOnOpponentsAttack': return 'On Attack / Opp Attack';
-    case 'onOpponentsAttack': return 'On Opp Attack';
-    case 'counter': return 'Counter';
-    case 'static': return 'Continuous';
-    case 'trigger': return 'Trigger';
-    case 'onKO': return 'On K.O.';
-    default: return String(t);
-  }
-};
-
-// Check if ability can be manually activated (vs triggered automatically)
-const isActivatable = (ability) => {
-  const timing = ability?.timing;
-  return timing === 'activateMain' || timing === 'main';
-};
-
-// Check if ability timing matches current phase
-const timingMatchesPhase = (ability, phase) => {
-  const timing = ability?.timing;
-  const phaseLower = (phase || '').toLowerCase();
-  
-  if (timing === 'activateMain' || timing === 'main') {
-    return phaseLower === 'main';
-  }
-  if (timing === 'counter') {
-    return phaseLower === 'counter';
-  }
-  return false;
-};
+import {
+  isActivatable,
+  timingMatchesPhase,
+  checkDonRequirement,
+  activateAbilityCore,
+  getCardFromAreas
+} from './ActionHelpers.js'; // pure JS helpers
 
 export default function Actions({
   // UI Props
@@ -93,6 +52,9 @@ export default function Actions({
   battle,
   appendLog,
 
+  // New optional prop: central dispatchAction (from Home) that handles multiplayer forwarding/host execution
+  dispatchAction = null,
+
   // Callbacks
   onAbilityActivated,
 }) {
@@ -111,10 +73,10 @@ export default function Actions({
     if (card?.instanceId) return card.instanceId;
     if (!cardLocation || !areas) return null;
     return getInstanceIdFromAreas(
-      areas, 
-      cardLocation.side, 
-      cardLocation.section, 
-      cardLocation.keyName, 
+      areas,
+      cardLocation.side,
+      cardLocation.section,
+      cardLocation.keyName,
       cardLocation.index
     );
   }, [card, cardLocation, areas]);
@@ -123,109 +85,66 @@ export default function Actions({
   const isOnField = useMemo(() => {
     if (!cardLocation) return false;
     const { section, keyName } = cardLocation;
-    return section === 'char' || 
-           (section === 'middle' && (keyName === 'leader' || keyName === 'stage'));
+    return section === 'char' ||
+      (section === 'middle' && (keyName === 'leader' || keyName === 'stage'));
   }, [cardLocation]);
 
-  // Check DON requirement for ability
-  const checkDonRequirement = useCallback((ability) => {
-    if (!ability?.condition?.don) return true;
-    const requiredDon = ability.condition.don;
-    
-    // Get attached DON count from the card
-    if (!areas || !cardLocation) return false;
-    
-    try {
-      const gameState = convertAreasToGameState(areas, { turnSide, turnNumber, phase });
-      const loc = engine.getCardMeta ? null : null; // We need to check attached DON on the instance
-      
-      // For now, check if the card has givenDon >= required
-      const cardData = card || {};
-      const attachedDon = cardData.givenDon || cardData.don || 0;
-      return attachedDon >= requiredDon;
-    } catch {
-      return false;
-    }
-  }, [areas, cardLocation, card, turnSide, turnNumber, phase]);
+  // Check DON requirement
+  const checkDonRequirementLocal = useCallback((ability) => {
+    return checkDonRequirement(ability, areas, cardLocation);
+  }, [areas, cardLocation]);
 
-  // Activate an ability
+  // Activate ability (delegates to helper)
   const activateAbility = useCallback(async (ability, abilityIndex) => {
     if (!instanceId) {
       appendLog?.('[Ability] Cannot activate: card instance not found');
       return;
     }
-
     if (!isOnField) {
       appendLog?.('[Ability] Cannot activate: card is not on field');
       return;
     }
-
     if (!isYourTurn) {
       appendLog?.('[Ability] Cannot activate: not your turn');
       return;
     }
-
     if (!timingMatchesPhase(ability, phase)) {
       appendLog?.(`[Ability] Cannot activate: wrong phase (need Main phase)`);
       return;
     }
-
-    if (!checkDonRequirement(ability)) {
+    if (!checkDonRequirementLocal(ability)) {
       appendLog?.(`[Ability] Cannot activate: insufficient DON attached (need ${ability.condition?.don})`);
       return;
     }
 
-    try {
-      const gameState = convertAreasToGameState(areas, {
-        turnSide,
-        turnNumber,
-        phase: phase?.toLowerCase() || 'main'
-      });
+    // Compose params and call helper
+    const params = {
+      ability,
+      abilityIndex,
+      instanceId,
+      isOnField,
+      isYourTurn,
+      phase,
+      areas,
+      setAreas,
+      turnSide,
+      turnNumber,
+      cardLocation,
+      appendLog,
+      dispatchAction,
+      engine
+    };
 
-      // Execute ability actions through engine
-      // The ability should have an 'actions' array describing what it does
-      const actions = ability.actions || [];
-      
-      if (actions.length === 0) {
-        appendLog?.(`[Ability] Activated: ${ability.description || 'Unknown ability'}`);
-        // Even without specific actions, mark the ability as used
-        onAbilityActivated?.(instanceId, abilityIndex);
-        return;
+    const res = await activateAbilityCore(params);
+    if (res && res.success) {
+      // If helper returned newAreas (engine fallback path we applied), ensure UI updated
+      if (res.newAreas && typeof setAreas === 'function') {
+        setAreas(res.newAreas);
       }
-
-      let allSuccess = true;
-      for (const action of actions) {
-        // Add context to action
-        const actionWithContext = {
-          ...action,
-          sourceInstanceId: instanceId,
-          owner: cardLocation?.side || turnSide
-        };
-
-        const result = engine.executeAction(gameState, actionWithContext, {
-          activePlayer: turnSide,
-          source: instanceId,
-          abilityIndex
-        });
-
-        if (!result.success) {
-          appendLog?.(`[Ability] Action failed: ${result.error}`);
-          allSuccess = false;
-          break;
-        }
-      }
-
-      if (allSuccess) {
-        // Update UI with new state
-        const newAreas = convertGameStateToAreas(gameState);
-        setAreas?.(newAreas);
-        appendLog?.(`[Ability] Activated: ${ability.description || ability.name || 'ability'}`);
-        onAbilityActivated?.(instanceId, abilityIndex);
-      }
-    } catch (e) {
-      appendLog?.(`[Ability] Error: ${e.message}`);
+      onAbilityActivated?.(instanceId, abilityIndex);
     }
-  }, [instanceId, isOnField, isYourTurn, phase, areas, setAreas, turnSide, turnNumber, cardLocation, checkDonRequirement, appendLog, onAbilityActivated]);
+    // If activation failed, the helper already appended logs
+  }, [instanceId, isOnField, isYourTurn, phase, checkDonRequirementLocal, areas, setAreas, turnSide, turnNumber, cardLocation, appendLog, dispatchAction, onAbilityActivated]);
 
   // Determine if an ability can be activated right now
   const canActivateAbility = useCallback((ability) => {
@@ -233,21 +152,20 @@ export default function Actions({
     if (!isOnField) return false;
     if (!isYourTurn) return false;
     if (!timingMatchesPhase(ability, phase)) return false;
-    if (!checkDonRequirement(ability)) return false;
+    if (!checkDonRequirementLocal(ability)) return false;
     if (battle) return false; // Can't activate during battle
     return true;
-  }, [isOnField, isYourTurn, phase, checkDonRequirement, battle]);
+  }, [isOnField, isYourTurn, phase, checkDonRequirementLocal, battle]);
 
-  // Get reason why ability can't be activated
   const getActivationBlockReason = useCallback((ability) => {
     if (!isActivatable(ability)) return 'This ability triggers automatically';
     if (!isOnField) return 'Card must be on the field';
     if (!isYourTurn) return 'Not your turn';
     if (!timingMatchesPhase(ability, phase)) return 'Can only activate during Main phase';
-    if (!checkDonRequirement(ability)) return `Requires ${ability.condition?.don} DON attached`;
+    if (!checkDonRequirementLocal(ability)) return `Requires ${ability.condition?.don} DON attached`;
     if (battle) return 'Cannot activate during battle';
     return null;
-  }, [isOnField, isYourTurn, phase, checkDonRequirement, battle]);
+  }, [isOnField, isYourTurn, phase, checkDonRequirementLocal, battle]);
 
   return (
     <Paper
@@ -314,7 +232,6 @@ export default function Actions({
                   key={i}
                   label={kw}
                   size="small"
-                  color={getKeywordColor(kw)}
                 />
               ))}
             </Stack>
@@ -348,7 +265,7 @@ export default function Actions({
               const canActivate = canActivateAbility(ability);
               const blockReason = getActivationBlockReason(ability);
               const activatable = isActivatable(ability);
-              
+
               return (
                 <Box
                   key={idx}
@@ -363,7 +280,7 @@ export default function Actions({
                 >
                   <Stack direction="row" spacing={0.5} sx={{ mb: 0.75, flexWrap: 'wrap', gap: 0.5 }}>
                     <Chip
-                      label={getAbilityTypeLabel(ability)}
+                      label={activatable ? 'Activate Main' : 'Auto'}
                       size="small"
                       color={activatable ? 'success' : 'primary'}
                       sx={{ textTransform: 'capitalize' }}
@@ -372,52 +289,30 @@ export default function Actions({
                       <Chip
                         label={ability.frequency === 'oncePerTurn' ? 'Once/Turn' : ability.frequency}
                         size="small"
-                        variant="outlined"
-                      />
-                    )}
-                    {ability.condition?.don > 0 && (
-                      <Chip
-                        label={`DON!! x${ability.condition.don}`}
-                        size="small"
-                        color="secondary"
                       />
                     )}
                   </Stack>
 
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    {ability.description || ability.text || 'No description available'}
+                    {ability.description || ability.name || 'No description'}
                   </Typography>
 
-                  {/* Activation Button for activatable abilities */}
-                  {activatable ? (
-                    <Tooltip title={blockReason || 'Activate this ability'} arrow>
-                      <span>
-                        <Button
-                          variant={canActivate ? 'contained' : 'outlined'}
-                          size="small"
-                          color={canActivate ? 'success' : 'inherit'}
-                          disabled={!canActivate}
-                          onClick={() => activateAbility(ability, idx)}
-                          startIcon={<PlayArrowIcon />}
-                          fullWidth
-                        >
-                          {canActivate ? 'Activate' : blockReason || 'Cannot Activate'}
-                        </Button>
-                      </span>
-                    </Tooltip>
-                  ) : (
-                    <Alert severity="info" sx={{ py: 0.25, px: 1 }}>
-                      <Typography variant="caption">
-                        {ability.timing === 'onPlay' && 'Triggers when played'}
-                        {ability.timing === 'whenAttacking' && 'Triggers when attacking'}
-                        {ability.timing === 'counter' && 'Use during Counter step'}
-                        {ability.timing === 'trigger' && 'Life trigger ability'}
-                        {ability.timing === 'static' && 'Always active'}
-                        {ability.timing === 'onKO' && 'Triggers when K.O.\'d'}
-                        {!['onPlay', 'whenAttacking', 'counter', 'trigger', 'static', 'onKO'].includes(ability.timing) && 'Automatic trigger'}
-                      </Typography>
-                    </Alert>
-                  )}
+                  <Stack direction="row" spacing={1} justifyContent="flex-end">
+                    {canActivate ? (
+                      <Button
+                        size="small"
+                        variant="contained"
+                        startIcon={<PlayArrowIcon />}
+                        onClick={() => activateAbility(ability, idx)}
+                      >
+                        Activate
+                      </Button>
+                    ) : (
+                      <Button size="small" variant="outlined" disabled>
+                        {blockReason || 'Unavailable'}
+                      </Button>
+                    )}
+                  </Stack>
                 </Box>
               );
             })}
