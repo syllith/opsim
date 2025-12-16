@@ -398,15 +398,16 @@ function createEmptyAreas() {
 }
 
 /**
- * Find a card instance by instanceId in the converted gameState.
- * Returns the instanceId if found, otherwise tries to locate by cardId/id.
+ * Find the instanceId for a card at the given UI location.
+ * Returns the card's instanceId if present, otherwise generates a fallback ID
+ * matching the pattern used by convertAreasToGameState (ui-${owner}-${zone}-${index}).
  * 
  * @param {object} areas - UI areas
  * @param {string} side - 'player' or 'opponent'
- * @param {string} section - Section name (e.g., 'char', 'middle')
- * @param {string} keyName - Key within section (e.g., 'leader', 'hand')
+ * @param {string} section - Section name (e.g., 'char', 'middle', 'life', 'trash')
+ * @param {string} keyName - Key within section (e.g., 'leader', 'hand') - null for direct sections
  * @param {number} index - Index within the array
- * @returns {string|null} - instanceId or null
+ * @returns {string|null} - instanceId or fallback ID, null if location invalid
  */
 export function getInstanceIdFromAreas(areas, side, section, keyName, index) {
   if (!areas || !side) return null;
@@ -414,17 +415,41 @@ export function getInstanceIdFromAreas(areas, side, section, keyName, index) {
   const sideAreas = areas[side];
   if (!sideAreas) return null;
   
-  let arr;
-  if (keyName) {
-    arr = sideAreas[section]?.[keyName];
-  } else {
+  let arr = null;
+  let zoneName = null; // Used for fallback ID generation
+  
+  // Direct sections which are arrays (no keyName needed)
+  if (section === 'char' || section === 'life' || section === 'trash' || section === 'charDon') {
     arr = sideAreas[section];
+    zoneName = section;
+  } else if (section === 'middle') {
+    if (!keyName) return null;
+    arr = sideAreas.middle?.[keyName];
+    zoneName = keyName; // 'leader', 'stage', 'deck', etc.
+  } else if (section === 'bottom') {
+    if (!keyName) return null;
+    arr = sideAreas.bottom?.[keyName];
+    zoneName = keyName; // 'hand', 'cost', 'don'
+  } else if (section === 'top') {
+    if (!keyName) return null;
+    arr = sideAreas.top?.[keyName];
+    zoneName = keyName; // 'hand', 'cost', 'don'
+  } else {
+    // Fallback: try direct lookup on sideAreas
+    arr = sideAreas[section];
+    zoneName = section;
   }
   
   if (!Array.isArray(arr) || index < 0 || index >= arr.length) return null;
   
   const card = arr[index];
-  return card?.instanceId || null;
+  if (!card) return null;
+  
+  // Return existing instanceId if present
+  if (card.instanceId) return card.instanceId;
+  
+  // Generate fallback ID matching the pattern used by uiCardToInstance in convertAreasToGameState
+  return `ui-${side}-${zoneName}-${index}`;
 }
 
 export default {

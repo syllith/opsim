@@ -28,6 +28,9 @@ import { getCardInstanceById } from './core/gameState.js';
 import continuousEffects from './modifiers/continuousEffects.js';
 import cardLoader from './cardLoader.js';
 import promptManager from './core/promptManager.js';
+import { conductBattle as coreConductBattle } from './core/battle.js';
+import * as damageAndLife from './core/damageAndLife.js';
+import interpreter from './actions/interpreter.js';
 
 // Minimal event bus (EventEmitter)
 const eventBus = new EventEmitter();
@@ -306,6 +309,52 @@ registerPromptHandler('replacement', (payload) =>
   _forwardPromptToPromptManager(payload, payload?.playerId || payload?.side)
 );
 
+// =============================================================================
+// Battle, Damage, and Interpreter API
+// =============================================================================
+
+/**
+ * conductBattle(gameState, attackerInstanceId, targetInstanceId)
+ * Executes a full battle sequence including blocker step, counter step, and damage resolution.
+ * This is async because it may trigger prompts for blocker/counter selection.
+ * 
+ * @param {object} gameState - The game state object (will be mutated)
+ * @param {string} attackerInstanceId - Instance ID of the attacking card
+ * @param {string} targetInstanceId - Instance ID of the target (leader or rested character)
+ * @returns {Promise<object>} - Battle result { success, attackerPower, defenderPower, blockedBy, ... }
+ */
+export async function conductBattle(gameState, attackerInstanceId, targetInstanceId) {
+  return coreConductBattle(gameState, attackerInstanceId, targetInstanceId);
+}
+
+/**
+ * dealDamageToLeader(gameState, side, count, options)
+ * Deal damage to a leader, processing life cards and triggering prompts for trigger abilities.
+ * 
+ * @param {object} gameState - The game state object (will be mutated)
+ * @param {string} side - 'player' or 'opponent' (the side taking damage)
+ * @param {number} count - Number of damage to deal (default 1)
+ * @param {object} options - { banish: boolean, allowTriggers: boolean }
+ * @returns {Promise<object>} - Result { success, moved, triggers, banished, defeat? }
+ */
+export async function dealDamageToLeader(gameState, side, count = 1, options = {}) {
+  return damageAndLife.dealDamageToLeader(gameState, side, count, options);
+}
+
+/**
+ * executeAction(gameState, action, context)
+ * Execute an action descriptor through the interpreter.
+ * Supported action types: moveCard, playCard, modifyStat, giveDon, dealDamage, getTotalPower.
+ * 
+ * @param {object} gameState - The game state object (will be mutated)
+ * @param {object} action - Action descriptor { type, ...params }
+ * @param {object} context - Optional context (owner, source, etc.)
+ * @returns {object} - Action result { success, ...result }
+ */
+export function executeAction(gameState, action, context = {}) {
+  return interpreter.executeAction(gameState, action, context);
+}
+
 /* Default export */
 export default {
   getCardMeta,
@@ -324,5 +373,9 @@ export default {
   registerPromptHandler,
   unregisterPromptHandler,
   prompt,
-  hasPromptHandler
+  hasPromptHandler,
+  // Battle, damage, and interpreter API
+  conductBattle,
+  dealDamageToLeader,
+  executeAction
 };
